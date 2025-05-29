@@ -30,14 +30,14 @@ export function Customers() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Customers</h1>
-          <p className="text-lg text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Customers</h1>
+          <p className="text-base sm:text-lg text-muted-foreground">
             Manage your client relationships
           </p>
         </div>
-        <Button>
+        <Button className="w-full sm:w-auto">
           <Plus className="h-4 w-4 mr-2" />
           Add Customer
         </Button>
@@ -53,20 +53,20 @@ export function Customers() {
       <div className="grid gap-4">
         {customers.map((customer) => (
           <Card key={customer.id}>
-            <CardContent className="p-6">
-              <div className="flex justify-between items-start">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                <div className="space-y-2 flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                     <h3 className="text-lg font-semibold">{customer.name}</h3>
                     <Badge variant={customer.status === "active" ? "default" : "secondary"}>
                       {customer.status}
                     </Badge>
                   </div>
                   
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Mail className="h-4 w-4" />
-                      {customer.email}
+                      <span className="break-all">{customer.email}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Phone className="h-4 w-4" />
@@ -74,15 +74,15 @@ export function Customers() {
                     </div>
                   </div>
                   
-                  <div className="flex gap-4 text-sm">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-sm">
                     <span>Invoices: {customer.totalInvoices}</span>
                     <span>Total: ${customer.totalAmount}</span>
                   </div>
                 </div>
 
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm">Edit</Button>
-                  <Button variant="outline" size="sm">View</Button>
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                  <Button variant="outline" size="sm" className="w-full sm:w-auto">Edit</Button>
+                  <Button variant="outline" size="sm" className="w-full sm:w-auto">View</Button>
                 </div>
               </div>
             </CardContent>
