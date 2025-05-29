@@ -3,17 +3,50 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
-import { Heart, Star, Send } from "lucide-react"
+import { Heart, Star, Send, Crown } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "@/hooks/use-toast"
+import { Badge } from "@/components/ui/badge"
+import { PricingPlans } from "@/components/PricingPlans"
 
 const Feedback = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [feedback, setFeedback] = useState("")
   const [rating, setRating] = useState(0)
+  const [hasPremium] = useState(false) // This would come from your auth/subscription system
   const navigate = useNavigate()
+
+  // If user doesn't have premium, show pricing plans
+  if (!hasPremium) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Crown className="h-8 w-8 text-yellow-500" />
+              <h1 className="text-3xl sm:text-4xl font-bold">Premium Feature</h1>
+            </div>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Feedback submission is available with our premium plans. Upgrade to share your thoughts and help us improve FeatherBiz.
+            </p>
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/dashboard')}
+              className="mt-4"
+            >
+              Back to Dashboard
+            </Button>
+          </div>
+
+          <div className="mt-8">
+            <PricingPlans />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -70,6 +103,7 @@ const Feedback = () => {
           <div className="flex items-center justify-center gap-2 mb-4">
             <Heart className="h-8 w-8 text-blue-600 fill-blue-600" />
             <h1 className="text-3xl sm:text-4xl font-bold">Feedback</h1>
+            <Badge className="bg-yellow-100 text-yellow-800">Premium</Badge>
           </div>
           <p className="text-lg text-muted-foreground">
             We'd love to hear from you! Share your thoughts and help us improve FeatherBiz.
