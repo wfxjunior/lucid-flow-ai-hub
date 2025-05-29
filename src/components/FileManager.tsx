@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { 
   FolderOpen, 
   FileText, 
@@ -44,6 +45,7 @@ interface File {
 }
 
 export function FileManager() {
+  const { t } = useLanguage()
   const [folders, setFolders] = useState<Folder[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null)
@@ -76,8 +78,8 @@ export function FileManager() {
     } catch (error) {
       console.error('Error fetching folders:', error)
       toast({
-        title: "Erro",
-        description: "Não foi possível carregar as pastas.",
+        title: t("files.error"),
+        description: t("files.errorLoadingFolders"),
         variant: "destructive"
       })
     }
@@ -105,8 +107,8 @@ export function FileManager() {
     } catch (error) {
       console.error('Error fetching files:', error)
       toast({
-        title: "Erro",
-        description: "Não foi possível carregar os arquivos.",
+        title: t("files.error"),
+        description: t("files.errorLoadingFiles"),
         variant: "destructive"
       })
     }
@@ -130,8 +132,8 @@ export function FileManager() {
       if (error) throw error
 
       toast({
-        title: "Sucesso",
-        description: "Pasta criada com sucesso!"
+        title: t("files.success"),
+        description: t("files.folderCreated")
       })
 
       setNewFolderName("")
@@ -141,8 +143,8 @@ export function FileManager() {
     } catch (error) {
       console.error('Error creating folder:', error)
       toast({
-        title: "Erro",
-        description: "Não foi possível criar a pasta.",
+        title: t("files.error"),
+        description: t("files.errorCreatingFolder"),
         variant: "destructive"
       })
     }
@@ -189,8 +191,8 @@ export function FileManager() {
       if (dbError) throw dbError
 
       toast({
-        title: "Sucesso",
-        description: "Arquivo enviado com sucesso!"
+        title: t("files.success"),
+        description: t("files.fileUploaded")
       })
 
       setIsUploadDialogOpen(false)
@@ -198,8 +200,8 @@ export function FileManager() {
     } catch (error) {
       console.error('Error uploading file:', error)
       toast({
-        title: "Erro",
-        description: "Não foi possível enviar o arquivo.",
+        title: t("files.error"),
+        description: t("files.errorUploadingFile"),
         variant: "destructive"
       })
     } finally {
@@ -218,14 +220,14 @@ export function FileManager() {
 
       fetchFiles()
       toast({
-        title: "Sucesso",
-        description: currentStatus ? "Removido dos favoritos" : "Adicionado aos favoritos"
+        title: t("files.success"),
+        description: currentStatus ? t("files.removedFromFavorites") : t("files.addedToFavorites")
       })
     } catch (error) {
       console.error('Error toggling favorite:', error)
       toast({
-        title: "Erro",
-        description: "Não foi possível alterar o status de favorito.",
+        title: t("files.error"),
+        description: t("files.errorFavoriteStatus"),
         variant: "destructive"
       })
     }
@@ -250,14 +252,14 @@ export function FileManager() {
 
       fetchFiles()
       toast({
-        title: "Sucesso",
-        description: "Arquivo excluído com sucesso!"
+        title: t("files.success"),
+        description: t("files.fileDeleted")
       })
     } catch (error) {
       console.error('Error deleting file:', error)
       toast({
-        title: "Erro",
-        description: "Não foi possível excluir o arquivo.",
+        title: t("files.error"),
+        description: t("files.errorDeletingFile"),
         variant: "destructive"
       })
     }
@@ -284,49 +286,49 @@ export function FileManager() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold">Gerenciador de Arquivos</h2>
-          <p className="text-muted-foreground">Organize seus documentos em pastas</p>
+          <h2 className="text-2xl font-bold">{t("files.title")}</h2>
+          <p className="text-muted-foreground">{t("files.subtitle")}</p>
         </div>
         <div className="flex gap-2">
           <Dialog open={isNewFolderDialogOpen} onOpenChange={setIsNewFolderDialogOpen}>
             <DialogTrigger asChild>
               <Button variant="outline">
                 <Plus className="h-4 w-4 mr-2" />
-                Nova Pasta
+                {t("files.newFolder")}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Criar Nova Pasta</DialogTitle>
+                <DialogTitle>{t("files.createNewFolder")}</DialogTitle>
                 <DialogDescription>
-                  Crie uma nova pasta para organizar seus documentos.
+                  {t("files.createFolderDescription")}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="folder-name">Nome da Pasta</Label>
+                  <Label htmlFor="folder-name">{t("files.folderName")}</Label>
                   <Input
                     id="folder-name"
                     value={newFolderName}
                     onChange={(e) => setNewFolderName(e.target.value)}
-                    placeholder="Ex: Contratos 2025"
+                    placeholder={t("files.folderNamePlaceholder")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="folder-description">Descrição (opcional)</Label>
+                  <Label htmlFor="folder-description">{t("files.folderDescription")}</Label>
                   <Input
                     id="folder-description"
                     value={newFolderDescription}
                     onChange={(e) => setNewFolderDescription(e.target.value)}
-                    placeholder="Descrição da pasta..."
+                    placeholder={t("files.folderDescriptionPlaceholder")}
                   />
                 </div>
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsNewFolderDialogOpen(false)}>
-                  Cancelar
+                  {t("features.cancel")}
                 </Button>
-                <Button onClick={createFolder}>Criar Pasta</Button>
+                <Button onClick={createFolder}>{t("files.createNewFolder")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -335,19 +337,19 @@ export function FileManager() {
             <DialogTrigger asChild>
               <Button>
                 <Upload className="h-4 w-4 mr-2" />
-                Enviar Arquivo
+                {t("files.uploadFile")}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Enviar Arquivo</DialogTitle>
+                <DialogTitle>{t("files.uploadFileTitle")}</DialogTitle>
                 <DialogDescription>
-                  Selecione um arquivo para enviar para a pasta selecionada.
+                  {t("files.uploadFileDescription")}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="file-input">Arquivo</Label>
+                  <Label htmlFor="file-input">{t("files.file")}</Label>
                   <Input
                     id="file-input"
                     type="file"
@@ -357,7 +359,7 @@ export function FileManager() {
                 </div>
                 {selectedFolder && (
                   <p className="text-sm text-muted-foreground">
-                    Arquivo será enviado para: {folders.find(f => f.id === selectedFolder)?.name || 'Pasta selecionada'}
+                    {t("files.uploadingTo")} {folders.find(f => f.id === selectedFolder)?.name || 'Pasta selecionada'}
                   </p>
                 )}
               </div>
@@ -370,7 +372,7 @@ export function FileManager() {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
-          placeholder="Buscar arquivos..."
+          placeholder={t("files.searchPlaceholder")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pl-10"
@@ -383,7 +385,7 @@ export function FileManager() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FolderOpen className="h-5 w-5" />
-              Pastas
+              {t("files.folders")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -392,7 +394,7 @@ export function FileManager() {
               className="w-full justify-start"
               onClick={() => setSelectedFolder(null)}
             >
-              Todos os Arquivos
+              {t("files.allFiles")}
             </Button>
             {folders.map((folder) => (
               <Button
@@ -414,15 +416,15 @@ export function FileManager() {
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Nenhum arquivo encontrado</h3>
+                <h3 className="text-lg font-semibold mb-2">{t("files.noFilesFound")}</h3>
                 <p className="text-muted-foreground text-center mb-4">
                   {selectedFolder 
-                    ? "Esta pasta não contém arquivos ainda." 
-                    : "Você ainda não enviou nenhum arquivo."}
+                    ? t("files.noFilesInFolder")
+                    : t("files.noFilesMessage")}
                 </p>
                 <Button onClick={() => setIsUploadDialogOpen(true)}>
                   <Upload className="h-4 w-4 mr-2" />
-                  Enviar Primeiro Arquivo
+                  {t("files.uploadFirstFile")}
                 </Button>
               </CardContent>
             </Card>
@@ -448,11 +450,11 @@ export function FileManager() {
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => window.open(file.file_url, '_blank')}>
                             <Eye className="h-4 w-4 mr-2" />
-                            Visualizar
+                            {t("files.view")}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => window.open(file.file_url, '_blank')}>
                             <Download className="h-4 w-4 mr-2" />
-                            Download
+                            {t("files.download")}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => toggleFavorite(file.id, file.is_favorite)}>
                             {file.is_favorite ? (
@@ -460,14 +462,14 @@ export function FileManager() {
                             ) : (
                               <Star className="h-4 w-4 mr-2" />
                             )}
-                            {file.is_favorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+                            {file.is_favorite ? t("files.removeFromFavorites") : t("files.addToFavorites")}
                           </DropdownMenuItem>
                           <DropdownMenuItem 
                             onClick={() => deleteFile(file.id, file.original_name)}
                             className="text-destructive"
                           >
                             <Trash2 className="h-4 w-4 mr-2" />
-                            Excluir
+                            {t("files.delete")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -475,7 +477,7 @@ export function FileManager() {
                     
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground">
-                        {new Date(file.created_at).toLocaleDateString('pt-BR')}
+                        {new Date(file.created_at).toLocaleDateString()}
                       </span>
                       {file.is_favorite && (
                         <Star className="h-4 w-4 text-yellow-500 fill-current" />
