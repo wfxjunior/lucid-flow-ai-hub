@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -15,7 +16,8 @@ import {
   Play,
   Receipt,
   Calendar,
-  Wrench
+  Wrench,
+  Feather
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
@@ -103,7 +105,7 @@ const LandingPage = () => {
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Brain className="h-8 w-8 text-primary" />
+            <Feather className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold">FeatherBiz</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
@@ -185,20 +187,20 @@ const LandingPage = () => {
       <section className="bg-primary/5 py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">10K+</div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">10K+</div>
               <div className="text-gray-600">Active Users</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">1M+</div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">1M+</div>
               <div className="text-gray-600">Invoices Created</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">99.9%</div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">99.9%</div>
               <div className="text-gray-600">Uptime</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">24/7</div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">24/7</div>
               <div className="text-gray-600">AI Assistant</div>
             </div>
           </div>
@@ -269,7 +271,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Brain className="h-6 w-6 text-primary" />
+                <Feather className="h-6 w-6 text-primary" />
                 <span className="text-xl font-bold">FeatherBiz</span>
               </div>
               <p className="text-gray-400">
@@ -302,7 +304,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 FeatherBiz. All rights reserved.</p>
+            <p>&copy; 2025 FeatherBiz. All rights reserved.</p>
           </div>
         </div>
       </footer>
