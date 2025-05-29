@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen } from "lucide-react"
+import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 interface QuickActionsProps {
@@ -17,6 +17,13 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       description: t("quickActions.aiVoiceDesc"),
       icon: Mic,
       color: "bg-purple-500 hover:bg-purple-600"
+    },
+    {
+      id: "features",
+      title: "Feature Requests",
+      description: "Suggest new features and vote on community ideas",
+      icon: Lightbulb,
+      color: "bg-yellow-500 hover:bg-yellow-600"
     },
     {
       id: "files",

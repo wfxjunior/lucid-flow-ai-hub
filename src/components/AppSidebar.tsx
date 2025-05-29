@@ -21,7 +21,8 @@ import {
   Sun,
   Globe,
   Lightbulb,
-  File as FilesIcon
+  File as FilesIcon,
+  Shield
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
@@ -191,6 +192,19 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     },
   ]
 
+  const admin = [
+    {
+      id: "admin-dashboard",
+      title: "Admin Dashboard",
+      icon: Shield,
+    },
+    {
+      id: "blog-admin",
+      title: "Blog Admin",
+      icon: FileText,
+    },
+  ]
+
   const system = [
     {
       id: "faq",
@@ -295,6 +309,27 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {analytics.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => handleMenuClick(item.id)}
+                    isActive={activeView === item.id}
+                    className="w-full justify-start"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Admin Section */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Administration</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {admin.map((item) => (
                 <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton
                     onClick={() => handleMenuClick(item.id)}
