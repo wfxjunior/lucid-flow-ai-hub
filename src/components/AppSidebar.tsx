@@ -10,7 +10,17 @@ import {
   Workflow,
   Mail,
   CreditCard,
-  Brain
+  Brain,
+  Receipt,
+  Calendar,
+  DollarSign,
+  FolderOpen,
+  Signature,
+  TrendingUp,
+  FileCheck,
+  Send,
+  Heart,
+  Mic
 } from "lucide-react"
 import {
   Sidebar,
@@ -23,16 +33,44 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-const menuItems = [
+const mainFeatures = [
   {
     title: "Dashboard",
     url: "/",
     icon: Home,
   },
   {
-    title: "Tasks & Notes",
-    url: "/tasks",
-    icon: CheckSquare,
+    title: "AI Voice Assistant",
+    url: "/ai-voice",
+    icon: Mic,
+  },
+  {
+    title: "Create Invoice",
+    url: "/create-invoice",
+    icon: FileText,
+  },
+  {
+    title: "Appointments",
+    url: "/appointments",
+    icon: Calendar,
+  },
+  {
+    title: "Payments",
+    url: "/payments",
+    icon: CreditCard,
+  },
+  {
+    title: "E-Signatures",
+    url: "/e-signatures",
+    icon: Signature,
+  },
+]
+
+const businessTools = [
+  {
+    title: "Customers",
+    url: "/customers",
+    icon: Users,
   },
   {
     title: "Projects",
@@ -40,43 +78,69 @@ const menuItems = [
     icon: Workflow,
   },
   {
-    title: "Clients",
-    url: "/clients",
-    icon: Users,
+    title: "Quotes",
+    url: "/quotes",
+    icon: Receipt,
   },
   {
-    title: "Communication",
-    url: "/communication",
-    icon: MessageSquare,
+    title: "Receipts & Accounting",
+    url: "/receipts",
+    icon: FolderOpen,
   },
   {
-    title: "Email Campaigns",
+    title: "Sales Orders",
+    url: "/sales-orders",
+    icon: TrendingUp,
+  },
+  {
+    title: "Service Orders",
+    url: "/service-orders",
+    icon: FileCheck,
+  },
+  {
+    title: "Business Proposals",
+    url: "/proposals",
+    icon: FileText,
+  },
+  {
+    title: "Bids",
+    url: "/bids",
+    icon: DollarSign,
+  },
+]
+
+const communication = [
+  {
+    title: "Email Center",
     url: "/email",
     icon: Mail,
   },
   {
-    title: "Invoicing",
-    url: "/invoicing",
-    icon: CreditCard,
+    title: "Messages",
+    url: "/messages",
+    icon: MessageSquare,
   },
   {
-    title: "AI Assistant",
-    url: "/ai",
-    icon: Brain,
+    title: "Communication Hub",
+    url: "/communication",
+    icon: Send,
   },
+]
+
+const analytics = [
   {
     title: "Analytics",
     url: "/analytics",
     icon: BarChart3,
   },
+  {
+    title: "My Family Savings",
+    url: "/family-savings",
+    icon: Heart,
+  },
 ]
 
-const secondaryItems = [
-  {
-    title: "Documents",
-    url: "/documents",
-    icon: FileText,
-  },
+const settings = [
   {
     title: "Settings",
     url: "/settings",
@@ -90,16 +154,16 @@ export function AppSidebar() {
       <SidebarContent>
         <div className="px-6 py-4">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-            SaaSPro
+            Hubsfy
           </h1>
-          <p className="text-sm text-muted-foreground">AI-Powered Platform</p>
+          <p className="text-sm text-muted-foreground">AI-Powered Business Platform</p>
         </div>
         
         <SidebarGroup>
-          <SidebarGroupLabel>Main</SidebarGroupLabel>
+          <SidebarGroupLabel>Main Features</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {mainFeatures.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
@@ -114,10 +178,64 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Tools</SidebarGroupLabel>
+          <SidebarGroupLabel>Business Tools</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {secondaryItems.map((item) => (
+              {businessTools.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Communication</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {communication.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Analytics</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {analytics.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>System</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {settings.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
