@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 const languages = [
   { code: "en-US", name: "English (US)", flag: "🇺🇸" },
@@ -18,26 +19,17 @@ const languages = [
 ]
 
 export function LanguageSelector() {
-  const handleLanguageChange = (languageCode: string) => {
-    console.log("Language changed to:", languageCode)
-    // Here you can implement the language change logic
-    // Like saving to localStorage or global state
-    localStorage.setItem("selectedLanguage", languageCode)
-  }
-
-  const getCurrentLanguage = () => {
-    return localStorage.getItem("selectedLanguage") || "en-US"
-  }
+  const { currentLanguage, setLanguage, t } = useLanguage()
 
   return (
     <div className="px-3 py-2">
       <div className="flex items-center gap-2 mb-2">
         <Globe className="h-4 w-4 text-muted-foreground" />
-        <span className="text-sm font-medium text-muted-foreground">Language</span>
+        <span className="text-sm font-medium text-muted-foreground">{t('language.title')}</span>
       </div>
-      <Select defaultValue={getCurrentLanguage()} onValueChange={handleLanguageChange}>
+      <Select value={currentLanguage} onValueChange={setLanguage}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select language" />
+          <SelectValue placeholder={t('language.selectPlaceholder')} />
         </SelectTrigger>
         <SelectContent>
           {languages.map((language) => (

@@ -2,88 +2,91 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic } from "lucide-react"
-
-const quickActions = [
-  {
-    title: "AI Voice Command",
-    description: "Speak to create tasks",
-    icon: Mic,
-    color: "bg-purple-500 hover:bg-purple-600"
-  },
-  {
-    title: "Create Invoice",
-    description: "AI-powered invoicing",
-    icon: FileText,
-    color: "bg-blue-500 hover:bg-blue-600"
-  },
-  {
-    title: "Send Message",
-    description: "SMS or WhatsApp",
-    icon: MessageSquare,
-    color: "bg-green-500 hover:bg-green-600"
-  },
-  {
-    title: "Add Client",
-    description: "Register new client",
-    icon: Users,
-    color: "bg-orange-500 hover:bg-orange-600"
-  },
-  {
-    title: "Schedule Meeting",
-    description: "Book appointments",
-    icon: Calendar,
-    color: "bg-indigo-500 hover:bg-indigo-600"
-  },
-  {
-    title: "Create Quote",
-    description: "Generate estimates",
-    icon: Receipt,
-    color: "bg-teal-500 hover:bg-teal-600"
-  },
-  {
-    title: "Process Payment",
-    description: "Handle transactions",
-    icon: CreditCard,
-    color: "bg-cyan-500 hover:bg-cyan-600"
-  },
-  {
-    title: "E-Signature",
-    description: "Sign documents",
-    icon: Signature,
-    color: "bg-pink-500 hover:bg-pink-600"
-  },
-  {
-    title: "Email Campaign",
-    description: "Start new campaign",
-    icon: Mail,
-    color: "bg-red-500 hover:bg-red-600"
-  },
-  {
-    title: "Family Savings",
-    description: "View savings plan",
-    icon: Heart,
-    color: "bg-rose-500 hover:bg-rose-600"
-  },
-  {
-    title: "AI Assistant",
-    description: "Get AI help",
-    icon: Brain,
-    color: "bg-violet-500 hover:bg-violet-600"
-  },
-  {
-    title: "New Project",
-    description: "Create new project",
-    icon: Plus,
-    color: "bg-slate-500 hover:bg-slate-600"
-  }
-]
+import { useLanguage } from "@/contexts/LanguageContext"
 
 export function QuickActions() {
+  const { t } = useLanguage()
+
+  const quickActions = [
+    {
+      title: t("quickActions.aiVoice"),
+      description: t("quickActions.aiVoiceDesc"),
+      icon: Mic,
+      color: "bg-purple-500 hover:bg-purple-600"
+    },
+    {
+      title: t("quickActions.createInvoice"),
+      description: t("quickActions.createInvoiceDesc"),
+      icon: FileText,
+      color: "bg-blue-500 hover:bg-blue-600"
+    },
+    {
+      title: t("quickActions.sendMessage"),
+      description: t("quickActions.sendMessageDesc"),
+      icon: MessageSquare,
+      color: "bg-green-500 hover:bg-green-600"
+    },
+    {
+      title: t("quickActions.addClient"),
+      description: t("quickActions.addClientDesc"),
+      icon: Users,
+      color: "bg-orange-500 hover:bg-orange-600"
+    },
+    {
+      title: t("quickActions.scheduleMeeting"),
+      description: t("quickActions.scheduleMeetingDesc"),
+      icon: Calendar,
+      color: "bg-indigo-500 hover:bg-indigo-600"
+    },
+    {
+      title: t("quickActions.createQuote"),
+      description: t("quickActions.createQuoteDesc"),
+      icon: Receipt,
+      color: "bg-teal-500 hover:bg-teal-600"
+    },
+    {
+      title: t("quickActions.processPayment"),
+      description: t("quickActions.processPaymentDesc"),
+      icon: CreditCard,
+      color: "bg-cyan-500 hover:bg-cyan-600"
+    },
+    {
+      title: t("quickActions.eSignature"),
+      description: t("quickActions.eSignatureDesc"),
+      icon: Signature,
+      color: "bg-pink-500 hover:bg-pink-600"
+    },
+    {
+      title: t("quickActions.emailCampaign"),
+      description: t("quickActions.emailCampaignDesc"),
+      icon: Mail,
+      color: "bg-red-500 hover:bg-red-600"
+    },
+    {
+      title: t("quickActions.familySavings"),
+      description: t("quickActions.familySavingsDesc"),
+      icon: Heart,
+      color: "bg-rose-500 hover:bg-rose-600"
+    },
+    {
+      title: t("quickActions.aiAssistant"),
+      description: t("quickActions.aiAssistantDesc"),
+      icon: Brain,
+      color: "bg-violet-500 hover:bg-violet-600"
+    },
+    {
+      title: t("quickActions.newProject"),
+      description: t("quickActions.newProjectDesc"),
+      icon: Plus,
+      color: "bg-slate-500 hover:bg-slate-600"
+    }
+  ]
+
   return (
     <Card className="animate-slide-up">
       <CardHeader>
-        <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
-        <CardDescription className="text-sm sm:text-base">Fast access to all business tools and AI features</CardDescription>
+        <CardTitle className="text-lg sm:text-xl">{t("quickActions.title")}</CardTitle>
+        <CardDescription className="text-sm sm:text-base">{t("quickActions.description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

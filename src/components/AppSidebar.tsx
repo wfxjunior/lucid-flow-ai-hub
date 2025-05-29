@@ -35,138 +35,141 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { LanguageSelector } from "./LanguageSelector"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 interface AppSidebarProps {
   activeView: string
   setActiveView: (view: string) => void
 }
 
-const mainFeatures = [
-  {
-    title: "Dashboard",
-    id: "dashboard",
-    icon: Home,
-  },
-  {
-    title: "AI Voice Assistant",
-    id: "ai-voice",
-    icon: Mic,
-  },
-  {
-    title: "Create Invoice",
-    id: "create-invoice",
-    icon: FileText,
-  },
-  {
-    title: "Appointments",
-    id: "appointments",
-    icon: Calendar,
-  },
-  {
-    title: "Payments",
-    id: "payments",
-    icon: CreditCard,
-  },
-  {
-    title: "E-Signatures",
-    id: "e-signatures",
-    icon: Signature,
-  },
-]
-
-const businessTools = [
-  {
-    title: "Customers",
-    id: "customers",
-    icon: Users,
-  },
-  {
-    title: "Projects",
-    id: "projects",
-    icon: Workflow,
-  },
-  {
-    title: "Quotes",
-    id: "quotes",
-    icon: Receipt,
-  },
-  {
-    title: "Receipts & Accounting",
-    id: "receipts",
-    icon: FolderOpen,
-  },
-  {
-    title: "Sales Orders",
-    id: "sales-orders",
-    icon: TrendingUp,
-  },
-  {
-    title: "Service Orders",
-    id: "service-orders",
-    icon: FileCheck,
-  },
-  {
-    title: "Business Proposals",
-    id: "proposals",
-    icon: FileText,
-  },
-  {
-    title: "Bids",
-    id: "bids",
-    icon: DollarSign,
-  },
-]
-
-const communication = [
-  {
-    title: "Email Center",
-    id: "email",
-    icon: Mail,
-  },
-  {
-    title: "Messages",
-    id: "messages",
-    icon: MessageSquare,
-  },
-  {
-    title: "Communication Hub",
-    id: "communication",
-    icon: Send,
-  },
-]
-
-const analytics = [
-  {
-    title: "Analytics",
-    id: "analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "My Family Savings",
-    id: "family-savings",
-    icon: Heart,
-  },
-]
-
-const settings = [
-  {
-    title: "FAQ & Help",
-    id: "faq",
-    icon: HelpCircle,
-  },
-  {
-    title: "Pricing Plans",
-    id: "pricing",
-    icon: Crown,
-  },
-  {
-    title: "Settings",
-    id: "settings",
-    icon: Settings,
-  },
-]
-
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
+  const { t } = useLanguage()
+
+  const mainFeatures = [
+    {
+      title: t("nav.dashboard"),
+      id: "dashboard",
+      icon: Home,
+    },
+    {
+      title: t("nav.ai-voice"),
+      id: "ai-voice",
+      icon: Mic,
+    },
+    {
+      title: t("nav.create-invoice"),
+      id: "create-invoice",
+      icon: FileText,
+    },
+    {
+      title: t("nav.appointments"),
+      id: "appointments",
+      icon: Calendar,
+    },
+    {
+      title: t("nav.payments"),
+      id: "payments",
+      icon: CreditCard,
+    },
+    {
+      title: t("nav.e-signatures"),
+      id: "e-signatures",
+      icon: Signature,
+    },
+  ]
+
+  const businessTools = [
+    {
+      title: t("nav.customers"),
+      id: "customers",
+      icon: Users,
+    },
+    {
+      title: t("nav.projects"),
+      id: "projects",
+      icon: Workflow,
+    },
+    {
+      title: t("nav.quotes"),
+      id: "quotes",
+      icon: Receipt,
+    },
+    {
+      title: t("nav.receipts"),
+      id: "receipts",
+      icon: FolderOpen,
+    },
+    {
+      title: t("nav.sales-orders"),
+      id: "sales-orders",
+      icon: TrendingUp,
+    },
+    {
+      title: t("nav.service-orders"),
+      id: "service-orders",
+      icon: FileCheck,
+    },
+    {
+      title: t("nav.proposals"),
+      id: "proposals",
+      icon: FileText,
+    },
+    {
+      title: t("nav.bids"),
+      id: "bids",
+      icon: DollarSign,
+    },
+  ]
+
+  const communication = [
+    {
+      title: t("nav.email"),
+      id: "email",
+      icon: Mail,
+    },
+    {
+      title: t("nav.messages"),
+      id: "messages",
+      icon: MessageSquare,
+    },
+    {
+      title: t("nav.communication"),
+      id: "communication",
+      icon: Send,
+    },
+  ]
+
+  const analytics = [
+    {
+      title: t("nav.analytics"),
+      id: "analytics",
+      icon: BarChart3,
+    },
+    {
+      title: t("nav.family-savings"),
+      id: "family-savings",
+      icon: Heart,
+    },
+  ]
+
+  const settings = [
+    {
+      title: t("nav.faq"),
+      id: "faq",
+      icon: HelpCircle,
+    },
+    {
+      title: t("nav.pricing"),
+      id: "pricing",
+      icon: Crown,
+    },
+    {
+      title: t("nav.settings"),
+      id: "settings",
+      icon: Settings,
+    },
+  ]
+
   return (
     <Sidebar className="border-r">
       <SidebarContent>
@@ -174,7 +177,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
             Hubsfy
           </h1>
-          <p className="text-sm text-muted-foreground">AI-Powered Business Platform</p>
+          <p className="text-sm text-muted-foreground">{t('common.subtitle')}</p>
         </div>
         
         <SidebarGroup>
@@ -182,7 +185,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {mainFeatures.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton 
                     onClick={() => setActiveView(item.id)}
                     isActive={activeView === item.id}
@@ -202,7 +205,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {businessTools.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton 
                     onClick={() => setActiveView(item.id)}
                     isActive={activeView === item.id}
@@ -222,7 +225,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {communication.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton 
                     onClick={() => setActiveView(item.id)}
                     isActive={activeView === item.id}
@@ -242,7 +245,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {analytics.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton 
                     onClick={() => setActiveView(item.id)}
                     isActive={activeView === item.id}
@@ -262,7 +265,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {settings.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton 
                     onClick={() => setActiveView(item.id)}
                     isActive={activeView === item.id}
