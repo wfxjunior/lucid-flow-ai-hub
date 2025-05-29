@@ -1,4 +1,3 @@
-
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { StatsCard } from "@/components/StatsCard"
@@ -33,6 +32,10 @@ import { useState } from "react"
 
 const Index = () => {
   const [activeView, setActiveView] = useState('dashboard')
+
+  const handleQuickActionClick = (actionId: string) => {
+    setActiveView(actionId)
+  }
 
   const getViewTitle = () => {
     switch(activeView) {
@@ -200,7 +203,7 @@ const Index = () => {
                 <ProjectsOverview />
               </div>
               <div className="space-y-6">
-                <QuickActions />
+                <QuickActions onActionClick={handleQuickActionClick} />
                 
                 {/* Quick Stats */}
                 <Card>
