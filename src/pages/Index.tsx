@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PricingPlans } from "@/components/PricingPlans"
 import { FAQPage } from "@/components/FAQPage"
-import { PDFGenerator } from "@/components/PDFGenerator"
 import { 
   BarChart3, 
   Users, 
@@ -48,7 +47,6 @@ const Index = () => {
       case 'analytics': return 'Analytics'
       case 'document-tracker': return 'Document Tracker'
       case 'files': return 'File Manager'
-      case 'pdf-generator': return 'PDF Generator'
       case 'pricing': return 'Pricing Plans'
       case 'faq': return 'FAQ & Help Center'
       default: return 'Dashboard'
@@ -64,7 +62,6 @@ const Index = () => {
       case 'analytics': return "Insights and analytics for your business performance."
       case 'document-tracker': return "Track document views and manage secret links."
       case 'files': return "Organize and manage your documents in folders."
-      case 'pdf-generator': return "Create custom PDFs with your logo and client information."
       case 'pricing': return "Choose the perfect plan for your business needs."
       case 'faq': return "Find answers to all your questions about our AI-powered platform."
       default: return "Welcome back! Here's what's happening in your business."
@@ -85,8 +82,6 @@ const Index = () => {
         return <DocumentTracker />
       case 'files':
         return <FileManager />
-      case 'pdf-generator':
-        return <PDFGenerator />
       case 'pricing':
         return <PricingPlans />
       case 'faq':
