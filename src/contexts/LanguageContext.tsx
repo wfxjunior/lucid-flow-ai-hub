@@ -1,3 +1,4 @@
+
 import React, {
   createContext,
   useContext,
@@ -44,7 +45,18 @@ const translations = {
       vote: "Vote",
       pending: "Pending",
       inProgress: "In Progress",
-      completed: "Completed"
+      completed: "Completed",
+      description: "Description",
+      status: "Status",
+      votes: "Votes",
+      sortBy: "Sort by",
+      newest: "Newest",
+      mostVoted: "Most Voted",
+      addFeature: "Add Feature Request",
+      featureTitle: "Feature Title",
+      featureDescription: "Feature Description",
+      cancel: "Cancel",
+      submit: "Submit"
     }
   },
   de: {
@@ -67,7 +79,18 @@ const translations = {
       vote: "Abstimmen",
       pending: "Ausstehend",
       inProgress: "In Bearbeitung",
-      completed: "Abgeschlossen"
+      completed: "Abgeschlossen",
+      description: "Beschreibung",
+      status: "Status",
+      votes: "Stimmen",
+      sortBy: "Sortieren nach",
+      newest: "Neueste",
+      mostVoted: "Meist gewählt",
+      addFeature: "Feature-Anfrage hinzufügen",
+      featureTitle: "Feature-Titel",
+      featureDescription: "Feature-Beschreibung",
+      cancel: "Abbrechen",
+      submit: "Einreichen"
     }
   },
   fr: {
@@ -90,7 +113,18 @@ const translations = {
       vote: "Voter",
       pending: "En attente",
       inProgress: "En cours",
-      completed: "Terminé"
+      completed: "Terminé",
+      description: "Description",
+      status: "Statut",
+      votes: "Votes",
+      sortBy: "Trier par",
+      newest: "Plus récent",
+      mostVoted: "Plus voté",
+      addFeature: "Ajouter une demande de fonctionnalité",
+      featureTitle: "Titre de la fonctionnalité",
+      featureDescription: "Description de la fonctionnalité",
+      cancel: "Annuler",
+      submit: "Soumettre"
     }
   },
   es: {
@@ -113,7 +147,18 @@ const translations = {
       vote: "Votar",
       pending: "Pendiente",
       inProgress: "En progreso",
-      completed: "Completado"
+      completed: "Completado",
+      description: "Descripción",
+      status: "Estado",
+      votes: "Votos",
+      sortBy: "Ordenar por",
+      newest: "Más nuevo",
+      mostVoted: "Más votado",
+      addFeature: "Agregar solicitud de característica",
+      featureTitle: "Título de la característica",
+      featureDescription: "Descripción de la característica",
+      cancel: "Cancelar",
+      submit: "Enviar"
     }
   },
   zh: {
@@ -136,7 +181,18 @@ const translations = {
       vote: "投票",
       pending: "待处理",
       inProgress: "进行中",
-      completed: "已完成"
+      completed: "已完成",
+      description: "描述",
+      status: "状态",
+      votes: "票数",
+      sortBy: "排序",
+      newest: "最新",
+      mostVoted: "最多票",
+      addFeature: "添加功能请求",
+      featureTitle: "功能标题",
+      featureDescription: "功能描述",
+      cancel: "取消",
+      submit: "提交"
     }
   },
   "pt-BR": {
@@ -159,11 +215,23 @@ const translations = {
       vote: "Votar",
       pending: "Pendente",
       inProgress: "Em andamento",
-      completed: "Concluído"
+      completed: "Concluído",
+      description: "Descrição",
+      status: "Status",
+      votes: "Votos",
+      sortBy: "Ordenar por",
+      newest: "Mais recente",
+      mostVoted: "Mais votado",
+      addFeature: "Adicionar solicitação de recurso",
+      featureTitle: "Título do recurso",
+      featureDescription: "Descrição do recurso",
+      cancel: "Cancelar",
+      submit: "Enviar"
     }
   }
 }
 
+// Initialize i18next
 i18next
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -190,15 +258,17 @@ i18next
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   children,
 }) => {
-  const [currentLanguage, setCurrentLanguage] = useState(i18next.language)
+  const [currentLanguage, setCurrentLanguage] = useState(i18next.language || "en-US")
 
   useEffect(() => {
-    i18next.on("languageChanged", (lng) => {
+    const handleLanguageChange = (lng: string) => {
       setCurrentLanguage(lng)
-    })
+    }
+
+    i18next.on("languageChanged", handleLanguageChange)
 
     return () => {
-      i18next.off("languageChanged")
+      i18next.off("languageChanged", handleLanguageChange)
     }
   }, [])
 
@@ -207,7 +277,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   }
 
   const t = (key: string, options?: any): string => {
-    return i18next.t(key, options)
+    return i18next.t(key, options) || key
   }
 
   const value: LanguageContextProps = {
