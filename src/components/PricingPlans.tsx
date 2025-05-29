@@ -3,6 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Check, Crown, Zap, Star } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { createClient } from "@supabase/supabase-js"
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL || '',
+  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
+)
 
 const plans = [
   {
@@ -21,7 +28,8 @@ const plans = [
     ],
     buttonText: "Start Free",
     popular: false,
-    color: "bg-gray-500"
+    color: "bg-gray-500",
+    stripePrice: null
   },
   {
     id: "trial",
@@ -40,7 +48,8 @@ const plans = [
     ],
     buttonText: "Start Trial",
     popular: true,
-    color: "bg-blue-500"
+    color: "bg-blue-500",
+    stripePrice: null
   },
   {
     id: "monthly",
@@ -61,7 +70,8 @@ const plans = [
     ],
     buttonText: "Choose Monthly",
     popular: false,
-    color: "bg-green-500"
+    color: "bg-green-500",
+    stripePrice: 2900 // $29 in cents
   },
   {
     id: "annual",
@@ -83,11 +93,64 @@ const plans = [
     ],
     buttonText: "Choose Annual",
     popular: false,
-    color: "bg-purple-500"
+    color: "bg-purple-500",
+    stripePrice: 29000 // $290 in cents
   }
 ]
 
 export function PricingPlans() {
+  const { toast } = useToast()
+
+  const handlePlanSelection = async (plan: typeof plans[0]) => {
+    if (plan.stripePrice === null) {
+      // Handle free plans
+      toast({
+        title: "Free Plan Selected",
+        description: `You've selected the ${plan.name}. No payment required!`,
+      })
+      return
+    }
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to purchase a subscription plan.",
+          variant: "destructive"
+        })
+        return
+      }
+
+      // Create Stripe checkout session
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          priceAmount: plan.stripePrice,
+          planName: plan.name,
+          planId: plan.id,
+          recurring: plan.period !== "forever"
+        }
+      })
+
+      if (error) {
+        throw error
+      }
+
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank')
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error)
+      toast({
+        title: "Payment Error",
+        description: "There was an error processing your request. Please try again.",
+        variant: "destructive"
+      })
+    }
+  }
+
   return (
     <div className="space-y-6 sm:space-y-8">
       <div className="text-center px-4">
@@ -124,7 +187,7 @@ export function PricingPlans() {
                 </div>
                 {plan.originalPrice && (
                   <p className="text-xs sm:text-sm text-muted-foreground line-through">
-                    ${plan.originalPrice}/year
+                    {plan.originalPrice}/year
                   </p>
                 )}
               </div>
@@ -134,6 +197,7 @@ export function PricingPlans() {
               <Button 
                 className={`w-full text-xs sm:text-sm ${plan.popular ? 'bg-primary' : ''}`}
                 variant={plan.popular ? "default" : "outline"}
+                onClick={() => handlePlanSelection(plan)}
               >
                 {plan.buttonText}
               </Button>

@@ -1,4 +1,3 @@
-
 import {
   BarChart3,
   CheckSquare,
@@ -36,6 +35,7 @@ import {
 } from "@/components/ui/sidebar"
 import { LanguageSelector } from "./LanguageSelector"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { ThemeToggle } from "./ThemeToggle"
 
 interface AppSidebarProps {
   activeView: string
@@ -280,7 +280,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <div className="mt-auto border-t pt-4">
+        <div className="mt-auto border-t pt-4 space-y-4">
+          <div className="px-3">
+            <ThemeToggle />
+          </div>
           <LanguageSelector />
         </div>
       </SidebarContent>
