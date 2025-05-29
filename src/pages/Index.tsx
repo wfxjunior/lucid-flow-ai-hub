@@ -1,4 +1,3 @@
-
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { StatsCard } from "@/components/StatsCard"
@@ -9,6 +8,7 @@ import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
+import { DocumentTracker } from "@/components/DocumentTracker"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
@@ -36,6 +36,7 @@ const Index = () => {
       case 'create-invoice': return 'Create Invoice'
       case 'customers': return 'Customer Management'
       case 'analytics': return 'Analytics'
+      case 'document-tracker': return 'Document Tracker'
       case 'appointments': return 'Appointments'
       case 'payments': return 'Payments'
       case 'e-signatures': return 'E-Signatures'
@@ -62,6 +63,7 @@ const Index = () => {
       case 'create-invoice': return "Create professional invoices with AI assistance."
       case 'customers': return "Manage your customer relationships and communications."
       case 'analytics': return "Insights and analytics for your business performance."
+      case 'document-tracker': return "Track document views and manage secret links."
       case 'appointments': return "Schedule and manage your appointments."
       case 'payments': return "Process payments and manage transactions."
       case 'e-signatures': return "Digital signature solutions for your documents."
@@ -91,6 +93,8 @@ const Index = () => {
         return <CustomerManagement />
       case 'analytics':
         return <AnalyticsDashboard />
+      case 'document-tracker':
+        return <DocumentTracker />
       case 'appointments':
       case 'payments':
       case 'e-signatures':
