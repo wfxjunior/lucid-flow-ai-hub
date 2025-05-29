@@ -33,35 +33,40 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+interface AppSidebarProps {
+  activeView: string
+  setActiveView: (view: string) => void
+}
+
 const mainFeatures = [
   {
     title: "Dashboard",
-    url: "/",
+    id: "dashboard",
     icon: Home,
   },
   {
     title: "AI Voice Assistant",
-    url: "/ai-voice",
+    id: "ai-voice",
     icon: Mic,
   },
   {
     title: "Create Invoice",
-    url: "/create-invoice",
+    id: "create-invoice",
     icon: FileText,
   },
   {
     title: "Appointments",
-    url: "/appointments",
+    id: "appointments",
     icon: Calendar,
   },
   {
     title: "Payments",
-    url: "/payments",
+    id: "payments",
     icon: CreditCard,
   },
   {
     title: "E-Signatures",
-    url: "/e-signatures",
+    id: "e-signatures",
     icon: Signature,
   },
 ]
@@ -69,42 +74,42 @@ const mainFeatures = [
 const businessTools = [
   {
     title: "Customers",
-    url: "/customers",
+    id: "customers",
     icon: Users,
   },
   {
     title: "Projects",
-    url: "/projects",
+    id: "projects",
     icon: Workflow,
   },
   {
     title: "Quotes",
-    url: "/quotes",
+    id: "quotes",
     icon: Receipt,
   },
   {
     title: "Receipts & Accounting",
-    url: "/receipts",
+    id: "receipts",
     icon: FolderOpen,
   },
   {
     title: "Sales Orders",
-    url: "/sales-orders",
+    id: "sales-orders",
     icon: TrendingUp,
   },
   {
     title: "Service Orders",
-    url: "/service-orders",
+    id: "service-orders",
     icon: FileCheck,
   },
   {
     title: "Business Proposals",
-    url: "/proposals",
+    id: "proposals",
     icon: FileText,
   },
   {
     title: "Bids",
-    url: "/bids",
+    id: "bids",
     icon: DollarSign,
   },
 ]
@@ -112,17 +117,17 @@ const businessTools = [
 const communication = [
   {
     title: "Email Center",
-    url: "/email",
+    id: "email",
     icon: Mail,
   },
   {
     title: "Messages",
-    url: "/messages",
+    id: "messages",
     icon: MessageSquare,
   },
   {
     title: "Communication Hub",
-    url: "/communication",
+    id: "communication",
     icon: Send,
   },
 ]
@@ -130,12 +135,12 @@ const communication = [
 const analytics = [
   {
     title: "Analytics",
-    url: "/analytics",
+    id: "analytics",
     icon: BarChart3,
   },
   {
     title: "My Family Savings",
-    url: "/family-savings",
+    id: "family-savings",
     icon: Heart,
   },
 ]
@@ -143,12 +148,12 @@ const analytics = [
 const settings = [
   {
     title: "Settings",
-    url: "/settings",
+    id: "settings",
     icon: Settings,
   },
 ]
 
-export function AppSidebar() {
+export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   return (
     <Sidebar className="border-r">
       <SidebarContent>
@@ -165,11 +170,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {mainFeatures.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </a>
+                  <SidebarMenuButton 
+                    onClick={() => setActiveView(item.id)}
+                    isActive={activeView === item.id}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -183,11 +190,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {businessTools.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </a>
+                  <SidebarMenuButton 
+                    onClick={() => setActiveView(item.id)}
+                    isActive={activeView === item.id}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -201,11 +210,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {communication.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </a>
+                  <SidebarMenuButton 
+                    onClick={() => setActiveView(item.id)}
+                    isActive={activeView === item.id}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -219,11 +230,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {analytics.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </a>
+                  <SidebarMenuButton 
+                    onClick={() => setActiveView(item.id)}
+                    isActive={activeView === item.id}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -237,11 +250,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {settings.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </a>
+                  <SidebarMenuButton 
+                    onClick={() => setActiveView(item.id)}
+                    isActive={activeView === item.id}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-sidebar-accent"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

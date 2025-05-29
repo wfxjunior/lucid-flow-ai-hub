@@ -29,6 +29,58 @@ import { useState } from "react"
 const Index = () => {
   const [activeView, setActiveView] = useState('dashboard')
 
+  const getViewTitle = () => {
+    switch(activeView) {
+      case 'dashboard': return 'Dashboard'
+      case 'ai-voice': return 'AI Voice Assistant'
+      case 'create-invoice': return 'Create Invoice'
+      case 'customers': return 'Customer Management'
+      case 'analytics': return 'Analytics'
+      case 'appointments': return 'Appointments'
+      case 'payments': return 'Payments'
+      case 'e-signatures': return 'E-Signatures'
+      case 'projects': return 'Projects'
+      case 'quotes': return 'Quotes'
+      case 'receipts': return 'Receipts & Accounting'
+      case 'sales-orders': return 'Sales Orders'
+      case 'service-orders': return 'Service Orders'
+      case 'proposals': return 'Business Proposals'
+      case 'bids': return 'Bids'
+      case 'email': return 'Email Center'
+      case 'messages': return 'Messages'
+      case 'communication': return 'Communication Hub'
+      case 'family-savings': return 'My Family Savings'
+      case 'settings': return 'Settings'
+      default: return 'Dashboard'
+    }
+  }
+
+  const getViewDescription = () => {
+    switch(activeView) {
+      case 'dashboard': return "Welcome back! Here's what's happening in your business."
+      case 'ai-voice': return "Your intelligent business assistant is ready to help."
+      case 'create-invoice': return "Create professional invoices with AI assistance."
+      case 'customers': return "Manage your customer relationships and communications."
+      case 'analytics': return "Insights and analytics for your business performance."
+      case 'appointments': return "Schedule and manage your appointments."
+      case 'payments': return "Process payments and manage transactions."
+      case 'e-signatures': return "Digital signature solutions for your documents."
+      case 'projects': return "Track and manage your business projects."
+      case 'quotes': return "Create and manage price quotes for clients."
+      case 'receipts': return "Organize receipts and accounting documents."
+      case 'sales-orders': return "Manage your sales orders and pipeline."
+      case 'service-orders': return "Track service requests and orders."
+      case 'proposals': return "Create compelling business proposals."
+      case 'bids': return "Manage bids and tender responses."
+      case 'email': return "Send and manage email campaigns."
+      case 'messages': return "SMS and messaging center."
+      case 'communication': return "Unified communication hub."
+      case 'family-savings': return "Track your family savings goals."
+      case 'settings': return "Configure your platform settings."
+      default: return "Welcome back! Here's what's happening in your business."
+    }
+  }
+
   const renderContent = () => {
     switch(activeView) {
       case 'ai-voice':
@@ -39,6 +91,34 @@ const Index = () => {
         return <CustomerManagement />
       case 'analytics':
         return <AnalyticsDashboard />
+      case 'appointments':
+      case 'payments':
+      case 'e-signatures':
+      case 'projects':
+      case 'quotes':
+      case 'receipts':
+      case 'sales-orders':
+      case 'service-orders':
+      case 'proposals':
+      case 'bids':
+      case 'email':
+      case 'messages':
+      case 'communication':
+      case 'family-savings':
+      case 'settings':
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle>{getViewTitle()}</CardTitle>
+              <CardDescription>This feature is coming soon!</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                We're working hard to bring you this feature. Stay tuned for updates!
+              </p>
+            </CardContent>
+          </Card>
+        )
       default:
         return (
           <>
@@ -193,26 +273,14 @@ const Index = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 to-gray-100">
-        <AppSidebar />
+        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         <main className="flex-1 p-6">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
               <SidebarTrigger />
               <div>
-                <h1 className="text-3xl font-bold">
-                  {activeView === 'dashboard' && 'Dashboard'}
-                  {activeView === 'ai-voice' && 'AI Voice Assistant'}
-                  {activeView === 'create-invoice' && 'Create Invoice'}
-                  {activeView === 'customers' && 'Customer Management'}
-                  {activeView === 'analytics' && 'Analytics'}
-                </h1>
-                <p className="text-muted-foreground">
-                  {activeView === 'dashboard' && "Welcome back! Here's what's happening in your business."}
-                  {activeView === 'ai-voice' && "Your intelligent business assistant is ready to help."}
-                  {activeView === 'create-invoice' && "Create professional invoices with AI assistance."}
-                  {activeView === 'customers' && "Manage your customer relationships and communications."}
-                  {activeView === 'analytics' && "Insights and analytics for your business performance."}
-                </p>
+                <h1 className="text-3xl font-bold">{getViewTitle()}</h1>
+                <p className="text-muted-foreground">{getViewDescription()}</p>
               </div>
             </div>
             
