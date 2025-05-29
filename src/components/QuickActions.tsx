@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen } from "lucide-react"
@@ -27,11 +26,18 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       color: "bg-indigo-500 hover:bg-indigo-600"
     },
     {
+      id: "pdf-generator",
+      title: "PDF Generator",
+      description: "Create custom PDFs with your logo and client information",
+      icon: FileText,
+      color: "bg-emerald-500 hover:bg-emerald-600"
+    },
+    {
       id: "receipts",
       title: "Receipts",
       description: "Track and manage all business receipts and expenses",
       icon: Receipt,
-      color: "bg-emerald-500 hover:bg-emerald-600"
+      color: "bg-amber-500 hover:bg-amber-600"
     },
     {
       id: "appointments",
