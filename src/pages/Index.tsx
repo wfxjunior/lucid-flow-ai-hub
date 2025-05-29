@@ -10,7 +10,7 @@ import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { AIVoice } from "@/components/AIVoice"
 import { CreateInvoice } from "@/components/CreateInvoice"
 import { Customers } from "@/components/Customers"
-import { Analytics } from "@/components/Analytics"
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { SettingsPage } from "@/components/SettingsPage"
 import { FeaturesPage } from "@/components/FeaturesPage"
 import { BlogAdmin } from "@/components/BlogAdmin"
@@ -36,7 +36,7 @@ const Index = () => {
       case "customers":
         return <Customers />
       case "analytics":
-        return <Analytics />
+        return <AnalyticsDashboard />
       case "settings":
         return <SettingsPage />
       case "features":
@@ -60,61 +60,436 @@ const Index = () => {
             <PricingPlans />
           </div>
         )
-      // Handle other features that don't have components yet
       case "appointments":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Appointments</h1>
-            <p className="text-muted-foreground">Schedule and manage client appointments with automated reminders.</p>
+            <div className="text-center space-y-4">
+              <Calendar className="h-16 w-16 mx-auto text-blue-500" />
+              <h1 className="text-3xl font-bold">Appointments</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Schedule and manage client appointments with automated reminders.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Upcoming Appointments</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">8</div>
+                  <p className="text-sm text-muted-foreground">This week</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Appointments</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">124</div>
+                  <p className="text-sm text-muted-foreground">This month</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Completion Rate</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">96%</div>
+                  <p className="text-sm text-muted-foreground">Last 30 days</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       case "payments":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Payments</h1>
-            <p className="text-muted-foreground">Process payments and manage payment methods.</p>
+            <div className="text-center space-y-4">
+              <DollarSign className="h-16 w-16 mx-auto text-green-500" />
+              <h1 className="text-3xl font-bold">Payments</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Process payments and manage payment methods securely.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Received</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$48,250</div>
+                  <p className="text-sm text-green-600">+12% this month</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Pending</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$8,420</div>
+                  <p className="text-sm text-yellow-600">15 invoices</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Overdue</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$2,100</div>
+                  <p className="text-sm text-red-600">3 invoices</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Success Rate</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">94%</div>
+                  <p className="text-sm text-green-600">Last 30 days</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       case "e-signatures":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">E-Signatures</h1>
-            <p className="text-muted-foreground">Send documents for electronic signatures.</p>
+            <div className="text-center space-y-4">
+              <FileText className="h-16 w-16 mx-auto text-purple-500" />
+              <h1 className="text-3xl font-bold">E-Signatures</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Send documents for electronic signatures and track completion status.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Documents Sent</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">42</div>
+                  <p className="text-sm text-muted-foreground">This month</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Signed</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">38</div>
+                  <p className="text-sm text-green-600">90% completion</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Pending</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">4</div>
+                  <p className="text-sm text-yellow-600">Awaiting signature</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       case "projects":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Projects</h1>
-            <p className="text-muted-foreground">Manage your business projects and tasks.</p>
+            <div className="text-center space-y-4">
+              <Settings className="h-16 w-16 mx-auto text-blue-500" />
+              <h1 className="text-3xl font-bold">Projects</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Manage your business projects, tasks, and track progress.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Active Projects</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">12</div>
+                  <p className="text-sm text-muted-foreground">In progress</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Completed</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">48</div>
+                  <p className="text-sm text-green-600">This year</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Value</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$125k</div>
+                  <p className="text-sm text-green-600">+15% growth</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>On Schedule</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">92%</div>
+                  <p className="text-sm text-green-600">Delivery rate</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       case "files":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Files</h1>
-            <p className="text-muted-foreground">Organize and manage your documents in folders.</p>
+            <div className="text-center space-y-4">
+              <FileText className="h-16 w-16 mx-auto text-indigo-500" />
+              <h1 className="text-3xl font-bold">Files & Documents</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Organize and manage your business documents in secure folders.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Files</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">1,248</div>
+                  <p className="text-sm text-muted-foreground">Documents stored</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Storage Used</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">2.4GB</div>
+                  <p className="text-sm text-muted-foreground">of 10GB</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Shared Files</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">324</div>
+                  <p className="text-sm text-blue-600">With clients</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Folders</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">28</div>
+                  <p className="text-sm text-muted-foreground">Organized</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       case "receipts":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Receipts & Accounting</h1>
-            <p className="text-muted-foreground">Track and manage all business receipts and expenses.</p>
+            <div className="text-center space-y-4">
+              <Receipt className="h-16 w-16 mx-auto text-amber-500" />
+              <h1 className="text-3xl font-bold">Receipts & Accounting</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Track and manage all business receipts, expenses, and accounting records.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Expenses</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$18,420</div>
+                  <p className="text-sm text-muted-foreground">This month</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Receipts</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">156</div>
+                  <p className="text-sm text-green-600">Recorded</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Tax Deductible</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$12,800</div>
+                  <p className="text-sm text-green-600">Potential savings</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Categories</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">12</div>
+                  <p className="text-sm text-muted-foreground">Expense types</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       case "messages":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Messages</h1>
-            <p className="text-muted-foreground">Send and manage client messages.</p>
+            <div className="text-center space-y-4">
+              <MessageSquare className="h-16 w-16 mx-auto text-green-500" />
+              <h1 className="text-3xl font-bold">Messages</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Send and manage client messages, conversations, and communications.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Unread</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">8</div>
+                  <p className="text-sm text-blue-600">New messages</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Conversations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">42</div>
+                  <p className="text-sm text-muted-foreground">Active threads</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Response Time</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">2.4h</div>
+                  <p className="text-sm text-green-600">Average</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Satisfaction</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">4.8/5</div>
+                  <p className="text-sm text-green-600">Client rating</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       case "email-center":
         return (
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Email Center</h1>
-            <p className="text-muted-foreground">Create and send email campaigns to your clients.</p>
+            <div className="text-center space-y-4">
+              <MessageSquare className="h-16 w-16 mx-auto text-red-500" />
+              <h1 className="text-3xl font-bold">Email Center</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Create and send email campaigns, newsletters, and automated messages to your clients.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Emails Sent</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">2,840</div>
+                  <p className="text-sm text-muted-foreground">This month</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Open Rate</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">68%</div>
+                  <p className="text-sm text-green-600">Above average</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Click Rate</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">24%</div>
+                  <p className="text-sm text-green-600">Engagement</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Subscribers</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">1,248</div>
+                  <p className="text-sm text-blue-600">Growing</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )
+      case "family-savings":
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-4">
+              <Heart className="h-16 w-16 mx-auto text-red-500" />
+              <h1 className="text-3xl font-bold">My Family Savings</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Track your family's financial goals and savings progress from your business income.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Savings</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$28,450</div>
+                  <p className="text-sm text-green-600">+5.2% this month</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Monthly Goal</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$2,500</div>
+                  <p className="text-sm text-blue-600">87% achieved</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Emergency Fund</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$15,000</div>
+                  <p className="text-sm text-green-600">6 months</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Investment</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$13,450</div>
+                  <p className="text-sm text-green-600">Growing</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )
       default:
