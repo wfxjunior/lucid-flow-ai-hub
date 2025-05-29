@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic } from "lucide-react"
+import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 export function QuickActions() {
@@ -13,6 +13,24 @@ export function QuickActions() {
       description: t("quickActions.aiVoiceDesc"),
       icon: Mic,
       color: "bg-purple-500 hover:bg-purple-600"
+    },
+    {
+      title: "Receipts",
+      description: "Track and manage all business receipts and expenses",
+      icon: Receipt,
+      color: "bg-emerald-500 hover:bg-emerald-600"
+    },
+    {
+      title: "Appointments",
+      description: "Schedule and manage client appointments with automated reminders",
+      icon: Calendar,
+      color: "bg-sky-500 hover:bg-sky-600"
+    },
+    {
+      title: "Work Orders",
+      description: "Create, track, and manage work orders with real-time status updates",
+      icon: Clipboard,
+      color: "bg-amber-500 hover:bg-amber-600"
     },
     {
       title: t("quickActions.createInvoice"),
@@ -31,18 +49,6 @@ export function QuickActions() {
       description: t("quickActions.addClientDesc"),
       icon: Users,
       color: "bg-orange-500 hover:bg-orange-600"
-    },
-    {
-      title: t("quickActions.scheduleMeeting"),
-      description: t("quickActions.scheduleMeetingDesc"),
-      icon: Calendar,
-      color: "bg-indigo-500 hover:bg-indigo-600"
-    },
-    {
-      title: t("quickActions.createQuote"),
-      description: t("quickActions.createQuoteDesc"),
-      icon: Receipt,
-      color: "bg-teal-500 hover:bg-teal-600"
     },
     {
       title: t("quickActions.processPayment"),
