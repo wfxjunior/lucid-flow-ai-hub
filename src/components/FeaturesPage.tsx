@@ -1,12 +1,12 @@
-
 import { useState } from "react"
-import { Heart, Plus, TrendingUp, Clock, CheckCircle } from "lucide-react"
+import { Heart, Plus, TrendingUp, Clock, CheckCircle, Crown } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { PricingPlans } from "@/components/PricingPlans"
 
 interface Feature {
   id: string
@@ -22,6 +22,7 @@ interface Feature {
 
 export function FeaturesPage() {
   const { t } = useLanguage()
+  const [hasPremium] = useState(false) // This would come from your auth/subscription system
   const [features, setFeatures] = useState<Feature[]>([
     {
       id: "1",
@@ -77,6 +78,25 @@ export function FeaturesPage() {
 
   const [showAddForm, setShowAddForm] = useState(false)
 
+  // If user doesn't have premium, show pricing plans
+  if (!hasPremium) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center space-y-4">
+          <div className="flex items-center justify-center gap-2">
+            <Crown className="h-8 w-8 text-yellow-500" />
+            <h1 className="text-3xl font-bold">Premium Feature</h1>
+          </div>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Feature requests are available with our premium plans. Upgrade to suggest new features and vote on community ideas.
+          </p>
+        </div>
+
+        <PricingPlans />
+      </div>
+    )
+  }
+
   const handleLike = (featureId: string) => {
     setFeatures(features.map(feature => 
       feature.id === featureId 
@@ -131,7 +151,11 @@ export function FeaturesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold">Feature Requests</h1>
+        <div className="flex items-center justify-center gap-2">
+          <Crown className="h-6 w-6 text-yellow-500" />
+          <h1 className="text-3xl font-bold">Feature Requests</h1>
+          <Badge className="bg-yellow-100 text-yellow-800">Premium</Badge>
+        </div>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Help us build the future of FeatherBiz! Suggest new features and vote on existing ones. 
           The most popular requests get prioritized in our development roadmap.
