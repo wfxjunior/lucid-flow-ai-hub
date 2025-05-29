@@ -28,12 +28,15 @@ import {
   Calendar,
   Heart,
   Mic,
-  FolderOpen
+  FolderOpen,
+  Home
 } from "lucide-react"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const Index = () => {
   const [activeView, setActiveView] = useState('dashboard')
+  const navigate = useNavigate()
 
   const handleQuickActionClick = (actionId: string) => {
     setActiveView(actionId)
@@ -262,6 +265,15 @@ const Index = () => {
             
             {/* Quick Navigation */}
             <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <Button 
+                variant="outline"
+                onClick={() => navigate('/')}
+                size="sm"
+                className="w-full sm:w-auto"
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Button>
               <Button 
                 variant={activeView === 'ai-voice' ? 'default' : 'outline'}
                 onClick={() => setActiveView('ai-voice')}
