@@ -19,6 +19,7 @@ import {
   Crown,
   Settings,
   Moon,
+  Sun,
   Globe
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
@@ -35,8 +36,9 @@ import {
   useSidebar 
 } from "@/components/ui/sidebar"
 import { useLanguage } from "@/contexts/LanguageContext"
-import { ThemeToggle } from "@/components/ThemeToggle"
 import { LanguageSelector } from "@/components/LanguageSelector"
+import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
 
 interface AppSidebarProps {
   activeView: string
@@ -46,6 +48,33 @@ interface AppSidebarProps {
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
   const { setOpenMobile } = useSidebar()
+  const [theme, setTheme] = useState<"light" | "dark">("light")
+
+  useEffect(() => {
+    // Check for saved theme preference or default to light
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    const initialTheme = savedTheme || systemTheme
+    
+    setTheme(initialTheme)
+    applyTheme(initialTheme)
+  }, [])
+
+  const applyTheme = (newTheme: "light" | "dark") => {
+    const root = window.document.documentElement
+    root.classList.remove("light", "dark")
+    root.classList.add(newTheme)
+    
+    // Also set the data attribute for better compatibility
+    root.setAttribute("data-theme", newTheme)
+  }
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light"
+    setTheme(newTheme)
+    applyTheme(newTheme)
+    localStorage.setItem("theme", newTheme)
+  }
 
   const allFeatures = [
     {
@@ -198,10 +227,29 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Moon className="h-4 w-4" />
-              <span className="text-sm">Dark Mode</span>
+              {theme === "light" ? (
+                <Moon className="h-4 w-4" />
+              ) : (
+                <Sun className="h-4 w-4" />
+              )}
+              <span className="text-sm">
+                {theme === "light" ? "Dark Mode" : "Light Mode"}
+              </span>
             </div>
-            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="h-6 w-12 p-0"
+            >
+              <div className={`w-11 h-6 rounded-full border-2 transition-colors ${
+                theme === "dark" ? "bg-primary border-primary" : "bg-input border-input"
+              }`}>
+                <div className={`w-5 h-5 rounded-full bg-background shadow-sm transition-transform ${
+                  theme === "dark" ? "translate-x-5" : "translate-x-0"
+                }`} />
+              </div>
+            </Button>
           </div>
           
           <div className="flex items-center justify-between">
