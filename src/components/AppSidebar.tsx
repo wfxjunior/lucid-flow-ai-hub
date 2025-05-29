@@ -1,3 +1,4 @@
+
 import {
   LayoutDashboard,
   BarChart3,
@@ -20,7 +21,7 @@ interface AppSidebarProps {
 
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
-  const { collapsed, setCollapsed } = useSidebar()
+  const { setOpenMobile } = useSidebar()
 
   const menuItems = [
     {
@@ -86,7 +87,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
               }
               onClick={() => {
                 setActiveView(item.id)
-                setCollapsed(true)
+                setOpenMobile(false)
               }}
             >
               <item.icon className="h-4 w-4" />
