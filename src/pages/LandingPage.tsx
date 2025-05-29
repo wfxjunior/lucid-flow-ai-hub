@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -13,7 +12,10 @@ import {
   MessageSquare,
   CheckCircle,
   Star,
-  Play
+  Play,
+  Receipt,
+  Calendar,
+  Wrench
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
@@ -50,6 +52,21 @@ const LandingPage = () => {
       icon: Zap,
       title: "Workflow Automation",
       description: "Automate repetitive tasks and focus on growing your business."
+    },
+    {
+      icon: Receipt,
+      title: "Receipts",
+      description: "Track and manage all your business receipts and expenses in one organized system."
+    },
+    {
+      icon: Calendar,
+      title: "Appointments",
+      description: "Schedule and manage appointments with clients with automated reminders."
+    },
+    {
+      icon: Wrench,
+      title: "Work Orders",
+      description: "Create, track, and manage work orders with real-time status updates."
     }
   ]
 
