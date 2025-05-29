@@ -56,11 +56,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: t("sidebar.files"),
       icon: FolderOpen,
     },
-    {
-      id: "pdf-generator",
-      title: t("sidebar.pdfGenerator"),
-      icon: FileText,
-    },
   ]
 
   return (
