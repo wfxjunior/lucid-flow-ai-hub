@@ -1,3 +1,4 @@
+
 import {
   BarChart3,
   CheckSquare,
@@ -20,7 +21,8 @@ import {
   Send,
   Heart,
   Mic,
-  Crown
+  Crown,
+  HelpCircle
 } from "lucide-react"
 import {
   Sidebar,
@@ -147,6 +149,11 @@ const analytics = [
 ]
 
 const settings = [
+  {
+    title: "FAQ & Help",
+    id: "faq",
+    icon: HelpCircle,
+  },
   {
     title: "Pricing Plans",
     id: "pricing",
