@@ -91,6 +91,12 @@ const LandingPage = () => {
     }
   ]
 
+  const handleWatchDemo = () => {
+    // For now, we'll show an alert. You can replace this with a modal or video player later
+    alert("Demo video coming soon! For now, try the free dashboard to explore all features.")
+    navigate('/dashboard')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Header */}
@@ -130,7 +136,7 @@ const LandingPage = () => {
             Try It Free
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-          <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+          <Button size="lg" variant="outline" className="text-lg px-8 py-6" onClick={handleWatchDemo}>
             <Play className="mr-2 h-5 w-5" />
             Watch Demo
           </Button>
