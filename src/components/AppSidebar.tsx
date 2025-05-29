@@ -57,6 +57,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       icon: Mic,
     },
     {
+      title: "Files",
+      id: "files",
+      icon: FolderOpen,
+    },
+    {
       title: t("nav.create-invoice"),
       id: "create-invoice",
       icon: FileText,

@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard } from "lucide-react"
+import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 export function QuickActions() {
@@ -13,6 +13,12 @@ export function QuickActions() {
       description: t("quickActions.aiVoiceDesc"),
       icon: Mic,
       color: "bg-purple-500 hover:bg-purple-600"
+    },
+    {
+      title: "Files",
+      description: "Organize and manage your documents in folders",
+      icon: FolderOpen,
+      color: "bg-indigo-500 hover:bg-indigo-600"
     },
     {
       title: "Receipts",

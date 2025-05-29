@@ -1,3 +1,4 @@
+
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { StatsCard } from "@/components/StatsCard"
@@ -9,6 +10,7 @@ import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { DocumentTracker } from "@/components/DocumentTracker"
+import { FileManager } from "@/components/FileManager"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PricingPlans } from "@/components/PricingPlans"
@@ -24,7 +26,8 @@ import {
   FileText,
   Calendar,
   Heart,
-  Mic
+  Mic,
+  FolderOpen
 } from "lucide-react"
 import { useState } from "react"
 
@@ -39,6 +42,7 @@ const Index = () => {
       case 'customers': return 'Customer Management'
       case 'analytics': return 'Analytics'
       case 'document-tracker': return 'Document Tracker'
+      case 'files': return 'File Manager'
       case 'pricing': return 'Pricing Plans'
       case 'faq': return 'FAQ & Help Center'
       default: return 'Dashboard'
@@ -53,6 +57,7 @@ const Index = () => {
       case 'customers': return "Manage your customer relationships and communications."
       case 'analytics': return "Insights and analytics for your business performance."
       case 'document-tracker': return "Track document views and manage secret links."
+      case 'files': return "Organize and manage your documents in folders."
       case 'pricing': return "Choose the perfect plan for your business needs."
       case 'faq': return "Find answers to all your questions about our AI-powered platform."
       default: return "Welcome back! Here's what's happening in your business."
@@ -71,6 +76,8 @@ const Index = () => {
         return <AnalyticsDashboard />
       case 'document-tracker':
         return <DocumentTracker />
+      case 'files':
+        return <FileManager />
       case 'pricing':
         return <PricingPlans />
       case 'faq':
