@@ -1,110 +1,99 @@
 
-import { Check, Zap, Crown, Gift } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Check, Crown, Zap, Star } from "lucide-react"
 
 const plans = [
   {
-    id: "free",
-    name: "Free",
-    description: "Perfect for testing invoices",
-    price: "R$ 0",
-    period: "/mês",
-    icon: Gift,
-    popular: false,
+    id: "free-invoice",
+    name: "Free Invoice",
+    description: "Perfect for occasional invoicing",
+    price: "$0",
+    period: "forever",
+    icon: Zap,
     features: [
-      "Até 5 faturas por mês",
-      "Gestão básica de clientes",
-      "Templates de fatura básicos",
-      "Suporte via email",
-      "Acesso limitado ao AI Assistant"
+      "5 invoices per month",
+      "Basic templates",
+      "Email sending",
+      "Basic customer management",
+      "Standard support"
     ],
-    limitations: [
-      "Sem automação de email",
-      "Sem relatórios avançados",
-      "Sem integração com pagamentos"
-    ]
+    buttonText: "Start Free",
+    popular: false,
+    color: "bg-gray-500"
   },
   {
     id: "trial",
-    name: "Teste Gratuito",
-    description: "Experimente todas as funcionalidades",
-    price: "R$ 0",
-    period: "/7 dias",
-    icon: Zap,
-    popular: true,
+    name: "7-Day Free Trial",
+    description: "Try all features for free",
+    price: "$0",
+    period: "7 days",
+    icon: Star,
     features: [
-      "Todas as funcionalidades premium",
-      "Faturas ilimitadas",
-      "Automação completa",
-      "Relatórios avançados",
-      "AI Assistant completo",
-      "Integração com Stripe",
-      "E-signatures",
-      "Comunicação via SMS/WhatsApp",
-      "Suporte prioritário"
+      "All premium features",
+      "Unlimited invoices",
+      "AI voice assistant",
+      "Advanced analytics",
+      "Priority support",
+      "All integrations"
     ],
-    limitations: []
+    buttonText: "Start Trial",
+    popular: true,
+    color: "bg-blue-500"
   },
   {
     id: "monthly",
-    name: "Plano Mensal",
-    description: "Ideal para pequenas empresas",
-    price: "R$ 97",
-    period: "/mês",
-    icon: Zap,
-    popular: false,
+    name: "Monthly Plan",
+    description: "Full access, billed monthly",
+    price: "$29",
+    period: "month",
+    icon: Crown,
     features: [
-      "Faturas ilimitadas",
-      "Gestão completa de clientes",
-      "Automação de email",
-      "Relatórios e analytics",
-      "AI Assistant completo",
-      "Integração com Stripe",
+      "Unlimited invoices",
+      "AI voice assistant",
+      "Advanced customer management",
+      "Analytics dashboard",
       "E-signatures",
-      "Comunicação via SMS/WhatsApp",
-      "Document tracking",
-      "Suporte prioritário"
+      "Priority support",
+      "All integrations",
+      "Document tracking"
     ],
-    limitations: []
+    buttonText: "Choose Monthly",
+    popular: false,
+    color: "bg-green-500"
   },
   {
     id: "annual",
-    name: "Plano Anual",
-    description: "Melhor valor - 2 meses grátis",
-    price: "R$ 970",
-    period: "/ano",
-    originalPrice: "R$ 1.164",
+    name: "Annual Plan",
+    description: "Best value - 2 months free!",
+    price: "$290",
+    period: "year",
+    originalPrice: "$348",
     icon: Crown,
-    popular: false,
     features: [
-      "Todas as funcionalidades do plano mensal",
-      "2 meses grátis",
-      "Onboarding personalizado",
-      "Suporte dedicado",
-      "Backups prioritários",
-      "Acesso antecipado a novas funcionalidades",
-      "Consultoria mensal gratuita"
+      "Everything in Monthly",
+      "2 months free",
+      "Advanced AI features",
+      "White-label options",
+      "Custom integrations",
+      "Dedicated support",
+      "Early access to new features",
+      "Business consultation"
     ],
-    limitations: []
+    buttonText: "Choose Annual",
+    popular: false,
+    color: "bg-purple-500"
   }
 ]
 
 export function PricingPlans() {
-  const handleSelectPlan = (planId: string) => {
-    console.log(`Selected plan: ${planId}`)
-    // Aqui você implementaria a lógica de seleção do plano
-    // Por exemplo, redirecionar para checkout do Stripe
-  }
-
   return (
     <div className="space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold">Escolha seu plano</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Comece gratuitamente e evolua conforme sua empresa cresce. 
-          Todos os planos incluem suporte e atualizações.
+      <div className="text-center">
+        <h2 className="text-3xl font-bold mb-4">Choose Your Plan</h2>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Select the perfect plan for your business needs. Start with our free options or unlock the full power of AI automation.
         </p>
       </div>
 
@@ -112,116 +101,60 @@ export function PricingPlans() {
         {plans.map((plan) => (
           <Card 
             key={plan.id} 
-            className={`relative ${plan.popular ? 'border-primary ring-2 ring-primary/20' : ''}`}
+            className={`relative transition-all duration-200 hover:shadow-lg hover:scale-105 ${
+              plan.popular ? 'border-primary shadow-lg scale-105' : ''
+            }`}
           >
             {plan.popular && (
               <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary">
-                Mais Popular
+                Most Popular
               </Badge>
             )}
             
             <CardHeader className="text-center">
-              <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                <plan.icon className="h-6 w-6 text-primary" />
+              <div className={`w-12 h-12 mx-auto mb-4 rounded-full ${plan.color} flex items-center justify-center`}>
+                <plan.icon className="h-6 w-6 text-white" />
               </div>
-              <CardTitle className="text-2xl">{plan.name}</CardTitle>
+              <CardTitle className="text-xl">{plan.name}</CardTitle>
               <CardDescription>{plan.description}</CardDescription>
-              
-              <div className="space-y-1">
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground">{plan.period}</span>
+              <div className="mt-4">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-3xl font-bold">{plan.price}</span>
+                  <span className="text-muted-foreground">/{plan.period}</span>
                 </div>
                 {plan.originalPrice && (
-                  <div className="text-sm text-muted-foreground">
-                    <span className="line-through">{plan.originalPrice}</span>
-                    <span className="ml-2 text-green-600 font-semibold">Economize R$ 194</span>
-                  </div>
+                  <p className="text-sm text-muted-foreground line-through">
+                    ${plan.originalPrice}/year
+                  </p>
                 )}
               </div>
             </CardHeader>
-
+            
             <CardContent className="space-y-4">
               <Button 
-                className="w-full" 
+                className={`w-full ${plan.popular ? 'bg-primary' : ''}`}
                 variant={plan.popular ? "default" : "outline"}
-                onClick={() => handleSelectPlan(plan.id)}
               >
-                {plan.id === 'free' ? 'Começar Grátis' : 
-                 plan.id === 'trial' ? 'Iniciar Teste' : 'Assinar Agora'}
+                {plan.buttonText}
               </Button>
-
+              
               <div className="space-y-3">
-                <h4 className="font-semibold text-sm">Funcionalidades incluídas:</h4>
-                <ul className="space-y-2">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm">
-                      <Check className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {plan.limitations.length > 0 && (
-                  <div className="pt-3 border-t">
-                    <h4 className="font-semibold text-sm text-muted-foreground mb-2">
-                      Limitações:
-                    </h4>
-                    <ul className="space-y-1">
-                      {plan.limitations.map((limitation, index) => (
-                        <li key={index} className="text-xs text-muted-foreground">
-                          • {limitation}
-                        </li>
-                      ))}
-                    </ul>
+                {plan.features.map((feature, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+                    <span className="text-sm">{feature}</span>
                   </div>
-                )}
+                ))}
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="bg-muted/50 rounded-lg p-6 text-center space-y-4">
-        <h3 className="text-xl font-semibold">Precisa de algo personalizado?</h3>
-        <p className="text-muted-foreground">
-          Entre em contato conosco para planos empresariais e funcionalidades específicas.
+      <div className="text-center">
+        <p className="text-sm text-muted-foreground">
+          All plans include SSL security, automatic backups, and 99.9% uptime guarantee.
         </p>
-        <Button variant="outline">
-          Falar com Vendas
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
-        <div className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-            <Check className="h-6 w-6 text-blue-600" />
-          </div>
-          <h4 className="font-semibold">Sem compromisso</h4>
-          <p className="text-sm text-muted-foreground">
-            Cancele a qualquer momento, sem taxas de cancelamento
-          </p>
-        </div>
-        
-        <div className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-            <Zap className="h-6 w-6 text-green-600" />
-          </div>
-          <h4 className="font-semibold">Ativação instantânea</h4>
-          <p className="text-sm text-muted-foreground">
-            Comece a usar imediatamente após a assinatura
-          </p>
-        </div>
-        
-        <div className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-            <Crown className="h-6 w-6 text-purple-600" />
-          </div>
-          <h4 className="font-semibold">Suporte dedicado</h4>
-          <p className="text-sm text-muted-foreground">
-            Equipe especializada para ajudar seu negócio
-          </p>
-        </div>
       </div>
     </div>
   )

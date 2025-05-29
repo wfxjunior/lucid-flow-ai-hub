@@ -20,8 +20,8 @@ const languages = [
 export function LanguageSelector() {
   const handleLanguageChange = (languageCode: string) => {
     console.log("Language changed to:", languageCode)
-    // Aqui você pode implementar a lógica de mudança de idioma
-    // Como salvar no localStorage ou estado global
+    // Here you can implement the language change logic
+    // Like saving to localStorage or global state
     localStorage.setItem("selectedLanguage", languageCode)
   }
 
