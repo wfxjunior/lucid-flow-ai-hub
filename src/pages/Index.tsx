@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -15,36 +16,15 @@ import { FeaturesPage } from "@/components/FeaturesPage"
 import { BlogAdmin } from "@/components/BlogAdmin"
 import { AdminDashboard } from "@/components/AdminDashboard"
 import { PricingPlans } from "@/components/PricingPlans"
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/AppSidebar"
 
 const Index = () => {
   const { t } = useLanguage()
   const [activeView, setActiveView] = useState("dashboard")
-  const [hasPremium] = useState(false) // This would come from your auth/subscription system
-
-  const premiumFeatures = [
-    "ai-voice", "features", "files", "pdf-generator", "receipts", "appointments", 
-    "work-orders", "messages", "customers", "payments", "e-signatures", "email", 
-    "family-savings", "ai-assistant", "projects", "analytics", "settings", "blog-admin", "admin"
-  ]
 
   const handleQuickAction = (actionId: string) => {
-    // Check if feature requires premium and user doesn't have it
-    if (premiumFeatures.includes(actionId) && !hasPremium) {
-      setActiveView("pricing")
-      return
-    }
-
     setActiveView(actionId)
-  }
-
-  const handleSidebarNavigation = (view: string) => {
-    // Check if feature requires premium and user doesn't have it
-    if (premiumFeatures.includes(view) && !hasPremium) {
-      setActiveView("pricing")
-      return
-    }
-
-    setActiveView(view)
   }
 
   const renderActiveView = () => {
@@ -91,21 +71,6 @@ const Index = () => {
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 {t("dashboard.subtitle")}
               </p>
-              {!hasPremium && (
-                <div className="flex items-center justify-center gap-2 mt-4">
-                  <Crown className="h-5 w-5 text-yellow-500" />
-                  <span className="text-sm text-muted-foreground">
-                    Using Free Plan - Upgrade for full access
-                  </span>
-                  <Button 
-                    size="sm" 
-                    onClick={() => setActiveView("pricing")}
-                    className="ml-2"
-                  >
-                    Upgrade Now
-                  </Button>
-                </div>
-              )}
             </div>
 
             {/* Stats Cards */}
@@ -205,11 +170,23 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="container mx-auto p-4 sm:p-6">
-        {renderActiveView()}
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+            </div>
+          </header>
+          <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
+            <div className="container mx-auto p-4 sm:p-6">
+              {renderActiveView()}
+            </div>
+          </div>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   )
 }
 
