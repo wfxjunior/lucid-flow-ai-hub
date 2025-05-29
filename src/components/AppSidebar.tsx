@@ -19,7 +19,8 @@ import {
   FileCheck,
   Send,
   Heart,
-  Mic
+  Mic,
+  Crown
 } from "lucide-react"
 import {
   Sidebar,
@@ -146,6 +147,11 @@ const analytics = [
 ]
 
 const settings = [
+  {
+    title: "Pricing Plans",
+    id: "pricing",
+    icon: Crown,
+  },
   {
     title: "Settings",
     id: "settings",

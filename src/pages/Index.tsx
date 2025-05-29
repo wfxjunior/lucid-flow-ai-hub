@@ -11,6 +11,7 @@ import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { DocumentTracker } from "@/components/DocumentTracker"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { PricingPlans } from "@/components/PricingPlans"
 import { 
   BarChart3, 
   Users, 
@@ -37,21 +38,7 @@ const Index = () => {
       case 'customers': return 'Customer Management'
       case 'analytics': return 'Analytics'
       case 'document-tracker': return 'Document Tracker'
-      case 'appointments': return 'Appointments'
-      case 'payments': return 'Payments'
-      case 'e-signatures': return 'E-Signatures'
-      case 'projects': return 'Projects'
-      case 'quotes': return 'Quotes'
-      case 'receipts': return 'Receipts & Accounting'
-      case 'sales-orders': return 'Sales Orders'
-      case 'service-orders': return 'Service Orders'
-      case 'proposals': return 'Business Proposals'
-      case 'bids': return 'Bids'
-      case 'email': return 'Email Center'
-      case 'messages': return 'Messages'
-      case 'communication': return 'Communication Hub'
-      case 'family-savings': return 'My Family Savings'
-      case 'settings': return 'Settings'
+      case 'pricing': return 'Pricing Plans'
       default: return 'Dashboard'
     }
   }
@@ -64,21 +51,7 @@ const Index = () => {
       case 'customers': return "Manage your customer relationships and communications."
       case 'analytics': return "Insights and analytics for your business performance."
       case 'document-tracker': return "Track document views and manage secret links."
-      case 'appointments': return "Schedule and manage your appointments."
-      case 'payments': return "Process payments and manage transactions."
-      case 'e-signatures': return "Digital signature solutions for your documents."
-      case 'projects': return "Track and manage your business projects."
-      case 'quotes': return "Create and manage price quotes for clients."
-      case 'receipts': return "Organize receipts and accounting documents."
-      case 'sales-orders': return "Manage your sales orders and pipeline."
-      case 'service-orders': return "Track service requests and orders."
-      case 'proposals': return "Create compelling business proposals."
-      case 'bids': return "Manage bids and tender responses."
-      case 'email': return "Send and manage email campaigns."
-      case 'messages': return "SMS and messaging center."
-      case 'communication': return "Unified communication hub."
-      case 'family-savings': return "Track your family savings goals."
-      case 'settings': return "Configure your platform settings."
+      case 'pricing': return "Choose the perfect plan for your business needs."
       default: return "Welcome back! Here's what's happening in your business."
     }
   }
@@ -95,34 +68,8 @@ const Index = () => {
         return <AnalyticsDashboard />
       case 'document-tracker':
         return <DocumentTracker />
-      case 'appointments':
-      case 'payments':
-      case 'e-signatures':
-      case 'projects':
-      case 'quotes':
-      case 'receipts':
-      case 'sales-orders':
-      case 'service-orders':
-      case 'proposals':
-      case 'bids':
-      case 'email':
-      case 'messages':
-      case 'communication':
-      case 'family-savings':
-      case 'settings':
-        return (
-          <Card>
-            <CardHeader>
-              <CardTitle>{getViewTitle()}</CardTitle>
-              <CardDescription>This feature is coming soon!</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                We're working hard to bring you this feature. Stay tuned for updates!
-              </p>
-            </CardContent>
-          </Card>
-        )
+      case 'pricing':
+        return <PricingPlans />
       default:
         return (
           <>
