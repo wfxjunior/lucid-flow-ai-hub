@@ -23,7 +23,8 @@ import {
   Globe,
   Lightbulb,
   File as FilesIcon,
-  Shield
+  Shield,
+  Calculator
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
@@ -119,6 +120,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       id: "customers",
       title: t("sidebar.customers"),
       icon: Users,
+    },
+    {
+      id: "estimates",
+      title: "Estimates",
+      icon: Calculator,
     },
     {
       id: "projects",

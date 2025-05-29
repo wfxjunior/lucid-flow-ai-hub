@@ -1,8 +1,9 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Crown, Star, Users, DollarSign, TrendingUp, FileText, Heart, MessageSquare, Calendar, Receipt, Settings, Lightbulb, UserCog } from "lucide-react"
+import { Crown, Star, Users, DollarSign, TrendingUp, FileText, Heart, MessageSquare, Calendar, Receipt, Settings, Lightbulb, UserCog, Calculator } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { QuickActions } from "@/components/QuickActions"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
@@ -44,6 +45,65 @@ const Index = () => {
         return <BlogAdmin />
       case "admin-dashboard":
         return <AdminDashboard />
+      case "estimates":
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-4">
+              <Calculator className="h-16 w-16 mx-auto text-blue-500" />
+              <h1 className="text-3xl font-bold">Estimates</h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Create and manage project estimates for your clients.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Draft Estimates</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">8</div>
+                  <p className="text-sm text-muted-foreground">In progress</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Sent Estimates</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">24</div>
+                  <p className="text-sm text-blue-600">Awaiting approval</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Approved</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">18</div>
+                  <p className="text-sm text-green-600">Ready to invoice</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Total Value</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$86,450</div>
+                  <p className="text-sm text-green-600">Potential revenue</p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="flex gap-4">
+              <Button>
+                <Calculator className="h-4 w-4 mr-2" />
+                Create New Estimate
+              </Button>
+              <Button variant="outline">
+                View All Estimates
+              </Button>
+            </div>
+          </div>
+        )
       case "pricing":
         return (
           <div className="space-y-6">
