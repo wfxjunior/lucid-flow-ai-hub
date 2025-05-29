@@ -20,7 +20,8 @@ import {
   Settings,
   Moon,
   Sun,
-  Globe
+  Globe,
+  Lightbulb
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
@@ -91,6 +92,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       id: "create-invoice",
       title: t("sidebar.createInvoice"),
       icon: FileText,
+    },
+    {
+      id: "features",
+      title: "Feature Requests",
+      icon: Lightbulb,
     },
     {
       id: "appointments",

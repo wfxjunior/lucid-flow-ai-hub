@@ -15,6 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { PricingPlans } from "@/components/PricingPlans"
 import { FAQPage } from "@/components/FAQPage"
 import { PDFGenerator } from "@/components/PDFGenerator"
+import { FeaturesPage } from "@/components/FeaturesPage"
 import { 
   BarChart3, 
   Users, 
@@ -43,6 +44,7 @@ const Index = () => {
       case 'dashboard': return 'Dashboard'
       case 'ai-voice': return 'AI Voice Assistant'
       case 'create-invoice': return 'Create Invoice'
+      case 'features': return 'Feature Requests'
       case 'customers': return 'Customer Management'
       case 'analytics': return 'Analytics'
       case 'document-tracker': return 'Document Tracker'
@@ -59,6 +61,7 @@ const Index = () => {
       case 'dashboard': return "Welcome back! Here's what's happening in your business."
       case 'ai-voice': return "Your intelligent business assistant is ready to help."
       case 'create-invoice': return "Create professional invoices with AI assistance."
+      case 'features': return "Suggest new features and vote on community requests."
       case 'customers': return "Manage your customer relationships and communications."
       case 'analytics': return "Insights and analytics for your business performance."
       case 'document-tracker': return "Track document views and manage secret links."
@@ -76,6 +79,8 @@ const Index = () => {
         return <AIVoiceAssistant />
       case 'create-invoice':
         return <InvoiceCreator />
+      case 'features':
+        return <FeaturesPage />
       case 'customers':
         return <CustomerManagement />
       case 'analytics':
