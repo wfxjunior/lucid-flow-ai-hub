@@ -20,7 +20,8 @@ import {
   Moon,
   Sun,
   Globe,
-  Lightbulb
+  Lightbulb,
+  File as FilesIcon
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
@@ -121,6 +122,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       id: "projects",
       title: "Projects",
       icon: FolderOpen,
+    },
+    {
+      id: "files",
+      title: "Files",
+      icon: FilesIcon,
     },
     {
       id: "quotes",
