@@ -100,7 +100,7 @@ export function AnalyticsDashboard() {
   return (
     <div className="space-y-6">
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
         {stats.map((stat, index) => (
           <Card key={index} className="transition-all duration-200 hover:shadow-lg hover:scale-105">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -110,7 +110,7 @@ export function AnalyticsDashboard() {
               <stat.icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
+              <div className="text-xl md:text-2xl font-bold">{stat.value}</div>
               <p className={`text-xs ${
                 stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
               }`}>
@@ -135,48 +135,52 @@ export function AnalyticsDashboard() {
           </CardTitle>
           <CardDescription>Monthly revenue, expenses and profit breakdown</CardDescription>
         </CardHeader>
-        <CardContent className="p-4">
-          <ChartContainer config={chartConfig} className="h-80 w-full">
-            <BarChart data={revenueData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis width={60} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend />
-              <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
-              <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
-              <Bar dataKey="profit" fill="var(--color-profit)" name="Profit" />
-            </BarChart>
-          </ChartContainer>
+        <CardContent className="p-2 md:p-4">
+          <div className="w-full h-64 md:h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={revenueData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis width={60} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Legend />
+                <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
+                <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
+                <Bar dataKey="profit" fill="var(--color-profit)" name="Profit" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* Invoice Status Chart */}
         <Card>
           <CardHeader>
             <CardTitle>Invoice Status Distribution</CardTitle>
             <CardDescription>Current status of all invoices</CardDescription>
           </CardHeader>
-          <CardContent className="p-4">
-            <ChartContainer config={chartConfig} className="h-64 w-full">
-              <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
-                <Pie
-                  data={invoiceStatusData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}%`}
-                >
-                  {invoiceStatusData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <ChartTooltip content={<ChartTooltipContent />} />
-              </PieChart>
-            </ChartContainer>
+          <CardContent className="p-2 md:p-4">
+            <div className="w-full h-48 md:h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+                  <Pie
+                    data={invoiceStatusData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, value }) => `${name}: ${value}%`}
+                  >
+                    {invoiceStatusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
@@ -189,16 +193,18 @@ export function AnalyticsDashboard() {
             </CardTitle>
             <CardDescription>Monthly savings from completed jobs</CardDescription>
           </CardHeader>
-          <CardContent className="p-4">
-            <ChartContainer config={chartConfig} className="h-64 w-full">
-              <AreaChart data={familySavingsData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis width={40} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Area type="monotone" dataKey="amount" stroke="#ef4444" fill="#fecaca" />
-              </AreaChart>
-            </ChartContainer>
+          <CardContent className="p-2 md:p-4">
+            <div className="w-full h-48 md:h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={familySavingsData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis width={40} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area type="monotone" dataKey="amount" stroke="#ef4444" fill="#fecaca" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -209,19 +215,21 @@ export function AnalyticsDashboard() {
           <CardTitle>Document Engagement Analytics</CardTitle>
           <CardDescription>Track how customers interact with your documents</CardDescription>
         </CardHeader>
-        <CardContent className="p-4">
-          <ChartContainer config={chartConfig} className="h-80 w-full">
-            <BarChart data={documentEngagementData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="type" />
-              <YAxis width={40} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend />
-              <Bar dataKey="opened" fill="#3b82f6" name="Opened" />
-              <Bar dataKey="viewed" fill="#f59e0b" name="Fully Viewed" />
-              <Bar dataKey="signed" fill="#22c55e" name="Signed/Responded" />
-            </BarChart>
-          </ChartContainer>
+        <CardContent className="p-2 md:p-4">
+          <div className="w-full h-64 md:h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={documentEngagementData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="type" />
+                <YAxis width={40} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Legend />
+                <Bar dataKey="opened" fill="#3b82f6" name="Opened" />
+                <Bar dataKey="viewed" fill="#f59e0b" name="Fully Viewed" />
+                <Bar dataKey="signed" fill="#22c55e" name="Signed/Responded" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
@@ -234,13 +242,13 @@ export function AnalyticsDashboard() {
         <CardContent>
           <div className="space-y-4">
             {recentInvoices.map((invoice) => (
-              <div key={invoice.id} className="flex items-center justify-between p-3 border rounded-lg">
-                <div>
+              <div key={invoice.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg gap-2">
+                <div className="flex-1">
                   <p className="font-medium">{invoice.id}</p>
                   <p className="text-sm text-muted-foreground">{invoice.client}</p>
                   <p className="text-xs text-muted-foreground">{invoice.date}</p>
                 </div>
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                   <p className="font-semibold">${invoice.amount.toLocaleString()}</p>
                   <span className={`text-xs px-2 py-1 rounded-full ${
                     invoice.status === 'paid' ? 'bg-green-100 text-green-700' :
