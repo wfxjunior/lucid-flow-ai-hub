@@ -2,252 +2,246 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { FileText, Plus, Trash2, Send, Eye } from "lucide-react"
-
-interface InvoiceItem {
-  description: string
-  quantity: number
-  rate: number
-  amount: number
-}
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell } from "recharts"
+import { FileText, Plus, Send, Eye, Download, Calendar, DollarSign, Users, TrendingUp } from "lucide-react"
 
 export function InvoiceCreator() {
-  const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([
-    { description: "", quantity: 1, rate: 0, amount: 0 }
-  ])
-  const [clientInfo, setClientInfo] = useState({
-    name: "",
-    email: "",
-    address: "",
-    phone: ""
-  })
-  const [invoiceDetails, setInvoiceDetails] = useState({
-    invoiceNumber: `INV-${Date.now()}`,
-    issueDate: new Date().toISOString().split('T')[0],
-    dueDate: "",
-    industry: ""
-  })
+  const [selectedIndustry, setSelectedIndustry] = useState("")
 
-  const addItem = () => {
-    setInvoiceItems([...invoiceItems, { description: "", quantity: 1, rate: 0, amount: 0 }])
+  const industries = [
+    "Construction", "Consulting", "Technology", "Healthcare", 
+    "Legal Services", "Marketing", "Real Estate", "Education"
+  ]
+
+  const monthlyInvoiceData = [
+    { month: 'Jan', sent: 23, paid: 20, pending: 3 },
+    { month: 'Feb', sent: 18, paid: 16, pending: 2 },
+    { month: 'Mar', sent: 31, paid: 28, pending: 3 },
+    { month: 'Apr', sent: 25, paid: 22, pending: 3 },
+    { month: 'May', sent: 28, paid: 25, pending: 3 },
+    { month: 'Jun', sent: 34, paid: 30, pending: 4 },
+  ]
+
+  const invoiceValueData = [
+    { range: '$0-500', count: 15 },
+    { range: '$500-1000', count: 25 },
+    { range: '$1000-2500', count: 35 },
+    { range: '$2500-5000', count: 20 },
+    { range: '$5000+', count: 5 },
+  ]
+
+  const paymentMethodData = [
+    { method: 'Bank Transfer', value: 45, color: '#3b82f6' },
+    { method: 'Credit Card', value: 30, color: '#10b981' },
+    { method: 'PayPal', value: 15, color: '#f59e0b' },
+    { method: 'Cash', value: 10, color: '#ef4444' },
+  ]
+
+  const chartConfig = {
+    sent: { label: "Sent", color: "hsl(var(--primary))" },
+    paid: { label: "Paid", color: "hsl(142.1 76.2% 36.3%)" },
+    pending: { label: "Pending", color: "hsl(var(--destructive))" },
   }
-
-  const removeItem = (index: number) => {
-    if (invoiceItems.length > 1) {
-      setInvoiceItems(invoiceItems.filter((_, i) => i !== index))
-    }
-  }
-
-  const updateItem = (index: number, field: keyof InvoiceItem, value: string | number) => {
-    const updatedItems = [...invoiceItems]
-    updatedItems[index] = { ...updatedItems[index], [field]: value }
-    
-    if (field === 'quantity' || field === 'rate') {
-      updatedItems[index].amount = updatedItems[index].quantity * updatedItems[index].rate
-    }
-    
-    setInvoiceItems(updatedItems)
-  }
-
-  const subtotal = invoiceItems.reduce((sum, item) => sum + item.amount, 0)
-  const tax = subtotal * 0.1 // 10% tax
-  const total = subtotal + tax
 
   return (
     <div className="space-y-6">
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Invoices</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">159</div>
+            <p className="text-xs text-muted-foreground">
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+              +12% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Value</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$48,250</div>
+            <p className="text-xs text-green-600">
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+              +8.2% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Avg. Payment Time</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12 days</div>
+            <p className="text-xs text-green-600">
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+              2 days faster
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Open Rate</CardTitle>
+            <Eye className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">94%</div>
+            <p className="text-xs text-green-600">
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+              +3% improvement
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Create New Invoice */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
-            Create Invoice
+            <Plus className="h-5 w-5" />
+            Create New Invoice
           </CardTitle>
           <CardDescription>
-            Create professional invoices with AI assistance and industry-specific templates
+            AI-powered invoice creation with industry-specific templates
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Invoice Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="invoiceNumber">Invoice Number</Label>
-              <Input
-                id="invoiceNumber"
-                value={invoiceDetails.invoiceNumber}
-                onChange={(e) => setInvoiceDetails({...invoiceDetails, invoiceNumber: e.target.value})}
-              />
-            </div>
-            <div>
-              <Label htmlFor="industry">Industry Type</Label>
-              <select
-                id="industry"
-                value={invoiceDetails.industry}
-                onChange={(e) => setInvoiceDetails({...invoiceDetails, industry: e.target.value})}
-                className="w-full px-3 py-2 border rounded-lg"
-              >
-                <option value="">Select Industry</option>
-                <option value="consulting">Consulting</option>
-                <option value="construction">Construction</option>
-                <option value="technology">Technology</option>
-                <option value="healthcare">Healthcare</option>
-                <option value="retail">Retail</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div>
-              <Label htmlFor="issueDate">Issue Date</Label>
-              <Input
-                id="issueDate"
-                type="date"
-                value={invoiceDetails.issueDate}
-                onChange={(e) => setInvoiceDetails({...invoiceDetails, issueDate: e.target.value})}
-              />
-            </div>
-            <div>
-              <Label htmlFor="dueDate">Due Date</Label>
-              <Input
-                id="dueDate"
-                type="date"
-                value={invoiceDetails.dueDate}
-                onChange={(e) => setInvoiceDetails({...invoiceDetails, dueDate: e.target.value})}
-              />
-            </div>
-          </div>
-
-          {/* Client Information */}
+        <CardContent className="space-y-4">
           <div>
-            <h3 className="text-lg font-semibold mb-4">Client Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="clientName">Client Name</Label>
-                <Input
-                  id="clientName"
-                  value={clientInfo.name}
-                  onChange={(e) => setClientInfo({...clientInfo, name: e.target.value})}
-                />
-              </div>
-              <div>
-                <Label htmlFor="clientEmail">Email</Label>
-                <Input
-                  id="clientEmail"
-                  type="email"
-                  value={clientInfo.email}
-                  onChange={(e) => setClientInfo({...clientInfo, email: e.target.value})}
-                />
-              </div>
-              <div>
-                <Label htmlFor="clientPhone">Phone</Label>
-                <Input
-                  id="clientPhone"
-                  value={clientInfo.phone}
-                  onChange={(e) => setClientInfo({...clientInfo, phone: e.target.value})}
-                />
-              </div>
-              <div>
-                <Label htmlFor="clientAddress">Address</Label>
-                <Input
-                  id="clientAddress"
-                  value={clientInfo.address}
-                  onChange={(e) => setClientInfo({...clientInfo, address: e.target.value})}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Invoice Items */}
-          <div>
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Invoice Items</h3>
-              <Button onClick={addItem} size="sm" className="flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                Add Item
-              </Button>
-            </div>
-            
-            <div className="space-y-4">
-              {invoiceItems.map((item, index) => (
-                <div key={index} className="grid grid-cols-12 gap-4 items-end">
-                  <div className="col-span-5">
-                    <Label htmlFor={`description-${index}`}>Description</Label>
-                    <Input
-                      id={`description-${index}`}
-                      value={item.description}
-                      onChange={(e) => updateItem(index, 'description', e.target.value)}
-                      placeholder="Service or product description"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Label htmlFor={`quantity-${index}`}>Quantity</Label>
-                    <Input
-                      id={`quantity-${index}`}
-                      type="number"
-                      value={item.quantity}
-                      onChange={(e) => updateItem(index, 'quantity', parseInt(e.target.value) || 0)}
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Label htmlFor={`rate-${index}`}>Rate</Label>
-                    <Input
-                      id={`rate-${index}`}
-                      type="number"
-                      step="0.01"
-                      value={item.rate}
-                      onChange={(e) => updateItem(index, 'rate', parseFloat(e.target.value) || 0)}
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Label>Amount</Label>
-                    <div className="p-2 bg-muted rounded-lg text-right font-medium">
-                      ${item.amount.toFixed(2)}
-                    </div>
-                  </div>
-                  <div className="col-span-1">
-                    <Button
-                      onClick={() => removeItem(index)}
-                      variant="outline"
-                      size="icon"
-                      disabled={invoiceItems.length === 1}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+            <label className="block text-sm font-medium mb-2">Select Industry</label>
+            <select 
+              value={selectedIndustry}
+              onChange={(e) => setSelectedIndustry(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2"
+            >
+              <option value="">Choose your industry...</option>
+              {industries.map((industry) => (
+                <option key={industry} value={industry}>{industry}</option>
               ))}
-            </div>
+            </select>
           </div>
-
-          {/* Totals */}
-          <div className="border-t pt-4">
-            <div className="flex flex-col gap-2 max-w-sm ml-auto">
-              <div className="flex justify-between">
-                <span>Subtotal:</span>
-                <span>${subtotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Tax (10%):</span>
-                <span>${tax.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between font-bold text-lg border-t pt-2">
-                <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Actions */}
+          
           <div className="flex gap-4">
             <Button className="flex items-center gap-2">
-              <Eye className="h-4 w-4" />
-              Preview Invoice
+              <FileText className="h-4 w-4" />
+              Create Invoice
             </Button>
-            <Button className="flex items-center gap-2">
-              <Send className="h-4 w-4" />
-              Send Invoice
+            <Button variant="outline" className="flex items-center gap-2">
+              <Download className="h-4 w-4" />
+              Use Template
             </Button>
-            <Button variant="outline">
-              Save as Draft
-            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Invoice Performance Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Invoice Performance</CardTitle>
+            <CardDescription>Monthly invoice sending and payment tracking</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <BarChart data={monthlyInvoiceData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="sent" fill="var(--color-sent)" name="Sent" />
+                <Bar dataKey="paid" fill="var(--color-paid)" name="Paid" />
+                <Bar dataKey="pending" fill="var(--color-pending)" name="Pending" />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        {/* Payment Methods */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Payment Methods</CardTitle>
+            <CardDescription>How customers prefer to pay</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <PieChart>
+                <Pie
+                  data={paymentMethodData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  dataKey="value"
+                  label={({ method, value }) => `${method}: ${value}%`}
+                >
+                  {paymentMethodData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <ChartTooltip content={<ChartTooltipContent />} />
+              </PieChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Invoice Value Distribution */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Invoice Value Distribution</CardTitle>
+          <CardDescription>Distribution of invoice amounts</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-64">
+            <BarChart data={invoiceValueData} layout="horizontal">
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" />
+              <YAxis dataKey="range" type="category" />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="count" fill="hsl(var(--primary))" />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+
+      {/* Recent Activities */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Invoice Activities</CardTitle>
+          <CardDescription>Latest invoice interactions and updates</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {[
+              { action: "Invoice INV-045 opened by John Doe", time: "2 hours ago", status: "viewed" },
+              { action: "Payment received for INV-043", time: "4 hours ago", status: "paid" },
+              { action: "Invoice INV-044 sent to Sarah Smith", time: "6 hours ago", status: "sent" },
+              { action: "Reminder sent for INV-041", time: "1 day ago", status: "reminder" },
+            ].map((activity, index) => (
+              <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                <div>
+                  <p className="font-medium">{activity.action}</p>
+                  <p className="text-sm text-muted-foreground">{activity.time}</p>
+                </div>
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  activity.status === 'paid' ? 'bg-green-100 text-green-700' :
+                  activity.status === 'viewed' ? 'bg-blue-100 text-blue-700' :
+                  activity.status === 'sent' ? 'bg-yellow-100 text-yellow-700' :
+                  'bg-gray-100 text-gray-700'
+                }`}>
+                  {activity.status}
+                </span>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
