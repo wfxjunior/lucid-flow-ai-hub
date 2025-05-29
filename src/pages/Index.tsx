@@ -497,9 +497,11 @@ const Index = () => {
           <div className="space-y-6">
             {/* Welcome Section */}
             <div className="text-center space-y-4">
-              <h1 className="text-3xl sm:text-4xl font-bold">{t("dashboard.welcome")}</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold">
+                <span className="text-blue-600">Dashboard</span>
+              </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                {t("dashboard.subtitle")}
+                Gerencie seu negócio de forma inteligente e eficiente
               </p>
             </div>
 
@@ -507,56 +509,56 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t("dashboard.totalRevenue")}</CardTitle>
+                  <CardTitle className="text-sm font-medium">Receita Total</CardTitle>
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">$45,231.89</div>
                   <p className="text-xs text-muted-foreground">
                     <TrendingUp className="inline h-3 w-3 mr-1" />
-                    +20.1% from last month
+                    +20.1% em relação ao mês passado
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t("dashboard.activeClients")}</CardTitle>
+                  <CardTitle className="text-sm font-medium">Clientes Ativos</CardTitle>
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">+2350</div>
                   <p className="text-xs text-muted-foreground">
                     <TrendingUp className="inline h-3 w-3 mr-1" />
-                    +180.1% from last month
+                    +180.1% em relação ao mês passado
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t("dashboard.pendingInvoices")}</CardTitle>
+                  <CardTitle className="text-sm font-medium">Faturas Pendentes</CardTitle>
                   <FileText className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">+12,234</div>
                   <p className="text-xs text-muted-foreground">
                     <TrendingUp className="inline h-3 w-3 mr-1" />
-                    +19% from last month
+                    +19% em relação ao mês passado
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{t("dashboard.successRate")}</CardTitle>
+                  <CardTitle className="text-sm font-medium">Taxa de Sucesso</CardTitle>
                   <Star className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">573</div>
                   <p className="text-xs text-muted-foreground">
                     <TrendingUp className="inline h-3 w-3 mr-1" />
-                    +201 since last hour
+                    +201 desde a última hora
                   </p>
                 </CardContent>
               </Card>
@@ -568,17 +570,17 @@ const Index = () => {
             {/* Recent Activity */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg sm:text-xl">{t("dashboard.recentActivity")}</CardTitle>
-                <CardDescription className="text-sm sm:text-base">{t("dashboard.recentActivityDesc")}</CardDescription>
+                <CardTitle className="text-lg sm:text-xl">Atividade Recente</CardTitle>
+                <CardDescription className="text-sm sm:text-base">Suas últimas atividades de negócio</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {[
-                    { icon: FileText, action: "New invoice created", time: "2 minutes ago", client: "Acme Corp" },
-                    { icon: Heart, action: "Payment received", time: "1 hour ago", client: "Tech Solutions" },
-                    { icon: MessageSquare, action: "Message sent", time: "3 hours ago", client: "Design Studio" },
-                    { icon: Calendar, action: "Appointment scheduled", time: "1 day ago", client: "Marketing Agency" },
-                    { icon: Receipt, action: "Expense recorded", time: "2 days ago", client: "Office Supplies" },
+                    { icon: FileText, action: "Nova fatura criada", time: "2 minutos atrás", client: "Acme Corp" },
+                    { icon: Heart, action: "Pagamento recebido", time: "1 hora atrás", client: "Tech Solutions" },
+                    { icon: MessageSquare, action: "Mensagem enviada", time: "3 horas atrás", client: "Design Studio" },
+                    { icon: Calendar, action: "Agendamento marcado", time: "1 dia atrás", client: "Marketing Agency" },
+                    { icon: Receipt, action: "Despesa registrada", time: "2 dias atrás", client: "Office Supplies" },
                   ].map((activity, index) => (
                     <div key={index} className="flex items-center space-x-4 p-3 rounded-lg border bg-white/50">
                       <div className="p-2 rounded-full bg-blue-100">
