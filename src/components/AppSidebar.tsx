@@ -372,10 +372,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           </div>
           
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4" />
-              <span className="text-sm">Language</span>
-            </div>
+            <Globe className="h-4 w-4" />
             <LanguageSelector />
           </div>
         </div>
