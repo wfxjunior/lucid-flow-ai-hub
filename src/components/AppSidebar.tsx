@@ -34,6 +34,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
   useSidebar 
 } from "@/components/ui/sidebar"
 import { useLanguage } from "@/contexts/LanguageContext"
@@ -77,7 +80,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     localStorage.setItem("theme", newTheme)
   }
 
-  const allFeatures = [
+  const mainFeatures = [
     {
       id: "dashboard",
       title: t("sidebar.dashboard"),
@@ -94,11 +97,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       icon: FileText,
     },
     {
-      id: "features",
-      title: "Feature Requests",
-      icon: Lightbulb,
-    },
-    {
       id: "appointments",
       title: "Appointments",
       icon: Calendar,
@@ -113,6 +111,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "E-Signatures",
       icon: Signature,
     },
+  ]
+
+  const businessTools = [
     {
       id: "customers",
       title: t("sidebar.customers"),
@@ -153,6 +154,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "Bids",
       icon: DollarSign,
     },
+  ]
+
+  const communication = [
     {
       id: "email-center",
       title: "Email Center",
@@ -168,6 +172,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "Communication Hub",
       icon: Send,
     },
+  ]
+
+  const analytics = [
     {
       id: "analytics",
       title: t("sidebar.analytics"),
@@ -178,6 +185,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "My Family Savings",
       icon: Heart,
     },
+  ]
+
+  const system = [
     {
       id: "faq",
       title: "FAQ & Help",
@@ -213,20 +223,128 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       </SidebarHeader>
 
       <SidebarContent className="px-2">
-        <SidebarMenu>
-          {allFeatures.map((item) => (
-            <SidebarMenuItem key={item.id}>
-              <SidebarMenuButton
-                onClick={() => handleMenuClick(item.id)}
-                isActive={activeView === item.id}
-                className="w-full justify-start"
-              >
-                <item.icon className="h-4 w-4" />
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
+        {/* Main Features */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Main Features</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {mainFeatures.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => handleMenuClick(item.id)}
+                    isActive={activeView === item.id}
+                    className="w-full justify-start"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Business Tools */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Business Tools</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {businessTools.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => handleMenuClick(item.id)}
+                    isActive={activeView === item.id}
+                    className="w-full justify-start"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Communication */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Communication</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {communication.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => handleMenuClick(item.id)}
+                    isActive={activeView === item.id}
+                    className="w-full justify-start"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Analytics */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Analytics</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {analytics.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => handleMenuClick(item.id)}
+                    isActive={activeView === item.id}
+                    className="w-full justify-start"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* System */}
+        <SidebarGroup>
+          <SidebarGroupLabel>System</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {system.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => handleMenuClick(item.id)}
+                    isActive={activeView === item.id}
+                    className="w-full justify-start"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Feature Requests - Separate item */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={() => handleMenuClick("features")}
+                  isActive={activeView === "features"}
+                  className="w-full justify-start"
+                >
+                  <Lightbulb className="h-4 w-4" />
+                  <span>Feature Requests</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="p-4 border-t">
@@ -238,9 +356,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
               ) : (
                 <Sun className="h-4 w-4" />
               )}
-              <span className="text-sm">
-                {theme === "light" ? "Dark Mode" : "Light Mode"}
-              </span>
+              <span className="text-sm">Dark Mode</span>
             </div>
             <Button
               variant="ghost"
