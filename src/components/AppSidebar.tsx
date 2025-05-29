@@ -175,9 +175,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarContent>
         <div className="px-6 py-4">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-            Hubsfy
+            FeatherBiz
           </h1>
-          <p className="text-sm text-muted-foreground">{t('common.subtitle')}</p>
+          <p className="text-sm text-muted-foreground">AI-Powered Business Platform</p>
         </div>
         
         <SidebarGroup>

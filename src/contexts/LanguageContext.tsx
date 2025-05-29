@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react'
 
 interface LanguageContextType {
@@ -132,7 +131,7 @@ const translations = {
     // Common
     'common.search': 'Buscar',
     'common.welcome': 'Bienvenido a',
-    'common.subtitle': 'Plataforma Empresarial Potenciada por IA'
+    'common.subtitle': 'AI-Powered Business Platform'
   },
   'fr': {
     // Navigation
@@ -194,7 +193,7 @@ const translations = {
     // Common
     'common.search': 'Rechercher',
     'common.welcome': 'Bienvenue à',
-    'common.subtitle': 'Plateforme Commerciale Alimentée par IA'
+    'common.subtitle': 'AI-Powered Business Platform'
   },
   'de': {
     // Navigation
@@ -256,7 +255,7 @@ const translations = {
     // Common
     'common.search': 'Suchen',
     'common.welcome': 'Willkommen bei',
-    'common.subtitle': 'KI-gestützte Geschäftsplattform'
+    'common.subtitle': 'AI-Powered Business Platform'
   },
   'zh': {
     // Navigation
@@ -318,7 +317,7 @@ const translations = {
     // Common
     'common.search': '搜索',
     'common.welcome': '欢迎来到',
-    'common.subtitle': 'AI驱动的商业平台'
+    'common.subtitle': 'AI-Powered Business Platform'
   },
   'pt-BR': {
     // Navigation
@@ -380,7 +379,7 @@ const translations = {
     // Common
     'common.search': 'Pesquisar',
     'common.welcome': 'Bem-vindo ao',
-    'common.subtitle': 'Plataforma Empresarial Alimentada por IA'
+    'common.subtitle': 'AI-Powered Business Platform'
   }
 }
 
