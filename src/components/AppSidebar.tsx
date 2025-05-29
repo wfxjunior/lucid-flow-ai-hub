@@ -1,4 +1,3 @@
-
 import {
   BarChart3,
   CheckSquare,
@@ -32,6 +31,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { LanguageSelector } from "./LanguageSelector"
 
 interface AppSidebarProps {
   activeView: string
@@ -263,6 +263,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        <div className="mt-auto border-t pt-4">
+          <LanguageSelector />
+        </div>
       </SidebarContent>
     </Sidebar>
   )
