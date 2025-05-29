@@ -1,7 +1,9 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb } from "lucide-react"
+import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb, Crown } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { Badge } from "@/components/ui/badge"
 
 interface QuickActionsProps {
   onActionClick?: (actionId: string) => void
@@ -12,116 +14,132 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
 
   const quickActions = [
     {
+      id: "create-invoice",
+      title: t("quickActions.createInvoice"),
+      description: t("quickActions.createInvoiceDesc"),
+      icon: FileText,
+      color: "bg-blue-500 hover:bg-blue-600",
+      isPremium: false
+    },
+    {
       id: "ai-voice",
       title: t("quickActions.aiVoice"),
       description: t("quickActions.aiVoiceDesc"),
       icon: Mic,
-      color: "bg-purple-500 hover:bg-purple-600"
+      color: "bg-purple-500 hover:bg-purple-600",
+      isPremium: true
     },
     {
       id: "features",
       title: "Feature Requests",
       description: "Suggest new features and vote on community ideas",
       icon: Lightbulb,
-      color: "bg-yellow-500 hover:bg-yellow-600"
+      color: "bg-yellow-500 hover:bg-yellow-600",
+      isPremium: true
     },
     {
       id: "files",
       title: "Files",
       description: "Organize and manage your documents in folders",
       icon: FolderOpen,
-      color: "bg-indigo-500 hover:bg-indigo-600"
+      color: "bg-indigo-500 hover:bg-indigo-600",
+      isPremium: true
     },
     {
       id: "pdf-generator",
       title: "PDF Generator",
       description: "Create custom PDFs with your logo and client information",
       icon: FileText,
-      color: "bg-emerald-500 hover:bg-emerald-600"
+      color: "bg-emerald-500 hover:bg-emerald-600",
+      isPremium: true
     },
     {
       id: "receipts",
       title: "Receipts",
       description: "Track and manage all business receipts and expenses",
       icon: Receipt,
-      color: "bg-amber-500 hover:bg-amber-600"
+      color: "bg-amber-500 hover:bg-amber-600",
+      isPremium: true
     },
     {
       id: "appointments",
       title: "Appointments",
       description: "Schedule and manage client appointments with automated reminders",
       icon: Calendar,
-      color: "bg-sky-500 hover:bg-sky-600"
+      color: "bg-sky-500 hover:bg-sky-600",
+      isPremium: true
     },
     {
       id: "work-orders",
       title: "Work Orders",
       description: "Create, track, and manage work orders with real-time status updates",
       icon: Clipboard,
-      color: "bg-amber-500 hover:bg-amber-600"
-    },
-    {
-      id: "create-invoice",
-      title: t("quickActions.createInvoice"),
-      description: t("quickActions.createInvoiceDesc"),
-      icon: FileText,
-      color: "bg-blue-500 hover:bg-blue-600"
+      color: "bg-amber-500 hover:bg-amber-600",
+      isPremium: true
     },
     {
       id: "messages",
       title: t("quickActions.sendMessage"),
       description: t("quickActions.sendMessageDesc"),
       icon: MessageSquare,
-      color: "bg-green-500 hover:bg-green-600"
+      color: "bg-green-500 hover:bg-green-600",
+      isPremium: true
     },
     {
       id: "customers",
       title: t("quickActions.addClient"),
       description: t("quickActions.addClientDesc"),
       icon: Users,
-      color: "bg-orange-500 hover:bg-orange-600"
+      color: "bg-orange-500 hover:bg-orange-600",
+      isPremium: true
     },
     {
       id: "payments",
       title: t("quickActions.processPayment"),
       description: t("quickActions.processPaymentDesc"),
       icon: CreditCard,
-      color: "bg-cyan-500 hover:bg-cyan-600"
+      color: "bg-cyan-500 hover:bg-cyan-600",
+      isPremium: true
     },
     {
       id: "e-signatures",
       title: t("quickActions.eSignature"),
       description: t("quickActions.eSignatureDesc"),
       icon: Signature,
-      color: "bg-pink-500 hover:bg-pink-600"
+      color: "bg-pink-500 hover:bg-pink-600",
+      isPremium: true
     },
     {
       id: "email",
       title: t("quickActions.emailCampaign"),
       description: t("quickActions.emailCampaignDesc"),
       icon: Mail,
-      color: "bg-red-500 hover:bg-red-600"
+      color: "bg-red-500 hover:bg-red-600",
+      isPremium: true
     },
     {
       id: "family-savings",
       title: t("quickActions.familySavings"),
       description: t("quickActions.familySavingsDesc"),
       icon: Heart,
-      color: "bg-rose-500 hover:bg-rose-600"
+      color: "bg-rose-500 hover:bg-rose-600",
+      isPremium: true
     },
     {
       id: "ai-assistant",
       title: t("quickActions.aiAssistant"),
       description: t("quickActions.aiAssistantDesc"),
       icon: Brain,
-      color: "bg-violet-500 hover:bg-violet-600"
+      color: "bg-violet-500 hover:bg-violet-600",
+      isPremium: true
     },
     {
       id: "projects",
       title: t("quickActions.newProject"),
       description: t("quickActions.newProjectDesc"),
       icon: Plus,
-      color: "bg-slate-500 hover:bg-slate-600"
+      color: "bg-slate-500 hover:bg-slate-600",
+      isPremium: true
     }
   ]
 
@@ -144,9 +162,14 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
               key={action.id}
               variant="outline"
               onClick={() => handleActionClick(action.id)}
-              className={`h-auto p-3 flex flex-col items-center justify-center space-y-2 transition-all duration-200 hover:shadow-md hover:scale-105 ${action.color} text-white border-0`}
+              className={`h-auto p-3 flex flex-col items-center justify-center space-y-2 transition-all duration-200 hover:shadow-md hover:scale-105 ${action.color} text-white border-0 relative`}
               style={{ animationDelay: `${index * 0.05}s` }}
             >
+              {action.isPremium && (
+                <Badge className="absolute -top-2 -right-2 bg-yellow-500 text-yellow-900 px-1 py-0.5 text-xs">
+                  <Crown className="h-3 w-3" />
+                </Badge>
+              )}
               <action.icon className="h-4 w-4 sm:h-5 sm:w-5" />
               <div className="text-center">
                 <p className="font-medium text-xs sm:text-sm">{action.title}</p>
