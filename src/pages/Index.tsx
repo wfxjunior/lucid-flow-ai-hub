@@ -1,4 +1,3 @@
-
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { StatsCard } from "@/components/StatsCard"
@@ -82,7 +81,7 @@ const Index = () => {
             {/* Welcome Section */}
             <Card className="mb-6 sm:mb-8 bg-gradient-to-r from-primary/10 to-blue-600/10 border-primary/20">
               <CardHeader className="pb-4">
-                <CardTitle className="text-xl sm:text-2xl">Welcome to Hubsfy</CardTitle>
+                <CardTitle className="text-xl sm:text-2xl">Welcome to FeatherBiz</CardTitle>
                 <CardDescription className="text-base sm:text-lg">
                   Your AI-powered business platform for modern entrepreneurs. Streamline your workflow with intelligent automation.
                 </CardDescription>
