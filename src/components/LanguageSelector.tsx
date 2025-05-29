@@ -1,5 +1,4 @@
 
-import { Globe } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -19,29 +18,23 @@ const languages = [
 ]
 
 export function LanguageSelector() {
-  const { currentLanguage, setLanguage, t } = useLanguage()
+  const { currentLanguage, setLanguage } = useLanguage()
 
   return (
-    <div className="px-3 py-2">
-      <div className="flex items-center gap-2 mb-2">
-        <Globe className="h-4 w-4 text-muted-foreground" />
-        <span className="text-sm font-medium text-muted-foreground">{t('language.title')}</span>
-      </div>
-      <Select value={currentLanguage} onValueChange={setLanguage}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder={t('language.selectPlaceholder')} />
-        </SelectTrigger>
-        <SelectContent>
-          {languages.map((language) => (
-            <SelectItem key={language.code} value={language.code}>
-              <div className="flex items-center gap-2">
-                <span>{language.flag}</span>
-                <span>{language.name}</span>
-              </div>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <Select value={currentLanguage} onValueChange={setLanguage}>
+      <SelectTrigger className="w-full h-6">
+        <SelectValue placeholder="Select language" />
+      </SelectTrigger>
+      <SelectContent>
+        {languages.map((language) => (
+          <SelectItem key={language.code} value={language.code}>
+            <div className="flex items-center gap-2">
+              <span>{language.flag}</span>
+              <span>{language.name}</span>
+            </div>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   )
 }
