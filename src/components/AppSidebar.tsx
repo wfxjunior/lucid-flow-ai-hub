@@ -1,4 +1,3 @@
-
 import {
   LayoutDashboard,
   BarChart3,
@@ -25,7 +24,6 @@ import {
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
-import { Icons } from "@/components/icons"
 import { 
   Sidebar,
   SidebarContent,
@@ -214,7 +212,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     <Sidebar className="border-r">
       <SidebarHeader className="p-4">
         <NavLink to="/" className="flex items-center gap-2">
-          <Icons.logo className="h-8 w-8 text-blue-600" />
           <div>
             <h1 className="text-xl font-bold text-blue-600">FeatherBiz</h1>
             <p className="text-sm text-muted-foreground">AI-Powered Business Platform</p>
