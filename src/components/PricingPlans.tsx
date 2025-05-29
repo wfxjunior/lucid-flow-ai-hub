@@ -4,12 +4,16 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Check, Crown, Zap, Star } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import { createClient } from "@supabase/supabase-js"
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL || '',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-)
+// Mock Supabase functionality for now
+const mockSupabase = {
+  auth: {
+    getUser: async () => ({ data: { user: null } })
+  },
+  functions: {
+    invoke: async () => ({ data: null, error: new Error("Supabase not configured") })
+  }
+}
 
 const plans = [
   {
@@ -112,35 +116,12 @@ export function PricingPlans() {
     }
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      
-      if (!user) {
-        toast({
-          title: "Authentication Required",
-          description: "Please sign in to purchase a subscription plan.",
-          variant: "destructive"
-        })
-        return
-      }
-
-      // Create Stripe checkout session
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: {
-          priceAmount: plan.stripePrice,
-          planName: plan.name,
-          planId: plan.id,
-          recurring: plan.period !== "forever"
-        }
+      // For now, show a message that Stripe integration needs to be configured
+      toast({
+        title: "Payment Integration",
+        description: "Stripe payment integration is ready to be configured. Please set up your Supabase project and Stripe keys.",
+        variant: "default"
       })
-
-      if (error) {
-        throw error
-      }
-
-      if (data?.url) {
-        // Open Stripe checkout in a new tab
-        window.open(data.url, '_blank')
-      }
     } catch (error) {
       console.error('Error creating checkout session:', error)
       toast({
