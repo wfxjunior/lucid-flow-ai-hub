@@ -277,7 +277,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   }
 
   const t = (key: string, options?: any): string => {
-    return i18next.t(key, options) || key
+    const result = i18next.t(key, options)
+    return typeof result === 'string' ? result : key
   }
 
   const value: LanguageContextProps = {
