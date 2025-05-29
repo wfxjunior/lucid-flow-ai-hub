@@ -1,8 +1,7 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Mic, MicOff, Brain, MessageSquare, Send } from "lucide-react"
+import { Mic, MicOff, Brain, MessageSquare, Send, FileText, Calendar, Users, BarChart3 } from "lucide-react"
 
 export function AIVoiceAssistant() {
   const [isListening, setIsListening] = useState(false)
