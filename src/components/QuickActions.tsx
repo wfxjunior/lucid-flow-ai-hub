@@ -82,11 +82,11 @@ export function QuickActions() {
   return (
     <Card className="animate-slide-up">
       <CardHeader>
-        <CardTitle>Quick Actions</CardTitle>
-        <CardDescription>Fast access to all business tools and AI features</CardDescription>
+        <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
+        <CardDescription className="text-sm sm:text-base">Fast access to all business tools and AI features</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {quickActions.map((action, index) => (
             <Button
               key={action.title}
@@ -94,10 +94,10 @@ export function QuickActions() {
               className={`h-auto p-3 flex flex-col items-center justify-center space-y-2 transition-all duration-200 hover:shadow-md hover:scale-105 ${action.color} text-white border-0`}
               style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <action.icon className="h-5 w-5" />
+              <action.icon className="h-4 w-4 sm:h-5 sm:w-5" />
               <div className="text-center">
-                <p className="font-medium text-xs">{action.title}</p>
-                <p className="text-xs opacity-90">{action.description}</p>
+                <p className="font-medium text-xs sm:text-sm">{action.title}</p>
+                <p className="text-xs opacity-90 hidden sm:block">{action.description}</p>
               </div>
             </Button>
           ))}

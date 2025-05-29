@@ -1,3 +1,4 @@
+
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { StatsCard } from "@/components/StatsCard"
@@ -79,20 +80,20 @@ const Index = () => {
         return (
           <>
             {/* Welcome Section */}
-            <Card className="mb-8 bg-gradient-to-r from-primary/10 to-blue-600/10 border-primary/20">
-              <CardHeader>
-                <CardTitle className="text-2xl">Welcome to Hubsfy</CardTitle>
-                <CardDescription className="text-lg">
+            <Card className="mb-6 sm:mb-8 bg-gradient-to-r from-primary/10 to-blue-600/10 border-primary/20">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-xl sm:text-2xl">Welcome to Hubsfy</CardTitle>
+                <CardDescription className="text-base sm:text-lg">
                   Your AI-powered business platform for modern entrepreneurs. Streamline your workflow with intelligent automation.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex gap-4">
-                  <Button onClick={() => setActiveView('ai-voice')} className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <Button onClick={() => setActiveView('ai-voice')} className="flex items-center justify-center gap-2 w-full sm:w-auto">
                     <Mic className="h-4 w-4" />
                     Try AI Voice Assistant
                   </Button>
-                  <Button onClick={() => setActiveView('create-invoice')} variant="outline" className="flex items-center gap-2">
+                  <Button onClick={() => setActiveView('create-invoice')} variant="outline" className="flex items-center justify-center gap-2 w-full sm:w-auto">
                     <FileText className="h-4 w-4" />
                     Create Invoice
                   </Button>
@@ -101,7 +102,7 @@ const Index = () => {
             </Card>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <StatsCard
                 title="Total Clients"
                 value="48"
@@ -133,7 +134,7 @@ const Index = () => {
             </div>
 
             {/* Communication Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <StatsCard
                 title="Messages Sent"
                 value="1,234"
@@ -158,37 +159,37 @@ const Index = () => {
             </div>
 
             {/* AI Features Showcase */}
-            <Card className="mb-8">
+            <Card className="mb-6 sm:mb-8">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <Brain className="h-5 w-5" />
                   AI-Powered Features
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm sm:text-base">
                   Intelligent automation that learns from your business patterns
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Predictive Workflow</h4>
-                    <p className="text-sm text-muted-foreground">AI suggests next actions based on your patterns</p>
+                    <h4 className="font-semibold mb-2 text-sm sm:text-base">Predictive Workflow</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">AI suggests next actions based on your patterns</p>
                   </div>
                   <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Smart Interface</h4>
-                    <p className="text-sm text-muted-foreground">Adapts to your work style and preferences</p>
+                    <h4 className="font-semibold mb-2 text-sm sm:text-base">Smart Interface</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Adapts to your work style and preferences</p>
                   </div>
                   <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Document Tracking</h4>
-                    <p className="text-sm text-muted-foreground">Know when clients open your documents</p>
+                    <h4 className="font-semibold mb-2 text-sm sm:text-base">Document Tracking</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Know when clients open your documents</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+              <div className="xl:col-span-2 space-y-6">
                 <RecentActivity />
                 <ProjectsOverview />
               </div>
@@ -198,24 +199,24 @@ const Index = () => {
                 {/* Quick Stats */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Quick Stats</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl">Quick Stats</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Invoices This Month</span>
-                      <span className="font-semibold">23</span>
+                      <span className="text-xs sm:text-sm">Invoices This Month</span>
+                      <span className="font-semibold text-sm sm:text-base">23</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Pending Payments</span>
-                      <span className="font-semibold text-orange-600">$8,240</span>
+                      <span className="text-xs sm:text-sm">Pending Payments</span>
+                      <span className="font-semibold text-orange-600 text-sm sm:text-base">$8,240</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Document Open Rate</span>
-                      <span className="font-semibold text-green-600">89%</span>
+                      <span className="text-xs sm:text-sm">Document Open Rate</span>
+                      <span className="font-semibold text-green-600 text-sm sm:text-base">89%</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">AI Suggestions Used</span>
-                      <span className="font-semibold text-blue-600">67%</span>
+                      <span className="text-xs sm:text-sm">AI Suggestions Used</span>
+                      <span className="font-semibold text-blue-600 text-sm sm:text-base">67%</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -230,22 +231,23 @@ const Index = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-gray-50 to-gray-100">
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-        <main className="flex-1 p-6">
-          <div className="flex items-center justify-between mb-8">
+        <main className="flex-1 p-4 sm:p-6 overflow-x-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
             <div className="flex items-center gap-4">
               <SidebarTrigger />
               <div>
-                <h1 className="text-3xl font-bold">{getViewTitle()}</h1>
-                <p className="text-muted-foreground">{getViewDescription()}</p>
+                <h1 className="text-2xl sm:text-3xl font-bold">{getViewTitle()}</h1>
+                <p className="text-muted-foreground text-sm sm:text-base">{getViewDescription()}</p>
               </div>
             </div>
             
             {/* Quick Navigation */}
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <Button 
                 variant={activeView === 'ai-voice' ? 'default' : 'outline'}
                 onClick={() => setActiveView('ai-voice')}
                 size="sm"
+                className="w-full sm:w-auto"
               >
                 <Brain className="h-4 w-4 mr-2" />
                 AI Assistant
@@ -254,6 +256,7 @@ const Index = () => {
                 variant={activeView === 'analytics' ? 'default' : 'outline'}
                 onClick={() => setActiveView('analytics')}
                 size="sm"
+                className="w-full sm:w-auto"
               >
                 <BarChart3 className="h-4 w-4 mr-2" />
                 Analytics

@@ -89,15 +89,15 @@ const plans = [
 
 export function PricingPlans() {
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold mb-4">Choose Your Plan</h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="text-center px-4">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4">Choose Your Plan</h2>
+        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
           Select the perfect plan for your business needs. Start with our free options or unlock the full power of AI automation.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-0">
         {plans.map((plan) => (
           <Card 
             key={plan.id} 
@@ -111,19 +111,19 @@ export function PricingPlans() {
               </Badge>
             )}
             
-            <CardHeader className="text-center">
-              <div className={`w-12 h-12 mx-auto mb-4 rounded-full ${plan.color} flex items-center justify-center`}>
-                <plan.icon className="h-6 w-6 text-white" />
+            <CardHeader className="text-center pb-4">
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 rounded-full ${plan.color} flex items-center justify-center`}>
+                <plan.icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </div>
-              <CardTitle className="text-xl">{plan.name}</CardTitle>
-              <CardDescription>{plan.description}</CardDescription>
-              <div className="mt-4">
-                <div className="flex items-center justify-center gap-2">
-                  <span className="text-3xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground">/{plan.period}</span>
+              <CardTitle className="text-lg sm:text-xl">{plan.name}</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">{plan.description}</CardDescription>
+              <div className="mt-3 sm:mt-4">
+                <div className="flex items-center justify-center gap-1 sm:gap-2">
+                  <span className="text-2xl sm:text-3xl font-bold">{plan.price}</span>
+                  <span className="text-muted-foreground text-sm">/{plan.period}</span>
                 </div>
                 {plan.originalPrice && (
-                  <p className="text-sm text-muted-foreground line-through">
+                  <p className="text-xs sm:text-sm text-muted-foreground line-through">
                     ${plan.originalPrice}/year
                   </p>
                 )}
@@ -132,17 +132,17 @@ export function PricingPlans() {
             
             <CardContent className="space-y-4">
               <Button 
-                className={`w-full ${plan.popular ? 'bg-primary' : ''}`}
+                className={`w-full text-xs sm:text-sm ${plan.popular ? 'bg-primary' : ''}`}
                 variant={plan.popular ? "default" : "outline"}
               >
                 {plan.buttonText}
               </Button>
               
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {plan.features.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                    <span className="text-sm">{feature}</span>
+                  <div key={index} className="flex items-start gap-2 sm:gap-3">
+                    <Check className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -151,8 +151,8 @@ export function PricingPlans() {
         ))}
       </div>
 
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">
+      <div className="text-center px-4">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           All plans include SSL security, automatic backups, and 99.9% uptime guarantee.
         </p>
       </div>
