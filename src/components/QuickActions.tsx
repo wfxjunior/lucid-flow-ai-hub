@@ -13,16 +13,16 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
 
   const quickActions = [
     {
-      id: "create-invoice",
-      title: t("quickActions.createInvoice"),
-      description: t("quickActions.createInvoiceDesc"),
+      id: "invoices",
+      title: "Create Invoice",
+      description: "Generate and send professional invoices to clients",
       icon: FileText,
       color: "bg-blue-500 hover:bg-blue-600"
     },
     {
       id: "ai-voice",
-      title: t("quickActions.aiVoice"),
-      description: t("quickActions.aiVoiceDesc"),
+      title: "AI Voice Assistant",
+      description: "Get help with voice commands and AI assistance",
       icon: Mic,
       color: "bg-purple-500 hover:bg-purple-600"
     },
@@ -56,36 +56,36 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
     },
     {
       id: "customers",
-      title: t("quickActions.addClient"),
-      description: t("quickActions.addClientDesc"),
+      title: "Add Client",
+      description: "Add new customers and manage client relationships",
       icon: Users,
       color: "bg-orange-500 hover:bg-orange-600"
     },
     {
       id: "payments",
-      title: t("quickActions.processPayment"),
-      description: t("quickActions.processPaymentDesc"),
+      title: "Process Payment",
+      description: "Handle payments and manage payment methods",
       icon: CreditCard,
       color: "bg-cyan-500 hover:bg-cyan-600"
     },
     {
       id: "e-signatures",
-      title: t("quickActions.eSignature"),
-      description: t("quickActions.eSignatureDesc"),
+      title: "E-Signature",
+      description: "Send documents for electronic signatures",
       icon: Signature,
       color: "bg-pink-500 hover:bg-pink-600"
     },
     {
       id: "messages",
-      title: t("quickActions.sendMessage"),
-      description: t("quickActions.sendMessageDesc"),
+      title: "Send Message",
+      description: "Send and manage client messages",
       icon: MessageSquare,
       color: "bg-green-500 hover:bg-green-600"
     },
     {
       id: "email-center",
-      title: t("quickActions.emailCampaign"),
-      description: t("quickActions.emailCampaignDesc"),
+      title: "Email Campaign",
+      description: "Create and send email campaigns to your clients",
       icon: Mail,
       color: "bg-red-500 hover:bg-red-600"
     },
@@ -107,8 +107,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
   return (
     <Card className="animate-slide-up">
       <CardHeader>
-        <CardTitle className="text-lg sm:text-xl">{t("quickActions.title")}</CardTitle>
-        <CardDescription className="text-sm sm:text-base">{t("quickActions.description")}</CardDescription>
+        <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
+        <CardDescription className="text-sm sm:text-base">Access your most used features quickly</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
