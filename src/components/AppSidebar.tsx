@@ -1,3 +1,4 @@
+
 import {
   LayoutDashboard,
   BarChart3,
@@ -9,8 +10,6 @@ import {
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
-import { Icons } from "@/components/icons"
-import { useSidebar } from "@/components/ui/sidebar"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 interface AppSidebarProps {
@@ -20,7 +19,6 @@ interface AppSidebarProps {
 
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
-  const { collapsed, setCollapsed } = useSidebar()
 
   const menuItems = [
     {
@@ -55,12 +53,12 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     },
     {
       id: "files",
-      title: "File Manager",
+      title: t("sidebar.files"),
       icon: FolderOpen,
     },
     {
       id: "pdf-generator",
-      title: "PDF Generator",
+      title: t("sidebar.pdfGenerator"),
       icon: FileText,
     },
   ]
@@ -69,7 +67,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     <aside className="bg-secondary border-r h-screen w-60 flex-none overflow-y-auto">
       <div className="p-4">
         <NavLink to="/" className="flex items-center gap-2 font-bold">
-          <Icons.logo className="h-6 w-6" />
+          <FileText className="h-6 w-6" />
           <span>FeatherBIZ</span>
         </NavLink>
       </div>
@@ -86,7 +84,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
               }
               onClick={() => {
                 setActiveView(item.id)
-                setCollapsed(true)
               }}
             >
               <item.icon className="h-4 w-4" />

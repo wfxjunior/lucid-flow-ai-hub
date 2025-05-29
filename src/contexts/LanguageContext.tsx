@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react'
 
 interface LanguageContextType {
@@ -33,6 +34,16 @@ const translations = {
     'nav.faq': 'FAQ & Help',
     'nav.pricing': 'Pricing Plans',
     'nav.settings': 'Settings',
+    
+    // Sidebar
+    'sidebar.dashboard': 'Dashboard',
+    'sidebar.aiVoice': 'AI Voice Assistant',
+    'sidebar.createInvoice': 'Create Invoice',
+    'sidebar.customers': 'Customers',
+    'sidebar.analytics': 'Analytics',
+    'sidebar.documentTracker': 'Document Tracker',
+    'sidebar.files': 'File Manager',
+    'sidebar.pdfGenerator': 'PDF Generator',
     
     // Quick Actions
     'quickActions.title': 'Quick Actions',
@@ -96,6 +107,16 @@ const translations = {
     'nav.pricing': 'Planes de Precios',
     'nav.settings': 'Configuración',
     
+    // Sidebar
+    'sidebar.dashboard': 'Panel de Control',
+    'sidebar.aiVoice': 'Asistente de Voz IA',
+    'sidebar.createInvoice': 'Crear Factura',
+    'sidebar.customers': 'Clientes',
+    'sidebar.analytics': 'Análisis',
+    'sidebar.documentTracker': 'Rastreador de Documentos',
+    'sidebar.files': 'Gestor de Archivos',
+    'sidebar.pdfGenerator': 'Generador de PDF',
+    
     // Quick Actions
     'quickActions.title': 'Acciones Rápidas',
     'quickActions.description': 'Acceso rápido a todas las herramientas comerciales y funciones de IA',
@@ -157,6 +178,16 @@ const translations = {
     'nav.faq': 'FAQ et Aide',
     'nav.pricing': 'Plans Tarifaires',
     'nav.settings': 'Paramètres',
+    
+    // Sidebar
+    'sidebar.dashboard': 'Tableau de Bord',
+    'sidebar.aiVoice': 'Assistant Vocal IA',
+    'sidebar.createInvoice': 'Créer Facture',
+    'sidebar.customers': 'Clients',
+    'sidebar.analytics': 'Analyses',
+    'sidebar.documentTracker': 'Suivi de Documents',
+    'sidebar.files': 'Gestionnaire de Fichiers',
+    'sidebar.pdfGenerator': 'Générateur PDF',
     
     // Quick Actions
     'quickActions.title': 'Actions Rapides',
@@ -220,6 +251,16 @@ const translations = {
     'nav.pricing': 'Preispläne',
     'nav.settings': 'Einstellungen',
     
+    // Sidebar
+    'sidebar.dashboard': 'Dashboard',
+    'sidebar.aiVoice': 'KI-Sprachassistent',
+    'sidebar.createInvoice': 'Rechnung Erstellen',
+    'sidebar.customers': 'Kunden',
+    'sidebar.analytics': 'Analysen',
+    'sidebar.documentTracker': 'Dokument-Tracker',
+    'sidebar.files': 'Datei-Manager',
+    'sidebar.pdfGenerator': 'PDF-Generator',
+    
     // Quick Actions
     'quickActions.title': 'Schnellaktionen',
     'quickActions.description': 'Schneller Zugang zu allen Geschäftstools und KI-Funktionen',
@@ -282,6 +323,16 @@ const translations = {
     'nav.pricing': '价格计划',
     'nav.settings': '设置',
     
+    // Sidebar
+    'sidebar.dashboard': '仪表板',
+    'sidebar.aiVoice': 'AI语音助手',
+    'sidebar.createInvoice': '创建发票',
+    'sidebar.customers': '客户',
+    'sidebar.analytics': '分析',
+    'sidebar.documentTracker': '文档跟踪器',
+    'sidebar.files': '文件管理器',
+    'sidebar.pdfGenerator': 'PDF生成器',
+    
     // Quick Actions
     'quickActions.title': '快速操作',
     'quickActions.description': '快速访问所有商业工具和AI功能',
@@ -343,6 +394,16 @@ const translations = {
     'nav.faq': 'FAQ e Ajuda',
     'nav.pricing': 'Planos de Preços',
     'nav.settings': 'Configurações',
+    
+    // Sidebar
+    'sidebar.dashboard': 'Painel',
+    'sidebar.aiVoice': 'Assistente de Voz IA',
+    'sidebar.createInvoice': 'Criar Fatura',
+    'sidebar.customers': 'Clientes',
+    'sidebar.analytics': 'Análises',
+    'sidebar.documentTracker': 'Rastreador de Documentos',
+    'sidebar.files': 'Gerenciador de Arquivos',
+    'sidebar.pdfGenerator': 'Gerador de PDF',
     
     // Quick Actions
     'quickActions.title': 'Ações Rápidas',
