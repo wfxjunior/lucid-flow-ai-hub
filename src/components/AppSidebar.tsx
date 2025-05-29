@@ -28,9 +28,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -50,7 +47,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
   const { setOpenMobile } = useSidebar()
 
-  const mainFeatures = [
+  const allFeatures = [
     {
       id: "dashboard",
       title: t("sidebar.dashboard"),
@@ -81,9 +78,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "E-Signatures",
       icon: Signature,
     },
-  ]
-
-  const businessTools = [
     {
       id: "customers",
       title: t("sidebar.customers"),
@@ -124,9 +118,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "Bids",
       icon: DollarSign,
     },
-  ]
-
-  const communication = [
     {
       id: "email-center",
       title: "Email Center",
@@ -142,9 +133,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "Communication Hub",
       icon: Send,
     },
-  ]
-
-  const analytics = [
     {
       id: "analytics",
       title: t("sidebar.analytics"),
@@ -155,9 +143,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "My Family Savings",
       icon: Heart,
     },
-  ]
-
-  const system = [
     {
       id: "faq",
       title: "FAQ & Help",
@@ -193,115 +178,20 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       </SidebarHeader>
 
       <SidebarContent className="px-2">
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-medium text-muted-foreground px-2 py-2">
-            Main Features
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {mainFeatures.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => handleMenuClick(item.id)}
-                    isActive={activeView === item.id}
-                    className="w-full justify-start"
-                  >
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-medium text-muted-foreground px-2 py-2">
-            Business Tools
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {businessTools.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => handleMenuClick(item.id)}
-                    isActive={activeView === item.id}
-                    className="w-full justify-start"
-                  >
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-medium text-muted-foreground px-2 py-2">
-            Communication
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {communication.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => handleMenuClick(item.id)}
-                    isActive={activeView === item.id}
-                    className="w-full justify-start"
-                  >
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-medium text-muted-foreground px-2 py-2">
-            Analytics
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {analytics.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => handleMenuClick(item.id)}
-                    isActive={activeView === item.id}
-                    className="w-full justify-start"
-                  >
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-medium text-muted-foreground px-2 py-2">
-            System
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {system.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton
-                    onClick={() => handleMenuClick(item.id)}
-                    isActive={activeView === item.id}
-                    className="w-full justify-start"
-                  >
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <SidebarMenu>
+          {allFeatures.map((item) => (
+            <SidebarMenuItem key={item.id}>
+              <SidebarMenuButton
+                onClick={() => handleMenuClick(item.id)}
+                isActive={activeView === item.id}
+                className="w-full justify-start"
+              >
+                <item.icon className="h-4 w-4" />
+                <span>{item.title}</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
       </SidebarContent>
 
       <SidebarFooter className="p-4 border-t">
