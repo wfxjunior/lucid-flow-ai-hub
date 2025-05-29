@@ -31,8 +31,6 @@ const Index = () => {
     switch (activeView) {
       case "create-invoice":
         return <CreateInvoice />
-      case "invoices":
-        return <InvoiceCreator />
       case "ai-voice":
         return <AIVoice />
       case "customers":
@@ -45,7 +43,7 @@ const Index = () => {
         return <FeaturesPage />
       case "blog-admin":
         return <BlogAdmin />
-      case "admin":
+      case "admin-dashboard":
         return <AdminDashboard />
       case "pricing":
         return (
@@ -60,6 +58,63 @@ const Index = () => {
               </p>
             </div>
             <PricingPlans />
+          </div>
+        )
+      // Handle other features that don't have components yet
+      case "appointments":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Appointments</h1>
+            <p className="text-muted-foreground">Schedule and manage client appointments with automated reminders.</p>
+          </div>
+        )
+      case "payments":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Payments</h1>
+            <p className="text-muted-foreground">Process payments and manage payment methods.</p>
+          </div>
+        )
+      case "e-signatures":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">E-Signatures</h1>
+            <p className="text-muted-foreground">Send documents for electronic signatures.</p>
+          </div>
+        )
+      case "projects":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Projects</h1>
+            <p className="text-muted-foreground">Manage your business projects and tasks.</p>
+          </div>
+        )
+      case "files":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Files</h1>
+            <p className="text-muted-foreground">Organize and manage your documents in folders.</p>
+          </div>
+        )
+      case "receipts":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Receipts & Accounting</h1>
+            <p className="text-muted-foreground">Track and manage all business receipts and expenses.</p>
+          </div>
+        )
+      case "messages":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Messages</h1>
+            <p className="text-muted-foreground">Send and manage client messages.</p>
+          </div>
+        )
+      case "email-center":
+        return (
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Email Center</h1>
+            <p className="text-muted-foreground">Create and send email campaigns to your clients.</p>
           </div>
         )
       default:

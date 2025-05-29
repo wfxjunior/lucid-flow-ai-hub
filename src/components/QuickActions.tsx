@@ -41,20 +41,6 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       color: "bg-indigo-500 hover:bg-indigo-600"
     },
     {
-      id: "pdf-generator",
-      title: "PDF Generator",
-      description: "Create custom PDFs with your logo and client information",
-      icon: FileText,
-      color: "bg-emerald-500 hover:bg-emerald-600"
-    },
-    {
-      id: "receipts",
-      title: "Receipts",
-      description: "Track and manage all business receipts and expenses",
-      icon: Receipt,
-      color: "bg-amber-500 hover:bg-amber-600"
-    },
-    {
       id: "appointments",
       title: "Appointments",
       description: "Schedule and manage client appointments with automated reminders",
@@ -62,18 +48,11 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       color: "bg-sky-500 hover:bg-sky-600"
     },
     {
-      id: "work-orders",
-      title: "Work Orders",
-      description: "Create, track, and manage work orders with real-time status updates",
-      icon: Clipboard,
+      id: "receipts",
+      title: "Receipts",
+      description: "Track and manage all business receipts and expenses",
+      icon: Receipt,
       color: "bg-amber-500 hover:bg-amber-600"
-    },
-    {
-      id: "messages",
-      title: t("quickActions.sendMessage"),
-      description: t("quickActions.sendMessageDesc"),
-      icon: MessageSquare,
-      color: "bg-green-500 hover:bg-green-600"
     },
     {
       id: "customers",
@@ -97,32 +76,25 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       color: "bg-pink-500 hover:bg-pink-600"
     },
     {
-      id: "email",
+      id: "messages",
+      title: t("quickActions.sendMessage"),
+      description: t("quickActions.sendMessageDesc"),
+      icon: MessageSquare,
+      color: "bg-green-500 hover:bg-green-600"
+    },
+    {
+      id: "email-center",
       title: t("quickActions.emailCampaign"),
       description: t("quickActions.emailCampaignDesc"),
       icon: Mail,
       color: "bg-red-500 hover:bg-red-600"
     },
     {
-      id: "family-savings",
-      title: t("quickActions.familySavings"),
-      description: t("quickActions.familySavingsDesc"),
-      icon: Heart,
-      color: "bg-rose-500 hover:bg-rose-600"
-    },
-    {
-      id: "ai-assistant",
-      title: t("quickActions.aiAssistant"),
-      description: t("quickActions.aiAssistantDesc"),
+      id: "analytics",
+      title: "Analytics",
+      description: "View detailed business analytics and reports",
       icon: Brain,
       color: "bg-violet-500 hover:bg-violet-600"
-    },
-    {
-      id: "projects",
-      title: t("quickActions.newProject"),
-      description: t("quickActions.newProjectDesc"),
-      icon: Plus,
-      color: "bg-slate-500 hover:bg-slate-600"
     }
   ]
 
