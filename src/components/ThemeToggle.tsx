@@ -42,12 +42,12 @@ export function ThemeToggle() {
       {theme === "light" ? (
         <>
           <Moon className="h-4 w-4" />
-          <span>Modo Escuro</span>
+          <span>Dark Mode</span>
         </>
       ) : (
         <>
           <Sun className="h-4 w-4" />
-          <span>Modo Claro</span>
+          <span>Light Mode</span>
         </>
       )}
     </Button>
