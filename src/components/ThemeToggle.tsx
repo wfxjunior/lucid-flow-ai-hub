@@ -20,6 +20,9 @@ export function ThemeToggle() {
     const root = window.document.documentElement
     root.classList.remove("light", "dark")
     root.classList.add(newTheme)
+    
+    // Also set the data attribute for better compatibility
+    root.setAttribute("data-theme", newTheme)
   }
 
   const toggleTheme = () => {
