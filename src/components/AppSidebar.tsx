@@ -1,3 +1,4 @@
+
 import {
   LayoutDashboard,
   BarChart3,
@@ -212,6 +213,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       icon: HelpCircle,
     },
     {
+      id: "feedback",
+      title: "Feedback",
+      icon: Heart,
+    },
+    {
       id: "pricing",
       title: "Pricing Plans",
       icon: Crown,
@@ -224,6 +230,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   ]
 
   const handleMenuClick = (itemId: string) => {
+    if (itemId === "feedback") {
+      window.location.href = "/feedback"
+      return
+    }
     setActiveView(itemId)
     setOpenMobile(false)
   }
