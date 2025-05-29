@@ -151,12 +151,12 @@ export function InvoiceCreator() {
             <CardTitle>Invoice Performance</CardTitle>
             <CardDescription>Monthly invoice sending and payment tracking</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <BarChart data={monthlyInvoiceData}>
+          <CardContent className="p-4">
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <BarChart data={monthlyInvoiceData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis />
+                <YAxis width={40} />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="sent" fill="var(--color-sent)" name="Sent" />
                 <Bar dataKey="paid" fill="var(--color-paid)" name="Paid" />
@@ -172,9 +172,9 @@ export function InvoiceCreator() {
             <CardTitle>Payment Methods</CardTitle>
             <CardDescription>How customers prefer to pay</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <PieChart>
+          <CardContent className="p-4">
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                 <Pie
                   data={paymentMethodData}
                   cx="50%"
@@ -200,12 +200,12 @@ export function InvoiceCreator() {
           <CardTitle>Invoice Value Distribution</CardTitle>
           <CardDescription>Distribution of invoice amounts</CardDescription>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-64">
-            <BarChart data={invoiceValueData} layout="horizontal">
+        <CardContent className="p-4">
+          <ChartContainer config={chartConfig} className="h-64 w-full">
+            <BarChart data={invoiceValueData} layout="horizontal" margin={{ top: 20, right: 20, left: 60, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis type="number" />
-              <YAxis dataKey="range" type="category" />
+              <YAxis dataKey="range" type="category" width={50} />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Bar dataKey="count" fill="hsl(var(--primary))" />
             </BarChart>

@@ -135,12 +135,12 @@ export function AnalyticsDashboard() {
           </CardTitle>
           <CardDescription>Monthly revenue, expenses and profit breakdown</CardDescription>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-80">
-            <BarChart data={revenueData}>
+        <CardContent className="p-4">
+          <ChartContainer config={chartConfig} className="h-80 w-full">
+            <BarChart data={revenueData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
-              <YAxis />
+              <YAxis width={60} />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Legend />
               <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
@@ -158,9 +158,9 @@ export function AnalyticsDashboard() {
             <CardTitle>Invoice Status Distribution</CardTitle>
             <CardDescription>Current status of all invoices</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <PieChart>
+          <CardContent className="p-4">
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                 <Pie
                   data={invoiceStatusData}
                   cx="50%"
@@ -189,12 +189,12 @@ export function AnalyticsDashboard() {
             </CardTitle>
             <CardDescription>Monthly savings from completed jobs</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
-              <AreaChart data={familySavingsData}>
+          <CardContent className="p-4">
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <AreaChart data={familySavingsData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis />
+                <YAxis width={40} />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Area type="monotone" dataKey="amount" stroke="#ef4444" fill="#fecaca" />
               </AreaChart>
@@ -209,12 +209,12 @@ export function AnalyticsDashboard() {
           <CardTitle>Document Engagement Analytics</CardTitle>
           <CardDescription>Track how customers interact with your documents</CardDescription>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-80">
-            <BarChart data={documentEngagementData}>
+        <CardContent className="p-4">
+          <ChartContainer config={chartConfig} className="h-80 w-full">
+            <BarChart data={documentEngagementData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="type" />
-              <YAxis />
+              <YAxis width={40} />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Legend />
               <Bar dataKey="opened" fill="#3b82f6" name="Opened" />
