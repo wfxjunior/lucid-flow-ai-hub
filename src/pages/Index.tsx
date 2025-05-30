@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,7 +8,7 @@ import { QuickActions } from "@/components/QuickActions"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { AIVoice } from "@/components/AIVoice"
 import { CreateInvoice } from "@/components/CreateInvoice"
-import { Customers } from "@/components/Customers"
+import { BusinessDashboard } from "@/components/BusinessDashboard"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { SettingsPage } from "@/components/SettingsPage"
 import { FeaturesPage } from "@/components/FeaturesPage"
@@ -24,7 +23,12 @@ const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
 
   const handleQuickAction = (actionId: string) => {
-    setActiveView(actionId)
+    // Map quick actions to the new unified views
+    if (actionId === "customers" || actionId === "invoices" || actionId === "estimates" || actionId === "receipts") {
+      setActiveView("business")
+    } else {
+      setActiveView(actionId)
+    }
   }
 
   const renderActiveView = () => {
@@ -34,7 +38,11 @@ const Index = () => {
       case "ai-voice":
         return <AIVoice />
       case "customers":
-        return <Customers />
+      case "invoices": 
+      case "estimates":
+      case "receipts":
+      case "business":
+        return <BusinessDashboard />
       case "analytics":
         return <AnalyticsDashboard />
       case "settings":
@@ -45,80 +53,6 @@ const Index = () => {
         return <BlogAdmin />
       case "admin-dashboard":
         return <AdminDashboard />
-      case "estimates":
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-4">
-              <Calculator className="h-16 w-16 mx-auto text-blue-500" />
-              <h1 className="text-3xl font-bold">Estimates</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Create and manage project estimates for your clients.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Draft Estimates</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">8</div>
-                  <p className="text-sm text-muted-foreground">In progress</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Sent Estimates</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">24</div>
-                  <p className="text-sm text-blue-600">Awaiting approval</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Approved</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">18</div>
-                  <p className="text-sm text-green-600">Ready to invoice</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Total Value</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">$86,450</div>
-                  <p className="text-sm text-green-600">Potential revenue</p>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="flex gap-4">
-              <Button>
-                <Calculator className="h-4 w-4 mr-2" />
-                Create New Estimate
-              </Button>
-              <Button variant="outline">
-                View All Estimates
-              </Button>
-            </div>
-          </div>
-        )
-      case "pricing":
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-4">
-              <div className="flex items-center justify-center gap-2">
-                <Crown className="h-8 w-8 text-yellow-500" />
-                <h1 className="text-3xl font-bold">Premium Features</h1>
-              </div>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Unlock the full power of FeatherBiz with our premium plans. Access advanced AI features, unlimited invoices, and premium support.
-              </p>
-            </div>
-            <PricingPlans />
-          </div>
-        )
       case "appointments":
         return (
           <div className="space-y-6">
@@ -208,6 +142,21 @@ const Index = () => {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        )
+      case "pricing":
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center gap-2">
+                <Crown className="h-8 w-8 text-yellow-500" />
+                <h1 className="text-3xl font-bold">Premium Features</h1>
+              </div>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Unlock the full power of FeatherBiz with our premium plans. Access advanced AI features, unlimited invoices, and premium support.
+              </p>
+            </div>
+            <PricingPlans />
           </div>
         )
       case "e-signatures":
@@ -346,56 +295,6 @@ const Index = () => {
                 <CardContent>
                   <div className="text-2xl font-bold">28</div>
                   <p className="text-sm text-muted-foreground">Organized</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        )
-      case "receipts":
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-4">
-              <Receipt className="h-16 w-16 mx-auto text-amber-500" />
-              <h1 className="text-3xl font-bold">Receipts & Accounting</h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Track and manage all business receipts, expenses, and accounting records.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Total Expenses</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">$18,420</div>
-                  <p className="text-sm text-muted-foreground">This month</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Receipts</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">156</div>
-                  <p className="text-sm text-green-600">Recorded</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tax Deductible</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">$12,800</div>
-                  <p className="text-sm text-green-600">Potential savings</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Categories</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">12</div>
-                  <p className="text-sm text-muted-foreground">Expense types</p>
                 </CardContent>
               </Card>
             </div>
