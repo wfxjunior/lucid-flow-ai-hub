@@ -20,6 +20,7 @@ import {
   Feather
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import { AnimatedNumber } from "@/components/AnimatedNumber"
 
 const LandingPage = () => {
   const navigate = useNavigate()
@@ -186,22 +187,35 @@ const LandingPage = () => {
       {/* Stats Section */}
       <section className="bg-primary/5 py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 text-center">
             <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">10K+</div>
+              <div className="text-4xl font-bold text-primary mb-2">
+                <AnimatedNumber value={10} suffix="K+" delay={100} />
+              </div>
               <div className="text-gray-600">Active Users</div>
             </div>
             <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">1M+</div>
+              <div className="text-4xl font-bold text-primary mb-2">
+                <AnimatedNumber value={1} suffix="M+" delay={200} />
+              </div>
               <div className="text-gray-600">Invoices Created</div>
             </div>
             <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">99.9%</div>
+              <div className="text-4xl font-bold text-primary mb-2">
+                <AnimatedNumber value={99.9} decimals={1} suffix="%" delay={300} />
+              </div>
               <div className="text-gray-600">Uptime</div>
             </div>
             <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <div className="text-4xl font-bold text-primary mb-2 animate-scale-in">24/7</div>
+              <div className="text-4xl font-bold text-primary mb-2">24/7</div>
               <div className="text-gray-600">AI Assistant</div>
+            </div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
+              <div className="text-4xl font-bold text-primary mb-2 flex items-center justify-center gap-1">
+                <AnimatedNumber value={4.9} decimals={1} delay={400} />
+                <Star className="h-8 w-8 fill-yellow-400 text-yellow-400" />
+              </div>
+              <div className="text-gray-600">User Reviews</div>
             </div>
           </div>
         </div>
