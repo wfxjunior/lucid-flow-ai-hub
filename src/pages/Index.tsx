@@ -49,8 +49,10 @@ const Index = () => {
       case 'analytics':
         return <AnalyticsDashboard />
       case 'customer-management':
+      case 'customers':
         return <CustomerManagement />
       case 'invoice-creator':
+      case 'create-invoice':
         return <InvoiceCreator />
       case 'file-manager':
         return <FileManager />
@@ -60,6 +62,12 @@ const Index = () => {
         return <FeaturesPage />
       case 'settings':
         return <SettingsPage />
+      case 'admin-dashboard':
+        return <AdminDashboard />
+      case 'blog-admin':
+        return <BlogAdmin />
+      case 'pricing':
+        return <PricingPlans />
       default:
         return <BusinessDashboard />
     }
