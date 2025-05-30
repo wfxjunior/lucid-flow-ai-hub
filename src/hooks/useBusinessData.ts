@@ -26,7 +26,7 @@ export function useBusinessData() {
         .order('created_at', { ascending: false })
 
       if (clientsError) throw clientsError
-      setClients(clientsData || [])
+      setClients(clientsData as Client[] || [])
 
       // Load estimates with client data
       const { data: estimatesData, error: estimatesError } = await supabase
@@ -38,7 +38,7 @@ export function useBusinessData() {
         .order('created_at', { ascending: false })
 
       if (estimatesError) throw estimatesError
-      setEstimates(estimatesData || [])
+      setEstimates(estimatesData as Estimate[] || [])
 
       // Load invoices with client and estimate data
       const { data: invoicesData, error: invoicesError } = await supabase
@@ -51,7 +51,7 @@ export function useBusinessData() {
         .order('created_at', { ascending: false })
 
       if (invoicesError) throw invoicesError
-      setInvoices(invoicesData || [])
+      setInvoices(invoicesData as Invoice[] || [])
 
       // Load receipts with client and invoice data
       const { data: receiptsData, error: receiptsError } = await supabase
@@ -64,7 +64,7 @@ export function useBusinessData() {
         .order('created_at', { ascending: false })
 
       if (receiptsError) throw receiptsError
-      setReceipts(receiptsData || [])
+      setReceipts(receiptsData as Receipt[] || [])
 
     } catch (error) {
       console.error('Error loading data:', error)
@@ -88,9 +88,9 @@ export function useBusinessData() {
 
       if (error) throw error
       
-      setClients(prev => [data, ...prev])
+      setClients(prev => [data as Client, ...prev])
       toast.success('Client created successfully')
-      return data
+      return data as Client
     } catch (error) {
       console.error('Error creating client:', error)
       toast.error('Failed to create client')
@@ -110,9 +110,9 @@ export function useBusinessData() {
 
       if (error) throw error
       
-      setClients(prev => prev.map(client => client.id === id ? data : client))
+      setClients(prev => prev.map(client => client.id === id ? data as Client : client))
       toast.success('Client updated successfully')
-      return data
+      return data as Client
     } catch (error) {
       console.error('Error updating client:', error)
       toast.error('Failed to update client')
@@ -137,9 +137,9 @@ export function useBusinessData() {
 
       if (error) throw error
       
-      setEstimates(prev => [data, ...prev])
+      setEstimates(prev => [data as Estimate, ...prev])
       toast.success('Estimate created successfully')
-      return data
+      return data as Estimate
     } catch (error) {
       console.error('Error creating estimate:', error)
       toast.error('Failed to create estimate')
@@ -169,7 +169,7 @@ export function useBusinessData() {
           title: estimate.title,
           description: estimate.description,
           amount: estimate.amount,
-          status: 'pending',
+          status: 'pending' as const,
           user_id: (await supabase.auth.getUser()).data.user?.id
         }])
         .select(`
@@ -189,11 +189,11 @@ export function useBusinessData() {
 
       if (updateError) throw updateError
 
-      setInvoices(prev => [invoice, ...prev])
+      setInvoices(prev => [invoice as Invoice, ...prev])
       setEstimates(prev => prev.map(e => e.id === estimateId ? { ...e, status: 'converted' as const } : e))
       
       toast.success('Estimate converted to invoice successfully')
-      return invoice
+      return invoice as Invoice
     } catch (error) {
       console.error('Error converting estimate:', error)
       toast.error('Failed to convert estimate to invoice')
@@ -217,9 +217,9 @@ export function useBusinessData() {
 
       if (error) throw error
       
-      setInvoices(prev => prev.map(invoice => invoice.id === id ? data : invoice))
+      setInvoices(prev => prev.map(invoice => invoice.id === id ? data as Invoice : invoice))
       toast.success('Invoice status updated successfully')
-      return data
+      return data as Invoice
     } catch (error) {
       console.error('Error updating invoice status:', error)
       toast.error('Failed to update invoice status')
@@ -260,9 +260,9 @@ export function useBusinessData() {
 
       if (receiptError) throw receiptError
 
-      setReceipts(prev => [receipt, ...prev])
+      setReceipts(prev => [receipt as Receipt, ...prev])
       toast.success('Receipt generated successfully')
-      return receipt
+      return receipt as Receipt
     } catch (error) {
       console.error('Error generating receipt:', error)
       toast.error('Failed to generate receipt')

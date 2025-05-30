@@ -165,14 +165,14 @@ export function FileManager() {
       const fileName = `${user.id}/${Date.now()}.${fileExt}`
 
       const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('documents')
+        .from('business-files')
         .upload(fileName, file)
 
       if (uploadError) throw uploadError
 
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
-        .from('documents')
+        .from('business-files')
         .getPublicUrl(fileName)
 
       // Save file metadata to database
@@ -246,7 +246,7 @@ export function FileManager() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
         await supabase.storage
-          .from('documents')
+          .from('business-files')
           .remove([`${user.id}/${fileName}`])
       }
 

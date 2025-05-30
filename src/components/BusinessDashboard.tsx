@@ -1,17 +1,27 @@
 
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { Plus, Search, Filter, Eye, Edit, Archive, Download, Receipt, Undo, FileText, DollarSign, Users } from 'lucide-react'
-import { useBusinessData } from '@/hooks/useBusinessData'
-import { toast } from 'sonner'
-import type { Client, FilterStatus, FilterType } from '@/types/business'
+import { useState } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
+import { useBusinessData } from "@/hooks/useBusinessData"
+import { 
+  Users, 
+  FileText, 
+  Receipt, 
+  Plus, 
+  Search, 
+  Filter,
+  CreditCard,
+  CheckCircle,
+  Clock,
+  Archive,
+  Undo2,
+  DollarSign
+} from "lucide-react"
 
 export function BusinessDashboard() {
   const {
@@ -27,7 +37,6 @@ export function BusinessDashboard() {
     typeFilter,
     setTypeFilter,
     createClient,
-    updateClient,
     createEstimate,
     convertEstimateToInvoice,
     updateInvoiceStatus,
@@ -36,41 +45,59 @@ export function BusinessDashboard() {
     loading
   } = useBusinessData()
 
-  const [searchTerm, setSearchTerm] = useState('')
-  const [showCreateClient, setShowCreateClient] = useState(false)
-  const [showCreateEstimate, setShowCreateEstimate] = useState(false)
-  const [showReceiptDialog, setShowReceiptDialog] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [isClientDialogOpen, setIsClientDialogOpen] = useState(false)
+  const [isEstimateDialogOpen, setIsEstimateDialogOpen] = useState(false)
+  const [isReceiptDialogOpen, setIsReceiptDialogOpen] = useState(false)
   const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null)
-  const [newClient, setNewClient] = useState({ name: '', email: '', phone: '', address: '' })
-  const [newEstimate, setNewEstimate] = useState({ title: '', description: '', amount: 0, client_id: '' })
-  const [receiptData, setReceiptData] = useState({ payment_method: '', notes: '' })
+
+  // Form states
+  const [clientForm, setClientForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: ""
+  })
+
+  const [estimateForm, setEstimateForm] = useState({
+    title: "",
+    description: "",
+    amount: ""
+  })
+
+  const [receiptForm, setReceiptForm] = useState({
+    paymentMethod: "",
+    notes: ""
+  })
 
   const handleCreateClient = async () => {
     try {
-      await createClient(newClient)
-      setNewClient({ name: '', email: '', phone: '', address: '' })
-      setShowCreateClient(false)
+      await createClient({
+        ...clientForm,
+        status: 'active'
+      })
+      setClientForm({ name: "", email: "", phone: "", address: "" })
+      setIsClientDialogOpen(false)
     } catch (error) {
-      // Error handled in hook
+      console.error('Error creating client:', error)
     }
   }
 
   const handleCreateEstimate = async () => {
+    if (!selectedClientId) return
+    
     try {
-      const clientId = selectedClientId || newEstimate.client_id
-      if (!clientId) {
-        toast.error('Please select a client')
-        return
-      }
-      
       await createEstimate({
-        ...newEstimate,
-        client_id: clientId
+        client_id: selectedClientId,
+        title: estimateForm.title,
+        description: estimateForm.description,
+        amount: parseFloat(estimateForm.amount),
+        status: 'draft'
       })
-      setNewEstimate({ title: '', description: '', amount: 0, client_id: '' })
-      setShowCreateEstimate(false)
+      setEstimateForm({ title: "", description: "", amount: "" })
+      setIsEstimateDialogOpen(false)
     } catch (error) {
-      // Error handled in hook
+      console.error('Error creating estimate:', error)
     }
   }
 
@@ -78,46 +105,63 @@ export function BusinessDashboard() {
     if (!selectedInvoiceId) return
     
     try {
-      await generateReceipt(selectedInvoiceId, receiptData.payment_method, receiptData.notes)
-      await updateInvoiceStatus(selectedInvoiceId, 'paid')
-      setReceiptData({ payment_method: '', notes: '' })
-      setShowReceiptDialog(false)
+      await generateReceipt(selectedInvoiceId, receiptForm.paymentMethod, receiptForm.notes)
+      setReceiptForm({ paymentMethod: "", notes: "" })
+      setIsReceiptDialogOpen(false)
       setSelectedInvoiceId(null)
     } catch (error) {
-      // Error handled in hook
+      console.error('Error generating receipt:', error)
     }
   }
 
-  const getStatusColor = (status: string) => {
+  const getStatusBadgeVariant = (status: string) => {
     switch (status) {
-      case 'paid': return 'bg-green-100 text-green-800'
-      case 'pending': return 'bg-yellow-100 text-yellow-800'
-      case 'overdue': return 'bg-red-100 text-red-800'
-      case 'archived': return 'bg-gray-100 text-gray-800'
-      case 'approved': return 'bg-blue-100 text-blue-800'
-      case 'converted': return 'bg-purple-100 text-purple-800'
-      case 'sent': return 'bg-orange-100 text-orange-800'
-      case 'draft': return 'bg-gray-100 text-gray-800'
-      case 'active': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'active':
+      case 'approved':
+      case 'paid':
+        return 'default'
+      case 'pending':
+      case 'sent':
+        return 'secondary'
+      case 'draft':
+        return 'outline'
+      case 'inactive':
+      case 'rejected':
+      case 'overdue':
+        return 'destructive'
+      case 'archived':
+      case 'converted':
+        return 'secondary'
+      default:
+        return 'outline'
     }
   }
 
-  const selectedClient = allClients.find(c => c.id === selectedClientId)
-
-  const filteredData = [...estimates, ...invoices, ...receipts].filter(item => {
+  // Combine and filter all items for search
+  const allItems = [
+    ...estimates.map(item => ({ ...item, type: 'estimate' as const })),
+    ...invoices.map(item => ({ ...item, type: 'invoice' as const })),
+    ...receipts.map(item => ({ ...item, type: 'receipt' as const }))
+  ].filter(item => {
     if (searchTerm) {
-      const searchFields = [
-        'title' in item ? item.title : '',
-        'invoice_number' in item ? item.invoice_number : '',
-        'receipt_number' in item ? item.receipt_number : '',
-        item.client?.name || ''
-      ].join(' ').toLowerCase()
+      const searchLower = searchTerm.toLowerCase()
+      const hasTitle = 'title' in item && item.title?.toLowerCase().includes(searchLower)
+      const hasReceiptNumber = 'receipt_number' in item && item.receipt_number?.toLowerCase().includes(searchLower)
+      const hasInvoiceNumber = 'invoice_number' in item && item.invoice_number?.toLowerCase().includes(searchLower)
       
-      if (!searchFields.includes(searchTerm.toLowerCase())) return false
+      return hasTitle || hasReceiptNumber || hasInvoiceNumber
     }
     return true
-  }).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+  })
+
+  const handleInvoiceStatusChange = async (invoiceId: string, newStatus: 'pending' | 'paid' | 'archived' | 'overdue') => {
+    await updateInvoiceStatus(invoiceId, newStatus)
+    
+    if (newStatus === 'paid') {
+      setSelectedInvoiceId(invoiceId)
+      setIsReceiptDialogOpen(true)
+    }
+  }
 
   if (loading) {
     return <div className="flex items-center justify-center h-64">Loading...</div>
@@ -128,13 +172,11 @@ export function BusinessDashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold">Business Dashboard</h1>
-          <p className="text-base sm:text-lg text-muted-foreground">
-            Manage clients, estimates, invoices, and receipts
-          </p>
+          <h2 className="text-2xl font-bold">Business Dashboard</h2>
+          <p className="text-muted-foreground">Manage clients, estimates, invoices, and receipts</p>
         </div>
         <div className="flex gap-2">
-          <Dialog open={showCreateClient} onOpenChange={setShowCreateClient}>
+          <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
@@ -145,138 +187,128 @@ export function BusinessDashboard() {
               <DialogHeader>
                 <DialogTitle>Create New Client</DialogTitle>
                 <DialogDescription>
-                  Add a new client to your business
+                  Add a new client to your business dashboard.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
-                <div>
-                  <Label htmlFor="name">Name *</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="client-name">Name</Label>
                   <Input
-                    id="name"
-                    value={newClient.name}
-                    onChange={(e) => setNewClient({ ...newClient, name: e.target.value })}
+                    id="client-name"
+                    value={clientForm.name}
+                    onChange={(e) => setClientForm(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="Client name"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="email">Email *</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="client-email">Email</Label>
                   <Input
-                    id="email"
+                    id="client-email"
                     type="email"
-                    value={newClient.email}
-                    onChange={(e) => setNewClient({ ...newClient, email: e.target.value })}
+                    value={clientForm.email}
+                    onChange={(e) => setClientForm(prev => ({ ...prev, email: e.target.value }))}
                     placeholder="client@example.com"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="phone">Phone</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="client-phone">Phone</Label>
                   <Input
-                    id="phone"
-                    value={newClient.phone}
-                    onChange={(e) => setNewClient({ ...newClient, phone: e.target.value })}
-                    placeholder="+1 234 567 8900"
+                    id="client-phone"
+                    value={clientForm.phone}
+                    onChange={(e) => setClientForm(prev => ({ ...prev, phone: e.target.value }))}
+                    placeholder="Phone number"
                   />
                 </div>
-                <div>
-                  <Label htmlFor="address">Address</Label>
-                  <Textarea
-                    id="address"
-                    value={newClient.address}
-                    onChange={(e) => setNewClient({ ...newClient, address: e.target.value })}
-                    placeholder="Client address"
+                <div className="space-y-2">
+                  <Label htmlFor="client-address">Address</Label>
+                  <Input
+                    id="client-address"
+                    value={clientForm.address}
+                    onChange={(e) => setClientForm(prev => ({ ...prev, address: e.target.value }))}
+                    placeholder="Address"
                   />
                 </div>
-                <Button onClick={handleCreateClient} className="w-full">
-                  Create Client
-                </Button>
               </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsClientDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleCreateClient}>Create Client</Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
 
-          <Dialog open={showCreateEstimate} onOpenChange={setShowCreateEstimate}>
-            <DialogTrigger asChild>
-              <Button variant="outline">
-                <FileText className="h-4 w-4 mr-2" />
-                New Estimate
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create New Estimate</DialogTitle>
-                <DialogDescription>
-                  Create an estimate for {selectedClient?.name || 'a client'}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                {!selectedClientId && (
-                  <div>
-                    <Label htmlFor="client">Client *</Label>
-                    <Select value={newEstimate.client_id} onValueChange={(value) => setNewEstimate({ ...newEstimate, client_id: value })}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a client" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {allClients.map((client) => (
-                          <SelectItem key={client.id} value={client.id}>
-                            {client.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-                <div>
-                  <Label htmlFor="title">Title *</Label>
-                  <Input
-                    id="title"
-                    value={newEstimate.title}
-                    onChange={(e) => setNewEstimate({ ...newEstimate, title: e.target.value })}
-                    placeholder="Estimate title"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="amount">Amount *</Label>
-                  <Input
-                    id="amount"
-                    type="number"
-                    value={newEstimate.amount}
-                    onChange={(e) => setNewEstimate({ ...newEstimate, amount: parseFloat(e.target.value) || 0 })}
-                    placeholder="0.00"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={newEstimate.description}
-                    onChange={(e) => setNewEstimate({ ...newEstimate, description: e.target.value })}
-                    placeholder="Estimate description"
-                  />
-                </div>
-                <Button onClick={handleCreateEstimate} className="w-full">
-                  Create Estimate
+          {selectedClientId && (
+            <Dialog open={isEstimateDialogOpen} onOpenChange={setIsEstimateDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <FileText className="h-4 w-4 mr-2" />
+                  New Estimate
                 </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Create New Estimate</DialogTitle>
+                  <DialogDescription>
+                    Create an estimate for the selected client.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="estimate-title">Title</Label>
+                    <Input
+                      id="estimate-title"
+                      value={estimateForm.title}
+                      onChange={(e) => setEstimateForm(prev => ({ ...prev, title: e.target.value }))}
+                      placeholder="Estimate title"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="estimate-description">Description</Label>
+                    <Input
+                      id="estimate-description"
+                      value={estimateForm.description}
+                      onChange={(e) => setEstimateForm(prev => ({ ...prev, description: e.target.value }))}
+                      placeholder="Estimate description"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="estimate-amount">Amount</Label>
+                    <Input
+                      id="estimate-amount"
+                      type="number"
+                      value={estimateForm.amount}
+                      onChange={(e) => setEstimateForm(prev => ({ ...prev, amount: e.target.value }))}
+                      placeholder="0.00"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsEstimateDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleCreateEstimate}>Create Estimate</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
 
-      {/* Filters and Search */}
+      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Search clients, estimates, invoices..."
-            className="pl-10"
+            placeholder="Search estimates, invoices, receipts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
           />
         </div>
-        
-        <Select value={selectedClientId || 'all'} onValueChange={(value) => setSelectedClientId(value === 'all' ? null : value)}>
-          <SelectTrigger className="w-full sm:w-48">
-            <SelectValue placeholder="All Clients" />
+        <Select value={selectedClientId || "all"} onValueChange={(value) => setSelectedClientId(value === "all" ? null : value)}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Filter by client" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Clients</SelectItem>
@@ -287,25 +319,22 @@ export function BusinessDashboard() {
             ))}
           </SelectContent>
         </Select>
-
-        <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as FilterStatus)}>
-          <SelectTrigger className="w-full sm:w-32">
-            <SelectValue />
+        <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as any)}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="paid">Paid</SelectItem>
-            <SelectItem value="archived">Archived</SelectItem>
             <SelectItem value="draft">Draft</SelectItem>
-            <SelectItem value="sent">Sent</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
+            <SelectItem value="archived">Archived</SelectItem>
           </SelectContent>
         </Select>
-
-        <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value as FilterType)}>
-          <SelectTrigger className="w-full sm:w-32">
-            <SelectValue />
+        <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value as any)}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Type" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Types</SelectItem>
@@ -316,8 +345,8 @@ export function BusinessDashboard() {
         </Select>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Clients</CardTitle>
@@ -327,181 +356,208 @@ export function BusinessDashboard() {
             <div className="text-2xl font-bold">{clients.length}</div>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
+            <CardTitle className="text-sm font-medium">Estimates</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{invoices.filter(i => i.status === 'pending').length}</div>
+            <div className="text-2xl font-bold">{estimates.length}</div>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Revenue This Month</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Invoices</CardTitle>
+            <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              ${invoices.filter(i => i.status === 'paid').reduce((sum, i) => sum + i.amount, 0).toFixed(2)}
-            </div>
+            <div className="text-2xl font-bold">{invoices.length}</div>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Estimates</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Receipts</CardTitle>
+            <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{estimates.filter(e => !['rejected', 'converted'].includes(e.status)).length}</div>
+            <div className="text-2xl font-bold">{receipts.length}</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Content */}
-      <div className="grid gap-6">
-        {filteredData.map((item) => (
-          <Card key={item.id}>
-            <CardContent className="p-6">
-              <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                <div className="space-y-2 flex-1">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <h3 className="text-lg font-semibold">
-                      {'title' in item ? item.title : 
-                       'invoice_number' in item ? `Invoice ${item.invoice_number}` : 
-                       `Receipt ${item.receipt_number}`}
-                    </h3>
-                    <Badge className={getStatusColor(item.status || 'active')}>
-                      {item.status || 'active'}
-                    </Badge>
-                    <Badge variant="outline">
-                      {'invoice_number' in item ? 'Invoice' : 
-                       'receipt_number' in item ? 'Receipt' : 'Estimate'}
-                    </Badge>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Clients Panel */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Clients
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {clients.length === 0 ? (
+              <p className="text-muted-foreground text-center py-4">No clients found</p>
+            ) : (
+              clients.map((client) => (
+                <div
+                  key={client.id}
+                  className={`p-3 rounded-lg border cursor-pointer transition-colors ${
+                    selectedClientId === client.id ? 'bg-primary/10 border-primary' : 'hover:bg-muted/50'
+                  }`}
+                  onClick={() => setSelectedClientId(client.id)}
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="font-medium">{client.name}</h4>
+                      <p className="text-sm text-muted-foreground">{client.email}</p>
+                    </div>
+                    <Badge variant={getStatusBadgeVariant(client.status)}>{client.status}</Badge>
                   </div>
-                  
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
-                    <span>Client: {item.client?.name}</span>
-                    <span>Amount: ${item.amount.toFixed(2)}</span>
-                    <span>Date: {new Date(item.created_at).toLocaleDateString()}</span>
-                  </div>
-                  
-                  {item.description && (
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  )}
                 </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
 
-                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                  {/* Estimate Actions */}
-                  {'title' in item && !('invoice_number' in item) && (
-                    <>
-                      {item.status === 'approved' && (
+        {/* Items Panel */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Filter className="h-5 w-5" />
+              {typeFilter === 'all' ? 'All Items' : 
+               typeFilter === 'estimates' ? 'Estimates' :
+               typeFilter === 'invoices' ? 'Invoices' : 'Receipts'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {allItems.length === 0 ? (
+              <p className="text-muted-foreground text-center py-8">No items found</p>
+            ) : (
+              allItems.map((item) => (
+                <div key={`${item.type}-${item.id}`} className="p-4 rounded-lg border">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-medium">
+                          {'title' in item ? item.title : 
+                           'receipt_number' in item ? item.receipt_number : 
+                           'invoice_number' in item ? item.invoice_number : 'Unknown'}
+                        </h4>
+                        <Badge variant="outline">{item.type}</Badge>
+                        {'status' in item && (
+                          <Badge variant={getStatusBadgeVariant(item.status)}>{item.status}</Badge>
+                        )}
+                      </div>
+                      {'description' in item && item.description && (
+                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                      )}
+                      <p className="text-sm font-medium mt-1">${item.amount}</p>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      {item.type === 'estimate' && item.status !== 'converted' && (
                         <Button 
                           size="sm" 
                           onClick={() => convertEstimateToInvoice(item.id)}
-                          className="w-full sm:w-auto"
                         >
                           Convert to Invoice
                         </Button>
                       )}
-                      {item.status === 'converted' && (
+                      
+                      {item.type === 'estimate' && item.status === 'converted' && (
                         <Button 
                           size="sm" 
                           variant="outline"
                           onClick={() => undoEstimateConversion(item.id)}
-                          className="w-full sm:w-auto"
                         >
-                          <Undo className="h-4 w-4 mr-1" />
-                          Undo Conversion
+                          <Undo2 className="h-4 w-4 mr-1" />
+                          Undo
                         </Button>
                       )}
-                    </>
-                  )}
-
-                  {/* Invoice Actions */}
-                  {'invoice_number' in item && (
-                    <>
-                      {item.status === 'pending' && (
-                        <Button 
-                          size="sm"
-                          onClick={() => {
-                            setSelectedInvoiceId(item.id)
-                            setShowReceiptDialog(true)
-                          }}
-                          className="w-full sm:w-auto"
-                        >
-                          <Receipt className="h-4 w-4 mr-1" />
-                          Mark as Paid
-                        </Button>
+                      
+                      {item.type === 'invoice' && (
+                        <div className="flex gap-1">
+                          <Select
+                            value={item.status}
+                            onValueChange={(value) => handleInvoiceStatusChange(item.id, value as any)}
+                          >
+                            <SelectTrigger className="w-[120px] h-8">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">
+                                <div className="flex items-center gap-2">
+                                  <Clock className="h-3 w-3" />
+                                  Pending
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="paid">
+                                <div className="flex items-center gap-2">
+                                  <CheckCircle className="h-3 w-3" />
+                                  Paid
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="overdue">
+                                <div className="flex items-center gap-2">
+                                  <Clock className="h-3 w-3 text-red-500" />
+                                  Overdue
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="archived">
+                                <div className="flex items-center gap-2">
+                                  <Archive className="h-3 w-3" />
+                                  Archived
+                                </div>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       )}
-                      {item.status !== 'archived' && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => updateInvoiceStatus(item.id, 'archived')}
-                          className="w-full sm:w-auto"
-                        >
-                          <Archive className="h-4 w-4 mr-1" />
-                          Archive
-                        </Button>
-                      )}
-                    </>
-                  )}
-
-                  <Button variant="outline" size="sm" className="w-full sm:w-auto">
-                    <Eye className="h-4 w-4 mr-1" />
-                    View
-                  </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-
-        {filteredData.length === 0 && (
-          <Card>
-            <CardContent className="p-12 text-center">
-              <p className="text-muted-foreground">No items found. Create your first client or estimate to get started.</p>
-            </CardContent>
-          </Card>
-        )}
+              ))
+            )}
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Generate Receipt Dialog */}
-      <Dialog open={showReceiptDialog} onOpenChange={setShowReceiptDialog}>
+      {/* Receipt Generation Dialog */}
+      <Dialog open={isReceiptDialogOpen} onOpenChange={setIsReceiptDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Generate Receipt</DialogTitle>
             <DialogDescription>
-              Mark the invoice as paid and generate a receipt
+              Create a receipt for the paid invoice.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div>
-              <Label htmlFor="payment_method">Payment Method</Label>
+            <div className="space-y-2">
+              <Label htmlFor="payment-method">Payment Method</Label>
               <Input
-                id="payment_method"
-                value={receiptData.payment_method}
-                onChange={(e) => setReceiptData({ ...receiptData, payment_method: e.target.value })}
-                placeholder="Cash, Card, Bank Transfer, etc."
+                id="payment-method"
+                value={receiptForm.paymentMethod}
+                onChange={(e) => setReceiptForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
+                placeholder="e.g., Credit Card, Bank Transfer"
               />
             </div>
-            <div>
-              <Label htmlFor="notes">Notes</Label>
-              <Textarea
-                id="notes"
-                value={receiptData.notes}
-                onChange={(e) => setReceiptData({ ...receiptData, notes: e.target.value })}
-                placeholder="Additional notes..."
+            <div className="space-y-2">
+              <Label htmlFor="receipt-notes">Notes</Label>
+              <Input
+                id="receipt-notes"
+                value={receiptForm.notes}
+                onChange={(e) => setReceiptForm(prev => ({ ...prev, notes: e.target.value }))}
+                placeholder="Additional notes"
               />
             </div>
-            <Button onClick={handleGenerateReceipt} className="w-full">
-              Generate Receipt & Mark as Paid
-            </Button>
           </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsReceiptDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleGenerateReceipt}>Generate Receipt</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
