@@ -106,43 +106,34 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
 
   return (
     <div className="w-full">
-      <div className="mb-4">
-        <h2 className="text-lg font-medium text-gray-900">Quick Actions</h2>
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">Quick Actions</h2>
         <p className="text-sm text-gray-600">Access your most used features</p>
       </div>
       
-      {/* Asymmetric grid layout */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {quickActions.map((action, index) => {
-          // Create asymmetric sizing
-          const isLarge = index === 0 || index === 4 || index === 8
-          const colSpan = isLarge ? "md:col-span-2" : "md:col-span-1"
-          
-          return (
-            <button
-              key={action.id}
-              onClick={() => handleActionClick(action.id)}
-              className={`${colSpan} group relative overflow-hidden rounded-xl border border-gray-200 bg-white p-4 text-left transition-all hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
-            >
-              <div className="flex items-start gap-3">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${action.color} transition-colors`}>
-                  <action.icon className="h-5 w-5 text-white" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-medium text-gray-900 group-hover:text-gray-700">
-                    {action.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-1 leading-tight">
-                    {action.description}
-                  </p>
-                </div>
+      {/* Symmetric grid layout */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {quickActions.map((action) => (
+          <button
+            key={action.id}
+            onClick={() => handleActionClick(action.id)}
+            className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white p-4 text-left transition-all hover:scale-[1.02] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${action.color} transition-colors`}>
+                <action.icon className="h-6 w-6 text-white" />
               </div>
-              
-              {/* Subtle hover indicator */}
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-            </button>
-          )
-        })}
+              <div>
+                <h3 className="font-medium text-gray-900 group-hover:text-gray-700 text-sm">
+                  {action.title}
+                </h3>
+                <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                  {action.description}
+                </p>
+              </div>
+            </div>
+          </button>
+        ))}
       </div>
     </div>
   )
