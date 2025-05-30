@@ -163,6 +163,13 @@ export function BusinessDashboard() {
     }
   }
 
+  const getItemTitle = (item: any) => {
+    if ('title' in item && item.title) return item.title
+    if ('receipt_number' in item && item.receipt_number) return item.receipt_number
+    if ('invoice_number' in item && item.invoice_number) return item.invoice_number
+    return 'Unknown'
+  }
+
   if (loading) {
     return <div className="flex items-center justify-center h-64">Loading...</div>
   }
@@ -439,11 +446,7 @@ export function BusinessDashboard() {
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h4 className="font-medium">
-                          {'title' in item ? item.title : 
-                           'receipt_number' in item ? item.receipt_number : 
-                           'invoice_number' in item ? item.invoice_number : 'Unknown'}
-                        </h4>
+                        <h4 className="font-medium">{getItemTitle(item)}</h4>
                         <Badge variant="outline">{item.type}</Badge>
                         {'status' in item && (
                           <Badge variant={getStatusBadgeVariant(item.status)}>{item.status}</Badge>

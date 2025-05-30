@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -18,6 +19,7 @@ import { PricingPlans } from "@/components/PricingPlans"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { FileManager } from "@/components/FileManager"
+import { CustomerManagement } from "@/components/CustomerManagement"
 
 const Index = () => {
   const { t } = useLanguage()
