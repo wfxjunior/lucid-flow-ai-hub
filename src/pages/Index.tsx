@@ -45,7 +45,12 @@ const Index = () => {
   const renderActiveView = () => {
     switch (activeView) {
       case 'dashboard':
-        return <BusinessDashboard />
+        return (
+          <div className="space-y-6">
+            <BusinessDashboard />
+            <QuickActions onActionClick={handleQuickAction} />
+          </div>
+        )
       case 'analytics':
         return <AnalyticsDashboard />
       case 'customer-management':
@@ -69,12 +74,14 @@ const Index = () => {
       case 'pricing':
         return <PricingPlans />
       default:
-        return <BusinessDashboard />
+        return (
+          <div className="space-y-6">
+            <BusinessDashboard />
+            <QuickActions onActionClick={handleQuickAction} />
+          </div>
+        )
     }
   }
-
-  // Show Quick Actions only on dashboard view
-  const showQuickActions = activeView === 'dashboard'
 
   return (
     <SidebarProvider>
@@ -88,11 +95,6 @@ const Index = () => {
           </header>
           <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="container mx-auto p-4 sm:p-6">
-              {showQuickActions && (
-                <div className="mb-6">
-                  <QuickActions onActionClick={handleQuickAction} />
-                </div>
-              )}
               {renderActiveView()}
             </div>
           </div>
