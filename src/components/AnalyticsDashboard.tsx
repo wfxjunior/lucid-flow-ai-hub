@@ -1,8 +1,7 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { BarChart3, TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Heart, Target, Award, Clock } from "lucide-react"
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from "recharts"
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip } from "recharts"
 
 export function AnalyticsDashboard() {
   const stats = [
@@ -161,20 +160,18 @@ export function AnalyticsDashboard() {
           <CardDescription>Monthly revenue, expenses, profit and project count</CardDescription>
         </CardHeader>
         <CardContent className="p-2 md:p-4">
-          <div className="w-full h-64 md:h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={revenueData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis width={60} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
-                <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
-                <Bar dataKey="profit" fill="var(--color-profit)" name="Profit" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <ChartContainer config={chartConfig} className="h-64 md:h-80">
+            <BarChart data={revenueData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis width={60} />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Legend />
+              <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
+              <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
+              <Bar dataKey="profit" fill="var(--color-profit)" name="Profit" />
+            </BarChart>
+          </ChartContainer>
         </CardContent>
       </Card>
 
@@ -189,18 +186,16 @@ export function AnalyticsDashboard() {
             <CardDescription>New client acquisition and total client base</CardDescription>
           </CardHeader>
           <CardContent className="p-2 md:p-4">
-            <div className="w-full h-48 md:h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={clientGrowthData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis width={40} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Area type="monotone" dataKey="totalClients" stroke="var(--color-totalClients)" fill="var(--color-totalClients)" fillOpacity={0.3} />
-                  <Bar dataKey="newClients" fill="var(--color-newClients)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+            <ChartContainer config={chartConfig} className="h-48 md:h-64">
+              <AreaChart data={clientGrowthData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis width={40} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Area type="monotone" dataKey="totalClients" stroke="var(--color-totalClients)" fill="var(--color-totalClients)" fillOpacity={0.3} />
+                <Bar dataKey="newClients" fill="var(--color-newClients)" />
+              </AreaChart>
+            </ChartContainer>
           </CardContent>
         </Card>
 
@@ -227,7 +222,7 @@ export function AnalyticsDashboard() {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -248,7 +243,7 @@ export function AnalyticsDashboard() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
                 <YAxis dataKey="service" type="category" width={80} />
-                <ChartTooltip content={<ChartTooltipContent />} />
+                <Tooltip />
                 <Bar dataKey="revenue" fill="#3b82f6" name="Revenue ($)" />
               </BarChart>
             </ResponsiveContainer>
@@ -280,7 +275,7 @@ export function AnalyticsDashboard() {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
             </div>
