@@ -20,6 +20,7 @@ import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/s
 import { AppSidebar } from "@/components/AppSidebar"
 import { FileManager } from "@/components/FileManager"
 import { CustomerManagement } from "@/components/CustomerManagement"
+import { UserGreeting } from "@/components/UserGreeting"
 
 const Index = () => {
   const { t } = useLanguage()
@@ -89,8 +90,11 @@ const Index = () => {
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-            <div className="flex items-center gap-2 px-4">
-              <SidebarTrigger className="-ml-1" />
+            <div className="flex items-center justify-between w-full px-4">
+              <div className="flex items-center gap-2">
+                <SidebarTrigger className="-ml-1" />
+              </div>
+              <UserGreeting />
             </div>
           </header>
           <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
