@@ -73,6 +73,9 @@ const Index = () => {
     }
   }
 
+  // Show Quick Actions only on dashboard view
+  const showQuickActions = activeView === 'dashboard'
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -85,7 +88,7 @@ const Index = () => {
           </header>
           <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="container mx-auto p-4 sm:p-6">
-              {activeView === 'dashboard' && (
+              {showQuickActions && (
                 <div className="mb-6">
                   <QuickActions onActionClick={handleQuickAction} />
                 </div>
