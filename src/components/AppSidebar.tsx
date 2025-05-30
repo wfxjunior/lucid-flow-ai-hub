@@ -132,7 +132,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       icon: FolderOpen,
     },
     {
-      id: "files",
+      id: "file-manager",
       title: "Files",
       icon: FilesIcon,
     },

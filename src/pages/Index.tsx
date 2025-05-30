@@ -28,7 +28,15 @@ const Index = () => {
   const handleQuickAction = (actionId: string) => {
     // Map quick actions to the new unified views
     if (actionId === "customers" || actionId === "invoices" || actionId === "estimates" || actionId === "receipts") {
-      setActiveView("business")
+      setActiveView("dashboard")
+    } else if (actionId === "files") {
+      setActiveView("file-manager")
+    } else if (actionId === "ai-voice") {
+      setActiveView("ai-voice")
+    } else if (actionId === "analytics") {
+      setActiveView("analytics")
+    } else if (actionId === "features") {
+      setActiveView("features")
     } else {
       setActiveView(actionId)
     }
@@ -46,6 +54,10 @@ const Index = () => {
         return <InvoiceCreator />
       case 'file-manager':
         return <FileManager />
+      case 'ai-voice':
+        return <AIVoice />
+      case 'features':
+        return <FeaturesPage />
       case 'settings':
         return <SettingsPage />
       default:
@@ -65,6 +77,11 @@ const Index = () => {
           </header>
           <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="container mx-auto p-4 sm:p-6">
+              {activeView === 'dashboard' && (
+                <div className="mb-6">
+                  <QuickActions onActionClick={handleQuickAction} />
+                </div>
+              )}
               {renderActiveView()}
             </div>
           </div>
