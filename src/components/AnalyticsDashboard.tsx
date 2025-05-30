@@ -1,80 +1,103 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { BarChart3, TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Heart } from "lucide-react"
+import { BarChart3, TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Heart, Target, Award, Clock } from "lucide-react"
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from "recharts"
 
 export function AnalyticsDashboard() {
   const stats = [
     {
       title: "Total Revenue",
-      value: "$48,250",
-      change: "+12.5%",
+      value: "$87,450",
+      change: "+18.2%",
       changeType: "positive" as const,
       icon: DollarSign
     },
     {
-      title: "Active Customers",
-      value: "142",
-      change: "+8.2%",
+      title: "Active Clients",
+      value: "28",
+      change: "+14.3%",
       changeType: "positive" as const,
       icon: Users
     },
     {
-      title: "Invoices Sent",
-      value: "89",
-      change: "+15.3%",
-      changeType: "positive" as const,
-      icon: FileText
-    },
-    {
-      title: "Pending Payments",
-      value: "$12,480",
-      change: "-5.2%",
-      changeType: "negative" as const,
-      icon: Calendar
-    },
-    {
-      title: "Family Savings",
-      value: "$2,850",
+      title: "Completed Projects",
+      value: "42",
       change: "+22.1%",
       changeType: "positive" as const,
+      icon: Award
+    },
+    {
+      title: "Monthly Growth",
+      value: "12.5%",
+      change: "+3.2%",
+      changeType: "positive" as const,
+      icon: Target
+    },
+    {
+      title: "Avg Project Value",
+      value: "$3,120",
+      change: "+8.7%",
+      changeType: "positive" as const,
       icon: Heart
+    },
+    {
+      title: "Response Time",
+      value: "2.4h",
+      change: "-15.3%",
+      changeType: "positive" as const,
+      icon: Clock
     }
   ]
 
   const revenueData = [
-    { month: 'Jan', revenue: 4200, expenses: 2800, profit: 1400 },
-    { month: 'Feb', revenue: 3800, expenses: 2600, profit: 1200 },
-    { month: 'Mar', revenue: 4500, expenses: 3000, profit: 1500 },
-    { month: 'Apr', revenue: 3200, expenses: 2400, profit: 800 },
-    { month: 'May', revenue: 4800, expenses: 3200, profit: 1600 },
-    { month: 'Jun', revenue: 5200, expenses: 3400, profit: 1800 },
-    { month: 'Jul', revenue: 4250, expenses: 2900, profit: 1350 },
+    { month: 'Jan', revenue: 6200, expenses: 3800, profit: 2400, projects: 4 },
+    { month: 'Feb', revenue: 5800, expenses: 3600, profit: 2200, projects: 3 },
+    { month: 'Mar', revenue: 7500, expenses: 4200, profit: 3300, projects: 6 },
+    { month: 'Apr', revenue: 6200, expenses: 3900, profit: 2300, projects: 4 },
+    { month: 'May', revenue: 8800, expenses: 4800, profit: 4000, projects: 7 },
+    { month: 'Jun', revenue: 9200, expenses: 5000, profit: 4200, projects: 8 },
+    { month: 'Jul', revenue: 8750, expenses: 4650, profit: 4100, projects: 7 },
+  ]
+
+  const clientGrowthData = [
+    { month: 'Jan', newClients: 3, totalClients: 15, retention: 95 },
+    { month: 'Feb', newClients: 2, totalClients: 17, retention: 94 },
+    { month: 'Mar', newClients: 4, totalClients: 21, retention: 96 },
+    { month: 'Apr', newClients: 2, totalClients: 23, retention: 93 },
+    { month: 'May', newClients: 3, totalClients: 26, retention: 97 },
+    { month: 'Jun', newClients: 2, totalClients: 28, retention: 98 },
+  ]
+
+  const projectStatusData = [
+    { name: 'Completed', value: 42, count: 42 },
+    { name: 'In Progress', value: 15, count: 15 },
+    { name: 'Planning', value: 8, count: 8 },
+    { name: 'On Hold', value: 3, count: 3 },
   ]
 
   const invoiceStatusData = [
-    { name: 'Paid', value: 65, count: 58 },
-    { name: 'Pending', value: 25, count: 22 },
-    { name: 'Overdue', value: 10, count: 9 },
+    { name: 'Paid', value: 72, count: 31 },
+    { name: 'Pending', value: 19, count: 8 },
+    { name: 'Overdue', value: 9, count: 4 },
   ]
 
-  const familySavingsData = [
-    { month: 'Sep', amount: 420, percentage: 5 },
-    { month: 'Oct', amount: 380, percentage: 5 },
-    { month: 'Nov', amount: 475, percentage: 5 },
-    { month: 'Dec', amount: 520, percentage: 5 },
-    { month: 'Jan', amount: 580, percentage: 5 },
+  const serviceDistributionData = [
+    { service: 'Web Development', revenue: 28500, clients: 12, avgValue: 2375 },
+    { service: 'Design Services', revenue: 22100, clients: 8, avgValue: 2763 },
+    { service: 'Consulting', revenue: 18600, clients: 6, avgValue: 3100 },
+    { service: 'Maintenance', revenue: 12250, clients: 15, avgValue: 817 },
+    { service: 'SEO Services', revenue: 6000, clients: 4, avgValue: 1500 },
   ]
 
-  const documentEngagementData = [
-    { type: 'Invoices', opened: 89, viewed: 76, signed: 58 },
-    { type: 'Quotes', opened: 67, viewed: 54, signed: 42 },
-    { type: 'Contracts', opened: 34, viewed: 28, signed: 21 },
-    { type: 'Proposals', opened: 23, viewed: 19, signed: 15 },
+  const performanceMetrics = [
+    { metric: 'Client Satisfaction', current: 94, target: 95, change: 2 },
+    { metric: 'Project Delivery', current: 87, target: 90, change: 5 },
+    { metric: 'Response Time', current: 92, target: 85, change: -3 },
+    { metric: 'Revenue Growth', current: 118, target: 110, change: 8 },
   ]
 
-  const COLORS = ['#22c55e', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6']
+  const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
 
   const chartConfig = {
     revenue: {
@@ -89,18 +112,20 @@ export function AnalyticsDashboard() {
       label: "Profit",
       color: "hsl(142.1 76.2% 36.3%)",
     },
+    newClients: {
+      label: "New Clients",
+      color: "hsl(var(--primary))",
+    },
+    totalClients: {
+      label: "Total Clients",
+      color: "hsl(142.1 76.2% 36.3%)",
+    },
   }
-
-  const recentInvoices = [
-    { id: 'INV-001', client: 'John Smith', amount: 2500, status: 'paid', date: '2024-01-20' },
-    { id: 'INV-002', client: 'Sarah Johnson', amount: 3200, status: 'pending', date: '2024-01-18' },
-    { id: 'INV-003', client: 'Mike Davis', amount: 1800, status: 'overdue', date: '2024-01-15' },
-  ]
 
   return (
     <div className="space-y-6">
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         {stats.map((stat, index) => (
           <Card key={index} className="transition-all duration-200 hover:shadow-lg hover:scale-105">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -126,14 +151,14 @@ export function AnalyticsDashboard() {
         ))}
       </div>
 
-      {/* Revenue Chart */}
+      {/* Revenue & Performance Chart */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5" />
-            Revenue Analytics
+            Business Performance Overview
           </CardTitle>
-          <CardDescription>Monthly revenue, expenses and profit breakdown</CardDescription>
+          <CardDescription>Monthly revenue, expenses, profit and project count</CardDescription>
         </CardHeader>
         <CardContent className="p-2 md:p-4">
           <div className="w-full h-64 md:h-80">
@@ -154,11 +179,89 @@ export function AnalyticsDashboard() {
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        {/* Invoice Status Chart */}
+        {/* Client Growth */}
         <Card>
           <CardHeader>
-            <CardTitle>Invoice Status Distribution</CardTitle>
-            <CardDescription>Current status of all invoices</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Client Growth Trend
+            </CardTitle>
+            <CardDescription>New client acquisition and total client base</CardDescription>
+          </CardHeader>
+          <CardContent className="p-2 md:p-4">
+            <div className="w-full h-48 md:h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={clientGrowthData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis width={40} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area type="monotone" dataKey="totalClients" stroke="var(--color-totalClients)" fill="var(--color-totalClients)" fillOpacity={0.3} />
+                  <Bar dataKey="newClients" fill="var(--color-newClients)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Project Status Distribution */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Project Status Distribution</CardTitle>
+            <CardDescription>Current status of all projects</CardDescription>
+          </CardHeader>
+          <CardContent className="p-2 md:p-4">
+            <div className="w-full h-48 md:h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+                  <Pie
+                    data={projectStatusData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, value }) => `${name}: ${value}`}
+                  >
+                    {projectStatusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Service Revenue Distribution */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Service Revenue Breakdown</CardTitle>
+          <CardDescription>Revenue distribution by service type</CardDescription>
+        </CardHeader>
+        <CardContent className="p-2 md:p-4">
+          <div className="w-full h-64 md:h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={serviceDistributionData} layout="horizontal" margin={{ top: 20, right: 20, left: 60, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis dataKey="service" type="category" width={80} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="revenue" fill="#3b82f6" name="Revenue ($)" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+        {/* Invoice Status */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Invoice Status</CardTitle>
+            <CardDescription>Payment status breakdown</CardDescription>
           </CardHeader>
           <CardContent className="p-2 md:p-4">
             <div className="w-full h-48 md:h-64">
@@ -184,82 +287,71 @@ export function AnalyticsDashboard() {
           </CardContent>
         </Card>
 
-        {/* Family Savings Trend */}
+        {/* Performance Metrics */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Heart className="h-5 w-5 text-red-500" />
-              Family Savings Trend
-            </CardTitle>
-            <CardDescription>Monthly savings from completed jobs</CardDescription>
+            <CardTitle>Performance Metrics</CardTitle>
+            <CardDescription>Key performance indicators vs targets</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 md:p-4">
-            <div className="w-full h-48 md:h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={familySavingsData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis width={40} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Area type="monotone" dataKey="amount" stroke="#ef4444" fill="#fecaca" />
-                </AreaChart>
-              </ResponsiveContainer>
+          <CardContent>
+            <div className="space-y-4">
+              {performanceMetrics.map((metric, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium">{metric.metric}</span>
+                    <span className="text-sm text-muted-foreground">{metric.current}% / {metric.target}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className={`h-2 rounded-full ${metric.current >= metric.target ? 'bg-green-500' : 'bg-blue-500'}`}
+                      style={{ width: `${Math.min(metric.current, 100)}%` }}
+                    />
+                  </div>
+                  <p className={`text-xs ${metric.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {metric.change > 0 ? '+' : ''}{metric.change}% from target
+                  </p>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Document Engagement Chart */}
+      {/* Recent Activity Summary */}
       <Card>
         <CardHeader>
-          <CardTitle>Document Engagement Analytics</CardTitle>
-          <CardDescription>Track how customers interact with your documents</CardDescription>
-        </CardHeader>
-        <CardContent className="p-2 md:p-4">
-          <div className="w-full h-64 md:h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={documentEngagementData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="type" />
-                <YAxis width={40} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Bar dataKey="opened" fill="#3b82f6" name="Opened" />
-                <Bar dataKey="viewed" fill="#f59e0b" name="Fully Viewed" />
-                <Bar dataKey="signed" fill="#22c55e" name="Signed/Responded" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Invoices Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Invoices</CardTitle>
-          <CardDescription>Track your latest invoice statuses and payments</CardDescription>
+          <CardTitle>Business Summary</CardTitle>
+          <CardDescription>Key highlights and recent performance</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {recentInvoices.map((invoice) => (
-              <div key={invoice.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg gap-2">
-                <div className="flex-1">
-                  <p className="font-medium">{invoice.id}</p>
-                  <p className="text-sm text-muted-foreground">{invoice.client}</p>
-                  <p className="text-xs text-muted-foreground">{invoice.date}</p>
-                </div>
-                <div className="text-left sm:text-right">
-                  <p className="font-semibold">${invoice.amount.toLocaleString()}</p>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    invoice.status === 'paid' ? 'bg-green-100 text-green-700' :
-                    invoice.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                    'bg-red-100 text-red-700'
-                  }`}>
-                    {invoice.status}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <h4 className="font-semibold text-green-600">This Month's Wins</h4>
+              <ul className="text-sm space-y-1">
+                <li>• 4 new clients acquired</li>
+                <li>• $12,500 in new revenue</li>
+                <li>• 7 projects completed</li>
+                <li>• 98% client satisfaction</li>
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-semibold text-blue-600">Focus Areas</h4>
+              <ul className="text-sm space-y-1">
+                <li>• Reduce response time to 2h</li>
+                <li>• Increase project delivery rate</li>
+                <li>• Expand consulting services</li>
+                <li>• Follow up on pending invoices</li>
+              </ul>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-semibold text-purple-600">Next Quarter Goals</h4>
+              <ul className="text-sm space-y-1">
+                <li>• Reach 35 active clients</li>
+                <li>• $100K total revenue</li>
+                <li>• Launch new service line</li>
+                <li>• Improve automation</li>
+              </ul>
+            </div>
           </div>
         </CardContent>
       </Card>

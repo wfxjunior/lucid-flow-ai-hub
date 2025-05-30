@@ -70,6 +70,20 @@ export function BusinessDashboard() {
     notes: ""
   })
 
+  // Fictional stats for demo purposes
+  const businessStats = {
+    totalRevenue: 87450,
+    monthlyGrowth: 12.5,
+    totalClients: 28,
+    newClientsThisMonth: 4,
+    activeProjects: 15,
+    completedProjects: 42,
+    pendingInvoices: 8,
+    pendingAmount: 15230,
+    averageProjectValue: 3120,
+    conversionRate: 68
+  }
+
   const handleCreateClient = async () => {
     try {
       await createClient({
@@ -352,42 +366,70 @@ export function BusinessDashboard() {
         </Select>
       </div>
 
-      {/* Stats Cards */}
+      {/* Stats Cards with Fictional Data */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">${businessStats.totalRevenue.toLocaleString()}</div>
+            <p className="text-xs text-green-600">+{businessStats.monthlyGrowth}% from last month</p>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Clients</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{clients.length}</div>
+            <div className="text-2xl font-bold">{businessStats.totalClients}</div>
+            <p className="text-xs text-green-600">+{businessStats.newClientsThisMonth} new this month</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Estimates</CardTitle>
+            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{estimates.length}</div>
+            <div className="text-2xl font-bold">{businessStats.activeProjects}</div>
+            <p className="text-xs text-muted-foreground">{businessStats.completedProjects} completed total</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Invoices</CardTitle>
+            <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{businessStats.pendingInvoices}</div>
+            <p className="text-xs text-orange-600">${businessStats.pendingAmount.toLocaleString()} pending</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Additional Stats Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Average Project Value</CardTitle>
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{invoices.length}</div>
+            <div className="text-2xl font-bold">${businessStats.averageProjectValue.toLocaleString()}</div>
+            <p className="text-xs text-blue-600">Based on completed projects</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Receipts</CardTitle>
-            <Receipt className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{receipts.length}</div>
+            <div className="text-2xl font-bold">{businessStats.conversionRate}%</div>
+            <p className="text-xs text-green-600">Estimates to invoices</p>
           </CardContent>
         </Card>
       </div>
