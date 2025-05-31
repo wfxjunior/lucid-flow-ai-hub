@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -119,7 +118,7 @@ export function BusinessDashboard() {
     if (!selectedInvoiceId) return
     
     try {
-      await generateReceipt(selectedInvoiceId, receiptForm.paymentMethod, receiptForm.notes)
+      await generateReceipt(selectedInvoiceId)
       setReceiptForm({ paymentMethod: "", notes: "" })
       setIsReceiptDialogOpen(false)
       setSelectedInvoiceId(null)
