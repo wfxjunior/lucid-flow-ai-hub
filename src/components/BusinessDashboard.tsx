@@ -50,16 +50,16 @@ export function BusinessDashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+    <div className="space-y-4 sm:space-y-6">
+      {/* Key Metrics - Responsive Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <Card className="transition-all duration-200 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Revenue</CardTitle>
+            <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$70,000</div>
+          <CardContent className="pb-2">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">$70,000</div>
             <p className="text-xs text-green-600">
               <TrendingUp className="inline h-3 w-3 mr-1" />
               +12% from last month
@@ -67,13 +67,13 @@ export function BusinessDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="transition-all duration-200 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">Active Clients</CardTitle>
+            <Users className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">42</div>
+          <CardContent className="pb-2">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">42</div>
             <p className="text-xs text-green-600">
               <TrendingUp className="inline h-3 w-3 mr-1" />
               +3 new this month
@@ -81,13 +81,13 @@ export function BusinessDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="transition-all duration-200 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">Pending Invoices</CardTitle>
+            <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">8</div>
+          <CardContent className="pb-2">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">8</div>
             <p className="text-xs text-yellow-600">
               <Clock className="inline h-3 w-3 mr-1" />
               $18,500 outstanding
@@ -95,13 +95,13 @@ export function BusinessDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="transition-all duration-200 hover:shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Month</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">This Month</CardTitle>
+            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$28,000</div>
+          <CardContent className="pb-2">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold">$28,000</div>
             <p className="text-xs text-green-600">
               <Target className="inline h-3 w-3 mr-1" />
               Goal: $30,000
@@ -110,21 +110,22 @@ export function BusinessDashboard() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Charts Grid - Responsive Layout */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
         {/* Revenue Breakdown */}
         <Card>
           <CardHeader>
-            <CardTitle>Revenue Breakdown</CardTitle>
-            <CardDescription>Income sources for this quarter</CardDescription>
+            <CardTitle className="text-lg sm:text-xl">Revenue Breakdown</CardTitle>
+            <CardDescription className="text-sm">Income sources for this quarter</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80">
               <PieChart>
                 <Pie
                   data={revenueData}
                   cx="50%"
                   cy="50%"
-                  outerRadius={80}
+                  outerRadius="70%"
                   dataKey="value"
                   label={({ name, value }) => `${name}: ${value}%`}
                 >
@@ -141,15 +142,15 @@ export function BusinessDashboard() {
         {/* Monthly Estimates */}
         <Card>
           <CardHeader>
-            <CardTitle>Monthly Estimates</CardTitle>
-            <CardDescription>Estimate generation trends</CardDescription>
+            <CardTitle className="text-lg sm:text-xl">Monthly Estimates</CardTitle>
+            <CardDescription className="text-sm">Estimate generation trends</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-64">
+          <CardContent className="p-3 sm:p-4 md:p-6">
+            <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80">
               <BarChart data={estimates}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
+                <XAxis dataKey="month" fontSize={12} />
+                <YAxis width={50} fontSize={12} />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="amount" fill="var(--color-amount)" />
               </BarChart>
@@ -158,18 +159,18 @@ export function BusinessDashboard() {
         </Card>
       </div>
 
-      {/* Invoice Status */}
+      {/* Invoice Status - Full Width */}
       <Card>
         <CardHeader>
-          <CardTitle>Invoice Status Overview</CardTitle>
-          <CardDescription>Track paid vs pending invoices over time</CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Invoice Status Overview</CardTitle>
+          <CardDescription className="text-sm">Track paid vs pending invoices over time</CardDescription>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-80">
+        <CardContent className="p-3 sm:p-4 md:p-6">
+          <ChartContainer config={chartConfig} className="h-64 sm:h-80 md:h-96">
             <LineChart data={invoices}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
+              <XAxis dataKey="month" fontSize={12} />
+              <YAxis width={60} fontSize={12} />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Line type="monotone" dataKey="paid" stroke="var(--color-paid)" strokeWidth={2} />
               <Line type="monotone" dataKey="pending" stroke="var(--color-pending)" strokeWidth={2} />
