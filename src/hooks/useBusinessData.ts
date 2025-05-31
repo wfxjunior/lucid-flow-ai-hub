@@ -1,14 +1,14 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { toast } from 'sonner'
-import type { Client, Estimate, Invoice, Receipt, FilterStatus, FilterType } from '@/types/business'
+import type { Client, Estimate, Invoice, Receipt, Appointment, FilterStatus, FilterType } from '@/types/business'
 
 export function useBusinessData() {
   const [clients, setClients] = useState<Client[]>([])
   const [estimates, setEstimates] = useState<Estimate[]>([])
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [receipts, setReceipts] = useState<Receipt[]>([])
+  const [appointments, setAppointments] = useState<Appointment[]>([])
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null)
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all')
   const [typeFilter, setTypeFilter] = useState<FilterType>('all')
@@ -65,6 +65,18 @@ export function useBusinessData() {
 
       if (receiptsError) throw receiptsError
       setReceipts(receiptsData as Receipt[] || [])
+
+      // Load appointments with client data
+      const { data: appointmentsData, error: appointmentsError } = await supabase
+        .from('appointments')
+        .select(`
+          *,
+          client:clients(*)
+        `)
+        .order('appointment_date', { ascending: true })
+
+      if (appointmentsError) throw appointmentsError
+      setAppointments(appointmentsData as Appointment[] || [])
 
     } catch (error) {
       console.error('Error loading data:', error)
@@ -303,6 +315,58 @@ export function useBusinessData() {
     }
   }
 
+  // Create appointment
+  const createAppointment = async (appointmentData: Omit<Appointment, 'id' | 'created_at' | 'updated_at' | 'user_id'>) => {
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .insert([{
+          ...appointmentData,
+          user_id: (await supabase.auth.getUser()).data.user?.id
+        }])
+        .select(`
+          *,
+          client:clients(*)
+        `)
+        .single()
+
+      if (error) throw error
+      
+      setAppointments(prev => [data as Appointment, ...prev])
+      toast.success('Appointment created successfully')
+      return data as Appointment
+    } catch (error) {
+      console.error('Error creating appointment:', error)
+      toast.error('Failed to create appointment')
+      throw error
+    }
+  }
+
+  // Update appointment status
+  const updateAppointmentStatus = async (id: string, status: Appointment['status']) => {
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .update({ status, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select(`
+          *,
+          client:clients(*)
+        `)
+        .single()
+
+      if (error) throw error
+      
+      setAppointments(prev => prev.map(appointment => appointment.id === id ? data as Appointment : appointment))
+      toast.success('Appointment status updated successfully')
+      return data as Appointment
+    } catch (error) {
+      console.error('Error updating appointment status:', error)
+      toast.error('Failed to update appointment status')
+      throw error
+    }
+  }
+
   // Filtered data based on selected client and filters
   const filteredEstimates = estimates.filter(estimate => {
     if (selectedClientId && estimate.client_id !== selectedClientId) return false
@@ -324,6 +388,13 @@ export function useBusinessData() {
     return true
   })
 
+  const filteredAppointments = appointments.filter(appointment => {
+    if (selectedClientId && appointment.client_id !== selectedClientId) return false
+    if (statusFilter !== 'all' && appointment.status !== statusFilter) return false
+    if (typeFilter !== 'all' && typeFilter !== 'appointments') return false
+    return true
+  })
+
   const filteredClients = clients.filter(client => {
     if (statusFilter !== 'all' && client.status !== statusFilter) return false
     return true
@@ -339,6 +410,7 @@ export function useBusinessData() {
     estimates: filteredEstimates,
     invoices: filteredInvoices,
     receipts: filteredReceipts,
+    appointments: filteredAppointments,
     allClients: clients,
     
     // Filters
@@ -357,6 +429,8 @@ export function useBusinessData() {
     updateInvoiceStatus,
     generateReceipt,
     undoEstimateConversion,
+    createAppointment,
+    updateAppointmentStatus,
     
     // Utilities
     loading,

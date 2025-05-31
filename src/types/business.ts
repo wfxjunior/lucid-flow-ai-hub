@@ -55,5 +55,21 @@ export interface Receipt {
   invoice?: Invoice
 }
 
-export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue'
-export type FilterType = 'all' | 'estimates' | 'invoices' | 'receipts'
+export interface Appointment {
+  id: string
+  client_id: string
+  user_id: string
+  title: string
+  description?: string
+  appointment_date: string
+  duration_minutes: number
+  status: 'scheduled' | 'confirmed' | 'cancelled' | 'completed'
+  location?: string
+  notes?: string
+  created_at: string
+  updated_at: string
+  client?: Client
+}
+
+export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue' | 'scheduled' | 'confirmed' | 'cancelled' | 'completed'
+export type FilterType = 'all' | 'estimates' | 'invoices' | 'receipts' | 'appointments'

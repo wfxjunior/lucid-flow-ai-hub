@@ -21,6 +21,7 @@ import { AppSidebar } from "@/components/AppSidebar"
 import { FileManager } from "@/components/FileManager"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { UserGreeting } from "@/components/UserGreeting"
+import { AppointmentsPage } from "@/components/AppointmentsPage"
 
 const Index = () => {
   const { t } = useLanguage()
@@ -38,6 +39,8 @@ const Index = () => {
       setActiveView("analytics")
     } else if (actionId === "features") {
       setActiveView("features")
+    } else if (actionId === "appointments") {
+      setActiveView("appointments")
     } else {
       setActiveView(actionId)
     }
@@ -74,6 +77,8 @@ const Index = () => {
         return <BlogAdmin />
       case 'pricing':
         return <PricingPlans />
+      case 'appointments':
+        return <AppointmentsPage />
       default:
         return (
           <div className="space-y-6">
