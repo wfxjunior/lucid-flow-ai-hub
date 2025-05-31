@@ -98,6 +98,24 @@ export function EstimatesPage() {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Estimates</h1>
+            <p className="text-muted-foreground">Manage and track your estimates</p>
+          </div>
+        </div>
+        <Card>
+          <CardContent className="py-8">
+            <div className="text-center">Loading estimates...</div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -133,10 +151,11 @@ export function EstimatesPage() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Search by Date</label>
+              <label htmlFor="search-date" className="text-sm font-medium">Search by Date</label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
+                  id="search-date"
                   type="date"
                   value={searchDate}
                   onChange={(e) => setSearchDate(e.target.value)}
@@ -145,9 +164,9 @@ export function EstimatesPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Filter by Status</label>
+              <label htmlFor="status-filter" className="text-sm font-medium">Filter by Status</label>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger>
+                <SelectTrigger id="status-filter">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -180,9 +199,7 @@ export function EstimatesPage() {
           <CardTitle>Estimates ({filteredEstimates.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          {loading ? (
-            <div className="text-center py-8">Loading estimates...</div>
-          ) : filteredEstimates.length === 0 ? (
+          {filteredEstimates.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               No estimates found. Create your first estimate to get started.
             </div>
@@ -224,6 +241,7 @@ export function EstimatesPage() {
                               size="sm"
                               variant="outline"
                               onClick={() => handleMarkViewed(estimate.id)}
+                              title="Mark as viewed"
                             >
                               <Eye className="h-3 w-3" />
                             </Button>
@@ -233,6 +251,7 @@ export function EstimatesPage() {
                               size="sm"
                               variant="outline"
                               onClick={() => handleStatusUpdate(estimate.id, 'approved', 'accepted_at')}
+                              title="Approve estimate"
                             >
                               <Check className="h-3 w-3" />
                             </Button>
@@ -242,6 +261,7 @@ export function EstimatesPage() {
                               size="sm"
                               variant="outline"
                               onClick={() => handleStatusUpdate(estimate.id, 'rejected', 'declined_at')}
+                              title="Reject estimate"
                             >
                               <X className="h-3 w-3" />
                             </Button>
@@ -251,6 +271,7 @@ export function EstimatesPage() {
                               size="sm"
                               variant="outline"
                               onClick={() => handleStatusUpdate(estimate.id, estimate.status, 'signed_at')}
+                              title="Mark as signed"
                             >
                               <FileSignature className="h-3 w-3" />
                             </Button>
