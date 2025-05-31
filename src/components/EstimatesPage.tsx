@@ -56,6 +56,7 @@ export function EstimatesPage() {
       await markEstimateViewed(estimateId)
       toast.success("Estimate marked as viewed")
     } catch (error) {
+      console.error("Error marking estimate as viewed:", error)
       toast.error("Failed to mark estimate as viewed")
     }
   }
@@ -69,18 +70,29 @@ export function EstimatesPage() {
       })
       toast.success(`Estimate ${status} successfully`)
     } catch (error) {
+      console.error("Error updating estimate status:", error)
       toast.error(`Failed to update estimate status`)
     }
   }
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "Not set"
-    return format(new Date(dateString), "MMM dd, yyyy")
+    try {
+      return format(new Date(dateString), "MMM dd, yyyy")
+    } catch (error) {
+      console.error("Error formatting date:", error)
+      return "Invalid date"
+    }
   }
 
   const formatDateTime = (dateString: string | null) => {
     if (!dateString) return "Never"
-    return format(new Date(dateString), "MMM dd, yyyy HH:mm")
+    try {
+      return format(new Date(dateString), "MMM dd, yyyy HH:mm")
+    } catch (error) {
+      console.error("Error formatting datetime:", error)
+      return "Invalid date"
+    }
   }
 
   return (

@@ -10,13 +10,21 @@ export function useEstimateData() {
   const { data: userSettings } = useQuery({
     queryKey: ['userSettings'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('user_settings')
-        .select('*')
-        .single()
-      
-      if (error && error.code !== 'PGRST116') throw error
-      return data
+      try {
+        const { data, error } = await supabase
+          .from('user_settings')
+          .select('*')
+          .single()
+        
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error fetching user settings:', error)
+          throw error
+        }
+        return data
+      } catch (error) {
+        console.error('Error in userSettings query:', error)
+        return null
+      }
     }
   })
 
@@ -24,33 +32,52 @@ export function useEstimateData() {
   const { data: estimates, isLoading: estimatesLoading } = useQuery({
     queryKey: ['estimates'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('estimates')
-        .select(`
-          *,
-          client:clients(*)
-        `)
-        .order('created_at', { ascending: false })
-      
-      if (error) throw error
-      return data
+      try {
+        const { data, error } = await supabase
+          .from('estimates')
+          .select(`
+            *,
+            client:clients(*)
+          `)
+          .order('created_at', { ascending: false })
+        
+        if (error) {
+          console.error('Error fetching estimates:', error)
+          throw error
+        }
+        return data || []
+      } catch (error) {
+        console.error('Error in estimates query:', error)
+        return []
+      }
     }
   })
 
   // Create or update user settings
   const updateUserSettingsMutation = useMutation({
     mutationFn: async (settings: any) => {
-      const { data, error } = await supabase
-        .from('user_settings')
-        .upsert({
-          user_id: (await supabase.auth.getUser()).data.user?.id,
-          ...settings
-        })
-        .select()
-        .single()
-      
-      if (error) throw error
-      return data
+      try {
+        const { data: user } = await supabase.auth.getUser()
+        if (!user.user) throw new Error('User not authenticated')
+
+        const { data, error } = await supabase
+          .from('user_settings')
+          .upsert({
+            user_id: user.user.id,
+            ...settings
+          })
+          .select()
+          .single()
+        
+        if (error) {
+          console.error('Error updating user settings:', error)
+          throw error
+        }
+        return data
+      } catch (error) {
+        console.error('Error in updateUserSettings mutation:', error)
+        throw error
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userSettings'] })
@@ -59,32 +86,51 @@ export function useEstimateData() {
 
   // Generate estimate number
   const generateEstimateNumber = async () => {
-    const startingNumber = userSettings?.estimate_number_start || 1
-    const { data, error } = await supabase.rpc('generate_estimate_number', {
-      starting_number: startingNumber
-    })
-    
-    if (error) throw error
-    return data
+    try {
+      const startingNumber = userSettings?.estimate_number_start || 1
+      const { data, error } = await supabase.rpc('generate_estimate_number', {
+        starting_number: startingNumber
+      })
+      
+      if (error) {
+        console.error('Error generating estimate number:', error)
+        throw error
+      }
+      return data
+    } catch (error) {
+      console.error('Error in generateEstimateNumber:', error)
+      throw error
+    }
   }
 
   // Create estimate
   const createEstimateMutation = useMutation({
     mutationFn: async (estimate: any) => {
-      const estimateNumber = await generateEstimateNumber()
-      
-      const { data, error } = await supabase
-        .from('estimates')
-        .insert([{
-          ...estimate,
-          estimate_number: estimateNumber,
-          user_id: (await supabase.auth.getUser()).data.user?.id
-        }])
-        .select()
-        .single()
-      
-      if (error) throw error
-      return data
+      try {
+        const { data: user } = await supabase.auth.getUser()
+        if (!user.user) throw new Error('User not authenticated')
+
+        const estimateNumber = await generateEstimateNumber()
+        
+        const { data, error } = await supabase
+          .from('estimates')
+          .insert([{
+            ...estimate,
+            estimate_number: estimateNumber,
+            user_id: user.user.id
+          }])
+          .select()
+          .single()
+        
+        if (error) {
+          console.error('Error creating estimate:', error)
+          throw error
+        }
+        return data
+      } catch (error) {
+        console.error('Error in createEstimate mutation:', error)
+        throw error
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['estimates'] })
@@ -94,21 +140,36 @@ export function useEstimateData() {
   // Update estimate status
   const updateEstimateStatusMutation = useMutation({
     mutationFn: async ({ id, status, timestamp_field }: { id: string, status: string, timestamp_field?: string }) => {
-      const updateData: any = { status }
-      
-      if (timestamp_field) {
-        updateData[timestamp_field] = new Date().toISOString()
-      }
+      try {
+        const updateData: any = { status }
+        
+        if (timestamp_field) {
+          updateData[timestamp_field] = new Date().toISOString()
+          
+          // Update signature status based on the timestamp field
+          if (timestamp_field === 'signed_at') {
+            updateData.signature_status = 'signed'
+          } else if (timestamp_field === 'declined_at') {
+            updateData.signature_status = 'declined'
+          }
+        }
 
-      const { data, error } = await supabase
-        .from('estimates')
-        .update(updateData)
-        .eq('id', id)
-        .select()
-        .single()
-      
-      if (error) throw error
-      return data
+        const { data, error } = await supabase
+          .from('estimates')
+          .update(updateData)
+          .eq('id', id)
+          .select()
+          .single()
+        
+        if (error) {
+          console.error('Error updating estimate status:', error)
+          throw error
+        }
+        return data
+      } catch (error) {
+        console.error('Error in updateEstimateStatus mutation:', error)
+        throw error
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['estimates'] })
@@ -117,13 +178,22 @@ export function useEstimateData() {
 
   // Mark estimate as viewed
   const markEstimateViewed = async (estimateId: string) => {
-    const { error } = await supabase
-      .from('estimates')
-      .update({ viewed_at: new Date().toISOString() })
-      .eq('id', estimateId)
+    try {
+      const { error } = await supabase
+        .from('estimates')
+        .update({ viewed_at: new Date().toISOString() })
+        .eq('id', estimateId)
 
-    if (error) throw error
-    queryClient.invalidateQueries({ queryKey: ['estimates'] })
+      if (error) {
+        console.error('Error marking estimate as viewed:', error)
+        throw error
+      }
+      
+      queryClient.invalidateQueries({ queryKey: ['estimates'] })
+    } catch (error) {
+      console.error('Error in markEstimateViewed:', error)
+      throw error
+    }
   }
 
   return {
