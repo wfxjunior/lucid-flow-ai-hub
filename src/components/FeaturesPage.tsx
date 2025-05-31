@@ -1,12 +1,13 @@
 
 import { useState } from "react"
-import { Heart, Plus, TrendingUp, Clock, CheckCircle } from "lucide-react"
+import { Heart, Plus, TrendingUp, Clock, CheckCircle, Crown } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { toast } from "@/hooks/use-toast"
 
 interface Feature {
   id: string
@@ -20,8 +21,20 @@ interface Feature {
   isLiked: boolean
 }
 
+interface Comment {
+  id: string
+  featureId: string
+  text: string
+  author: string
+  createdAt: string
+}
+
 export function FeaturesPage() {
   const { t } = useLanguage()
+  
+  // Mock premium status - in a real app, this would come from your auth/subscription system
+  const [hasPremium] = useState(false)
+  
   const [features, setFeatures] = useState<Feature[]>([
     {
       id: "1",
@@ -69,6 +82,23 @@ export function FeaturesPage() {
     }
   ])
 
+  const [comments, setComments] = useState<Comment[]>([
+    {
+      id: "1",
+      featureId: "1",
+      text: "This would be amazing for our team workflow!",
+      author: "Alex K.",
+      createdAt: "2024-01-16"
+    },
+    {
+      id: "2",
+      featureId: "2",
+      text: "Really looking forward to this feature!",
+      author: "Emma S.",
+      createdAt: "2024-01-21"
+    }
+  ])
+
   const [newFeature, setNewFeature] = useState({
     title: "",
     description: "",
@@ -76,8 +106,19 @@ export function FeaturesPage() {
   })
 
   const [showAddForm, setShowAddForm] = useState(false)
+  const [selectedFeature, setSelectedFeature] = useState<string | null>(null)
+  const [newComment, setNewComment] = useState("")
 
   const handleLike = (featureId: string) => {
+    if (!hasPremium) {
+      toast({
+        title: "Premium Feature Required",
+        description: "Upgrade to premium to like feature requests.",
+        variant: "destructive"
+      })
+      return
+    }
+
     setFeatures(features.map(feature => 
       feature.id === featureId 
         ? { 
@@ -90,6 +131,15 @@ export function FeaturesPage() {
   }
 
   const handleSubmitFeature = () => {
+    if (!hasPremium) {
+      toast({
+        title: "Premium Feature Required",
+        description: "Upgrade to premium to suggest new features.",
+        variant: "destructive"
+      })
+      return
+    }
+
     if (newFeature.title.trim() && newFeature.description.trim()) {
       const feature: Feature = {
         id: Date.now().toString(),
@@ -106,6 +156,46 @@ export function FeaturesPage() {
       setFeatures([feature, ...features])
       setNewFeature({ title: "", description: "", category: "" })
       setShowAddForm(false)
+      
+      toast({
+        title: "Feature Submitted",
+        description: "Your feature request has been submitted for review.",
+      })
+    } else {
+      toast({
+        title: "Please fill all required fields",
+        description: "Title and description are required.",
+        variant: "destructive"
+      })
+    }
+  }
+
+  const handleAddComment = (featureId: string) => {
+    if (!hasPremium) {
+      toast({
+        title: "Premium Feature Required",
+        description: "Upgrade to premium to comment on features.",
+        variant: "destructive"
+      })
+      return
+    }
+
+    if (newComment.trim()) {
+      const comment: Comment = {
+        id: Date.now().toString(),
+        featureId,
+        text: newComment,
+        author: "You",
+        createdAt: new Date().toISOString().split('T')[0]
+      }
+      
+      setComments([...comments, comment])
+      setNewComment("")
+      
+      toast({
+        title: "Comment Added",
+        description: "Your comment has been added.",
+      })
     }
   }
 
@@ -136,22 +226,38 @@ export function FeaturesPage() {
           Help us build the future of FeatherBiz! Suggest new features and vote on existing ones. 
           The most popular requests get prioritized in our development roadmap.
         </p>
+        {!hasPremium && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-2xl mx-auto">
+            <div className="flex items-center gap-2 justify-center">
+              <Crown className="h-5 w-5 text-yellow-600" />
+              <p className="text-yellow-800 font-medium">
+                Premium features like suggesting, liking, and commenting require an upgrade
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Add Feature Button */}
       <div className="flex justify-center">
         <Button 
-          onClick={() => setShowAddForm(!showAddForm)}
+          onClick={() => hasPremium ? setShowAddForm(!showAddForm) : toast({
+            title: "Premium Feature Required",
+            description: "Upgrade to premium to suggest new features.",
+            variant: "destructive"
+          })}
           className="flex items-center gap-2"
           size="lg"
+          variant={hasPremium ? "default" : "outline"}
         >
+          {!hasPremium && <Crown className="h-4 w-4" />}
           <Plus className="h-4 w-4" />
           Suggest a Feature
         </Button>
       </div>
 
       {/* Add Feature Form */}
-      {showAddForm && (
+      {showAddForm && hasPremium && (
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>Suggest a New Feature</CardTitle>
@@ -161,7 +267,7 @@ export function FeaturesPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Feature Title</label>
+              <label className="text-sm font-medium">Feature Title *</label>
               <Input
                 placeholder="e.g., Advanced Email Templates"
                 value={newFeature.title}
@@ -177,7 +283,7 @@ export function FeaturesPage() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Description</label>
+              <label className="text-sm font-medium">Description *</label>
               <Textarea
                 placeholder="Describe your feature idea in detail..."
                 value={newFeature.description}
@@ -218,6 +324,48 @@ export function FeaturesPage() {
                     <span>•</span>
                     <span>{feature.submittedAt}</span>
                   </div>
+
+                  {/* Comments Section */}
+                  {selectedFeature === feature.id && (
+                    <div className="mt-4 space-y-3 border-t pt-4">
+                      <h4 className="font-medium">Comments</h4>
+                      {comments
+                        .filter(comment => comment.featureId === feature.id)
+                        .map((comment) => (
+                          <div key={comment.id} className="bg-gray-50 rounded-lg p-3">
+                            <p className="text-sm">{comment.text}</p>
+                            <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+                              <span>{comment.author}</span>
+                              <span>•</span>
+                              <span>{comment.createdAt}</span>
+                            </div>
+                          </div>
+                        ))}
+                      
+                      {hasPremium ? (
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="Add a comment..."
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            className="flex-1"
+                          />
+                          <Button 
+                            size="sm" 
+                            onClick={() => handleAddComment(feature.id)}
+                            disabled={!newComment.trim()}
+                          >
+                            Post
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 p-3 bg-yellow-50 rounded-lg">
+                          <Crown className="h-4 w-4 text-yellow-600" />
+                          <span className="text-sm text-yellow-800">Premium required to comment</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-col items-center gap-2">
@@ -228,11 +376,23 @@ export function FeaturesPage() {
                     className={`flex items-center gap-1 ${
                       feature.isLiked ? 'text-blue-600' : 'text-muted-foreground'
                     }`}
+                    disabled={!hasPremium}
                   >
                     <Heart 
                       className={`h-5 w-5 ${feature.isLiked ? 'fill-blue-600 text-blue-600' : ''}`} 
                     />
                     <span className="font-medium">{feature.likes}</span>
+                  </Button>
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedFeature(
+                      selectedFeature === feature.id ? null : feature.id
+                    )}
+                    className="text-xs"
+                  >
+                    {selectedFeature === feature.id ? 'Hide' : 'Comments'}
                   </Button>
                 </div>
               </div>
