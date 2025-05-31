@@ -1,609 +1,182 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { useBusinessData } from "@/hooks/useBusinessData"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell } from "recharts"
 import { 
+  TrendingUp, 
+  DollarSign, 
   Users, 
   FileText, 
-  Receipt, 
-  Plus, 
-  Search, 
-  Filter,
+  Calendar,
+  Receipt,
   CreditCard,
-  CheckCircle,
+  Target,
   Clock,
-  Archive,
-  Undo2,
-  DollarSign
+  CheckCircle
 } from "lucide-react"
 
 export function BusinessDashboard() {
-  const {
-    clients,
-    estimates,
-    invoices,
-    receipts,
-    allClients,
-    selectedClientId,
-    setSelectedClientId,
-    statusFilter,
-    setStatusFilter,
-    typeFilter,
-    setTypeFilter,
-    createClient,
-    createEstimate,
-    convertEstimateToInvoice,
-    updateInvoiceStatus,
-    generateReceipt,
-    undoEstimateConversion,
-    loading
-  } = useBusinessData()
+  // Initialize with default empty arrays to prevent mapping errors
+  const [estimates] = useState([
+    { month: 'Jan', amount: 15000 },
+    { month: 'Feb', amount: 18000 },
+    { month: 'Mar', amount: 22000 },
+    { month: 'Apr', amount: 19000 },
+    { month: 'May', amount: 25000 },
+    { month: 'Jun', amount: 28000 },
+  ])
 
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isClientDialogOpen, setIsClientDialogOpen] = useState(false)
-  const [isEstimateDialogOpen, setIsEstimateDialogOpen] = useState(false)
-  const [isReceiptDialogOpen, setIsReceiptDialogOpen] = useState(false)
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null)
+  const [invoices] = useState([
+    { month: 'Jan', paid: 12000, pending: 3000 },
+    { month: 'Feb', paid: 15000, pending: 3000 },
+    { month: 'Mar', paid: 18000, pending: 4000 },
+    { month: 'Apr', paid: 16000, pending: 3000 },
+    { month: 'May', paid: 21000, pending: 4000 },
+    { month: 'Jun', paid: 24000, pending: 4000 },
+  ])
 
-  // Form states
-  const [clientForm, setClientForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: ""
-  })
+  const [revenueData] = useState([
+    { name: 'Services', value: 65, amount: 45000 },
+    { name: 'Products', value: 25, amount: 18000 },
+    { name: 'Consulting', value: 10, amount: 7000 },
+  ])
 
-  const [estimateForm, setEstimateForm] = useState({
-    title: "",
-    description: "",
-    amount: ""
-  })
-
-  const [receiptForm, setReceiptForm] = useState({
-    paymentMethod: "",
-    notes: ""
-  })
-
-  // Fictional stats for demo purposes
-  const businessStats = {
-    totalRevenue: 87450,
-    monthlyGrowth: 12.5,
-    totalClients: 28,
-    newClientsThisMonth: 4,
-    activeProjects: 15,
-    completedProjects: 42,
-    pendingInvoices: 8,
-    pendingAmount: 15230,
-    averageProjectValue: 3120,
-    conversionRate: 68
-  }
-
-  const handleCreateClient = async () => {
-    try {
-      await createClient({
-        ...clientForm,
-        status: 'active'
-      })
-      setClientForm({ name: "", email: "", phone: "", address: "" })
-      setIsClientDialogOpen(false)
-    } catch (error) {
-      console.error('Error creating client:', error)
-    }
-  }
-
-  const handleCreateEstimate = async () => {
-    if (!selectedClientId) return
-    
-    try {
-      await createEstimate({
-        client_id: selectedClientId,
-        title: estimateForm.title,
-        description: estimateForm.description,
-        amount: parseFloat(estimateForm.amount),
-        status: 'draft'
-      })
-      setEstimateForm({ title: "", description: "", amount: "" })
-      setIsEstimateDialogOpen(false)
-    } catch (error) {
-      console.error('Error creating estimate:', error)
-    }
-  }
-
-  const handleGenerateReceipt = async () => {
-    if (!selectedInvoiceId) return
-    
-    try {
-      await generateReceipt(selectedInvoiceId)
-      setReceiptForm({ paymentMethod: "", notes: "" })
-      setIsReceiptDialogOpen(false)
-      setSelectedInvoiceId(null)
-    } catch (error) {
-      console.error('Error generating receipt:', error)
-    }
-  }
-
-  const getStatusBadgeVariant = (status: string) => {
-    switch (status) {
-      case 'active':
-      case 'approved':
-      case 'paid':
-        return 'default'
-      case 'pending':
-      case 'sent':
-        return 'secondary'
-      case 'draft':
-        return 'outline'
-      case 'inactive':
-      case 'rejected':
-      case 'overdue':
-        return 'destructive'
-      case 'archived':
-      case 'converted':
-        return 'secondary'
-      default:
-        return 'outline'
-    }
-  }
-
-  // Combine and filter all items for search
-  const allItems = [
-    ...estimates.map(item => ({ ...item, type: 'estimate' as const })),
-    ...invoices.map(item => ({ ...item, type: 'invoice' as const })),
-    ...receipts.map(item => ({ ...item, type: 'receipt' as const }))
-  ].filter(item => {
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase()
-      const hasTitle = 'title' in item && item.title?.toLowerCase().includes(searchLower)
-      const hasReceiptNumber = 'receipt_number' in item && item.receipt_number?.toLowerCase().includes(searchLower)
-      const hasInvoiceNumber = 'invoice_number' in item && item.invoice_number?.toLowerCase().includes(searchLower)
-      
-      return hasTitle || hasReceiptNumber || hasInvoiceNumber
-    }
-    return true
-  })
-
-  const handleInvoiceStatusChange = async (invoiceId: string, newStatus: 'pending' | 'paid' | 'archived' | 'overdue') => {
-    await updateInvoiceStatus(invoiceId, newStatus)
-    
-    if (newStatus === 'paid') {
-      setSelectedInvoiceId(invoiceId)
-      setIsReceiptDialogOpen(true)
-    }
-  }
-
-  const getItemTitle = (item: any) => {
-    if ('title' in item && item.title) return item.title
-    if ('receipt_number' in item && item.receipt_number) return item.receipt_number
-    if ('invoice_number' in item && item.invoice_number) return item.invoice_number
-    return 'Unknown'
-  }
-
-  if (loading) {
-    return <div className="flex items-center justify-center h-64">Loading...</div>
+  const chartConfig = {
+    amount: { label: "Amount", color: "hsl(var(--primary))" },
+    paid: { label: "Paid", color: "hsl(142.1 76.2% 36.3%)" },
+    pending: { label: "Pending", color: "hsl(var(--destructive))" },
   }
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h2 className="text-2xl font-bold">Business Dashboard</h2>
-          <p className="text-muted-foreground">Manage clients, estimates, invoices, and receipts</p>
-        </div>
-        <div className="flex gap-2">
-          <Dialog open={isClientDialogOpen} onOpenChange={setIsClientDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Client
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create New Client</DialogTitle>
-                <DialogDescription>
-                  Add a new client to your business dashboard.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="client-name">Name</Label>
-                  <Input
-                    id="client-name"
-                    value={clientForm.name}
-                    onChange={(e) => setClientForm(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="Client name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="client-email">Email</Label>
-                  <Input
-                    id="client-email"
-                    type="email"
-                    value={clientForm.email}
-                    onChange={(e) => setClientForm(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="client@example.com"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="client-phone">Phone</Label>
-                  <Input
-                    id="client-phone"
-                    value={clientForm.phone}
-                    onChange={(e) => setClientForm(prev => ({ ...prev, phone: e.target.value }))}
-                    placeholder="Phone number"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="client-address">Address</Label>
-                  <Input
-                    id="client-address"
-                    value={clientForm.address}
-                    onChange={(e) => setClientForm(prev => ({ ...prev, address: e.target.value }))}
-                    placeholder="Address"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setIsClientDialogOpen(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleCreateClient}>Create Client</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
-          {selectedClientId && (
-            <Dialog open={isEstimateDialogOpen} onOpenChange={setIsEstimateDialogOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline">
-                  <FileText className="h-4 w-4 mr-2" />
-                  New Estimate
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Create New Estimate</DialogTitle>
-                  <DialogDescription>
-                    Create an estimate for the selected client.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="estimate-title">Title</Label>
-                    <Input
-                      id="estimate-title"
-                      value={estimateForm.title}
-                      onChange={(e) => setEstimateForm(prev => ({ ...prev, title: e.target.value }))}
-                      placeholder="Estimate title"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="estimate-description">Description</Label>
-                    <Input
-                      id="estimate-description"
-                      value={estimateForm.description}
-                      onChange={(e) => setEstimateForm(prev => ({ ...prev, description: e.target.value }))}
-                      placeholder="Estimate description"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="estimate-amount">Amount</Label>
-                    <Input
-                      id="estimate-amount"
-                      type="number"
-                      value={estimateForm.amount}
-                      onChange={(e) => setEstimateForm(prev => ({ ...prev, amount: e.target.value }))}
-                      placeholder="0.00"
-                    />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setIsEstimateDialogOpen(false)}>
-                    Cancel
-                  </Button>
-                  <Button onClick={handleCreateEstimate}>Create Estimate</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          )}
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            placeholder="Search estimates, invoices, receipts..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-        <Select value={selectedClientId || "all"} onValueChange={(value) => setSelectedClientId(value === "all" ? null : value)}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Filter by client" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Clients</SelectItem>
-            {allClients.map((client) => (
-              <SelectItem key={client.id} value={client.id}>
-                {client.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as any)}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="paid">Paid</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
-            <SelectItem value="archived">Archived</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value as any)}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Types</SelectItem>
-            <SelectItem value="estimates">Estimates</SelectItem>
-            <SelectItem value="invoices">Invoices</SelectItem>
-            <SelectItem value="receipts">Receipts</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Stats Cards with Fictional Data */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${businessStats.totalRevenue.toLocaleString()}</div>
-            <p className="text-xs text-green-600">+{businessStats.monthlyGrowth}% from last month</p>
+            <div className="text-2xl font-bold">$70,000</div>
+            <p className="text-xs text-green-600">
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+              +12% from last month
+            </p>
           </CardContent>
         </Card>
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Clients</CardTitle>
+            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{businessStats.totalClients}</div>
-            <p className="text-xs text-green-600">+{businessStats.newClientsThisMonth} new this month</p>
+            <div className="text-2xl font-bold">42</div>
+            <p className="text-xs text-green-600">
+              <TrendingUp className="inline h-3 w-3 mr-1" />
+              +3 new this month
+            </p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{businessStats.activeProjects}</div>
-            <p className="text-xs text-muted-foreground">{businessStats.completedProjects} completed total</p>
-          </CardContent>
-        </Card>
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{businessStats.pendingInvoices}</div>
-            <p className="text-xs text-orange-600">${businessStats.pendingAmount.toLocaleString()} pending</p>
+            <div className="text-2xl font-bold">8</div>
+            <p className="text-xs text-yellow-600">
+              <Clock className="inline h-3 w-3 mr-1" />
+              $18,500 outstanding
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">This Month</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$28,000</div>
+            <p className="text-xs text-green-600">
+              <Target className="inline h-3 w-3 mr-1" />
+              Goal: $30,000
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Additional Stats Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Project Value</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${businessStats.averageProjectValue.toLocaleString()}</div>
-            <p className="text-xs text-blue-600">Based on completed projects</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{businessStats.conversionRate}%</div>
-            <p className="text-xs text-green-600">Estimates to invoices</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Clients Panel */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Revenue Breakdown */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              Clients
-            </CardTitle>
+            <CardTitle>Revenue Breakdown</CardTitle>
+            <CardDescription>Income sources for this quarter</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
-            {clients.length === 0 ? (
-              <p className="text-muted-foreground text-center py-4">No clients found</p>
-            ) : (
-              clients.map((client) => (
-                <div
-                  key={client.id}
-                  className={`p-3 rounded-lg border cursor-pointer transition-colors ${
-                    selectedClientId === client.id ? 'bg-primary/10 border-primary' : 'hover:bg-muted/50'
-                  }`}
-                  onClick={() => setSelectedClientId(client.id)}
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <PieChart>
+                <Pie
+                  data={revenueData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  dataKey="value"
+                  label={({ name, value }) => `${name}: ${value}%`}
                 >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-medium">{client.name}</h4>
-                      <p className="text-sm text-muted-foreground">{client.email}</p>
-                    </div>
-                    <Badge variant={getStatusBadgeVariant(client.status)}>{client.status}</Badge>
-                  </div>
-                </div>
-              ))
-            )}
+                  {revenueData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={`hsl(${index * 120}, 70%, 50%)`} />
+                  ))}
+                </Pie>
+                <ChartTooltip content={<ChartTooltipContent />} />
+              </PieChart>
+            </ChartContainer>
           </CardContent>
         </Card>
 
-        {/* Items Panel */}
-        <Card className="lg:col-span-2">
+        {/* Monthly Estimates */}
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Filter className="h-5 w-5" />
-              {typeFilter === 'all' ? 'All Items' : 
-               typeFilter === 'estimates' ? 'Estimates' :
-               typeFilter === 'invoices' ? 'Invoices' : 'Receipts'}
-            </CardTitle>
+            <CardTitle>Monthly Estimates</CardTitle>
+            <CardDescription>Estimate generation trends</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {allItems.length === 0 ? (
-              <p className="text-muted-foreground text-center py-8">No items found</p>
-            ) : (
-              allItems.map((item) => (
-                <div key={`${item.type}-${item.id}`} className="p-4 rounded-lg border">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-medium">{getItemTitle(item)}</h4>
-                        <Badge variant="outline">{item.type}</Badge>
-                        {'status' in item && (
-                          <Badge variant={getStatusBadgeVariant(item.status)}>{item.status}</Badge>
-                        )}
-                      </div>
-                      {'description' in item && item.description && (
-                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
-                      )}
-                      <p className="text-sm font-medium mt-1">${item.amount}</p>
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      {item.type === 'estimate' && item.status !== 'converted' && (
-                        <Button 
-                          size="sm" 
-                          onClick={() => convertEstimateToInvoice(item.id)}
-                        >
-                          Convert to Invoice
-                        </Button>
-                      )}
-                      
-                      {item.type === 'estimate' && item.status === 'converted' && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => undoEstimateConversion(item.id)}
-                        >
-                          <Undo2 className="h-4 w-4 mr-1" />
-                          Undo
-                        </Button>
-                      )}
-                      
-                      {item.type === 'invoice' && (
-                        <div className="flex gap-1">
-                          <Select
-                            value={item.status}
-                            onValueChange={(value) => handleInvoiceStatusChange(item.id, value as any)}
-                          >
-                            <SelectTrigger className="w-[120px] h-8">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="pending">
-                                <div className="flex items-center gap-2">
-                                  <Clock className="h-3 w-3" />
-                                  Pending
-                                </div>
-                              </SelectItem>
-                              <SelectItem value="paid">
-                                <div className="flex items-center gap-2">
-                                  <CheckCircle className="h-3 w-3" />
-                                  Paid
-                                </div>
-                              </SelectItem>
-                              <SelectItem value="overdue">
-                                <div className="flex items-center gap-2">
-                                  <Clock className="h-3 w-3 text-red-500" />
-                                  Overdue
-                                </div>
-                              </SelectItem>
-                              <SelectItem value="archived">
-                                <div className="flex items-center gap-2">
-                                  <Archive className="h-3 w-3" />
-                                  Archived
-                                </div>
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64">
+              <BarChart data={estimates}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="amount" fill="var(--color-amount)" />
+              </BarChart>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Receipt Generation Dialog */}
-      <Dialog open={isReceiptDialogOpen} onOpenChange={setIsReceiptDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Generate Receipt</DialogTitle>
-            <DialogDescription>
-              Create a receipt for the paid invoice.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="payment-method">Payment Method</Label>
-              <Input
-                id="payment-method"
-                value={receiptForm.paymentMethod}
-                onChange={(e) => setReceiptForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
-                placeholder="e.g., Credit Card, Bank Transfer"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="receipt-notes">Notes</Label>
-              <Input
-                id="receipt-notes"
-                value={receiptForm.notes}
-                onChange={(e) => setReceiptForm(prev => ({ ...prev, notes: e.target.value }))}
-                placeholder="Additional notes"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsReceiptDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleGenerateReceipt}>Generate Receipt</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* Invoice Status */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Invoice Status Overview</CardTitle>
+          <CardDescription>Track paid vs pending invoices over time</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-80">
+            <LineChart data={invoices}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Line type="monotone" dataKey="paid" stroke="var(--color-paid)" strokeWidth={2} />
+              <Line type="monotone" dataKey="pending" stroke="var(--color-pending)" strokeWidth={2} />
+            </LineChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
     </div>
   )
 }
