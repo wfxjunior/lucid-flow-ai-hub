@@ -1,4 +1,3 @@
-
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
@@ -66,6 +65,11 @@ const businessTools = [
     view: "projects"
   },
   {
+    title: "To-Do List",
+    icon: CheckSquare,
+    view: "todo-list"
+  },
+  {
     title: "Quotes",
     icon: FileSpreadsheet,
     view: "quotes"
@@ -120,11 +124,6 @@ const analytics = [
     title: "Analytics",
     icon: BarChart3,
     view: "analytics"
-  },
-  {
-    title: "To-Do List",
-    icon: CheckSquare,
-    view: "todo-list"
   }
 ]
 
