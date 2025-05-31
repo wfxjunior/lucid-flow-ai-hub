@@ -8,7 +8,6 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { QuickActions } from "@/components/QuickActions"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { AIVoice } from "@/components/AIVoice"
-import { CreateInvoice } from "@/components/CreateInvoice"
 import { BusinessDashboard } from "@/components/BusinessDashboard"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { SettingsPage } from "@/components/SettingsPage"
@@ -30,6 +29,7 @@ const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
 
   const handleQuickAction = (actionId: string) => {
+    console.log('Quick action clicked:', actionId)
     // Map quick actions to the new unified views
     if (actionId === "customers" || actionId === "invoices" || actionId === "estimates" || actionId === "receipts") {
       setActiveView("dashboard")
@@ -53,49 +53,70 @@ const Index = () => {
   }
 
   const renderActiveView = () => {
-    switch (activeView) {
-      case 'dashboard':
-        return (
-          <div className="space-y-6">
-            <BusinessDashboard />
-            <QuickActions onActionClick={handleQuickAction} />
-          </div>
-        )
-      case 'analytics':
-        return <AnalyticsDashboard />
-      case 'customer-management':
-      case 'customers':
-        return <CustomerManagement />
-      case 'invoice-creator':
-      case 'create-invoice':
-        return <InvoiceCreator />
-      case 'file-manager':
-        return <FileManager />
-      case 'ai-voice':
-        return <AIVoice />
-      case 'features':
-        return <FeaturesPage />
-      case 'settings':
-        return <SettingsPage />
-      case 'admin-dashboard':
-        return <AdminDashboard />
-      case 'blog-admin':
-        return <BlogAdmin />
-      case 'pricing':
-        return <PricingPlans />
-      case 'appointments':
-        return <AppointmentsPage />
-      case 'e-signatures':
-        return <ESignaturesPage />
-      case 'contracts':
-        return <ContractsPage />
-      default:
-        return (
-          <div className="space-y-6">
-            <BusinessDashboard />
-            <QuickActions onActionClick={handleQuickAction} />
-          </div>
-        )
+    console.log('Rendering view:', activeView)
+    
+    try {
+      switch (activeView) {
+        case 'dashboard':
+          return (
+            <div className="space-y-6">
+              <BusinessDashboard />
+              <QuickActions onActionClick={handleQuickAction} />
+            </div>
+          )
+        case 'analytics':
+          return <AnalyticsDashboard />
+        case 'customer-management':
+        case 'customers':
+          return <CustomerManagement />
+        case 'invoice-creator':
+        case 'create-invoice':
+          return <InvoiceCreator />
+        case 'file-manager':
+          return <FileManager />
+        case 'ai-voice':
+          return <AIVoice />
+        case 'features':
+          return <FeaturesPage />
+        case 'settings':
+          return <SettingsPage />
+        case 'admin-dashboard':
+          return <AdminDashboard />
+        case 'blog-admin':
+          return <BlogAdmin />
+        case 'pricing':
+          return <PricingPlans />
+        case 'appointments':
+          return <AppointmentsPage />
+        case 'e-signatures':
+          return <ESignaturesPage />
+        case 'contracts':
+          return <ContractsPage />
+        default:
+          return (
+            <div className="space-y-6">
+              <BusinessDashboard />
+              <QuickActions onActionClick={handleQuickAction} />
+            </div>
+          )
+      }
+    } catch (error) {
+      console.error('Error rendering view:', error)
+      return (
+        <div className="flex items-center justify-center h-64">
+          <Card className="p-6">
+            <CardContent>
+              <p className="text-red-600">Error loading component: {activeView}</p>
+              <Button 
+                onClick={() => setActiveView("dashboard")} 
+                className="mt-4"
+              >
+                Return to Dashboard
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )
     }
   }
 
