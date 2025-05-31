@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -22,7 +21,6 @@ import {
 import { useNavigate } from "react-router-dom"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { StatsCard } from "@/components/StatsCard"
-import { LogoDownload } from "@/components/LogoDownload"
 
 const LandingPage = () => {
   const navigate = useNavigate()
@@ -148,7 +146,6 @@ const LandingPage = () => {
           <div className="flex items-center gap-2">
             <Feather className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold">FeatherBiz</span>
-            <LogoDownload />
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <a href="#features" className="text-gray-600 hover:text-primary transition-colors">Features</a>
