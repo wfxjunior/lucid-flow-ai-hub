@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -55,13 +54,16 @@ export function useBusinessData() {
     }
   })
 
-  // Estimates
+  // Estimates with enhanced query
   const { data: estimates, isLoading: estimatesLoading } = useQuery({
     queryKey: ['estimates'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('estimates')
-        .select('*')
+        .select(`
+          *,
+          client:clients(*)
+        `)
         .order('created_at', { ascending: false })
       
       if (error) throw error

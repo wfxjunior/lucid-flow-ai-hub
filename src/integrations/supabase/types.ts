@@ -175,37 +175,58 @@ export type Database = {
       }
       estimates: {
         Row: {
+          accepted_at: string | null
           amount: number
           client_id: string
           created_at: string
+          declined_at: string | null
           description: string | null
+          estimate_date: string | null
+          estimate_number: string | null
           id: string
+          signature_status: string | null
+          signed_at: string | null
           status: string
           title: string
           updated_at: string
           user_id: string
+          viewed_at: string | null
         }
         Insert: {
+          accepted_at?: string | null
           amount: number
           client_id: string
           created_at?: string
+          declined_at?: string | null
           description?: string | null
+          estimate_date?: string | null
+          estimate_number?: string | null
           id?: string
+          signature_status?: string | null
+          signed_at?: string | null
           status?: string
           title: string
           updated_at?: string
           user_id: string
+          viewed_at?: string | null
         }
         Update: {
+          accepted_at?: string | null
           amount?: number
           client_id?: string
           created_at?: string
+          declined_at?: string | null
           description?: string | null
+          estimate_date?: string | null
+          estimate_number?: string | null
           id?: string
+          signature_status?: string | null
+          signed_at?: string | null
           status?: string
           title?: string
           updated_at?: string
           user_id?: string
+          viewed_at?: string | null
         }
         Relationships: [
           {
@@ -476,11 +497,42 @@ export type Database = {
           },
         ]
       }
+      user_settings: {
+        Row: {
+          created_at: string
+          estimate_number_start: number | null
+          id: string
+          invoice_number_start: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          estimate_number_start?: number | null
+          id?: string
+          invoice_number_start?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          estimate_number_start?: number | null
+          id?: string
+          invoice_number_start?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      generate_estimate_number: {
+        Args: { starting_number?: number }
+        Returns: string
+      }
       generate_invoice_number: {
         Args: Record<PropertyKey, never>
         Returns: string

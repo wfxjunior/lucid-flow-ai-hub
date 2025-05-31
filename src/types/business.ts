@@ -18,6 +18,13 @@ export interface Estimate {
   description?: string
   amount: number
   status: 'draft' | 'sent' | 'approved' | 'rejected' | 'converted'
+  estimate_number?: string
+  estimate_date?: string
+  viewed_at?: string
+  accepted_at?: string
+  declined_at?: string
+  signed_at?: string
+  signature_status?: 'pending' | 'signed' | 'declined'
   created_at: string
   updated_at: string
   user_id: string
@@ -109,6 +116,15 @@ export interface Signature {
   updated_at: string
   client?: Client
   document?: Document
+}
+
+export interface UserSettings {
+  id: string
+  user_id: string
+  estimate_number_start: number
+  invoice_number_start: number
+  created_at: string
+  updated_at: string
 }
 
 export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue' | 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'signed' | 'declined' | 'expired'
