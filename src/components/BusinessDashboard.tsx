@@ -50,84 +50,100 @@ export function BusinessDashboard() {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
-      {/* Key Metrics - Responsive Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-        <Card className="transition-all duration-200 hover:shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+    <div className="w-full max-w-7xl mx-auto space-y-4 sm:space-y-6 lg:space-y-8 px-2 sm:px-4 lg:px-6">
+      {/* Key Metrics - Ultra Responsive Grid */}
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6">
+        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02] min-h-[120px] sm:min-h-[140px]">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 lg:p-6">
+            <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-muted-foreground truncate">
+              Total Revenue
+            </CardTitle>
+            <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-muted-foreground flex-shrink-0" />
           </CardHeader>
-          <CardContent className="pb-2">
-            <div className="text-lg sm:text-xl md:text-2xl font-bold">$70,000</div>
-            <p className="text-xs text-green-600">
-              <TrendingUp className="inline h-3 w-3 mr-1" />
-              +12% from last month
+          <CardContent className="p-3 sm:p-4 lg:p-6 pt-0">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold truncate">
+              $70,000
+            </div>
+            <p className="text-xs sm:text-sm text-green-600 flex items-center mt-1">
+              <TrendingUp className="inline h-2 w-2 sm:h-3 sm:w-3 mr-1 flex-shrink-0" />
+              <span className="truncate">+12% from last month</span>
             </p>
           </CardContent>
         </Card>
 
-        <Card className="transition-all duration-200 hover:shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Active Clients</CardTitle>
-            <Users className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02] min-h-[120px] sm:min-h-[140px]">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 lg:p-6">
+            <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-muted-foreground truncate">
+              Active Clients
+            </CardTitle>
+            <Users className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-muted-foreground flex-shrink-0" />
           </CardHeader>
-          <CardContent className="pb-2">
-            <div className="text-lg sm:text-xl md:text-2xl font-bold">42</div>
-            <p className="text-xs text-green-600">
-              <TrendingUp className="inline h-3 w-3 mr-1" />
-              +3 new this month
+          <CardContent className="p-3 sm:p-4 lg:p-6 pt-0">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold">42</div>
+            <p className="text-xs sm:text-sm text-green-600 flex items-center mt-1">
+              <TrendingUp className="inline h-2 w-2 sm:h-3 sm:w-3 mr-1 flex-shrink-0" />
+              <span className="truncate">+3 new this month</span>
             </p>
           </CardContent>
         </Card>
 
-        <Card className="transition-all duration-200 hover:shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Pending Invoices</CardTitle>
-            <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02] min-h-[120px] sm:min-h-[140px]">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 lg:p-6">
+            <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-muted-foreground truncate">
+              Pending Invoices
+            </CardTitle>
+            <FileText className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-muted-foreground flex-shrink-0" />
           </CardHeader>
-          <CardContent className="pb-2">
-            <div className="text-lg sm:text-xl md:text-2xl font-bold">8</div>
-            <p className="text-xs text-yellow-600">
-              <Clock className="inline h-3 w-3 mr-1" />
-              $18,500 outstanding
+          <CardContent className="p-3 sm:p-4 lg:p-6 pt-0">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold">8</div>
+            <p className="text-xs sm:text-sm text-yellow-600 flex items-center mt-1">
+              <Clock className="inline h-2 w-2 sm:h-3 sm:w-3 mr-1 flex-shrink-0" />
+              <span className="truncate">$18,500 outstanding</span>
             </p>
           </CardContent>
         </Card>
 
-        <Card className="transition-all duration-200 hover:shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">This Month</CardTitle>
-            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02] min-h-[120px] sm:min-h-[140px]">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 lg:p-6">
+            <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-muted-foreground truncate">
+              This Month
+            </CardTitle>
+            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-muted-foreground flex-shrink-0" />
           </CardHeader>
-          <CardContent className="pb-2">
-            <div className="text-lg sm:text-xl md:text-2xl font-bold">$28,000</div>
-            <p className="text-xs text-green-600">
-              <Target className="inline h-3 w-3 mr-1" />
-              Goal: $30,000
+          <CardContent className="p-3 sm:p-4 lg:p-6 pt-0">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold truncate">
+              $28,000
+            </div>
+            <p className="text-xs sm:text-sm text-green-600 flex items-center mt-1">
+              <Target className="inline h-2 w-2 sm:h-3 sm:w-3 mr-1 flex-shrink-0" />
+              <span className="truncate">Goal: $30,000</span>
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Charts Grid - Responsive Layout */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+      {/* Charts Grid - Enhanced Responsive Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
         {/* Revenue Breakdown */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Revenue Breakdown</CardTitle>
-            <CardDescription className="text-sm">Income sources for this quarter</CardDescription>
+        <Card className="w-full overflow-hidden">
+          <CardHeader className="p-3 sm:p-4 lg:p-6">
+            <CardTitle className="text-base sm:text-lg lg:text-xl truncate">Revenue Breakdown</CardTitle>
+            <CardDescription className="text-xs sm:text-sm truncate">
+              Income sources for this quarter
+            </CardDescription>
           </CardHeader>
-          <CardContent className="p-3 sm:p-4 md:p-6">
-            <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80">
-              <PieChart>
+          <CardContent className="p-2 sm:p-3 lg:p-6">
+            <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 lg:h-80 w-full">
+              <PieChart width="100%" height="100%">
                 <Pie
                   data={revenueData}
                   cx="50%"
                   cy="50%"
-                  outerRadius="70%"
+                  outerRadius="60%"
                   dataKey="value"
                   label={({ name, value }) => `${name}: ${value}%`}
+                  labelLine={false}
+                  fontSize={12}
                 >
                   {revenueData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={`hsl(${index * 120}, 70%, 50%)`} />
@@ -140,40 +156,77 @@ export function BusinessDashboard() {
         </Card>
 
         {/* Monthly Estimates */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Monthly Estimates</CardTitle>
-            <CardDescription className="text-sm">Estimate generation trends</CardDescription>
+        <Card className="w-full overflow-hidden">
+          <CardHeader className="p-3 sm:p-4 lg:p-6">
+            <CardTitle className="text-base sm:text-lg lg:text-xl truncate">Monthly Estimates</CardTitle>
+            <CardDescription className="text-xs sm:text-sm truncate">
+              Estimate generation trends
+            </CardDescription>
           </CardHeader>
-          <CardContent className="p-3 sm:p-4 md:p-6">
-            <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80">
-              <BarChart data={estimates}>
+          <CardContent className="p-2 sm:p-3 lg:p-6">
+            <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 lg:h-80 w-full">
+              <BarChart data={estimates} width="100%" height="100%">
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" fontSize={12} />
-                <YAxis width={50} fontSize={12} />
+                <XAxis 
+                  dataKey="month" 
+                  fontSize={10}
+                  interval={0}
+                  angle={-45}
+                  textAnchor="end"
+                  height={60}
+                />
+                <YAxis 
+                  width={40}
+                  fontSize={10}
+                  tickFormatter={(value) => `$${value/1000}k`}
+                />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="amount" fill="var(--color-amount)" />
+                <Bar dataKey="amount" fill="var(--color-amount)" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ChartContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Invoice Status - Full Width */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg sm:text-xl">Invoice Status Overview</CardTitle>
-          <CardDescription className="text-sm">Track paid vs pending invoices over time</CardDescription>
+      {/* Invoice Status - Full Width Enhanced */}
+      <Card className="w-full overflow-hidden">
+        <CardHeader className="p-3 sm:p-4 lg:p-6">
+          <CardTitle className="text-base sm:text-lg lg:text-xl">Invoice Status Overview</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
+            Track paid vs pending invoices over time
+          </CardDescription>
         </CardHeader>
-        <CardContent className="p-3 sm:p-4 md:p-6">
-          <ChartContainer config={chartConfig} className="h-64 sm:h-80 md:h-96">
-            <LineChart data={invoices}>
+        <CardContent className="p-2 sm:p-3 lg:p-6">
+          <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80 lg:h-96 w-full">
+            <LineChart data={invoices} width="100%" height="100%">
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" fontSize={12} />
-              <YAxis width={60} fontSize={12} />
+              <XAxis 
+                dataKey="month" 
+                fontSize={10}
+                interval={0}
+              />
+              <YAxis 
+                width={50}
+                fontSize={10}
+                tickFormatter={(value) => `$${value/1000}k`}
+              />
               <ChartTooltip content={<ChartTooltipContent />} />
-              <Line type="monotone" dataKey="paid" stroke="var(--color-paid)" strokeWidth={2} />
-              <Line type="monotone" dataKey="pending" stroke="var(--color-pending)" strokeWidth={2} />
+              <Line 
+                type="monotone" 
+                dataKey="paid" 
+                stroke="var(--color-paid)" 
+                strokeWidth={2}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="pending" 
+                stroke="var(--color-pending)" 
+                strokeWidth={2}
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
+              />
             </LineChart>
           </ChartContainer>
         </CardContent>
