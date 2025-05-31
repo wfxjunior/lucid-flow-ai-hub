@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb } from "lucide-react"
+import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb, Calculator, CheckSquare } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 interface QuickActionsProps {
@@ -18,6 +18,20 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       description: "Generate and send professional invoices",
       icon: FileText,
       color: "bg-slate-900 hover:bg-slate-800"
+    },
+    {
+      id: "estimates",
+      title: "Estimates",
+      description: "Create and manage estimates",
+      icon: Calculator,
+      color: "bg-cyan-600 hover:bg-cyan-700"
+    },
+    {
+      id: "todo-list",
+      title: "To-Do List",
+      description: "Manage tasks and projects",
+      icon: CheckSquare,
+      color: "bg-gray-600 hover:bg-gray-700"
     },
     {
       id: "ai-voice",

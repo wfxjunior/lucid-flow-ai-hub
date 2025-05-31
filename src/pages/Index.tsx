@@ -25,6 +25,7 @@ import { ESignaturesPage } from "@/components/ESignaturesPage"
 import { ContractsPage } from "@/components/ContractsPage"
 import { ProjectsPage } from "@/components/ProjectsPage"
 import { TodoListPage } from "@/components/TodoListPage"
+import { EstimatesPage } from "@/components/EstimatesPage"
 
 const Index = () => {
   const { t } = useLanguage()
@@ -33,8 +34,12 @@ const Index = () => {
   const handleQuickAction = (actionId: string) => {
     console.log('Quick action clicked:', actionId)
     // Map quick actions to the new unified views
-    if (actionId === "customers" || actionId === "invoices" || actionId === "estimates" || actionId === "receipts") {
+    if (actionId === "customers" || actionId === "invoices" || actionId === "receipts") {
       setActiveView("dashboard")
+    } else if (actionId === "estimates") {
+      setActiveView("estimates")
+    } else if (actionId === "todo-list") {
+      setActiveView("todo-list")
     } else if (actionId === "files") {
       setActiveView("file-manager")
     } else if (actionId === "ai-voice") {
@@ -51,8 +56,6 @@ const Index = () => {
       setActiveView("e-signatures")
     } else if (actionId === "projects") {
       setActiveView("projects")
-    } else if (actionId === "todo-list") {
-      setActiveView("todo-list")
     } else {
       setActiveView(actionId)
     }
@@ -78,6 +81,8 @@ const Index = () => {
         case 'invoice-creator':
         case 'create-invoice':
           return <InvoiceCreator />
+        case 'estimates':
+          return <EstimatesPage />
         case 'projects':
           return <ProjectsPage />
         case 'todo-list':
