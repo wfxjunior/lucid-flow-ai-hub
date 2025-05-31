@@ -1,5 +1,4 @@
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,10 +13,11 @@ import { toast } from "sonner"
 
 interface ContractFormProps {
   onClose: () => void
+  contract?: any
 }
 
-export function ContractForm({ onClose }: ContractFormProps) {
-  const { createContract } = useBusinessData()
+export function ContractForm({ onClose, contract }: ContractFormProps) {
+  const { createContract, updateContract } = useBusinessData()
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -29,6 +29,19 @@ export function ContractForm({ onClose }: ContractFormProps) {
   const [newTag, setNewTag] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
 
+  useEffect(() => {
+    if (contract) {
+      setFormData({
+        title: contract.title || "",
+        content: contract.content || "",
+        contract_type: contract.contract_type || "custom",
+        status: contract.status || "draft",
+        tags: contract.tags || [],
+        is_template: contract.is_template || false
+      })
+    }
+  }, [contract])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.title || !formData.content) {
@@ -37,16 +50,21 @@ export function ContractForm({ onClose }: ContractFormProps) {
     }
 
     try {
-      if (formData.is_template) {
-        await createContract({ ...formData, status: "active" as const })
+      if (contract) {
+        await updateContract(contract.id, formData)
+        toast.success("Contract updated successfully!")
       } else {
-        await createContract(formData)
+        if (formData.is_template) {
+          await createContract({ ...formData, status: "active" as const })
+        } else {
+          await createContract(formData)
+        }
+        toast.success("Contract created successfully!")
       }
-      toast.success("Contract created successfully!")
       onClose()
     } catch (error) {
-      console.error("Error creating contract:", error)
-      toast.error("Failed to create contract")
+      console.error("Error saving contract:", error)
+      toast.error("Failed to save contract")
     }
   }
 
@@ -182,7 +200,7 @@ By signing below, both parties agree to the terms outlined in this contract.
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <Label htmlFor="content">Contract Content *</Label>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Button
               type="button"
               variant="outline"
@@ -273,13 +291,13 @@ By signing below, both parties agree to the terms outlined in this contract.
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-3">
-        <Button type="button" variant="outline" onClick={onClose}>
+      <div className="flex flex-col sm:flex-row justify-end gap-3">
+        <Button type="button" variant="outline" onClick={onClose} className="w-full sm:w-auto">
           Cancel
         </Button>
-        <Button type="submit">
+        <Button type="submit" className="w-full sm:w-auto">
           <FileText className="h-4 w-4 mr-2" />
-          Create Contract
+          {contract ? "Update Contract" : "Create Contract"}
         </Button>
       </div>
     </form>
