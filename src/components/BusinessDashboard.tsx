@@ -134,12 +134,12 @@ export function BusinessDashboard() {
           </CardHeader>
           <CardContent className="p-2 sm:p-3 lg:p-6">
             <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 lg:h-80 w-full">
-              <PieChart width="100%" height="100%">
+              <PieChart>
                 <Pie
                   data={revenueData}
                   cx="50%"
                   cy="50%"
-                  outerRadius="60%"
+                  outerRadius={80}
                   dataKey="value"
                   label={({ name, value }) => `${name}: ${value}%`}
                   labelLine={false}
@@ -165,7 +165,7 @@ export function BusinessDashboard() {
           </CardHeader>
           <CardContent className="p-2 sm:p-3 lg:p-6">
             <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 lg:h-80 w-full">
-              <BarChart data={estimates} width="100%" height="100%">
+              <BarChart data={estimates}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="month" 
@@ -198,7 +198,7 @@ export function BusinessDashboard() {
         </CardHeader>
         <CardContent className="p-2 sm:p-3 lg:p-6">
           <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80 lg:h-96 w-full">
-            <LineChart data={invoices} width="100%" height="100%">
+            <LineChart data={invoices}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
                 dataKey="month" 
