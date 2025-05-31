@@ -51,7 +51,7 @@ export function ContractForm({ onClose, contract }: ContractFormProps) {
 
     try {
       if (contract) {
-        await updateContract(contract.id, formData)
+        await updateContract({ id: contract.id, ...formData })
         toast.success("Contract updated successfully!")
       } else {
         if (formData.is_template) {
@@ -198,7 +198,7 @@ By signing below, both parties agree to the terms outlined in this contract.
       </div>
 
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
           <Label htmlFor="content">Contract Content *</Label>
           <div className="flex gap-2 flex-wrap">
             <Button
