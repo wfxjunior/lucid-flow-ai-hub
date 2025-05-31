@@ -39,8 +39,8 @@ export function ProjectForm({ project, projectTypes, onSubmit, onCancel }: Proje
     expenses: 0,
     startDate: '',
     endDate: '',
-    status: 'planning' as const,
-    priority: 'medium' as const
+    status: 'planning' as 'planning' | 'in-progress' | 'review' | 'completed' | 'on-hold',
+    priority: 'medium' as 'low' | 'medium' | 'high'
   })
 
   useEffect(() => {
