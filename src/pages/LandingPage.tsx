@@ -267,7 +267,7 @@ const LandingPage = () => {
               Start Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+            <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
               <MessageSquare className="mr-2 h-5 w-5" />
               Contact Sales
             </Button>
