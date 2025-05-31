@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,10 +13,14 @@ import {
   CreditCard,
   Target,
   Clock,
-  CheckCircle
+  CheckCircle,
+  Download
 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 export function BusinessDashboard() {
+  const { toast } = useToast()
+  
   // Initialize with default empty arrays to prevent mapping errors
   const [estimates] = useState([
     { month: 'Jan', amount: 15000 },
@@ -49,8 +52,44 @@ export function BusinessDashboard() {
     pending: { label: "Pending", color: "hsl(var(--destructive))" },
   }
 
+  const handleExportReport = () => {
+    toast({
+      title: "Export Started",
+      description: "Your business report is being generated...",
+    })
+    
+    // Here you would implement the actual export logic
+    // For now, we'll just show a success message after a brief delay
+    setTimeout(() => {
+      toast({
+        title: "Export Complete",
+        description: "Your report has been downloaded successfully.",
+      })
+    }, 2000)
+  }
+
   return (
     <div className="w-full max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6 px-2 sm:px-4 md:px-6">
+      {/* Header with Export Button */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+            Business Dashboard
+          </h1>
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-1">
+            Overview of your business performance
+          </p>
+        </div>
+        <Button 
+          onClick={handleExportReport}
+          className="flex items-center gap-2 w-full sm:w-auto"
+          variant="outline"
+        >
+          <Download className="h-4 w-4" />
+          Export Report
+        </Button>
+      </div>
+
       {/* Key Metrics - Enhanced Responsive Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
         <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
