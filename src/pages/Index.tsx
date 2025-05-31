@@ -23,6 +23,8 @@ import { UserGreeting } from "@/components/UserGreeting"
 import { AppointmentsPage } from "@/components/AppointmentsPage"
 import { ESignaturesPage } from "@/components/ESignaturesPage"
 import { ContractsPage } from "@/components/ContractsPage"
+import { ProjectsPage } from "@/components/ProjectsPage"
+import { TodoListPage } from "@/components/TodoListPage"
 
 const Index = () => {
   const { t } = useLanguage()
@@ -47,6 +49,10 @@ const Index = () => {
       setActiveView("contracts")
     } else if (actionId === "e-signatures") {
       setActiveView("e-signatures")
+    } else if (actionId === "projects") {
+      setActiveView("projects")
+    } else if (actionId === "todo-list") {
+      setActiveView("todo-list")
     } else {
       setActiveView(actionId)
     }
@@ -72,6 +78,10 @@ const Index = () => {
         case 'invoice-creator':
         case 'create-invoice':
           return <InvoiceCreator />
+        case 'projects':
+          return <ProjectsPage />
+        case 'todo-list':
+          return <TodoListPage />
         case 'file-manager':
           return <FileManager />
         case 'ai-voice':
