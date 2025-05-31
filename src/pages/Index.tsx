@@ -22,6 +22,8 @@ import { FileManager } from "@/components/FileManager"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { UserGreeting } from "@/components/UserGreeting"
 import { AppointmentsPage } from "@/components/AppointmentsPage"
+import { ESignaturesPage } from "@/components/ESignaturesPage"
+import { ContractsPage } from "@/components/ContractsPage"
 
 const Index = () => {
   const { t } = useLanguage()
@@ -41,6 +43,10 @@ const Index = () => {
       setActiveView("features")
     } else if (actionId === "appointments") {
       setActiveView("appointments")
+    } else if (actionId === "contracts") {
+      setActiveView("contracts")
+    } else if (actionId === "e-signatures") {
+      setActiveView("e-signatures")
     } else {
       setActiveView(actionId)
     }
@@ -79,6 +85,10 @@ const Index = () => {
         return <PricingPlans />
       case 'appointments':
         return <AppointmentsPage />
+      case 'e-signatures':
+        return <ESignaturesPage />
+      case 'contracts':
+        return <ContractsPage />
       default:
         return (
           <div className="space-y-6">

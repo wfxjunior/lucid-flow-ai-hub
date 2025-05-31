@@ -71,5 +71,45 @@ export interface Appointment {
   client?: Client
 }
 
-export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue' | 'scheduled' | 'confirmed' | 'cancelled' | 'completed'
-export type FilterType = 'all' | 'estimates' | 'invoices' | 'receipts' | 'appointments'
+export interface Contract {
+  id: string
+  user_id: string
+  title: string
+  content: string
+  contract_type: string
+  status: 'draft' | 'active' | 'expired' | 'archived'
+  created_at: string
+  updated_at: string
+  tags: string[]
+  is_template: boolean
+}
+
+export interface Document {
+  id: string
+  user_id: string
+  title: string
+  content: string
+  document_type: string
+  file_url?: string
+  status: 'draft' | 'sent' | 'signed' | 'archived'
+  created_at: string
+  updated_at: string
+}
+
+export interface Signature {
+  id: string
+  document_id: string
+  client_id: string
+  user_id: string
+  signature_data?: string
+  signed_at?: string
+  status: 'pending' | 'signed' | 'declined'
+  signature_url?: string
+  created_at: string
+  updated_at: string
+  client?: Client
+  document?: Document
+}
+
+export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue' | 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'signed' | 'declined' | 'expired'
+export type FilterType = 'all' | 'estimates' | 'invoices' | 'receipts' | 'appointments' | 'contracts' | 'documents' | 'signatures'

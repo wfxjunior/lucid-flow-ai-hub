@@ -1,4 +1,3 @@
-
 import {
   LayoutDashboard,
   BarChart3,
@@ -24,7 +23,8 @@ import {
   Lightbulb,
   File as FilesIcon,
   Shield,
-  Calculator
+  Calculator,
+  ScrollText
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
@@ -125,6 +125,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       id: "estimates",
       title: "Estimates",
       icon: Calculator,
+    },
+    {
+      id: "contracts",
+      title: "Contracts",
+      icon: ScrollText,
     },
     {
       id: "projects",

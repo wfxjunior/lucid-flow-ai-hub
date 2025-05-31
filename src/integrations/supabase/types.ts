@@ -98,6 +98,81 @@ export type Database = {
         }
         Relationships: []
       }
+      contracts: {
+        Row: {
+          content: string
+          contract_type: string | null
+          created_at: string
+          id: string
+          is_template: boolean | null
+          status: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          contract_type?: string | null
+          created_at?: string
+          id?: string
+          is_template?: boolean | null
+          status?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          contract_type?: string | null
+          created_at?: string
+          id?: string
+          is_template?: boolean | null
+          status?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          content: string
+          created_at: string
+          document_type: string | null
+          file_url: string | null
+          id: string
+          status: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          document_type?: string | null
+          file_url?: string | null
+          id?: string
+          status?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          document_type?: string | null
+          file_url?: string | null
+          id?: string
+          status?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       estimates: {
         Row: {
           amount: number
@@ -343,6 +418,60 @@ export type Database = {
             columns: ["invoice_id"]
             isOneToOne: false
             referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      signatures: {
+        Row: {
+          client_id: string
+          created_at: string
+          document_id: string
+          id: string
+          signature_data: string | null
+          signature_url: string | null
+          signed_at: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          document_id: string
+          id?: string
+          signature_data?: string | null
+          signature_url?: string | null
+          signed_at?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          document_id?: string
+          id?: string
+          signature_data?: string | null
+          signature_url?: string | null
+          signed_at?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signatures_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signatures_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
             referencedColumns: ["id"]
           },
         ]

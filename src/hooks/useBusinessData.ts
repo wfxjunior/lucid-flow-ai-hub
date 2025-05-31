@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { toast } from 'sonner'
-import type { Client, Estimate, Invoice, Receipt, Appointment, FilterStatus, FilterType } from '@/types/business'
+import type { Client, Estimate, Invoice, Receipt, Appointment, Contract, Document, Signature, FilterStatus, FilterType } from '@/types/business'
 
 export function useBusinessData() {
   const [clients, setClients] = useState<Client[]>([])
@@ -9,12 +9,15 @@ export function useBusinessData() {
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [receipts, setReceipts] = useState<Receipt[]>([])
   const [appointments, setAppointments] = useState<Appointment[]>([])
+  const [contracts, setContracts] = useState<Contract[]>([])
+  const [documents, setDocuments] = useState<Document[]>([])
+  const [signatures, setSignatures] = useState<Signature[]>([])
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null)
   const [statusFilter, setStatusFilter] = useState<FilterStatus>('all')
   const [typeFilter, setTypeFilter] = useState<FilterType>('all')
   const [loading, setLoading] = useState(true)
 
-  // Load all data
+  // Load all data including new tables
   const loadData = async () => {
     try {
       setLoading(true)
@@ -78,11 +81,170 @@ export function useBusinessData() {
       if (appointmentsError) throw appointmentsError
       setAppointments(appointmentsData as Appointment[] || [])
 
+      // Load contracts
+      const { data: contractsData, error: contractsError } = await supabase
+        .from('contracts')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (contractsError) throw contractsError
+      setContracts(contractsData as Contract[] || [])
+
+      // Load documents
+      const { data: documentsData, error: documentsError } = await supabase
+        .from('documents')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (documentsError) throw documentsError
+      setDocuments(documentsData as Document[] || [])
+
+      // Load signatures with related data
+      const { data: signaturesData, error: signaturesError } = await supabase
+        .from('signatures')
+        .select(`
+          *,
+          client:clients(*),
+          document:documents(*)
+        `)
+        .order('created_at', { ascending: false })
+
+      if (signaturesError) throw signaturesError
+      setSignatures(signaturesData as Signature[] || [])
+
     } catch (error) {
       console.error('Error loading data:', error)
       toast.error('Failed to load data')
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Contract functions
+  const createContract = async (contractData: Omit<Contract, 'id' | 'created_at' | 'updated_at' | 'user_id'>) => {
+    try {
+      const { data, error } = await supabase
+        .from('contracts')
+        .insert([{
+          ...contractData,
+          user_id: (await supabase.auth.getUser()).data.user?.id
+        }])
+        .select()
+        .single()
+
+      if (error) throw error
+      
+      setContracts(prev => [data as Contract, ...prev])
+      toast.success('Contract created successfully')
+      return data as Contract
+    } catch (error) {
+      console.error('Error creating contract:', error)
+      toast.error('Failed to create contract')
+      throw error
+    }
+  }
+
+  const updateContract = async (id: string, updates: Partial<Contract>) => {
+    try {
+      const { data, error } = await supabase
+        .from('contracts')
+        .update({ ...updates, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) throw error
+      
+      setContracts(prev => prev.map(contract => contract.id === id ? data as Contract : contract))
+      toast.success('Contract updated successfully')
+      return data as Contract
+    } catch (error) {
+      console.error('Error updating contract:', error)
+      toast.error('Failed to update contract')
+      throw error
+    }
+  }
+
+  const deleteContract = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('contracts')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw error
+      
+      setContracts(prev => prev.filter(contract => contract.id !== id))
+      toast.success('Contract deleted successfully')
+    } catch (error) {
+      console.error('Error deleting contract:', error)
+      toast.error('Failed to delete contract')
+      throw error
+    }
+  }
+
+  // Document functions
+  const createDocument = async (documentData: Omit<Document, 'id' | 'created_at' | 'updated_at' | 'user_id'>) => {
+    try {
+      const { data, error } = await supabase
+        .from('documents')
+        .insert([{
+          ...documentData,
+          user_id: (await supabase.auth.getUser()).data.user?.id
+        }])
+        .select()
+        .single()
+
+      if (error) throw error
+      
+      setDocuments(prev => [data as Document, ...prev])
+      toast.success('Document created successfully')
+      return data as Document
+    } catch (error) {
+      console.error('Error creating document:', error)
+      toast.error('Failed to create document')
+      throw error
+    }
+  }
+
+  // Signature functions
+  const sendDocumentForSignature = async (documentId: string, clientId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('signatures')
+        .insert([{
+          document_id: documentId,
+          client_id: clientId,
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+          status: 'pending'
+        }])
+        .select(`
+          *,
+          client:clients(*),
+          document:documents(*)
+        `)
+        .single()
+
+      if (error) throw error
+      
+      setSignatures(prev => [data as Signature, ...prev])
+      
+      // Update document status
+      await supabase
+        .from('documents')
+        .update({ status: 'sent' })
+        .eq('id', documentId)
+
+      setDocuments(prev => prev.map(doc => 
+        doc.id === documentId ? { ...doc, status: 'sent' as const } : doc
+      ))
+
+      toast.success('Document sent for signature successfully')
+      return data as Signature
+    } catch (error) {
+      console.error('Error sending document for signature:', error)
+      toast.error('Failed to send document for signature')
+      throw error
     }
   }
 
@@ -434,6 +596,14 @@ export function useBusinessData() {
     
     // Utilities
     loading,
-    loadData
+    loadData,
+    contracts,
+    documents,
+    signatures,
+    createContract,
+    updateContract,
+    deleteContract,
+    createDocument,
+    sendDocumentForSignature
   }
 }
