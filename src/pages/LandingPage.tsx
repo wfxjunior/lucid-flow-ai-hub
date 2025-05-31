@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -20,6 +21,7 @@ import {
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
+import { StatsCard } from "@/components/StatsCard"
 
 const LandingPage = () => {
   const navigate = useNavigate()
@@ -93,6 +95,44 @@ const LandingPage = () => {
     }
   ]
 
+  const statsData = [
+    {
+      title: "Active Users",
+      value: "10K+",
+      change: "+25% this month",
+      changeType: "positive" as const,
+      icon: Users
+    },
+    {
+      title: "Invoices Created",
+      value: "1M+",
+      change: "+15% this month",
+      changeType: "positive" as const,
+      icon: FileText
+    },
+    {
+      title: "Uptime",
+      value: "99.9%",
+      change: "Consistent",
+      changeType: "neutral" as const,
+      icon: Shield
+    },
+    {
+      title: "AI Assistant",
+      value: "24/7",
+      change: "Always Available",
+      changeType: "positive" as const,
+      icon: Brain
+    },
+    {
+      title: "User Reviews",
+      value: "4.9⭐",
+      change: "+0.2 this month",
+      changeType: "positive" as const,
+      icon: Star
+    }
+  ]
+
   const handleWatchDemo = () => {
     // For now, we'll show an alert. You can replace this with a modal or video player later
     alert("Demo video coming soon! For now, try the free dashboard to explore all features.")
@@ -121,19 +161,19 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
-        <Badge className="mb-4" variant="secondary">
+        <Badge className="mb-4 animate-fade-in" variant="secondary">
           🚀 AI-Powered Business Platform
         </Badge>
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent animate-slide-up">
           The Modern Way to
           <br />
           <span className="text-primary">Run Your Business</span>
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.3s' }}>
           FeatherBiz combines AI intelligence with powerful automation to help entrepreneurs 
           streamline their workflow, manage customers, and grow their business faster than ever.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-scale-in" style={{ animationDelay: '0.5s' }}>
           <Button size="lg" className="text-lg px-8 py-6" onClick={() => navigate('/dashboard')}>
             Try It Free
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -146,7 +186,7 @@ const LandingPage = () => {
         
         {/* Hero Image/Video Placeholder */}
         <div className="relative max-w-4xl mx-auto">
-          <div className="aspect-video bg-gradient-to-r from-primary/20 to-blue-600/20 rounded-lg border border-primary/20 flex items-center justify-center">
+          <div className="aspect-video bg-gradient-to-r from-primary/20 to-blue-600/20 rounded-lg border border-primary/20 flex items-center justify-center animate-scale-in" style={{ animationDelay: '0.7s' }}>
             <div className="text-center">
               <Brain className="h-16 w-16 text-primary mx-auto mb-4" />
               <p className="text-gray-600">AI-Powered Dashboard Preview</p>
@@ -158,17 +198,17 @@ const LandingPage = () => {
       {/* Features Section */}
       <section id="features" className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
             Everything You Need to Scale
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Powerful features designed for modern entrepreneurs who want to focus on growth, not admin work.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="border-0 shadow-sm hover:shadow-lg transition-all duration-200 hover:scale-105">
+            <Card key={index} className="border-0 shadow-sm hover:shadow-lg transition-all duration-200 hover:scale-105 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
               <CardHeader>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <feature.icon className="h-6 w-6 text-primary" />
@@ -186,36 +226,18 @@ const LandingPage = () => {
       {/* Stats Section */}
       <section className="bg-primary/5 py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 text-center">
-            <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <div className="text-4xl font-bold text-primary mb-2">
-                <AnimatedNumber value={10} suffix="K+" delay={100} />
-              </div>
-              <div className="text-gray-600">Active Users</div>
-            </div>
-            <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <div className="text-4xl font-bold text-primary mb-2">
-                <AnimatedNumber value={1} suffix="M+" delay={200} />
-              </div>
-              <div className="text-gray-600">Invoices Created</div>
-            </div>
-            <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="text-4xl font-bold text-primary mb-2">
-                <AnimatedNumber value={99.9} decimals={1} suffix="%" delay={300} />
-              </div>
-              <div className="text-gray-600">Uptime</div>
-            </div>
-            <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <div className="text-4xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-gray-600">AI Assistant</div>
-            </div>
-            <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
-              <div className="text-4xl font-bold text-primary mb-2 flex items-center justify-center gap-1">
-                <AnimatedNumber value={4.9} decimals={1} delay={400} />
-                <Star className="h-8 w-8 fill-yellow-400 text-yellow-400" />
-              </div>
-              <div className="text-gray-600">User Reviews</div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            {statsData.map((stat, index) => (
+              <StatsCard 
+                key={index}
+                title={stat.title}
+                value={stat.value}
+                change={stat.change}
+                changeType={stat.changeType}
+                icon={stat.icon}
+                delay={index * 200}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -223,21 +245,21 @@ const LandingPage = () => {
       {/* Testimonials Section */}
       <section id="testimonials" className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
             Loved by Entrepreneurs
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-600 animate-fade-in" style={{ animationDelay: '0.2s' }}>
             See what our users say about FeatherBiz
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-0 shadow-sm">
+            <Card key={index} className="border-0 shadow-sm animate-fade-in hover:shadow-lg transition-all duration-300 hover:scale-105" style={{ animationDelay: `${index * 0.2}s` }}>
               <CardHeader>
                 <div className="flex items-center gap-1 mb-2">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400 animate-scale-in" style={{ animationDelay: `${(index * 0.2) + (i * 0.1)}s` }} />
                   ))}
                 </div>
                 <CardDescription className="text-base italic">
@@ -256,13 +278,13 @@ const LandingPage = () => {
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
             Ready to Transform Your Business?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-xl mb-8 opacity-90 animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Join thousands of entrepreneurs who trust FeatherBiz to power their success.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in" style={{ animationDelay: '0.4s' }}>
             <Button size="lg" variant="secondary" className="text-lg px-8 py-6" onClick={() => navigate('/dashboard')}>
               Start Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -272,7 +294,7 @@ const LandingPage = () => {
               Contact Sales
             </Button>
           </div>
-          <p className="text-sm mt-6 opacity-75">
+          <p className="text-sm mt-6 opacity-75 animate-fade-in" style={{ animationDelay: '0.6s' }}>
             No credit card required • 7-day free trial • Cancel anytime
           </p>
         </div>
@@ -282,7 +304,7 @@ const LandingPage = () => {
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
+            <div className="animate-fade-in">
               <div className="flex items-center gap-2 mb-4">
                 <Feather className="h-6 w-6 text-primary" />
                 <span className="text-xl font-bold">FeatherBiz</span>
@@ -291,7 +313,7 @@ const LandingPage = () => {
                 The AI-powered business platform for modern entrepreneurs.
               </p>
             </div>
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
@@ -299,7 +321,7 @@ const LandingPage = () => {
                 <li><a href="#" className="hover:text-white transition-colors">API</a></li>
               </ul>
             </div>
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
@@ -308,7 +330,7 @@ const LandingPage = () => {
                 <li><button onClick={() => navigate('/feedback')} className="hover:text-white transition-colors text-left">Feedback</button></li>
               </ul>
             </div>
-            <div>
+            <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <h4 className="font-semibold mb-4">Community</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white transition-colors">About</a></li>
@@ -318,7 +340,7 @@ const LandingPage = () => {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-400 animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <p>&copy; 2025 FeatherBiz. All rights reserved.</p>
           </div>
         </div>
