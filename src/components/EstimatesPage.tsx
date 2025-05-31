@@ -29,9 +29,9 @@ export function EstimatesPage() {
     const statusConfig = {
       draft: { label: "Draft", variant: "secondary" as const },
       sent: { label: "Sent", variant: "default" as const },
-      approved: { label: "Approved", variant: "success" as const },
+      approved: { label: "Approved", variant: "default" as const },
       rejected: { label: "Rejected", variant: "destructive" as const },
-      converted: { label: "Converted", variant: "success" as const },
+      converted: { label: "Converted", variant: "default" as const },
     }
     
     const config = statusConfig[status as keyof typeof statusConfig] || { label: status, variant: "secondary" as const }
@@ -43,7 +43,7 @@ export function EstimatesPage() {
     
     const statusConfig = {
       pending: { label: "Pending", variant: "secondary" as const },
-      signed: { label: "Signed", variant: "success" as const },
+      signed: { label: "Signed", variant: "default" as const },
       declined: { label: "Declined", variant: "destructive" as const },
     }
     
