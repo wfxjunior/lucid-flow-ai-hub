@@ -14,7 +14,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
+import { LanguageSelector } from "@/components/LanguageSelector"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 interface AppSidebarProps {
   activeView: string
@@ -140,9 +143,19 @@ const analytics = [
 
 const systemTools = [
   {
+    title: "Features",
+    icon: Lightbulb,
+    view: "features"
+  },
+  {
     title: "FAQ & Help",
     icon: HelpCircle,
     view: "faq-help"
+  },
+  {
+    title: "Feedback",
+    icon: MessageSquare,
+    view: "feedback"
   },
   {
     title: "Pricing Plans",
@@ -223,6 +236,17 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         {/* System */}
         {renderMenuSection(systemTools, "System")}
       </SidebarContent>
+      
+      {/* Footer with Language Selector and Theme Toggle */}
+      <SidebarFooter className="p-4 border-t">
+        <div className="space-y-3">
+          <div>
+            <p className="text-xs font-medium text-gray-500 mb-2">Language</p>
+            <LanguageSelector />
+          </div>
+          <ThemeToggle />
+        </div>
+      </SidebarFooter>
     </Sidebar>
   )
 }
