@@ -1,7 +1,7 @@
 
 import { Feather, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 
 export const FeatherIconDownload = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -14,46 +14,63 @@ export const FeatherIconDownload = () => {
     if (!ctx) return
 
     // Set canvas size
-    canvas.width = 200
-    canvas.height = 200
+    canvas.width = 512
+    canvas.height = 512
 
     // Clear canvas with white background
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    // Create the feather icon as SVG path
-    const svgPath = "M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5"
-    
-    // Draw feather icon manually
+    // Draw feather icon based on Lucide's feather SVG path
     ctx.strokeStyle = '#3B82F6' // Primary blue color
-    ctx.lineWidth = 4
+    ctx.lineWidth = 8
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
+    ctx.fillStyle = 'none'
     
-    // Scale and center the icon
-    const scale = 6
-    const offsetX = 50
-    const offsetY = 50
-    
+    // Scale and center the feather
+    const centerX = 256
+    const centerY = 256
+    const scale = 12
+
+    // Main feather shaft (vertical line)
     ctx.beginPath()
-    // Top diamond (feather tip)
-    ctx.moveTo(100, 30)
-    ctx.lineTo(170, 65)
-    ctx.lineTo(100, 100)
-    ctx.lineTo(30, 65)
-    ctx.closePath()
+    ctx.moveTo(centerX, centerY - 180)
+    ctx.lineTo(centerX, centerY + 180)
+    ctx.stroke()
+
+    // Left side feathers (getting smaller as they go up)
+    const featherSizes = [140, 120, 100, 80, 60, 40, 20]
+    for (let i = 0; i < featherSizes.length; i++) {
+      const y = centerY + 120 - (i * 25)
+      const size = featherSizes[i]
+      
+      ctx.beginPath()
+      ctx.moveTo(centerX, y)
+      ctx.quadraticCurveTo(centerX - size/2, y - 15, centerX - size, y)
+      ctx.stroke()
+    }
+
+    // Right side feathers (mirror of left side)
+    for (let i = 0; i < featherSizes.length; i++) {
+      const y = centerY + 120 - (i * 25)
+      const size = featherSizes[i]
+      
+      ctx.beginPath()
+      ctx.moveTo(centerX, y)
+      ctx.quadraticCurveTo(centerX + size/2, y - 15, centerX + size, y)
+      ctx.stroke()
+    }
+
+    // Feather tip
+    ctx.beginPath()
+    ctx.moveTo(centerX, centerY - 180)
+    ctx.quadraticCurveTo(centerX - 20, centerY - 160, centerX - 30, centerY - 120)
     ctx.stroke()
     
-    // Middle line
     ctx.beginPath()
-    ctx.moveTo(30, 120)
-    ctx.lineTo(170, 120)
-    ctx.stroke()
-    
-    // Bottom line
-    ctx.beginPath()
-    ctx.moveTo(30, 170)
-    ctx.lineTo(170, 170)
+    ctx.moveTo(centerX, centerY - 180)
+    ctx.quadraticCurveTo(centerX + 20, centerY - 160, centerX + 30, centerY - 120)
     ctx.stroke()
 
     // Download the canvas as PNG
