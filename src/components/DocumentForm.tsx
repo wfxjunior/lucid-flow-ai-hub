@@ -19,7 +19,8 @@ export function DocumentForm({ onClose }: DocumentFormProps) {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    document_type: "contract"
+    document_type: "contract",
+    status: "draft" as const
   })
   const [isGenerating, setIsGenerating] = useState(false)
 
