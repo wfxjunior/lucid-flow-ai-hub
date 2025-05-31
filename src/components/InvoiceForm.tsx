@@ -116,7 +116,10 @@ export function InvoiceForm() {
   const onCreateClient = async (data: ClientFormData) => {
     try {
       const newClient = await createClient({
-        ...data,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
         status: 'active' as const,
       })
       invoiceForm.setValue("client_id", newClient.id)
