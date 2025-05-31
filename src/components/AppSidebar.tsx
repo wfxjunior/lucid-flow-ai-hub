@@ -1,3 +1,4 @@
+
 import {
   LayoutDashboard,
   BarChart3,
@@ -263,7 +264,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarContent className="px-2">
         {/* Main Features */}
         <SidebarGroup>
-          <SidebarGroupLabel>Main Features</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm">Main Features</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainFeatures.map((item) => (
@@ -271,7 +272,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
                   <SidebarMenuButton
                     onClick={() => handleMenuClick(item.id)}
                     isActive={activeView === item.id}
-                    className="w-full justify-start"
+                    className="w-full justify-start text-base"
                   >
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -284,7 +285,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
         {/* Business Tools */}
         <SidebarGroup>
-          <SidebarGroupLabel>Business Tools</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm">Business Tools</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {businessTools.map((item) => (
@@ -292,7 +293,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
                   <SidebarMenuButton
                     onClick={() => handleMenuClick(item.id)}
                     isActive={activeView === item.id}
-                    className="w-full justify-start"
+                    className="w-full justify-start text-base"
                   >
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -305,7 +306,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
         {/* Communication */}
         <SidebarGroup>
-          <SidebarGroupLabel>Communication</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm">Communication</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {communication.map((item) => (
@@ -313,7 +314,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
                   <SidebarMenuButton
                     onClick={() => handleMenuClick(item.id)}
                     isActive={activeView === item.id}
-                    className="w-full justify-start"
+                    className="w-full justify-start text-base"
                   >
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -326,7 +327,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
         {/* Analytics */}
         <SidebarGroup>
-          <SidebarGroupLabel>Analytics</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm">Analytics</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {analytics.map((item) => (
@@ -334,7 +335,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
                   <SidebarMenuButton
                     onClick={() => handleMenuClick(item.id)}
                     isActive={activeView === item.id}
-                    className="w-full justify-start"
+                    className="w-full justify-start text-base"
                   >
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -347,7 +348,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
         {/* Admin Section */}
         <SidebarGroup>
-          <SidebarGroupLabel>Administration</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm">Administration</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {admin.map((item) => (
@@ -355,7 +356,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
                   <SidebarMenuButton
                     onClick={() => handleMenuClick(item.id)}
                     isActive={activeView === item.id}
-                    className="w-full justify-start"
+                    className="w-full justify-start text-base"
                   >
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -368,7 +369,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
         {/* System */}
         <SidebarGroup>
-          <SidebarGroupLabel>System</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm">System</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {system.map((item) => (
@@ -376,7 +377,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
                   <SidebarMenuButton
                     onClick={() => handleMenuClick(item.id)}
                     isActive={activeView === item.id}
-                    className="w-full justify-start"
+                    className="w-full justify-start text-base"
                   >
                     <item.icon className="h-4 w-4" />
                     <span>{item.title}</span>
@@ -395,7 +396,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
                 <SidebarMenuButton
                   onClick={() => handleMenuClick("features")}
                   isActive={activeView === "features"}
-                  className="w-full justify-start"
+                  className="w-full justify-start text-base"
                 >
                   <Lightbulb className="h-4 w-4" />
                   <span>Feature Requests</span>
@@ -415,7 +416,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
               ) : (
                 <Sun className="h-4 w-4" />
               )}
-              <span className="text-sm">Dark Mode</span>
+              <span className="text-base">Dark Mode</span>
             </div>
             <Button
               variant="ghost"
