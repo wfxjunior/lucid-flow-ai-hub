@@ -70,6 +70,9 @@ const menuItems = [
 ]
 
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
+  console.log('AppSidebar rendering with activeView:', activeView)
+  console.log('MenuItems:', menuItems)
+  
   return (
     <Sidebar>
       <SidebarContent>
@@ -77,18 +80,24 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           <SidebarGroupLabel>Business Tools</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.view}>
-                  <SidebarMenuButton 
-                    onClick={() => setActiveView(item.view)}
-                    isActive={activeView === item.view}
-                    className="cursor-pointer"
-                  >
-                    <item.icon className="w-4 h-4" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {menuItems.map((item) => {
+                console.log('Rendering menu item:', item.title)
+                return (
+                  <SidebarMenuItem key={item.view}>
+                    <SidebarMenuButton 
+                      onClick={() => {
+                        console.log('Clicked on:', item.view)
+                        setActiveView(item.view)
+                      }}
+                      isActive={activeView === item.view}
+                      className="cursor-pointer"
+                    >
+                      <item.icon className="w-4 h-4" />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
