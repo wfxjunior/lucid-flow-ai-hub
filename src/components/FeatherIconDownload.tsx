@@ -21,57 +21,72 @@ export const FeatherIconDownload = () => {
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    // Draw feather icon based on Lucide's feather SVG path
-    ctx.strokeStyle = '#3B82F6' // Primary blue color
-    ctx.lineWidth = 8
+    // Draw feather icon - much more visible version
+    ctx.strokeStyle = '#2563eb' // Strong blue color
+    ctx.lineWidth = 12
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
-    ctx.fillStyle = 'none'
     
-    // Scale and center the feather
     const centerX = 256
     const centerY = 256
-    const scale = 12
 
-    // Main feather shaft (vertical line)
+    // Main feather shaft (thicker vertical line)
     ctx.beginPath()
-    ctx.moveTo(centerX, centerY - 180)
-    ctx.lineTo(centerX, centerY + 180)
+    ctx.moveTo(centerX, centerY - 200)
+    ctx.lineTo(centerX, centerY + 200)
     ctx.stroke()
 
-    // Left side feathers (getting smaller as they go up)
-    const featherSizes = [140, 120, 100, 80, 60, 40, 20]
-    for (let i = 0; i < featherSizes.length; i++) {
-      const y = centerY + 120 - (i * 25)
-      const size = featherSizes[i]
+    // Draw feather barbs (left and right sides)
+    const barbLengths = [160, 140, 120, 100, 80, 60, 40, 25, 15]
+    
+    for (let i = 0; i < barbLengths.length; i++) {
+      const y = centerY + 150 - (i * 35)
+      const length = barbLengths[i]
       
+      // Left side barb
       ctx.beginPath()
       ctx.moveTo(centerX, y)
-      ctx.quadraticCurveTo(centerX - size/2, y - 15, centerX - size, y)
+      ctx.quadraticCurveTo(centerX - length/3, y - 20, centerX - length, y - 10)
+      ctx.stroke()
+      
+      // Right side barb
+      ctx.beginPath()
+      ctx.moveTo(centerX, y)
+      ctx.quadraticCurveTo(centerX + length/3, y - 20, centerX + length, y - 10)
       ctx.stroke()
     }
 
-    // Right side feathers (mirror of left side)
-    for (let i = 0; i < featherSizes.length; i++) {
-      const y = centerY + 120 - (i * 25)
-      const size = featherSizes[i]
-      
-      ctx.beginPath()
-      ctx.moveTo(centerX, y)
-      ctx.quadraticCurveTo(centerX + size/2, y - 15, centerX + size, y)
-      ctx.stroke()
-    }
-
-    // Feather tip
+    // Feather tip (more pronounced)
     ctx.beginPath()
-    ctx.moveTo(centerX, centerY - 180)
-    ctx.quadraticCurveTo(centerX - 20, centerY - 160, centerX - 30, centerY - 120)
+    ctx.moveTo(centerX, centerY - 200)
+    ctx.quadraticCurveTo(centerX - 25, centerY - 170, centerX - 40, centerY - 130)
     ctx.stroke()
     
     ctx.beginPath()
-    ctx.moveTo(centerX, centerY - 180)
-    ctx.quadraticCurveTo(centerX + 20, centerY - 160, centerX + 30, centerY - 120)
+    ctx.moveTo(centerX, centerY - 200)
+    ctx.quadraticCurveTo(centerX + 25, centerY - 170, centerX + 40, centerY - 130)
     ctx.stroke()
+
+    // Add some texture lines for more detail
+    ctx.lineWidth = 4
+    ctx.strokeStyle = '#3b82f6' // Slightly lighter blue for texture
+    
+    for (let i = 0; i < 6; i++) {
+      const y = centerY + 100 - (i * 30)
+      const length = 80 - (i * 10)
+      
+      // Left texture lines
+      ctx.beginPath()
+      ctx.moveTo(centerX - 5, y)
+      ctx.lineTo(centerX - length/2, y + 5)
+      ctx.stroke()
+      
+      // Right texture lines
+      ctx.beginPath()
+      ctx.moveTo(centerX + 5, y)
+      ctx.lineTo(centerX + length/2, y + 5)
+      ctx.stroke()
+    }
 
     // Download the canvas as PNG
     const link = document.createElement('a')
