@@ -1,7 +1,8 @@
+
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb
 } from "lucide-react"
 import {
   Sidebar,
@@ -35,6 +36,11 @@ const mainFeatures = [
     title: "Create Invoice",
     icon: FileText,
     view: "invoice-creator"
+  },
+  {
+    title: "Features",
+    icon: Lightbulb,
+    view: "features"
   },
   {
     title: "Appointments",
@@ -73,6 +79,11 @@ const businessTools = [
     title: "Quotes",
     icon: FileSpreadsheet,
     view: "quotes"
+  },
+  {
+    title: "Estimates",
+    icon: Calculator,
+    view: "estimates"
   },
   {
     title: "Receipts & Accounting",
