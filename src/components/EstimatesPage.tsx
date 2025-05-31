@@ -19,7 +19,10 @@ export function EstimatesPage() {
   const [statusFilter, setStatusFilter] = useState("all")
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
 
-  const filteredEstimates = estimates.filter(estimate => {
+  // Add error handling for estimates
+  const safeEstimates = estimates || []
+
+  const filteredEstimates = safeEstimates.filter(estimate => {
     const matchesDate = !searchDate || estimate.estimate_date === searchDate
     const matchesStatus = statusFilter === "all" || estimate.status === statusFilter
     return matchesDate && matchesStatus
@@ -116,7 +119,7 @@ export function EstimatesPage() {
                 Fill in the details to create a new estimate
               </DialogDescription>
             </DialogHeader>
-            <EstimateForm />
+            <EstimateForm onSuccess={() => setIsCreateDialogOpen(false)} />
           </DialogContent>
         </Dialog>
       </div>
@@ -209,7 +212,7 @@ export function EstimatesPage() {
                         {estimate.client?.name || 'Unknown Client'}
                       </TableCell>
                       <TableCell>{estimate.title}</TableCell>
-                      <TableCell>${estimate.amount.toFixed(2)}</TableCell>
+                      <TableCell>${estimate.amount?.toFixed(2) || '0.00'}</TableCell>
                       <TableCell>{formatDate(estimate.estimate_date)}</TableCell>
                       <TableCell>{getStatusBadge(estimate.status)}</TableCell>
                       <TableCell>{getSignatureStatusBadge(estimate.signature_status)}</TableCell>
