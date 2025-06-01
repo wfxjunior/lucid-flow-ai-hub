@@ -35,8 +35,34 @@ export function WorkOrdersPage() {
     return matchesSearch && matchesStatus && matchesPriority
   })
 
-  const handleEdit = (workOrder: WorkOrder) => {
-    setEditingWorkOrder(workOrder)
+  const handleEdit = (workOrder: any) => {
+    // Create a properly typed WorkOrder object
+    const typedWorkOrder: WorkOrder = {
+      id: workOrder.id,
+      user_id: workOrder.user_id,
+      client_id: workOrder.client_id,
+      estimate_id: workOrder.estimate_id,
+      project_id: workOrder.project_id,
+      work_order_number: workOrder.work_order_number,
+      title: workOrder.title,
+      description: workOrder.description,
+      priority: workOrder.priority,
+      status: workOrder.status,
+      scheduled_date: workOrder.scheduled_date,
+      completion_date: workOrder.completion_date,
+      assigned_to: workOrder.assigned_to,
+      estimated_hours: workOrder.estimated_hours,
+      actual_hours: workOrder.actual_hours,
+      materials_cost: workOrder.materials_cost,
+      labor_cost: workOrder.labor_cost,
+      total_cost: workOrder.total_cost,
+      notes: workOrder.notes,
+      created_at: workOrder.created_at,
+      updated_at: workOrder.updated_at,
+      client: workOrder.client,
+      estimate: workOrder.estimate
+    }
+    setEditingWorkOrder(typedWorkOrder)
     setShowForm(true)
   }
 
@@ -269,7 +295,7 @@ export function WorkOrdersPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleEdit(workOrder as WorkOrder)}
+                              onClick={() => handleEdit(workOrder)}
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
