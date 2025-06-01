@@ -2,14 +2,17 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Crown, Star, Users, DollarSign, TrendingUp, FileText, Heart, MessageSquare, Calendar, Receipt, Settings, Lightbulb, UserCog, Calculator, ArrowRight } from "lucide-react"
+import { Crown, Star, Users, DollarSign, TrendingUp, FileText, Heart, MessageSquare, Calendar, Receipt, Settings, Lightbulb, UserCog, Calculator, ArrowRight, Feather } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { LanguageSelector } from "@/components/LanguageSelector"
+import { FreeTrialQuestionnaire } from "@/components/FreeTrialQuestionnaire"
+import { useState } from "react"
 
 const LandingPage = () => {
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const [showQuestionnaire, setShowQuestionnaire] = useState(false)
 
   const features = [
     {
@@ -44,6 +47,16 @@ const LandingPage = () => {
     }
   ]
 
+  const handleStartFreeTrial = () => {
+    setShowQuestionnaire(true)
+  }
+
+  const handleQuestionnaireComplete = (data: any) => {
+    console.log('Questionnaire completed:', data)
+    // Here you would typically save the data and redirect to dashboard
+    navigate('/auth')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
       {/* Header */}
@@ -51,7 +64,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Crown className="w-5 h-5 text-white" />
+              <Feather className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-blue-600">FeatherBiz</span>
           </div>
@@ -63,7 +76,7 @@ const LandingPage = () => {
             <Button onClick={() => navigate('/auth')} variant="outline">
               Sign In
             </Button>
-            <Button onClick={() => navigate('/auth')} className="bg-blue-600 hover:bg-blue-700">
+            <Button onClick={handleStartFreeTrial} className="bg-blue-600 hover:bg-blue-700">
               Get Started Free
             </Button>
           </div>
@@ -89,7 +102,7 @@ const LandingPage = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <Button 
             size="lg" 
-            onClick={() => navigate('/auth')}
+            onClick={handleStartFreeTrial}
             className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
           >
             Start Free Trial
@@ -162,7 +175,7 @@ const LandingPage = () => {
           </p>
           <Button 
             size="lg"
-            onClick={() => navigate('/auth')}
+            onClick={handleStartFreeTrial}
             className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
           >
             Get Started Free Today
@@ -178,7 +191,7 @@ const LandingPage = () => {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Crown className="w-5 h-5 text-white" />
+                  <Feather className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold">FeatherBiz</span>
               </div>
@@ -220,6 +233,13 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
+
+      {/* Free Trial Questionnaire Modal */}
+      <FreeTrialQuestionnaire
+        open={showQuestionnaire}
+        onOpenChange={setShowQuestionnaire}
+        onComplete={handleQuestionnaireComplete}
+      />
     </div>
   )
 }
