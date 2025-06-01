@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -438,6 +437,7 @@ const LandingPage = () => {
                 <li><a href="#" className="hover:text-white">Help Center</a></li>
                 <li><a href="#" className="hover:text-white">Contact Us</a></li>
                 <li><a href="/feedback" className="hover:text-white">Feedback</a></li>
+                <li><a href="/faq" className="hover:text-white">FAQ</a></li>
               </ul>
             </div>
             
