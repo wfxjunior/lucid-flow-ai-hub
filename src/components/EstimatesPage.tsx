@@ -68,7 +68,7 @@ export function EstimatesPage() {
 
   if (showForm) {
     return (
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-4 sm:p-6">
         <EstimateForm
           estimate={editingEstimate}
           onClose={handleCloseForm}
@@ -78,22 +78,22 @@ export function EstimatesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Estimates</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Estimates</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Create and manage project estimates for your clients
           </p>
         </div>
-        <Button onClick={() => setShowForm(true)}>
+        <Button onClick={() => setShowForm(true)} className="w-full sm:w-auto">
           <Plus className="mr-2 h-4 w-4" />
           New Estimate
         </Button>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Estimates</CardTitle>
@@ -110,7 +110,7 @@ export function EstimatesPage() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl sm:text-2xl font-bold">
               ${estimates?.reduce((sum, est) => sum + (est.amount || 0), 0).toFixed(2) || '0.00'}
             </div>
           </CardContent>
@@ -144,11 +144,11 @@ export function EstimatesPage() {
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Filters</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Filters</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
+          <div className="flex flex-col gap-4">
+            <div className="w-full">
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -159,20 +159,22 @@ export function EstimatesPage() {
                 />
               </div>
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="sent">Sent</SelectItem>
-                <SelectItem value="viewed">Viewed</SelectItem>
-                <SelectItem value="accepted">Accepted</SelectItem>
-                <SelectItem value="declined">Declined</SelectItem>
-                <SelectItem value="expired">Expired</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="w-full sm:w-[200px]">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="sent">Sent</SelectItem>
+                  <SelectItem value="viewed">Viewed</SelectItem>
+                  <SelectItem value="accepted">Accepted</SelectItem>
+                  <SelectItem value="declined">Declined</SelectItem>
+                  <SelectItem value="expired">Expired</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -180,12 +182,12 @@ export function EstimatesPage() {
       {/* Estimates Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Estimates</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Estimates</CardTitle>
+          <CardDescription className="text-sm">
             A list of all your estimates with their current status and details.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 sm:p-6">
           {loading ? (
             <div className="flex items-center justify-center py-8">
               <div className="text-sm text-muted-foreground">Loading estimates...</div>
@@ -195,17 +197,17 @@ export function EstimatesPage() {
               <div className="text-sm text-muted-foreground">No estimates found</div>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="w-full overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Estimate #</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Client</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead className="min-w-[120px]">Estimate #</TableHead>
+                    <TableHead className="min-w-[150px]">Title</TableHead>
+                    <TableHead className="min-w-[120px] hidden sm:table-cell">Client</TableHead>
+                    <TableHead className="min-w-[100px]">Amount</TableHead>
+                    <TableHead className="min-w-[100px]">Status</TableHead>
+                    <TableHead className="min-w-[100px] hidden md:table-cell">Date</TableHead>
+                    <TableHead className="min-w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -215,36 +217,45 @@ export function EstimatesPage() {
                     
                     return (
                       <TableRow key={estimate.id}>
-                        <TableCell className="font-medium">
+                        <TableCell className="font-medium text-xs sm:text-sm">
                           {estimate.estimate_number || 'EST-' + estimate.id.slice(0, 8)}
                         </TableCell>
-                        <TableCell>{estimate.title}</TableCell>
-                        <TableCell>{clientName}</TableCell>
-                        <TableCell>${estimate.amount?.toFixed(2) || '0.00'}</TableCell>
+                        <TableCell className="text-xs sm:text-sm">
+                          <div>
+                            <div className="font-medium">{estimate.title}</div>
+                            <div className="text-muted-foreground sm:hidden text-xs">{clientName}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell text-sm">{clientName}</TableCell>
+                        <TableCell className="text-xs sm:text-sm font-medium">
+                          ${estimate.amount?.toFixed(2) || '0.00'}
+                        </TableCell>
                         <TableCell>
-                          <Badge className={getStatusColor(estimate.status)}>
+                          <Badge className={`${getStatusColor(estimate.status)} text-xs`}>
                             {estimate.status.charAt(0).toUpperCase() + estimate.status.slice(1)}
                           </Badge>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="hidden md:table-cell text-xs sm:text-sm">
                           {estimate.estimate_date ? new Date(estimate.estimate_date).toLocaleDateString() : 'Not set'}
                         </TableCell>
                         <TableCell>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1">
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => handleEdit(estimate)}
+                              className="h-8 w-8 p-0"
                             >
-                              <Edit className="h-4 w-4" />
+                              <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => handleGeneratePDF(estimate)}
                               disabled={isGenerating}
+                              className="h-8 w-8 p-0"
                             >
-                              <Download className="h-4 w-4" />
+                              <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                           </div>
                         </TableCell>
