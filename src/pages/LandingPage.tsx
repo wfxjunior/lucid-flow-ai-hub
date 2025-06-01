@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -196,9 +197,6 @@ const LandingPage = () => {
               <p className="text-gray-400 mb-4 text-sm sm:text-base">
                 AI-powered business platform for modern entrepreneurs
               </p>
-              <div className="w-full sm:w-48">
-                <LanguageSelector />
-              </div>
             </div>
             
             <div>
@@ -229,7 +227,14 @@ const LandingPage = () => {
             </div>
           </div>
           
-          <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-gray-400 text-sm sm:text-base">
+          {/* Language Selector - positioned before copyright */}
+          <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 flex justify-center mb-4">
+            <div className="w-32 opacity-60">
+              <LanguageSelector />
+            </div>
+          </div>
+          
+          <div className="text-center text-gray-400 text-sm sm:text-base">
             <p>&copy; 2024 FeatherBiz. All rights reserved.</p>
           </div>
         </div>

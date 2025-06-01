@@ -22,15 +22,15 @@ export function LanguageSelector() {
 
   return (
     <Select value={currentLanguage} onValueChange={setLanguage}>
-      <SelectTrigger className="w-full h-10">
+      <SelectTrigger className="w-full h-8 bg-transparent border-gray-700 text-gray-400 text-xs hover:bg-gray-800/50 focus:ring-1 focus:ring-gray-600">
         <SelectValue placeholder={t("language.selectPlaceholder")} />
       </SelectTrigger>
       <SelectContent>
         {languages.map((language) => (
           <SelectItem key={language.code} value={language.code}>
             <div className="flex items-center gap-2">
-              <span>{language.flag}</span>
-              <span>{language.name}</span>
+              <span className="text-xs">{language.flag}</span>
+              <span className="text-xs">{language.name}</span>
             </div>
           </SelectItem>
         ))}
