@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { BarChart3, TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Heart, Target, Award, Clock } from "lucide-react"
@@ -242,7 +241,6 @@ export function AnalyticsDashboard() {
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, value }) => `${name}: ${value}`}
-                    labelStyle={{ fontSize: '10px' }}
                   >
                     {projectStatusData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -311,7 +309,6 @@ export function AnalyticsDashboard() {
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, value }) => `${name}: ${value}%`}
-                    labelStyle={{ fontSize: '10px' }}
                   >
                     {invoiceStatusData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
