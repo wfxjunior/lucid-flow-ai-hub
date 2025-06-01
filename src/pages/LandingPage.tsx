@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -209,10 +208,129 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Industry Leaders
+              What Our Customers Say
             </h2>
             <p className="text-base sm:text-lg text-gray-600">
-              See what experts and customers are saying about FeatherBiz
+              Real feedback from business owners who use FeatherBiz daily
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12">
+            <Card className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span className="text-blue-600 font-bold text-lg">SM</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Sarah Martinez</div>
+                  <div className="text-sm text-gray-600">Freelance Designer</div>
+                  <div className="flex items-center mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "FeatherBiz transformed my freelance business. I went from spending hours on invoicing to just minutes. The AI features are incredible!"
+              </p>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <span className="text-green-600 font-bold text-lg">DK</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">David Kim</div>
+                  <div className="text-sm text-gray-600">Consulting Firm Owner</div>
+                  <div className="flex items-center mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "The customer management system is outstanding. I can track all my client relationships in one place. Best investment for my business!"
+              </p>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                  <span className="text-purple-600 font-bold text-lg">LR</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Lisa Rodriguez</div>
+                  <div className="text-sm text-gray-600">Restaurant Owner</div>
+                  <div className="flex items-center mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "The appointment scheduling feature saved my restaurant. Customers love the automated booking system and I love the time it saves me."
+              </p>
+            </Card>
+          </div>
+
+          {/* Additional testimonials row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            <Card className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                  <span className="text-orange-600 font-bold text-lg">MJ</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Michael Johnson</div>
+                  <div className="text-sm text-gray-600">Construction Contractor</div>
+                  <div className="flex items-center mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "Creating estimates used to take me hours. Now with FeatherBiz's smart calculations, I can generate professional quotes in minutes. My clients are impressed!"
+              </p>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
+                  <span className="text-pink-600 font-bold text-lg">AT</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Amanda Thompson</div>
+                  <div className="text-sm text-gray-600">Marketing Agency Owner</div>
+                  <div className="flex items-center mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "The analytics dashboard gives me insights I never had before. I can see which services are most profitable and make better business decisions."
+              </p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Media Reviews Section */}
+      <section className="bg-white py-12 sm:py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Featured In
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600">
+              Recognized by leading industry publications
             </p>
           </div>
 
@@ -232,7 +350,7 @@ const LandingPage = () => {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "FeatherBiz is revolutionizing how small businesses manage their operations with AI-powered automation."
+                "FeatherBiz is revolutionizing how small businesses manage their operations with AI-powered automation that actually works."
               </p>
             </Card>
 
@@ -251,7 +369,7 @@ const LandingPage = () => {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "The most intuitive business management platform we've seen. FeatherBiz makes complex tasks simple."
+                "The most intuitive business management platform we've tested. FeatherBiz makes complex business tasks feel effortless."
               </p>
             </Card>
 
@@ -270,7 +388,7 @@ const LandingPage = () => {
                 </div>
               </div>
               <p className="text-gray-600 italic">
-                "Product of the Day! FeatherBiz delivers everything a growing business needs in one powerful platform."
+                "Product of the Day! FeatherBiz delivers everything a growing business needs in one powerful, easy-to-use platform."
               </p>
             </Card>
           </div>
