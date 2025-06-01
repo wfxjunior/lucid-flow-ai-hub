@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,6 +5,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 import { 
   Plus, 
   Search, 
@@ -17,7 +18,10 @@ import {
   Calendar,
   Flag,
   Clock,
-  Target
+  Target,
+  Share2,
+  Mail,
+  MessageSquare
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
@@ -86,6 +90,10 @@ export function TodoListPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterCompleted, setFilterCompleted] = useState<'all' | 'pending' | 'completed'>('all')
   const [filterCategory, setFilterCategory] = useState<string>('all')
+  const [shareDialogOpen, setShareDialogOpen] = useState(false)
+  const [shareEmail, setShareEmail] = useState('')
+  const [sharePhone, setSharePhone] = useState('')
+  const [shareMessage, setShareMessage] = useState('')
 
   const [newTodo, setNewTodo] = useState({
     title: '',
@@ -156,6 +164,94 @@ export function TodoListPage() {
     })
   }
 
+  const generateShareableContent = () => {
+    const tasksToShare = filteredTodos.length > 0 ? filteredTodos : todos
+    let content = "📋 My To-Do List:\n\n"
+    
+    tasksToShare.forEach((todo, index) => {
+      const status = todo.completed ? "✅" : "⭕"
+      content += `${index + 1}. ${status} ${todo.title}\n`
+      if (todo.description) content += `   📝 ${todo.description}\n`
+      if (todo.dueDate) content += `   📅 Due: ${new Date(todo.dueDate).toLocaleDateString()}\n`
+      content += `   🏷️ ${todo.category} | 🚩 ${todo.priority}\n\n`
+    })
+    
+    content += `\nShared from FeatherBiz - ${new Date().toLocaleDateString()}`
+    return content
+  }
+
+  const handleShareViaEmail = () => {
+    if (!shareEmail.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter an email address",
+        variant: "destructive"
+      })
+      return
+    }
+
+    const content = generateShareableContent()
+    const subject = "📋 Shared To-Do List from FeatherBiz"
+    const body = shareMessage ? `${shareMessage}\n\n${content}` : content
+    
+    const mailtoLink = `mailto:${shareEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.open(mailtoLink, '_blank')
+    
+    toast({
+      title: "Email Client Opened",
+      description: `To-do list ready to share with ${shareEmail}`,
+    })
+    
+    setShareDialogOpen(false)
+    setShareEmail('')
+    setShareMessage('')
+  }
+
+  const handleShareViaText = () => {
+    if (!sharePhone.trim()) {
+      toast({
+        title: "Error", 
+        description: "Please enter a phone number",
+        variant: "destructive"
+      })
+      return
+    }
+
+    const content = generateShareableContent()
+    const message = shareMessage ? `${shareMessage}\n\n${content}` : content
+    
+    // Create SMS link (works on mobile devices)
+    const smsLink = `sms:${sharePhone}?body=${encodeURIComponent(message)}`
+    window.open(smsLink, '_blank')
+    
+    toast({
+      title: "SMS Client Opened",
+      description: `To-do list ready to share via text to ${sharePhone}`,
+    })
+    
+    setShareDialogOpen(false)
+    setSharePhone('')
+    setShareMessage('')
+  }
+
+  const handleCopyToClipboard = () => {
+    const content = generateShareableContent()
+    const finalContent = shareMessage ? `${shareMessage}\n\n${content}` : content
+    
+    navigator.clipboard.writeText(finalContent).then(() => {
+      toast({
+        title: "Copied to Clipboard",
+        description: "To-do list copied and ready to share",
+      })
+    }).catch(() => {
+      toast({
+        title: "Copy Failed",
+        description: "Could not copy to clipboard",
+        variant: "destructive"
+      })
+    })
+  }
+
   const filteredTodos = todos.filter(todo => {
     const matchesSearch = todo.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          todo.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -185,13 +281,84 @@ export function TodoListPage() {
             Organize your daily tasks and track your productivity
           </p>
         </div>
-        <Button 
-          onClick={() => setShowAddForm(true)}
-          className="flex items-center gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Add Task
-        </Button>
+        <div className="flex gap-2">
+          <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="flex items-center gap-2">
+                <Share2 className="h-4 w-4" />
+                Share List
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Share To-Do List</DialogTitle>
+                <DialogDescription>
+                  Share your current to-do list via email or text message
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="share-message">Personal Message (Optional)</Label>
+                  <Textarea
+                    id="share-message"
+                    placeholder="Add a personal message..."
+                    value={shareMessage}
+                    onChange={(e) => setShareMessage(e.target.value)}
+                    rows={2}
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
+                    <Label htmlFor="share-email">Share via Email</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="share-email"
+                        type="email"
+                        placeholder="Enter email address"
+                        value={shareEmail}
+                        onChange={(e) => setShareEmail(e.target.value)}
+                      />
+                      <Button onClick={handleShareViaEmail} size="sm">
+                        <Mail className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="share-phone">Share via Text</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="share-phone"
+                        type="tel"
+                        placeholder="Enter phone number"
+                        value={sharePhone}
+                        onChange={(e) => setSharePhone(e.target.value)}
+                      />
+                      <Button onClick={handleShareViaText} size="sm">
+                        <MessageSquare className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="pt-4 border-t">
+                  <Button onClick={handleCopyToClipboard} variant="outline" className="w-full">
+                    Copy to Clipboard
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+          
+          <Button 
+            onClick={() => setShowAddForm(true)}
+            className="flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Add Task
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
