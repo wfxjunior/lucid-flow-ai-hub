@@ -96,7 +96,7 @@ export function AnalyticsDashboard() {
     { metric: 'Revenue Growth', current: 118, target: 110, change: 8 },
   ]
 
-  const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+  const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#6b7280', '#8b5cf6', '#06b6d4']
 
   const chartConfig = {
     revenue: {
@@ -146,7 +146,7 @@ export function AnalyticsDashboard() {
             <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
               <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">{stat.value}</div>
               <p className={`text-xs sm:text-sm md:text-base ${
-                stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
+                stat.changeType === 'positive' ? 'text-green-600' : 'text-gray-600'
               } flex items-center mt-1`}>
                 {stat.changeType === 'positive' ? (
                   <TrendingUp className="inline h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" />
@@ -351,7 +351,7 @@ export function AnalyticsDashboard() {
                       style={{ width: `${Math.min(metric.current, 100)}%` }}
                     />
                   </div>
-                  <p className={`text-xs sm:text-sm ${metric.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <p className={`text-xs sm:text-sm ${metric.change > 0 ? 'text-green-600' : 'text-gray-600'}`}>
                     {metric.change > 0 ? '+' : ''}{metric.change}% from target
                   </p>
                 </div>
