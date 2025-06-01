@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -345,71 +346,73 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
-            <div className="lg:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Feather className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold">FeatherBiz</span>
+          {/* Logo Section */}
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Feather className="w-5 h-5 text-white" />
               </div>
-              <p className="text-gray-400 mb-4 text-sm sm:text-base">
-                AI-powered business platform for modern entrepreneurs
-              </p>
+              <span className="text-xl font-bold">FeatherBiz</span>
             </div>
-            
-            <div>
+            <p className="text-gray-400 text-sm sm:text-base max-w-md mx-auto">
+              AI-powered business platform for modern entrepreneurs
+            </p>
+          </div>
+
+          {/* Links Section - 3 columns side by side */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8 max-w-2xl mx-auto">
+            <div className="text-center">
               <h3 className="font-semibold mb-4 text-sm sm:text-base">Product</h3>
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="#" className="hover:text-white flex items-center justify-center gap-2">
                   <Star className="w-4 h-4" />
                   Features
                 </a></li>
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="#" className="hover:text-white flex items-center justify-center gap-2">
                   <DollarSign className="w-4 h-4" />
                   Pricing
                 </a></li>
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="#" className="hover:text-white flex items-center justify-center gap-2">
                   <Settings className="w-4 h-4" />
                   API
                 </a></li>
               </ul>
             </div>
             
-            <div>
+            <div className="text-center">
               <h3 className="font-semibold mb-4 text-sm sm:text-base">Support</h3>
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="#" className="hover:text-white flex items-center justify-center gap-2">
                   <HelpCircle className="w-4 h-4" />
                   Help Center
                 </a></li>
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="/contact" className="hover:text-white flex items-center justify-center gap-2">
                   <Mail className="w-4 h-4" />
                   Contact Us
                 </a></li>
-                <li><a href="/feedback" className="hover:text-white flex items-center gap-2">
+                <li><a href="/feedback" className="hover:text-white flex items-center justify-center gap-2">
                   <MessageSquare className="w-4 h-4" />
                   Feedback
                 </a></li>
-                <li><a href="/faq" className="hover:text-white flex items-center gap-2">
+                <li><a href="/faq" className="hover:text-white flex items-center justify-center gap-2">
                   <HelpCircle className="w-4 h-4" />
                   FAQ
                 </a></li>
               </ul>
             </div>
             
-            <div>
+            <div className="text-center">
               <h3 className="font-semibold mb-4 text-sm sm:text-base">Company</h3>
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="#" className="hover:text-white flex items-center justify-center gap-2">
                   <Building className="w-4 h-4" />
                   About
                 </a></li>
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="#" className="hover:text-white flex items-center justify-center gap-2">
                   <FileText className="w-4 h-4" />
                   Blog
                 </a></li>
-                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                <li><a href="#" className="hover:text-white flex items-center justify-center gap-2">
                   <Users className="w-4 h-4" />
                   Careers
                 </a></li>
