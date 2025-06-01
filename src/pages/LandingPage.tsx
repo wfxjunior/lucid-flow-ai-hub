@@ -127,7 +127,7 @@ const LandingPage = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500 px-4 mb-8">
           <div className="flex items-center gap-1">
             <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
-            <span>Free 14-day trial</span>
+            <span>Free 7-day trial</span>
           </div>
           <div className="flex items-center gap-1">
             <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
