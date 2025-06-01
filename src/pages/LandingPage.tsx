@@ -1,3 +1,5 @@
+
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -22,10 +24,14 @@ import { useNavigate } from "react-router-dom"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { StatsCard } from "@/components/StatsCard"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { FreeTrialQuestionnaire } from "@/components/FreeTrialQuestionnaire"
+import { useToast } from "@/hooks/use-toast"
 
 const LandingPage = () => {
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const { toast } = useToast()
+  const [questionnaireOpen, setQuestionnaireOpen] = useState(false)
 
   const features = [
     {
@@ -140,6 +146,20 @@ const LandingPage = () => {
     navigate('/dashboard')
   }
 
+  const handleStartFreeTrial = () => {
+    setQuestionnaireOpen(true)
+  }
+
+  const handleQuestionnaireComplete = (data: any) => {
+    console.log('Questionnaire data:', data)
+    toast({
+      title: "Welcome to FeatherBiz!",
+      description: `Thank you ${data.firstName}! Your personalized dashboard is ready.`,
+    })
+    // Here you would typically save the data and redirect to dashboard
+    navigate('/dashboard')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Header */}
@@ -176,7 +196,7 @@ const LandingPage = () => {
           {t("landing.subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-scale-in" style={{ animationDelay: '0.5s' }}>
-          <Button size="lg" className="text-lg px-8 py-6" onClick={() => navigate('/dashboard')}>
+          <Button size="lg" className="text-lg px-8 py-6" onClick={handleStartFreeTrial}>
             {t("landing.tryFree")}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
@@ -287,7 +307,7 @@ const LandingPage = () => {
             {t("landing.ctaSubtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in" style={{ animationDelay: '0.4s' }}>
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-6" onClick={() => navigate('/dashboard')}>
+            <Button size="lg" variant="secondary" className="text-lg px-8 py-6" onClick={handleStartFreeTrial}>
               {t("landing.startTrial")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -347,6 +367,13 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
+
+      {/* Free Trial Questionnaire Modal */}
+      <FreeTrialQuestionnaire
+        open={questionnaireOpen}
+        onOpenChange={setQuestionnaireOpen}
+        onComplete={handleQuestionnaireComplete}
+      />
     </div>
   )
 }
