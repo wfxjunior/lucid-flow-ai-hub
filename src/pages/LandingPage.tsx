@@ -359,10 +359,10 @@ const LandingPage = () => {
             </p>
           </div>
 
-          {/* Links Section - 3 columns with left alignment */}
-          <div className="max-w-3xl mx-auto mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
+          {/* Links Section - 3 columns side by side with left alignment */}
+          <div className="max-w-4xl mx-auto mb-8">
+            <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-16">
+              <div className="flex-1 max-w-xs">
                 <h3 className="font-semibold mb-4 text-base text-white">Product</h3>
                 <ul className="space-y-3">
                   <li>
@@ -386,7 +386,7 @@ const LandingPage = () => {
                 </ul>
               </div>
               
-              <div>
+              <div className="flex-1 max-w-xs">
                 <h3 className="font-semibold mb-4 text-base text-white">Support</h3>
                 <ul className="space-y-3">
                   <li>
@@ -416,7 +416,7 @@ const LandingPage = () => {
                 </ul>
               </div>
               
-              <div>
+              <div className="flex-1 max-w-xs">
                 <h3 className="font-semibold mb-4 text-base text-white">Company</h3>
                 <ul className="space-y-3">
                   <li>
