@@ -325,6 +325,15 @@ export function FAQPage() {
     return icons[category] || <Star className="h-4 w-4" />
   }
 
+  const handleCategoryTabClick = (category: string) => {
+    setSelectedCategory(category)
+    // Find the "all" tab and trigger it programmatically
+    const allTab = document.querySelector('[data-value="all"]') as HTMLButtonElement
+    if (allTab) {
+      allTab.click()
+    }
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -368,7 +377,7 @@ export function FAQPage() {
 
       <Tabs defaultValue="all" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="all">All Questions</TabsTrigger>
+          <TabsTrigger value="all" data-value="all">All Questions</TabsTrigger>
           <TabsTrigger value="popular">Most Popular</TabsTrigger>
           <TabsTrigger value="categories">By Category</TabsTrigger>
           <TabsTrigger value="ask">Ask Question</TabsTrigger>
@@ -496,10 +505,7 @@ export function FAQPage() {
                     <Button 
                       variant="outline" 
                       className="w-full"
-                      onClick={() => {
-                        setSelectedCategory(category)
-                        document.querySelector('[value="all"]')?.click()
-                      }}
+                      onClick={() => handleCategoryTabClick(category)}
                     >
                       View Questions
                     </Button>
