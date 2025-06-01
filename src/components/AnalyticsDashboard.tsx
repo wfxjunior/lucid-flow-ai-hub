@@ -123,25 +123,25 @@ export function AnalyticsDashboard() {
 
   return (
     <div className="space-y-4 md:space-y-6 p-2 sm:p-4 lg:p-6">
-      {/* Stats Overview - Responsive grid */}
+      {/* Stats Overview - Responsive grid with increased font sizes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4">
         {stats.map((stat, index) => (
           <Card key={index} className="transition-all duration-200 hover:shadow-lg hover:scale-105">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs sm:text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <stat.icon className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+              <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground" />
             </CardHeader>
             <CardContent className="pb-2">
-              <div className="text-lg sm:text-xl md:text-2xl font-bold">{stat.value}</div>
-              <p className={`text-xs ${
+              <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">{stat.value}</div>
+              <p className={`text-sm sm:text-base ${
                 stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
               }`}>
                 {stat.changeType === 'positive' ? (
-                  <TrendingUp className="inline h-3 w-3 mr-1" />
+                  <TrendingUp className="inline h-4 w-4 mr-1" />
                 ) : (
-                  <TrendingDown className="inline h-3 w-3 mr-1" />
+                  <TrendingDown className="inline h-4 w-4 mr-1" />
                 )}
                 {stat.change} from last month
               </p>
@@ -150,14 +150,14 @@ export function AnalyticsDashboard() {
         ))}
       </div>
 
-      {/* Revenue & Performance Chart - Mobile responsive */}
+      {/* Revenue & Performance Chart */}
       <Card>
         <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-            <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
+          <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl md:text-3xl">
+            <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
             Business Performance Overview
           </CardTitle>
-          <CardDescription className="text-sm">Monthly revenue, expenses, profit and project count</CardDescription>
+          <CardDescription className="text-base sm:text-lg">Monthly revenue, expenses, profit and project count</CardDescription>
         </CardHeader>
         <CardContent className="p-2 sm:p-4 md:p-6">
           <ChartContainer config={chartConfig} className="h-64 sm:h-80 md:h-96 w-full">
@@ -165,22 +165,22 @@ export function AnalyticsDashboard() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
                 dataKey="month" 
-                fontSize={10}
-                tick={{ fontSize: 10 }}
+                fontSize={12}
+                tick={{ fontSize: 12 }}
                 interval={0}
                 angle={-45}
                 textAnchor="end"
                 height={60}
               />
               <YAxis 
-                width={40} 
-                fontSize={10}
-                tick={{ fontSize: 10 }}
+                width={50} 
+                fontSize={12}
+                tick={{ fontSize: 12 }}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Legend 
-                wrapperStyle={{ fontSize: '12px' }}
-                iconSize={12}
+                wrapperStyle={{ fontSize: '14px' }}
+                iconSize={14}
               />
               <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
               <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
@@ -195,11 +195,11 @@ export function AnalyticsDashboard() {
         {/* Client Growth */}
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-              <Users className="h-4 w-4 sm:h-5 sm:w-5" />
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
+              <Users className="h-5 w-5 sm:h-6 sm:w-6" />
               Client Growth Trend
             </CardTitle>
-            <CardDescription className="text-sm">New client acquisition and total client base</CardDescription>
+            <CardDescription className="text-base">New client acquisition and total client base</CardDescription>
           </CardHeader>
           <CardContent className="p-2 sm:p-4">
             <ChartContainer config={chartConfig} className="h-48 sm:h-64 w-full">
@@ -207,13 +207,13 @@ export function AnalyticsDashboard() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="month" 
-                  fontSize={10}
-                  tick={{ fontSize: 10 }}
+                  fontSize={12}
+                  tick={{ fontSize: 12 }}
                 />
                 <YAxis 
-                  width={35} 
-                  fontSize={10}
-                  tick={{ fontSize: 10 }}
+                  width={40} 
+                  fontSize={12}
+                  tick={{ fontSize: 12 }}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Area type="monotone" dataKey="totalClients" stroke="var(--color-totalClients)" fill="var(--color-totalClients)" fillOpacity={0.3} />
@@ -226,8 +226,8 @@ export function AnalyticsDashboard() {
         {/* Project Status Distribution */}
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-base sm:text-lg">Project Status Distribution</CardTitle>
-            <CardDescription className="text-sm">Current status of all projects</CardDescription>
+            <CardTitle className="text-lg sm:text-xl md:text-2xl">Project Status Distribution</CardTitle>
+            <CardDescription className="text-base">Current status of all projects</CardDescription>
           </CardHeader>
           <CardContent className="p-2 sm:p-4">
             <div className="w-full h-48 sm:h-64">
@@ -254,11 +254,11 @@ export function AnalyticsDashboard() {
         </Card>
       </div>
 
-      {/* Service Revenue Distribution - Full width, responsive */}
+      {/* Service Revenue Distribution */}
       <Card>
         <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-base sm:text-lg">Service Revenue Breakdown</CardTitle>
-          <CardDescription className="text-sm">Revenue distribution by service type</CardDescription>
+          <CardTitle className="text-lg sm:text-xl md:text-2xl">Service Revenue Breakdown</CardTitle>
+          <CardDescription className="text-base">Revenue distribution by service type</CardDescription>
         </CardHeader>
         <CardContent className="p-2 sm:p-4">
           <div className="w-full h-64 sm:h-80 md:h-96">
@@ -271,15 +271,15 @@ export function AnalyticsDashboard() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   type="number" 
-                  fontSize={10}
-                  tick={{ fontSize: 10 }}
+                  fontSize={12}
+                  tick={{ fontSize: 12 }}
                 />
                 <YAxis 
                   dataKey="service" 
                   type="category" 
                   width={75} 
-                  fontSize={9}
-                  tick={{ fontSize: 9 }}
+                  fontSize={11}
+                  tick={{ fontSize: 11 }}
                 />
                 <Tooltip />
                 <Bar dataKey="revenue" fill="#3b82f6" name="Revenue ($)" />
@@ -294,8 +294,8 @@ export function AnalyticsDashboard() {
         {/* Invoice Status */}
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-base sm:text-lg">Invoice Status</CardTitle>
-            <CardDescription className="text-sm">Payment status breakdown</CardDescription>
+            <CardTitle className="text-lg sm:text-xl md:text-2xl">Invoice Status</CardTitle>
+            <CardDescription className="text-base">Payment status breakdown</CardDescription>
           </CardHeader>
           <CardContent className="p-2 sm:p-4">
             <div className="w-full h-48 sm:h-64">
@@ -324,16 +324,16 @@ export function AnalyticsDashboard() {
         {/* Performance Metrics */}
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-base sm:text-lg">Performance Metrics</CardTitle>
-            <CardDescription className="text-sm">Key performance indicators vs targets</CardDescription>
+            <CardTitle className="text-lg sm:text-xl md:text-2xl">Performance Metrics</CardTitle>
+            <CardDescription className="text-base">Key performance indicators vs targets</CardDescription>
           </CardHeader>
           <CardContent className="p-3 sm:p-4">
             <div className="space-y-4">
               {performanceMetrics.map((metric, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm font-medium">{metric.metric}</span>
-                    <span className="text-xs text-muted-foreground">{metric.current}% / {metric.target}%</span>
+                    <span className="text-sm sm:text-base font-medium">{metric.metric}</span>
+                    <span className="text-sm sm:text-base text-muted-foreground">{metric.current}% / {metric.target}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
@@ -341,7 +341,7 @@ export function AnalyticsDashboard() {
                       style={{ width: `${Math.min(metric.current, 100)}%` }}
                     />
                   </div>
-                  <p className={`text-xs ${metric.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <p className={`text-sm ${metric.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {metric.change > 0 ? '+' : ''}{metric.change}% from target
                   </p>
                 </div>
@@ -351,17 +351,17 @@ export function AnalyticsDashboard() {
         </Card>
       </div>
 
-      {/* Business Summary - Full width, responsive */}
+      {/* Business Summary */}
       <Card>
         <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-base sm:text-lg">Business Summary</CardTitle>
-          <CardDescription className="text-sm">Key highlights and recent performance</CardDescription>
+          <CardTitle className="text-lg sm:text-xl md:text-2xl">Business Summary</CardTitle>
+          <CardDescription className="text-base">Key highlights and recent performance</CardDescription>
         </CardHeader>
         <CardContent className="p-3 sm:p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
             <div className="space-y-2">
-              <h4 className="font-semibold text-green-600 text-sm sm:text-base">This Month's Wins</h4>
-              <ul className="text-xs sm:text-sm space-y-1">
+              <h4 className="font-semibold text-green-600 text-base sm:text-lg">This Month's Wins</h4>
+              <ul className="text-sm sm:text-base space-y-1">
                 <li>• 4 new clients acquired</li>
                 <li>• $12,500 in new revenue</li>
                 <li>• 7 projects completed</li>
@@ -369,8 +369,8 @@ export function AnalyticsDashboard() {
               </ul>
             </div>
             <div className="space-y-2">
-              <h4 className="font-semibold text-blue-600 text-sm sm:text-base">Focus Areas</h4>
-              <ul className="text-xs sm:text-sm space-y-1">
+              <h4 className="font-semibold text-blue-600 text-base sm:text-lg">Focus Areas</h4>
+              <ul className="text-sm sm:text-base space-y-1">
                 <li>• Reduce response time to 2h</li>
                 <li>• Increase project delivery rate</li>
                 <li>• Expand consulting services</li>
@@ -378,8 +378,8 @@ export function AnalyticsDashboard() {
               </ul>
             </div>
             <div className="space-y-2 md:col-span-2 xl:col-span-1">
-              <h4 className="font-semibold text-purple-600 text-sm sm:text-base">Next Quarter Goals</h4>
-              <ul className="text-xs sm:text-sm space-y-1">
+              <h4 className="font-semibold text-purple-600 text-base sm:text-lg">Next Quarter Goals</h4>
+              <ul className="text-sm sm:text-base space-y-1">
                 <li>• Reach 35 active clients</li>
                 <li>• $100K total revenue</li>
                 <li>• Launch new service line</li>
