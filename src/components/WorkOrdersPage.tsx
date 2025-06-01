@@ -23,9 +23,7 @@ export function WorkOrdersPage() {
 
   const filteredWorkOrders = (workOrders || []).filter((workOrder) => {
     // Safe access to client data with fallbacks
-    const clientName = workOrder.client && typeof workOrder.client === 'object' && 'name' in workOrder.client 
-      ? workOrder.client.name || 'Unknown Client'
-      : 'Unknown Client'
+    const clientName = workOrder.client?.name || 'Unknown Client'
     const workOrderNumber = workOrder.work_order_number || ''
     
     const matchesSearch = workOrder.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -242,9 +240,7 @@ export function WorkOrdersPage() {
                 <TableBody>
                   {filteredWorkOrders.map((workOrder) => {
                     // Safe client name extraction
-                    const clientName = workOrder.client && typeof workOrder.client === 'object' && 'name' in workOrder.client 
-                      ? workOrder.client.name || 'Unknown Client'
-                      : 'Unknown Client'
+                    const clientName = workOrder.client?.name || 'Unknown Client'
                     
                     return (
                       <TableRow key={workOrder.id}>
@@ -273,7 +269,7 @@ export function WorkOrdersPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleEdit(workOrder)}
+                              onClick={() => handleEdit(workOrder as WorkOrder)}
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
