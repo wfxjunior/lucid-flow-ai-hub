@@ -524,6 +524,78 @@ export type Database = {
         }
         Relationships: []
       }
+      work_orders: {
+        Row: {
+          actual_hours: number | null
+          assigned_to: string | null
+          client_id: string
+          completion_date: string | null
+          created_at: string
+          description: string | null
+          estimate_id: string | null
+          estimated_hours: number | null
+          id: string
+          labor_cost: number | null
+          materials_cost: number | null
+          notes: string | null
+          priority: string | null
+          project_id: string | null
+          scheduled_date: string | null
+          status: string | null
+          title: string
+          total_cost: number | null
+          updated_at: string
+          user_id: string
+          work_order_number: string | null
+        }
+        Insert: {
+          actual_hours?: number | null
+          assigned_to?: string | null
+          client_id: string
+          completion_date?: string | null
+          created_at?: string
+          description?: string | null
+          estimate_id?: string | null
+          estimated_hours?: number | null
+          id?: string
+          labor_cost?: number | null
+          materials_cost?: number | null
+          notes?: string | null
+          priority?: string | null
+          project_id?: string | null
+          scheduled_date?: string | null
+          status?: string | null
+          title: string
+          total_cost?: number | null
+          updated_at?: string
+          user_id: string
+          work_order_number?: string | null
+        }
+        Update: {
+          actual_hours?: number | null
+          assigned_to?: string | null
+          client_id?: string
+          completion_date?: string | null
+          created_at?: string
+          description?: string | null
+          estimate_id?: string | null
+          estimated_hours?: number | null
+          id?: string
+          labor_cost?: number | null
+          materials_cost?: number | null
+          notes?: string | null
+          priority?: string | null
+          project_id?: string | null
+          scheduled_date?: string | null
+          status?: string | null
+          title?: string
+          total_cost?: number | null
+          updated_at?: string
+          user_id?: string
+          work_order_number?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -538,6 +610,10 @@ export type Database = {
         Returns: string
       }
       generate_receipt_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      generate_work_order_number: {
         Args: Record<PropertyKey, never>
         Returns: string
       }

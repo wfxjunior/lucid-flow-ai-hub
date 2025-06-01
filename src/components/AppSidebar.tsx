@@ -1,4 +1,3 @@
-
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
@@ -72,6 +71,11 @@ const businessTools = [
     title: "Projects",
     icon: Briefcase,
     view: "projects"
+  },
+  {
+    title: "Work Orders",
+    icon: Package,
+    view: "work-orders"
   },
   {
     title: "To-Do List",

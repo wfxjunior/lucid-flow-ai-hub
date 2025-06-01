@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb, Calculator, CheckSquare } from "lucide-react"
@@ -25,6 +24,20 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       description: "Create and manage estimates",
       icon: Calculator,
       color: "bg-cyan-600 hover:bg-cyan-700"
+    },
+    {
+      id: "work-orders",
+      title: "Work Orders",
+      description: "Create and track work orders",
+      icon: Clipboard,
+      color: "bg-purple-600 hover:bg-purple-700"
+    },
+    {
+      id: "quotes",
+      title: "Quotes",
+      description: "Generate customer quotes",
+      icon: FileSpreadsheet,
+      color: "bg-blue-600 hover:bg-blue-700"
     },
     {
       id: "todo-list",

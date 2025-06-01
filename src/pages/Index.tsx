@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -26,6 +25,7 @@ import { ContractsPage } from "@/components/ContractsPage"
 import { ProjectsPage } from "@/components/ProjectsPage"
 import { TodoListPage } from "@/components/TodoListPage"
 import { EstimatesPage } from "@/components/EstimatesPage"
+import { WorkOrdersPage } from "@/components/WorkOrdersPage"
 
 const Index = () => {
   const { t } = useLanguage()
@@ -38,6 +38,10 @@ const Index = () => {
       setActiveView("dashboard")
     } else if (actionId === "estimates") {
       setActiveView("estimates")
+    } else if (actionId === "work-orders") {
+      setActiveView("work-orders")
+    } else if (actionId === "quotes") {
+      setActiveView("quotes")
     } else if (actionId === "todo-list") {
       setActiveView("todo-list")
     } else if (actionId === "files") {
@@ -82,6 +86,10 @@ const Index = () => {
         case 'create-invoice':
           return <InvoiceCreator />
         case 'estimates':
+          return <EstimatesPage />
+        case 'work-orders':
+          return <WorkOrdersPage />
+        case 'quotes':
           return <EstimatesPage />
         case 'projects':
           return <ProjectsPage />

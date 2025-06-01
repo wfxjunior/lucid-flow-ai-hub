@@ -131,6 +131,24 @@ export function useBusinessData() {
     }
   })
 
+  // Work Orders
+  const { data: workOrders, isLoading: workOrdersLoading } = useQuery({
+    queryKey: ['work_orders'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('work_orders')
+        .select(`
+          *,
+          client:clients(*),
+          estimate:estimates(*)
+        `)
+        .order('created_at', { ascending: false })
+      
+      if (error) throw error
+      return data
+    }
+  })
+
   // Mutations
   const createClientMutation = useMutation({
     mutationFn: async (client: any) => {
@@ -275,6 +293,55 @@ export function useBusinessData() {
     }
   })
 
+  const createWorkOrderMutation = useMutation({
+    mutationFn: async (workOrder: any) => {
+      const { data: workOrderNumber } = await supabase.rpc('generate_work_order_number')
+      
+      const { data, error } = await supabase
+        .from('work_orders')
+        .insert([{ ...workOrder, work_order_number: workOrderNumber }])
+        .select()
+        .single()
+      
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['work_orders'] })
+    }
+  })
+
+  const updateWorkOrderMutation = useMutation({
+    mutationFn: async ({ id, ...workOrder }: any) => {
+      const { data, error } = await supabase
+        .from('work_orders')
+        .update(workOrder)
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['work_orders'] })
+    }
+  })
+
+  const deleteWorkOrderMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('work_orders')
+        .delete()
+        .eq('id', id)
+      
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['work_orders'] })
+    }
+  })
+
   // Additional helper functions
   const convertEstimateToInvoice = async (estimateId: string) => {
     try {
@@ -384,6 +451,7 @@ export function useBusinessData() {
     queryClient.invalidateQueries({ queryKey: ['contracts'] })
     queryClient.invalidateQueries({ queryKey: ['documents'] })
     queryClient.invalidateQueries({ queryKey: ['signatures'] })
+    queryClient.invalidateQueries({ queryKey: ['work_orders'] })
   }
 
   return {
@@ -397,6 +465,7 @@ export function useBusinessData() {
     contracts,
     documents,
     signatures,
+    workOrders,
     
     // Filter states
     selectedClientId,
@@ -407,7 +476,7 @@ export function useBusinessData() {
     setTypeFilter,
     
     // Loading states
-    loading: clientsLoading || appointmentsLoading || invoicesLoading || estimatesLoading || receiptsLoading || contractsLoading || documentsLoading || signaturesLoading,
+    loading: clientsLoading || appointmentsLoading || invoicesLoading || estimatesLoading || receiptsLoading || contractsLoading || documentsLoading || signaturesLoading || workOrdersLoading,
     
     // Actions
     createClient: createClientMutation.mutateAsync,
@@ -419,6 +488,9 @@ export function useBusinessData() {
     deleteContract: deleteContractMutation.mutateAsync,
     createDocument: createDocumentMutation.mutateAsync,
     createSignature: createSignatureMutation.mutateAsync,
+    createWorkOrder: createWorkOrderMutation.mutateAsync,
+    updateWorkOrder: updateWorkOrderMutation.mutateAsync,
+    deleteWorkOrder: deleteWorkOrderMutation.mutateAsync,
     
     // Helper functions
     convertEstimateToInvoice,

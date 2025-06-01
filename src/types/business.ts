@@ -1,4 +1,3 @@
-
 export interface Client {
   id: string
   name: string
@@ -127,5 +126,31 @@ export interface UserSettings {
   updated_at: string
 }
 
-export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue' | 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'signed' | 'declined' | 'expired'
-export type FilterType = 'all' | 'estimates' | 'invoices' | 'receipts' | 'appointments' | 'contracts' | 'documents' | 'signatures'
+export interface WorkOrder {
+  id: string
+  user_id: string
+  client_id: string
+  estimate_id?: string
+  project_id?: string
+  work_order_number?: string
+  title: string
+  description?: string
+  priority: 'low' | 'medium' | 'high' | 'urgent'
+  status: 'pending' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled'
+  scheduled_date?: string
+  completion_date?: string
+  assigned_to?: string
+  estimated_hours?: number
+  actual_hours?: number
+  materials_cost?: number
+  labor_cost?: number
+  total_cost?: number
+  notes?: string
+  created_at: string
+  updated_at: string
+  client?: Client
+  estimate?: Estimate
+}
+
+export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue' | 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'signed' | 'declined' | 'expired' | 'in_progress' | 'urgent' | 'low' | 'medium' | 'high'
+export type FilterType = 'all' | 'estimates' | 'invoices' | 'receipts' | 'appointments' | 'contracts' | 'documents' | 'signatures' | 'work_orders'
