@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { BarChart3, TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Heart, Target, Award, Clock } from "lucide-react"
@@ -122,9 +123,9 @@ export function AnalyticsDashboard() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
-      {/* Stats Overview */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+    <div className="space-y-4 md:space-y-6 p-2 sm:p-4 lg:p-6">
+      {/* Stats Overview - Responsive grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4">
         {stats.map((stat, index) => (
           <Card key={index} className="transition-all duration-200 hover:shadow-lg hover:scale-105">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -150,9 +151,9 @@ export function AnalyticsDashboard() {
         ))}
       </div>
 
-      {/* Revenue & Performance Chart */}
+      {/* Revenue & Performance Chart - Mobile responsive */}
       <Card>
-        <CardHeader>
+        <CardHeader className="p-4 sm:p-6">
           <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
             <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
             Business Performance Overview
@@ -160,13 +161,28 @@ export function AnalyticsDashboard() {
           <CardDescription className="text-sm">Monthly revenue, expenses, profit and project count</CardDescription>
         </CardHeader>
         <CardContent className="p-2 sm:p-4 md:p-6">
-          <ChartContainer config={chartConfig} className="h-64 sm:h-80 md:h-96">
-            <BarChart data={revenueData} margin={{ top: 20, right: 10, left: 0, bottom: 20 }}>
+          <ChartContainer config={chartConfig} className="h-64 sm:h-80 md:h-96 w-full">
+            <BarChart data={revenueData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" fontSize={12} />
-              <YAxis width={50} fontSize={12} />
+              <XAxis 
+                dataKey="month" 
+                fontSize={10}
+                tick={{ fontSize: 10 }}
+                interval={0}
+                angle={-45}
+                textAnchor="end"
+                height={60}
+              />
+              <YAxis 
+                width={40} 
+                fontSize={10}
+                tick={{ fontSize: 10 }}
+              />
               <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+                iconSize={12}
+              />
               <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
               <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
               <Bar dataKey="profit" fill="var(--color-profit)" name="Profit" />
@@ -175,22 +191,31 @@ export function AnalyticsDashboard() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
+      {/* Two column layout for medium screens and up */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* Client Growth */}
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
               <Users className="h-4 w-4 sm:h-5 sm:w-5" />
               Client Growth Trend
             </CardTitle>
             <CardDescription className="text-sm">New client acquisition and total client base</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4 md:p-6">
-            <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80">
-              <AreaChart data={clientGrowthData} margin={{ top: 20, right: 10, left: 0, bottom: 20 }}>
+          <CardContent className="p-2 sm:p-4">
+            <ChartContainer config={chartConfig} className="h-48 sm:h-64 w-full">
+              <AreaChart data={clientGrowthData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" fontSize={12} />
-                <YAxis width={40} fontSize={12} />
+                <XAxis 
+                  dataKey="month" 
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
+                />
+                <YAxis 
+                  width={35} 
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
+                />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Area type="monotone" dataKey="totalClients" stroke="var(--color-totalClients)" fill="var(--color-totalClients)" fillOpacity={0.3} />
                 <Bar dataKey="newClients" fill="var(--color-newClients)" />
@@ -201,22 +226,23 @@ export function AnalyticsDashboard() {
 
         {/* Project Status Distribution */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Project Status Distribution</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-base sm:text-lg">Project Status Distribution</CardTitle>
             <CardDescription className="text-sm">Current status of all projects</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4 md:p-6">
-            <div className="w-full h-48 sm:h-64 md:h-80">
+          <CardContent className="p-2 sm:p-4">
+            <div className="w-full h-48 sm:h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                   <Pie
                     data={projectStatusData}
                     cx="50%"
                     cy="50%"
-                    outerRadius="70%"
+                    outerRadius="60%"
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, value }) => `${name}: ${value}`}
+                    labelStyle={{ fontSize: '10px' }}
                   >
                     {projectStatusData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -230,19 +256,33 @@ export function AnalyticsDashboard() {
         </Card>
       </div>
 
-      {/* Service Revenue Distribution */}
+      {/* Service Revenue Distribution - Full width, responsive */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-lg sm:text-xl">Service Revenue Breakdown</CardTitle>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-base sm:text-lg">Service Revenue Breakdown</CardTitle>
           <CardDescription className="text-sm">Revenue distribution by service type</CardDescription>
         </CardHeader>
-        <CardContent className="p-2 sm:p-4 md:p-6">
+        <CardContent className="p-2 sm:p-4">
           <div className="w-full h-64 sm:h-80 md:h-96">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={serviceDistributionData} layout="horizontal" margin={{ top: 20, right: 20, left: 10, bottom: 20 }}>
+              <BarChart 
+                data={serviceDistributionData} 
+                layout="horizontal" 
+                margin={{ top: 20, right: 20, left: 80, bottom: 20 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" fontSize={12} />
-                <YAxis dataKey="service" type="category" width={60} fontSize={10} />
+                <XAxis 
+                  type="number" 
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
+                />
+                <YAxis 
+                  dataKey="service" 
+                  type="category" 
+                  width={75} 
+                  fontSize={9}
+                  tick={{ fontSize: 9 }}
+                />
                 <Tooltip />
                 <Bar dataKey="revenue" fill="#3b82f6" name="Revenue ($)" />
               </BarChart>
@@ -251,25 +291,27 @@ export function AnalyticsDashboard() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
+      {/* Bottom two column layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* Invoice Status */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Invoice Status</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-base sm:text-lg">Invoice Status</CardTitle>
             <CardDescription className="text-sm">Payment status breakdown</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4 md:p-6">
-            <div className="w-full h-48 sm:h-64 md:h-80">
+          <CardContent className="p-2 sm:p-4">
+            <div className="w-full h-48 sm:h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                   <Pie
                     data={invoiceStatusData}
                     cx="50%"
                     cy="50%"
-                    outerRadius="70%"
+                    outerRadius="60%"
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, value }) => `${name}: ${value}%`}
+                    labelStyle={{ fontSize: '10px' }}
                   >
                     {invoiceStatusData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -284,17 +326,17 @@ export function AnalyticsDashboard() {
 
         {/* Performance Metrics */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Performance Metrics</CardTitle>
+          <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-base sm:text-lg">Performance Metrics</CardTitle>
             <CardDescription className="text-sm">Key performance indicators vs targets</CardDescription>
           </CardHeader>
-          <CardContent className="p-3 sm:p-4 md:p-6">
+          <CardContent className="p-3 sm:p-4">
             <div className="space-y-4">
               {performanceMetrics.map((metric, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{metric.metric}</span>
-                    <span className="text-xs sm:text-sm text-muted-foreground">{metric.current}% / {metric.target}%</span>
+                    <span className="text-xs sm:text-sm font-medium">{metric.metric}</span>
+                    <span className="text-xs text-muted-foreground">{metric.current}% / {metric.target}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
@@ -312,14 +354,14 @@ export function AnalyticsDashboard() {
         </Card>
       </div>
 
-      {/* Business Summary */}
+      {/* Business Summary - Full width, responsive */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-lg sm:text-xl">Business Summary</CardTitle>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-base sm:text-lg">Business Summary</CardTitle>
           <CardDescription className="text-sm">Key highlights and recent performance</CardDescription>
         </CardHeader>
-        <CardContent className="p-3 sm:p-4 md:p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <CardContent className="p-3 sm:p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
             <div className="space-y-2">
               <h4 className="font-semibold text-green-600 text-sm sm:text-base">This Month's Wins</h4>
               <ul className="text-xs sm:text-sm space-y-1">
@@ -338,7 +380,7 @@ export function AnalyticsDashboard() {
                 <li>• Follow up on pending invoices</li>
               </ul>
             </div>
-            <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+            <div className="space-y-2 md:col-span-2 xl:col-span-1">
               <h4 className="font-semibold text-purple-600 text-sm sm:text-base">Next Quarter Goals</h4>
               <ul className="text-xs sm:text-sm space-y-1">
                 <li>• Reach 35 active clients</li>
