@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -22,7 +21,6 @@ import {
 import { useNavigate } from "react-router-dom"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { StatsCard } from "@/components/StatsCard"
-import { LanguageSelector } from "@/components/LanguageSelector"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 const LandingPage = () => {
@@ -157,9 +155,6 @@ const LandingPage = () => {
             <a href="#testimonials" className="text-gray-600 hover:text-primary transition-colors">Testimonials</a>
           </nav>
           <div className="flex items-center gap-4">
-            <div className="w-48">
-              <LanguageSelector />
-            </div>
             <Button onClick={() => navigate('/dashboard')} variant="outline">
               Dashboard
             </Button>
