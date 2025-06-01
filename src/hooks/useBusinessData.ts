@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -116,11 +117,13 @@ export function useBusinessData() {
         throw clientsError
       }
 
-      // Manually join the data
+      // Manually join the data and cast types properly
       return (workOrdersData || []).map(workOrder => ({
         ...workOrder,
+        status: workOrder.status as WorkOrder['status'],
+        priority: workOrder.priority as WorkOrder['priority'],
         client: clientsData?.find(client => client.id === workOrder.client_id) || null
-      }))
+      })) as WorkOrderWithClient[]
     }
   })
 
