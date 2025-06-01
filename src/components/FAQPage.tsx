@@ -282,19 +282,20 @@ export const FAQPage = () => {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button
                 size="lg"
-                onClick={() => navigate('/feedback')}
+                onClick={() => navigate('/contact')}
                 className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100 rounded-xl"
               >
                 <MessageSquare className="mr-2 w-4 h-4" />
-                Contact Support
+                Send Message
               </Button>
               <Button
                 size="lg"
                 variant="outline"
+                onClick={() => navigate('/feedback')}
                 className="w-full sm:w-auto border-white text-white hover:bg-white hover:text-blue-600 rounded-xl"
               >
                 <Mail className="mr-2 w-4 h-4" />
-                Email Us
+                Send Feedback
               </Button>
             </div>
           </div>
