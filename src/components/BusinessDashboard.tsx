@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -185,7 +186,7 @@ export function BusinessDashboard() {
                   fontSize={12}
                 >
                   {revenueData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={`hsl(${index * 120}, 70%, 50%)`} />
+                    <Cell key={`cell-${index}`} fill={index === 0 ? '#22c55e' : index === 1 ? '#3b82f6' : '#6b7280'} />
                   ))}
                 </Pie>
                 <ChartTooltip content={<ChartTooltipContent />} />
