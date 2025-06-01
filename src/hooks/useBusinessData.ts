@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -99,7 +100,7 @@ export function useBusinessData() {
         .from('work_orders')
         .select(`
           *,
-          clients!work_orders_client_id_fkey(*)
+          clients(*)
         `)
         .order('created_at', { ascending: false })
 
@@ -141,7 +142,7 @@ export function useBusinessData() {
         .from('appointments')
         .select(`
           *,
-          clients!appointments_client_id_fkey(*)
+          clients(*)
         `)
         .order('appointment_date', { ascending: true })
 
@@ -219,8 +220,8 @@ export function useBusinessData() {
         .from('signatures')
         .select(`
           *,
-          clients!signatures_client_id_fkey(*),
-          documents!signatures_document_id_fkey(*)
+          clients(*),
+          documents(*)
         `)
         .order('created_at', { ascending: false })
 
