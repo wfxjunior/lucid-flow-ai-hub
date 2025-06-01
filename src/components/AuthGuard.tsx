@@ -15,40 +15,72 @@ export function AuthGuard({ children }: AuthGuardProps) {
   const navigate = useNavigate()
 
   useEffect(() => {
+    let mounted = true
+
+    const initializeAuth = async () => {
+      try {
+        // Check for existing session first
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (error) {
+          console.error('Error getting session:', error)
+          if (mounted) {
+            setIsLoading(false)
+            navigate('/auth')
+          }
+          return
+        }
+
+        if (mounted) {
+          setSession(session)
+          setUser(session?.user ?? null)
+          setIsLoading(false)
+          
+          if (!session) {
+            navigate('/auth')
+          }
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error)
+        if (mounted) {
+          setIsLoading(false)
+          navigate('/auth')
+        }
+      }
+    }
+
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         console.log('Auth state changed:', event, session?.user?.id)
-        setSession(session)
-        setUser(session?.user ?? null)
-        setIsLoading(false)
         
-        if (!session) {
-          navigate('/auth')
+        if (mounted) {
+          setSession(session)
+          setUser(session?.user ?? null)
+          setIsLoading(false)
+          
+          if (event === 'SIGNED_OUT' || !session) {
+            navigate('/auth')
+          }
         }
       }
     )
 
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setUser(session?.user ?? null)
-      setIsLoading(false)
-      
-      if (!session) {
-        navigate('/auth')
-      }
-    })
+    // Initialize auth
+    initializeAuth()
 
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [navigate])
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">Carregando...</p>
         </div>
       </div>
     )

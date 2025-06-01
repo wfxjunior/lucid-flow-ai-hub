@@ -1,5 +1,4 @@
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -50,6 +49,17 @@ const Auth = () => {
     country: ""
   })
 
+  // Check if user is already authenticated
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        navigate("/dashboard")
+      }
+    }
+    checkAuth()
+  }, [navigate])
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -60,14 +70,22 @@ const Auth = () => {
         password: loginData.password,
       })
 
-      if (error) throw error
+      if (error) {
+        if (error.message.includes("Invalid login credentials")) {
+          toast.error("Email ou senha incorretos")
+        } else {
+          toast.error(error.message || "Erro no login")
+        }
+        return
+      }
 
       if (data.user) {
-        toast.success("Welcome back!")
+        toast.success("Login realizado com sucesso!")
         navigate("/dashboard")
       }
     } catch (error: any) {
-      toast.error(error.message || "Login failed")
+      console.error('Login error:', error)
+      toast.error("Erro inesperado no login")
     } finally {
       setIsLoading(false)
     }
@@ -77,12 +95,17 @@ const Auth = () => {
     e.preventDefault()
     
     if (signupData.password !== signupData.confirmPassword) {
-      toast.error("Passwords don't match")
+      toast.error("As senhas não coincidem")
       return
     }
 
     if (!signupData.country) {
-      toast.error("Please select your country")
+      toast.error("Por favor, selecione seu país")
+      return
+    }
+
+    if (signupData.password.length < 6) {
+      toast.error("A senha deve ter pelo menos 6 caracteres")
       return
     }
 
@@ -102,7 +125,14 @@ const Auth = () => {
         }
       })
 
-      if (error) throw error
+      if (error) {
+        if (error.message.includes("User already registered")) {
+          toast.error("Este email já está cadastrado. Tente fazer login.")
+        } else {
+          toast.error(error.message || "Erro no cadastro")
+        }
+        return
+      }
 
       if (data.user) {
         // Set language based on country
@@ -111,11 +141,12 @@ const Auth = () => {
           setLanguage(country.languages[0])
         }
         
-        toast.success("Account created! Please check your email to verify your account.")
+        toast.success("Conta criada! Verifique seu email para confirmar a conta.")
         navigate("/dashboard")
       }
     } catch (error: any) {
-      toast.error(error.message || "Signup failed")
+      console.error('Signup error:', error)
+      toast.error("Erro inesperado no cadastro")
     } finally {
       setIsLoading(false)
     }
@@ -137,21 +168,21 @@ const Auth = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-blue-600 mb-2">FeatherBiz</h1>
-          <p className="text-gray-600">AI-Powered Business Platform</p>
+          <p className="text-gray-600">Plataforma Empresarial com IA</p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-center">Welcome</CardTitle>
+            <CardTitle className="text-center">Bem-vindo</CardTitle>
             <CardDescription className="text-center">
-              Sign in to your account or create a new one
+              Faça login na sua conta ou crie uma nova
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login" className="space-y-6">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                <TabsTrigger value="signup">Cadastrar</TabsTrigger>
               </TabsList>
 
               <TabsContent value="login">
@@ -164,20 +195,22 @@ const Auth = () => {
                       value={loginData.email}
                       onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="login-password">Password</Label>
+                    <Label htmlFor="login-password">Senha</Label>
                     <Input
                       id="login-password"
                       type="password"
                       value={loginData.password}
                       onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Signing In..." : "Sign In"}
+                    {isLoading ? "Entrando..." : "Entrar"}
                   </Button>
                 </form>
               </TabsContent>
@@ -186,30 +219,32 @@ const Auth = () => {
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName">First Name</Label>
+                      <Label htmlFor="firstName">Nome</Label>
                       <Input
                         id="firstName"
                         value={signupData.firstName}
                         onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })}
                         required
+                        disabled={isLoading}
                       />
                     </div>
                     <div>
-                      <Label htmlFor="lastName">Last Name</Label>
+                      <Label htmlFor="lastName">Sobrenome</Label>
                       <Input
                         id="lastName"
                         value={signupData.lastName}
                         onChange={(e) => setSignupData({ ...signupData, lastName: e.target.value })}
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <Label htmlFor="country">Country</Label>
-                    <Select value={signupData.country} onValueChange={handleCountryChange}>
+                    <Label htmlFor="country">País</Label>
+                    <Select value={signupData.country} onValueChange={handleCountryChange} disabled={isLoading}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select your country" />
+                        <SelectValue placeholder="Selecione seu país" />
                       </SelectTrigger>
                       <SelectContent>
                         {countries.map((country) => (
@@ -232,33 +267,36 @@ const Auth = () => {
                       value={signupData.email}
                       onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor="signup-password">Password</Label>
+                    <Label htmlFor="signup-password">Senha</Label>
                     <Input
                       id="signup-password"
                       type="password"
                       value={signupData.password}
                       onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   
                   <div>
-                    <Label htmlFor="confirm-password">Confirm Password</Label>
+                    <Label htmlFor="confirm-password">Confirmar Senha</Label>
                     <Input
                       id="confirm-password"
                       type="password"
                       value={signupData.confirmPassword}
                       onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Creating Account..." : "Create Account"}
+                    {isLoading ? "Criando Conta..." : "Criar Conta"}
                   </Button>
                 </form>
               </TabsContent>
@@ -271,8 +309,9 @@ const Auth = () => {
             variant="ghost"
             onClick={() => navigate("/")}
             className="text-sm text-gray-500"
+            disabled={isLoading}
           >
-            ← Back to Home
+            ← Voltar ao Início
           </Button>
         </div>
       </div>
