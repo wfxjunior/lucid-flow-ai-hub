@@ -1,182 +1,70 @@
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { 
-  ArrowRight, 
-  Brain, 
-  FileText, 
-  Users, 
-  BarChart3, 
-  Shield, 
-  Zap, 
-  MessageSquare,
-  CheckCircle,
-  Star,
-  Play,
-  Receipt,
-  Calendar,
-  Wrench,
-  Feather
-} from "lucide-react"
+import { Crown, Star, Users, DollarSign, TrendingUp, FileText, Heart, MessageSquare, Calendar, Receipt, Settings, Lightbulb, UserCog, Calculator, ArrowRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { AnimatedNumber } from "@/components/AnimatedNumber"
-import { StatsCard } from "@/components/StatsCard"
 import { useLanguage } from "@/contexts/LanguageContext"
-import { FreeTrialQuestionnaire } from "@/components/FreeTrialQuestionnaire"
-import { useToast } from "@/hooks/use-toast"
+import { LanguageSelector } from "@/components/LanguageSelector"
 
 const LandingPage = () => {
   const navigate = useNavigate()
   const { t } = useLanguage()
-  const { toast } = useToast()
-  const [questionnaireOpen, setQuestionnaireOpen] = useState(false)
 
   const features = [
     {
-      icon: Brain,
-      title: t("landing.features.aiVoice.title"),
-      description: t("landing.features.aiVoice.description")
-    },
-    {
       icon: FileText,
-      title: t("landing.features.smartInvoicing.title"),
-      description: t("landing.features.smartInvoicing.description")
+      title: "Smart Invoicing",
+      description: "Create professional invoices with AI assistance"
     },
     {
       icon: Users,
-      title: t("landing.features.customerManagement.title"),
-      description: t("landing.features.customerManagement.description")
-    },
-    {
-      icon: BarChart3,
-      title: t("landing.features.analytics.title"),
-      description: t("landing.features.analytics.description")
-    },
-    {
-      icon: Shield,
-      title: t("landing.features.security.title"),
-      description: t("landing.features.security.description")
-    },
-    {
-      icon: Zap,
-      title: t("landing.features.automation.title"),
-      description: t("landing.features.automation.description")
-    },
-    {
-      icon: Receipt,
-      title: t("landing.features.receipts.title"),
-      description: t("landing.features.receipts.description")
+      title: "Customer Management",
+      description: "Organize and track all your customer relationships"
     },
     {
       icon: Calendar,
-      title: t("landing.features.appointments.title"),
-      description: t("landing.features.appointments.description")
+      title: "Appointment Scheduling",
+      description: "Automated booking and reminder system"
     },
     {
-      icon: Wrench,
-      title: t("landing.features.workOrders.title"),
-      description: t("landing.features.workOrders.description")
+      icon: Calculator,
+      title: "Estimates & Quotes",
+      description: "Generate accurate estimates with smart calculations"
+    },
+    {
+      icon: Receipt,
+      title: "Expense Tracking",
+      description: "Monitor costs and manage business expenses"
+    },
+    {
+      icon: TrendingUp,
+      title: "Analytics Dashboard",
+      description: "Real-time insights into your business performance"
     }
   ]
-
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Freelance Designer",
-      content: "FeatherBiz transformed how I manage my business. The AI assistant saves me hours every week.",
-      rating: 5
-    },
-    {
-      name: "Mike Chen",
-      role: "Consultant",
-      content: "The invoice tracking feature is incredible. I know exactly when clients view my proposals.",
-      rating: 5
-    },
-    {
-      name: "Lisa Rodriguez",
-      role: "Marketing Agency Owner",
-      content: "Finally, a business platform that actually understands what entrepreneurs need.",
-      rating: 5
-    }
-  ]
-
-  const statsData = [
-    {
-      title: "Active Users",
-      value: "10K+",
-      change: "+25% this month",
-      changeType: "positive" as const,
-      icon: Users
-    },
-    {
-      title: "Invoices Created",
-      value: "1M+",
-      change: "+15% this month",
-      changeType: "positive" as const,
-      icon: FileText
-    },
-    {
-      title: "Uptime",
-      value: "99.9%",
-      change: "Consistent",
-      changeType: "neutral" as const,
-      icon: Shield
-    },
-    {
-      title: "AI Assistant",
-      value: "24/7",
-      change: "Always Available",
-      changeType: "positive" as const,
-      icon: Brain
-    },
-    {
-      title: "User Reviews",
-      value: "4.9⭐",
-      change: "+0.2 this month",
-      changeType: "positive" as const,
-      icon: Star
-    }
-  ]
-
-  const handleWatchDemo = () => {
-    // For now, we'll show an alert. You can replace this with a modal or video player later
-    alert("Demo video coming soon! For now, try the free dashboard to explore all features.")
-    navigate('/dashboard')
-  }
-
-  const handleStartFreeTrial = () => {
-    setQuestionnaireOpen(true)
-  }
-
-  const handleQuestionnaireComplete = (data: any) => {
-    console.log('Questionnaire data:', data)
-    toast({
-      title: "Welcome to FeatherBiz!",
-      description: `Thank you ${data.firstName}! Your personalized dashboard is ready.`,
-    })
-    // Here you would typically save the data and redirect to dashboard
-    navigate('/dashboard')
-  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Feather className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold">FeatherBiz</span>
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <Crown className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-blue-600">FeatherBiz</span>
           </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-gray-600 hover:text-primary transition-colors">Features</a>
-            <a href="#pricing" className="text-gray-600 hover:text-primary transition-colors">Pricing</a>
-            <a href="#testimonials" className="text-gray-600 hover:text-primary transition-colors">Testimonials</a>
-          </nav>
+          
           <div className="flex items-center gap-4">
-            <Button onClick={() => navigate('/dashboard')} variant="outline">
-              Dashboard
+            <div className="w-48">
+              <LanguageSelector />
+            </div>
+            <Button onClick={() => navigate('/auth')} variant="outline">
+              Sign In
+            </Button>
+            <Button onClick={() => navigate('/auth')} className="bg-blue-600 hover:bg-blue-700">
+              Get Started Free
             </Button>
           </div>
         </div>
@@ -184,113 +72,79 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
-        <Badge className="mb-4 animate-fade-in" variant="secondary">
-          🚀 {t("landing.tagline")}
+        <Badge className="mb-6 bg-blue-100 text-blue-800 border-blue-200">
+          🚀 AI-Powered Business Platform
         </Badge>
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent animate-slide-up">
-          {t("landing.title")}
-          <br />
-          <span className="text-primary">{t("landing.titleHighlight")}</span>
+        
+        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          Run Your Business
+          <span className="text-blue-600 block">Smarter & Faster</span>
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          {t("landing.subtitle")}
+        
+        <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+          FeatherBiz is the all-in-one AI-powered platform that helps small businesses manage customers, 
+          create invoices, track expenses, and grow their business with intelligent automation.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-scale-in" style={{ animationDelay: '0.5s' }}>
-          <Button size="lg" className="text-lg px-8 py-6" onClick={handleStartFreeTrial}>
-            {t("landing.tryFree")}
-            <ArrowRight className="ml-2 h-5 w-5" />
+        
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <Button 
+            size="lg" 
+            onClick={() => navigate('/auth')}
+            className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
+          >
+            Start Free Trial
+            <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
-          <Button size="lg" variant="outline" className="text-lg px-8 py-6" onClick={handleWatchDemo}>
-            <Play className="mr-2 h-5 w-5" />
-            {t("landing.watchDemo")}
+          <Button 
+            size="lg" 
+            variant="outline"
+            onClick={() => navigate('/dashboard')}
+            className="text-lg px-8 py-6 rounded-xl border-2 hover:bg-gray-50"
+          >
+            View Demo
           </Button>
         </div>
-        
-        {/* Hero Image/Video Placeholder */}
-        <div className="relative max-w-4xl mx-auto">
-          <div className="aspect-video bg-gradient-to-r from-primary/20 to-blue-600/20 rounded-lg border border-primary/20 flex items-center justify-center animate-scale-in" style={{ animationDelay: '0.7s' }}>
-            <div className="text-center">
-              <Brain className="h-16 w-16 text-primary mx-auto mb-4" />
-              <p className="text-gray-600">AI-Powered Dashboard Preview</p>
-            </div>
+
+        <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <span>Free 14-day trial</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Heart className="w-4 h-4 text-red-500" />
+            <span>No credit card required</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Users className="w-4 h-4 text-blue-500" />
+            <span>10,000+ businesses trust us</span>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-20">
+      {/* Features Grid */}
+      <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
-            {t("landing.everythingTitle")}
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Everything You Need to Succeed
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            {t("landing.everythingSubtitle")}
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Powerful features designed to streamline your business operations and boost productivity
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="border-0 shadow-sm hover:shadow-lg transition-all duration-200 hover:scale-105 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-              <CardHeader>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="h-6 w-6 text-primary" />
+            <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md hover:shadow-xl hover:-translate-y-1">
+              <CardHeader className="text-center pb-4">
+                <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <feature.icon className="w-8 h-8 text-blue-600 group-hover:text-white" />
                 </div>
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
+                <CardTitle className="text-xl text-gray-900">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base">{feature.description}</CardDescription>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="bg-primary/5 py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-            {statsData.map((stat, index) => (
-              <StatsCard 
-                key={index}
-                title={stat.title}
-                value={stat.value}
-                change={stat.change}
-                changeType={stat.changeType}
-                icon={stat.icon}
-                delay={index * 200}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
-            {t("landing.lovedTitle")}
-          </h2>
-          <p className="text-xl text-gray-600 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            {t("landing.lovedSubtitle")}
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-0 shadow-sm animate-fade-in hover:shadow-lg transition-all duration-300 hover:scale-105" style={{ animationDelay: `${index * 0.2}s` }}>
-              <CardHeader>
-                <div className="flex items-center gap-1 mb-2">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400 animate-scale-in" style={{ animationDelay: `${(index * 0.2) + (i * 0.1)}s` }} />
-                  ))}
-                </div>
-                <CardDescription className="text-base italic">
-                  "{testimonial.content}"
+                <CardDescription className="text-center text-gray-600 leading-relaxed">
+                  {feature.description}
                 </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="font-semibold">{testimonial.name}</div>
-                <div className="text-sm text-gray-600">{testimonial.role}</div>
               </CardContent>
             </Card>
           ))}
@@ -298,82 +152,74 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
-            {t("landing.ctaTitle")}
+          <h2 className="text-4xl font-bold mb-4">
+            Ready to Transform Your Business?
           </h2>
-          <p className="text-xl mb-8 opacity-90 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            {t("landing.ctaSubtitle")}
+          <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+            Join thousands of successful businesses using FeatherBiz to streamline operations and increase profits.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in" style={{ animationDelay: '0.4s' }}>
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-6" onClick={handleStartFreeTrial}>
-              {t("landing.startTrial")}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-              <MessageSquare className="mr-2 h-5 w-5" />
-              {t("landing.contactSales")}
-            </Button>
-          </div>
-          <p className="text-sm mt-6 opacity-75 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            {t("landing.ctaFooter")}
-          </p>
+          <Button 
+            size="lg"
+            onClick={() => navigate('/auth')}
+            className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
+          >
+            Get Started Free Today
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </Button>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div className="animate-fade-in">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
               <div className="flex items-center gap-2 mb-4">
-                <Feather className="h-6 w-6 text-primary" />
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <Crown className="w-5 h-5 text-white" />
+                </div>
                 <span className="text-xl font-bold">FeatherBiz</span>
               </div>
               <p className="text-gray-400">
-                The AI-powered business platform for modern entrepreneurs.
+                AI-powered business platform for modern entrepreneurs
               </p>
             </div>
-            <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <h4 className="font-semibold mb-4">Product</h4>
+            
+            <div>
+              <h3 className="font-semibold mb-4">Product</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
+                <li><a href="#" className="hover:text-white">Features</a></li>
+                <li><a href="#" className="hover:text-white">Pricing</a></li>
+                <li><a href="#" className="hover:text-white">API</a></li>
               </ul>
             </div>
-            <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <h4 className="font-semibold mb-4">Support</h4>
+            
+            <div>
+              <h3 className="font-semibold mb-4">Support</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Status</a></li>
-                <li><button onClick={() => navigate('/feedback')} className="hover:text-white transition-colors text-left">Feedback</button></li>
+                <li><a href="#" className="hover:text-white">Help Center</a></li>
+                <li><a href="#" className="hover:text-white">Contact Us</a></li>
+                <li><a href="/feedback" className="hover:text-white">Feedback</a></li>
               </ul>
             </div>
-            <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <h4 className="font-semibold mb-4">Community</h4>
+            
+            <div>
+              <h3 className="font-semibold mb-4">Company</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                <li><button onClick={() => navigate('/dashboard')} className="hover:text-white transition-colors text-left">Feature Requests</button></li>
+                <li><a href="#" className="hover:text-white">About</a></li>
+                <li><a href="#" className="hover:text-white">Blog</a></li>
+                <li><a href="#" className="hover:text-white">Careers</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            <p>&copy; 2025 FeatherBiz. All rights reserved.</p>
+          
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 FeatherBiz. All rights reserved.</p>
           </div>
         </div>
       </footer>
-
-      {/* Free Trial Questionnaire Modal */}
-      <FreeTrialQuestionnaire
-        open={questionnaireOpen}
-        onOpenChange={setQuestionnaireOpen}
-        onComplete={handleQuestionnaireComplete}
-      />
     </div>
   )
 }
