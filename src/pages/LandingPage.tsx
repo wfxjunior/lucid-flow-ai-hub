@@ -70,9 +70,6 @@ const LandingPage = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            <div className="w-48">
-              <LanguageSelector />
-            </div>
             <Button onClick={() => navigate('/auth')} variant="outline">
               Sign In
             </Button>
@@ -195,9 +192,12 @@ const LandingPage = () => {
                 </div>
                 <span className="text-xl font-bold">FeatherBiz</span>
               </div>
-              <p className="text-gray-400">
+              <p className="text-gray-400 mb-4">
                 AI-powered business platform for modern entrepreneurs
               </p>
+              <div className="w-48">
+                <LanguageSelector />
+              </div>
             </div>
             
             <div>
