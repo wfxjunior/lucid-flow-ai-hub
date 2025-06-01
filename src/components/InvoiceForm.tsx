@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,6 +13,8 @@ import { z } from "zod"
 import { Plus, Trash2 } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { toast } from "sonner"
+import { supabase } from "@/integrations/supabase/client"
+import { User } from "@supabase/supabase-js"
 
 const clientSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -50,6 +51,7 @@ export function InvoiceForm() {
   const [lineItems, setLineItems] = useState<LineItem[]>([
     { type: "service", description: "", quantity: 1, rate: 0, amount: 0 }
   ])
+  const [user, setUser] = useState<User | null>(null)
 
   const clientForm = useForm<ClientFormData>({
     resolver: zodResolver(clientSchema),
@@ -84,6 +86,15 @@ export function InvoiceForm() {
     invoiceForm.setValue("total_amount", total)
     invoiceForm.setValue("line_items", lineItems)
   }, [lineItems, invoiceForm])
+
+  // Get user for greeting
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+    getUser()
+  }, [])
 
   const generateInvoiceNumber = () => {
     // Simple invoice number generation - in real app, this would come from backend
@@ -152,20 +163,34 @@ export function InvoiceForm() {
     { value: "expenses", label: "Expenses" },
   ]
 
+  const getDisplayName = () => {
+    if (!user) return 'User'
+    const metadata = user.user_metadata
+    if (metadata?.first_name || metadata?.last_name) {
+      return `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim()
+    }
+    return user.email?.split('@')[0] || 'User'
+  }
+
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold">Create Invoice</h1>
-        <p className="text-lg text-muted-foreground">
+    <div className="space-y-4 sm:space-y-6 px-2 sm:px-4">
+      <div className="text-center space-y-2 sm:space-y-4">
+        <h1 className="text-2xl sm:text-3xl font-bold">Create Invoice</h1>
+        {user && (
+          <p className="text-base sm:text-lg text-blue-600 font-medium">
+            Hello, {getDisplayName()}! 👋
+          </p>
+        )}
+        <p className="text-sm sm:text-lg text-muted-foreground">
           Generate professional invoices for your clients
         </p>
       </div>
 
-      <Card className="max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span>Invoice Details</span>
-            <div className="text-lg font-mono bg-muted px-3 py-1 rounded">
+      <Card className="w-full max-w-6xl mx-auto">
+        <CardHeader className="space-y-2 sm:space-y-4">
+          <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+            <span className="text-lg sm:text-xl">Invoice Details</span>
+            <div className="text-base sm:text-lg font-mono bg-muted px-2 sm:px-3 py-1 rounded text-center">
               {invoiceNumber}
             </div>
           </CardTitle>
@@ -173,11 +198,11 @@ export function InvoiceForm() {
             Fill in the information below to create a new invoice
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4 sm:space-y-6">
           <Form {...invoiceForm}>
-            <form onSubmit={invoiceForm.handleSubmit(onCreateInvoice)} className="space-y-6">
+            <form onSubmit={invoiceForm.handleSubmit(onCreateInvoice)} className="space-y-4 sm:space-y-6">
               {/* Client Selection */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <FormField
                   control={invoiceForm.control}
                   name="client_id"
@@ -193,7 +218,12 @@ export function InvoiceForm() {
                             <SelectContent>
                               {allClients.map((client) => (
                                 <SelectItem key={client.id} value={client.id}>
-                                  {client.name} - {client.email}
+                                  <div className="flex flex-col sm:flex-row sm:items-center">
+                                    <span className="font-medium">{client.name}</span>
+                                    <span className="text-sm text-muted-foreground sm:ml-2">
+                                      {client.email}
+                                    </span>
+                                  </div>
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -201,11 +231,11 @@ export function InvoiceForm() {
                         </FormControl>
                         <Dialog open={isNewClientDialogOpen} onOpenChange={setIsNewClientDialogOpen}>
                           <DialogTrigger asChild>
-                            <Button type="button" variant="outline" size="icon">
+                            <Button type="button" variant="outline" size="icon" className="shrink-0">
                               <Plus className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent>
+                          <DialogContent className="w-[95vw] max-w-md mx-auto">
                             <DialogHeader>
                               <DialogTitle>Create New Client</DialogTitle>
                               <DialogDescription>
@@ -266,11 +296,11 @@ export function InvoiceForm() {
                                     </FormItem>
                                   )}
                                 />
-                                <div className="flex justify-end gap-2">
-                                  <Button type="button" variant="outline" onClick={() => setIsNewClientDialogOpen(false)}>
+                                <div className="flex flex-col sm:flex-row justify-end gap-2">
+                                  <Button type="button" variant="outline" onClick={() => setIsNewClientDialogOpen(false)} className="w-full sm:w-auto">
                                     Cancel
                                   </Button>
-                                  <Button type="submit">Create Client</Button>
+                                  <Button type="submit" className="w-full sm:w-auto">Create Client</Button>
                                 </div>
                               </form>
                             </Form>
@@ -313,24 +343,24 @@ export function InvoiceForm() {
 
               {/* Line Items */}
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                   <Label className="text-base font-semibold">Line Items</Label>
-                  <Button type="button" variant="outline" size="sm" onClick={addLineItem}>
+                  <Button type="button" variant="outline" size="sm" onClick={addLineItem} className="w-full sm:w-auto">
                     <Plus className="h-4 w-4 mr-2" />
                     Add Item
                   </Button>
                 </div>
 
                 {lineItems.map((item, index) => (
-                  <Card key={index} className="p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
-                      <div>
-                        <Label>Type</Label>
+                  <Card key={index} className="p-3 sm:p-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+                      <div className="sm:col-span-1 lg:col-span-1">
+                        <Label className="text-sm">Type</Label>
                         <Select
                           value={item.type}
                           onValueChange={(value) => updateLineItem(index, 'type', value)}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="mt-1">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -342,54 +372,59 @@ export function InvoiceForm() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <div className="md:col-span-2">
-                        <Label>Description</Label>
+                      <div className="sm:col-span-2 lg:col-span-2">
+                        <Label className="text-sm">Description</Label>
                         <Input
+                          className="mt-1"
                           placeholder="Item description"
                           value={item.description}
                           onChange={(e) => updateLineItem(index, 'description', e.target.value)}
                         />
                       </div>
-                      <div>
-                        <Label>Quantity</Label>
+                      <div className="sm:col-span-1 lg:col-span-1">
+                        <Label className="text-sm">Quantity</Label>
                         <Input
+                          className="mt-1"
                           type="number"
                           step="0.01"
                           value={item.quantity}
                           onChange={(e) => updateLineItem(index, 'quantity', parseFloat(e.target.value) || 0)}
                         />
                       </div>
-                      <div>
-                        <Label>Rate</Label>
+                      <div className="sm:col-span-1 lg:col-span-1">
+                        <Label className="text-sm">Rate</Label>
                         <Input
+                          className="mt-1"
                           type="number"
                           step="0.01"
                           value={item.rate}
                           onChange={(e) => updateLineItem(index, 'rate', parseFloat(e.target.value) || 0)}
                         />
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1">
-                          <Label>Amount</Label>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            value={item.amount.toFixed(2)}
-                            readOnly
-                            className="bg-muted"
-                          />
+                      <div className="sm:col-span-2 lg:col-span-1">
+                        <div className="flex items-end gap-2">
+                          <div className="flex-1">
+                            <Label className="text-sm">Amount</Label>
+                            <Input
+                              className="mt-1 bg-muted"
+                              type="number"
+                              step="0.01"
+                              value={item.amount.toFixed(2)}
+                              readOnly
+                            />
+                          </div>
+                          {lineItems.length > 1 && (
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              onClick={() => removeLineItem(index)}
+                              className="text-destructive shrink-0"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          )}
                         </div>
-                        {lineItems.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => removeLineItem(index)}
-                            className="text-destructive"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        )}
                       </div>
                     </div>
                   </Card>
@@ -397,10 +432,10 @@ export function InvoiceForm() {
               </div>
 
               {/* Total */}
-              <div className="flex justify-end">
-                <div className="text-right">
+              <div className="flex justify-center sm:justify-end">
+                <div className="text-center sm:text-right bg-muted p-4 rounded-lg">
                   <Label className="text-lg font-semibold">Total Amount</Label>
-                  <div className="text-2xl font-bold">
+                  <div className="text-2xl sm:text-3xl font-bold mt-1">
                     ${invoiceForm.watch("total_amount")?.toFixed(2) || "0.00"}
                   </div>
                 </div>
@@ -418,6 +453,7 @@ export function InvoiceForm() {
                         placeholder="Additional notes or terms..."
                         {...field}
                         rows={3}
+                        className="resize-none"
                       />
                     </FormControl>
                     <FormMessage />
@@ -425,11 +461,11 @@ export function InvoiceForm() {
                 )}
               />
 
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button type="submit" className="flex-1" disabled={loading}>
                   Generate Invoice
                 </Button>
-                <Button type="button" variant="outline" onClick={generateInvoiceNumber}>
+                <Button type="button" variant="outline" onClick={generateInvoiceNumber} className="w-full sm:w-auto">
                   New Number
                 </Button>
               </div>
