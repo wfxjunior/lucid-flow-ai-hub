@@ -18,12 +18,12 @@ const languages = [
 ]
 
 export function LanguageSelector() {
-  const { currentLanguage, setLanguage } = useLanguage()
+  const { currentLanguage, setLanguage, t } = useLanguage()
 
   return (
     <Select value={currentLanguage} onValueChange={setLanguage}>
-      <SelectTrigger className="w-full h-6">
-        <SelectValue placeholder="Select language" />
+      <SelectTrigger className="w-full h-10">
+        <SelectValue placeholder={t("language.selectPlaceholder")} />
       </SelectTrigger>
       <SelectContent>
         {languages.map((language) => (

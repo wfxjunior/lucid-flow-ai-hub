@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -21,55 +22,58 @@ import {
 import { useNavigate } from "react-router-dom"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { StatsCard } from "@/components/StatsCard"
+import { LanguageSelector } from "@/components/LanguageSelector"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 const LandingPage = () => {
   const navigate = useNavigate()
+  const { t } = useLanguage()
 
   const features = [
     {
       icon: Brain,
-      title: "AI Voice Assistant",
-      description: "Intelligent automation that learns from your business patterns and suggests optimizations."
+      title: t("landing.features.aiVoice.title"),
+      description: t("landing.features.aiVoice.description")
     },
     {
       icon: FileText,
-      title: "Smart Invoicing",
-      description: "Create professional invoices with AI assistance and track when clients view them."
+      title: t("landing.features.smartInvoicing.title"),
+      description: t("landing.features.smartInvoicing.description")
     },
     {
       icon: Users,
-      title: "Customer Management",
-      description: "Manage relationships and communications with your customers in one place."
+      title: t("landing.features.customerManagement.title"),
+      description: t("landing.features.customerManagement.description")
     },
     {
       icon: BarChart3,
-      title: "Advanced Analytics",
-      description: "Get insights into your business performance with detailed analytics and reporting."
+      title: t("landing.features.analytics.title"),
+      description: t("landing.features.analytics.description")
     },
     {
       icon: Shield,
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security with 99.9% uptime guarantee and automatic backups."
+      title: t("landing.features.security.title"),
+      description: t("landing.features.security.description")
     },
     {
       icon: Zap,
-      title: "Workflow Automation",
-      description: "Automate repetitive tasks and focus on growing your business."
+      title: t("landing.features.automation.title"),
+      description: t("landing.features.automation.description")
     },
     {
       icon: Receipt,
-      title: "Receipts",
-      description: "Track and manage all your business receipts and expenses in one organized system."
+      title: t("landing.features.receipts.title"),
+      description: t("landing.features.receipts.description")
     },
     {
       icon: Calendar,
-      title: "Appointments",
-      description: "Schedule and manage appointments with clients with automated reminders."
+      title: t("landing.features.appointments.title"),
+      description: t("landing.features.appointments.description")
     },
     {
       icon: Wrench,
-      title: "Work Orders",
-      description: "Create, track, and manage work orders with real-time status updates."
+      title: t("landing.features.workOrders.title"),
+      description: t("landing.features.workOrders.description")
     }
   ]
 
@@ -152,34 +156,38 @@ const LandingPage = () => {
             <a href="#pricing" className="text-gray-600 hover:text-primary transition-colors">Pricing</a>
             <a href="#testimonials" className="text-gray-600 hover:text-primary transition-colors">Testimonials</a>
           </nav>
-          <Button onClick={() => navigate('/dashboard')} variant="outline">
-            Dashboard
-          </Button>
+          <div className="flex items-center gap-4">
+            <div className="w-48">
+              <LanguageSelector />
+            </div>
+            <Button onClick={() => navigate('/dashboard')} variant="outline">
+              Dashboard
+            </Button>
+          </div>
         </div>
       </header>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <Badge className="mb-4 animate-fade-in" variant="secondary">
-          🚀 AI-Powered Business Platform
+          🚀 {t("landing.tagline")}
         </Badge>
         <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent animate-slide-up">
-          The Modern Way to
+          {t("landing.title")}
           <br />
-          <span className="text-primary">Run Your Business</span>
+          <span className="text-primary">{t("landing.titleHighlight")}</span>
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          FeatherBiz combines AI intelligence with powerful automation to help entrepreneurs 
-          streamline their workflow, manage customers, and grow their business faster than ever.
+          {t("landing.subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-scale-in" style={{ animationDelay: '0.5s' }}>
           <Button size="lg" className="text-lg px-8 py-6" onClick={() => navigate('/dashboard')}>
-            Try It Free
+            {t("landing.tryFree")}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
           <Button size="lg" variant="outline" className="text-lg px-8 py-6" onClick={handleWatchDemo}>
             <Play className="mr-2 h-5 w-5" />
-            Watch Demo
+            {t("landing.watchDemo")}
           </Button>
         </div>
         
@@ -198,10 +206,10 @@ const LandingPage = () => {
       <section id="features" className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
-            Everything You Need to Scale
+            {t("landing.everythingTitle")}
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Powerful features designed for modern entrepreneurs who want to focus on growth, not admin work.
+            {t("landing.everythingSubtitle")}
           </p>
         </div>
         
@@ -245,10 +253,10 @@ const LandingPage = () => {
       <section id="testimonials" className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
-            Loved by Entrepreneurs
+            {t("landing.lovedTitle")}
           </h2>
           <p className="text-xl text-gray-600 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            See what our users say about FeatherBiz
+            {t("landing.lovedSubtitle")}
           </p>
         </div>
         
@@ -278,23 +286,23 @@ const LandingPage = () => {
       <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
-            Ready to Transform Your Business?
+            {t("landing.ctaTitle")}
           </h2>
           <p className="text-xl mb-8 opacity-90 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Join thousands of entrepreneurs who trust FeatherBiz to power their success.
+            {t("landing.ctaSubtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in" style={{ animationDelay: '0.4s' }}>
             <Button size="lg" variant="secondary" className="text-lg px-8 py-6" onClick={() => navigate('/dashboard')}>
-              Start Free Trial
+              {t("landing.startTrial")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
               <MessageSquare className="mr-2 h-5 w-5" />
-              Contact Sales
+              {t("landing.contactSales")}
             </Button>
           </div>
           <p className="text-sm mt-6 opacity-75 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            No credit card required • 7-day free trial • Cancel anytime
+            {t("landing.ctaFooter")}
           </p>
         </div>
       </section>
