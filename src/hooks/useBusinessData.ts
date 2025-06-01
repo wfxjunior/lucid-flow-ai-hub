@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -96,22 +95,31 @@ export function useBusinessData() {
   const { data: workOrders, isLoading: workOrdersLoading } = useQuery({
     queryKey: ['work-orders'],
     queryFn: async (): Promise<WorkOrderWithClient[]> => {
-      const { data, error } = await supabase
+      // First get work orders
+      const { data: workOrdersData, error: workOrdersError } = await supabase
         .from('work_orders')
-        .select(`
-          *,
-          clients(*)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
 
-      if (error) {
-        console.error('Error fetching work orders:', error)
-        throw error
+      if (workOrdersError) {
+        console.error('Error fetching work orders:', workOrdersError)
+        throw workOrdersError
       }
 
-      return (data || []).map(item => ({
-        ...item,
-        client: item.clients || null
+      // Then get clients
+      const { data: clientsData, error: clientsError } = await supabase
+        .from('clients')
+        .select('*')
+
+      if (clientsError) {
+        console.error('Error fetching clients:', clientsError)
+        throw clientsError
+      }
+
+      // Manually join the data
+      return (workOrdersData || []).map(workOrder => ({
+        ...workOrder,
+        client: clientsData?.find(client => client.id === workOrder.client_id) || null
       }))
     }
   })
@@ -138,22 +146,31 @@ export function useBusinessData() {
   const { data: appointments, isLoading: appointmentsLoading } = useQuery({
     queryKey: ['appointments'],
     queryFn: async (): Promise<Appointment[]> => {
-      const { data, error } = await supabase
+      // First get appointments
+      const { data: appointmentsData, error: appointmentsError } = await supabase
         .from('appointments')
-        .select(`
-          *,
-          clients(*)
-        `)
+        .select('*')
         .order('appointment_date', { ascending: true })
 
-      if (error) {
-        console.error('Error fetching appointments:', error)
-        throw error
+      if (appointmentsError) {
+        console.error('Error fetching appointments:', appointmentsError)
+        throw appointmentsError
       }
 
-      return (data || []).map(item => ({
-        ...item,
-        client: item.clients || undefined
+      // Then get clients
+      const { data: clientsData, error: clientsError } = await supabase
+        .from('clients')
+        .select('*')
+
+      if (clientsError) {
+        console.error('Error fetching clients for appointments:', clientsError)
+        // Don't throw, just return appointments without client data
+      }
+
+      // Manually join the data
+      return (appointmentsData || []).map(appointment => ({
+        ...appointment,
+        client: clientsData?.find(client => client.id === appointment.client_id)
       }))
     }
   })
@@ -216,24 +233,31 @@ export function useBusinessData() {
   const { data: signatures, isLoading: signaturesLoading } = useQuery({
     queryKey: ['signatures'],
     queryFn: async (): Promise<SignatureWithRelations[]> => {
-      const { data, error } = await supabase
+      // First get signatures
+      const { data: signaturesData, error: signaturesError } = await supabase
         .from('signatures')
-        .select(`
-          *,
-          clients(*),
-          documents(*)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
 
-      if (error) {
-        console.error('Error fetching signatures:', error)
-        throw error
+      if (signaturesError) {
+        console.error('Error fetching signatures:', signaturesError)
+        throw signaturesError
       }
 
-      return (data || []).map(item => ({
-        ...item,
-        client: item.clients || undefined,
-        document: item.documents || undefined
+      // Then get clients and documents
+      const { data: clientsData } = await supabase
+        .from('clients')
+        .select('*')
+
+      const { data: documentsData } = await supabase
+        .from('documents')
+        .select('*')
+
+      // Manually join the data
+      return (signaturesData || []).map(signature => ({
+        ...signature,
+        client: clientsData?.find(client => client.id === signature.client_id),
+        document: documentsData?.find(doc => doc.id === signature.document_id)
       }))
     }
   })
