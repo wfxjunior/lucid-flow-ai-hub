@@ -1,7 +1,8 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Crown, Star, Users, DollarSign, TrendingUp, FileText, Heart, MessageSquare, Calendar, Receipt, Settings, Lightbulb, UserCog, Calculator, ArrowRight, Feather, CheckCircle } from "lucide-react"
+import { Crown, Star, Users, DollarSign, TrendingUp, FileText, Heart, MessageSquare, Calendar, Receipt, Settings, Lightbulb, UserCog, Calculator, ArrowRight, Feather, CheckCircle, HelpCircle, Mail, Building } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -88,6 +89,70 @@ const LandingPage = () => {
         </div>
       </header>
 
+      {/* Navigation Menu Section */}
+      <section className="bg-white border-b">
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Product Group */}
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Product</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <Star className="w-4 h-4" />
+                  Features
+                </a></li>
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <DollarSign className="w-4 h-4" />
+                  Pricing
+                </a></li>
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  API
+                </a></li>
+              </ul>
+            </div>
+
+            {/* Support Group */}
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Support</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  Help Center
+                </a></li>
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  Contact Us
+                </a></li>
+                <li><a href="/feedback" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4" />
+                  Feedback
+                </a></li>
+              </ul>
+            </div>
+
+            {/* Company Group */}
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Company</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <Building className="w-4 h-4" />
+                  About
+                </a></li>
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  Blog
+                </a></li>
+                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Careers
+                </a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20 text-center">
         <Badge className="mb-4 sm:mb-6 bg-blue-100 text-blue-800 border-blue-200 text-xs sm:text-sm">
@@ -150,7 +215,7 @@ const LandingPage = () => {
             <span className="text-gray-600">out of 5</span>
           </div>
           <p className="text-sm text-gray-500">
-            Based on 12,000+ reviews from Forbes, TechCrunch, and Product Hunt
+            Based on 12,000+ customer reviews
           </p>
         </div>
       </section>
