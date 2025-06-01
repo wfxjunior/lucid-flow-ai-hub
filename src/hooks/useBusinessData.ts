@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -74,7 +73,7 @@ interface Estimate {
   updated_at: string
 }
 
-interface Signature {
+interface SignatureWithRelations {
   id: string
   user_id: string
   client_id: string
@@ -85,6 +84,8 @@ interface Signature {
   signed_at?: string
   created_at: string
   updated_at: string
+  client?: Client
+  document?: Document
 }
 
 export function useBusinessData() {
@@ -98,7 +99,7 @@ export function useBusinessData() {
         .from('work_orders')
         .select(`
           *,
-          client:clients(*)
+          clients!work_orders_client_id_fkey(*)
         `)
         .order('created_at', { ascending: false })
 
@@ -107,7 +108,10 @@ export function useBusinessData() {
         throw error
       }
 
-      return data || []
+      return (data || []).map(item => ({
+        ...item,
+        client: item.clients || null
+      }))
     }
   })
 
@@ -137,7 +141,7 @@ export function useBusinessData() {
         .from('appointments')
         .select(`
           *,
-          client:clients(*)
+          clients!appointments_client_id_fkey(*)
         `)
         .order('appointment_date', { ascending: true })
 
@@ -146,7 +150,10 @@ export function useBusinessData() {
         throw error
       }
 
-      return data || []
+      return (data || []).map(item => ({
+        ...item,
+        client: item.clients || undefined
+      }))
     }
   })
 
@@ -207,10 +214,14 @@ export function useBusinessData() {
   // Signatures Query
   const { data: signatures, isLoading: signaturesLoading } = useQuery({
     queryKey: ['signatures'],
-    queryFn: async (): Promise<Signature[]> => {
+    queryFn: async (): Promise<SignatureWithRelations[]> => {
       const { data, error } = await supabase
         .from('signatures')
-        .select('*')
+        .select(`
+          *,
+          clients!signatures_client_id_fkey(*),
+          documents!signatures_document_id_fkey(*)
+        `)
         .order('created_at', { ascending: false })
 
       if (error) {
@@ -218,7 +229,11 @@ export function useBusinessData() {
         throw error
       }
 
-      return data || []
+      return (data || []).map(item => ({
+        ...item,
+        client: item.clients || undefined,
+        document: item.documents || undefined
+      }))
     }
   })
 

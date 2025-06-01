@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -146,7 +145,7 @@ export function ESignaturesPage() {
                   <SelectValue placeholder="Choose a client" />
                 </SelectTrigger>
                 <SelectContent>
-                  {clients.map((client) => (
+                  {clients?.map((client) => (
                     <SelectItem key={client.id} value={client.id}>
                       <div className="flex flex-col">
                         <span className="font-medium">{client.name}</span>
@@ -238,14 +237,14 @@ export function ESignaturesPage() {
             <Card key={signature.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg truncate">{signature.document?.title}</CardTitle>
+                  <CardTitle className="text-lg truncate">{signature.document?.title || 'Unknown Document'}</CardTitle>
                   <Badge className={getStatusColor(signature.status)}>
                     {getStatusIcon(signature.status)}
                     <span className="ml-1">{signature.status}</span>
                   </Badge>
                 </div>
                 <CardDescription className="text-sm">
-                  Client: {signature.client?.name}
+                  Client: {signature.client?.name || 'Unknown Client'}
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
