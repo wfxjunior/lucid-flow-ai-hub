@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -69,7 +68,7 @@ const LandingPage = () => {
             <span className="text-xl font-bold text-blue-600">FeatherBiz</span>
           </div>
           
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center">
             <Button 
               onClick={() => navigate('/auth')} 
               variant="outline"
@@ -77,13 +76,6 @@ const LandingPage = () => {
               className="text-xs sm:text-sm px-2 sm:px-4"
             >
               Sign In
-            </Button>
-            <Button 
-              onClick={handleStartFreeTrial} 
-              size="sm"
-              className="bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm px-2 sm:px-4"
-            >
-              Get Started Free
             </Button>
           </div>
         </div>
