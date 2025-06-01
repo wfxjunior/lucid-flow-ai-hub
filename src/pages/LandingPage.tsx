@@ -124,18 +124,18 @@ const LandingPage = () => {
           </Button>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500 px-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm sm:text-base lg:text-lg text-gray-500 px-4 mb-8">
           <div className="flex items-center gap-1">
-            <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
-            <span>Free 7-day trial</span>
+            <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400" />
+            <span className="font-medium">Free 7-day trial</span>
           </div>
           <div className="flex items-center gap-1">
-            <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
-            <span>No credit card required</span>
+            <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
+            <span className="font-medium">No credit card required</span>
           </div>
           <div className="flex items-center gap-1">
-            <Users className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" />
-            <span>45,000+ businesses trust us</span>
+            <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
+            <span className="font-medium">45,000+ businesses trust us</span>
           </div>
         </div>
 
