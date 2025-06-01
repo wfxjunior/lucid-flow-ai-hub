@@ -139,8 +139,8 @@ export function useBusinessData() {
         .from('work_orders')
         .select(`
           *,
-          client:clients(*),
-          estimate:estimates(*)
+          client:client_id(id, name, email),
+          estimate:estimate_id(id, estimate_number, title)
         `)
         .order('created_at', { ascending: false })
       

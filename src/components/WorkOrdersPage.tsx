@@ -22,9 +22,12 @@ export function WorkOrdersPage() {
   const [priorityFilter, setPriorityFilter] = useState("all")
 
   const filteredWorkOrders = (workOrders || []).filter((workOrder) => {
+    const clientName = workOrder.client?.name || 'Unknown Client'
+    const workOrderNumber = workOrder.work_order_number || ''
+    
     const matchesSearch = workOrder.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         workOrder.client?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         workOrder.work_order_number?.toLowerCase().includes(searchTerm.toLowerCase())
+                         clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         workOrderNumber.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || workOrder.status === statusFilter
     const matchesPriority = priorityFilter === "all" || workOrder.priority === priorityFilter
     
@@ -240,7 +243,7 @@ export function WorkOrdersPage() {
                         {workOrder.work_order_number || 'WO-' + workOrder.id.slice(0, 8)}
                       </TableCell>
                       <TableCell>{workOrder.title}</TableCell>
-                      <TableCell>{workOrder.client?.name}</TableCell>
+                      <TableCell>{workOrder.client?.name || 'Unknown Client'}</TableCell>
                       <TableCell>
                         <Badge className={getPriorityBadge(workOrder.priority)}>
                           {workOrder.priority.charAt(0).toUpperCase() + workOrder.priority.slice(1)}

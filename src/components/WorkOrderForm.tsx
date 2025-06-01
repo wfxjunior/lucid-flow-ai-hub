@@ -21,6 +21,21 @@ interface WorkOrderFormProps {
   onSave: () => void
 }
 
+interface FormData {
+  client_id: string
+  estimate_id: string
+  title: string
+  description: string
+  priority: 'low' | 'medium' | 'high' | 'urgent'
+  status: 'pending' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled'
+  assigned_to: string
+  estimated_hours: string
+  actual_hours: string
+  materials_cost: string
+  labor_cost: string
+  notes: string
+}
+
 export function WorkOrderForm({ workOrder, onClose, onSave }: WorkOrderFormProps) {
   const { clients, estimates, createWorkOrder, updateWorkOrder } = useBusinessData()
   const [isLoading, setIsLoading] = useState(false)
@@ -31,7 +46,7 @@ export function WorkOrderForm({ workOrder, onClose, onSave }: WorkOrderFormProps
     workOrder?.completion_date ? new Date(workOrder.completion_date) : undefined
   )
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     client_id: workOrder?.client_id || "",
     estimate_id: workOrder?.estimate_id || "",
     title: workOrder?.title || "",
@@ -164,7 +179,7 @@ export function WorkOrderForm({ workOrder, onClose, onSave }: WorkOrderFormProps
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="priority">Priority</Label>
-              <Select value={formData.priority} onValueChange={(value) => setFormData(prev => ({ ...prev, priority: value }))}>
+              <Select value={formData.priority} onValueChange={(value: 'low' | 'medium' | 'high' | 'urgent') => setFormData(prev => ({ ...prev, priority: value }))}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -179,7 +194,7 @@ export function WorkOrderForm({ workOrder, onClose, onSave }: WorkOrderFormProps
 
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
-              <Select value={formData.status} onValueChange={(value) => setFormData(prev => ({ ...prev, status: value }))}>
+              <Select value={formData.status} onValueChange={(value: 'pending' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled') => setFormData(prev => ({ ...prev, status: value }))}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
