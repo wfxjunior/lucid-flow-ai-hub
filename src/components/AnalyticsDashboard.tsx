@@ -1,400 +1,277 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { BarChart3, TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Heart, Target, Award, Clock } from "lucide-react"
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip } from "recharts"
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell, AreaChart, Area } from "recharts"
+import { TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Download } from "lucide-react"
+import { useBusinessData } from "@/hooks/useBusinessData"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 
 export function AnalyticsDashboard() {
-  const stats = [
-    {
-      title: "Total Revenue",
-      value: "$87,450",
-      change: "+18.2%",
-      changeType: "positive" as const,
-      icon: DollarSign
-    },
-    {
-      title: "Active Clients",
-      value: "28",
-      change: "+14.3%",
-      changeType: "positive" as const,
-      icon: Users
-    },
-    {
-      title: "Completed Projects",
-      value: "42",
-      change: "+22.1%",
-      changeType: "positive" as const,
-      icon: Award
-    },
-    {
-      title: "Monthly Growth",
-      value: "12.5%",
-      change: "+3.2%",
-      changeType: "positive" as const,
-      icon: Target
-    },
-    {
-      title: "Avg Project Value",
-      value: "$3,120",
-      change: "+8.7%",
-      changeType: "positive" as const,
-      icon: Heart
-    },
-    {
-      title: "Response Time",
-      value: "2.4h",
-      change: "-15.3%",
-      changeType: "positive" as const,
-      icon: Clock
-    }
+  const { workOrders, estimates, clients, contracts, signatures } = useBusinessData()
+  const { generateAnalyticsReportPDF, isGenerating } = usePDFGeneration()
+
+  // Generate analytics data
+  const totalRevenue = estimates?.reduce((sum, est) => sum + (est.amount || 0), 0) || 0
+  const activeClients = clients?.filter(c => c.status === 'active').length || 0
+  const pendingProjects = workOrders?.filter(wo => wo.status === 'pending' || wo.status === 'in_progress').length || 0
+  const completedWorkOrders = workOrders?.filter(wo => wo.status === 'completed').length || 0
+  const estimatesSent = estimates?.filter(est => est.status === 'sent' || est.status === 'viewed').length || 0
+  const contractsSigned = contracts?.filter(c => c.status === 'active').length || 0
+
+  const analyticsData = {
+    totalRevenue: totalRevenue.toFixed(2),
+    activeClients,
+    pendingProjects,
+    growthRate: '12.5',
+    completedWorkOrders,
+    previousCompletedWorkOrders: Math.max(0, completedWorkOrders - 5),
+    workOrdersChange: '15',
+    estimatesSent,
+    previousEstimatesSent: Math.max(0, estimatesSent - 3),
+    estimatesChange: '8',
+    contractsSigned,
+    previousContractsSigned: Math.max(0, contractsSigned - 2),
+    contractsChange: '25'
+  }
+
+  const handleGenerateReport = async () => {
+    await generateAnalyticsReportPDF(analyticsData)
+  }
+
+  // Mock data for charts
+  const monthlyData = [
+    { month: 'Jan', revenue: 12500, expenses: 8000, profit: 4500 },
+    { month: 'Feb', revenue: 15000, expenses: 9500, profit: 5500 },
+    { month: 'Mar', revenue: 18500, expenses: 11000, profit: 7500 },
+    { month: 'Apr', revenue: 22000, expenses: 13500, profit: 8500 },
+    { month: 'May', revenue: 28000, expenses: 16000, profit: 12000 },
+    { month: 'Jun', revenue: 32000, expenses: 18500, profit: 13500 },
   ]
 
-  const revenueData = [
-    { month: 'Jan', revenue: 6200, expenses: 3800, profit: 2400, projects: 4 },
-    { month: 'Feb', revenue: 5800, expenses: 3600, profit: 2200, projects: 3 },
-    { month: 'Mar', revenue: 7500, expenses: 4200, profit: 3300, projects: 6 },
-    { month: 'Apr', revenue: 6200, expenses: 3900, profit: 2300, projects: 4 },
-    { month: 'May', revenue: 8800, expenses: 4800, profit: 4000, projects: 7 },
-    { month: 'Jun', revenue: 9200, expenses: 5000, profit: 4200, projects: 8 },
-    { month: 'Jul', revenue: 8750, expenses: 4650, profit: 4100, projects: 7 },
-  ]
-
-  const clientGrowthData = [
-    { month: 'Jan', newClients: 3, totalClients: 15, retention: 95 },
-    { month: 'Feb', newClients: 2, totalClients: 17, retention: 94 },
-    { month: 'Mar', newClients: 4, totalClients: 21, retention: 96 },
-    { month: 'Apr', newClients: 2, totalClients: 23, retention: 93 },
-    { month: 'May', newClients: 3, totalClients: 26, retention: 97 },
-    { month: 'Jun', newClients: 2, totalClients: 28, retention: 98 },
+  const clientData = [
+    { name: 'Residential', value: 45, color: '#3b82f6' },
+    { name: 'Commercial', value: 35, color: '#10b981' },
+    { name: 'Industrial', value: 20, color: '#f59e0b' },
   ]
 
   const projectStatusData = [
-    { name: 'Completed', value: 42, count: 42 },
-    { name: 'In Progress', value: 15, count: 15 },
-    { name: 'Planning', value: 8, count: 8 },
-    { name: 'On Hold', value: 3, count: 3 },
+    { status: 'Completed', count: completedWorkOrders },
+    { status: 'In Progress', count: workOrders?.filter(wo => wo.status === 'in_progress').length || 0 },
+    { status: 'Pending', count: workOrders?.filter(wo => wo.status === 'pending').length || 0 },
+    { status: 'Cancelled', count: workOrders?.filter(wo => wo.status === 'cancelled').length || 0 },
   ]
-
-  const invoiceStatusData = [
-    { name: 'Paid', value: 72, count: 31 },
-    { name: 'Pending', value: 19, count: 8 },
-    { name: 'Overdue', value: 9, count: 4 },
-  ]
-
-  const serviceDistributionData = [
-    { service: 'Web Development', revenue: 28500, clients: 12, avgValue: 2375 },
-    { service: 'Design Services', revenue: 22100, clients: 8, avgValue: 2763 },
-    { service: 'Consulting', revenue: 18600, clients: 6, avgValue: 3100 },
-    { service: 'Maintenance', revenue: 12250, clients: 15, avgValue: 817 },
-    { service: 'SEO Services', revenue: 6000, clients: 4, avgValue: 1500 },
-  ]
-
-  const performanceMetrics = [
-    { metric: 'Client Satisfaction', current: 94, target: 95, change: 2 },
-    { metric: 'Project Delivery', current: 87, target: 90, change: 5 },
-    { metric: 'Response Time', current: 92, target: 85, change: -3 },
-    { metric: 'Revenue Growth', current: 118, target: 110, change: 8 },
-  ]
-
-  const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#6b7280', '#8b5cf6', '#06b6d4']
 
   const chartConfig = {
-    revenue: {
-      label: "Revenue",
-      color: "hsl(var(--primary))",
-    },
-    expenses: {
-      label: "Expenses", 
-      color: "hsl(var(--destructive))",
-    },
-    profit: {
-      label: "Profit",
-      color: "hsl(142.1 76.2% 36.3%)",
-    },
-    newClients: {
-      label: "New Clients",
-      color: "hsl(var(--primary))",
-    },
-    totalClients: {
-      label: "Total Clients",
-      color: "hsl(142.1 76.2% 36.3%)",
-    },
+    revenue: { label: "Revenue", color: "hsl(var(--primary))" },
+    expenses: { label: "Expenses", color: "hsl(var(--destructive))" },
+    profit: { label: "Profit", color: "hsl(142.1 76.2% 36.3%)" },
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6 px-2 sm:px-4 md:px-6">
-      {/* Header */}
-      <div className="mb-4 sm:mb-6">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
-          Analytics Dashboard
-        </h1>
-        <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-1">
-          Comprehensive business insights and performance metrics
-        </p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h1>
+          <p className="text-muted-foreground">
+            Track your business performance and key metrics
+          </p>
+        </div>
+        <Button onClick={handleGenerateReport} disabled={isGenerating}>
+          <Download className="mr-2 h-4 w-4" />
+          {isGenerating ? 'Generating...' : 'Generate Report'}
+        </Button>
       </div>
 
-      {/* Stats Overview - Fully responsive grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
-        {stats.map((stat, index) => (
-          <Card key={index} className="transition-all duration-200 hover:shadow-lg hover:scale-[1.02]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
-              <CardTitle className="text-xs sm:text-sm md:text-base lg:text-lg font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
-              <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground flex-shrink-0" />
-            </CardHeader>
-            <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">{stat.value}</div>
-              <p className={`text-xs sm:text-sm md:text-base ${
-                stat.changeType === 'positive' ? 'text-green-600' : 'text-gray-600'
-              } flex items-center mt-1`}>
-                {stat.changeType === 'positive' ? (
-                  <TrendingUp className="inline h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" />
-                ) : (
-                  <TrendingDown className="inline h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" />
-                )}
-                <span className="truncate">{stat.change} from last month</span>
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Revenue & Performance Chart */}
-      <Card className="w-full overflow-hidden">
-        <CardHeader className="p-3 sm:p-4 md:p-6">
-          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
-            <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 flex-shrink-0" />
-            <span className="truncate">Business Performance Overview</span>
-          </CardTitle>
-          <CardDescription className="text-sm sm:text-base md:text-lg">Monthly revenue, expenses, profit and project count</CardDescription>
-        </CardHeader>
-        <CardContent className="p-2 sm:p-3 md:p-4 lg:p-6">
-          <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80 lg:h-96 w-full">
-            <BarChart data={revenueData} margin={{ top: 10, right: 10, left: 10, bottom: 40 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="month" 
-                fontSize={10}
-                tick={{ fontSize: 10 }}
-                interval={0}
-                angle={-45}
-                textAnchor="end"
-                height={50}
-              />
-              <YAxis 
-                width={35} 
-                fontSize={10}
-                tick={{ fontSize: 10 }}
-              />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend 
-                wrapperStyle={{ fontSize: '12px' }}
-                iconSize={12}
-              />
-              <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
-              <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
-              <Bar dataKey="profit" fill="var(--color-profit)" name="Profit" />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
-
-      {/* Two column layout - stacks on mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-        {/* Client Growth */}
-        <Card className="w-full overflow-hidden">
-          <CardHeader className="p-3 sm:p-4 md:p-6">
-            <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl lg:text-2xl">
-              <Users className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 flex-shrink-0" />
-              <span className="truncate">Client Growth Trend</span>
-            </CardTitle>
-            <CardDescription className="text-sm sm:text-base">New client acquisition and total client base</CardDescription>
+      {/* Key Metrics */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="p-2 sm:p-3 md:p-4">
-            <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 w-full">
-              <AreaChart data={clientGrowthData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+          <CardContent>
+            <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
+            <p className="text-xs text-green-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              +12.5% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{activeClients}</div>
+            <p className="text-xs text-green-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              +8% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{pendingProjects}</div>
+            <p className="text-xs text-yellow-600 flex items-center">
+              <TrendingDown className="h-3 w-3 mr-1" />
+              -3% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Completed Jobs</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{completedWorkOrders}</div>
+            <p className="text-xs text-green-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              +15% from last month
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Revenue Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Revenue Trend</CardTitle>
+            <CardDescription>Monthly revenue, expenses, and profit</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <AreaChart data={monthlyData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="month" 
-                  fontSize={10}
-                  tick={{ fontSize: 10 }}
-                />
-                <YAxis 
-                  width={30} 
-                  fontSize={10}
-                  tick={{ fontSize: 10 }}
-                />
+                <XAxis dataKey="month" />
+                <YAxis width={60} />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Area type="monotone" dataKey="totalClients" stroke="var(--color-totalClients)" fill="var(--color-totalClients)" fillOpacity={0.3} />
-                <Bar dataKey="newClients" fill="var(--color-newClients)" />
+                <Area 
+                  type="monotone" 
+                  dataKey="revenue" 
+                  stackId="1"
+                  stroke="var(--color-revenue)" 
+                  fill="var(--color-revenue)" 
+                  fillOpacity={0.6}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="expenses" 
+                  stackId="2"
+                  stroke="var(--color-expenses)" 
+                  fill="var(--color-expenses)" 
+                  fillOpacity={0.6}
+                />
               </AreaChart>
             </ChartContainer>
           </CardContent>
         </Card>
 
-        {/* Project Status Distribution */}
-        <Card className="w-full overflow-hidden">
-          <CardHeader className="p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Project Status Distribution</CardTitle>
-            <CardDescription className="text-sm sm:text-base">Current status of all projects</CardDescription>
+        {/* Client Distribution */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Client Distribution</CardTitle>
+            <CardDescription>Breakdown by client type</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-3 md:p-4">
-            <div className="w-full h-40 sm:h-48 md:h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                  <Pie
-                    data={projectStatusData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius="65%"
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: ${value}`}
-                  >
-                    {projectStatusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+                <Pie
+                  data={clientData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  dataKey="value"
+                  label={({ name, value }) => `${name}: ${value}%`}
+                >
+                  {clientData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <ChartTooltip content={<ChartTooltipContent />} />
+              </PieChart>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Service Revenue Distribution */}
-      <Card className="w-full overflow-hidden">
-        <CardHeader className="p-3 sm:p-4 md:p-6">
-          <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Service Revenue Breakdown</CardTitle>
-          <CardDescription className="text-sm sm:text-base">Revenue distribution by service type</CardDescription>
-        </CardHeader>
-        <CardContent className="p-2 sm:p-3 md:p-4">
-          <div className="w-full h-48 sm:h-64 md:h-80 lg:h-96">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart 
-                data={serviceDistributionData} 
-                layout="horizontal" 
-                margin={{ top: 10, right: 10, left: 60, bottom: 10 }}
-              >
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Project Status */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Project Status</CardTitle>
+            <CardDescription>Current status of all projects</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <BarChart data={projectStatusData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  type="number" 
-                  fontSize={10}
-                  tick={{ fontSize: 10 }}
-                />
-                <YAxis 
-                  dataKey="service" 
-                  type="category" 
-                  width={55} 
-                  fontSize={9}
-                  tick={{ fontSize: 9 }}
-                />
-                <Tooltip />
-                <Bar dataKey="revenue" fill="#3b82f6" name="Revenue ($)" />
+                <XAxis dataKey="status" />
+                <YAxis width={40} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="count" fill="hsl(var(--primary))" />
               </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Bottom two column layout - stacks on mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-        {/* Invoice Status */}
-        <Card className="w-full overflow-hidden">
-          <CardHeader className="p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Invoice Status</CardTitle>
-            <CardDescription className="text-sm sm:text-base">Payment status breakdown</CardDescription>
-          </CardHeader>
-          <CardContent className="p-2 sm:p-3 md:p-4">
-            <div className="w-full h-40 sm:h-48 md:h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                  <Pie
-                    data={invoiceStatusData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius="65%"
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: ${value}%`}
-                  >
-                    {invoiceStatusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+            </ChartContainer>
           </CardContent>
         </Card>
 
-        {/* Performance Metrics */}
-        <Card className="w-full overflow-hidden">
-          <CardHeader className="p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Performance Metrics</CardTitle>
-            <CardDescription className="text-sm sm:text-base">Key performance indicators vs targets</CardDescription>
+        {/* Monthly Progress */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Monthly Progress</CardTitle>
+            <CardDescription>Profit trend over time</CardDescription>
           </CardHeader>
-          <CardContent className="p-3 sm:p-4">
-            <div className="space-y-3 sm:space-y-4">
-              {performanceMetrics.map((metric, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex justify-between items-center gap-2">
-                    <span className="text-xs sm:text-sm md:text-base font-medium truncate">{metric.metric}</span>
-                    <span className="text-xs sm:text-sm md:text-base text-muted-foreground flex-shrink-0">{metric.current}% / {metric.target}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full transition-all duration-300 ${metric.current >= metric.target ? 'bg-green-500' : 'bg-blue-500'}`}
-                      style={{ width: `${Math.min(metric.current, 100)}%` }}
-                    />
-                  </div>
-                  <p className={`text-xs sm:text-sm ${metric.change > 0 ? 'text-green-600' : 'text-gray-600'}`}>
-                    {metric.change > 0 ? '+' : ''}{metric.change}% from target
-                  </p>
-                </div>
-              ))}
-            </div>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-64 w-full">
+              <LineChart data={monthlyData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis width={60} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Line 
+                  type="monotone" 
+                  dataKey="profit" 
+                  stroke="var(--color-profit)" 
+                  strokeWidth={3}
+                  dot={{ fill: "var(--color-profit)" }}
+                />
+              </LineChart>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Business Summary */}
-      <Card className="w-full overflow-hidden">
-        <CardHeader className="p-3 sm:p-4 md:p-6">
-          <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Business Summary</CardTitle>
-          <CardDescription className="text-sm sm:text-base">Key highlights and recent performance</CardDescription>
+      {/* Performance Summary */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Performance Summary</CardTitle>
+          <CardDescription>Key performance indicators for this period</CardDescription>
         </CardHeader>
-        <CardContent className="p-3 sm:p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-            <div className="space-y-2">
-              <h4 className="font-semibold text-green-600 text-sm sm:text-base md:text-lg">This Month's Wins</h4>
-              <ul className="text-xs sm:text-sm md:text-base space-y-1">
-                <li>• 4 new clients acquired</li>
-                <li>• $12,500 in new revenue</li>
-                <li>• 7 projects completed</li>
-                <li>• 98% client satisfaction</li>
-              </ul>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="text-center p-4 border rounded-lg">
+              <div className="text-2xl font-bold text-green-600">{estimatesSent}</div>
+              <div className="text-sm text-muted-foreground">Estimates Sent</div>
             </div>
-            <div className="space-y-2">
-              <h4 className="font-semibold text-blue-600 text-sm sm:text-base md:text-lg">Focus Areas</h4>
-              <ul className="text-xs sm:text-sm md:text-base space-y-1">
-                <li>• Reduce response time to 2h</li>
-                <li>• Increase project delivery rate</li>
-                <li>• Expand consulting services</li>
-                <li>• Follow up on pending invoices</li>
-              </ul>
+            <div className="text-center p-4 border rounded-lg">
+              <div className="text-2xl font-bold text-blue-600">{contractsSigned}</div>
+              <div className="text-sm text-muted-foreground">Contracts Signed</div>
             </div>
-            <div className="space-y-2 md:col-span-2 xl:col-span-1">
-              <h4 className="font-semibold text-purple-600 text-sm sm:text-base md:text-lg">Next Quarter Goals</h4>
-              <ul className="text-xs sm:text-sm md:text-base space-y-1">
-                <li>• Reach 35 active clients</li>
-                <li>• $100K total revenue</li>
-                <li>• Launch new service line</li>
-                <li>• Improve automation</li>
-              </ul>
+            <div className="text-center p-4 border rounded-lg">
+              <div className="text-2xl font-bold text-orange-600">
+                {signatures?.filter(s => s.status === 'signed').length || 0}
+              </div>
+              <div className="text-sm text-muted-foreground">Documents Signed</div>
             </div>
           </div>
         </CardContent>

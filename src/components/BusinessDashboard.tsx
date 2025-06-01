@@ -1,274 +1,219 @@
 
-import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell } from "recharts"
-import { 
-  TrendingUp, 
-  DollarSign, 
-  Users, 
-  FileText, 
-  Calendar,
-  Receipt,
-  CreditCard,
-  Target,
-  Clock,
-  CheckCircle,
-  Download
-} from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Users, DollarSign, FileText, Clock, CheckCircle, TrendingUp, Download } from "lucide-react"
+import { useBusinessData } from "@/hooks/useBusinessData"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 
 export function BusinessDashboard() {
-  const { toast } = useToast()
-  
-  // Initialize with default empty arrays to prevent mapping errors
-  const [estimates] = useState([
-    { month: 'Jan', amount: 15000 },
-    { month: 'Feb', amount: 18000 },
-    { month: 'Mar', amount: 22000 },
-    { month: 'Apr', amount: 19000 },
-    { month: 'May', amount: 25000 },
-    { month: 'Jun', amount: 28000 },
-  ])
+  const { workOrders, clients, estimates, contracts, signatures, appointments, loading } = useBusinessData()
+  const { generateAnalyticsReportPDF, isGenerating } = usePDFGeneration()
 
-  const [invoices] = useState([
-    { month: 'Jan', paid: 12000, pending: 3000 },
-    { month: 'Feb', paid: 15000, pending: 3000 },
-    { month: 'Mar', paid: 18000, pending: 4000 },
-    { month: 'Apr', paid: 16000, pending: 3000 },
-    { month: 'May', paid: 21000, pending: 4000 },
-    { month: 'Jun', paid: 24000, pending: 4000 },
-  ])
-
-  const [revenueData] = useState([
-    { name: 'Services', value: 65, amount: 45000 },
-    { name: 'Products', value: 25, amount: 18000 },
-    { name: 'Consulting', value: 10, amount: 7000 },
-  ])
-
-  const chartConfig = {
-    amount: { label: "Amount", color: "hsl(var(--primary))" },
-    paid: { label: "Paid", color: "hsl(142.1 76.2% 36.3%)" },
-    pending: { label: "Pending", color: "hsl(var(--destructive))" },
+  if (loading) {
+    return (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {[...Array(8)].map((_, i) => (
+          <Card key={i} className="animate-pulse">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="h-4 bg-gray-200 rounded w-24"></div>
+              <div className="h-4 w-4 bg-gray-200 rounded"></div>
+            </CardHeader>
+            <CardContent>
+              <div className="h-8 bg-gray-200 rounded w-16 mb-2"></div>
+              <div className="h-3 bg-gray-200 rounded w-32"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    )
   }
 
-  const handleExportReport = () => {
-    toast({
-      title: "Export Started",
-      description: "Your business report is being generated...",
-    })
-    
-    // Here you would implement the actual export logic
-    // For now, we'll just show a success message after a brief delay
-    setTimeout(() => {
-      toast({
-        title: "Export Complete",
-        description: "Your report has been downloaded successfully.",
-      })
-    }, 2000)
+  const totalRevenue = estimates?.reduce((sum, est) => sum + (est.amount || 0), 0) || 0
+  const activeClients = clients?.filter(client => client.status === 'active').length || 0
+  const completedWorkOrders = workOrders?.filter(wo => wo.status === 'completed').length || 0
+  const pendingWorkOrders = workOrders?.filter(wo => wo.status === 'pending' || wo.status === 'in_progress').length || 0
+  const upcomingAppointments = appointments?.filter(apt => {
+    const aptDate = new Date(apt.appointment_date)
+    const today = new Date()
+    return aptDate >= today
+  }).length || 0
+
+  const dashboardData = {
+    totalRevenue: totalRevenue.toFixed(2),
+    activeClients,
+    pendingProjects: pendingWorkOrders,
+    completedWorkOrders,
+    estimatesSent: estimates?.filter(est => est.status === 'sent').length || 0,
+    contractsSigned: contracts?.filter(c => c.status === 'active').length || 0,
+    growthRate: '12.5',
+    previousCompletedWorkOrders: Math.max(0, completedWorkOrders - 5),
+    workOrdersChange: '15',
+    previousEstimatesSent: Math.max(0, (estimates?.filter(est => est.status === 'sent').length || 0) - 3),
+    estimatesChange: '8',
+    previousContractsSigned: Math.max(0, (contracts?.filter(c => c.status === 'active').length || 0) - 2),
+    contractsChange: '25'
+  }
+
+  const handleGenerateDashboardReport = async () => {
+    await generateAnalyticsReportPDF(dashboardData)
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6 px-2 sm:px-4 md:px-6">
-      {/* Header with Export Button - increased font sizes */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
-            Business Dashboard
-          </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-1">
-            Overview of your business performance
+          <h2 className="text-2xl font-bold tracking-tight">Business Overview</h2>
+          <p className="text-muted-foreground">
+            Your business performance at a glance
           </p>
         </div>
-        <Button 
-          onClick={handleExportReport}
-          className="flex items-center gap-2 w-full sm:w-auto text-base"
-          variant="outline"
-        >
-          <Download className="h-5 w-5" />
-          Export Report
+        <Button onClick={handleGenerateDashboardReport} disabled={isGenerating} variant="outline">
+          <Download className="mr-2 h-4 w-4" />
+          {isGenerating ? 'Generating...' : 'Export Report'}
         </Button>
       </div>
-
-      {/* Key Metrics - Enhanced with larger fonts */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground">
-              Total Revenue
-            </CardTitle>
-            <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground flex-shrink-0" />
+      
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
-            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-              $70,000
-            </div>
-            <p className="text-sm sm:text-base text-green-600 flex items-center mt-1">
-              <TrendingUp className="inline h-4 w-4 mr-1 flex-shrink-0" />
-              <span>+12% from last month</span>
+          <CardContent>
+            <div className="text-2xl font-bold">{activeClients}</div>
+            <p className="text-xs text-green-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              +2 this month
             </p>
           </CardContent>
         </Card>
 
-        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground">
-              Active Clients
-            </CardTitle>
-            <Users className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground flex-shrink-0" />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
-            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">42</div>
-            <p className="text-sm sm:text-base text-green-600 flex items-center mt-1">
-              <TrendingUp className="inline h-4 w-4 mr-1 flex-shrink-0" />
-              <span>+3 new this month</span>
+          <CardContent>
+            <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
+            <p className="text-xs text-green-600 flex items-center">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              +12.5% from last month
             </p>
           </CardContent>
         </Card>
 
-        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground">
-              Pending Invoices
-            </CardTitle>
-            <FileText className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground flex-shrink-0" />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
-            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">8</div>
-            <p className="text-sm sm:text-base text-yellow-600 flex items-center mt-1">
-              <Clock className="inline h-4 w-4 mr-1 flex-shrink-0" />
-              <span>$18,500 outstanding</span>
+          <CardContent>
+            <div className="text-2xl font-bold">{pendingWorkOrders}</div>
+            <p className="text-xs text-muted-foreground">
+              In progress & pending
             </p>
           </CardContent>
         </Card>
 
-        <Card className="transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground">
-              This Month
-            </CardTitle>
-            <Calendar className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground flex-shrink-0" />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Upcoming Appointments</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
-            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-              $28,000
-            </div>
-            <p className="text-sm sm:text-base text-green-600 flex items-center mt-1">
-              <Target className="inline h-4 w-4 mr-1 flex-shrink-0" />
-              <span>Goal: $30,000</span>
+          <CardContent>
+            <div className="text-2xl font-bold">{upcomingAppointments}</div>
+            <p className="text-xs text-muted-foreground">
+              Scheduled this week
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Work Orders</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{workOrders?.length || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {completedWorkOrders} completed
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Estimates</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{estimates?.length || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {estimates?.filter(est => est.status === 'accepted').length || 0} accepted
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Contracts</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{contracts?.length || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {contracts?.filter(c => c.status === 'active').length || 0} active
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Digital Signatures</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{signatures?.length || 0}</div>
+            <p className="text-xs text-muted-foreground">
+              {signatures?.filter(s => s.status === 'signed').length || 0} completed
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Charts Grid - Enhanced with larger titles */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-        {/* Revenue Breakdown */}
-        <Card className="w-full overflow-hidden">
-          <CardHeader className="p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl">Revenue Breakdown</CardTitle>
-            <CardDescription className="text-sm sm:text-base">
-              Income sources for this quarter
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-2 sm:p-3 md:p-4 lg:p-6">
-            <ChartContainer config={chartConfig} className="h-32 sm:h-40 md:h-48 lg:h-64 xl:h-80 w-full">
-              <PieChart>
-                <Pie
-                  data={revenueData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius="75%"
-                  dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}%`}
-                  labelLine={false}
-                  fontSize={12}
-                >
-                  {revenueData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={index === 0 ? '#22c55e' : index === 1 ? '#3b82f6' : '#6b7280'} />
-                  ))}
-                </Pie>
-                <ChartTooltip content={<ChartTooltipContent />} />
-              </PieChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        {/* Monthly Estimates */}
-        <Card className="w-full overflow-hidden">
-          <CardHeader className="p-3 sm:p-4 md:p-6">
-            <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl">Monthly Estimates</CardTitle>
-            <CardDescription className="text-sm sm:text-base">
-              Estimate generation trends
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-2 sm:p-3 md:p-4 lg:p-6">
-            <ChartContainer config={chartConfig} className="h-32 sm:h-40 md:h-48 lg:h-64 xl:h-80 w-full">
-              <BarChart data={estimates} margin={{ top: 5, right: 5, left: 5, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="month" 
-                  fontSize={12}
-                  interval={0}
-                  angle={-45}
-                  textAnchor="end"
-                  height={40}
-                />
-                <YAxis 
-                  width={40}
-                  fontSize={12}
-                  tickFormatter={(value) => `$${value/1000}k`}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="amount" fill="var(--color-amount)" radius={[1, 1, 0, 0]} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Invoice Status - Full Width Enhanced */}
-      <Card className="w-full overflow-hidden">
-        <CardHeader className="p-3 sm:p-4 md:p-6">
-          <CardTitle className="text-lg sm:text-xl md:text-2xl lg:text-3xl">Invoice Status Overview</CardTitle>
-          <CardDescription className="text-sm sm:text-base">
-            Track paid vs pending invoices over time
-          </CardDescription>
+      {/* Recent Activity */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Activity</CardTitle>
+          <CardDescription>Latest updates from your business</CardDescription>
         </CardHeader>
-        <CardContent className="p-2 sm:p-3 md:p-4 lg:p-6">
-          <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 lg:h-80 xl:h-96 w-full">
-            <LineChart data={invoices} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="month" 
-                fontSize={12}
-                interval={0}
-              />
-              <YAxis 
-                width={50}
-                fontSize={12}
-                tickFormatter={(value) => `$${value/1000}k`}
-              />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Line 
-                type="monotone" 
-                dataKey="paid" 
-                stroke="var(--color-paid)" 
-                strokeWidth={2}
-                dot={{ r: 3 }}
-                activeDot={{ r: 5 }}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="pending" 
-                stroke="var(--color-pending)" 
-                strokeWidth={2}
-                dot={{ r: 3 }}
-                activeDot={{ r: 5 }}
-              />
-            </LineChart>
-          </ChartContainer>
+        <CardContent>
+          <div className="space-y-4">
+            {workOrders?.slice(0, 5).map((workOrder) => (
+              <div key={workOrder.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div>
+                  <p className="font-medium">{workOrder.title}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Client: {workOrder.client?.name || 'Unknown Client'}
+                  </p>
+                </div>
+                <Badge 
+                  className={
+                    workOrder.status === 'completed' ? 'bg-green-100 text-green-800' :
+                    workOrder.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
+                    'bg-yellow-100 text-yellow-800'
+                  }
+                >
+                  {workOrder.status.replace('_', ' ')}
+                </Badge>
+              </div>
+            )) || (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                No recent activity
+              </p>
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>

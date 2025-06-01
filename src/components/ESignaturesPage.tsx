@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -7,14 +8,16 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { FileText, Send, Eye, Clock, CheckCircle, XCircle, Plus, Upload, Search } from "lucide-react"
+import { FileText, Send, Eye, Clock, CheckCircle, XCircle, Plus, Upload, Search, Download } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { DocumentForm } from "@/components/DocumentForm"
 import { SignatureCanvas } from "@/components/SignatureCanvas"
 import { toast } from "sonner"
 
 export function ESignaturesPage() {
   const { clients, documents, signatures, createDocument, sendDocumentForSignature, loading } = useBusinessData()
+  const { generatePDF, isGenerating } = usePDFGeneration()
   const [selectedClient, setSelectedClient] = useState<string>("")
   const [selectedDocument, setSelectedDocument] = useState<string>("")
   const [searchTerm, setSearchTerm] = useState("")
@@ -48,6 +51,47 @@ export function ESignaturesPage() {
     } catch (error) {
       console.error("Error sending document:", error)
       toast.error("Failed to send document")
+    }
+  }
+
+  const handleGenerateDocumentPDF = async (document: any) => {
+    // Create a temporary element for the document
+    const element = document.createElement('div')
+    element.style.cssText = `
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      background: white;
+      font-family: Arial, sans-serif;
+      font-size: 12pt;
+      line-height: 1.6;
+      color: #333;
+    `
+    
+    element.innerHTML = `
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h1 style="color: #2563eb; margin: 0;">${document.title}</h1>
+        <p style="color: #666; margin: 10px 0;">Document Type: ${document.document_type}</p>
+        <p style="color: #666; margin: 5px 0;">Created: ${new Date(document.created_at).toLocaleDateString()}</p>
+      </div>
+      
+      <div style="margin-bottom: 30px;">
+        <div style="white-space: pre-wrap; line-height: 1.8;">${document.content}</div>
+      </div>
+      
+      <div style="margin-top: 50px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+        <p style="text-align: center; color: #666; font-style: italic;">
+          Document generated from FeatherBiz E-Signatures
+        </p>
+      </div>
+    `
+    
+    document.body.appendChild(element)
+    
+    try {
+      await generatePDF(element, `document_${document.title}_${Date.now()}.pdf`)
+    } finally {
+      document.body.removeChild(element)
     }
   }
 
@@ -218,10 +262,20 @@ export function ESignaturesPage() {
                   <span className="text-sm text-muted-foreground">
                     Created: {new Date(document.created_at).toLocaleDateString()}
                   </span>
-                  <Button variant="outline" size="sm">
-                    <Eye className="h-4 w-4 mr-1" />
-                    View
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm">
+                      <Eye className="h-4 w-4 mr-1" />
+                      View
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleGenerateDocumentPDF(document)}
+                      disabled={isGenerating}
+                    >
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>

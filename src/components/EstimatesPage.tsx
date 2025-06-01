@@ -2,116 +2,77 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Search, Eye, Check, X, FileSignature, Calendar } from "lucide-react"
-import { useEstimateData } from "@/hooks/useEstimateData"
+import { Plus, Search, Edit, Trash2, Eye, FileText, DollarSign, TrendingUp, Send, Download } from "lucide-react"
 import { EstimateForm } from "@/components/EstimateForm"
+import { useBusinessData } from "@/hooks/useBusinessData"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
-import { format } from "date-fns"
 
 export function EstimatesPage() {
-  const { estimates, loading, updateEstimateStatus, markEstimateViewed } = useEstimateData()
-  const [searchDate, setSearchDate] = useState("")
+  const { estimates, clients, loading } = useBusinessData()
+  const { generateEstimatePDF, isGenerating } = usePDFGeneration()
+  const [showForm, setShowForm] = useState(false)
+  const [editingEstimate, setEditingEstimate] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
 
-  // Add error handling for estimates
-  const safeEstimates = estimates || []
+  // Create a mapping of clients for easy lookup
+  const clientsMap = (clients || []).reduce((acc, client) => {
+    acc[client.id] = client
+    return acc
+  }, {} as Record<string, any>)
 
-  const filteredEstimates = safeEstimates.filter(estimate => {
-    const matchesDate = !searchDate || estimate.estimate_date === searchDate
+  const filteredEstimates = (estimates || []).filter((estimate) => {
+    const client = clientsMap[estimate.client_id]
+    const clientName = client?.name || 'Unknown Client'
+    
+    const matchesSearch = estimate.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (estimate.estimate_number || '').toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || estimate.status === statusFilter
-    return matchesDate && matchesStatus
+    
+    return matchesSearch && matchesStatus
   })
 
-  const getStatusBadge = (status: string) => {
-    const statusConfig = {
-      draft: { label: "Draft", variant: "secondary" as const },
-      sent: { label: "Sent", variant: "default" as const },
-      approved: { label: "Approved", variant: "default" as const },
-      rejected: { label: "Rejected", variant: "destructive" as const },
-      converted: { label: "Converted", variant: "default" as const },
-    }
-    
-    const config = statusConfig[status as keyof typeof statusConfig] || { label: status, variant: "secondary" as const }
-    return <Badge variant={config.variant}>{config.label}</Badge>
+  const handleEdit = (estimate: any) => {
+    setEditingEstimate(estimate)
+    setShowForm(true)
   }
 
-  const getSignatureStatusBadge = (status: string | null) => {
-    if (!status) return <Badge variant="secondary">Pending</Badge>
-    
-    const statusConfig = {
-      pending: { label: "Pending", variant: "secondary" as const },
-      signed: { label: "Signed", variant: "default" as const },
-      declined: { label: "Declined", variant: "destructive" as const },
-    }
-    
-    const config = statusConfig[status as keyof typeof statusConfig] || { label: status, variant: "secondary" as const }
-    return <Badge variant={config.variant}>{config.label}</Badge>
+  const handleGeneratePDF = async (estimate: any) => {
+    const client = clientsMap[estimate.client_id]
+    const estimateWithClient = { ...estimate, client }
+    await generateEstimatePDF(estimateWithClient)
   }
 
-  const handleMarkViewed = async (estimateId: string) => {
-    try {
-      await markEstimateViewed(estimateId)
-      toast.success("Estimate marked as viewed")
-    } catch (error) {
-      console.error("Error marking estimate as viewed:", error)
-      toast.error("Failed to mark estimate as viewed")
+  const handleCloseForm = () => {
+    setShowForm(false)
+    setEditingEstimate(null)
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'draft': return 'bg-gray-100 text-gray-800'
+      case 'sent': return 'bg-blue-100 text-blue-800'
+      case 'viewed': return 'bg-purple-100 text-purple-800'
+      case 'accepted': return 'bg-green-100 text-green-800'
+      case 'declined': return 'bg-red-100 text-red-800'
+      case 'expired': return 'bg-orange-100 text-orange-800'
+      default: return 'bg-gray-100 text-gray-800'
     }
   }
 
-  const handleStatusUpdate = async (estimateId: string, status: string, timestampField?: string) => {
-    try {
-      await updateEstimateStatus({ 
-        id: estimateId, 
-        status, 
-        timestamp_field: timestampField 
-      })
-      toast.success(`Estimate ${status} successfully`)
-    } catch (error) {
-      console.error("Error updating estimate status:", error)
-      toast.error(`Failed to update estimate status`)
-    }
-  }
-
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "Not set"
-    try {
-      return format(new Date(dateString), "MMM dd, yyyy")
-    } catch (error) {
-      console.error("Error formatting date:", error)
-      return "Invalid date"
-    }
-  }
-
-  const formatDateTime = (dateString: string | null) => {
-    if (!dateString) return "Never"
-    try {
-      return format(new Date(dateString), "MMM dd, yyyy HH:mm")
-    } catch (error) {
-      console.error("Error formatting datetime:", error)
-      return "Invalid date"
-    }
-  }
-
-  if (loading) {
+  if (showForm) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Estimates</h1>
-            <p className="text-muted-foreground">Manage and track your estimates</p>
-          </div>
-        </div>
-        <Card>
-          <CardContent className="py-8">
-            <div className="text-center">Loading estimates...</div>
-          </CardContent>
-        </Card>
+      <div className="container mx-auto p-6">
+        <EstimateForm
+          estimate={editingEstimate}
+          onClose={handleCloseForm}
+        />
       </div>
     )
   }
@@ -120,75 +81,98 @@ export function EstimatesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Estimates</h1>
-          <p className="text-muted-foreground">Manage and track your estimates</p>
+          <h1 className="text-3xl font-bold tracking-tight">Estimates</h1>
+          <p className="text-muted-foreground">
+            Create and manage project estimates for your clients
+          </p>
         </div>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              New Estimate
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Create New Estimate</DialogTitle>
-              <DialogDescription>
-                Fill in the details to create a new estimate
-              </DialogDescription>
-            </DialogHeader>
-            <EstimateForm onSuccess={() => setIsCreateDialogOpen(false)} />
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => setShowForm(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          New Estimate
+        </Button>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Estimates</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{estimates?.length || 0}</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Value</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              ${estimates?.reduce((sum, est) => sum + (est.amount || 0), 0).toFixed(2) || '0.00'}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Accepted</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {estimates?.filter(est => est.status === 'accepted').length || 0}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending</CardTitle>
+            <Send className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {estimates?.filter(est => est.status === 'sent' || est.status === 'viewed').length || 0}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Search & Filter</CardTitle>
-          <CardDescription>Find estimates by date or status</CardDescription>
+          <CardTitle>Filters</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <label htmlFor="search-date" className="text-sm font-medium">Search by Date</label>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
               <div className="relative">
-                <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="search-date"
-                  type="date"
-                  value={searchDate}
-                  onChange={(e) => setSearchDate(e.target.value)}
+                  placeholder="Search estimates..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <label htmlFor="status-filter" className="text-sm font-medium">Filter by Status</label>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger id="status-filter">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="sent">Sent</SelectItem>
-                  <SelectItem value="approved">Approved</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
-                  <SelectItem value="converted">Converted</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Clear Filters</label>
-              <Button 
-                variant="outline" 
-                onClick={() => { setSearchDate(""); setStatusFilter("all") }}
-                className="w-full"
-              >
-                Clear All
-              </Button>
-            </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="sent">Sent</SelectItem>
+                <SelectItem value="viewed">Viewed</SelectItem>
+                <SelectItem value="accepted">Accepted</SelectItem>
+                <SelectItem value="declined">Declined</SelectItem>
+                <SelectItem value="expired">Expired</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
@@ -196,90 +180,77 @@ export function EstimatesPage() {
       {/* Estimates Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Estimates ({filteredEstimates.length})</CardTitle>
+          <CardTitle>Estimates</CardTitle>
+          <CardDescription>
+            A list of all your estimates with their current status and details.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          {filteredEstimates.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              No estimates found. Create your first estimate to get started.
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="text-sm text-muted-foreground">Loading estimates...</div>
+            </div>
+          ) : filteredEstimates.length === 0 ? (
+            <div className="text-center py-8">
+              <div className="text-sm text-muted-foreground">No estimates found</div>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Number</TableHead>
-                    <TableHead>Client</TableHead>
+                    <TableHead>Estimate #</TableHead>
                     <TableHead>Title</TableHead>
+                    <TableHead>Client</TableHead>
                     <TableHead>Amount</TableHead>
-                    <TableHead>Date</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Signature</TableHead>
-                    <TableHead>Viewed</TableHead>
+                    <TableHead>Date</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredEstimates.map((estimate) => (
-                    <TableRow key={estimate.id}>
-                      <TableCell className="font-mono">
-                        {estimate.estimate_number || 'N/A'}
-                      </TableCell>
-                      <TableCell>
-                        {estimate.client?.name || 'Unknown Client'}
-                      </TableCell>
-                      <TableCell>{estimate.title}</TableCell>
-                      <TableCell>${estimate.amount?.toFixed(2) || '0.00'}</TableCell>
-                      <TableCell>{formatDate(estimate.estimate_date)}</TableCell>
-                      <TableCell>{getStatusBadge(estimate.status)}</TableCell>
-                      <TableCell>{getSignatureStatusBadge(estimate.signature_status)}</TableCell>
-                      <TableCell>{formatDateTime(estimate.viewed_at)}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-1">
-                          {!estimate.viewed_at && (
+                  {filteredEstimates.map((estimate) => {
+                    const client = clientsMap[estimate.client_id]
+                    const clientName = client?.name || 'Unknown Client'
+                    
+                    return (
+                      <TableRow key={estimate.id}>
+                        <TableCell className="font-medium">
+                          {estimate.estimate_number || 'EST-' + estimate.id.slice(0, 8)}
+                        </TableCell>
+                        <TableCell>{estimate.title}</TableCell>
+                        <TableCell>{clientName}</TableCell>
+                        <TableCell>${estimate.amount?.toFixed(2) || '0.00'}</TableCell>
+                        <TableCell>
+                          <Badge className={getStatusColor(estimate.status)}>
+                            {estimate.status.charAt(0).toUpperCase() + estimate.status.slice(1)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {estimate.estimate_date ? new Date(estimate.estimate_date).toLocaleDateString() : 'Not set'}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
                             <Button
+                              variant="ghost"
                               size="sm"
-                              variant="outline"
-                              onClick={() => handleMarkViewed(estimate.id)}
-                              title="Mark as viewed"
+                              onClick={() => handleEdit(estimate)}
                             >
-                              <Eye className="h-3 w-3" />
+                              <Edit className="h-4 w-4" />
                             </Button>
-                          )}
-                          {estimate.status === 'sent' && !estimate.accepted_at && (
                             <Button
+                              variant="ghost"
                               size="sm"
-                              variant="outline"
-                              onClick={() => handleStatusUpdate(estimate.id, 'approved', 'accepted_at')}
-                              title="Approve estimate"
+                              onClick={() => handleGeneratePDF(estimate)}
+                              disabled={isGenerating}
                             >
-                              <Check className="h-3 w-3" />
+                              <Download className="h-4 w-4" />
                             </Button>
-                          )}
-                          {estimate.status === 'sent' && !estimate.declined_at && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleStatusUpdate(estimate.id, 'rejected', 'declined_at')}
-                              title="Reject estimate"
-                            >
-                              <X className="h-3 w-3" />
-                            </Button>
-                          )}
-                          {estimate.signature_status === 'pending' && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleStatusUpdate(estimate.id, estimate.status, 'signed_at')}
-                              title="Mark as signed"
-                            >
-                              <FileSignature className="h-3 w-3" />
-                            </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </div>

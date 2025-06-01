@@ -1,20 +1,22 @@
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Search, Filter, Edit, Trash2, Calendar, Clock, DollarSign, User } from "lucide-react"
+import { Plus, Search, Filter, Edit, Trash2, Calendar, Clock, DollarSign, User, Download } from "lucide-react"
 import { WorkOrderForm } from "./WorkOrderForm"
 import { useBusinessData } from "@/hooks/useBusinessData"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
 import { format } from "date-fns"
 import type { WorkOrder } from "@/types/business"
 
 export function WorkOrdersPage() {
   const { workOrders, loading, deleteWorkOrder, loadData } = useBusinessData()
+  const { generateWorkOrderPDF, isGenerating } = usePDFGeneration()
   const [showForm, setShowForm] = useState(false)
   const [editingWorkOrder, setEditingWorkOrder] = useState<WorkOrder | undefined>()
   const [searchTerm, setSearchTerm] = useState("")
@@ -75,6 +77,10 @@ export function WorkOrdersPage() {
         toast.error('Failed to delete work order')
       }
     }
+  }
+
+  const handleGeneratePDF = async (workOrder: any) => {
+    await generateWorkOrderPDF(workOrder)
   }
 
   const handleCloseForm = () => {
@@ -298,6 +304,14 @@ export function WorkOrdersPage() {
                               onClick={() => handleEdit(workOrder)}
                             >
                               <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleGeneratePDF(workOrder)}
+                              disabled={isGenerating}
+                            >
+                              <Download className="h-4 w-4" />
                             </Button>
                             <Button
                               variant="ghost"
