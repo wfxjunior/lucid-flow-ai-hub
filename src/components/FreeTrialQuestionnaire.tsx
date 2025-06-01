@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -71,7 +70,7 @@ export function FreeTrialQuestionnaire({ open, onOpenChange, onComplete }: FreeT
   const businessActivities = [
     "HVAC", "Plumbing", "Flooring", "Electrical", "Pest Control", 
     "Landscaping", "Commercial Cleaning", "Pool Services", "Roofing", 
-    "Septic", "IT", "Beauty", "General Services", "Other"
+    "Septic", "IT", "Beauty", "Painting", "General Services", "Other"
   ]
 
   const companySizes = [
