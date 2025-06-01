@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer'
 import { BusinessData } from './pdfService'
@@ -68,7 +67,6 @@ const styles = StyleSheet.create({
     width: '70%'
   },
   table: {
-    display: 'table',
     width: 'auto',
     borderStyle: 'solid',
     borderWidth: 1,
