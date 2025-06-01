@@ -88,70 +88,6 @@ const LandingPage = () => {
         </div>
       </header>
 
-      {/* Navigation Menu Section */}
-      <section className="bg-white border-b">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Product Group */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Product</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <Star className="w-4 h-4" />
-                  Features
-                </a></li>
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <DollarSign className="w-4 h-4" />
-                  Pricing
-                </a></li>
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <Settings className="w-4 h-4" />
-                  API
-                </a></li>
-              </ul>
-            </div>
-
-            {/* Support Group */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Support</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <HelpCircle className="w-4 h-4" />
-                  Help Center
-                </a></li>
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  Contact Us
-                </a></li>
-                <li><a href="/feedback" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4" />
-                  Feedback
-                </a></li>
-              </ul>
-            </div>
-
-            {/* Company Group */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Company</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <Building className="w-4 h-4" />
-                  About
-                </a></li>
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  Blog
-                </a></li>
-                <li><a href="#" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  Careers
-                </a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20 text-center">
         <Badge className="mb-4 sm:mb-6 bg-blue-100 text-blue-800 border-blue-200 text-xs sm:text-sm">
@@ -409,8 +345,8 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
+            <div className="lg:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                   <Feather className="w-5 h-5 text-white" />
@@ -425,28 +361,58 @@ const LandingPage = () => {
             <div>
               <h3 className="font-semibold mb-4 text-sm sm:text-base">Product</h3>
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                <li><a href="#" className="hover:text-white">Features</a></li>
-                <li><a href="#" className="hover:text-white">Pricing</a></li>
-                <li><a href="#" className="hover:text-white">API</a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <Star className="w-4 h-4" />
+                  Features
+                </a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <DollarSign className="w-4 h-4" />
+                  Pricing
+                </a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  API
+                </a></li>
               </ul>
             </div>
             
             <div>
               <h3 className="font-semibold mb-4 text-sm sm:text-base">Support</h3>
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                <li><a href="#" className="hover:text-white">Help Center</a></li>
-                <li><a href="#" className="hover:text-white">Contact Us</a></li>
-                <li><a href="/feedback" className="hover:text-white">Feedback</a></li>
-                <li><a href="/faq" className="hover:text-white">FAQ</a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  Help Center
+                </a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  Contact Us
+                </a></li>
+                <li><a href="/feedback" className="hover:text-white flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4" />
+                  Feedback
+                </a></li>
+                <li><a href="/faq" className="hover:text-white flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  FAQ
+                </a></li>
               </ul>
             </div>
             
             <div>
               <h3 className="font-semibold mb-4 text-sm sm:text-base">Company</h3>
               <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                <li><a href="#" className="hover:text-white">About</a></li>
-                <li><a href="#" className="hover:text-white">Blog</a></li>
-                <li><a href="#" className="hover:text-white">Careers</a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <Building className="w-4 h-4" />
+                  About
+                </a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  Blog
+                </a></li>
+                <li><a href="#" className="hover:text-white flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Careers
+                </a></li>
               </ul>
             </div>
           </div>
