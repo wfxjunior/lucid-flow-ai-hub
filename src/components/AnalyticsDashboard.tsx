@@ -122,28 +122,38 @@ export function AnalyticsDashboard() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6 p-2 sm:p-4 lg:p-6">
-      {/* Stats Overview - Responsive grid with increased font sizes */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4">
+    <div className="w-full max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6 px-2 sm:px-4 md:px-6">
+      {/* Header */}
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+          Analytics Dashboard
+        </h1>
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-1">
+          Comprehensive business insights and performance metrics
+        </p>
+      </div>
+
+      {/* Stats Overview - Fully responsive grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
         {stats.map((stat, index) => (
-          <Card key={index} className="transition-all duration-200 hover:shadow-lg hover:scale-105">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground">
+          <Card key={index} className="transition-all duration-200 hover:shadow-lg hover:scale-[1.02]">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-3 sm:p-4 md:p-6">
+              <CardTitle className="text-xs sm:text-sm md:text-base lg:text-lg font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground" />
+              <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground flex-shrink-0" />
             </CardHeader>
-            <CardContent className="pb-2">
-              <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">{stat.value}</div>
-              <p className={`text-sm sm:text-base ${
+            <CardContent className="p-3 sm:p-4 md:p-6 pt-0">
+              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold">{stat.value}</div>
+              <p className={`text-xs sm:text-sm md:text-base ${
                 stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-              }`}>
+              } flex items-center mt-1`}>
                 {stat.changeType === 'positive' ? (
-                  <TrendingUp className="inline h-4 w-4 mr-1" />
+                  <TrendingUp className="inline h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" />
                 ) : (
-                  <TrendingDown className="inline h-4 w-4 mr-1" />
+                  <TrendingDown className="inline h-3 w-3 sm:h-4 sm:w-4 mr-1 flex-shrink-0" />
                 )}
-                {stat.change} from last month
+                <span className="truncate">{stat.change} from last month</span>
               </p>
             </CardContent>
           </Card>
@@ -151,36 +161,36 @@ export function AnalyticsDashboard() {
       </div>
 
       {/* Revenue & Performance Chart */}
-      <Card>
-        <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl md:text-3xl">
-            <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
-            Business Performance Overview
+      <Card className="w-full overflow-hidden">
+        <CardHeader className="p-3 sm:p-4 md:p-6">
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl md:text-2xl lg:text-3xl">
+            <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 flex-shrink-0" />
+            <span className="truncate">Business Performance Overview</span>
           </CardTitle>
-          <CardDescription className="text-base sm:text-lg">Monthly revenue, expenses, profit and project count</CardDescription>
+          <CardDescription className="text-sm sm:text-base md:text-lg">Monthly revenue, expenses, profit and project count</CardDescription>
         </CardHeader>
-        <CardContent className="p-2 sm:p-4 md:p-6">
-          <ChartContainer config={chartConfig} className="h-64 sm:h-80 md:h-96 w-full">
-            <BarChart data={revenueData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+        <CardContent className="p-2 sm:p-3 md:p-4 lg:p-6">
+          <ChartContainer config={chartConfig} className="h-48 sm:h-64 md:h-80 lg:h-96 w-full">
+            <BarChart data={revenueData} margin={{ top: 10, right: 10, left: 10, bottom: 40 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
                 dataKey="month" 
-                fontSize={12}
-                tick={{ fontSize: 12 }}
+                fontSize={10}
+                tick={{ fontSize: 10 }}
                 interval={0}
                 angle={-45}
                 textAnchor="end"
-                height={60}
+                height={50}
               />
               <YAxis 
-                width={50} 
-                fontSize={12}
-                tick={{ fontSize: 12 }}
+                width={35} 
+                fontSize={10}
+                tick={{ fontSize: 10 }}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Legend 
-                wrapperStyle={{ fontSize: '14px' }}
-                iconSize={14}
+                wrapperStyle={{ fontSize: '12px' }}
+                iconSize={12}
               />
               <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue" />
               <Bar dataKey="expenses" fill="var(--color-expenses)" name="Expenses" />
@@ -190,30 +200,30 @@ export function AnalyticsDashboard() {
         </CardContent>
       </Card>
 
-      {/* Two column layout for medium screens and up */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+      {/* Two column layout - stacks on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
         {/* Client Growth */}
-        <Card>
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
-              <Users className="h-5 w-5 sm:h-6 sm:w-6" />
-              Client Growth Trend
+        <Card className="w-full overflow-hidden">
+          <CardHeader className="p-3 sm:p-4 md:p-6">
+            <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl lg:text-2xl">
+              <Users className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 flex-shrink-0" />
+              <span className="truncate">Client Growth Trend</span>
             </CardTitle>
-            <CardDescription className="text-base">New client acquisition and total client base</CardDescription>
+            <CardDescription className="text-sm sm:text-base">New client acquisition and total client base</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4">
-            <ChartContainer config={chartConfig} className="h-48 sm:h-64 w-full">
-              <AreaChart data={clientGrowthData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
+          <CardContent className="p-2 sm:p-3 md:p-4">
+            <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 w-full">
+              <AreaChart data={clientGrowthData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="month" 
-                  fontSize={12}
-                  tick={{ fontSize: 12 }}
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
                 />
                 <YAxis 
-                  width={40} 
-                  fontSize={12}
-                  tick={{ fontSize: 12 }}
+                  width={30} 
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Area type="monotone" dataKey="totalClients" stroke="var(--color-totalClients)" fill="var(--color-totalClients)" fillOpacity={0.3} />
@@ -224,20 +234,20 @@ export function AnalyticsDashboard() {
         </Card>
 
         {/* Project Status Distribution */}
-        <Card>
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl md:text-2xl">Project Status Distribution</CardTitle>
-            <CardDescription className="text-base">Current status of all projects</CardDescription>
+        <Card className="w-full overflow-hidden">
+          <CardHeader className="p-3 sm:p-4 md:p-6">
+            <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Project Status Distribution</CardTitle>
+            <CardDescription className="text-sm sm:text-base">Current status of all projects</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4">
-            <div className="w-full h-48 sm:h-64">
+          <CardContent className="p-2 sm:p-3 md:p-4">
+            <div className="w-full h-40 sm:h-48 md:h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+                <PieChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                   <Pie
                     data={projectStatusData}
                     cx="50%"
                     cy="50%"
-                    outerRadius="60%"
+                    outerRadius="65%"
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, value }) => `${name}: ${value}`}
@@ -255,31 +265,31 @@ export function AnalyticsDashboard() {
       </div>
 
       {/* Service Revenue Distribution */}
-      <Card>
-        <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-lg sm:text-xl md:text-2xl">Service Revenue Breakdown</CardTitle>
-          <CardDescription className="text-base">Revenue distribution by service type</CardDescription>
+      <Card className="w-full overflow-hidden">
+        <CardHeader className="p-3 sm:p-4 md:p-6">
+          <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Service Revenue Breakdown</CardTitle>
+          <CardDescription className="text-sm sm:text-base">Revenue distribution by service type</CardDescription>
         </CardHeader>
-        <CardContent className="p-2 sm:p-4">
-          <div className="w-full h-64 sm:h-80 md:h-96">
+        <CardContent className="p-2 sm:p-3 md:p-4">
+          <div className="w-full h-48 sm:h-64 md:h-80 lg:h-96">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart 
                 data={serviceDistributionData} 
                 layout="horizontal" 
-                margin={{ top: 20, right: 20, left: 80, bottom: 20 }}
+                margin={{ top: 10, right: 10, left: 60, bottom: 10 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   type="number" 
-                  fontSize={12}
-                  tick={{ fontSize: 12 }}
+                  fontSize={10}
+                  tick={{ fontSize: 10 }}
                 />
                 <YAxis 
                   dataKey="service" 
                   type="category" 
-                  width={75} 
-                  fontSize={11}
-                  tick={{ fontSize: 11 }}
+                  width={55} 
+                  fontSize={9}
+                  tick={{ fontSize: 9 }}
                 />
                 <Tooltip />
                 <Bar dataKey="revenue" fill="#3b82f6" name="Revenue ($)" />
@@ -289,23 +299,23 @@ export function AnalyticsDashboard() {
         </CardContent>
       </Card>
 
-      {/* Bottom two column layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+      {/* Bottom two column layout - stacks on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
         {/* Invoice Status */}
-        <Card>
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl md:text-2xl">Invoice Status</CardTitle>
-            <CardDescription className="text-base">Payment status breakdown</CardDescription>
+        <Card className="w-full overflow-hidden">
+          <CardHeader className="p-3 sm:p-4 md:p-6">
+            <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Invoice Status</CardTitle>
+            <CardDescription className="text-sm sm:text-base">Payment status breakdown</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4">
-            <div className="w-full h-48 sm:h-64">
+          <CardContent className="p-2 sm:p-3 md:p-4">
+            <div className="w-full h-40 sm:h-48 md:h-64">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+                <PieChart margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                   <Pie
                     data={invoiceStatusData}
                     cx="50%"
                     cy="50%"
-                    outerRadius="60%"
+                    outerRadius="65%"
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, value }) => `${name}: ${value}%`}
@@ -322,18 +332,18 @@ export function AnalyticsDashboard() {
         </Card>
 
         {/* Performance Metrics */}
-        <Card>
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-lg sm:text-xl md:text-2xl">Performance Metrics</CardTitle>
-            <CardDescription className="text-base">Key performance indicators vs targets</CardDescription>
+        <Card className="w-full overflow-hidden">
+          <CardHeader className="p-3 sm:p-4 md:p-6">
+            <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Performance Metrics</CardTitle>
+            <CardDescription className="text-sm sm:text-base">Key performance indicators vs targets</CardDescription>
           </CardHeader>
           <CardContent className="p-3 sm:p-4">
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {performanceMetrics.map((metric, index) => (
                 <div key={index} className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm sm:text-base font-medium">{metric.metric}</span>
-                    <span className="text-sm sm:text-base text-muted-foreground">{metric.current}% / {metric.target}%</span>
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="text-xs sm:text-sm md:text-base font-medium truncate">{metric.metric}</span>
+                    <span className="text-xs sm:text-sm md:text-base text-muted-foreground flex-shrink-0">{metric.current}% / {metric.target}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
@@ -341,7 +351,7 @@ export function AnalyticsDashboard() {
                       style={{ width: `${Math.min(metric.current, 100)}%` }}
                     />
                   </div>
-                  <p className={`text-sm ${metric.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <p className={`text-xs sm:text-sm ${metric.change > 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {metric.change > 0 ? '+' : ''}{metric.change}% from target
                   </p>
                 </div>
@@ -352,16 +362,16 @@ export function AnalyticsDashboard() {
       </div>
 
       {/* Business Summary */}
-      <Card>
-        <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-lg sm:text-xl md:text-2xl">Business Summary</CardTitle>
-          <CardDescription className="text-base">Key highlights and recent performance</CardDescription>
+      <Card className="w-full overflow-hidden">
+        <CardHeader className="p-3 sm:p-4 md:p-6">
+          <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl">Business Summary</CardTitle>
+          <CardDescription className="text-sm sm:text-base">Key highlights and recent performance</CardDescription>
         </CardHeader>
         <CardContent className="p-3 sm:p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
             <div className="space-y-2">
-              <h4 className="font-semibold text-green-600 text-base sm:text-lg">This Month's Wins</h4>
-              <ul className="text-sm sm:text-base space-y-1">
+              <h4 className="font-semibold text-green-600 text-sm sm:text-base md:text-lg">This Month's Wins</h4>
+              <ul className="text-xs sm:text-sm md:text-base space-y-1">
                 <li>• 4 new clients acquired</li>
                 <li>• $12,500 in new revenue</li>
                 <li>• 7 projects completed</li>
@@ -369,8 +379,8 @@ export function AnalyticsDashboard() {
               </ul>
             </div>
             <div className="space-y-2">
-              <h4 className="font-semibold text-blue-600 text-base sm:text-lg">Focus Areas</h4>
-              <ul className="text-sm sm:text-base space-y-1">
+              <h4 className="font-semibold text-blue-600 text-sm sm:text-base md:text-lg">Focus Areas</h4>
+              <ul className="text-xs sm:text-sm md:text-base space-y-1">
                 <li>• Reduce response time to 2h</li>
                 <li>• Increase project delivery rate</li>
                 <li>• Expand consulting services</li>
@@ -378,8 +388,8 @@ export function AnalyticsDashboard() {
               </ul>
             </div>
             <div className="space-y-2 md:col-span-2 xl:col-span-1">
-              <h4 className="font-semibold text-purple-600 text-base sm:text-lg">Next Quarter Goals</h4>
-              <ul className="text-sm sm:text-base space-y-1">
+              <h4 className="font-semibold text-purple-600 text-sm sm:text-base md:text-lg">Next Quarter Goals</h4>
+              <ul className="text-xs sm:text-sm md:text-base space-y-1">
                 <li>• Reach 35 active clients</li>
                 <li>• $100K total revenue</li>
                 <li>• Launch new service line</li>
