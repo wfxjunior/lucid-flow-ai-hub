@@ -22,7 +22,10 @@ export function WorkOrdersPage() {
   const [priorityFilter, setPriorityFilter] = useState("all")
 
   const filteredWorkOrders = (workOrders || []).filter((workOrder) => {
-    const clientName = workOrder.client?.name || 'Unknown Client'
+    // Safe access to client data with fallbacks
+    const clientName = workOrder.client && typeof workOrder.client === 'object' && 'name' in workOrder.client 
+      ? workOrder.client.name || 'Unknown Client'
+      : 'Unknown Client'
     const workOrderNumber = workOrder.work_order_number || ''
     
     const matchesSearch = workOrder.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -237,49 +240,56 @@ export function WorkOrdersPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredWorkOrders.map((workOrder) => (
-                    <TableRow key={workOrder.id}>
-                      <TableCell className="font-medium">
-                        {workOrder.work_order_number || 'WO-' + workOrder.id.slice(0, 8)}
-                      </TableCell>
-                      <TableCell>{workOrder.title}</TableCell>
-                      <TableCell>{workOrder.client?.name || 'Unknown Client'}</TableCell>
-                      <TableCell>
-                        <Badge className={getPriorityBadge(workOrder.priority)}>
-                          {workOrder.priority.charAt(0).toUpperCase() + workOrder.priority.slice(1)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={getStatusBadge(workOrder.status)}>
-                          {workOrder.status.replace('_', ' ').charAt(0).toUpperCase() + workOrder.status.replace('_', ' ').slice(1)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {workOrder.scheduled_date ? format(new Date(workOrder.scheduled_date), 'MMM dd, yyyy') : 'Not scheduled'}
-                      </TableCell>
-                      <TableCell>{workOrder.assigned_to || 'Unassigned'}</TableCell>
-                      <TableCell>${workOrder.total_cost?.toFixed(2) || '0.00'}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleEdit(workOrder)}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDelete(workOrder.id)}
-                            className="text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {filteredWorkOrders.map((workOrder) => {
+                    // Safe client name extraction
+                    const clientName = workOrder.client && typeof workOrder.client === 'object' && 'name' in workOrder.client 
+                      ? workOrder.client.name || 'Unknown Client'
+                      : 'Unknown Client'
+                    
+                    return (
+                      <TableRow key={workOrder.id}>
+                        <TableCell className="font-medium">
+                          {workOrder.work_order_number || 'WO-' + workOrder.id.slice(0, 8)}
+                        </TableCell>
+                        <TableCell>{workOrder.title}</TableCell>
+                        <TableCell>{clientName}</TableCell>
+                        <TableCell>
+                          <Badge className={getPriorityBadge(workOrder.priority)}>
+                            {workOrder.priority.charAt(0).toUpperCase() + workOrder.priority.slice(1)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge className={getStatusBadge(workOrder.status)}>
+                            {workOrder.status.replace('_', ' ').charAt(0).toUpperCase() + workOrder.status.replace('_', ' ').slice(1)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {workOrder.scheduled_date ? format(new Date(workOrder.scheduled_date), 'MMM dd, yyyy') : 'Not scheduled'}
+                        </TableCell>
+                        <TableCell>{workOrder.assigned_to || 'Unassigned'}</TableCell>
+                        <TableCell>${workOrder.total_cost?.toFixed(2) || '0.00'}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleEdit(workOrder)}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDelete(workOrder.id)}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </div>

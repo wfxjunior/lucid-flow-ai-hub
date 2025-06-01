@@ -131,7 +131,7 @@ export function useBusinessData() {
     }
   })
 
-  // Work Orders
+  // Work Orders - Fixed query to properly join with clients and estimates
   const { data: workOrders, isLoading: workOrdersLoading } = useQuery({
     queryKey: ['work_orders'],
     queryFn: async () => {
@@ -139,8 +139,8 @@ export function useBusinessData() {
         .from('work_orders')
         .select(`
           *,
-          client:client_id(id, name, email),
-          estimate:estimate_id(id, estimate_number, title)
+          client:clients!work_orders_client_id_fkey(id, name, email),
+          estimate:estimates!work_orders_estimate_id_fkey(id, estimate_number, title)
         `)
         .order('created_at', { ascending: false })
       
