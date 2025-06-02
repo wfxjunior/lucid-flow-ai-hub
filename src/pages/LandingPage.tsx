@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -79,7 +78,6 @@ const LandingPage = () => {
           </div>
           
           <div className="flex items-center gap-3">
-            <HelpCenter />
             <Button 
               onClick={() => navigate('/auth')} 
               variant="outline"
