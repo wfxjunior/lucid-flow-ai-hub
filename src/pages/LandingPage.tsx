@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -7,6 +8,7 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { FreeTrialQuestionnaire } from "@/components/FreeTrialQuestionnaire"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
+import { HelpCenter } from "@/components/HelpCenter"
 import { useState } from "react"
 
 const LandingPage = () => {
@@ -76,7 +78,8 @@ const LandingPage = () => {
             <span className="text-xl font-bold text-blue-600">FeatherBiz</span>
           </div>
           
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            <HelpCenter />
             <Button 
               onClick={() => navigate('/auth')} 
               variant="outline"
