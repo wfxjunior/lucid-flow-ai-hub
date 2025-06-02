@@ -181,6 +181,35 @@ const translations = {
           description: "Create, track, and manage work orders with real-time status updates."
         }
       }
+    },
+    auth: {
+      tagline: "AI-Powered Business Platform",
+      welcome: "Welcome",
+      welcomeDescription: "Sign in to your account or create a new one",
+      login: "Login",
+      signup: "Sign Up",
+      email: "Email",
+      password: "Password",
+      confirmPassword: "Confirm Password",
+      firstName: "First Name",
+      lastName: "Last Name",
+      country: "Country",
+      selectCountryPlaceholder: "Select your country",
+      loggingIn: "Logging in...",
+      creatingAccount: "Creating Account...",
+      createAccount: "Create Account",
+      backToHome: "Back to Home",
+      invalidCredentials: "Invalid email or password",
+      loginError: "Login error",
+      loginSuccess: "Login successful!",
+      unexpectedLoginError: "Unexpected login error",
+      passwordMismatch: "Passwords don't match",
+      selectCountry: "Please select your country",
+      passwordLength: "Password must be at least 6 characters",
+      userExists: "This email is already registered. Try logging in.",
+      signupError: "Signup error",
+      signupSuccess: "Account created! Check your email to confirm your account.",
+      unexpectedSignupError: "Unexpected signup error"
     }
   },
   de: {
@@ -340,6 +369,35 @@ const translations = {
           description: "Erstellen, verfolgen und verwalten Sie Arbeitsaufträge mit Echtzeit-Statusupdates."
         }
       }
+    },
+    auth: {
+      tagline: "KI-gestützte Business-Plattform",
+      welcome: "Willkommen",
+      welcomeDescription: "Melden Sie sich in Ihrem Konto an oder erstellen Sie ein neues",
+      login: "Anmelden",
+      signup: "Registrieren",
+      email: "E-Mail",
+      password: "Passwort",
+      confirmPassword: "Passwort bestätigen",
+      firstName: "Vorname",
+      lastName: "Nachname",
+      country: "Land",
+      selectCountryPlaceholder: "Wählen Sie Ihr Land",
+      loggingIn: "Anmelden...",
+      creatingAccount: "Konto erstellen...",
+      createAccount: "Konto erstellen",
+      backToHome: "Zurück zur Startseite",
+      invalidCredentials: "Ungültige E-Mail oder Passwort",
+      loginError: "Anmeldefehler",
+      loginSuccess: "Anmeldung erfolgreich!",
+      unexpectedLoginError: "Unerwarteter Anmeldefehler",
+      passwordMismatch: "Passwörter stimmen nicht überein",
+      selectCountry: "Bitte wählen Sie Ihr Land",
+      passwordLength: "Passwort muss mindestens 6 Zeichen haben",
+      userExists: "Diese E-Mail ist bereits registriert. Versuchen Sie sich anzumelden.",
+      signupError: "Registrierungsfehler",
+      signupSuccess: "Konto erstellt! Überprüfen Sie Ihre E-Mail zur Bestätigung.",
+      unexpectedSignupError: "Unerwarteter Registrierungsfehler"
     }
   },
   fr: {
@@ -499,6 +557,35 @@ const translations = {
           description: "Créez, suivez et gérez les bons de travail avec des mises à jour de statut en temps réel."
         }
       }
+    },
+    auth: {
+      tagline: "Plateforme d'entreprise alimentée par l'IA",
+      welcome: "Bienvenue",
+      welcomeDescription: "Connectez-vous à votre compte ou créez-en un nouveau",
+      login: "Connexion",
+      signup: "S'inscrire",
+      email: "E-mail",
+      password: "Mot de passe",
+      confirmPassword: "Confirmer le mot de passe",
+      firstName: "Prénom",
+      lastName: "Nom",
+      country: "Pays",
+      selectCountryPlaceholder: "Sélectionnez votre pays",
+      loggingIn: "Connexion...",
+      creatingAccount: "Création du compte...",
+      createAccount: "Créer un compte",
+      backToHome: "Retour à l'accueil",
+      invalidCredentials: "E-mail ou mot de passe invalide",
+      loginError: "Erreur de connexion",
+      loginSuccess: "Connexion réussie !",
+      unexpectedLoginError: "Erreur de connexion inattendue",
+      passwordMismatch: "Les mots de passe ne correspondent pas",
+      selectCountry: "Veuillez sélectionner votre pays",
+      passwordLength: "Le mot de passe doit contenir au moins 6 caractères",
+      userExists: "Cet e-mail est déjà enregistré. Essayez de vous connecter.",
+      signupError: "Erreur d'inscription",
+      signupSuccess: "Compte créé ! Vérifiez votre e-mail pour confirmer votre compte.",
+      unexpectedSignupError: "Erreur d'inscription inattendue"
     }
   },
   es: {
@@ -658,6 +745,35 @@ const translations = {
           description: "Crea, rastrea y gestiona órdenes de trabajo con actualizaciones de estado en tiempo real."
         }
       }
+    },
+    auth: {
+      tagline: "Plataforma empresarial impulsada por IA",
+      welcome: "Bienvenido",
+      welcomeDescription: "Inicia sesión en tu cuenta o crea una nueva",
+      login: "Iniciar sesión",
+      signup: "Registrarse",
+      email: "Correo electrónico",
+      password: "Contraseña",
+      confirmPassword: "Confirmar contraseña",
+      firstName: "Nombre",
+      lastName: "Apellido",
+      country: "País",
+      selectCountryPlaceholder: "Selecciona tu país",
+      loggingIn: "Iniciando sesión...",
+      creatingAccount: "Creando cuenta...",
+      createAccount: "Crear cuenta",
+      backToHome: "Volver al inicio",
+      invalidCredentials: "Correo electrónico o contraseña inválidos",
+      loginError: "Error de inicio de sesión",
+      loginSuccess: "¡Inicio de sesión exitoso!",
+      unexpectedLoginError: "Error inesperado de inicio de sesión",
+      passwordMismatch: "Las contraseñas no coinciden",
+      selectCountry: "Por favor selecciona tu país",
+      passwordLength: "La contraseña debe tener al menos 6 caracteres",
+      userExists: "Este correo ya está registrado. Intenta iniciar sesión.",
+      signupError: "Error de registro",
+      signupSuccess: "¡Cuenta creada! Verifica tu correo para confirmar tu cuenta.",
+      unexpectedSignupError: "Error inesperado de registro"
     }
   },
   zh: {
@@ -817,6 +933,35 @@ const translations = {
           description: "创建、跟踪和管理工单，提供实时状态更新。"
         }
       }
+    },
+    auth: {
+      tagline: "AI驱动的商业平台",
+      welcome: "欢迎",
+      welcomeDescription: "登录您的账户或创建新账户",
+      login: "登录",
+      signup: "注册",
+      email: "邮箱",
+      password: "密码",
+      confirmPassword: "确认密码",
+      firstName: "名字",
+      lastName: "姓氏",
+      country: "国家",
+      selectCountryPlaceholder: "选择您的国家",
+      loggingIn: "登录中...",
+      creatingAccount: "创建账户中...",
+      createAccount: "创建账户",
+      backToHome: "返回首页",
+      invalidCredentials: "邮箱或密码无效",
+      loginError: "登录错误",
+      loginSuccess: "登录成功！",
+      unexpectedLoginError: "意外的登录错误",
+      passwordMismatch: "密码不匹配",
+      selectCountry: "请选择您的国家",
+      passwordLength: "密码必须至少6个字符",
+      userExists: "此邮箱已注册。请尝试登录。",
+      signupError: "注册错误",
+      signupSuccess: "账户已创建！请查看邮件确认您的账户。",
+      unexpectedSignupError: "意外的注册错误"
     }
   },
   "pt-BR": {
@@ -976,6 +1121,35 @@ const translations = {
           description: "Crie, rastreie e gerencie ordens de serviço com atualizações de status em tempo real."
         }
       }
+    },
+    auth: {
+      tagline: "Plataforma empresarial alimentada por IA",
+      welcome: "Bem-vindo",
+      welcomeDescription: "Faça login na sua conta ou crie uma nova",
+      login: "Login",
+      signup: "Cadastrar",
+      email: "Email",
+      password: "Senha",
+      confirmPassword: "Confirmar Senha",
+      firstName: "Nome",
+      lastName: "Sobrenome",
+      country: "País",
+      selectCountryPlaceholder: "Selecione seu país",
+      loggingIn: "Entrando...",
+      creatingAccount: "Criando Conta...",
+      createAccount: "Criar Conta",
+      backToHome: "Voltar ao Início",
+      invalidCredentials: "Email ou senha incorretos",
+      loginError: "Erro no login",
+      loginSuccess: "Login realizado com sucesso!",
+      unexpectedLoginError: "Erro inesperado no login",
+      passwordMismatch: "As senhas não coincidem",
+      selectCountry: "Por favor, selecione seu país",
+      passwordLength: "A senha deve ter pelo menos 6 caracteres",
+      userExists: "Este email já está cadastrado. Tente fazer login.",
+      signupError: "Erro no cadastro",
+      signupSuccess: "Conta criada! Verifique seu email para confirmar a conta.",
+      unexpectedSignupError: "Erro inesperado no cadastro"
     }
   }
 }

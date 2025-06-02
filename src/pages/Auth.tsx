@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -72,20 +73,20 @@ const Auth = () => {
 
       if (error) {
         if (error.message.includes("Invalid login credentials")) {
-          toast.error("Email ou senha incorretos")
+          toast.error(t("auth.invalidCredentials"))
         } else {
-          toast.error(error.message || "Erro no login")
+          toast.error(error.message || t("auth.loginError"))
         }
         return
       }
 
       if (data.user) {
-        toast.success("Login realizado com sucesso!")
+        toast.success(t("auth.loginSuccess"))
         navigate("/dashboard")
       }
     } catch (error: any) {
       console.error('Login error:', error)
-      toast.error("Erro inesperado no login")
+      toast.error(t("auth.unexpectedLoginError"))
     } finally {
       setIsLoading(false)
     }
@@ -95,17 +96,17 @@ const Auth = () => {
     e.preventDefault()
     
     if (signupData.password !== signupData.confirmPassword) {
-      toast.error("As senhas não coincidem")
+      toast.error(t("auth.passwordMismatch"))
       return
     }
 
     if (!signupData.country) {
-      toast.error("Por favor, selecione seu país")
+      toast.error(t("auth.selectCountry"))
       return
     }
 
     if (signupData.password.length < 6) {
-      toast.error("A senha deve ter pelo menos 6 caracteres")
+      toast.error(t("auth.passwordLength"))
       return
     }
 
@@ -127,9 +128,9 @@ const Auth = () => {
 
       if (error) {
         if (error.message.includes("User already registered")) {
-          toast.error("Este email já está cadastrado. Tente fazer login.")
+          toast.error(t("auth.userExists"))
         } else {
-          toast.error(error.message || "Erro no cadastro")
+          toast.error(error.message || t("auth.signupError"))
         }
         return
       }
@@ -141,12 +142,12 @@ const Auth = () => {
           setLanguage(country.languages[0])
         }
         
-        toast.success("Conta criada! Verifique seu email para confirmar a conta.")
+        toast.success(t("auth.signupSuccess"))
         navigate("/dashboard")
       }
     } catch (error: any) {
       console.error('Signup error:', error)
-      toast.error("Erro inesperado no cadastro")
+      toast.error(t("auth.unexpectedSignupError"))
     } finally {
       setIsLoading(false)
     }
@@ -168,27 +169,27 @@ const Auth = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-blue-600 mb-2">FeatherBiz</h1>
-          <p className="text-gray-600">Plataforma Empresarial com IA</p>
+          <p className="text-gray-600">{t("auth.tagline")}</p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-center">Bem-vindo</CardTitle>
+            <CardTitle className="text-center">{t("auth.welcome")}</CardTitle>
             <CardDescription className="text-center">
-              Faça login na sua conta ou crie uma nova
+              {t("auth.welcomeDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login" className="space-y-6">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="signup">Cadastrar</TabsTrigger>
+                <TabsTrigger value="login">{t("auth.login")}</TabsTrigger>
+                <TabsTrigger value="signup">{t("auth.signup")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="login">
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div>
-                    <Label htmlFor="login-email">Email</Label>
+                    <Label htmlFor="login-email">{t("auth.email")}</Label>
                     <Input
                       id="login-email"
                       type="email"
@@ -199,7 +200,7 @@ const Auth = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="login-password">Senha</Label>
+                    <Label htmlFor="login-password">{t("auth.password")}</Label>
                     <Input
                       id="login-password"
                       type="password"
@@ -210,7 +211,7 @@ const Auth = () => {
                     />
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Entrando..." : "Entrar"}
+                    {isLoading ? t("auth.loggingIn") : t("auth.login")}
                   </Button>
                 </form>
               </TabsContent>
@@ -219,7 +220,7 @@ const Auth = () => {
                 <form onSubmit={handleSignup} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="firstName">Nome</Label>
+                      <Label htmlFor="firstName">{t("auth.firstName")}</Label>
                       <Input
                         id="firstName"
                         value={signupData.firstName}
@@ -229,7 +230,7 @@ const Auth = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="lastName">Sobrenome</Label>
+                      <Label htmlFor="lastName">{t("auth.lastName")}</Label>
                       <Input
                         id="lastName"
                         value={signupData.lastName}
@@ -241,10 +242,10 @@ const Auth = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="country">País</Label>
+                    <Label htmlFor="country">{t("auth.country")}</Label>
                     <Select value={signupData.country} onValueChange={handleCountryChange} disabled={isLoading}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione seu país" />
+                        <SelectValue placeholder={t("auth.selectCountryPlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {countries.map((country) => (
@@ -260,7 +261,7 @@ const Auth = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="signup-email">Email</Label>
+                    <Label htmlFor="signup-email">{t("auth.email")}</Label>
                     <Input
                       id="signup-email"
                       type="email"
@@ -272,7 +273,7 @@ const Auth = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="signup-password">Senha</Label>
+                    <Label htmlFor="signup-password">{t("auth.password")}</Label>
                     <Input
                       id="signup-password"
                       type="password"
@@ -284,7 +285,7 @@ const Auth = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="confirm-password">Confirmar Senha</Label>
+                    <Label htmlFor="confirm-password">{t("auth.confirmPassword")}</Label>
                     <Input
                       id="confirm-password"
                       type="password"
@@ -296,7 +297,7 @@ const Auth = () => {
                   </div>
                   
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Criando Conta..." : "Criar Conta"}
+                    {isLoading ? t("auth.creatingAccount") : t("auth.createAccount")}
                   </Button>
                 </form>
               </TabsContent>
@@ -311,7 +312,7 @@ const Auth = () => {
             className="text-sm text-gray-500"
             disabled={isLoading}
           >
-            ← Voltar ao Início
+            ← {t("auth.backToHome")}
           </Button>
         </div>
       </div>
