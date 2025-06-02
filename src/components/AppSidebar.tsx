@@ -1,4 +1,3 @@
-
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
@@ -99,9 +98,9 @@ const businessTools = [
     view: "estimates"
   },
   {
-    title: "Receipts & Accounting",
+    title: "Accounting",
     icon: Receipt,
-    view: "receipts"
+    view: "accounting"
   },
   {
     title: "Sales Orders",

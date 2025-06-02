@@ -9,6 +9,66 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      accounting_documents: {
+        Row: {
+          amount: number | null
+          category: string
+          created_at: string
+          date_of_transaction: string | null
+          description: string | null
+          document_type: string
+          extracted_data: Json | null
+          file_name: string
+          file_size: number
+          file_url: string
+          id: string
+          status: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+          vendor: string | null
+        }
+        Insert: {
+          amount?: number | null
+          category?: string
+          created_at?: string
+          date_of_transaction?: string | null
+          description?: string | null
+          document_type?: string
+          extracted_data?: Json | null
+          file_name: string
+          file_size: number
+          file_url: string
+          id?: string
+          status?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+          vendor?: string | null
+        }
+        Update: {
+          amount?: number | null
+          category?: string
+          created_at?: string
+          date_of_transaction?: string | null
+          description?: string | null
+          document_type?: string
+          extracted_data?: Json | null
+          file_name?: string
+          file_size?: number
+          file_url?: string
+          id?: string
+          status?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          vendor?: string | null
+        }
+        Relationships: []
+      }
       appointments: {
         Row: {
           appointment_date: string

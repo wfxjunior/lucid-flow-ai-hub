@@ -1,3 +1,4 @@
+
 export interface Client {
   id: string
   name: string
@@ -150,6 +151,26 @@ export interface WorkOrder {
   updated_at: string
   client?: Client
   estimate?: Estimate
+}
+
+export interface AccountingDocument {
+  id: string
+  user_id: string
+  title: string
+  description?: string
+  document_type: string
+  file_url: string
+  file_name: string
+  file_size: number
+  amount?: number
+  vendor?: string
+  date_of_transaction?: string
+  category: string
+  tags: string[]
+  extracted_data?: any
+  status: string
+  created_at: string
+  updated_at: string
 }
 
 export type FilterStatus = 'all' | 'pending' | 'paid' | 'archived' | 'draft' | 'sent' | 'approved' | 'rejected' | 'converted' | 'active' | 'inactive' | 'overdue' | 'scheduled' | 'confirmed' | 'cancelled' | 'completed' | 'signed' | 'declined' | 'expired' | 'in_progress' | 'urgent' | 'low' | 'medium' | 'high'

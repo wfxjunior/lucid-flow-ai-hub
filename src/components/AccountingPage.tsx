@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { AccountingDocument } from "@/types/business"
 import { 
   Upload, 
   Receipt, 
@@ -33,26 +34,6 @@ import {
 } from "lucide-react"
 import { format } from "date-fns"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-
-interface AccountingDocument {
-  id: string
-  user_id: string
-  title: string
-  description?: string
-  document_type: string
-  file_url: string
-  file_name: string
-  file_size: number
-  amount?: number
-  vendor?: string
-  date_of_transaction?: string
-  category: string
-  tags: string[]
-  extracted_data?: any
-  status: string
-  created_at: string
-  updated_at: string
-}
 
 const documentTypes = [
   { value: 'receipt', label: 'Receipt', icon: Receipt },
@@ -114,7 +95,7 @@ export function AccountingPage() {
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setDocuments(data || [])
+      setDocuments(data as AccountingDocument[] || [])
     } catch (error) {
       console.error('Error fetching documents:', error)
       toast({
