@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,12 +9,13 @@ import { LanguageSelector } from "@/components/LanguageSelector"
 import { FreeTrialQuestionnaire } from "@/components/FreeTrialQuestionnaire"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { HelpCenter } from "@/components/HelpCenter"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const LandingPage = () => {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const [showQuestionnaire, setShowQuestionnaire] = useState(false)
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
   const features = [
     {
@@ -54,6 +56,45 @@ const LandingPage = () => {
     { number: 3.5, suffix: "M+", prefix: "$", decimals: 1, label: "Processed Revenue", delay: 400 },
     { number: 99.9, suffix: "%", decimals: 1, label: "Uptime", delay: 600 }
   ]
+
+  const testimonials = [
+    {
+      name: "Sarah Martinez",
+      role: "Freelance Designer",
+      initials: "SM",
+      bgColor: "bg-blue-100",
+      textColor: "text-blue-600",
+      rating: 5,
+      text: "FeatherBiz transformed my freelance business. I went from spending hours on invoicing to just minutes. The AI features are incredible!"
+    },
+    {
+      name: "David Kim",
+      role: "Consulting Firm Owner",
+      initials: "DK",
+      bgColor: "bg-green-100",
+      textColor: "text-green-600",
+      rating: 5,
+      text: "The customer management system is outstanding. I can track all my client relationships in one place. Best investment for my business!"
+    },
+    {
+      name: "Lisa Rodriguez",
+      role: "Restaurant Owner",
+      initials: "LR",
+      bgColor: "bg-purple-100",
+      textColor: "text-purple-600",
+      rating: 5,
+      text: "The appointment scheduling feature saved my restaurant. Customers love the automated booking system and I love the time it saves me."
+    }
+  ]
+
+  // Cycle through testimonials every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+    }, 4000)
+
+    return () => clearInterval(interval)
+  }, [testimonials.length])
 
   const handleStartFreeTrial = () => {
     setShowQuestionnaire(true)
@@ -224,109 +265,53 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12">
-            <Card className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 font-bold text-lg">SM</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Sarah Martinez</div>
-                  <div className="text-sm text-gray-600">Freelance Designer</div>
-                  <div className="flex items-center mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
+          {/* Cycling Testimonials */}
+          <div className="max-w-4xl mx-auto relative h-64 sm:h-48">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-1000 ${
+                  index === currentTestimonial ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <Card className="p-6 sm:p-8 max-w-2xl mx-auto">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-16 h-16 ${testimonial.bgColor} rounded-full flex items-center justify-center`}>
+                      <span className={`${testimonial.textColor} font-bold text-xl`}>
+                        {testimonial.initials}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900 text-lg">{testimonial.name}</div>
+                      <div className="text-gray-600">{testimonial.role}</div>
+                      <div className="flex items-center mt-2">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <p className="text-gray-600 italic text-lg leading-relaxed text-center">
+                    "{testimonial.text}"
+                  </p>
+                </Card>
               </div>
-              <p className="text-gray-600 italic">
-                "FeatherBiz transformed my freelance business. I went from spending hours on invoicing to just minutes. The AI features are incredible!"
-              </p>
-            </Card>
-
-            <Card className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-green-600 font-bold text-lg">DK</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">David Kim</div>
-                  <div className="text-sm text-gray-600">Consulting Firm Owner</div>
-                  <div className="flex items-center mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "The customer management system is outstanding. I can track all my client relationships in one place. Best investment for my business!"
-              </p>
-            </Card>
-
-            <Card className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <span className="text-purple-600 font-bold text-lg">LR</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Lisa Rodriguez</div>
-                  <div className="text-sm text-gray-600">Restaurant Owner</div>
-                  <div className="flex items-center mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "The appointment scheduling feature saved my restaurant. Customers love the automated booking system and I love the time it saves me."
-              </p>
-            </Card>
+            ))}
           </div>
 
-          {/* Additional testimonials row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            <Card className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                  <span className="text-orange-600 font-bold text-lg">MJ</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Michael Johnson</div>
-                  <div className="text-sm text-gray-600">Construction Contractor</div>
-                  <div className="flex items-center mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "Creating estimates used to take me hours. Now with FeatherBiz's smart calculations, I can generate professional quotes in minutes. My clients are impressed!"
-              </p>
-            </Card>
-
-            <Card className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
-                  <span className="text-pink-600 font-bold text-lg">AT</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Amanda Thompson</div>
-                  <div className="text-sm text-gray-600">Marketing Agency Owner</div>
-                  <div className="flex items-center mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-600 italic">
-                "The analytics dashboard gives me insights I never had before. I can see which services are most profitable and make better business decisions."
-              </p>
-            </Card>
+          {/* Testimonial Indicators */}
+          <div className="flex justify-center mt-8 gap-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentTestimonial(index)}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  index === currentTestimonial 
+                    ? 'bg-blue-600 scale-125' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+              />
+            ))}
           </div>
         </div>
       </section>
