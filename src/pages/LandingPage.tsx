@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -80,8 +79,7 @@ const LandingPage = () => {
             <Button 
               onClick={() => navigate('/auth')} 
               variant="outline"
-              size="sm"
-              className="text-xs sm:text-sm px-2 sm:px-4"
+              className="text-sm px-6 py-2"
             >
               Sign In
             </Button>
