@@ -26,6 +26,7 @@ import { ProjectsPage } from "@/components/ProjectsPage"
 import { TodoListPage } from "@/components/TodoListPage"
 import { EstimatesPage } from "@/components/EstimatesPage"
 import { WorkOrdersPage } from "@/components/WorkOrdersPage"
+import { MeetingsPage } from "@/components/MeetingsPage"
 
 const Index = () => {
   const { t } = useLanguage()
@@ -60,6 +61,8 @@ const Index = () => {
       setActiveView("e-signatures")
     } else if (actionId === "projects") {
       setActiveView("projects")
+    } else if (actionId === "meetings") {
+      setActiveView("meetings")
     } else {
       setActiveView(actionId)
     }
@@ -93,6 +96,8 @@ const Index = () => {
           return <EstimatesPage />
         case 'projects':
           return <ProjectsPage />
+        case 'meetings':
+          return <MeetingsPage />
         case 'todo-list':
           return <TodoListPage />
         case 'file-manager':

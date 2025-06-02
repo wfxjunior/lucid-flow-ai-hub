@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -87,6 +86,21 @@ interface SignatureWithRelations {
   updated_at: string
   client?: Client
   document?: Document
+}
+
+interface Meeting {
+  id: string
+  user_id: string
+  title: string
+  description?: string
+  meeting_date: string
+  duration_minutes: number
+  meeting_platform: string
+  meeting_url?: string
+  location?: string
+  status: string
+  created_at: string
+  updated_at: string
 }
 
 export function useBusinessData() {
@@ -265,6 +279,24 @@ export function useBusinessData() {
     }
   })
 
+  // Meetings Query
+  const { data: meetings, isLoading: meetingsLoading } = useQuery({
+    queryKey: ['meetings'],
+    queryFn: async (): Promise<Meeting[]> => {
+      const { data, error } = await supabase
+        .from('meetings')
+        .select('*')
+        .order('meeting_date', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching meetings:', error)
+        throw error
+      }
+
+      return data || []
+    }
+  })
+
   // CRUD Operations
   const deleteWorkOrder = async (id: string) => {
     const { error } = await supabase
@@ -411,6 +443,24 @@ export function useBusinessData() {
     return data
   }
 
+  const createMeeting = async (meetingData: any) => {
+    const { data: user } = await supabase.auth.getUser()
+    
+    const { data, error } = await supabase
+      .from('meetings')
+      .insert([{
+        ...meetingData,
+        user_id: user.user?.id
+      }])
+      .select()
+      .single()
+
+    if (error) throw error
+    
+    queryClient.invalidateQueries({ queryKey: ['meetings'] })
+    return data
+  }
+
   const loadData = () => {
     queryClient.invalidateQueries({ queryKey: ['work-orders'] })
     queryClient.invalidateQueries({ queryKey: ['clients'] })
@@ -419,6 +469,7 @@ export function useBusinessData() {
     queryClient.invalidateQueries({ queryKey: ['documents'] })
     queryClient.invalidateQueries({ queryKey: ['estimates'] })
     queryClient.invalidateQueries({ queryKey: ['signatures'] })
+    queryClient.invalidateQueries({ queryKey: ['meetings'] })
   }
 
   return {
@@ -431,9 +482,10 @@ export function useBusinessData() {
     documents,
     estimates,
     signatures,
+    meetings,
     
     // Loading states
-    loading: workOrdersLoading || clientsLoading || appointmentsLoading || contractsLoading || documentsLoading || estimatesLoading || signaturesLoading,
+    loading: workOrdersLoading || clientsLoading || appointmentsLoading || contractsLoading || documentsLoading || estimatesLoading || signaturesLoading || meetingsLoading,
     
     // Actions
     deleteWorkOrder,
@@ -445,6 +497,7 @@ export function useBusinessData() {
     deleteContract,
     createDocument,
     sendDocumentForSignature,
+    createMeeting,
     loadData
   }
 }

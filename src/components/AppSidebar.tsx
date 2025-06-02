@@ -1,7 +1,8 @@
+
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video
 } from "lucide-react"
 import {
   Sidebar,
@@ -76,6 +77,11 @@ const businessTools = [
     title: "Work Orders",
     icon: Package,
     view: "work-orders"
+  },
+  {
+    title: "Meetings",
+    icon: Video,
+    view: "meetings"
   },
   {
     title: "To-Do List",
