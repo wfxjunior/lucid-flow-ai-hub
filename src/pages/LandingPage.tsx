@@ -47,9 +47,9 @@ const LandingPage = () => {
   ]
 
   const stats = [
-    { number: "2.5M+", label: "Invoices Created" },
+    { number: "500K+", label: "Invoices Created" },
     { number: "45K+", label: "Active Businesses" },
-    { number: "$180M+", label: "Processed Revenue" },
+    { number: "$3.5M+", label: "Processed Revenue" },
     { number: "99.9%", label: "Uptime" }
   ]
 
