@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { FreeTrialQuestionnaire } from "@/components/FreeTrialQuestionnaire"
+import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { useState } from "react"
 
 const LandingPage = () => {
@@ -47,10 +48,10 @@ const LandingPage = () => {
   ]
 
   const stats = [
-    { number: "500K+", label: "Invoices Created" },
-    { number: "45K+", label: "Active Businesses" },
-    { number: "$3.5M+", label: "Processed Revenue" },
-    { number: "99.9%", label: "Uptime" }
+    { number: 500, suffix: "K+", label: "Invoices Created", delay: 0 },
+    { number: 45, suffix: "K+", label: "Active Businesses", delay: 200 },
+    { number: 3.5, suffix: "M+", prefix: "$", decimals: 1, label: "Processed Revenue", delay: 400 },
+    { number: 99.9, suffix: "%", decimals: 1, label: "Uptime", delay: 600 }
   ]
 
   const handleStartFreeTrial = () => {
@@ -79,7 +80,8 @@ const LandingPage = () => {
             <Button 
               onClick={() => navigate('/auth')} 
               variant="outline"
-              className="text-sm px-6 py-2"
+              size="lg"
+              className="text-base px-8 py-3"
             >
               Sign In
             </Button>
@@ -161,7 +163,14 @@ const LandingPage = () => {
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
-                  {stat.number}
+                  <AnimatedNumber 
+                    value={stat.number}
+                    suffix={stat.suffix}
+                    prefix={stat.prefix}
+                    decimals={stat.decimals}
+                    delay={stat.delay}
+                    duration={2000}
+                  />
                 </div>
                 <div className="text-sm sm:text-base text-gray-600">
                   {stat.label}
