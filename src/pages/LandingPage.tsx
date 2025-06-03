@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -256,7 +255,7 @@ const LandingPage = () => {
       {/* Testimonials Section */}
       <section className="bg-gray-50 py-12 sm:py-16 lg:py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               What Our Customers Say
             </h2>
@@ -266,7 +265,7 @@ const LandingPage = () => {
           </div>
 
           {/* Cycling Testimonials */}
-          <div className="max-w-4xl mx-auto relative h-64 sm:h-48">
+          <div className="max-w-4xl mx-auto relative min-h-[400px] sm:min-h-[320px] md:min-h-[280px]">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
@@ -274,24 +273,24 @@ const LandingPage = () => {
                   index === currentTestimonial ? 'opacity-100' : 'opacity-0'
                 }`}
               >
-                <Card className="p-6 sm:p-8 max-w-2xl mx-auto">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-16 h-16 ${testimonial.bgColor} rounded-full flex items-center justify-center`}>
-                      <span className={`${testimonial.textColor} font-bold text-xl`}>
+                <Card className="p-4 sm:p-6 lg:p-8 max-w-3xl mx-auto shadow-lg">
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6">
+                    <div className={`w-16 h-16 sm:w-20 sm:h-20 ${testimonial.bgColor} rounded-full flex items-center justify-center flex-shrink-0`}>
+                      <span className={`${testimonial.textColor} font-bold text-xl sm:text-2xl`}>
                         {testimonial.initials}
                       </span>
                     </div>
-                    <div>
-                      <div className="font-semibold text-gray-900 text-lg">{testimonial.name}</div>
-                      <div className="text-gray-600">{testimonial.role}</div>
-                      <div className="flex items-center mt-2">
+                    <div className="text-center sm:text-left">
+                      <div className="font-semibold text-gray-900 text-lg sm:text-xl">{testimonial.name}</div>
+                      <div className="text-gray-600 text-sm sm:text-base mb-2">{testimonial.role}</div>
+                      <div className="flex items-center justify-center sm:justify-start">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                          <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-600 italic text-lg leading-relaxed text-center">
+                  <p className="text-gray-600 italic text-base sm:text-lg leading-relaxed text-center px-2 sm:px-4">
                     "{testimonial.text}"
                   </p>
                 </Card>
@@ -300,7 +299,7 @@ const LandingPage = () => {
           </div>
 
           {/* Testimonial Indicators */}
-          <div className="flex justify-center mt-8 gap-2">
+          <div className="flex justify-center mt-6 sm:mt-8 gap-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
