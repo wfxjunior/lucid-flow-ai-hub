@@ -14,6 +14,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import Feedback from "./pages/Feedback";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
+import AdminPage from "./pages/AdminPage";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<AdminPage />} />
             <Route path="/dashboard" element={
               <AuthGuard>
                 <Index />

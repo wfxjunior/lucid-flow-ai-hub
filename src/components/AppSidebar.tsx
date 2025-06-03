@@ -1,7 +1,8 @@
+
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield
 } from "lucide-react"
 import {
   Sidebar,
@@ -152,6 +153,11 @@ const analytics = [
 
 const systemTools = [
   {
+    title: "Admin Panel",
+    icon: Shield,
+    view: "admin-panel"
+  },
+  {
     title: "Features",
     icon: Lightbulb,
     view: "features"
@@ -186,6 +192,16 @@ const systemTools = [
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   console.log('AppSidebar rendering with activeView:', activeView)
   
+  const handleMenuClick = (view: string) => {
+    console.log('Clicked on:', view)
+    if (view === "admin-panel") {
+      // Navigate to the dedicated admin page
+      window.location.href = "/admin"
+    } else {
+      setActiveView(view)
+    }
+  }
+  
   const renderMenuSection = (items: typeof mainFeatures, sectionTitle: string) => (
     <SidebarGroup className="py-2">
       <SidebarGroupLabel className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -196,10 +212,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           {items.map((item) => (
             <SidebarMenuItem key={item.view}>
               <SidebarMenuButton 
-                onClick={() => {
-                  console.log('Clicked on:', item.view)
-                  setActiveView(item.view)
-                }}
+                onClick={() => handleMenuClick(item.view)}
                 isActive={activeView === item.view}
                 className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 cursor-pointer"
               >
