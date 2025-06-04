@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
+import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X } from "lucide-react"
@@ -279,18 +280,24 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Animated Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16 lg:mt-20 max-w-4xl mx-auto px-4 sm:px-0">
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">10,000+</div>
+            <div className="text-center animate-fade-in opacity-0" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
+                <AnimatedNumber value={10000} suffix="+" delay={200} />
+              </div>
               <div className="text-sm sm:text-base text-gray-600">Active Businesses</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">99.9%</div>
+            <div className="text-center animate-fade-in opacity-0" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
+                <AnimatedNumber value={99.9} decimals={1} suffix="%" delay={400} />
+              </div>
               <div className="text-sm sm:text-base text-gray-600">Uptime Guaranteed</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">4.9★</div>
+            <div className="text-center animate-fade-in opacity-0" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
+                <AnimatedNumber value={4.9} decimals={1} suffix="★" delay={600} />
+              </div>
               <div className="text-sm sm:text-base text-gray-600">User Rating</div>
             </div>
           </div>
