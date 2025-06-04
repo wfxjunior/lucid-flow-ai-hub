@@ -23,7 +23,6 @@ const clientSchema = z.object({
   email: z.string().email("Valid email is required"),
   phone: z.string().optional(),
   address: z.string().optional(),
-  industry: z.string().optional(),
 })
 
 const lineItemSchema = z.object({
@@ -63,9 +62,7 @@ export function InvoiceForm() {
   const [invoiceNumber, setInvoiceNumber] = useState("")
   const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split('T')[0])
   const [invoiceStatus, setInvoiceStatus] = useState<'draft' | 'sent' | 'paid' | 'overdue'>('draft')
-  const [lineItems, setLineItems] = useState<LineItem[]>([
-    { type: "service", description: "", quantity: 1, rate: 0, tax_rate: 0, amount: 0 }
-  ])
+  const [lineItems, setLineItems] = useState<LineItem[]>([])
   const [user, setUser] = useState<User | null>(null)
   const [totals, setTotals] = useState<InvoiceTotals>({
     subtotal: 0,
@@ -76,22 +73,6 @@ export function InvoiceForm() {
     balanceDue: 0
   })
 
-  const industries = [
-    "Paver",
-    "Gutter", 
-    "Handyman Services",
-    "Barbershop",
-    "Flooring",
-    "Plumbing",
-    "Painting",
-    "Electrician",
-    "Beauty",
-    "Landscaping",
-    "IT",
-    "General Services",
-    "Others"
-  ]
-
   const clientForm = useForm<ClientFormData>({
     resolver: zodResolver(clientSchema),
     defaultValues: {
@@ -99,7 +80,6 @@ export function InvoiceForm() {
       email: "",
       phone: "",
       address: "",
-      industry: "",
     },
   })
 
@@ -115,10 +95,32 @@ export function InvoiceForm() {
     },
   })
 
-  // Generate invoice number on component mount
+  // Initialize with pre-filled template data
   useEffect(() => {
     generateInvoiceNumber()
+    initializeTemplate()
   }, [])
+
+  const initializeTemplate = () => {
+    // Pre-fill with sample data similar to the uploaded image
+    const templateLineItems: LineItem[] = [
+      { type: "service", description: "TILE REMOVAL", quantity: 1, rate: 800, tax_rate: 0, amount: 800 },
+      { type: "service", description: "VINYL REMOVAL", quantity: 1, rate: 400, tax_rate: 0, amount: 400 },
+      { type: "service", description: "TILE INSTALLATION AND 1/4 ROUND", quantity: 1, rate: 3600, tax_rate: 0, amount: 3600 },
+      { type: "service", description: "CARPET INSTALLATION", quantity: 1, rate: 1650, tax_rate: 0, amount: 1650 }
+    ]
+    
+    setLineItems(templateLineItems)
+    
+    // Set template invoice data
+    invoiceForm.setValue("title", "Flooring Services Invoice")
+    invoiceForm.setValue("description", "ESTIMATED TIME: 4-6 DAYS\nPAYMENTS: CHECK, CREDIT CARD (3%) MACHINE FEE, ZELLE\n50% BEFORE 50% AFTER FINISHED")
+    
+    // Set due date to 30 days from now
+    const dueDate = new Date()
+    dueDate.setDate(dueDate.getDate() + 30)
+    invoiceForm.setValue("due_date", dueDate.toISOString().split('T')[0])
+  }
 
   // Calculate totals when line items change
   useEffect(() => {
@@ -437,30 +439,6 @@ export function InvoiceForm() {
                                           <FormLabel>Address (Optional)</FormLabel>
                                           <FormControl>
                                             <Textarea placeholder="Client address" {...field} />
-                                          </FormControl>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                    <FormField
-                                      control={clientForm.control}
-                                      name="industry"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel>Industry (Optional)</FormLabel>
-                                          <FormControl>
-                                            <Select onValueChange={field.onChange} value={field.value}>
-                                              <SelectTrigger>
-                                                <SelectValue placeholder="Select industry" />
-                                              </SelectTrigger>
-                                              <SelectContent>
-                                                {industries.map((industry) => (
-                                                  <SelectItem key={industry} value={industry}>
-                                                    {industry}
-                                                  </SelectItem>
-                                                ))}
-                                              </SelectContent>
-                                            </Select>
                                           </FormControl>
                                           <FormMessage />
                                         </FormItem>

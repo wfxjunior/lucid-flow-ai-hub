@@ -1,18 +1,14 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell } from "recharts"
 import { FileText, Plus, Send, Eye, Download, Calendar, DollarSign, Users, TrendingUp } from "lucide-react"
+import { CreateInvoice } from "./CreateInvoice"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 export function InvoiceCreator() {
-  const [selectedIndustry, setSelectedIndustry] = useState("")
-
-  const industries = [
-    "Construction", "Consulting", "Technology", "Healthcare", 
-    "Legal Services", "Marketing", "Real Estate", "Education"
-  ]
+  const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false)
 
   const monthlyInvoiceData = [
     { month: 'Jan', sent: 23, paid: 20, pending: 3 },
@@ -113,29 +109,24 @@ export function InvoiceCreator() {
             Create New Invoice
           </CardTitle>
           <CardDescription>
-            AI-powered invoice creation with industry-specific templates
+            Start with a pre-filled template and customize as needed
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Select Industry</label>
-            <select 
-              value={selectedIndustry}
-              onChange={(e) => setSelectedIndustry(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2"
-            >
-              <option value="">Choose your industry...</option>
-              {industries.map((industry) => (
-                <option key={industry} value={industry}>{industry}</option>
-              ))}
-            </select>
-          </div>
-          
           <div className="flex gap-4">
-            <Button className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Create Invoice
-            </Button>
+            <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
+              <DialogTrigger asChild>
+                <Button className="flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  Create Invoice
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-[95vw] max-h-[95vh] w-full overflow-hidden p-0">
+                <div className="h-full overflow-y-auto">
+                  <CreateInvoice />
+                </div>
+              </DialogContent>
+            </Dialog>
             <Button variant="outline" className="flex items-center gap-2">
               <Download className="h-4 w-4" />
               Use Template
