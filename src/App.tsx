@@ -8,7 +8,6 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthGuard } from "./components/AuthGuard";
 import LandingPage from "./pages/LandingPage";
 import Index from "./pages/Index";
-import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Feedback from "./pages/Feedback";
@@ -27,7 +26,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<Auth />} />
+            <Route path="/auth" element={<LandingPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/dashboard" element={
               <AuthGuard>
