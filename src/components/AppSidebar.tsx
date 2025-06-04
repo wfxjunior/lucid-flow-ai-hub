@@ -195,6 +195,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   console.log('AppSidebar rendering with activeView:', activeView)
   const isMobile = useIsMobile()
   
+  console.log('isMobile state:', isMobile) // Debug log to check mobile detection
+  
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
     if (view === "admin-panel") {
@@ -238,17 +240,18 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
             <h2 className="text-lg font-bold text-blue-600">FeatherBiz</h2>
             <p className="text-xs text-gray-500">AI-Powered Business Platform</p>
           </div>
-          {isMobile && (
+          {/* Always show button on screens smaller than md (768px) */}
+          <div className="md:hidden">
             <Button 
               variant="outline" 
               size="sm" 
               onClick={() => handleMenuClick("dashboard")}
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 text-xs"
             >
               <Home className="w-3.5 h-3.5" />
               Dashboard
             </Button>
-          )}
+          </div>
         </div>
 
         {/* Main Features */}
