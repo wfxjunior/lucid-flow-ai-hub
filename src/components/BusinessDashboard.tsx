@@ -1,10 +1,10 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Users, DollarSign, FileText, Clock, CheckCircle, TrendingUp, Download } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { QuickActions } from "@/components/QuickActions"
 
 export function BusinessDashboard() {
   const { workOrders, clients, estimates, contracts, signatures, appointments, loading } = useBusinessData()
@@ -216,6 +216,9 @@ export function BusinessDashboard() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Quick Actions */}
+      <QuickActions />
     </div>
   )
 }
