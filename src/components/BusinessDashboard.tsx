@@ -6,7 +6,11 @@ import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { QuickActions } from "@/components/QuickActions"
 
-export function BusinessDashboard() {
+interface BusinessDashboardProps {
+  onNavigate?: (view: string) => void
+}
+
+export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
   const { workOrders, clients, estimates, contracts, signatures, appointments, loading } = useBusinessData()
   const { generateAnalyticsReportPDF, isGenerating } = usePDFGeneration()
 
@@ -57,6 +61,35 @@ export function BusinessDashboard() {
 
   const handleGenerateDashboardReport = async () => {
     await generateAnalyticsReportPDF(dashboardData)
+  }
+
+  const handleQuickActionClick = (actionId: string) => {
+    console.log('Quick action clicked:', actionId)
+    
+    // Map action IDs to their respective views
+    const actionToViewMap: { [key: string]: string } = {
+      'invoices': 'invoice-creator',
+      'estimates': 'estimates',
+      'work-orders': 'work-orders',
+      'quotes': 'quotes',
+      'todo-list': 'todo-list',
+      'ai-voice': 'ai-voice',
+      'features': 'features',
+      'files': 'files',
+      'appointments': 'appointments',
+      'customers': 'customer-management',
+      'payments': 'payments',
+      'e-signatures': 'e-signatures',
+      'messages': 'messages',
+      'email-center': 'email-center',
+      'analytics': 'analytics',
+      'receipts': 'accounting'
+    }
+
+    const targetView = actionToViewMap[actionId]
+    if (targetView && onNavigate) {
+      onNavigate(targetView)
+    }
   }
 
   return (
@@ -218,7 +251,7 @@ export function BusinessDashboard() {
       </Card>
 
       {/* Quick Actions */}
-      <QuickActions />
+      <QuickActions onActionClick={handleQuickActionClick} />
     </div>
   )
 }

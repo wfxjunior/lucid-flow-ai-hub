@@ -26,7 +26,7 @@ export default function Index() {
   const renderActiveView = () => {
     switch (activeView) {
       case "dashboard":
-        return <BusinessDashboard />
+        return <BusinessDashboard onNavigate={setActiveView} />
       case "invoice-creator":
         return <InvoiceCreator />
       case "customer-management":
@@ -58,7 +58,7 @@ export default function Index() {
       case "accounting":
         return <AccountingPage />
       default:
-        return <BusinessDashboard />
+        return <BusinessDashboard onNavigate={setActiveView} />
     }
   }
 
