@@ -1,10 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Users, DollarSign, FileText, Clock, CheckCircle, TrendingUp, Download } from "lucide-react"
+import { Calendar, Users, DollarSign, FileText, Clock, CheckCircle, TrendingUp, Download, Menu } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { QuickActions } from "@/components/QuickActions"
+import { useSidebar } from "@/components/ui/sidebar"
 
 interface BusinessDashboardProps {
   onNavigate?: (view: string) => void
@@ -13,6 +14,7 @@ interface BusinessDashboardProps {
 export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
   const { workOrders, clients, estimates, contracts, signatures, appointments, loading } = useBusinessData()
   const { generateAnalyticsReportPDF, isGenerating } = usePDFGeneration()
+  const { toggleSidebar } = useSidebar()
 
   if (loading) {
     return (
@@ -101,10 +103,16 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
             Your business performance at a glance
           </p>
         </div>
-        <Button onClick={handleGenerateDashboardReport} disabled={isGenerating} variant="outline">
-          <Download className="mr-2 h-4 w-4" />
-          {isGenerating ? 'Generating...' : 'Export Report'}
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={toggleSidebar} variant="outline" size="sm">
+            <Menu className="mr-2 h-4 w-4" />
+            Menu
+          </Button>
+          <Button onClick={handleGenerateDashboardReport} disabled={isGenerating} variant="outline">
+            <Download className="mr-2 h-4 w-4" />
+            {isGenerating ? 'Generating...' : 'Export Report'}
+          </Button>
+        </div>
       </div>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
