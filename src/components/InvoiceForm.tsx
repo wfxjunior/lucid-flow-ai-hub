@@ -59,6 +59,7 @@ interface InvoiceTotals {
 export function InvoiceForm() {
   const { allClients, createClient, loading } = useBusinessData()
   const [isNewClientDialogOpen, setIsNewClientDialogOpen] = useState(false)
+  const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false)
   const [invoiceNumber, setInvoiceNumber] = useState("")
   const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split('T')[0])
   const [invoiceStatus, setInvoiceStatus] = useState<'draft' | 'sent' | 'paid' | 'overdue'>('draft')
@@ -233,13 +234,34 @@ export function InvoiceForm() {
     }
   }
 
-  const handleSendInvoice = () => {
-    if (invoiceForm.formState.isValid) {
-      setInvoiceStatus('sent')
-      toast.success("Invoice sent to client successfully")
-    } else {
-      toast.error("Please fill all required fields before sending")
+  const handlePreviewInvoice = () => {
+    if (!selectedClient) {
+      toast.error("Please select a client before previewing")
+      return
     }
+    if (lineItems.length === 0 || lineItems.every(item => !item.description)) {
+      toast.error("Please add at least one line item with description")
+      return
+    }
+    setIsPreviewDialogOpen(true)
+  }
+
+  const handleSendInvoice = () => {
+    if (!selectedClient) {
+      toast.error("Please select a client before sending")
+      return
+    }
+    if (lineItems.length === 0 || lineItems.every(item => !item.description)) {
+      toast.error("Please add at least one line item with description")
+      return
+    }
+    if (!invoiceForm.watch("title")) {
+      toast.error("Please add an invoice title")
+      return
+    }
+    
+    setInvoiceStatus('sent')
+    toast.success(`Invoice sent to ${selectedClient.name} at ${selectedClient.email}`)
   }
 
   const handleMarkAsPaid = () => {
@@ -633,10 +655,146 @@ export function InvoiceForm() {
                       <Send className="mr-2 h-4 w-4" />
                       Send to Client
                     </Button>
-                    <Button type="button" variant="outline" className="w-full sm:w-auto">
-                      <Eye className="mr-2 h-4 w-4" />
-                      Preview
-                    </Button>
+                    <Dialog open={isPreviewDialogOpen} onOpenChange={setIsPreviewDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={handlePreviewInvoice}
+                          className="w-full sm:w-auto"
+                        >
+                          <Eye className="mr-2 h-4 w-4" />
+                          Preview
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <DialogHeader>
+                          <DialogTitle>Invoice Preview</DialogTitle>
+                          <DialogDescription>
+                            Preview of {invoiceNumber} for {selectedClient?.name}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="bg-white p-8 border rounded-lg">
+                          {/* Invoice Preview Content */}
+                          <div className="space-y-6">
+                            {/* Header */}
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h1 className="text-2xl font-bold text-gray-900">FeatherBiz</h1>
+                                <p className="text-sm text-gray-600">
+                                  123 Business St, Suite 100<br />
+                                  Business City, BC 12345<br />
+                                  (555) 123-4567 | info@featherbiz.com
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <h2 className="text-xl font-bold text-gray-900">INVOICE</h2>
+                                <p className="text-sm text-gray-600">#{invoiceNumber}</p>
+                                <p className="text-sm text-gray-600">Date: {invoiceDate}</p>
+                                {invoiceForm.watch("due_date") && (
+                                  <p className="text-sm text-gray-600">Due: {invoiceForm.watch("due_date")}</p>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Bill To */}
+                            <div>
+                              <h3 className="text-lg font-semibold text-gray-900 mb-2">Bill To:</h3>
+                              <div className="bg-gray-50 p-4 rounded">
+                                <p className="font-medium">{selectedClient?.name}</p>
+                                <p className="text-sm text-gray-600">{selectedClient?.email}</p>
+                                {selectedClient?.phone && (
+                                  <p className="text-sm text-gray-600">{selectedClient.phone}</p>
+                                )}
+                                {selectedClient?.address && (
+                                  <p className="text-sm text-gray-600">{selectedClient.address}</p>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Invoice Title */}
+                            {invoiceForm.watch("title") && (
+                              <div>
+                                <h3 className="text-lg font-semibold text-gray-900">{invoiceForm.watch("title")}</h3>
+                              </div>
+                            )}
+
+                            {/* Line Items Table */}
+                            <div>
+                              <table className="w-full border-collapse border border-gray-200">
+                                <thead>
+                                  <tr className="bg-gray-50">
+                                    <th className="border border-gray-200 p-3 text-left">Description</th>
+                                    <th className="border border-gray-200 p-3 text-center">Qty</th>
+                                    <th className="border border-gray-200 p-3 text-right">Rate</th>
+                                    <th className="border border-gray-200 p-3 text-right">Amount</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {lineItems.filter(item => item.description).map((item, index) => (
+                                    <tr key={index}>
+                                      <td className="border border-gray-200 p-3">
+                                        <div>
+                                          <span className="font-medium">{item.description}</span>
+                                          <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                            {item.type}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="border border-gray-200 p-3 text-center">{item.quantity}</td>
+                                      <td className="border border-gray-200 p-3 text-right">${item.rate.toFixed(2)}</td>
+                                      <td className="border border-gray-200 p-3 text-right">${item.amount.toFixed(2)}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+
+                            {/* Totals */}
+                            <div className="flex justify-end">
+                              <div className="w-64 space-y-2">
+                                <div className="flex justify-between">
+                                  <span>Subtotal:</span>
+                                  <span>${totals.subtotal.toFixed(2)}</span>
+                                </div>
+                                {totals.discount > 0 && (
+                                  <div className="flex justify-between text-green-600">
+                                    <span>Discount:</span>
+                                    <span>-${totals.discount.toFixed(2)}</span>
+                                  </div>
+                                )}
+                                {totals.tax > 0 && (
+                                  <div className="flex justify-between">
+                                    <span>Tax:</span>
+                                    <span>${totals.tax.toFixed(2)}</span>
+                                  </div>
+                                )}
+                                <Separator />
+                                <div className="flex justify-between text-lg font-bold">
+                                  <span>Total:</span>
+                                  <span>${totals.total.toFixed(2)}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Notes */}
+                            {invoiceForm.watch("description") && (
+                              <div>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">Notes & Terms:</h3>
+                                <p className="text-sm text-gray-600 whitespace-pre-line">
+                                  {invoiceForm.watch("description")}
+                                </p>
+                              </div>
+                            )}
+
+                            {/* Footer */}
+                            <div className="text-center text-xs text-gray-500 mt-8 pt-4 border-t">
+                              <p>Thank you for your business!</p>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                     <Button type="button" variant="outline" className="w-full sm:w-auto">
                       <Printer className="mr-2 h-4 w-4" />
                       Print
