@@ -27,7 +27,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<LandingPage />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/dashboard" element={
               <AuthGuard>
