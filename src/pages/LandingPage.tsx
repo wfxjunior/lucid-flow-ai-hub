@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
+import { LanguageSelector } from "@/components/LanguageSelector"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award } from "lucide-react"
@@ -11,33 +12,33 @@ const LandingPage = () => {
   const features = [
     {
       icon: Users,
-      title: "Customer Management",
-      description: "Manage your customers efficiently with our comprehensive CRM system"
+      title: "Gestão de Clientes",
+      description: "Gerencie seus clientes de forma eficiente com nosso sistema CRM abrangente"
     },
     {
       icon: Shield,
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security with 99.9% uptime guarantee"
+      title: "Seguro e Confiável",
+      description: "Segurança de nível empresarial com garantia de 99,9% de tempo de atividade"
     },
     {
       icon: Zap,
-      title: "AI-Powered",
-      description: "Leverage artificial intelligence to automate and optimize your workflow"
+      title: "Potencializado por IA",
+      description: "Aproveite a inteligência artificial para automatizar e otimizar seu fluxo de trabalho"
     },
     {
       icon: TrendingUp,
-      title: "Analytics Dashboard",
-      description: "Get insights with powerful analytics and reporting tools"
+      title: "Dashboard de Analytics",
+      description: "Obtenha insights com ferramentas poderosas de análise e relatórios"
     },
     {
       icon: MessageSquare,
-      title: "Voice Assistant",
-      description: "Control your business with AI voice commands and assistance"
+      title: "Assistente de Voz",
+      description: "Controle seu negócio com comandos de voz e assistência de IA"
     },
     {
       icon: Award,
-      title: "Professional Tools",
-      description: "Create invoices, contracts, and documents with ease"
+      title: "Ferramentas Profissionais",
+      description: "Crie faturas, contratos e documentos com facilidade"
     }
   ]
 
@@ -45,42 +46,42 @@ const LandingPage = () => {
     {
       name: "Maria Silva",
       role: "CEO, TechStart",
-      content: "FeatherBiz transformed our business operations. The AI features saved us countless hours every week.",
+      content: "FeatherBiz transformou nossas operações comerciais. Os recursos de IA nos pouparam incontáveis horas todas as semanas.",
       rating: 5
     },
     {
       name: "João Santos",
       role: "Freelancer",
-      content: "Finally, a platform that understands small business needs. The invoice system is incredible!",
+      content: "Finalmente, uma plataforma que entende as necessidades de pequenas empresas. O sistema de faturas é incrível!",
       rating: 5
     },
     {
       name: "Ana Costa",
-      role: "Business Owner",
-      content: "The voice assistant feature is a game-changer. I can manage everything hands-free while working.",
+      role: "Proprietária de Negócio",
+      content: "O recurso de assistente de voz é revolucionário. Posso gerenciar tudo sem usar as mãos enquanto trabalho.",
       rating: 5
     }
   ]
 
   const pricingPlans = [
     {
-      name: "Starter",
-      price: "Free",
-      description: "Perfect for getting started",
-      features: ["Up to 10 customers", "Basic invoicing", "Email support", "Mobile app access"]
+      name: "Iniciante",
+      price: "Grátis",
+      description: "Perfeito para começar",
+      features: ["Até 10 clientes", "Faturamento básico", "Suporte por email", "Acesso ao app móvel"]
     },
     {
-      name: "Professional",
-      price: "$29/mês",
-      description: "For growing businesses",
-      features: ["Unlimited customers", "AI voice assistant", "Advanced analytics", "Priority support", "Custom branding"],
+      name: "Profissional",
+      price: "R$ 89/mês",
+      description: "Para negócios em crescimento",
+      features: ["Clientes ilimitados", "Assistente de voz IA", "Analytics avançado", "Suporte prioritário", "Marca personalizada"],
       popular: true
     },
     {
-      name: "Enterprise",
-      price: "$99/mês",
-      description: "For large organizations",
-      features: ["Everything in Professional", "White-label solution", "API access", "Dedicated support", "Custom integrations"]
+      name: "Empresarial",
+      price: "R$ 299/mês",
+      description: "Para grandes organizações",
+      features: ["Tudo do Profissional", "Solução white-label", "Acesso à API", "Suporte dedicado", "Integrações customizadas"]
     }
   ]
 
@@ -92,7 +93,7 @@ const LandingPage = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-blue-600">FeatherBiz</h1>
-              <span className="ml-2 text-sm text-gray-500">AI-Powered Business Platform</span>
+              <span className="ml-2 text-sm text-gray-500">Plataforma Empresarial com IA</span>
             </div>
             <div className="flex items-center gap-4">
               <Button 
@@ -264,7 +265,7 @@ const LandingPage = () => {
                     className={`w-full mt-6 ${plan.popular ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700'}`}
                     onClick={() => navigate('/dashboard')}
                   >
-                    {plan.price === 'Free' ? 'Começar Grátis' : 'Escolher Plano'}
+                    {plan.price === 'Grátis' ? 'Começar Grátis' : 'Escolher Plano'}
                   </Button>
                 </CardContent>
               </Card>
@@ -350,7 +351,10 @@ const LandingPage = () => {
             <p className="text-gray-400 text-sm">
               © 2024 FeatherBiz. Todos os direitos reservados.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex items-center space-x-6 mt-4 md:mt-0">
+              <div className="w-48">
+                <LanguageSelector />
+              </div>
               <a href="#" className="text-gray-400 hover:text-white text-sm">Privacidade</a>
               <a href="#" className="text-gray-400 hover:text-white text-sm">Termos</a>
               <a href="#" className="text-gray-400 hover:text-white text-sm">Cookies</a>
