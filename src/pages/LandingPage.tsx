@@ -4,7 +4,7 @@ import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award } from "lucide-react"
+import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather } from "lucide-react"
 
 const LandingPage = () => {
   const navigate = useNavigate()
@@ -92,7 +92,10 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-600">FeatherBiz</h1>
+              <div className="flex items-center">
+                <Feather className="h-8 w-8 text-blue-600 mr-2" />
+                <h1 className="text-2xl font-bold text-blue-600">FeatherBiz</h1>
+              </div>
               <span className="ml-2 text-sm text-gray-500">Plataforma Empresarial com IA</span>
             </div>
             <div className="flex items-center gap-4">
@@ -131,9 +134,9 @@ const LandingPage = () => {
             <Button 
               onClick={() => navigate('/dashboard')}
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 px-8 py-4 text-lg"
+              className="bg-green-600 hover:bg-green-700 px-8 py-4 text-lg"
             >
-              Começar Agora <ArrowRight className="ml-2 h-5 w-5" />
+              Experimente Grátis <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
               onClick={() => navigate('/admin')}
@@ -308,7 +311,10 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <h3 className="text-2xl font-bold text-blue-400 mb-4">FeatherBiz</h3>
+              <div className="flex items-center mb-4">
+                <Feather className="h-8 w-8 text-blue-400 mr-2" />
+                <h3 className="text-2xl font-bold text-blue-400">FeatherBiz</h3>
+              </div>
               <p className="text-gray-300 mb-6 max-w-md">
                 A plataforma de gestão empresarial mais avançada, 
                 potencializada por inteligência artificial para fazer seu negócio crescer.
