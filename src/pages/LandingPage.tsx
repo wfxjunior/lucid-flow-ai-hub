@@ -12,59 +12,59 @@ const LandingPage = () => {
   const features = [
     {
       icon: Users,
-      title: "Gestão de Clientes",
-      description: "Gerencie seus clientes de forma eficiente com nosso sistema CRM abrangente",
-      highlight: "CRM Completo"
+      title: "Customer Management",
+      description: "Efficiently manage your clients with our comprehensive CRM system",
+      highlight: "Complete CRM"
     },
     {
       icon: Shield,
-      title: "Seguro e Confiável",
-      description: "Segurança de nível empresarial com garantia de 99,9% de tempo de atividade",
+      title: "Secure & Reliable",
+      description: "Enterprise-grade security with 99.9% uptime guarantee",
       highlight: "99.9% Uptime"
     },
     {
       icon: Zap,
-      title: "Potencializado por IA",
-      description: "Aproveite a inteligência artificial para automatizar e otimizar seu fluxo de trabalho",
-      highlight: "IA Integrada"
+      title: "AI-Powered",
+      description: "Leverage artificial intelligence to automate and optimize your workflow",
+      highlight: "Integrated AI"
     },
     {
       icon: TrendingUp,
-      title: "Dashboard de Analytics",
-      description: "Obtenha insights com ferramentas poderosas de análise e relatórios",
-      highlight: "Analytics Avançado"
+      title: "Analytics Dashboard",
+      description: "Gain insights with powerful analytics and reporting tools",
+      highlight: "Advanced Analytics"
     },
     {
       icon: MessageSquare,
-      title: "Assistente de Voz",
-      description: "Controle seu negócio com comandos de voz e assistência de IA",
-      highlight: "Comando de Voz"
+      title: "Voice Assistant",
+      description: "Control your business with voice commands and AI assistance",
+      highlight: "Voice Command"
     },
     {
       icon: Award,
-      title: "Ferramentas Profissionais",
-      description: "Crie faturas, contratos e documentos com facilidade",
-      highlight: "Documentos Pro"
+      title: "Professional Tools",
+      description: "Create invoices, contracts and documents with ease",
+      highlight: "Pro Documents"
     }
   ]
 
   const useCases = [
     {
       icon: Building2,
-      title: "Empresas",
-      description: "Gerencie operações complexas com ferramentas empresariais",
-      metrics: "500+ empresas"
+      title: "Enterprises",
+      description: "Manage complex operations with enterprise tools",
+      metrics: "500+ companies"
     },
     {
       icon: Users,
       title: "Startups",
-      description: "Escale rapidamente com automação inteligente",
+      description: "Scale quickly with intelligent automation",
       metrics: "1000+ startups"
     },
     {
       icon: Globe,
       title: "Freelancers",
-      description: "Organize projetos e clientes em um só lugar",
+      description: "Organize projects and clients in one place",
       metrics: "5000+ freelancers"
     }
   ]
@@ -73,55 +73,55 @@ const LandingPage = () => {
     {
       name: "Maria Silva",
       role: "CEO, TechStart",
-      content: "FeatherBiz transformou nossas operações comerciais. Os recursos de IA nos pouparam incontáveis horas todas as semanas.",
+      content: "FeatherBiz transformed our business operations. The AI features have saved us countless hours every week.",
       rating: 5,
       company: "TechStart",
       avatar: "MS"
     },
     {
-      name: "João Santos",
+      name: "John Santos",
       role: "Freelancer",
-      content: "Finalmente, uma plataforma que entende as necessidades de pequenas empresas. O sistema de faturas é incrível!",
+      content: "Finally, a platform that understands small business needs. The invoice system is amazing!",
       rating: 5,
-      company: "Independente",
+      company: "Independent",
       avatar: "JS"
     },
     {
       name: "Ana Costa",
-      role: "Proprietária de Negócio",
-      content: "O recurso de assistente de voz é revolucionário. Posso gerenciar tudo sem usar as mãos enquanto trabalho.",
+      role: "Business Owner",
+      content: "The voice assistant feature is revolutionary. I can manage everything hands-free while working.",
       rating: 5,
-      company: "Costa & Cia",
+      company: "Costa & Co",
       avatar: "AC"
     }
   ]
 
   const pricingPlans = [
     {
-      name: "Iniciante",
-      price: "Grátis",
+      name: "Starter",
+      price: "Free",
       period: "",
-      description: "Perfeito para começar",
-      features: ["Até 10 clientes", "Faturamento básico", "Suporte por email", "Acesso ao app móvel"],
-      cta: "Começar Grátis",
+      description: "Perfect to get started",
+      features: ["Up to 10 clients", "Basic invoicing", "Email support", "Mobile app access"],
+      cta: "Start Free",
       popular: false
     },
     {
-      name: "Profissional",
-      price: "R$ 89",
-      period: "/mês",
-      description: "Para negócios em crescimento",
-      features: ["Clientes ilimitados", "Assistente de voz IA", "Analytics avançado", "Suporte prioritário", "Marca personalizada"],
-      cta: "Teste Grátis 14 dias",
+      name: "Professional",
+      price: "$89",
+      period: "/month",
+      description: "For growing businesses",
+      features: ["Unlimited clients", "AI voice assistant", "Advanced analytics", "Priority support", "Custom branding"],
+      cta: "Free 14-day Trial",
       popular: true
     },
     {
-      name: "Empresarial",
-      price: "R$ 299",
-      period: "/mês",
-      description: "Para grandes organizações",
-      features: ["Tudo do Profissional", "Solução white-label", "Acesso à API", "Suporte dedicado", "Integrações customizadas"],
-      cta: "Falar com Vendas",
+      name: "Enterprise",
+      price: "$299",
+      period: "/month",
+      description: "For large organizations",
+      features: ["Everything in Professional", "White-label solution", "API access", "Dedicated support", "Custom integrations"],
+      cta: "Talk to Sales",
       popular: false
     }
   ]
@@ -146,13 +146,13 @@ const LandingPage = () => {
                 <Feather className="h-8 w-8 text-blue-600 mr-2" />
                 <h1 className="text-2xl font-bold text-gray-900">FeatherBiz</h1>
               </div>
-              <span className="ml-3 text-sm text-gray-500 hidden md:block">Plataforma Empresarial com IA</span>
+              <span className="ml-3 text-sm text-gray-500 hidden md:block">AI-Powered Business Platform</span>
             </div>
             
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Recursos</a>
-              <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Preços</a>
-              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Clientes</a>
+              <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+              <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Customers</a>
             </nav>
 
             <div className="flex items-center gap-3">
@@ -161,13 +161,13 @@ const LandingPage = () => {
                 variant="ghost"
                 className="text-gray-600 hover:text-blue-600"
               >
-                Entrar
+                Sign In
               </Button>
               <Button 
                 onClick={() => navigate('/dashboard')}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
-                Experimente Grátis
+                Try It Free
               </Button>
               <UserGreeting />
             </div>
@@ -182,17 +182,17 @@ const LandingPage = () => {
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
               <Zap className="w-4 h-4 mr-2" />
-              Novo: Assistente de IA com comandos de voz
+              New: AI Assistant with Voice Commands
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Transforme Seu Negócio com
-              <span className="text-blue-600 block"> Inteligência Artificial</span>
+              Transform Your Business with
+              <span className="text-blue-600 block">Artificial Intelligence</span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-              A única plataforma que você precisa para gerenciar clientes, criar documentos, 
-              automatizar processos e fazer seu negócio crescer com o poder da IA.
+              The only platform you need to manage customers, create documents,
+              automate processes, and grow your business with the power of AI.
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
@@ -202,7 +202,7 @@ const LandingPage = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg h-14"
               >
                 <Play className="w-5 h-5 mr-2" />
-                Experimente Grátis por 14 dias
+                Try Free for 14 Days
               </Button>
               <Button 
                 onClick={() => navigate('/admin')}
@@ -211,22 +211,22 @@ const LandingPage = () => {
                 className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg h-14"
               >
                 <Play className="w-5 h-5 mr-2" />
-                Ver Demo ao Vivo
+                Watch Live Demo
               </Button>
             </div>
 
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 text-sm text-gray-500">
               <div className="flex items-center">
                 <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
-                Sem cartão de crédito
+                No credit card required
               </div>
               <div className="flex items-center">
                 <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
-                Configuração em 2 minutos
+                2-minute setup
               </div>
               <div className="flex items-center">
                 <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
-                Cancele a qualquer momento
+                Cancel anytime
               </div>
             </div>
           </div>
@@ -235,15 +235,15 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 mb-2">10,000+</div>
-              <div className="text-gray-600">Empresas Ativas</div>
+              <div className="text-gray-600">Active Businesses</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 mb-2">99.9%</div>
-              <div className="text-gray-600">Uptime Garantido</div>
+              <div className="text-gray-600">Uptime Guaranteed</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 mb-2">4.9★</div>
-              <div className="text-gray-600">Avaliação dos Usuários</div>
+              <div className="text-gray-600">User Rating</div>
             </div>
           </div>
         </div>
@@ -252,7 +252,7 @@ const LandingPage = () => {
       {/* Social Proof */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-gray-500 mb-8">Confiado por milhares de empresas</p>
+          <p className="text-center text-gray-500 mb-8">Trusted by thousands of companies</p>
           <div className="flex justify-center items-center gap-12 opacity-60">
             {integrations.map((integration, index) => (
               <div key={index} className="flex items-center space-x-2">
@@ -269,11 +269,11 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Tudo que Você Precisa em Uma Plataforma
+              Everything You Need in One Platform
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Desde gestão de clientes até automação com IA, tenha todas as ferramentas 
-              necessárias para fazer seu negócio prosperar.
+              From customer management to AI automation, have all the tools
+              necessary to make your business thrive.
             </p>
           </div>
 
@@ -302,7 +302,7 @@ const LandingPage = () => {
                     {feature.description}
                   </CardDescription>
                   <div className="flex items-center mt-4 text-blue-600 group-hover:text-blue-700">
-                    <span className="text-sm font-medium">Saiba mais</span>
+                    <span className="text-sm font-medium">Learn more</span>
                     <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </CardContent>
@@ -317,10 +317,10 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Para Qualquer Tipo de Negócio
+              For Any Type of Business
             </h2>
             <p className="text-xl text-gray-600">
-              Seja você uma startup, empresa ou freelancer, temos a solução ideal
+              Whether you're a startup, enterprise, or freelancer, we have the ideal solution
             </p>
           </div>
 
@@ -350,10 +350,10 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Amado por Milhares de Empresas
+              Loved by Thousands of Businesses
             </h2>
             <p className="text-xl text-gray-600">
-              Veja o que nossos clientes estão dizendo sobre o FeatherBiz
+              See what our customers are saying about FeatherBiz
             </p>
           </div>
 
@@ -391,17 +391,17 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Preços Simples e Transparentes
+              Simple and Transparent Pricing
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              Escolha o plano ideal para seu negócio. Sem taxas ocultas.
+              Choose the ideal plan for your business. No hidden fees.
             </p>
             <div className="inline-flex bg-gray-100 p-1 rounded-lg">
               <button className="px-4 py-2 text-sm font-medium text-gray-900 bg-white rounded-md shadow-sm">
-                Mensal
+                Monthly
               </button>
               <button className="px-4 py-2 text-sm font-medium text-gray-500">
-                Anual (20% off)
+                Annual (20% off)
               </button>
             </div>
           </div>
@@ -412,7 +412,7 @@ const LandingPage = () => {
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium">
-                      Mais Popular
+                      Most Popular
                     </span>
                   </div>
                 )}
@@ -445,13 +445,13 @@ const LandingPage = () => {
           </div>
 
           <div className="text-center mt-12">
-            <p className="text-gray-600 mb-4">Precisa de algo personalizado?</p>
+            <p className="text-gray-600 mb-4">Need something custom?</p>
             <Button 
               variant="outline"
               onClick={() => navigate('/contact')}
               className="border-blue-600 text-blue-600 hover:bg-blue-50"
             >
-              Falar com Vendas
+              Talk to Sales
             </Button>
           </div>
         </div>
@@ -461,11 +461,11 @@ const LandingPage = () => {
       <section className="py-24 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Pronto Para Revolucionar Seu Negócio?
+            Ready to Revolutionize Your Business?
           </h2>
           <p className="text-xl text-blue-100 mb-10 leading-relaxed">
-            Junte-se a milhares de empresas que já usam o FeatherBiz para crescer. 
-            Comece gratuitamente hoje mesmo.
+            Join thousands of companies already using FeatherBiz to grow.
+            Start for free today.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button 
@@ -474,7 +474,7 @@ const LandingPage = () => {
               onClick={() => navigate('/dashboard')}
             >
               <Play className="w-5 h-5 mr-2" />
-              Comece Grátis Agora
+              Start Free Now
             </Button>
             <Button 
               size="lg"
@@ -482,11 +482,11 @@ const LandingPage = () => {
               className="border-white text-white hover:bg-white/10 px-8 py-4 text-lg h-14"
               onClick={() => navigate('/contact')}
             >
-              Agendar Demo
+              Schedule Demo
             </Button>
           </div>
           <p className="text-blue-200 text-sm mt-6">
-            ✓ Teste grátis por 14 dias ✓ Sem cartão de crédito ✓ Suporte 24/7
+            ✓ Free 14-day trial ✓ No credit card required ✓ 24/7 support
           </p>
         </div>
       </section>
@@ -501,8 +501,8 @@ const LandingPage = () => {
                 <h3 className="text-2xl font-bold text-white">FeatherBiz</h3>
               </div>
               <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
-                A plataforma de gestão empresarial mais avançada, 
-                potencializada por inteligência artificial para fazer seu negócio crescer.
+                The most advanced business management platform,
+                powered by artificial intelligence to help your business grow.
               </p>
               <div className="flex space-x-4">
                 <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white hover:bg-gray-800">
@@ -518,36 +518,36 @@ const LandingPage = () => {
             </div>
             
             <div>
-              <h4 className="font-semibold text-lg mb-6 text-white">Produto</h4>
+              <h4 className="font-semibold text-lg mb-6 text-white">Product</h4>
               <ul className="space-y-3">
-                <li><a href="#features" className="text-gray-300 hover:text-white transition-colors">Recursos</a></li>
-                <li><a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Preços</a></li>
+                <li><a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a></li>
+                <li><a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a></li>
                 <li><a href="#" className="text-gray-300 hover:text-white transition-colors">API</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Integrações</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Integrations</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-semibold text-lg mb-6 text-white">Suporte</h4>
+              <h4 className="font-semibold text-lg mb-6 text-white">Support</h4>
               <ul className="space-y-3">
                 <li><Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-0 h-auto" onClick={() => navigate('/faq')}>FAQ</Button></li>
-                <li><Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-0 h-auto" onClick={() => navigate('/contact')}>Contato</Button></li>
+                <li><Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-0 h-auto" onClick={() => navigate('/contact')}>Contact</Button></li>
                 <li><Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-0 h-auto" onClick={() => navigate('/feedback')}>Feedback</Button></li>
-                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Documentação</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Documentation</a></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2024 FeatherBiz. Todos os direitos reservados.
+              © 2024 FeatherBiz. All rights reserved.
             </p>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
               <div className="w-48">
                 <LanguageSelector />
               </div>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacidade</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Termos</a>
+              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy</a>
+              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms</a>
               <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Cookies</a>
             </div>
           </div>
