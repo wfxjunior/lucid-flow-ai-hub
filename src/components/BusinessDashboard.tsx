@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -96,21 +97,22 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Business Overview</h2>
           <p className="text-muted-foreground">
             Your business performance at a glance
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={toggleSidebar} variant="outline" size="sm">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+          <Button onClick={toggleSidebar} variant="outline" size="sm" className="w-full sm:w-auto">
             <Menu className="mr-2 h-4 w-4" />
-            Menu
+            <span className="sm:inline">Menu</span>
           </Button>
-          <Button onClick={handleGenerateDashboardReport} disabled={isGenerating} variant="outline">
+          <Button onClick={handleGenerateDashboardReport} disabled={isGenerating} variant="outline" className="w-full sm:w-auto">
             <Download className="mr-2 h-4 w-4" />
-            {isGenerating ? 'Generating...' : 'Export Report'}
+            <span className="hidden xs:inline">{isGenerating ? 'Generating...' : 'Export Report'}</span>
+            <span className="xs:hidden">{isGenerating ? 'Generating...' : 'Export'}</span>
           </Button>
         </div>
       </div>
