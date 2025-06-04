@@ -6,6 +6,7 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, PieChart, 
 import { FileText, Plus, Send, Eye, Download, Calendar, DollarSign, Users, TrendingUp } from "lucide-react"
 import { CreateInvoice } from "./CreateInvoice"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export function InvoiceCreator() {
   const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false)
@@ -121,10 +122,15 @@ export function InvoiceCreator() {
                   Create Invoice
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-[95vw] max-h-[95vh] w-full overflow-hidden p-0">
-                <div className="h-full overflow-y-auto">
-                  <CreateInvoice />
-                </div>
+              <DialogContent className="max-w-[95vw] max-h-[95vh] w-full p-0 overflow-hidden">
+                <DialogHeader className="px-6 pt-6 pb-4 border-b">
+                  <DialogTitle>Create New Invoice</DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="h-[calc(95vh-120px)] w-full">
+                  <div className="px-6 pb-6">
+                    <CreateInvoice />
+                  </div>
+                </ScrollArea>
               </DialogContent>
             </Dialog>
             <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
