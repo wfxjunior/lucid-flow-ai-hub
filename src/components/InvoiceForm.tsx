@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -24,6 +23,7 @@ const clientSchema = z.object({
   email: z.string().email("Valid email is required"),
   phone: z.string().optional(),
   address: z.string().optional(),
+  industry: z.string().optional(),
 })
 
 const lineItemSchema = z.object({
@@ -76,6 +76,22 @@ export function InvoiceForm() {
     balanceDue: 0
   })
 
+  const industries = [
+    "Paver",
+    "Gutter", 
+    "Handyman Services",
+    "Barbershop",
+    "Flooring",
+    "Plumbing",
+    "Painting",
+    "Electrician",
+    "Beauty",
+    "Landscaping",
+    "IT",
+    "General Services",
+    "Others"
+  ]
+
   const clientForm = useForm<ClientFormData>({
     resolver: zodResolver(clientSchema),
     defaultValues: {
@@ -83,6 +99,7 @@ export function InvoiceForm() {
       email: "",
       phone: "",
       address: "",
+      industry: "",
     },
   })
 
@@ -420,6 +437,30 @@ export function InvoiceForm() {
                                           <FormLabel>Address (Optional)</FormLabel>
                                           <FormControl>
                                             <Textarea placeholder="Client address" {...field} />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <FormField
+                                      control={clientForm.control}
+                                      name="industry"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Industry (Optional)</FormLabel>
+                                          <FormControl>
+                                            <Select onValueChange={field.onChange} value={field.value}>
+                                              <SelectTrigger>
+                                                <SelectValue placeholder="Select industry" />
+                                              </SelectTrigger>
+                                              <SelectContent>
+                                                {industries.map((industry) => (
+                                                  <SelectItem key={industry} value={industry}>
+                                                    {industry}
+                                                  </SelectItem>
+                                                ))}
+                                              </SelectContent>
+                                            </Select>
                                           </FormControl>
                                           <FormMessage />
                                         </FormItem>
