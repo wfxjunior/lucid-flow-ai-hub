@@ -1,6 +1,5 @@
-
 import { useState } from "react"
-import { Heart, Plus, TrendingUp, Clock, CheckCircle, Crown } from "lucide-react"
+import { Heart, Plus, TrendingUp, Clock, CheckCircle, Crown, Menu } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { toast } from "@/hooks/use-toast"
+import { useSidebar } from "@/components/ui/sidebar"
 
 interface Feature {
   id: string
@@ -31,6 +31,7 @@ interface Comment {
 
 export function FeaturesPage() {
   const { t } = useLanguage()
+  const { toggleSidebar } = useSidebar()
   
   // Mock premium status - in a real app, this would come from your auth/subscription system
   const [hasPremium] = useState(false)
@@ -220,22 +221,32 @@ export function FeaturesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold">Feature Requests</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Help us build the future of FeatherBiz! Suggest new features and vote on existing ones. 
-          The most popular requests get prioritized in our development roadmap.
-        </p>
-        {!hasPremium && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-2xl mx-auto">
-            <div className="flex items-center gap-2 justify-center">
-              <Crown className="h-5 w-5 text-yellow-600" />
-              <p className="text-yellow-800 font-medium">
-                Premium features like suggesting, liking, and commenting require an upgrade
-              </p>
+      <div className="flex flex-col space-y-4 sm:flex-row sm:items-start sm:justify-between sm:space-y-0">
+        <div className="text-center sm:text-left space-y-4 flex-1">
+          <h1 className="text-3xl font-bold">Feature Requests</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto sm:mx-0">
+            Help us build the future of FeatherBiz! Suggest new features and vote on existing ones. 
+            The most popular requests get prioritized in our development roadmap.
+          </p>
+          {!hasPremium && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-2xl mx-auto sm:mx-0">
+              <div className="flex items-center gap-2 justify-center sm:justify-start">
+                <Crown className="h-5 w-5 text-yellow-600" />
+                <p className="text-yellow-800 font-medium">
+                  Premium features like suggesting, liking, and commenting require an upgrade
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+        
+        {/* Menu Button */}
+        <div className="flex justify-center sm:justify-end">
+          <Button onClick={toggleSidebar} variant="outline" size="sm" className="w-full sm:w-auto">
+            <Menu className="mr-2 h-4 w-4" />
+            <span className="sm:inline">Menu</span>
+          </Button>
+        </div>
       </div>
 
       {/* Add Feature Button */}
