@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/sidebar"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { ThemeToggle } from "@/components/ThemeToggle"
+import { Button } from "@/components/ui/button"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface AppSidebarProps {
   activeView: string
@@ -191,6 +193,7 @@ const systemTools = [
 
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   console.log('AppSidebar rendering with activeView:', activeView)
+  const isMobile = useIsMobile()
   
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
@@ -230,9 +233,22 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     <Sidebar className="border-r">
       <SidebarContent className="gap-0">
         {/* Header */}
-        <div className="p-4 border-b">
-          <h2 className="text-lg font-bold text-blue-600">FeatherBiz</h2>
-          <p className="text-xs text-gray-500">AI-Powered Business Platform</p>
+        <div className="p-4 border-b flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-blue-600">FeatherBiz</h2>
+            <p className="text-xs text-gray-500">AI-Powered Business Platform</p>
+          </div>
+          {isMobile && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleMenuClick("dashboard")}
+              className="flex items-center gap-1"
+            >
+              <Home className="w-3.5 h-3.5" />
+              Dashboard
+            </Button>
+          )}
         </div>
 
         {/* Main Features */}
