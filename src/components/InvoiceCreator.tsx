@@ -41,16 +41,16 @@ export function InvoiceCreator() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 p-2 sm:p-4 lg:p-6">
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Invoices</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">159</div>
+            <div className="text-xl sm:text-2xl font-bold">159</div>
             <p className="text-xs text-muted-foreground">
               <TrendingUp className="inline h-3 w-3 mr-1" />
               +12% from last month
@@ -64,7 +64,7 @@ export function InvoiceCreator() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$48,250</div>
+            <div className="text-xl sm:text-2xl font-bold">$48,250</div>
             <p className="text-xs text-green-600">
               <TrendingUp className="inline h-3 w-3 mr-1" />
               +8.2% from last month
@@ -78,7 +78,7 @@ export function InvoiceCreator() {
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12 days</div>
+            <div className="text-xl sm:text-2xl font-bold">12 days</div>
             <p className="text-xs text-green-600">
               <TrendingUp className="inline h-3 w-3 mr-1" />
               2 days faster
@@ -92,7 +92,7 @@ export function InvoiceCreator() {
             <Eye className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">94%</div>
+            <div className="text-xl sm:text-2xl font-bold">94%</div>
             <p className="text-xs text-green-600">
               <TrendingUp className="inline h-3 w-3 mr-1" />
               +3% improvement
@@ -104,19 +104,19 @@ export function InvoiceCreator() {
       {/* Create New Invoice */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
             <Plus className="h-5 w-5" />
             Create New Invoice
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm sm:text-base">
             Start with a pre-filled template and customize as needed
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
               <DialogTrigger asChild>
-                <Button className="flex items-center gap-2">
+                <Button className="flex items-center gap-2 w-full sm:w-auto">
                   <FileText className="h-4 w-4" />
                   Create Invoice
                 </Button>
@@ -127,7 +127,7 @@ export function InvoiceCreator() {
                 </div>
               </DialogContent>
             </Dialog>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
               <Download className="h-4 w-4" />
               Use Template
             </Button>
@@ -135,15 +135,15 @@ export function InvoiceCreator() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
         {/* Invoice Performance Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Invoice Performance</CardTitle>
-            <CardDescription>Monthly invoice sending and payment tracking</CardDescription>
+            <CardTitle className="text-lg sm:text-xl">Invoice Performance</CardTitle>
+            <CardDescription className="text-sm">Monthly invoice sending and payment tracking</CardDescription>
           </CardHeader>
-          <CardContent className="p-4">
-            <ChartContainer config={chartConfig} className="h-64 w-full">
+          <CardContent className="p-2 sm:p-4">
+            <ChartContainer config={chartConfig} className="h-48 sm:h-64 w-full">
               <BarChart data={monthlyInvoiceData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
@@ -160,17 +160,17 @@ export function InvoiceCreator() {
         {/* Payment Methods */}
         <Card>
           <CardHeader>
-            <CardTitle>Payment Methods</CardTitle>
-            <CardDescription>How customers prefer to pay</CardDescription>
+            <CardTitle className="text-lg sm:text-xl">Payment Methods</CardTitle>
+            <CardDescription className="text-sm">How customers prefer to pay</CardDescription>
           </CardHeader>
-          <CardContent className="p-4">
-            <ChartContainer config={chartConfig} className="h-64 w-full">
+          <CardContent className="p-2 sm:p-4">
+            <ChartContainer config={chartConfig} className="h-48 sm:h-64 w-full">
               <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                 <Pie
                   data={paymentMethodData}
                   cx="50%"
                   cy="50%"
-                  outerRadius={80}
+                  outerRadius={60}
                   dataKey="value"
                   label={({ method, value }) => `${method}: ${value}%`}
                 >
@@ -188,42 +188,44 @@ export function InvoiceCreator() {
       {/* Invoice Value Distribution */}
       <Card>
         <CardHeader>
-          <CardTitle>Invoice Value Distribution</CardTitle>
-          <CardDescription>Distribution of invoice amounts</CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Invoice Value Distribution</CardTitle>
+          <CardDescription className="text-sm">Distribution of invoice amounts</CardDescription>
         </CardHeader>
-        <CardContent className="p-4">
-          <ChartContainer config={chartConfig} className="h-64 w-full">
-            <BarChart data={invoiceValueData} layout="horizontal" margin={{ top: 20, right: 20, left: 60, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
-              <YAxis dataKey="range" type="category" width={50} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Bar dataKey="count" fill="hsl(var(--primary))" />
-            </BarChart>
-          </ChartContainer>
+        <CardContent className="p-2 sm:p-4">
+          <div className="overflow-x-auto">
+            <ChartContainer config={chartConfig} className="h-48 sm:h-64 w-full min-w-[400px]">
+              <BarChart data={invoiceValueData} layout="horizontal" margin={{ top: 20, right: 20, left: 60, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis dataKey="range" type="category" width={50} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="count" fill="hsl(var(--primary))" />
+              </BarChart>
+            </ChartContainer>
+          </div>
         </CardContent>
       </Card>
 
       {/* Recent Activities */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Invoice Activities</CardTitle>
-          <CardDescription>Latest invoice interactions and updates</CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Recent Invoice Activities</CardTitle>
+          <CardDescription className="text-sm">Latest invoice interactions and updates</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {[
               { action: "Invoice INV-045 opened by John Doe", time: "2 hours ago", status: "viewed" },
               { action: "Payment received for INV-043", time: "4 hours ago", status: "paid" },
               { action: "Invoice INV-044 sent to Sarah Smith", time: "6 hours ago", status: "sent" },
               { action: "Reminder sent for INV-041", time: "1 day ago", status: "reminder" },
             ].map((activity, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                <div>
-                  <p className="font-medium">{activity.action}</p>
-                  <p className="text-sm text-muted-foreground">{activity.time}</p>
+              <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg space-y-2 sm:space-y-0">
+                <div className="flex-1">
+                  <p className="font-medium text-sm sm:text-base">{activity.action}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{activity.time}</p>
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full ${
+                <span className={`text-xs px-2 py-1 rounded-full w-fit ${
                   activity.status === 'paid' ? 'bg-green-100 text-green-700' :
                   activity.status === 'viewed' ? 'bg-blue-100 text-blue-700' :
                   activity.status === 'sent' ? 'bg-yellow-100 text-yellow-700' :
