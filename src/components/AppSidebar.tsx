@@ -1,7 +1,8 @@
+
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target
 } from "lucide-react"
 import {
   Sidebar,
@@ -88,6 +89,11 @@ const businessTools = [
     title: "CrewControl",
     icon: UserCheck,
     view: "crew-control"
+  },
+  {
+    title: "EarnSync",
+    icon: Target,
+    view: "earnsync"
   },
   {
     title: "Meetings",

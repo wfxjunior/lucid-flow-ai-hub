@@ -21,6 +21,7 @@ import { MeetingsPage } from "@/components/MeetingsPage"
 import { AccountingPage } from "@/components/AccountingPage"
 import { MatTrackPage } from "@/components/MatTrackPage"
 import { CrewControlPage } from "@/components/CrewControlPage"
+import { EarnSyncPage } from "@/components/EarnSyncPage"
 
 export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -63,6 +64,8 @@ export default function Index() {
         return <MatTrackPage />
       case "crew-control":
         return <CrewControlPage />
+      case "earnsync":
+        return <EarnSyncPage />
       default:
         return <BusinessDashboard onNavigate={setActiveView} />
     }

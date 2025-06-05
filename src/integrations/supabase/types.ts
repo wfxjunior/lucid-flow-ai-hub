@@ -233,6 +233,157 @@ export type Database = {
         }
         Relationships: []
       }
+      earnsync_companies: {
+        Row: {
+          company_name: string
+          contact_info: string | null
+          created_at: string
+          date_of_service: string | null
+          id: string
+          payment_method: string
+          updated_at: string
+          user_id: string
+          work_type: string | null
+        }
+        Insert: {
+          company_name: string
+          contact_info?: string | null
+          created_at?: string
+          date_of_service?: string | null
+          id?: string
+          payment_method: string
+          updated_at?: string
+          user_id: string
+          work_type?: string | null
+        }
+        Update: {
+          company_name?: string
+          contact_info?: string | null
+          created_at?: string
+          date_of_service?: string | null
+          id?: string
+          payment_method?: string
+          updated_at?: string
+          user_id?: string
+          work_type?: string | null
+        }
+        Relationships: []
+      }
+      earnsync_earnings: {
+        Row: {
+          amount: number
+          company_id: string | null
+          created_at: string
+          date: string
+          id: string
+          payment_status: string
+          receipt_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          company_id?: string | null
+          created_at?: string
+          date: string
+          id?: string
+          payment_status?: string
+          receipt_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          company_id?: string | null
+          created_at?: string
+          date?: string
+          id?: string
+          payment_status?: string
+          receipt_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "earnsync_earnings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "earnsync_companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      earnsync_expenses: {
+        Row: {
+          amount: number
+          category: string
+          company_id: string | null
+          created_at: string
+          date: string
+          description: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          company_id?: string | null
+          created_at?: string
+          date: string
+          description?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          company_id?: string | null
+          created_at?: string
+          date?: string
+          description?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "earnsync_expenses_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "earnsync_companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      earnsync_goals: {
+        Row: {
+          created_at: string
+          id: string
+          monthly_target: number | null
+          updated_at: string
+          user_id: string
+          weekly_target: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          monthly_target?: number | null
+          updated_at?: string
+          user_id: string
+          weekly_target?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          monthly_target?: number | null
+          updated_at?: string
+          user_id?: string
+          weekly_target?: number | null
+        }
+        Relationships: []
+      }
       estimates: {
         Row: {
           accepted_at: string | null
