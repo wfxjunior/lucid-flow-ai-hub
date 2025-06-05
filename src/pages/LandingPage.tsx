@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -734,7 +733,7 @@ const LandingPage = () => {
           
           <div className="border-t border-gray-800 mt-8 sm:mt-12 pt-6 sm:pt-8 flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <p className="text-gray-400 text-xs sm:text-sm text-center lg:text-left">
-              © 2024 FeatherBiz. All rights reserved.
+              © 2025 FeatherBiz. All rights reserved.
             </p>
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
               <div className="w-full sm:w-48">
