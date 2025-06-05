@@ -22,6 +22,7 @@ import { AccountingPage } from "@/components/AccountingPage"
 import { MatTrackPage } from "@/components/MatTrackPage"
 import { CrewControlPage } from "@/components/CrewControlPage"
 import { EarnSyncPage } from "@/components/EarnSyncPage"
+import { UserGreeting } from "@/components/UserGreeting"
 
 export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -76,8 +77,9 @@ export default function Index() {
       <div className="min-h-screen flex w-full">
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         <main className="flex-1 overflow-auto">
-          <div className="p-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="p-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between">
             <SidebarTrigger className="h-8 w-8" />
+            <UserGreeting />
           </div>
           <div className="p-6">
             {renderActiveView()}
