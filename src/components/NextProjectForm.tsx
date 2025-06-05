@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -68,7 +67,7 @@ export function NextProjectForm({ project, onSubmit, onCancel }: NextProjectForm
     jobDescription: project?.jobDescription || '',
     fileAttachment: project?.fileAttachment || '',
     status: project?.status || 'scheduled' as const,
-    notifyWorkers: project?.notifyWorkers || true,
+    notifyWorkers: project?.notifyWorkers ?? true,
     internalNotes: project?.internalNotes || ''
   })
 
@@ -327,7 +326,7 @@ export function NextProjectForm({ project, onSubmit, onCancel }: NextProjectForm
                     id="notifyWorkers"
                     checked={formData.notifyWorkers}
                     onCheckedChange={(checked) => 
-                      setFormData(prev => ({ ...prev, notifyWorkers: checked as boolean }))
+                      setFormData(prev => ({ ...prev, notifyWorkers: checked === true }))
                     }
                   />
                   <Label htmlFor="notifyWorkers" className="cursor-pointer">
