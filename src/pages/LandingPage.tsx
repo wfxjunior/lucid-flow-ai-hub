@@ -459,7 +459,7 @@ const LandingPage = () => {
       </section>
 
       {/* Enhanced Pricing Section */}
-      <section id="pricing" className="py-16 sm:py-20 lg:py-24 bg-white">
+      <section id="pricing" className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -478,21 +478,21 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {pricingPlans.map((plan, index) => (
               <div 
                 key={index} 
                 className={`
-                  relative bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl
+                  relative bg-white rounded-2xl border transition-all duration-300 hover:shadow-2xl
                   ${plan.popular 
-                    ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-20 transform scale-105' 
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-blue-500 ring-2 ring-blue-200 shadow-xl scale-105 z-10' 
+                    : 'border-gray-200 hover:border-gray-300 shadow-lg hover:scale-105'
                   }
                 `}
               >
                 {plan.badge && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                    <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
                       {plan.badge}
                     </span>
                   </div>
@@ -500,6 +500,10 @@ const LandingPage = () => {
                 
                 <div className="p-8">
                   <div className="text-center mb-8">
+                    <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${plan.gradient} flex items-center justify-center shadow-lg`}>
+                      <plan.icon className="h-8 w-8 text-white" />
+                    </div>
+                    
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
                     <p className="text-gray-600 mb-6">{plan.description}</p>
                     
@@ -520,12 +524,12 @@ const LandingPage = () => {
 
                     <Button 
                       className={`
-                        w-full py-3 text-lg font-semibold rounded-lg transition-all duration-200
+                        w-full py-3 text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105
                         ${plan.popular 
-                          ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl' 
+                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl' 
                           : plan.price !== 'Free'
-                            ? 'bg-gray-900 hover:bg-gray-800 text-white'
-                            : 'bg-gray-100 hover:bg-gray-200 text-gray-900 border border-gray-300'
+                            ? 'bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white shadow-lg hover:shadow-xl'
+                            : 'bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-900 border border-gray-300 shadow-md hover:shadow-lg'
                         }
                       `}
                       onClick={() => navigate('/dashboard')}
@@ -541,7 +545,9 @@ const LandingPage = () => {
                     <div className="space-y-3">
                       {plan.features.map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-start">
-                          <Check className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
+                          <div className="flex-shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5 mr-3">
+                            <Check className="h-3 w-3 text-green-600 font-bold" />
+                          </div>
                           <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
                         </div>
                       ))}
@@ -553,7 +559,7 @@ const LandingPage = () => {
           </div>
 
           <div className="mt-16 text-center">
-            <div className="bg-gray-50 rounded-2xl p-8 max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-lg border border-gray-200">
               <div className="flex items-center justify-center mb-4">
                 <Shield className="w-6 h-6 text-green-600 mr-2" />
                 <span className="text-lg font-semibold text-gray-900">30-day money-back guarantee</span>
