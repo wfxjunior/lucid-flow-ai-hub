@@ -460,9 +460,8 @@ const LandingPage = () => {
 
       {/* Enhanced Pricing Section */}
       <section id="pricing" className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
-        {/* Background with gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30"></div>
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%239C92AC\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
@@ -494,7 +493,6 @@ const LandingPage = () => {
                   plan.popular ? 'lg:scale-110 lg:z-10' : ''
                 }`}
               >
-                {/* Popular badge */}
                 {plan.badge && (
                   <div className="absolute -top-4 sm:-top-6 left-1/2 transform -translate-x-1/2 z-20">
                     <div className={`
@@ -517,7 +515,6 @@ const LandingPage = () => {
                   before:absolute before:inset-0 before:bg-gradient-to-br before:${plan.gradient} before:opacity-0 before:transition-opacity before:duration-500
                   hover:before:opacity-5
                 `}>
-                  {/* Decorative elements */}
                   <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 opacity-10">
                     <div className={`w-full h-full rounded-full bg-gradient-to-br ${plan.gradient} transform rotate-45`}></div>
                   </div>
@@ -527,7 +524,6 @@ const LandingPage = () => {
                   
                   <div className="relative z-10">
                     <CardHeader className="text-center pb-4 sm:pb-6 pt-8 sm:pt-10">
-                      {/* Icon */}
                       <div className={`
                         w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 rounded-2xl 
                         bg-gradient-to-br ${plan.gradient} 
@@ -538,7 +534,6 @@ const LandingPage = () => {
                         <plan.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                       </div>
                       
-                      {/* Plan Name */}
                       <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                         {plan.name}
                       </CardTitle>
@@ -546,7 +541,6 @@ const LandingPage = () => {
                         {plan.description}
                       </CardDescription>
                       
-                      {/* Pricing */}
                       <div className="mb-6 sm:mb-8">
                         <div className="flex items-center justify-center gap-2 mb-3">
                           <span className="text-4xl sm:text-5xl font-bold text-gray-900">{plan.price}</span>
@@ -568,7 +562,6 @@ const LandingPage = () => {
                     </CardHeader>
                     
                     <CardContent className="space-y-6 px-4 sm:px-6 pb-6 sm:pb-8">
-                      {/* CTA Button */}
                       <Button 
                         className={`
                           w-full py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 shadow-lg
@@ -585,7 +578,6 @@ const LandingPage = () => {
                         <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
                       
-                      {/* Features List */}
                       <div className="space-y-4 sm:space-y-5">
                         <div className="text-center">
                           <span className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">
@@ -610,7 +602,6 @@ const LandingPage = () => {
             ))}
           </div>
 
-          {/* Bottom guarantee section */}
           <div className="text-center mt-12 sm:mt-16">
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto shadow-xl border border-white/50">
               <div className="flex items-center justify-center gap-2 mb-4 sm:mb-6">
