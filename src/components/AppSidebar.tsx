@@ -1,4 +1,3 @@
-
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
@@ -209,7 +208,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   
   const renderMenuSection = (items: typeof mainFeatures, sectionTitle: string) => (
     <SidebarGroup className="py-2">
-      <SidebarGroupLabel className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+      <SidebarGroupLabel className="px-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
         {sectionTitle}
       </SidebarGroupLabel>
       <SidebarGroupContent className="mt-2">
@@ -219,9 +218,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
               <SidebarMenuButton 
                 onClick={() => handleMenuClick(item.view)}
                 isActive={activeView === item.view}
-                className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2 text-base font-medium rounded-md transition-colors hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 cursor-pointer"
               >
-                <item.icon className="w-4 h-4 flex-shrink-0" />
+                <item.icon className="w-5 h-5 flex-shrink-0" />
                 <span className="truncate">{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -237,8 +236,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         {/* Header */}
         <div className="p-4 border-b flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-blue-600">FeatherBiz</h2>
-            <p className="text-xs text-gray-500">AI-Powered Business Platform</p>
+            <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
+            <p className="text-sm text-gray-500">AI-Powered Business Platform</p>
           </div>
           {/* Always show button on screens smaller than md (768px) */}
           <div className="md:hidden">
@@ -246,9 +245,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
               variant="outline" 
               size="sm" 
               onClick={() => handleMenuClick("dashboard")}
-              className="flex items-center gap-1 text-xs"
+              className="flex items-center gap-1 text-sm"
             >
-              <Home className="w-3.5 h-3.5" />
+              <Home className="w-4 h-4" />
               Dashboard
             </Button>
           </div>
@@ -282,7 +281,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarFooter className="p-4 border-t">
         <div className="space-y-3">
           <div>
-            <p className="text-xs font-medium text-gray-500 mb-2">Language</p>
+            <p className="text-sm font-medium text-gray-500 mb-2">Language</p>
             <LanguageSelector />
           </div>
           <ThemeToggle />
