@@ -20,6 +20,7 @@ import { FeaturesPage } from "@/components/FeaturesPage"
 import { MeetingsPage } from "@/components/MeetingsPage"
 import { AccountingPage } from "@/components/AccountingPage"
 import { MatTrackPage } from "@/components/MatTrackPage"
+import { CrewControlPage } from "@/components/CrewControlPage"
 
 export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -60,6 +61,8 @@ export default function Index() {
         return <AccountingPage />
       case "mat-track":
         return <MatTrackPage />
+      case "crew-control":
+        return <CrewControlPage />
       default:
         return <BusinessDashboard onNavigate={setActiveView} />
     }
