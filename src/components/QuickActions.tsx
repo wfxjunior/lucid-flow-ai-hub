@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb, Calculator, CheckSquare, FileSpreadsheet } from "lucide-react"
+import { Plus, MessageSquare, FileText, Users, Mail, Brain, Calendar, Receipt, CreditCard, Signature, Heart, Mic, Clipboard, FolderOpen, Lightbulb, Calculator, CheckSquare, FileSpreadsheet, Package, Briefcase, TrendingUp, DollarSign, Video, Warehouse, UserCheck, Target } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 interface QuickActionsProps {
@@ -30,7 +30,7 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       id: "work-orders",
       title: "Work Orders",
       description: "Create and track work orders",
-      icon: Clipboard,
+      icon: Package,
       color: "bg-purple-600 hover:bg-purple-700"
     },
     {
@@ -41,11 +41,88 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       color: "bg-blue-600 hover:bg-blue-700"
     },
     {
+      id: "customer-management",
+      title: "Customers",
+      description: "Manage customer relationships",
+      icon: Users,
+      color: "bg-purple-600 hover:bg-purple-700"
+    },
+    {
+      id: "projects",
+      title: "Projects",
+      description: "Manage business projects",
+      icon: Briefcase,
+      color: "bg-indigo-600 hover:bg-indigo-700"
+    },
+    {
+      id: "mat-track",
+      title: "MatTrack",
+      description: "Material tracking system",
+      icon: Warehouse,
+      color: "bg-orange-600 hover:bg-orange-700"
+    },
+    {
+      id: "crew-control",
+      title: "CrewControl",
+      description: "Crew management system",
+      icon: UserCheck,
+      color: "bg-green-600 hover:bg-green-700"
+    },
+    {
+      id: "earnsync",
+      title: "EarnSync",
+      description: "Earnings synchronization",
+      icon: Target,
+      color: "bg-red-600 hover:bg-red-700"
+    },
+    {
+      id: "meetings",
+      title: "Meetings",
+      description: "Schedule and manage meetings",
+      icon: Video,
+      color: "bg-blue-600 hover:bg-blue-700"
+    },
+    {
       id: "todo-list",
       title: "To-Do List",
       description: "Manage tasks and projects",
       icon: CheckSquare,
       color: "bg-gray-600 hover:bg-gray-700"
+    },
+    {
+      id: "accounting",
+      title: "Accounting",
+      description: "Financial management",
+      icon: Receipt,
+      color: "bg-emerald-600 hover:bg-emerald-700"
+    },
+    {
+      id: "sales-orders",
+      title: "Sales Orders",
+      description: "Manage sales orders",
+      icon: TrendingUp,
+      color: "bg-pink-600 hover:bg-pink-700"
+    },
+    {
+      id: "service-orders",
+      title: "Service Orders",
+      description: "Service order management",
+      icon: Package,
+      color: "bg-teal-600 hover:bg-teal-700"
+    },
+    {
+      id: "business-proposals",
+      title: "Business Proposals",
+      description: "Create business proposals",
+      icon: Clipboard,
+      color: "bg-violet-600 hover:bg-violet-700"
+    },
+    {
+      id: "bids",
+      title: "Bids",
+      description: "Manage project bids",
+      icon: DollarSign,
+      color: "bg-amber-600 hover:bg-amber-700"
     },
     {
       id: "ai-voice",
@@ -62,25 +139,11 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       color: "bg-amber-500 hover:bg-amber-600"
     },
     {
-      id: "files",
-      title: "Files",
-      description: "Manage documents",
-      icon: FolderOpen,
-      color: "bg-emerald-600 hover:bg-emerald-700"
-    },
-    {
       id: "appointments",
       title: "Appointments",
       description: "Schedule meetings",
       icon: Calendar,
       color: "bg-blue-600 hover:bg-blue-700"
-    },
-    {
-      id: "customers",
-      title: "Add Client",
-      description: "Manage relationships",
-      icon: Users,
-      color: "bg-purple-600 hover:bg-purple-700"
     },
     {
       id: "payments",
@@ -116,13 +179,6 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       description: "Business insights",
       icon: Brain,
       color: "bg-violet-600 hover:bg-violet-700"
-    },
-    {
-      id: "receipts",
-      title: "Receipts",
-      description: "Track expenses",
-      icon: Receipt,
-      color: "bg-orange-600 hover:bg-orange-700"
     }
   ]
 
@@ -139,8 +195,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
         <p className="text-sm text-gray-600">Access your most used features</p>
       </div>
       
-      {/* Symmetric grid layout */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {/* Symmetric grid layout with more columns for more items */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {quickActions.map((action) => (
           <button
             key={action.id}
