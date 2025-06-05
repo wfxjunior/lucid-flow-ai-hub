@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, Crown, Zap, Star } from "lucide-react"
+import { Check, Crown, Zap, Star, Sparkles } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 // Mock Supabase functionality for now
@@ -18,8 +18,8 @@ const mockSupabase = {
 const plans = [
   {
     id: "free-invoice",
-    name: "Free Invoice",
-    description: "Perfect for occasional invoicing",
+    name: "Free Starter",
+    description: "Perfect for new contractors",
     price: "$0",
     period: "forever",
     icon: Zap,
@@ -32,13 +32,14 @@ const plans = [
     ],
     buttonText: "Start Free",
     popular: false,
-    color: "bg-gray-500",
+    color: "from-gray-400 to-gray-600",
+    bgGradient: "from-gray-50 to-gray-100",
     stripePrice: null
   },
   {
     id: "trial",
-    name: "7-Day Free Trial",
-    description: "Try all features for free",
+    name: "Free Trial",
+    description: "Try everything for 7 days",
     price: "$0",
     period: "7 days",
     icon: Star,
@@ -50,15 +51,16 @@ const plans = [
       "Priority support",
       "All integrations"
     ],
-    buttonText: "Start Trial",
+    buttonText: "Start Free Trial",
     popular: true,
-    color: "bg-blue-500",
+    color: "from-blue-500 to-purple-600",
+    bgGradient: "from-blue-50 to-purple-50",
     stripePrice: null
   },
   {
     id: "monthly",
-    name: "Monthly Plan",
-    description: "Full access, billed monthly",
+    name: "Professional",
+    description: "Everything you need to grow",
     price: "$29",
     period: "month",
     icon: Crown,
@@ -72,22 +74,23 @@ const plans = [
       "All integrations",
       "Document tracking"
     ],
-    buttonText: "Choose Monthly",
+    buttonText: "Get Started",
     popular: false,
-    color: "bg-green-500",
-    stripePrice: 2900 // $29 in cents
+    color: "from-green-500 to-emerald-600",
+    bgGradient: "from-green-50 to-emerald-50",
+    stripePrice: 2900
   },
   {
     id: "annual",
-    name: "Annual Plan",
-    description: "Best value - 2 months free!",
+    name: "Business Pro",
+    description: "Best value - Save 17%!",
     price: "$290",
     period: "year",
     originalPrice: "$348",
-    icon: Crown,
+    icon: Sparkles,
     features: [
-      "Everything in Monthly",
-      "2 months free",
+      "Everything in Professional",
+      "2 months FREE",
       "Advanced AI features",
       "White-label options",
       "Custom integrations",
@@ -95,10 +98,11 @@ const plans = [
       "Early access to new features",
       "Business consultation"
     ],
-    buttonText: "Choose Annual",
+    buttonText: "Go Annual",
     popular: false,
-    color: "bg-purple-500",
-    stripePrice: 29000 // $290 in cents
+    color: "from-purple-500 to-pink-600",
+    bgGradient: "from-purple-50 to-pink-50",
+    stripePrice: 29000
   }
 ]
 
@@ -133,73 +137,164 @@ export function PricingPlans() {
   }
 
   return (
-    <div className="space-y-6 sm:space-y-8">
-      <div className="text-center px-4">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-4">Choose Your Plan</h2>
-        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-          Select the perfect plan for your business needs. Start with our free options or unlock the full power of AI automation.
-        </p>
-      </div>
+    <div className="py-12 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 text-sm font-medium mb-6">
+            <Crown className="w-4 h-4 mr-2" />
+            Choose Your Perfect Plan
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-6">
+            Pricing Plans for Every Contractor
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Start free and scale as you grow. All plans include our powerful AI tools to streamline your business operations.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-0">
-        {plans.map((plan) => (
-          <Card 
-            key={plan.id} 
-            className={`relative transition-all duration-200 hover:shadow-lg hover:scale-105 ${
-              plan.popular ? 'border-primary shadow-lg scale-105' : ''
-            }`}
-          >
-            {plan.popular && (
-              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary">
-                Most Popular
-              </Badge>
-            )}
-            
-            <CardHeader className="text-center pb-4">
-              <div className={`w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 rounded-full ${plan.color} flex items-center justify-center`}>
-                <plan.icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              </div>
-              <CardTitle className="text-lg sm:text-xl">{plan.name}</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">{plan.description}</CardDescription>
-              <div className="mt-3 sm:mt-4">
-                <div className="flex items-center justify-center gap-1 sm:gap-2">
-                  <span className="text-2xl sm:text-3xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground text-sm">/{plan.period}</span>
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 max-w-8xl mx-auto">
+          {plans.map((plan, index) => (
+            <div 
+              key={plan.id}
+              className={`relative group transition-all duration-300 hover:scale-105 ${
+                plan.popular ? 'xl:scale-110 xl:z-10' : ''
+              }`}
+            >
+              {plan.popular && (
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
+                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 text-sm font-semibold shadow-lg">
+                    ⭐ Most Popular
+                  </Badge>
                 </div>
-                {plan.originalPrice && (
-                  <p className="text-xs sm:text-sm text-muted-foreground line-through">
-                    {plan.originalPrice}/year
-                  </p>
-                )}
-              </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-4">
-              <Button 
-                className={`w-full text-xs sm:text-sm ${plan.popular ? 'bg-primary' : ''}`}
-                variant={plan.popular ? "default" : "outline"}
-                onClick={() => handlePlanSelection(plan)}
-              >
-                {plan.buttonText}
-              </Button>
+              )}
               
-              <div className="space-y-2 sm:space-y-3">
-                {plan.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-2 sm:gap-3">
-                    <Check className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-xs sm:text-sm">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              <Card className={`
+                relative h-full overflow-hidden border-0 shadow-xl
+                bg-gradient-to-br ${plan.bgGradient}
+                ${plan.popular ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}
+                group-hover:shadow-2xl transition-all duration-300
+              `}>
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+                  <div className={`w-full h-full rounded-full bg-gradient-to-br ${plan.color}`}></div>
+                </div>
+                
+                <div className="relative z-10">
+                  <CardHeader className="text-center pb-2 pt-8">
+                    {/* Icon */}
+                    <div className={`
+                      w-16 h-16 mx-auto mb-6 rounded-2xl 
+                      bg-gradient-to-br ${plan.color} 
+                      flex items-center justify-center 
+                      shadow-lg group-hover:scale-110 transition-transform duration-300
+                    `}>
+                      <plan.icon className="h-8 w-8 text-white" />
+                    </div>
+                    
+                    {/* Plan Name */}
+                    <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
+                      {plan.name}
+                    </CardTitle>
+                    <CardDescription className="text-gray-600 mb-6">
+                      {plan.description}
+                    </CardDescription>
+                    
+                    {/* Pricing */}
+                    <div className="mb-6">
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
+                        <div className="text-left">
+                          <span className="text-gray-500 text-lg">/{plan.period}</span>
+                          {plan.originalPrice && (
+                            <div className="text-sm text-red-500 line-through font-medium">
+                              {plan.originalPrice}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {plan.originalPrice && (
+                        <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
+                          💰 Save $58/year
+                        </div>
+                      )}
+                    </div>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-6 px-6 pb-8">
+                    {/* CTA Button */}
+                    <Button 
+                      className={`
+                        w-full py-3 text-lg font-semibold rounded-xl transition-all duration-300
+                        ${plan.popular 
+                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl' 
+                          : plan.stripePrice 
+                            ? 'bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white'
+                            : 'bg-white border-2 border-gray-300 text-gray-900 hover:bg-gray-50 hover:border-gray-400'
+                        }
+                      `}
+                      onClick={() => handlePlanSelection(plan)}
+                    >
+                      {plan.buttonText}
+                    </Button>
+                    
+                    {/* Features List */}
+                    <div className="space-y-4">
+                      <div className="text-center">
+                        <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+                          What's Included
+                        </span>
+                      </div>
+                      <div className="space-y-3">
+                        {plan.features.map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-start gap-3">
+                            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                              <Check className="h-3 w-3 text-green-600 font-bold" />
+                            </div>
+                            <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </div>
 
-      <div className="text-center px-4">
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          All plans include SSL security, automatic backups, and 99.9% uptime guarantee.
-        </p>
+        {/* Bottom Section */}
+        <div className="text-center mt-16">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-4xl mx-auto shadow-lg border border-gray-200">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Shield className="w-5 h-5 text-green-600" />
+              <span className="text-lg font-semibold text-gray-900">30-Day Money-Back Guarantee</span>
+            </div>
+            <p className="text-gray-600 mb-6">
+              All plans include SSL security, automatic backups, 99.9% uptime guarantee, and dedicated contractor support.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-500" />
+                No setup fees
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-500" />
+                Cancel anytime
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-500" />
+                24/7 support
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-500" />
+                Free migration
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
