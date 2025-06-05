@@ -4,16 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Check, Crown, Zap, Star, Sparkles, Shield } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-
-// Mock Supabase functionality for now
-const mockSupabase = {
-  auth: {
-    getUser: async () => ({ data: { user: null } })
-  },
-  functions: {
-    invoke: async () => ({ data: null, error: new Error("Supabase not configured") })
-  }
-}
+import { supabase } from "@/integrations/supabase/client"
 
 const plans = [
   {
@@ -78,7 +69,8 @@ const plans = [
     popular: false,
     color: "from-green-500 to-emerald-600",
     bgGradient: "from-green-50 to-emerald-50",
-    stripePrice: 2900
+    stripePrice: 2900,
+    recurring: true
   },
   {
     id: "annual",
@@ -102,7 +94,8 @@ const plans = [
     popular: false,
     color: "from-purple-500 to-pink-600",
     bgGradient: "from-purple-50 to-pink-50",
-    stripePrice: 29000
+    stripePrice: 29000,
+    recurring: true
   }
 ]
 
@@ -120,12 +113,39 @@ export function PricingPlans() {
     }
 
     try {
-      // For now, show a message that Stripe integration needs to be configured
-      toast({
-        title: "Payment Integration",
-        description: "Stripe payment integration is ready to be configured. Please set up your Supabase project and Stripe keys.",
-        variant: "default"
+      // Get current user session
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        toast({
+          title: "Authentication Required",
+          description: "Please log in to subscribe to a paid plan.",
+          variant: "destructive"
+        })
+        return
+      }
+
+      // Create checkout session
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          priceAmount: plan.stripePrice,
+          planName: plan.name,
+          planId: plan.id,
+          recurring: plan.recurring || false
+        }
       })
+
+      if (error) {
+        throw error
+      }
+
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank')
+      } else {
+        throw new Error('No checkout URL received')
+      }
+
     } catch (error) {
       console.error('Error creating checkout session:', error)
       toast({
