@@ -1,6 +1,8 @@
+
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { QuickActions } from "@/components/QuickActions"
 import {
   Banknote,
   BarChart3,
@@ -11,11 +13,7 @@ import {
   Settings,
   ShoppingCart,
   Users,
-  Zap,
-  Calendar,
-  Calculator,
-  Briefcase,
-  Target
+  Zap
 } from "lucide-react"
 
 interface BusinessDashboardProps {
@@ -90,72 +88,8 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
         </Card>
       </div>
 
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5" />
-            Quick Actions
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col gap-2 hover:bg-blue-50"
-              onClick={() => onNavigate('invoice-creator')}
-            >
-              <FileText className="w-6 h-6" />
-              <span className="text-sm">Create Invoice</span>
-            </Button>
-            
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col gap-2 hover:bg-green-50"
-              onClick={() => onNavigate('customer-management')}
-            >
-              <Users className="w-6 h-6" />
-              <span className="text-sm">Add Customer</span>
-            </Button>
-            
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col gap-2 hover:bg-purple-50"
-              onClick={() => onNavigate('appointments')}
-            >
-              <Calendar className="w-6 h-6" />
-              <span className="text-sm">Schedule</span>
-            </Button>
-            
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col gap-2 hover:bg-yellow-50"
-              onClick={() => onNavigate('estimates')}
-            >
-              <Calculator className="w-6 h-6" />
-              <span className="text-sm">Estimate</span>
-            </Button>
-            
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col gap-2 hover:bg-indigo-50"
-              onClick={() => onNavigate('projects')}
-            >
-              <Briefcase className="w-6 h-6" />
-              <span className="text-sm">New Project</span>
-            </Button>
-
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col gap-2 hover:bg-emerald-50"
-              onClick={() => onNavigate('earnsync')}
-            >
-              <Target className="w-6 h-6" />
-              <span className="text-sm">EarnSync</span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Quick Actions - Using the new component */}
+      <QuickActions onActionClick={onNavigate} />
 
       {/* Recent Activity */}
       <Card>
