@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -235,8 +234,8 @@ const LandingPage = () => {
             </div>
             
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
-              Transform Your Business with
-              <span className="text-blue-600 block">Artificial Intelligence</span>
+              Make Your Business
+              <span className="text-blue-600 block">Smarter. Faster. Stronger.</span>
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
