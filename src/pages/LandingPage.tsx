@@ -459,190 +459,136 @@ const LandingPage = () => {
       </section>
 
       {/* Enhanced Pricing Section */}
-      <section id="pricing" className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30"></div>
-        <div className="absolute inset-0 opacity-40" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="pricing" className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 text-sm font-medium mb-6">
-              <Crown className="w-4 h-4 mr-2" />
-              Simple and Transparent Pricing
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-4 sm:mb-6">
-              Choose Your Perfect Plan
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Simple, transparent pricing
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 px-4 sm:px-0 max-w-3xl mx-auto">
-              Start free and scale as you grow. All plans include our powerful AI tools.
+            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              Choose the plan that's right for your business. No hidden fees, no surprises.
             </p>
-            <div className="inline-flex bg-white/70 backdrop-blur-sm p-1 rounded-xl border border-gray-200 shadow-lg">
-              <button className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-md transition-all">
+            <div className="inline-flex bg-gray-100 p-1 rounded-lg">
+              <button className="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm transition-all">
                 Monthly
               </button>
-              <button className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium text-gray-600 hover:text-gray-900 transition-colors">
+              <button className="px-6 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-all">
                 Annual (Save 17%)
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {pricingPlans.map((plan, index) => (
               <div 
                 key={index} 
-                className={`relative group transition-all duration-500 hover:scale-105 ${
-                  plan.popular ? 'lg:scale-110 lg:z-10' : ''
-                }`}
+                className={`
+                  relative bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl
+                  ${plan.popular 
+                    ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-20 transform scale-105' 
+                    : 'border-gray-200 hover:border-gray-300'
+                  }
+                `}
               >
                 {plan.badge && (
-                  <div className="absolute -top-4 sm:-top-6 left-1/2 transform -translate-x-1/2 z-20">
-                    <div className={`
-                      px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold text-white shadow-xl
-                      ${plan.popular 
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
-                        : 'bg-gradient-to-r from-purple-600 to-pink-600'
-                      }
-                    `}>
-                      ⭐ {plan.badge}
-                    </div>
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                      {plan.badge}
+                    </span>
                   </div>
                 )}
                 
-                <Card className={`
-                  relative h-full overflow-hidden border-0 shadow-xl backdrop-blur-sm
-                  bg-gradient-to-br ${plan.bgGradient} bg-white/80
-                  ${plan.popular ? 'ring-2 ring-blue-400 ring-opacity-60 shadow-blue-200/50' : 'shadow-gray-200/50'}
-                  group-hover:shadow-2xl transition-all duration-500
-                  before:absolute before:inset-0 before:bg-gradient-to-br before:${plan.gradient} before:opacity-0 before:transition-opacity before:duration-500
-                  hover:before:opacity-5
-                `}>
-                  <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 opacity-10">
-                    <div className={`w-full h-full rounded-full bg-gradient-to-br ${plan.gradient} transform rotate-45`}></div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 w-16 sm:w-20 h-16 sm:h-20 opacity-5">
-                    <div className={`w-full h-full rounded-full bg-gradient-to-br ${plan.gradient}`}></div>
-                  </div>
-                  
-                  <div className="relative z-10">
-                    <CardHeader className="text-center pb-4 sm:pb-6 pt-8 sm:pt-10">
-                      <div className={`
-                        w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 rounded-2xl 
-                        bg-gradient-to-br ${plan.gradient} 
-                        flex items-center justify-center 
-                        shadow-lg group-hover:scale-110 transition-transform duration-300
-                        ring-4 ring-white/20
-                      `}>
-                        <plan.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-                      </div>
-                      
-                      <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                        {plan.name}
-                      </CardTitle>
-                      <CardDescription className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-                        {plan.description}
-                      </CardDescription>
-                      
-                      <div className="mb-6 sm:mb-8">
-                        <div className="flex items-center justify-center gap-2 mb-3">
-                          <span className="text-4xl sm:text-5xl font-bold text-gray-900">{plan.price}</span>
-                          <div className="text-left">
-                            <span className="text-gray-500 text-base sm:text-lg">{plan.period}</span>
-                            {plan.originalPrice && (
-                              <div className="text-sm text-red-500 line-through font-medium">
-                                {plan.originalPrice}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        {plan.savings && (
-                          <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs sm:text-sm font-medium">
-                            💰 {plan.savings}
-                          </div>
+                <div className="p-8">
+                  <div className="text-center mb-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                    <p className="text-gray-600 mb-6">{plan.description}</p>
+                    
+                    <div className="mb-6">
+                      <div className="flex items-baseline justify-center">
+                        <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
+                        {plan.period && (
+                          <span className="text-lg text-gray-500 ml-1">{plan.period}</span>
                         )}
                       </div>
-                    </CardHeader>
-                    
-                    <CardContent className="space-y-6 px-4 sm:px-6 pb-6 sm:pb-8">
-                      <Button 
-                        className={`
-                          w-full py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 shadow-lg
-                          ${plan.popular 
-                            ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white hover:shadow-xl hover:scale-105' 
-                            : plan.price !== 'Free'
-                              ? 'bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 text-white hover:shadow-xl'
-                              : 'bg-white border-2 border-gray-300 text-gray-900 hover:bg-gray-50 hover:border-gray-400 hover:shadow-md'
-                          }
-                        `}
-                        onClick={() => navigate('/dashboard')}
-                      >
-                        {plan.cta}
-                        <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                      
-                      <div className="space-y-4 sm:space-y-5">
-                        <div className="text-center">
-                          <span className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">
-                            What's Included
-                          </span>
+                      {plan.originalPrice && (
+                        <div className="mt-2">
+                          <span className="text-lg text-gray-400 line-through">{plan.originalPrice}</span>
+                          <span className="ml-2 text-sm text-green-600 font-semibold">{plan.savings}</span>
                         </div>
-                        <div className="space-y-3 sm:space-y-4">
-                          {plan.features.map((feature, featureIndex) => (
-                            <div key={featureIndex} className="flex items-start gap-3">
-                              <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 flex items-center justify-center mt-0.5">
-                                <Check className="h-3 w-3 text-white font-bold" />
-                              </div>
-                              <span className="text-gray-700 text-sm sm:text-base leading-relaxed">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </CardContent>
+                      )}
+                    </div>
+
+                    <Button 
+                      className={`
+                        w-full py-3 text-lg font-semibold rounded-lg transition-all duration-200
+                        ${plan.popular 
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl' 
+                          : plan.price !== 'Free'
+                            ? 'bg-gray-900 hover:bg-gray-800 text-white'
+                            : 'bg-gray-100 hover:bg-gray-200 text-gray-900 border border-gray-300'
+                        }
+                      `}
+                      onClick={() => navigate('/dashboard')}
+                    >
+                      {plan.cta}
+                    </Button>
                   </div>
-                </Card>
+                  
+                  <div className="space-y-4">
+                    <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide border-b border-gray-200 pb-2">
+                      What's included
+                    </h4>
+                    <div className="space-y-3">
+                      {plan.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="flex items-start">
+                          <Check className="h-5 w-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
+                          <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-12 sm:mt-16">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto shadow-xl border border-white/50">
-              <div className="flex items-center justify-center gap-2 mb-4 sm:mb-6">
-                <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                  30-Day Money-Back Guarantee
-                </span>
+          <div className="mt-16 text-center">
+            <div className="bg-gray-50 rounded-2xl p-8 max-w-4xl mx-auto">
+              <div className="flex items-center justify-center mb-4">
+                <Shield className="w-6 h-6 text-green-600 mr-2" />
+                <span className="text-lg font-semibold text-gray-900">30-day money-back guarantee</span>
               </div>
-              <p className="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed">
-                All plans include SSL security, automatic backups, 99.9% uptime guarantee, and dedicated contractor support.
+              <p className="text-gray-600 mb-6">
+                All plans include SSL security, automatic backups, 99.9% uptime guarantee, and 24/7 support.
               </p>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
-                <div className="flex items-center justify-center gap-2">
-                  <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  <span>No setup fees</span>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-500">
+                <div className="flex items-center justify-center">
+                  <Check className="w-4 h-4 text-green-500 mr-2" />
+                  No setup fees
                 </div>
-                <div className="flex items-center justify-center gap-2">
-                  <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  <span>Cancel anytime</span>
+                <div className="flex items-center justify-center">
+                  <Check className="w-4 h-4 text-green-500 mr-2" />
+                  Cancel anytime
                 </div>
-                <div className="flex items-center justify-center gap-2">
-                  <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  <span>24/7 support</span>
+                <div className="flex items-center justify-center">
+                  <Check className="w-4 h-4 text-green-500 mr-2" />
+                  24/7 support
                 </div>
-                <div className="flex items-center justify-center gap-2">
-                  <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                  <span>Free migration</span>
+                <div className="flex items-center justify-center">
+                  <Check className="w-4 h-4 text-green-500 mr-2" />
+                  Free migration
                 </div>
               </div>
             </div>
             
-            <div className="mt-8 sm:mt-12">
-              <p className="text-gray-600 mb-4 text-sm sm:text-base">Need something custom?</p>
+            <div className="mt-8">
+              <p className="text-gray-600 mb-4">Need a custom plan for your enterprise?</p>
               <Button 
                 variant="outline"
                 onClick={() => navigate('/contact')}
-                className="border-blue-600 text-blue-600 hover:bg-blue-50 px-6 sm:px-8 py-2 sm:py-3"
+                className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3"
               >
-                Talk to Sales
+                Contact Sales
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
