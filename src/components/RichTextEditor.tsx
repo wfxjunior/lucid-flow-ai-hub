@@ -28,7 +28,8 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
     // Restore cursor position
     setTimeout(() => {
       textarea.focus()
-      textarea.setSelectionRange(start + before.length, end + before.length)
+      const newCursorPos = start + before.length + selectedText.length + after.length
+      textarea.setSelectionRange(newCursorPos, newCursorPos)
     }, 0)
   }, [value, onChange])
 
@@ -37,10 +38,10 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
     if (!textarea) return
 
     const start = textarea.selectionStart
-    const lines = value.substring(0, start).split('\n')
-    const currentLineStart = value.lastIndexOf('\n', start - 1) + 1
+    const lineStart = value.lastIndexOf('\n', start - 1) + 1
+    const currentLine = value.substring(lineStart, start)
     
-    if (lines[lines.length - 1].trim() === '') {
+    if (currentLine.trim() === '') {
       insertText('• ')
     } else {
       insertText('\n• ')
@@ -52,10 +53,10 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
     if (!textarea) return
 
     const start = textarea.selectionStart
-    const lines = value.substring(0, start).split('\n')
-    const currentLineStart = value.lastIndexOf('\n', start - 1) + 1
+    const lineStart = value.lastIndexOf('\n', start - 1) + 1
+    const currentLine = value.substring(lineStart, start)
     
-    if (lines[lines.length - 1].trim() === '') {
+    if (currentLine.trim() === '') {
       insertText('1. ')
     } else {
       insertText('\n1. ')
@@ -67,9 +68,10 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
     if (!textarea) return
 
     const start = textarea.selectionStart
-    const lines = value.substring(0, start).split('\n')
+    const lineStart = value.lastIndexOf('\n', start - 1) + 1
+    const currentLine = value.substring(lineStart, start)
     
-    if (lines[lines.length - 1].trim() === '') {
+    if (currentLine.trim() === '') {
       insertText('> ')
     } else {
       insertText('\n> ')

@@ -1,4 +1,3 @@
-
 import React from 'react'
 
 interface FormattedTextProps {
@@ -14,8 +13,6 @@ export function FormattedText({ content, className = '' }: FormattedTextProps) {
     const lines = text.split('\n')
     
     return lines.map((line, lineIndex) => {
-      let formattedLine = line
-      
       // Handle quotes
       if (line.trim().startsWith('> ')) {
         return (
@@ -57,54 +54,80 @@ export function FormattedText({ content, className = '' }: FormattedTextProps) {
   }
   
   const formatInlineText = (text: string) => {
+    if (!text) return text
+    
     let result = text
     const parts: React.ReactNode[] = []
     let lastIndex = 0
     
-    // Handle bold (**text**)
-    const boldRegex = /\*\*(.*?)\*\*/g
+    // Find all formatting matches and sort them by position
+    const allMatches: Array<{index: number, length: number, replacement: React.ReactNode, type: string}> = []
+    
+    // Bold (**text**)
+    const boldRegex = /\*\*((?:[^*]|\*(?!\*))+?)\*\*/g
     let match
-    
-    // Process all formatting
-    const allMatches: Array<{index: number, length: number, replacement: React.ReactNode}> = []
-    
-    // Bold
     while ((match = boldRegex.exec(text)) !== null) {
       allMatches.push({
         index: match.index,
         length: match[0].length,
-        replacement: <strong key={`bold-${match.index}`}>{match[1]}</strong>
+        replacement: <strong key={`bold-${match.index}`}>{match[1]}</strong>,
+        type: 'bold'
       })
     }
     
-    // Italic (*text*)
-    const italicRegex = /(?<!\*)\*([^*]+?)\*(?!\*)/g
+    // Reset regex
+    boldRegex.lastIndex = 0
+    
+    // Italic (*text*) - must not be part of bold
+    const italicRegex = /(?<!\*)\*([^*\n]+?)\*(?!\*)/g
     while ((match = italicRegex.exec(text)) !== null) {
-      // Make sure it's not part of a bold pattern
-      if (!allMatches.some(m => match.index >= m.index && match.index < m.index + m.length)) {
+      // Check if this italic is not inside a bold pattern
+      const isInsideBold = allMatches.some(m => 
+        m.type === 'bold' && 
+        match.index >= m.index && 
+        match.index + match[0].length <= m.index + m.length
+      )
+      
+      if (!isInsideBold) {
         allMatches.push({
           index: match.index,
           length: match[0].length,
-          replacement: <em key={`italic-${match.index}`}>{match[1]}</em>
+          replacement: <em key={`italic-${match.index}`}>{match[1]}</em>,
+          type: 'italic'
         })
       }
     }
     
+    // Reset regex
+    italicRegex.lastIndex = 0
+    
     // Underline (__text__)
-    const underlineRegex = /__(.*?)__/g
+    const underlineRegex = /__([^_\n]+?)__/g
     while ((match = underlineRegex.exec(text)) !== null) {
       allMatches.push({
         index: match.index,
         length: match[0].length,
-        replacement: <u key={`underline-${match.index}`}>{match[1]}</u>
+        replacement: <u key={`underline-${match.index}`}>{match[1]}</u>,
+        type: 'underline'
       })
     }
     
-    // Sort matches by index
+    // Sort matches by index to process them in order
     allMatches.sort((a, b) => a.index - b.index)
     
-    // Build the result
-    for (const formatMatch of allMatches) {
+    // Remove overlapping matches (keep the first one)
+    const filteredMatches = []
+    for (const current of allMatches) {
+      const hasOverlap = filteredMatches.some(existing => 
+        (current.index < existing.index + existing.length && current.index + current.length > existing.index)
+      )
+      if (!hasOverlap) {
+        filteredMatches.push(current)
+      }
+    }
+    
+    // Build the result with formatting applied
+    for (const formatMatch of filteredMatches) {
       if (lastIndex < formatMatch.index) {
         parts.push(text.substring(lastIndex, formatMatch.index))
       }
