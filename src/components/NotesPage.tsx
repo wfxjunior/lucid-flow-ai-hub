@@ -112,8 +112,8 @@ export function NotesPage() {
           .update({
             title: formData.title,
             content: formData.content,
-            related_client: formData.related_client || null,
-            related_project: formData.related_project || null,
+            related_client: formData.related_client === 'no-client' ? null : formData.related_client,
+            related_project: formData.related_project === 'no-project' ? null : formData.related_project,
             tags: formData.tags || null,
             attachments: formData.attachments,
             updated_at: new Date().toISOString()
@@ -133,8 +133,8 @@ export function NotesPage() {
           .insert({
             title: formData.title,
             content: formData.content,
-            related_client: formData.related_client || null,
-            related_project: formData.related_project || null,
+            related_client: formData.related_client === 'no-client' ? null : formData.related_client,
+            related_project: formData.related_project === 'no-project' ? null : formData.related_project,
             tags: formData.tags || null,
             attachments: formData.attachments,
             user_id: user.id,
@@ -205,8 +205,8 @@ export function NotesPage() {
     setFormData({
       title: note.title,
       content: note.content || '',
-      related_client: note.related_client || '',
-      related_project: note.related_project || '',
+      related_client: note.related_client || 'no-client',
+      related_project: note.related_project || 'no-project',
       tags: note.tags || '',
       attachments: note.attachments || []
     })
@@ -218,8 +218,8 @@ export function NotesPage() {
       const matchesSearch = note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            note.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            note.tags?.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesClient = !filterClient || note.related_client === filterClient
-      const matchesProject = !filterProject || note.related_project === filterProject
+      const matchesClient = !filterClient || filterClient === 'all-clients' || note.related_client === filterClient
+      const matchesProject = !filterProject || filterProject === 'all-projects' || note.related_project === filterProject
       return matchesSearch && matchesClient && matchesProject
     })
     .sort((a, b) => {
@@ -294,7 +294,7 @@ export function NotesPage() {
                       <SelectValue placeholder="Select client (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">No client</SelectItem>
+                      <SelectItem value="no-client">No client</SelectItem>
                       {availableClients.map((client) => (
                         <SelectItem key={client} value={client}>{client}</SelectItem>
                       ))}
@@ -312,7 +312,7 @@ export function NotesPage() {
                       <SelectValue placeholder="Select project (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">No project</SelectItem>
+                      <SelectItem value="no-project">No project</SelectItem>
                       {availableProjects.map((project) => (
                         <SelectItem key={project} value={project}>{project}</SelectItem>
                       ))}
@@ -365,7 +365,7 @@ export function NotesPage() {
                   <SelectValue placeholder="Filter by client" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All clients</SelectItem>
+                  <SelectItem value="all-clients">All clients</SelectItem>
                   {availableClients.map((client) => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
                   ))}
@@ -376,7 +376,7 @@ export function NotesPage() {
                   <SelectValue placeholder="Filter by project" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All projects</SelectItem>
+                  <SelectItem value="all-projects">All projects</SelectItem>
                   {availableProjects.map((project) => (
                     <SelectItem key={project} value={project}>{project}</SelectItem>
                   ))}
