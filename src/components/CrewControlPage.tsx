@@ -11,6 +11,7 @@ import { EmployeeList } from './crew-control/EmployeeList'
 import { TimeTracking } from './crew-control/TimeTracking'
 import { PayrollSummary } from './crew-control/PayrollSummary'
 import { EmployeeDetails } from './crew-control/EmployeeDetails'
+import { CrewAnalytics } from './crew-control/CrewAnalytics'
 
 export function CrewControlPage() {
   const [showEmployeeForm, setShowEmployeeForm] = useState(false)
@@ -108,11 +109,12 @@ export function CrewControlPage() {
 
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="employees">Employees</TabsTrigger>
           <TabsTrigger value="tracking">Time Tracking</TabsTrigger>
           <TabsTrigger value="payroll">Payroll</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="details">Details</TabsTrigger>
         </TabsList>
 
@@ -134,6 +136,10 @@ export function CrewControlPage() {
 
         <TabsContent value="payroll">
           <PayrollSummary expanded />
+        </TabsContent>
+
+        <TabsContent value="analytics">
+          <CrewAnalytics />
         </TabsContent>
 
         <TabsContent value="details">

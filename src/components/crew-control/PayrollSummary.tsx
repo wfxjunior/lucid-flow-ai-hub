@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface PayrollEntry {
   employeeId: string
@@ -18,6 +19,7 @@ interface PayrollEntry {
   totalPay: number
   paidAmount: number
   status: 'pending' | 'paid' | 'partial'
+  paymentMethod?: 'check' | 'cash' | 'digital_transfer' | 'cashapp' | 'zelle'
 }
 
 interface PayrollSummaryProps {
@@ -38,7 +40,8 @@ export function PayrollSummary({ expanded = false }: PayrollSummaryProps) {
       extraCosts: 50.00,
       totalPay: 1275.50,
       paidAmount: 1275.50,
-      status: 'paid'
+      status: 'paid',
+      paymentMethod: 'digital_transfer'
     },
     {
       employeeId: '2',
@@ -51,7 +54,8 @@ export function PayrollSummary({ expanded = false }: PayrollSummaryProps) {
       extraCosts: 25.00,
       totalPay: 1025.00,
       paidAmount: 500.00,
-      status: 'partial'
+      status: 'partial',
+      paymentMethod: 'cashapp'
     },
     {
       employeeId: '3',
@@ -83,6 +87,27 @@ export function PayrollSummary({ expanded = false }: PayrollSummaryProps) {
 
   const getPaymentProgress = (paid: number, total: number) => {
     return Math.round((paid / total) * 100)
+  }
+
+  const getPaymentMethodDisplay = (method?: string) => {
+    switch (method) {
+      case 'check': return 'Check'
+      case 'cash': return 'Cash'
+      case 'digital_transfer': return 'Digital Transfer'
+      case 'cashapp': return 'CashApp'
+      case 'zelle': return 'Zelle'
+      default: return 'Not Set'
+    }
+  }
+
+  const handlePaymentMethodChange = (employeeId: string, method: string) => {
+    // This would update the payment method in real implementation
+    console.log(`Updated payment method for employee ${employeeId} to ${method}`)
+  }
+
+  const handleMarkAsPaid = (employeeId: string) => {
+    // This would mark the employee as paid in real implementation
+    console.log(`Marked employee ${employeeId} as paid`)
   }
 
   return (
@@ -180,6 +205,26 @@ export function PayrollSummary({ expanded = false }: PayrollSummaryProps) {
                 </div>
               )}
 
+              {/* Payment Method Selection */}
+              <div className="mb-3">
+                <label className="text-sm text-gray-600 mb-1 block">Payment Method</label>
+                <Select 
+                  value={entry.paymentMethod || ""} 
+                  onValueChange={(value) => handlePaymentMethodChange(entry.employeeId, value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select payment method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="check">Check</SelectItem>
+                    <SelectItem value="cash">Cash</SelectItem>
+                    <SelectItem value="digital_transfer">Digital Transfer</SelectItem>
+                    <SelectItem value="cashapp">CashApp</SelectItem>
+                    <SelectItem value="zelle">Zelle</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Payment Progress</span>
@@ -193,7 +238,11 @@ export function PayrollSummary({ expanded = false }: PayrollSummaryProps) {
 
               {entry.status !== 'paid' && (
                 <div className="mt-3 pt-3 border-t">
-                  <Button size="sm" className="w-full">
+                  <Button 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => handleMarkAsPaid(entry.employeeId)}
+                  >
                     Mark as Paid
                   </Button>
                 </div>
