@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
@@ -12,6 +10,8 @@ import { Search, Plus, Edit, Trash2, StickyNote, Filter, Upload, X } from 'lucid
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { format } from "date-fns"
+import { RichTextEditor } from "./RichTextEditor"
+import { FormattedText } from "./FormattedText"
 
 interface Note {
   id: string
@@ -256,7 +256,7 @@ export function NotesPage() {
               Add Note
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editingNote ? 'Edit Note' : 'Create New Note'}</DialogTitle>
             </DialogHeader>
@@ -274,12 +274,11 @@ export function NotesPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="content">Content</Label>
-                <Textarea
-                  id="content"
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                  placeholder="Write your note content here..."
-                  rows={6}
+                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                  placeholder="Write your note content here... Use **bold**, *italic*, __underline__, • for bullets, 1. for numbers"
+                  rows={8}
                 />
               </div>
 
@@ -436,7 +435,9 @@ export function NotesPage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 {note.content && (
-                  <p className="text-gray-600 text-sm line-clamp-3">{note.content}</p>
+                  <div className="text-gray-600 text-sm line-clamp-3">
+                    <FormattedText content={note.content} />
+                  </div>
                 )}
                 
                 {(note.related_client || note.related_project) && (
