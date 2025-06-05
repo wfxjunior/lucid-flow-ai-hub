@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -17,37 +16,49 @@ const LandingPage = () => {
       icon: Users,
       title: "Customer Management",
       description: "Efficiently manage your clients with our comprehensive CRM system",
-      highlight: "Complete CRM"
+      highlight: "Complete CRM",
+      benefits: ["Contact management", "Lead tracking", "Communication history"],
+      color: "from-blue-500 to-cyan-500"
     },
     {
       icon: Shield,
       title: "Secure & Reliable",
       description: "Enterprise-grade security with 99.9% uptime guarantee",
-      highlight: "99.9% Uptime"
+      highlight: "99.9% Uptime",
+      benefits: ["Bank-level security", "Auto backups", "24/7 monitoring"],
+      color: "from-green-500 to-emerald-500"
     },
     {
       icon: Zap,
       title: "AI-Powered",
       description: "Leverage artificial intelligence to automate and optimize your workflow",
-      highlight: "Integrated AI"
+      highlight: "Integrated AI",
+      benefits: ["Smart automation", "Predictive insights", "Voice commands"],
+      color: "from-purple-500 to-violet-500"
     },
     {
       icon: TrendingUp,
       title: "Analytics Dashboard",
       description: "Gain insights with powerful analytics and reporting tools",
-      highlight: "Advanced Analytics"
+      highlight: "Advanced Analytics",
+      benefits: ["Real-time reports", "Custom dashboards", "Performance metrics"],
+      color: "from-orange-500 to-red-500"
     },
     {
       icon: MessageSquare,
       title: "Voice Assistant",
       description: "Control your business with voice commands and AI assistance",
-      highlight: "Voice Command"
+      highlight: "Voice Command",
+      benefits: ["Hands-free control", "Natural language", "Smart responses"],
+      color: "from-pink-500 to-rose-500"
     },
     {
       icon: Award,
       title: "Professional Tools",
       description: "Create invoices, contracts and documents with ease",
-      highlight: "Pro Documents"
+      highlight: "Pro Documents",
+      benefits: ["Templates library", "E-signatures", "Auto generation"],
+      color: "from-indigo-500 to-blue-500"
     }
   ]
 
@@ -372,56 +383,155 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-12 sm:py-16 lg:py-20 xl:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 px-2 sm:px-0">
-              Everything You Need in One Platform
+      {/* Enhanced Features Section */}
+      <section id="features" className="py-20 xl:py-32 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:radial-gradient(ellipse_at_center,white_50%,transparent_100%)]"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full opacity-20 blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-purple-200 rounded-full opacity-20 blur-3xl"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 text-blue-700 px-6 py-3 rounded-full text-sm font-medium mb-8 shadow-sm">
+              <Sparkles className="w-4 h-4 mr-2 text-blue-500" />
+              Everything Your Business Needs
+            </div>
+            
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-8 leading-tight">
+              One Platform.
+              <br className="hidden sm:block" />
+              <span className="text-blue-600">Infinite Possibilities.</span>
             </h2>
-            <p className="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-600 max-w-3xl mx-auto px-2 sm:px-0">
-              From customer management to AI automation, have all the tools
-              necessary to make your business thrive.
+            
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
+              Stop juggling multiple tools. Our all-in-one platform gives you everything needed to 
+              <span className="font-semibold text-blue-600"> grow, manage, and scale your business</span> like never before.
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {features.map((feature, index) => (
-              <Card 
-                key={index} 
-                className="group hover:shadow-xl transition-all duration-300 border-gray-200 hover:border-blue-200 cursor-pointer h-full"
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+              <Button 
+                size="lg"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
                 onClick={() => navigate('/dashboard')}
               >
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-2 sm:p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors flex-shrink-0">
-                      <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                <Play className="w-5 h-5 mr-2" />
+                Start Free Trial
+              </Button>
+              <Button 
+                variant="outline"
+                size="lg"
+                className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg hover:border-blue-300 transition-all"
+                onClick={() => navigate('/demo')}
+              >
+                <Zap className="w-5 h-5 mr-2" />
+                See It In Action
+              </Button>
+            </div>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            {features.map((feature, index) => (
+              <div 
+                key={index}
+                className="group relative"
+              >
+                {/* Feature Card */}
+                <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-blue-200 cursor-pointer h-full transform hover:-translate-y-2"
+                     onClick={() => navigate('/dashboard')}>
+                  
+                  {/* Icon & Badge */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}>
+                      <feature.icon className="h-8 w-8 text-white" />
                     </div>
-                    <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full whitespace-nowrap">
+                    <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-200">
                       {feature.highlight}
                     </span>
                   </div>
-                  <CardTitle className="text-base sm:text-lg lg:text-xl group-hover:text-blue-600 transition-colors">
+
+                  {/* Content */}
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
                     {feature.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 leading-relaxed text-sm sm:text-base mb-4">
+                  </h3>
+                  
+                  <p className="text-gray-600 leading-relaxed mb-6 text-base">
                     {feature.description}
-                  </CardDescription>
-                  <div className="flex items-center text-blue-600 group-hover:text-blue-700">
-                    <span className="text-sm font-medium">Learn more</span>
-                    <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </p>
+
+                  {/* Benefits List */}
+                  <div className="space-y-3 mb-6">
+                    {feature.benefits.map((benefit, benefitIndex) => (
+                      <div key={benefitIndex} className="flex items-center text-sm text-gray-700">
+                        <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3 flex-shrink-0"></div>
+                        <span>{benefit}</span>
+                      </div>
+                    ))}
                   </div>
-                </CardContent>
-              </Card>
+
+                  {/* CTA */}
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <div className="flex items-center text-blue-600 group-hover:text-blue-700">
+                      <span className="font-semibold text-sm">Explore Feature</span>
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                    <div className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full font-medium">
+                      Included
+                    </div>
+                  </div>
+
+                  {/* Hover Effect Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                </div>
+
+                {/* Floating Number */}
+                <div className="absolute -top-4 -right-4 w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+                  {index + 1}
+                </div>
+              </div>
             ))}
+          </div>
+
+          {/* Bottom CTA Section */}
+          <div className="mt-20 text-center">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-white relative overflow-hidden">
+              <div className="absolute inset-0 bg-black/10"></div>
+              <div className="relative">
+                <h3 className="text-3xl font-bold mb-4">
+                  Ready to Transform Your Business?
+                </h3>
+                <p className="text-blue-100 mb-8 text-lg max-w-2xl mx-auto">
+                  Join over 10,000+ businesses already using our platform to streamline operations and boost growth.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button 
+                    size="lg"
+                    className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    Start Your Free Trial
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    size="lg"
+                    className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg transition-all"
+                    onClick={() => navigate('/contact')}
+                  >
+                    Talk to Sales
+                  </Button>
+                </div>
+                <p className="text-blue-200 text-sm mt-6">
+                  ✓ 14-day free trial ✓ No credit card required ✓ Setup in 2 minutes
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Smart Tools Section */}
-      <section className="py-12 sm:py-16 lg:py-20 xl:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-12 sm:py-16 lg:py-20 xl:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16 lg:mb-20">
             <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
