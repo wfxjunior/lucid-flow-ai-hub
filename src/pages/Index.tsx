@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { Toaster } from "@/components/ui/toaster"
 import { BusinessDashboard } from "@/components/BusinessDashboard"
@@ -75,8 +75,13 @@ export default function Index() {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-        <main className="flex-1 p-6 overflow-auto">
-          {renderActiveView()}
+        <main className="flex-1 overflow-auto">
+          <div className="p-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <SidebarTrigger className="h-8 w-8" />
+          </div>
+          <div className="p-6">
+            {renderActiveView()}
+          </div>
         </main>
         <Toaster />
       </div>
