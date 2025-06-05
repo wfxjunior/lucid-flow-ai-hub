@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, Crown, Zap, Star, Sparkles } from "lucide-react"
+import { Check, Crown, Zap, Star, Sparkles, Shield } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 // Mock Supabase functionality for now
