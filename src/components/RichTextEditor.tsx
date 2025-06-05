@@ -151,7 +151,7 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
         style={{ fontFamily: 'ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco, Consolas, monospace' }}
       />
       <div className="text-xs text-gray-500 px-2">
-        Use **bold**, *italic*, __underline__, • for bullets, 1. for numbers, > for quotes
+        Use **bold**, *italic*, __underline__, • for bullets, 1. for numbers, {'>'}  for quotes
       </div>
     </div>
   )
