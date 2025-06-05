@@ -5,7 +5,7 @@ import { LanguageSelector } from "@/components/LanguageSelector"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown } from "lucide-react"
+import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package } from "lucide-react"
 import { useState } from "react"
 
 const LandingPage = () => {
@@ -48,6 +48,41 @@ const LandingPage = () => {
       title: "Professional Tools",
       description: "Create invoices, contracts and documents with ease",
       highlight: "Pro Documents"
+    }
+  ]
+
+  const smartTools = [
+    {
+      icon: FileText,
+      title: "Smart Invoice",
+      description: "Create professional invoices instantly with AI-powered templates, automatic calculations, and smart client data integration. Track payments, send reminders, and manage your cash flow effortlessly.",
+      features: ["AI-powered templates", "Automatic calculations", "Payment tracking", "Custom branding"],
+      gradient: "from-green-500 to-emerald-600",
+      bgColor: "bg-green-50"
+    },
+    {
+      icon: ClipboardList,
+      title: "Smart To-Do Lists",
+      description: "Organize your business tasks with intelligent prioritization, deadline tracking, and team collaboration. Never miss important deadlines with our AI-assisted task management.",
+      features: ["Smart prioritization", "Team collaboration", "Deadline alerts", "Progress tracking"],
+      gradient: "from-blue-500 to-cyan-600",
+      bgColor: "bg-blue-50"
+    },
+    {
+      icon: UserCheck,
+      title: "CrewControl",
+      description: "Manage your team efficiently with advanced employee tracking, payroll management, time sheets, and performance analytics. Keep your crew organized and productive.",
+      features: ["Employee tracking", "Payroll management", "Time sheets", "Performance analytics"],
+      gradient: "from-purple-500 to-indigo-600",
+      bgColor: "bg-purple-50"
+    },
+    {
+      icon: Package,
+      title: "MatTrack",
+      description: "Track your materials and inventory with real-time monitoring, low stock alerts, supplier management, and automated ordering. Never run out of essential supplies again.",
+      features: ["Real-time tracking", "Low stock alerts", "Supplier management", "Automated ordering"],
+      gradient: "from-orange-500 to-red-600",
+      bgColor: "bg-orange-50"
     }
   ]
 
@@ -381,6 +416,89 @@ const LandingPage = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Smart Tools Section */}
+      <section className="py-12 sm:py-16 lg:py-20 xl:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+            <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Smart Business Tools
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-6 px-2 sm:px-0">
+              Powerful Tools Built for Your Success
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-2 sm:px-0">
+              Discover our specialized tools designed to streamline your business operations and boost productivity
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+            {smartTools.map((tool, index) => (
+              <Card 
+                key={index} 
+                className={`group hover:shadow-2xl transition-all duration-500 border-0 cursor-pointer overflow-hidden ${tool.bgColor} hover:scale-105`}
+                onClick={() => navigate('/dashboard')}
+              >
+                <CardHeader className="pb-6">
+                  <div className="flex items-center mb-6">
+                    <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}>
+                      <tool.icon className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+                    </div>
+                    <div className="ml-4">
+                      <CardTitle className="text-xl sm:text-2xl lg:text-3xl text-gray-900 group-hover:text-gray-700 transition-colors mb-2">
+                        {tool.title}
+                      </CardTitle>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <Zap className="w-4 h-4 mr-1" />
+                        <span>AI-Enhanced</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <CardDescription className="text-gray-700 leading-relaxed text-base sm:text-lg">
+                    {tool.description}
+                  </CardDescription>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    {tool.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center text-sm text-gray-600">
+                        <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-2 flex-shrink-0"></div>
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                    <div className="flex items-center text-blue-600 group-hover:text-blue-700">
+                      <span className="font-medium">Try it now</span>
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                    <div className="text-xs text-gray-500 bg-white px-3 py-1 rounded-full">
+                      Free Trial
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12 sm:mt-16">
+            <Button 
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all"
+              onClick={() => navigate('/dashboard')}
+            >
+              <Play className="w-5 h-5 mr-2" />
+              Explore All Tools
+            </Button>
+            <p className="text-sm text-gray-500 mt-4">
+              Start your free 14-day trial • No credit card required
+            </p>
           </div>
         </div>
       </section>
