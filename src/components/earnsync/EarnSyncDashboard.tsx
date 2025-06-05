@@ -24,25 +24,25 @@ export function EarnSyncDashboard() {
   ]
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
       {/* Recent Earnings */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <DollarSign className="w-5 h-5" />
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <DollarSign className="w-4 h-4 md:w-5 md:h-5" />
             Recent Earnings
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3 md:space-y-4">
           {recentEarnings.map((earning) => (
             <div key={earning.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div>
-                <p className="font-medium">{earning.company}</p>
-                <p className="text-sm text-gray-600">{earning.date}</p>
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-sm md:text-base truncate">{earning.company}</p>
+                <p className="text-xs md:text-sm text-gray-600">{earning.date}</p>
               </div>
-              <div className="text-right">
-                <p className="font-bold text-green-600">${earning.amount}</p>
-                <Badge variant={earning.status === 'paid' ? 'default' : 'secondary'}>
+              <div className="text-right ml-2">
+                <p className="font-bold text-green-600 text-sm md:text-base">${earning.amount}</p>
+                <Badge variant={earning.status === 'paid' ? 'default' : 'secondary'} className="text-xs">
                   {earning.status}
                 </Badge>
               </div>
@@ -53,22 +53,22 @@ export function EarnSyncDashboard() {
 
       {/* Recent Expenses */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Receipt className="w-5 h-5" />
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <Receipt className="w-4 h-4 md:w-5 md:h-5" />
             Recent Expenses
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3 md:space-y-4">
           {recentExpenses.map((expense) => (
             <div key={expense.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div>
-                <p className="font-medium">{expense.category}</p>
-                <p className="text-sm text-gray-600">{expense.company}</p>
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-sm md:text-base">{expense.category}</p>
+                <p className="text-xs md:text-sm text-gray-600 truncate">{expense.company}</p>
               </div>
-              <div className="text-right">
-                <p className="font-bold text-red-600">-${expense.amount}</p>
-                <p className="text-sm text-gray-600">{expense.date}</p>
+              <div className="text-right ml-2">
+                <p className="font-bold text-red-600 text-sm md:text-base">-${expense.amount}</p>
+                <p className="text-xs md:text-sm text-gray-600">{expense.date}</p>
               </div>
             </div>
           ))}
@@ -76,22 +76,22 @@ export function EarnSyncDashboard() {
       </Card>
 
       {/* Upcoming Jobs */}
-      <Card className="lg:col-span-2">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="w-5 h-5" />
+      <Card className="xl:col-span-2">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <Calendar className="w-4 h-4 md:w-5 md:h-5" />
             Upcoming Jobs
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             {upcomingJobs.map((job) => (
-              <div key={job.id} className="flex items-center gap-4 p-4 border rounded-lg">
-                <Building2 className="w-8 h-8 text-blue-600" />
-                <div>
-                  <p className="font-medium">{job.company}</p>
-                  <p className="text-sm text-gray-600">{job.workType}</p>
-                  <p className="text-sm text-gray-500">{job.date}</p>
+              <div key={job.id} className="flex items-center gap-3 md:gap-4 p-3 md:p-4 border rounded-lg">
+                <Building2 className="w-6 h-6 md:w-8 md:h-8 text-blue-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="font-medium text-sm md:text-base truncate">{job.company}</p>
+                  <p className="text-xs md:text-sm text-gray-600">{job.workType}</p>
+                  <p className="text-xs md:text-sm text-gray-500">{job.date}</p>
                 </div>
               </div>
             ))}
