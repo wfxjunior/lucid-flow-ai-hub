@@ -298,7 +298,7 @@ const LandingPage = () => {
               <span className="whitespace-nowrap">New: AI Assistant with Voice Commands</span>
             </div>
             
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
               Make Your Business
               <span className="text-blue-600 block">Smarter. Faster. Stronger.</span>
             </h1>
@@ -393,7 +393,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-20">
             <div className="inline-flex items-center bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 text-blue-700 px-6 py-3 rounded-full text-sm font-medium mb-8 shadow-sm">
-              <Sparkles className="w-4 h-4 mr-2 text-blue-500" />
+              <Sparkles className="w-4 h-4 mr-2" />
               Everything Your Business Needs
             </div>
             
