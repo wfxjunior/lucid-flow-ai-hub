@@ -743,6 +743,48 @@ export type Database = {
         }
         Relationships: []
       }
+      notes: {
+        Row: {
+          attachments: string[] | null
+          content: string | null
+          created_at: string
+          created_by: string
+          id: string
+          related_client: string | null
+          related_project: string | null
+          tags: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attachments?: string[] | null
+          content?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          related_client?: string | null
+          related_project?: string | null
+          tags?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attachments?: string[] | null
+          content?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          related_client?: string | null
+          related_project?: string | null
+          tags?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
           amount: number

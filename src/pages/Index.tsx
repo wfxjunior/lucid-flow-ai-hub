@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
@@ -23,6 +22,7 @@ import { MatTrackPage } from "@/components/MatTrackPage"
 import { CrewControlPage } from "@/components/CrewControlPage"
 import { EarnSyncPage } from "@/components/EarnSyncPage"
 import { UserGreeting } from "@/components/UserGreeting"
+import { NotesPage } from "@/components/NotesPage"
 
 export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -53,6 +53,8 @@ export default function Index() {
         return <TodoListPage />
       case "projects":
         return <ProjectsPage />
+      case "notes":
+        return <NotesPage />
       case "ai-voice":
         return <AIVoiceAssistant />
       case "features":
