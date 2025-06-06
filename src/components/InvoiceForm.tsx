@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -180,7 +181,7 @@ export function InvoiceForm() {
 
   const addLineItem = () => {
     const newItem: LineItem = { 
-      type: "service", 
+      type: "service" as const, 
       description: "", 
       quantity: 1, 
       rate: 0, 
@@ -236,7 +237,7 @@ export function InvoiceForm() {
       toast.success("Invoice created successfully")
       // Reset form
       invoiceForm.reset()
-      setLineItems([{ type: "service", description: "", quantity: 1, rate: 0, tax_rate: 0, amount: 0 }])
+      setLineItems([{ type: "service" as const, description: "", quantity: 1, rate: 0, tax_rate: 0, amount: 0 }])
       generateInvoiceNumber()
       setInvoiceDate(new Date().toISOString().split('T')[0])
       setInvoiceStatus('draft')
