@@ -105,8 +105,8 @@ export function TimeTracking({ limit }: TimeTrackingProps) {
             <Clock className="w-5 h-5" />
             Time Tracking
           </CardTitle>
-          <Button size="sm" onClick={() => setShowCheckInForm(!showCheckInForm)}>
-            <LogIn className="w-4 h-4 mr-2" />
+          <Button size="lg" onClick={() => setShowCheckInForm(!showCheckInForm)} className="h-12 px-6">
+            <LogIn className="w-5 h-5 mr-2" />
             Check In
           </Button>
         </div>
@@ -119,7 +119,7 @@ export function TimeTracking({ limit }: TimeTrackingProps) {
               <div>
                 <Label htmlFor="employee">Employee</Label>
                 <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-12">
                     <SelectValue placeholder="Select employee" />
                   </SelectTrigger>
                   <SelectContent>
@@ -136,6 +136,7 @@ export function TimeTracking({ limit }: TimeTrackingProps) {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="Enter job site address"
+                  className="h-12"
                 />
               </div>
               <div>
@@ -145,13 +146,14 @@ export function TimeTracking({ limit }: TimeTrackingProps) {
                   value={customer}
                   onChange={(e) => setCustomer(e.target.value)}
                   placeholder="Customer name"
+                  className="h-12"
                 />
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleCheckIn} size="sm">
+              <div className="flex gap-3">
+                <Button onClick={handleCheckIn} size="lg" className="h-12 px-6 flex-1">
                   Check In
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => setShowCheckInForm(false)}>
+                <Button variant="outline" size="lg" onClick={() => setShowCheckInForm(false)} className="h-12 px-6">
                   Cancel
                 </Button>
               </div>
@@ -185,11 +187,12 @@ export function TimeTracking({ limit }: TimeTrackingProps) {
               </div>
               {entry.status === 'active' && (
                 <Button 
-                  size="sm" 
+                  size="lg" 
                   variant="outline"
                   onClick={() => handleCheckOut(entry.id, entry.employeeName)}
+                  className="h-12 px-4"
                 >
-                  <LogOut className="w-3 h-3 mr-1" />
+                  <LogOut className="w-4 h-4 mr-2" />
                   Check Out
                 </Button>
               )}

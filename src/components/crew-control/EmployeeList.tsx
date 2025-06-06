@@ -123,15 +123,15 @@ export function EmployeeList({ searchQuery = '', limit, onSelectEmployee }: Empl
                   </Badge>
                 </div>
               </div>
-              <div className="flex gap-1">
-                <Button size="sm" variant="ghost" onClick={() => onSelectEmployee(employee.id)}>
-                  <Eye className="w-3 h-3" />
+              <div className="flex gap-2">
+                <Button size="lg" variant="ghost" onClick={() => onSelectEmployee(employee.id)} className="h-10 w-10 sm:h-12 sm:w-12">
+                  <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
-                <Button size="sm" variant="ghost">
-                  <Edit3 className="w-3 h-3" />
+                <Button size="lg" variant="ghost" className="h-10 w-10 sm:h-12 sm:w-12">
+                  <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
-                <Button size="sm" variant="ghost" className="text-red-600">
-                  <Trash2 className="w-3 h-3" />
+                <Button size="lg" variant="ghost" className="text-red-600 h-10 w-10 sm:h-12 sm:w-12">
+                  <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </div>
             </div>
