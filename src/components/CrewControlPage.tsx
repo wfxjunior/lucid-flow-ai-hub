@@ -28,16 +28,17 @@ export function CrewControlPage() {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-4 sm:space-y-6 p-3 sm:p-4 lg:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">CrewControl</h1>
-          <p className="text-gray-600 mt-1">Complete Employee Management System</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">CrewControl</h1>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Complete Employee Management System</p>
         </div>
         <Button 
           onClick={() => setShowEmployeeForm(true)}
-          className="bg-blue-600 hover:bg-blue-700"
+          className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
+          size="sm"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Employee
@@ -45,51 +46,51 @@ export function CrewControlPage() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-600 text-sm font-medium">Total Employees</p>
-                <p className="text-2xl font-bold text-blue-900">{statsData.totalEmployees}</p>
+                <p className="text-blue-600 text-xs sm:text-sm font-medium">Total Employees</p>
+                <p className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900">{statsData.totalEmployees}</p>
               </div>
-              <Users className="w-8 h-8 text-blue-600" />
+              <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-green-600 text-sm font-medium">Active Today</p>
-                <p className="text-2xl font-bold text-green-900">{statsData.activeToday}</p>
+                <p className="text-green-600 text-xs sm:text-sm font-medium">Active Today</p>
+                <p className="text-lg sm:text-xl lg:text-2xl font-bold text-green-900">{statsData.activeToday}</p>
               </div>
-              <Clock className="w-8 h-8 text-green-600" />
+              <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-purple-600 text-sm font-medium">Hours Today</p>
-                <p className="text-2xl font-bold text-purple-900">{statsData.totalHoursToday}</p>
+                <p className="text-purple-600 text-xs sm:text-sm font-medium">Hours Today</p>
+                <p className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-900">{statsData.totalHoursToday}</p>
               </div>
-              <Clock className="w-8 h-8 text-purple-600" />
+              <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-yellow-600 text-sm font-medium">Today's Payroll</p>
-                <p className="text-2xl font-bold text-yellow-900">${statsData.todayPayroll}</p>
+                <p className="text-yellow-600 text-xs sm:text-sm font-medium">Today's Payroll</p>
+                <p className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-900">${statsData.todayPayroll}</p>
               </div>
-              <DollarSign className="w-8 h-8 text-yellow-600" />
+              <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600" />
             </div>
           </CardContent>
         </Card>
@@ -108,18 +109,20 @@ export function CrewControlPage() {
       </div>
 
       {/* Main Content Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="employees">Employees</TabsTrigger>
-          <TabsTrigger value="tracking">Time Tracking</TabsTrigger>
-          <TabsTrigger value="payroll">Payroll</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="details">Details</TabsTrigger>
-        </TabsList>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
+        <div className="overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 min-w-fit">
+            <TabsTrigger value="overview" className="text-xs sm:text-sm">Overview</TabsTrigger>
+            <TabsTrigger value="employees" className="text-xs sm:text-sm">Employees</TabsTrigger>
+            <TabsTrigger value="tracking" className="text-xs sm:text-sm">Time Tracking</TabsTrigger>
+            <TabsTrigger value="payroll" className="text-xs sm:text-sm">Payroll</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs sm:text-sm">Analytics</TabsTrigger>
+            <TabsTrigger value="details" className="text-xs sm:text-sm">Details</TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value="overview" className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
             <EmployeeList searchQuery={searchQuery} limit={5} onSelectEmployee={setSelectedEmployee} />
             <TimeTracking limit={5} />
           </div>
