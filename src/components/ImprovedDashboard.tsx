@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { StatsCard } from "@/components/StatsCard"
-import { RecentActivity } from "@/components/RecentActivity"
 import { QuickActions } from "@/components/QuickActions"
 import { 
   TrendingUp, 
@@ -32,28 +31,28 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
 
   const stats = [
     {
-      title: "Monthly Revenue",
+      title: t("dashboard.monthlyRevenue", "Monthly Revenue"),
       value: "$12,345",
       change: "+12.5%",
       icon: DollarSign,
       trend: "up" as const
     },
     {
-      title: "Active Customers",
+      title: t("dashboard.activeCustomers", "Active Customers"),
       value: "1,234",
       change: "+5.2%",
       icon: Users,
       trend: "up" as const
     },
     {
-      title: "Pending Invoices",
+      title: t("dashboard.pendingInvoices", "Pending Invoices"),
       value: "23",
       change: "-8.1%",
       icon: FileText,
       trend: "down" as const
     },
     {
-      title: "This Month's Goals",
+      title: t("dashboard.monthlyGoals", "This Month's Goals"),
       value: "87%",
       change: "+15.3%",
       icon: Target,
@@ -62,17 +61,17 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   ]
 
   const upcomingTasks = [
-    { id: 1, title: "Follow up with client ABC Corp", due: "Today", priority: "high" },
-    { id: 2, title: "Send monthly report to stakeholders", due: "Tomorrow", priority: "medium" },
-    { id: 3, title: "Review and approve new contracts", due: "Friday", priority: "high" },
-    { id: 4, title: "Update project timeline", due: "Next week", priority: "low" }
+    { id: 1, title: t("dashboard.followUpClient", "Follow up with client ABC Corp"), due: t("dashboard.today", "Today"), priority: "high" },
+    { id: 2, title: t("dashboard.monthlyReport", "Send monthly report to stakeholders"), due: t("dashboard.tomorrow", "Tomorrow"), priority: "medium" },
+    { id: 3, title: t("dashboard.reviewContracts", "Review and approve new contracts"), due: t("dashboard.friday", "Friday"), priority: "high" },
+    { id: 4, title: t("dashboard.updateTimeline", "Update project timeline"), due: t("dashboard.nextWeek", "Next week"), priority: "low" }
   ]
 
   const recentActivities = [
-    { id: 1, action: "Invoice #001 sent to ABC Corp", time: "2 hours ago", type: "invoice" },
-    { id: 2, action: "New customer registration: XYZ Ltd", time: "4 hours ago", type: "customer" },
-    { id: 3, action: "Payment received: $2,500", time: "6 hours ago", type: "payment" },
-    { id: 4, action: "Project milestone completed", time: "1 day ago", type: "project" }
+    { id: 1, action: t("dashboard.invoiceSent", "Invoice #001 sent to ABC Corp"), time: t("dashboard.hoursAgo", "2 hours ago"), type: "invoice" },
+    { id: 2, action: t("dashboard.newCustomer", "New customer registration: XYZ Ltd"), time: t("dashboard.hoursAgo4", "4 hours ago"), type: "customer" },
+    { id: 3, action: t("dashboard.paymentReceived", "Payment received: $2,500"), time: t("dashboard.hoursAgo6", "6 hours ago"), type: "payment" },
+    { id: 4, action: t("dashboard.milestoneCompleted", "Project milestone completed"), time: t("dashboard.dayAgo", "1 day ago"), type: "project" }
   ]
 
   const handleQuickAction = (actionId: string) => {
@@ -85,19 +84,19 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Business Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t("dashboard.title", "Business Dashboard")}</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here's what's happening with your business today.
+            {t("dashboard.welcome", "Welcome back! Here's what's happening with your business today.")}
           </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => onNavigate('analytics')}>
             <BarChart3 className="mr-2 h-4 w-4" />
-            View Analytics
+            {t("dashboard.viewAnalytics", "View Analytics")}
           </Button>
           <Button onClick={() => onNavigate('invoice-creator')}>
             <Zap className="mr-2 h-4 w-4" />
-            Create Invoice
+            {t("dashboard.createInvoice", "Create Invoice")}
           </Button>
         </div>
       </div>
@@ -119,9 +118,9 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="tasks">Tasks & Activities</TabsTrigger>
-          <TabsTrigger value="quick-actions">Quick Actions</TabsTrigger>
+          <TabsTrigger value="overview">{t("dashboard.overview", "Overview")}</TabsTrigger>
+          <TabsTrigger value="tasks">{t("dashboard.tasksActivities", "Tasks & Activities")}</TabsTrigger>
+          <TabsTrigger value="quick-actions">{t("dashboard.quickActions", "Quick Actions")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -129,14 +128,14 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             {/* Revenue Chart */}
             <Card className="col-span-4">
               <CardHeader>
-                <CardTitle>Revenue Overview</CardTitle>
-                <CardDescription>Monthly revenue for the last 6 months</CardDescription>
+                <CardTitle>{t("dashboard.revenueOverview", "Revenue Overview")}</CardTitle>
+                <CardDescription>{t("dashboard.monthlyRevenue6Months", "Monthly revenue for the last 6 months")}</CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
                 <div className="h-[200px] flex items-center justify-center bg-gray-50 rounded-lg">
                   <div className="text-center">
                     <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-500">Revenue chart will be displayed here</p>
+                    <p className="text-sm text-gray-500">{t("dashboard.revenueChartPlaceholder", "Revenue chart will be displayed here")}</p>
                   </div>
                 </div>
               </CardContent>
@@ -145,8 +144,8 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             {/* Recent Activity */}
             <Card className="col-span-3">
               <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Latest business activities</CardDescription>
+                <CardTitle>{t("dashboard.recentActivity", "Recent Activity")}</CardTitle>
+                <CardDescription>{t("dashboard.latestActivities", "Latest business activities")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -172,9 +171,9 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5" />
-                  Upcoming Tasks
+                  {t("dashboard.upcomingTasks", "Upcoming Tasks")}
                 </CardTitle>
-                <CardDescription>Tasks that need your attention</CardDescription>
+                <CardDescription>{t("dashboard.tasksNeedAttention", "Tasks that need your attention")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -182,7 +181,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
                     <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex-1">
                         <p className="font-medium text-sm">{task.title}</p>
-                        <p className="text-xs text-muted-foreground">Due: {task.due}</p>
+                        <p className="text-xs text-muted-foreground">{t("dashboard.due", "Due")}: {task.due}</p>
                       </div>
                       <Badge 
                         variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
@@ -200,25 +199,25 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CheckCircle className="h-5 w-5" />
-                  Today's Progress
+                  {t("dashboard.todayProgress", "Today's Progress")}
                 </CardTitle>
-                <CardDescription>Your productivity metrics</CardDescription>
+                <CardDescription>{t("dashboard.productivityMetrics", "Your productivity metrics")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Tasks Completed</span>
+                  <span className="text-sm">{t("dashboard.tasksCompleted", "Tasks Completed")}</span>
                   <span className="font-bold">7/10</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Invoices Sent</span>
+                  <span className="text-sm">{t("dashboard.invoicesSent", "Invoices Sent")}</span>
                   <span className="font-bold">3</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Meetings Attended</span>
+                  <span className="text-sm">{t("dashboard.meetingsAttended", "Meetings Attended")}</span>
                   <span className="font-bold">2</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Customer Calls</span>
+                  <span className="text-sm">{t("dashboard.customerCalls", "Customer Calls")}</span>
                   <span className="font-bold">5</span>
                 </div>
               </CardContent>
@@ -235,34 +234,34 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("dashboard.activeProjects", "Active Projects")}</CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">+2 from last month</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.fromLastMonth", "+2 from last month")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("dashboard.conversionRate", "Conversion Rate")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">68.2%</div>
-            <p className="text-xs text-muted-foreground">+4.2% from last month</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.fromLastMonth42", "+4.2% from last month")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Deal Size</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("dashboard.averageDealSize", "Average Deal Size")}</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$2,845</div>
-            <p className="text-xs text-muted-foreground">+12.1% from last month</p>
+            <p className="text-xs text-muted-foreground">{t("dashboard.fromLastMonth121", "+12.1% from last month")}</p>
           </CardContent>
         </Card>
       </div>
