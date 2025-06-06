@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { 
@@ -48,7 +49,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Create Invoice",
       description: "Generate and send professional invoices",
       icon: FileText,
-      colorClass: "bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 border-slate-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-slate-400",
       category: "Financial"
     },
     {
@@ -56,7 +58,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Estimates",
       description: "Create and manage estimates",
       icon: Calculator,
-      colorClass: "bg-gradient-to-br from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700 border-slate-500 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-slate-400",
       category: "Financial"
     },
     {
@@ -64,7 +67,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Quotes",
       description: "Generate customer quotes",
       icon: FileSpreadsheet,
-      colorClass: "bg-gradient-to-br from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900 border-slate-700 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-slate-400",
       category: "Financial"
     },
     {
@@ -72,7 +76,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Contracts",
       description: "Manage business contracts",
       icon: FileBarChart,
-      colorClass: "bg-gradient-to-br from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 border-gray-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-gray-400",
       category: "Financial"
     },
 
@@ -82,7 +87,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Customers",
       description: "Manage customer relationships",
       icon: Users,
-      colorClass: "bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 border-blue-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-blue-400",
       category: "Management"
     },
     {
@@ -90,7 +96,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Projects",
       description: "Manage business projects",
       icon: Briefcase,
-      colorClass: "bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 border-blue-500 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-blue-400",
       category: "Management"
     },
     {
@@ -98,7 +105,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Work Orders",
       description: "Create and track work orders",
       icon: Wrench,
-      colorClass: "bg-gradient-to-br from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 border-blue-700 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-blue-400",
       category: "Operations"
     },
 
@@ -108,7 +116,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "CrewControl",
       description: "Crew management system",
       icon: UserCheck,
-      colorClass: "bg-gradient-to-br from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 border-teal-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-teal-400",
       category: "Operations"
     },
     {
@@ -116,7 +125,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "MatTrack",
       description: "Material tracking system",
       icon: Warehouse,
-      colorClass: "bg-gradient-to-br from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 border-teal-500 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-teal-400",
       category: "Operations"
     },
     {
@@ -124,7 +134,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "EarnSync",
       description: "Earnings synchronization",
       icon: Target,
-      colorClass: "bg-gradient-to-br from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 border-teal-700 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-teal-400",
       category: "Financial"
     },
 
@@ -134,7 +145,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Appointments",
       description: "Schedule client appointments",
       icon: Calendar,
-      colorClass: "bg-gradient-to-br from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 border-green-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-green-400",
       category: "Scheduling"
     },
     {
@@ -142,7 +154,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Meetings",
       description: "Schedule and manage meetings",
       icon: Video,
-      colorClass: "bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 border-green-500 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-green-400",
       category: "Scheduling"
     },
     {
@@ -150,7 +163,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "E-Signatures",
       description: "Digital document signing",
       icon: Signature,
-      colorClass: "bg-gradient-to-br from-green-700 to-green-800 hover:from-green-800 hover:to-green-900 border-green-700 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-green-400",
       category: "Documentation"
     },
 
@@ -160,7 +174,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Notes",
       description: "Take and organize notes",
       icon: StickyNote,
-      colorClass: "bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 border-indigo-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-indigo-400",
       category: "Productivity"
     },
     {
@@ -168,7 +183,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "To-Do List",
       description: "Manage tasks and projects",
       icon: CheckSquare,
-      colorClass: "bg-gradient-to-br from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 border-indigo-500 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-indigo-400",
       category: "Productivity"
     },
 
@@ -178,7 +194,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Send Message",
       description: "Client communication",
       icon: MessageSquare,
-      colorClass: "bg-gradient-to-br from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 border-purple-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-purple-400",
       category: "Communication"
     },
     {
@@ -186,7 +203,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Email Campaign",
       description: "Marketing campaigns",
       icon: Mail,
-      colorClass: "bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 border-purple-500 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-purple-400",
       category: "Communication"
     },
 
@@ -196,7 +214,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Analytics",
       description: "Business insights",
       icon: Brain,
-      colorClass: "bg-gradient-to-br from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 border-emerald-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-emerald-400",
       category: "Analytics"
     },
     {
@@ -204,7 +223,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "AI Voice",
       description: "Voice commands and assistance",
       icon: Mic,
-      colorClass: "bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 border-emerald-500 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-emerald-400",
       category: "AI Tools"
     },
 
@@ -214,7 +234,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Process Payment",
       description: "Handle transactions",
       icon: CreditCard,
-      colorClass: "bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 border-slate-600 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-slate-400",
       category: "Financial"
     },
     {
@@ -222,7 +243,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Accounting",
       description: "Financial management",
       icon: Receipt,
-      colorClass: "bg-gradient-to-br from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 border-gray-700 text-white shadow-lg hover:shadow-xl",
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-gray-400",
       category: "Financial"
     }
   ]
@@ -274,27 +296,27 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
                     onClick={() => handleActionClick(action.id)}
                     className={`
                       group relative overflow-hidden rounded-xl p-4 text-left transition-all duration-300
-                      hover:scale-[1.05] hover:shadow-2xl focus:outline-none focus:ring-2 
-                      focus:ring-white focus:ring-offset-2 ${action.colorClass}
-                      border-2 transform
+                      hover:scale-[1.05] hover:shadow-xl focus:outline-none focus:ring-2 
+                      focus:ring-blue-500 focus:ring-offset-2 ${action.colorClass}
+                      transform
                     `}
                   >
                     <div className="flex flex-col items-center text-center space-y-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/30 group-hover:scale-110">
-                        <action.icon className="h-6 w-6 text-white" />
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 group-hover:bg-gray-200 transition-all duration-300 group-hover:scale-110">
+                        <action.icon className={`h-6 w-6 ${action.iconColorClass}`} />
                       </div>
                       <div className="space-y-1">
-                        <h3 className="font-semibold text-white group-hover:text-white text-sm leading-tight">
+                        <h3 className="font-semibold text-gray-700 group-hover:text-gray-800 text-sm leading-tight">
                           {action.title}
                         </h3>
-                        <p className="text-xs text-white/80 leading-tight line-clamp-2">
+                        <p className="text-xs text-gray-500 leading-tight line-clamp-2">
                           {action.description}
                         </p>
                       </div>
                     </div>
                     
                     {/* Hover effect overlay */}
-                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
+                    <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
                   </button>
                 ))}
               </div>
