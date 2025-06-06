@@ -7,12 +7,10 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { Search, Plus, Edit, Trash2, StickyNote, Filter, Upload, X } from 'lucide-react'
+import { Search, Plus, Edit, Trash2, StickyNote, Filter, Upload, X, Mic, MicOff, Bold, Italic } from 'lucide-react'
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { format } from "date-fns"
-import { RichTextEditor } from "./RichTextEditor"
-import { FormattedText } from "./FormattedText"
 
 interface Note {
   id: string
@@ -37,6 +35,8 @@ export function NotesPage() {
   const [editingNote, setEditingNote] = useState<Note | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [isRecording, setIsRecording] = useState(false)
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
   const { toast } = useToast()
 
   // Form state
@@ -49,7 +49,11 @@ export function NotesPage() {
     attachments: [] as string[]
   })
 
-  // Mock data for dropdowns - in real app, fetch from database
+  // Rich text editor state
+  const [selectedText, setSelectedText] = useState('')
+  const [textareaRef, setTextareaRef] = useState<HTMLTextAreaElement | null>(null)
+
+  // Mock data for dropdowns
   const availableClients = [
     'Tech Corp Ltd',
     'Acme Corporation', 
@@ -118,9 +122,6 @@ export function NotesPage() {
         throw new Error('Not authenticated')
       }
 
-      console.log('Current user:', user.id)
-
-      // Prepare the note data
       const noteData = {
         title: formData.title.trim(),
         content: formData.content || '',
@@ -132,11 +133,7 @@ export function NotesPage() {
         created_by: user.id
       }
 
-      console.log('Prepared note data:', noteData)
-
       if (editingNote) {
-        // Update existing note
-        console.log('Updating note with ID:', editingNote.id)
         const { data, error } = await supabase
           .from('notes')
           .update({
@@ -146,30 +143,20 @@ export function NotesPage() {
           .eq('id', editingNote.id)
           .select()
 
-        if (error) {
-          console.error('Update error:', error)
-          throw error
-        }
+        if (error) throw error
         
-        console.log('Note updated successfully:', data)
         toast({
           title: "Success",
           description: "Note updated successfully"
         })
       } else {
-        // Create new note
-        console.log('Creating new note')
         const { data, error } = await supabase
           .from('notes')
           .insert([noteData])
           .select()
 
-        if (error) {
-          console.error('Insert error:', error)
-          throw error
-        }
+        if (error) throw error
         
-        console.log('Note created successfully:', data)
         toast({
           title: "Success",
           description: "Note created successfully"
@@ -195,18 +182,13 @@ export function NotesPage() {
     if (!confirm('Are you sure you want to delete this note?')) return
 
     try {
-      console.log('Deleting note:', noteId)
       const { error } = await supabase
         .from('notes')
         .delete()
         .eq('id', noteId)
 
-      if (error) {
-        console.error('Delete error:', error)
-        throw error
-      }
+      if (error) throw error
       
-      console.log('Note deleted successfully')
       await fetchNotes()
       toast({
         title: "Success",
@@ -235,7 +217,6 @@ export function NotesPage() {
   }
 
   const openEditDialog = (note: Note) => {
-    console.log('Opening edit dialog for note:', note)
     setEditingNote(note)
     setFormData({
       title: note.title,
@@ -246,6 +227,119 @@ export function NotesPage() {
       attachments: note.attachments || []
     })
     setIsDialogOpen(true)
+  }
+
+  // Rich text formatting functions
+  const formatText = (format: 'bold' | 'italic') => {
+    if (!textareaRef) return
+
+    const start = textareaRef.selectionStart
+    const end = textareaRef.selectionEnd
+    const selectedText = textareaRef.value.substring(start, end)
+    
+    if (selectedText) {
+      let formattedText = ''
+      if (format === 'bold') {
+        formattedText = `**${selectedText}**`
+      } else if (format === 'italic') {
+        formattedText = `*${selectedText}*`
+      }
+      
+      const newContent = 
+        textareaRef.value.substring(0, start) + 
+        formattedText + 
+        textareaRef.value.substring(end)
+      
+      setFormData(prev => ({ ...prev, content: newContent }))
+    }
+  }
+
+  // Audio recording functions
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream)
+      const audioChunks: Blob[] = []
+
+      recorder.ondataavailable = (event) => {
+        audioChunks.push(event.data)
+      }
+
+      recorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' })
+        const reader = new FileReader()
+        
+        reader.onloadend = async () => {
+          const base64Audio = reader.result?.toString().split(',')[1]
+          if (base64Audio) {
+            await transcribeAudio(base64Audio)
+          }
+        }
+        
+        reader.readAsDataURL(audioBlob)
+        stream.getTracks().forEach(track => track.stop())
+      }
+
+      recorder.start()
+      setMediaRecorder(recorder)
+      setIsRecording(true)
+    } catch (error) {
+      console.error('Error starting recording:', error)
+      toast({
+        title: "Error",
+        description: "Could not start recording. Please check microphone permissions.",
+        variant: "destructive"
+      })
+    }
+  }
+
+  const stopRecording = () => {
+    if (mediaRecorder) {
+      mediaRecorder.stop()
+      setIsRecording(false)
+      setMediaRecorder(null)
+    }
+  }
+
+  const transcribeAudio = async (audioBase64: string) => {
+    try {
+      toast({
+        title: "Processing",
+        description: "Transcribing audio..."
+      })
+
+      const response = await supabase.functions.invoke('transcribe-audio', {
+        body: { audio: audioBase64 }
+      })
+
+      if (response.error) throw response.error
+
+      const transcription = response.data?.text || ''
+      setFormData(prev => ({
+        ...prev,
+        content: prev.content + (prev.content ? '\n\n' : '') + transcription
+      }))
+
+      toast({
+        title: "Success",
+        description: "Audio transcribed successfully"
+      })
+    } catch (error) {
+      console.error('Error transcribing audio:', error)
+      toast({
+        title: "Error",
+        description: "Failed to transcribe audio",
+        variant: "destructive"
+      })
+    }
+  }
+
+  const renderFormattedText = (content: string) => {
+    if (!content) return content
+    
+    return content
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
   }
 
   const filteredNotes = notes
@@ -277,54 +371,88 @@ export function NotesPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white min-h-screen">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between p-6 bg-white border-b border-gray-100">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Notes</h1>
           <p className="text-gray-600 mt-1">Manage your notes and ideas</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm} className="flex items-center gap-2">
+            <Button 
+              onClick={resetForm} 
+              className="flex items-center gap-2 bg-yellow-400 text-black hover:bg-yellow-500 border-0 rounded-xl px-6 py-3 font-medium"
+            >
               <Plus className="h-4 w-4" />
-              Add Note
+              New Note
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
             <DialogHeader>
-              <DialogTitle>{editingNote ? 'Edit Note' : 'Create New Note'}</DialogTitle>
+              <DialogTitle className="text-xl font-semibold text-gray-900">
+                {editingNote ? 'Edit Note' : 'New Note'}
+              </DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="title">Title *</Label>
                 <Input
-                  id="title"
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  placeholder="Enter note title"
+                  placeholder="Title"
+                  className="text-lg font-semibold border-0 border-b border-gray-200 rounded-none px-0 py-3 focus:border-yellow-400 bg-transparent"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="content">Content</Label>
-                <RichTextEditor
+                <div className="flex items-center gap-2 mb-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => formatText('bold')}
+                    className="h-8 w-8 p-0"
+                  >
+                    <Bold className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => formatText('italic')}
+                    className="h-8 w-8 p-0"
+                  >
+                    <Italic className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={isRecording ? stopRecording : startRecording}
+                    className={`h-8 w-8 p-0 ${isRecording ? 'bg-red-100 text-red-600' : ''}`}
+                  >
+                    {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                  </Button>
+                </div>
+                <textarea
+                  ref={setTextareaRef}
                   value={formData.content}
-                  onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
-                  placeholder="Write your note content here... Use **bold**, *italic*, __underline__, • for bullets, 1. for numbers"
-                  rows={8}
+                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                  placeholder="Start writing your note..."
+                  className="w-full min-h-[300px] p-4 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent bg-white text-gray-900"
+                  rows={12}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="related_client">Related Client</Label>
+                  <Label className="text-sm font-medium text-gray-700">Client</Label>
                   <Select
                     value={formData.related_client}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, related_client: value }))}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select client (optional)" />
                     </SelectTrigger>
                     <SelectContent>
@@ -337,12 +465,12 @@ export function NotesPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="related_project">Related Project</Label>
+                  <Label className="text-sm font-medium text-gray-700">Project</Label>
                   <Select
                     value={formData.related_project}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, related_project: value }))}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select project (optional)" />
                     </SelectTrigger>
                     <SelectContent>
@@ -356,21 +484,30 @@ export function NotesPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="tags">Tags</Label>
+                <Label className="text-sm font-medium text-gray-700">Tags</Label>
                 <Input
-                  id="tags"
                   value={formData.tags}
                   onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
                   placeholder="Enter tags separated by commas"
+                  className="bg-white"
                 />
               </div>
 
               <div className="flex justify-end gap-4 pt-4">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsDialogOpen(false)}
+                  className="px-6"
+                >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={submitting}>
-                  {submitting ? 'Saving...' : (editingNote ? 'Update Note' : 'Create Note')}
+                <Button 
+                  type="submit" 
+                  disabled={submitting}
+                  className="bg-yellow-400 text-black hover:bg-yellow-500 px-6"
+                >
+                  {submitting ? 'Saving...' : (editingNote ? 'Update Note' : 'Save Note')}
                 </Button>
               </div>
             </form>
@@ -378,136 +515,152 @@ export function NotesPage() {
         </Dialog>
       </div>
 
-      {/* Filters and Search */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  placeholder="Search notes by title, content, or tags..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+      {/* Search and Filters */}
+      <div className="px-6">
+        <Card className="bg-white border border-gray-100">
+          <CardContent className="p-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input
+                    placeholder="Search notes..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 bg-white"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Select value={filterClient} onValueChange={setFilterClient}>
+                  <SelectTrigger className="w-40 bg-white">
+                    <SelectValue placeholder="All clients" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All clients</SelectItem>
+                    {availableClients.map((client) => (
+                      <SelectItem key={client} value={client}>{client}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={filterProject} onValueChange={setFilterProject}>
+                  <SelectTrigger className="w-40 bg-white">
+                    <SelectValue placeholder="All projects" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All projects</SelectItem>
+                    {availableProjects.map((project) => (
+                      <SelectItem key={project} value={project}>{project}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={sortOrder} onValueChange={(value: 'newest' | 'oldest') => setSortOrder(value)}>
+                  <SelectTrigger className="w-32 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest</SelectItem>
+                    <SelectItem value="oldest">Oldest</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
-            <div className="flex gap-2">
-              <Select value={filterClient} onValueChange={setFilterClient}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Filter by client" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all-clients">All clients</SelectItem>
-                  {availableClients.map((client) => (
-                    <SelectItem key={client} value={client}>{client}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={filterProject} onValueChange={setFilterProject}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Filter by project" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all-projects">All projects</SelectItem>
-                  {availableProjects.map((project) => (
-                    <SelectItem key={project} value={project}>{project}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={sortOrder} onValueChange={(value: 'newest' | 'oldest') => setSortOrder(value)}>
-                <SelectTrigger className="w-32">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="oldest">Oldest</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Notes Grid */}
-      {filteredNotes.length === 0 ? (
-        <Card>
-          <CardContent className="p-8 text-center">
-            <StickyNote className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No notes found</h3>
-            <p className="text-gray-600 mb-4">
-              {notes.length === 0 
-                ? "Create your first note to get started" 
-                : "Try adjusting your search or filters"}
-            </p>
           </CardContent>
         </Card>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredNotes.map((note) => (
-            <Card key={note.id} className="hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <CardTitle className="text-lg line-clamp-2">{note.title}</CardTitle>
-                  <div className="flex gap-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => openEditDialog(note)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDelete(note.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {note.content && (
-                  <div className="text-gray-600 text-sm line-clamp-3">
-                    <FormattedText content={note.content} />
-                  </div>
-                )}
-                
-                {(note.related_client || note.related_project) && (
-                  <div className="space-y-1">
-                    {note.related_client && (
-                      <div className="text-xs text-gray-500">
-                        Client: <span className="font-medium">{note.related_client}</span>
-                      </div>
-                    )}
-                    {note.related_project && (
-                      <div className="text-xs text-gray-500">
-                        Project: <span className="font-medium">{note.related_project}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
+      </div>
 
-                {note.tags && (
-                  <div className="flex flex-wrap gap-1">
-                    {getTags(note.tags).map((tag, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
+      {/* Notes Grid */}
+      <div className="px-6">
+        {filteredNotes.length === 0 ? (
+          <Card className="bg-white border border-gray-100">
+            <CardContent className="p-8 text-center">
+              <StickyNote className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No notes found</h3>
+              <p className="text-gray-600 mb-4">
+                {notes.length === 0 
+                  ? "Create your first note to get started" 
+                  : "Try adjusting your search or filters"}
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredNotes.map((note) => (
+              <Card key={note.id} className="hover:shadow-md transition-shadow bg-white border border-gray-100 cursor-pointer group">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="text-lg line-clamp-2 text-gray-900">{note.title}</CardTitle>
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          openEditDialog(note)
+                        }}
+                        className="h-8 w-8 p-0"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDelete(note.id)
+                        }}
+                        className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                )}
+                </CardHeader>
+                <CardContent 
+                  className="space-y-3"
+                  onClick={() => openEditDialog(note)}
+                >
+                  {note.content && (
+                    <div 
+                      className="text-gray-600 text-sm line-clamp-3"
+                      dangerouslySetInnerHTML={{ __html: renderFormattedText(note.content) }}
+                    />
+                  )}
+                  
+                  {(note.related_client || note.related_project) && (
+                    <div className="space-y-1">
+                      {note.related_client && (
+                        <div className="text-xs text-gray-500">
+                          Client: <span className="font-medium">{note.related_client}</span>
+                        </div>
+                      )}
+                      {note.related_project && (
+                        <div className="text-xs text-gray-500">
+                          Project: <span className="font-medium">{note.related_project}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
-                <div className="text-xs text-gray-400 pt-2 border-t">
-                  Created {format(new Date(note.created_at), 'MMM d, yyyy')}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+                  {note.tags && (
+                    <div className="flex flex-wrap gap-1">
+                      {getTags(note.tags).map((tag, index) => (
+                        <Badge key={index} variant="secondary" className="text-xs bg-yellow-100 text-yellow-800">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="text-xs text-gray-400 pt-2 border-t border-gray-100">
+                    {format(new Date(note.created_at), 'MMM d, yyyy')}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
