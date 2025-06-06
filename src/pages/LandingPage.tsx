@@ -405,7 +405,7 @@ const LandingPage = () => {
               Everything Your Business Needs
             </div>
             
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-8 leading-tight">
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-8 leading-tight">
               One Platform.
               <br className="hidden sm:block" />
               <span className="text-blue-600">Infinite Possibilities.</span>
@@ -523,7 +523,7 @@ const LandingPage = () => {
                   <Button 
                     variant="outline"
                     size="lg"
-                    className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg transition-all"
+                    className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg hover:border-blue-300 transition-all"
                     onClick={() => navigate('/contact')}
                   >
                     Talk to Sales
