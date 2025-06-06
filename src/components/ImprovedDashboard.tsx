@@ -1,395 +1,271 @@
 
-import React, { useState } from 'react'
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
+import { StatsCard } from "@/components/StatsCard"
+import { RecentActivity } from "@/components/RecentActivity"
+import { QuickActions } from "@/components/QuickActions"
 import { 
   TrendingUp, 
-  TrendingDown, 
   Users, 
-  Calendar, 
   DollarSign, 
-  FileText,
+  FileText, 
+  Calendar, 
   Clock,
-  MapPin,
-  Phone,
-  Mail,
   CheckCircle,
   AlertCircle,
-  Plus,
-  Filter,
-  Download,
-  Eye,
-  Edit,
-  ArrowRight,
+  BarChart3,
+  Target,
   Zap
-} from 'lucide-react'
-import { StatsCard } from './StatsCard'
+} from "lucide-react"
+import { useLanguage } from "@/contexts/LanguageContext"
 
-interface DashboardWidget {
-  id: string
-  title: string
-  value: string
-  change: string
-  changeType: 'positive' | 'negative' | 'neutral'
-  icon: any
-  color: string
-  onClick?: () => void
+interface ImprovedDashboardProps {
+  onNavigate: (view: string) => void
 }
 
-interface QuickAction {
-  id: string
-  title: string
-  description: string
-  icon: any
-  color: string
-  onClick: () => void
-}
+export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
+  const { t } = useLanguage()
+  const [activeTab, setActiveTab] = useState("overview")
 
-interface RecentActivity {
-  id: string
-  type: string
-  title: string
-  description: string
-  time: string
-  status: 'completed' | 'pending' | 'in_progress'
-  priority: 'high' | 'medium' | 'low'
-}
-
-export function ImprovedDashboard({ onNavigate }: { onNavigate: (view: string) => void }) {
-  const [selectedTimeRange, setSelectedTimeRange] = useState('7d')
-
-  const widgets: DashboardWidget[] = [
+  const stats = [
     {
-      id: 'revenue',
-      title: 'Receita Total',
-      value: 'R$ 45.230',
-      change: '+12.5% vs mês anterior',
-      changeType: 'positive',
+      title: "Monthly Revenue",
+      value: "$12,345",
+      change: "+12.5%",
       icon: DollarSign,
-      color: 'text-green-600',
-      onClick: () => onNavigate('analytics')
+      trend: "up" as const
     },
     {
-      id: 'customers',
-      title: 'Clientes Ativos',
-      value: '234',
-      change: '+8 novos esta semana',
-      changeType: 'positive',
+      title: "Active Customers",
+      value: "1,234",
+      change: "+5.2%",
       icon: Users,
-      color: 'text-blue-600',
-      onClick: () => onNavigate('customer-management')
+      trend: "up" as const
     },
     {
-      id: 'projects',
-      title: 'Projetos em Andamento',
-      value: '18',
-      change: '3 finalizando hoje',
-      changeType: 'neutral',
+      title: "Pending Invoices",
+      value: "23",
+      change: "-8.1%",
       icon: FileText,
-      color: 'text-purple-600',
-      onClick: () => onNavigate('projects')
+      trend: "down" as const
     },
     {
-      id: 'appointments',
-      title: 'Agendamentos Hoje',
-      value: '7',
-      change: '2 confirmados recentemente',
-      changeType: 'positive',
-      icon: Calendar,
-      color: 'text-orange-600',
-      onClick: () => onNavigate('appointments')
+      title: "This Month's Goals",
+      value: "87%",
+      change: "+15.3%",
+      icon: Target,
+      trend: "up" as const
     }
   ]
 
-  const quickActions: QuickAction[] = [
-    {
-      id: 'create-invoice',
-      title: 'Criar Fatura',
-      description: 'Gere uma nova fatura rapidamente',
-      icon: FileText,
-      color: 'bg-blue-500',
-      onClick: () => onNavigate('invoice-creator')
-    },
-    {
-      id: 'add-customer',
-      title: 'Novo Cliente',
-      description: 'Adicionar cliente ao sistema',
-      icon: Users,
-      color: 'bg-green-500',
-      onClick: () => onNavigate('customer-management')
-    },
-    {
-      id: 'schedule-appointment',
-      title: 'Agendar Visita',
-      description: 'Marcar compromisso com cliente',
-      icon: Calendar,
-      color: 'bg-purple-500',
-      onClick: () => onNavigate('appointments')
-    },
-    {
-      id: 'create-estimate',
-      title: 'Novo Orçamento',
-      description: 'Criar orçamento personalizado',
-      icon: DollarSign,
-      color: 'bg-orange-500',
-      onClick: () => onNavigate('estimates')
-    }
+  const upcomingTasks = [
+    { id: 1, title: "Follow up with client ABC Corp", due: "Today", priority: "high" },
+    { id: 2, title: "Send monthly report to stakeholders", due: "Tomorrow", priority: "medium" },
+    { id: 3, title: "Review and approve new contracts", due: "Friday", priority: "high" },
+    { id: 4, title: "Update project timeline", due: "Next week", priority: "low" }
   ]
 
-  const recentActivities: RecentActivity[] = [
-    {
-      id: '1',
-      type: 'invoice',
-      title: 'Fatura #INV-2024-001 paga',
-      description: 'Cliente João Silva - R$ 2.500,00',
-      time: '2 horas atrás',
-      status: 'completed',
-      priority: 'high'
-    },
-    {
-      id: '2',
-      type: 'appointment',
-      title: 'Visita agendada',
-      description: 'Maria Santos - Amanhã às 14:00',
-      time: '4 horas atrás',
-      status: 'pending',
-      priority: 'medium'
-    },
-    {
-      id: '3',
-      type: 'estimate',
-      title: 'Orçamento enviado',
-      description: 'Empresa ABC Corp - R$ 15.000,00',
-      time: '1 dia atrás',
-      status: 'in_progress',
-      priority: 'high'
-    },
-    {
-      id: '4',
-      type: 'customer',
-      title: 'Novo cliente cadastrado',
-      description: 'Pedro Oliveira - Setor Residencial',
-      time: '2 dias atrás',
-      status: 'completed',
-      priority: 'low'
-    }
+  const recentActivities = [
+    { id: 1, action: "Invoice #001 sent to ABC Corp", time: "2 hours ago", type: "invoice" },
+    { id: 2, action: "New customer registration: XYZ Ltd", time: "4 hours ago", type: "customer" },
+    { id: 3, action: "Payment received: $2,500", time: "6 hours ago", type: "payment" },
+    { id: 4, action: "Project milestone completed", time: "1 day ago", type: "project" }
   ]
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'completed': return <CheckCircle className="w-4 h-4 text-green-500" />
-      case 'pending': return <Clock className="w-4 h-4 text-yellow-500" />
-      case 'in_progress': return <AlertCircle className="w-4 h-4 text-blue-500" />
-      default: return <Clock className="w-4 h-4 text-gray-500" />
-    }
-  }
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return 'border-l-red-500'
-      case 'medium': return 'border-l-yellow-500'
-      case 'low': return 'border-l-green-500'
-      default: return 'border-l-gray-500'
-    }
+  const handleQuickAction = (actionId: string) => {
+    console.log('Quick action clicked:', actionId)
+    onNavigate(actionId)
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Business Dashboard</h1>
           <p className="text-muted-foreground">
-            Bem-vindo de volta! Aqui está um resumo do seu negócio.
+            Welcome back! Here's what's happening with your business today.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Filter className="w-4 h-4 mr-2" />
-            Filtros
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => onNavigate('analytics')}>
+            <BarChart3 className="mr-2 h-4 w-4" />
+            View Analytics
           </Button>
-          <Button variant="outline" size="sm">
-            <Download className="w-4 h-4 mr-2" />
-            Exportar
-          </Button>
-          <Button size="sm">
-            <Plus className="w-4 h-4 mr-2" />
-            Novo
+          <Button onClick={() => onNavigate('invoice-creator')}>
+            <Zap className="mr-2 h-4 w-4" />
+            Create Invoice
           </Button>
         </div>
       </div>
 
-      {/* Stats Widgets */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {widgets.map((widget, index) => (
-          <Card 
-            key={widget.id} 
-            className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105"
-            onClick={widget.onClick}
-          >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{widget.title}</CardTitle>
-              <widget.icon className={`h-4 w-4 ${widget.color}`} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{widget.value}</div>
-              <p className={`text-xs ${widget.changeType === 'positive' ? 'text-green-600' : widget.changeType === 'negative' ? 'text-red-600' : 'text-muted-foreground'}`}>
-                {widget.change}
-              </p>
-            </CardContent>
-          </Card>
+      {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat, index) => (
+          <StatsCard
+            key={index}
+            title={stat.title}
+            value={stat.value}
+            change={stat.change}
+            icon={stat.icon}
+            trend={stat.trend}
+          />
         ))}
       </div>
 
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5" />
-            Ações Rápidas
-          </CardTitle>
-          <CardDescription>
-            Acesse rapidamente as funcionalidades mais utilizadas
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            {quickActions.map((action) => (
-              <Button
-                key={action.id}
-                variant="outline"
-                className="h-auto p-4 flex flex-col items-start gap-2 hover:shadow-md transition-shadow"
-                onClick={action.onClick}
-              >
-                <div className={`p-2 rounded-lg ${action.color} text-white`}>
-                  <action.icon className="w-4 h-4" />
-                </div>
-                <div className="text-left">
-                  <p className="font-medium text-sm">{action.title}</p>
-                  <p className="text-xs text-muted-foreground">{action.description}</p>
-                </div>
-              </Button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Main Content Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="tasks">Tasks & Activities</TabsTrigger>
+          <TabsTrigger value="quick-actions">Quick Actions</TabsTrigger>
+        </TabsList>
 
-      <div className="grid gap-6 grid-cols-1 xl:grid-cols-2">
-        {/* Recent Activities */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle>Atividades Recentes</CardTitle>
-              <CardDescription>Últimas atualizações do seu negócio</CardDescription>
-            </div>
-            <Button variant="ghost" size="sm" onClick={() => onNavigate('analytics')}>
-              Ver Todas
-              <ArrowRight className="w-4 h-4 ml-1" />
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {recentActivities.map((activity) => (
-              <div 
-                key={activity.id} 
-                className={`flex items-start gap-3 p-3 rounded-lg border-l-4 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer ${getPriorityColor(activity.priority)}`}
-              >
-                {getStatusIcon(activity.status)}
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm">{activity.title}</p>
-                  <p className="text-xs text-muted-foreground">{activity.description}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
+        <TabsContent value="overview" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            {/* Revenue Chart */}
+            <Card className="col-span-4">
+              <CardHeader>
+                <CardTitle>Revenue Overview</CardTitle>
+                <CardDescription>Monthly revenue for the last 6 months</CardDescription>
+              </CardHeader>
+              <CardContent className="pl-2">
+                <div className="h-[200px] flex items-center justify-center bg-gray-50 rounded-lg">
+                  <div className="text-center">
+                    <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                    <p className="text-sm text-gray-500">Revenue chart will be displayed here</p>
+                  </div>
                 </div>
-                <Badge variant="secondary" className="text-xs">
-                  {activity.priority}
-                </Badge>
-              </div>
-            ))}
+              </CardContent>
+            </Card>
+
+            {/* Recent Activity */}
+            <Card className="col-span-3">
+              <CardHeader>
+                <CardTitle>Recent Activity</CardTitle>
+                <CardDescription>Latest business activities</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {recentActivities.map((activity) => (
+                    <div key={activity.id} className="flex items-center space-x-4">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">{activity.action}</p>
+                        <p className="text-xs text-muted-foreground">{activity.time}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="tasks" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            {/* Upcoming Tasks */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5" />
+                  Upcoming Tasks
+                </CardTitle>
+                <CardDescription>Tasks that need your attention</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {upcomingTasks.map((task) => (
+                    <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">{task.title}</p>
+                        <p className="text-xs text-muted-foreground">Due: {task.due}</p>
+                      </div>
+                      <Badge 
+                        variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
+                      >
+                        {task.priority}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Stats */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5" />
+                  Today's Progress
+                </CardTitle>
+                <CardDescription>Your productivity metrics</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Tasks Completed</span>
+                  <span className="font-bold">7/10</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Invoices Sent</span>
+                  <span className="font-bold">3</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Meetings Attended</span>
+                  <span className="font-bold">2</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Customer Calls</span>
+                  <span className="font-bold">5</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="quick-actions" className="space-y-4">
+          <QuickActions onActionClick={handleQuickAction} />
+        </TabsContent>
+      </Tabs>
+
+      {/* Bottom Section - Key Metrics */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12</div>
+            <p className="text-xs text-muted-foreground">+2 from last month</p>
           </CardContent>
         </Card>
 
-        {/* Performance Chart */}
         <Card>
-          <CardHeader>
-            <CardTitle>Performance Mensal</CardTitle>
-            <CardDescription>Acompanhe o crescimento do seu negócio</CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Meta Mensal</span>
-                <span className="text-sm text-muted-foreground">R$ 50.000</span>
-              </div>
-              <Progress value={90} className="h-3" />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>R$ 45.230 alcançados</span>
-                <span>90% da meta</span>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-4 pt-4 border-t">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-green-600">12</p>
-                  <p className="text-xs text-muted-foreground">Novos Clientes</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-blue-600">34</p>
-                  <p className="text-xs text-muted-foreground">Projetos</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-purple-600">89%</p>
-                  <p className="text-xs text-muted-foreground">Satisfação</p>
-                </div>
-              </div>
-            </div>
+            <div className="text-2xl font-bold">68.2%</div>
+            <p className="text-xs text-muted-foreground">+4.2% from last month</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Average Deal Size</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$2,845</div>
+            <p className="text-xs text-muted-foreground">+12.1% from last month</p>
           </CardContent>
         </Card>
       </div>
-
-      {/* Coming Soon Features */}
-      <Card className="border-dashed border-2">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-500" />
-            Novidades em Breve
-          </CardTitle>
-          <CardDescription>
-            Funcionalidades que estão sendo desenvolvidas para você
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50">
-              <div className="p-2 bg-blue-500 rounded-lg text-white">
-                <Calendar className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="font-medium text-sm">Agendamento Online</p>
-                <p className="text-xs text-muted-foreground">Links públicos para clientes</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50">
-              <div className="p-2 bg-green-500 rounded-lg text-white">
-                <Phone className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="font-medium text-sm">WhatsApp Integration</p>
-                <p className="text-xs text-muted-foreground">Comunicação direta</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-50">
-              <div className="p-2 bg-purple-500 rounded-lg text-white">
-                <MapPin className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="font-medium text-sm">Otimização de Rotas</p>
-                <p className="text-xs text-muted-foreground">Google Maps integrado</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }
