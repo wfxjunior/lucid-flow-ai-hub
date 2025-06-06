@@ -315,7 +315,7 @@ const LandingPage = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base lg:text-lg h-11 sm:h-12 lg:h-14 w-full sm:w-auto"
               >
                 <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
-                <span className="whitespace-nowrap">Try Free for 14 Days</span>
+                <span className="whitespace-nowrap">Try it for $0.99</span>
               </Button>
               <Button 
                 onClick={() => navigate('/admin')}
