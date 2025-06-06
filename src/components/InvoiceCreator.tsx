@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -7,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Eye, Download, Send, Trash2, Edit, FileText, Calendar, DollarSign, User, Building } from 'lucide-react'
+import { Plus, Eye, Download, Send, Trash2, Edit, FileText, Calendar, DollarSign, User, Building, Search } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { format } from "date-fns"
@@ -74,7 +75,10 @@ export function InvoiceCreator() {
       console.log('Fetching invoices...')
       const { data, error } = await supabase
         .from('invoices')
-        .select('*')
+        .select(`
+          *,
+          clients(name)
+        `)
         .order('created_at', { ascending: false })
 
       if (error) {
@@ -83,7 +87,22 @@ export function InvoiceCreator() {
       }
       
       console.log('Fetched invoices:', data)
-      setInvoices(data || [])
+      
+      // Transform the data to match our Invoice interface
+      const transformedInvoices: Invoice[] = (data || []).map(invoice => ({
+        id: invoice.id,
+        invoice_number: invoice.invoice_number,
+        client_name: invoice.clients?.name || 'Unknown Client',
+        invoice_date: invoice.due_date || format(new Date(), 'yyyy-MM-dd'),
+        due_date: invoice.due_date || format(new Date(), 'yyyy-MM-dd'),
+        total_amount: invoice.amount || 0,
+        status: invoice.status as 'draft' | 'sent' | 'paid' | 'overdue',
+        notes: invoice.description || '',
+        created_at: invoice.created_at,
+        updated_at: invoice.updated_at
+      }))
+      
+      setInvoices(transformedInvoices)
     } catch (error) {
       console.error('Error fetching invoices:', error)
       toast({
@@ -117,15 +136,42 @@ export function InvoiceCreator() {
         throw new Error('Not authenticated')
       }
 
-      // Prepare the invoice data
+      // First, find or create the client
+      let clientId = null
+      const { data: existingClient } = await supabase
+        .from('clients')
+        .select('id')
+        .eq('name', formData.client_name.trim())
+        .eq('user_id', user.id)
+        .single()
+
+      if (existingClient) {
+        clientId = existingClient.id
+      } else {
+        // Create new client
+        const { data: newClient, error: clientError } = await supabase
+          .from('clients')
+          .insert([{
+            name: formData.client_name.trim(),
+            email: '', // You might want to add email field to form
+            user_id: user.id
+          }])
+          .select()
+          .single()
+
+        if (clientError) throw clientError
+        clientId = newClient.id
+      }
+
+      // Prepare the invoice data for the database
       const invoiceData = {
         invoice_number: formData.invoice_number.trim(),
-        client_name: formData.client_name.trim(),
-        invoice_date: formData.invoice_date,
+        client_id: clientId,
+        amount: formData.total_amount,
         due_date: formData.due_date,
-        total_amount: formData.total_amount,
         status: formData.status,
-        notes: formData.notes?.trim() || null,
+        title: `Invoice for ${formData.client_name}`,
+        description: formData.notes?.trim() || null,
         user_id: user.id
       }
 
