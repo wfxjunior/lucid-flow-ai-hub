@@ -108,10 +108,10 @@ export function InvoiceForm() {
   const initializeTemplate = () => {
     // Pre-fill with sample data similar to the uploaded image
     const templateLineItems: LineItem[] = [
-      { type: "service", description: "TILE REMOVAL", quantity: 1, rate: 800, tax_rate: 0, amount: 800 },
-      { type: "service", description: "VINYL REMOVAL", quantity: 1, rate: 400, tax_rate: 0, amount: 400 },
-      { type: "service", description: "TILE INSTALLATION AND 1/4 ROUND", quantity: 1, rate: 3600, tax_rate: 0, amount: 3600 },
-      { type: "service", description: "CARPET INSTALLATION", quantity: 1, rate: 1650, tax_rate: 0, amount: 1650 }
+      { type: "service" as const, description: "TILE REMOVAL", quantity: 1, rate: 800, tax_rate: 0, amount: 800 },
+      { type: "service" as const, description: "VINYL REMOVAL", quantity: 1, rate: 400, tax_rate: 0, amount: 400 },
+      { type: "service" as const, description: "TILE INSTALLATION AND 1/4 ROUND", quantity: 1, rate: 3600, tax_rate: 0, amount: 3600 },
+      { type: "service" as const, description: "CARPET INSTALLATION", quantity: 1, rate: 1650, tax_rate: 0, amount: 1650 }
     ]
     
     setLineItems(templateLineItems)
