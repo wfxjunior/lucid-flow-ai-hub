@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
+import { TypingText } from "@/components/TypingText"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package } from "lucide-react"
@@ -300,7 +301,14 @@ const LandingPage = () => {
             
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
               Make Your Business
-              <span className="text-blue-600 block">Smarter. Faster. Stronger.</span>
+              <span className="text-blue-600 block">
+                <TypingText 
+                  words={["Smarter.", "Faster.", "Stronger."]}
+                  className="inline-block"
+                  speed={150}
+                  pauseDuration={1500}
+                />
+              </span>
             </h1>
             
             <p className="text-sm sm:text-base lg:text-lg xl:text-xl text-gray-600 mb-6 sm:mb-8 lg:mb-10 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0">
