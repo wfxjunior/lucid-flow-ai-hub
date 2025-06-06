@@ -7,12 +7,12 @@ interface StatsCardProps {
   title: string
   value: string
   change: string
-  changeType: "positive" | "negative" | "neutral"
+  trend: "up" | "down"
   icon: LucideIcon
   delay?: number
 }
 
-export function StatsCard({ title, value, change, changeType, icon: Icon, delay = 0 }: StatsCardProps) {
+export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }: StatsCardProps) {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -23,11 +23,7 @@ export function StatsCard({ title, value, change, changeType, icon: Icon, delay 
     return () => clearTimeout(timer)
   }, [delay])
 
-  const changeColor = {
-    positive: "text-green-600",
-    negative: "text-red-600",
-    neutral: "text-gray-600"
-  }[changeType]
+  const changeColor = trend === "up" ? "text-green-600" : "text-red-600"
 
   return (
     <Card className={`transition-all duration-500 hover:shadow-lg hover:scale-105 ${
