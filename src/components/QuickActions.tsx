@@ -32,7 +32,9 @@ import {
   FileBarChart,
   ClipboardList,
   Wrench,
-  Car
+  Car,
+  GitBranch,
+  PenTool
 } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
@@ -76,7 +78,7 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       id: "contracts",
       title: "Contracts",
       description: "Manage business contracts",
-      icon: FileBarChart,
+      icon: PenTool,
       colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
       iconColorClass: "text-gray-400",
       category: "Financial"
@@ -102,6 +104,15 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       category: "Management"
     },
     {
+      id: "pipeline",
+      title: "Sales Pipeline",
+      description: "Manage sales pipeline",
+      icon: GitBranch,
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-blue-400",
+      category: "Management"
+    },
+    {
       id: "car-rental",
       title: "Car Rental",
       description: "Manage vehicle rentals",
@@ -114,7 +125,7 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       id: "work-orders",
       title: "Work Orders",
       description: "Create and track work orders",
-      icon: Wrench,
+      icon: Package,
       colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
       iconColorClass: "text-blue-400",
       category: "Operations"
@@ -122,19 +133,19 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
 
     // Advanced Systems
     {
-      id: "crew-control",
-      title: "CrewControl",
-      description: "Crew management system",
-      icon: UserCheck,
+      id: "mat-track",
+      title: "MatTrack",
+      description: "Material tracking system",
+      icon: Warehouse,
       colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
       iconColorClass: "text-teal-400",
       category: "Operations"
     },
     {
-      id: "mat-track",
-      title: "MatTrack",
-      description: "Material tracking system",
-      icon: Warehouse,
+      id: "crew-control",
+      title: "CrewControl",
+      description: "Crew management system",
+      icon: UserCheck,
       colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
       iconColorClass: "text-teal-400",
       category: "Operations"
@@ -196,6 +207,44 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
       iconColorClass: "text-indigo-400",
       category: "Productivity"
+    },
+
+    // Business Orders & Proposals (Additional Business Tools)
+    {
+      id: "sales-orders",
+      title: "Sales Orders",
+      description: "Manage sales orders",
+      icon: TrendingUp,
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-purple-400",
+      category: "Business Tools"
+    },
+    {
+      id: "service-orders",
+      title: "Service Orders",
+      description: "Manage service orders",
+      icon: Wrench,
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-purple-400",
+      category: "Business Tools"
+    },
+    {
+      id: "business-proposals",
+      title: "Business Proposals",
+      description: "Create business proposals",
+      icon: Clipboard,
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-purple-400",
+      category: "Business Tools"
+    },
+    {
+      id: "bids",
+      title: "Bids",
+      description: "Manage project bids",
+      icon: DollarSign,
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-purple-400",
+      category: "Business Tools"
     },
 
     // Communication & Marketing
@@ -271,6 +320,7 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
     "Financial": quickActions.filter(action => action.category === "Financial"),
     "Management": quickActions.filter(action => action.category === "Management"),
     "Operations": quickActions.filter(action => action.category === "Operations"),
+    "Business Tools": quickActions.filter(action => action.category === "Business Tools"),
     "Scheduling": quickActions.filter(action => action.category === "Scheduling"),
     "Documentation": quickActions.filter(action => action.category === "Documentation"),
     "Productivity": quickActions.filter(action => action.category === "Productivity"),
