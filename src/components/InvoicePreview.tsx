@@ -4,31 +4,15 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Download, Send, Eye } from 'lucide-react'
 import { generateInvoicePDF } from './InvoicePDFTemplate'
-
-interface LineItem {
-  description: string
-  quantity: number
-  rate: number
-  amount: number
-}
+import { LineItem, CompanyInfo, ClientInfo } from '@/types/invoice'
 
 interface InvoicePreviewProps {
   invoiceNumber: string
   invoiceDate: string
   dueDate?: string
   title: string
-  companyInfo: {
-    name: string
-    address: string
-    phone: string
-    email: string
-  }
-  clientInfo: {
-    name: string
-    email: string
-    phone?: string
-    address?: string
-  }
+  companyInfo: CompanyInfo
+  clientInfo: ClientInfo
   lineItems: LineItem[]
   totals: {
     subtotal: number
