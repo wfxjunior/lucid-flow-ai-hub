@@ -407,7 +407,7 @@ const LandingPage = () => {
             
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-8 leading-tight">
               One Platform.
-              <br className="hidden sm:block" />
+              <br />
               <span className="text-blue-600">Infinite Possibilities.</span>
             </h2>
             
