@@ -27,6 +27,7 @@ import { UserGreeting } from "@/components/UserGreeting"
 import { NotesPage } from "@/components/NotesPage"
 import { IntegrationsHub } from "@/components/IntegrationsHub"
 import { PipelineBoard } from "@/components/PipelineBoard"
+import { FAQPage } from "@/components/FAQPage"
 
 export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -77,6 +78,8 @@ export default function Index() {
         return <IntegrationsHub />
       case "pipeline":
         return <PipelineBoard />
+      case "faq-help":
+        return <FAQPage />
       default:
         return <ImprovedDashboard onNavigate={setActiveView} />
     }

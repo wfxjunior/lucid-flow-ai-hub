@@ -20,215 +20,217 @@ import { LanguageSelector } from "@/components/LanguageSelector"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { Button } from "@/components/ui/button"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 interface AppSidebarProps {
   activeView: string
   setActiveView: (view: string) => void
 }
 
-const mainFeatures = [
-  {
-    title: "Dashboard",
-    icon: Home,
-    view: "dashboard"
-  },
-  {
-    title: "AI Voice Assistant",
-    icon: Mic,
-    view: "ai-voice"
-  },
-  {
-    title: "Create Invoice",
-    icon: FileText,
-    view: "invoice-creator"
-  },
-  {
-    title: "Features",
-    icon: Lightbulb,
-    view: "features"
-  },
-  {
-    title: "Appointments",
-    icon: Calendar,
-    view: "appointments"
-  },
-  {
-    title: "Payments",
-    icon: CreditCard,
-    view: "payments"
-  },
-  {
-    title: "E-Signatures",
-    icon: Signature,
-    view: "e-signatures"
-  }
-]
-
-const businessTools = [
-  {
-    title: "Customers",
-    icon: Users,
-    view: "customer-management"
-  },
-  {
-    title: "Projects",
-    icon: Briefcase,
-    view: "projects"
-  },
-  {
-    title: "Pipeline de Vendas",
-    icon: GitBranch,
-    view: "pipeline"
-  },
-  {
-    title: "Work Orders",
-    icon: Package,
-    view: "work-orders"
-  },
-  {
-    title: "MatTrack",
-    icon: Warehouse,
-    view: "mat-track"
-  },
-  {
-    title: "CrewControl",
-    icon: UserCheck,
-    view: "crew-control"
-  },
-  {
-    title: "EarnSync",
-    icon: Target,
-    view: "earnsync"
-  },
-  {
-    title: "Meetings",
-    icon: Video,
-    view: "meetings"
-  },
-  {
-    title: "To-Do List",
-    icon: CheckSquare,
-    view: "todo-list"
-  },
-  {
-    title: "Notes",
-    icon: StickyNote,
-    view: "notes"
-  },
-  {
-    title: "Quotes",
-    icon: FileSpreadsheet,
-    view: "quotes"
-  },
-  {
-    title: "Estimates",
-    icon: Calculator,
-    view: "estimates"
-  },
-  {
-    title: "Accounting",
-    icon: Receipt,
-    view: "accounting"
-  },
-  {
-    title: "Sales Orders",
-    icon: TrendingUp,
-    view: "sales-orders"
-  },
-  {
-    title: "Service Orders",
-    icon: Package,
-    view: "service-orders"
-  },
-  {
-    title: "Business Proposals",
-    icon: Clipboard,
-    view: "business-proposals"
-  },
-  {
-    title: "Bids",
-    icon: DollarSign,
-    view: "bids"
-  },
-  {
-    title: "Contracts",
-    icon: PenTool,
-    view: "contracts"
-  }
-]
-
-const communication = [
-  {
-    title: "Email Center",
-    icon: Mail,
-    view: "email-center"
-  },
-  {
-    title: "Messages",
-    icon: MessageSquare,
-    view: "messages"
-  },
-  {
-    title: "Communication Hub",
-    icon: Send,
-    view: "communication-hub"
-  }
-]
-
-const analytics = [
-  {
-    title: "Analytics",
-    icon: BarChart3,
-    view: "analytics"
-  }
-]
-
-const integrations = [
-  {
-    title: "Integrações",
-    icon: Zap,
-    view: "integrations"
-  }
-]
-
-const systemTools = [
-  {
-    title: "Admin Panel",
-    icon: Shield,
-    view: "admin-panel"
-  },
-  {
-    title: "Features",
-    icon: Lightbulb,
-    view: "features"
-  },
-  {
-    title: "FAQ & Help",
-    icon: HelpCircle,
-    view: "faq-help"
-  },
-  {
-    title: "Feedback",
-    icon: MessageSquare,
-    view: "feedback"
-  },
-  {
-    title: "Pricing Plans",
-    icon: Crown,
-    view: "pricing"
-  },
-  {
-    title: "Settings",
-    icon: Settings,
-    view: "settings"
-  }
-]
-
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   console.log('AppSidebar rendering with activeView:', activeView)
   const isMobile = useIsMobile()
+  const { t } = useLanguage()
   
   console.log('isMobile state:', isMobile) // Debug log to check mobile detection
+  
+  const mainFeatures = [
+    {
+      title: t("sidebar.dashboard"),
+      icon: Home,
+      view: "dashboard"
+    },
+    {
+      title: t("sidebar.aiVoice"),
+      icon: Mic,
+      view: "ai-voice"
+    },
+    {
+      title: t("sidebar.createInvoice"),
+      icon: FileText,
+      view: "invoice-creator"
+    },
+    {
+      title: "Features",
+      icon: Lightbulb,
+      view: "features"
+    },
+    {
+      title: "Appointments",
+      icon: Calendar,
+      view: "appointments"
+    },
+    {
+      title: "Payments",
+      icon: CreditCard,
+      view: "payments"
+    },
+    {
+      title: t("sidebar.esignatures"),
+      icon: Signature,
+      view: "e-signatures"
+    }
+  ]
+
+  const businessTools = [
+    {
+      title: t("sidebar.customers"),
+      icon: Users,
+      view: "customer-management"
+    },
+    {
+      title: "Projects",
+      icon: Briefcase,
+      view: "projects"
+    },
+    {
+      title: "Sales Pipeline",
+      icon: GitBranch,
+      view: "pipeline"
+    },
+    {
+      title: "Work Orders",
+      icon: Package,
+      view: "work-orders"
+    },
+    {
+      title: "MatTrack",
+      icon: Warehouse,
+      view: "mat-track"
+    },
+    {
+      title: "CrewControl",
+      icon: UserCheck,
+      view: "crew-control"
+    },
+    {
+      title: "EarnSync",
+      icon: Target,
+      view: "earnsync"
+    },
+    {
+      title: "Meetings",
+      icon: Video,
+      view: "meetings"
+    },
+    {
+      title: "To-Do List",
+      icon: CheckSquare,
+      view: "todo-list"
+    },
+    {
+      title: "Notes",
+      icon: StickyNote,
+      view: "notes"
+    },
+    {
+      title: "Quotes",
+      icon: FileSpreadsheet,
+      view: "quotes"
+    },
+    {
+      title: "Estimates",
+      icon: Calculator,
+      view: "estimates"
+    },
+    {
+      title: "Accounting",
+      icon: Receipt,
+      view: "accounting"
+    },
+    {
+      title: "Sales Orders",
+      icon: TrendingUp,
+      view: "sales-orders"
+    },
+    {
+      title: "Service Orders",
+      icon: Package,
+      view: "service-orders"
+    },
+    {
+      title: "Business Proposals",
+      icon: Clipboard,
+      view: "business-proposals"
+    },
+    {
+      title: "Bids",
+      icon: DollarSign,
+      view: "bids"
+    },
+    {
+      title: t("sidebar.contracts"),
+      icon: PenTool,
+      view: "contracts"
+    }
+  ]
+
+  const communication = [
+    {
+      title: "Email Center",
+      icon: Mail,
+      view: "email-center"
+    },
+    {
+      title: "Messages",
+      icon: MessageSquare,
+      view: "messages"
+    },
+    {
+      title: "Communication Hub",
+      icon: Send,
+      view: "communication-hub"
+    }
+  ]
+
+  const analytics = [
+    {
+      title: t("sidebar.analytics"),
+      icon: BarChart3,
+      view: "analytics"
+    }
+  ]
+
+  const integrations = [
+    {
+      title: "Integrations",
+      icon: Zap,
+      view: "integrations"
+    }
+  ]
+
+  const systemTools = [
+    {
+      title: "Admin Panel",
+      icon: Shield,
+      view: "admin-panel"
+    },
+    {
+      title: "Features",
+      icon: Lightbulb,
+      view: "features"
+    },
+    {
+      title: "FAQ & Help",
+      icon: HelpCircle,
+      view: "faq-help"
+    },
+    {
+      title: "Feedback",
+      icon: MessageSquare,
+      view: "feedback"
+    },
+    {
+      title: "Pricing Plans",
+      icon: Crown,
+      view: "pricing"
+    },
+    {
+      title: "Settings",
+      icon: Settings,
+      view: "settings"
+    }
+  ]
   
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
@@ -320,7 +322,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarFooter className="p-4 border-t">
         <div className="space-y-3">
           <div>
-            <p className="text-sm font-medium text-gray-500 mb-2">Language</p>
+            <p className="text-sm font-medium text-gray-500 mb-2">{t("language.title")}</p>
             <LanguageSelector />
           </div>
           <ThemeToggle />
