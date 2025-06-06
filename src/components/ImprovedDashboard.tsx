@@ -124,6 +124,17 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
+          {/* Quick Actions Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("dashboard.quickActions", "Quick Actions")}</CardTitle>
+              <CardDescription>Access your most used business tools</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <QuickActions onActionClick={handleQuickAction} />
+            </CardContent>
+          </Card>
+
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
             {/* Revenue Chart */}
             <Card className="col-span-4">
