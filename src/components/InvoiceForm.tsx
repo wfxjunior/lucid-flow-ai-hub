@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Plus, Trash2, Send, FileText, Printer, Eye, DollarSign, Calendar, Clock } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
+import { useCompanyData } from "@/hooks/useCompanyData"
 import { toast } from "sonner"
 import { supabase } from "@/integrations/supabase/client"
 import { User } from "@supabase/supabase-js"
@@ -58,6 +59,7 @@ interface InvoiceTotals {
 
 export function InvoiceForm() {
   const { allClients, createClient, loading } = useBusinessData()
+  const { companyProfile } = useCompanyData()
   const [isNewClientDialogOpen, setIsNewClientDialogOpen] = useState(false)
   const [isPreviewDialogOpen, setIsPreviewDialogOpen] = useState(false)
   const [invoiceNumber, setInvoiceNumber] = useState("")
@@ -296,6 +298,26 @@ export function InvoiceForm() {
       default: return 'bg-gray-100 text-gray-800'
     }
   }
+
+  const getCompanyDisplayInfo = () => {
+    if (companyProfile) {
+      return {
+        name: companyProfile.company_name,
+        address: companyProfile.address || "123 Business St, Suite 100\nBusiness City, BC 12345",
+        phone: companyProfile.phone || "(555) 123-4567",
+        email: companyProfile.email || "info@company.com"
+      }
+    }
+    
+    return {
+      name: "FeatherBiz",
+      address: "123 Business St, Suite 100\nBusiness City, BC 12345",
+      phone: "(555) 123-4567",
+      email: "info@featherbiz.com"
+    }
+  }
+
+  const companyInfo = getCompanyDisplayInfo()
 
   const selectedClient = allClients.find(client => client.id === invoiceForm.watch("client_id"))
 
@@ -677,14 +699,13 @@ export function InvoiceForm() {
                         <div className="bg-white p-8 border rounded-lg">
                           {/* Invoice Preview Content */}
                           <div className="space-y-6">
-                            {/* Header */}
+                            {/* Header with company info */}
                             <div className="flex justify-between items-start">
                               <div>
-                                <h1 className="text-2xl font-bold text-gray-900">FeatherBiz</h1>
-                                <p className="text-sm text-gray-600">
-                                  123 Business St, Suite 100<br />
-                                  Business City, BC 12345<br />
-                                  (555) 123-4567 | info@featherbiz.com
+                                <h1 className="text-2xl font-bold text-gray-900">{companyInfo.name}</h1>
+                                <p className="text-sm text-gray-600 whitespace-pre-line">
+                                  {companyInfo.address}<br />
+                                  {companyInfo.phone} | {companyInfo.email}
                                 </p>
                               </div>
                               <div className="text-right">
@@ -765,7 +786,7 @@ export function InvoiceForm() {
                                 )}
                                 {totals.tax > 0 && (
                                   <div className="flex justify-between">
-                                    <span>Tax:</span>
+                                    <span className="text-muted-foreground">Tax:</span>
                                     <span>${totals.tax.toFixed(2)}</span>
                                   </div>
                                 )}
@@ -909,20 +930,30 @@ export function InvoiceForm() {
             </CardContent>
           </Card>
 
-          {/* Company Information */}
+          {/* Company Information with dynamic data */}
           <Card>
             <CardHeader>
               <CardTitle>From (Your Company)</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-sm">
-                <div className="font-medium">FeatherBiz</div>
-                <div className="text-muted-foreground">
-                  123 Business St, Suite 100<br />
-                  Business City, BC 12345<br />
-                  (555) 123-4567<br />
-                  info@featherbiz.com
+                <div className="font-medium">{companyInfo.name}</div>
+                <div className="text-muted-foreground whitespace-pre-line">
+                  {companyInfo.address}<br />
+                  {companyInfo.phone}<br />
+                  {companyInfo.email}
                 </div>
+                {!companyProfile && (
+                  <div className="mt-3">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => window.location.href = '/dashboard?view=settings'}
+                    >
+                      Update Company Info
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

@@ -10,10 +10,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useBusinessData } from "@/hooks/useBusinessData"
+import { useCompanyData } from "@/hooks/useCompanyData"
 
 export function InvoiceCreator() {
   const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false)
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null)
   const { invoices, clients, loading } = useBusinessData()
+  const { companyProfile } = useCompanyData()
 
   const monthlyInvoiceData = [
     { month: 'Jan', sent: 23, paid: 20, pending: 3 },
@@ -71,6 +74,10 @@ export function InvoiceCreator() {
     return client?.name || 'Unknown Client'
   }
 
+  const getClientData = (clientId: string) => {
+    return clients?.find(c => c.id === clientId)
+  }
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: '2-digit',
@@ -87,6 +94,33 @@ export function InvoiceCreator() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
     return diffDays > 0 ? diffDays : 0
   }
+
+  const handleViewInvoice = (invoiceId: string) => {
+    setSelectedInvoiceId(invoiceId)
+  }
+
+  const selectedInvoice = invoices?.find(inv => inv.id === selectedInvoiceId)
+  const selectedClient = selectedInvoice ? getClientData(selectedInvoice.client_id) : null
+
+  const getCompanyInfo = () => {
+    if (companyProfile) {
+      return {
+        name: companyProfile.company_name,
+        address: companyProfile.address || "123 Business St, Suite 100\nBusiness City, BC 12345",
+        phone: companyProfile.phone || "(555) 123-4567",
+        email: companyProfile.email || "info@company.com"
+      }
+    }
+    
+    return {
+      name: "FeatherBiz",
+      address: "123 Business St, Suite 100\nBusiness City, BC 12345",
+      phone: "(555) 123-4567",
+      email: "info@featherbiz.com"
+    }
+  }
+
+  const companyInfo = getCompanyInfo()
 
   return (
     <div className="space-y-4 sm:space-y-6 p-2 sm:p-4 lg:p-6">
@@ -344,7 +378,11 @@ export function InvoiceCreator() {
                         </TableCell>
                         <TableCell className="text-center">
                           <div className="flex justify-center gap-1">
-                            <Button variant="ghost" size="sm">
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => handleViewInvoice(invoice.id)}
+                            >
                               <Eye className="h-4 w-4" />
                             </Button>
                             <Button variant="ghost" size="sm">
@@ -373,6 +411,91 @@ export function InvoiceCreator() {
           )}
         </CardContent>
       </Card>
+
+      {/* Invoice View Dialog */}
+      {selectedInvoice && (
+        <Dialog open={!!selectedInvoiceId} onOpenChange={() => setSelectedInvoiceId(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Invoice {selectedInvoice.invoice_number}</DialogTitle>
+              <DialogDescription>
+                Invoice for {selectedClient?.name}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="bg-white p-8 border rounded-lg">
+              <div className="space-y-6">
+                {/* Header */}
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900">{companyInfo.name}</h1>
+                    <p className="text-sm text-gray-600 whitespace-pre-line">
+                      {companyInfo.address}<br />
+                      {companyInfo.phone} | {companyInfo.email}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <h2 className="text-xl font-bold text-gray-900">INVOICE</h2>
+                    <p className="text-sm text-gray-600">#{selectedInvoice.invoice_number}</p>
+                    <p className="text-sm text-gray-600">Date: {formatDate(selectedInvoice.created_at)}</p>
+                    {selectedInvoice.due_date && (
+                      <p className="text-sm text-gray-600">Due: {formatDate(selectedInvoice.due_date)}</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Bill To */}
+                {selectedClient && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Bill To:</h3>
+                    <div className="bg-gray-50 p-4 rounded">
+                      <p className="font-medium">{selectedClient.name}</p>
+                      <p className="text-sm text-gray-600">{selectedClient.email}</p>
+                      {selectedClient.phone && (
+                        <p className="text-sm text-gray-600">{selectedClient.phone}</p>
+                      )}
+                      {selectedClient.address && (
+                        <p className="text-sm text-gray-600">{selectedClient.address}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Invoice Title */}
+                {selectedInvoice.title && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">{selectedInvoice.title}</h3>
+                  </div>
+                )}
+
+                {/* Total */}
+                <div className="flex justify-end">
+                  <div className="w-64 space-y-2">
+                    <div className="flex justify-between text-lg font-bold">
+                      <span>Total:</span>
+                      <span>${selectedInvoice.amount.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Description/Notes */}
+                {selectedInvoice.description && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Notes:</h3>
+                    <p className="text-sm text-gray-600 whitespace-pre-line">
+                      {selectedInvoice.description}
+                    </p>
+                  </div>
+                )}
+
+                {/* Footer */}
+                <div className="text-center text-xs text-gray-500 mt-8 pt-4 border-t">
+                  <p>Thank you for your business!</p>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   )
 }
