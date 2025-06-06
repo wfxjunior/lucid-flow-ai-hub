@@ -31,7 +31,8 @@ import {
   StickyNote,
   FileBarChart,
   ClipboardList,
-  Wrench
+  Wrench,
+  Car
 } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
@@ -96,6 +97,15 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       title: "Projects",
       description: "Manage business projects",
       icon: Briefcase,
+      colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
+      iconColorClass: "text-blue-400",
+      category: "Management"
+    },
+    {
+      id: "car-rental",
+      title: "Car Rental",
+      description: "Manage vehicle rentals",
+      icon: Car,
       colorClass: "bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-700 shadow-md hover:shadow-lg",
       iconColorClass: "text-blue-400",
       category: "Management"

@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
@@ -28,6 +27,7 @@ import { NotesPage } from "@/components/NotesPage"
 import { IntegrationsHub } from "@/components/IntegrationsHub"
 import { PipelineBoard } from "@/components/PipelineBoard"
 import { FAQPage } from "@/components/FAQPage"
+import { CarRentalPage } from "@/components/CarRentalPage"
 
 export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -83,6 +83,8 @@ export default function Index() {
         return <PipelineBoard />
       case "faq-help":
         return <FAQPage />
+      case "car-rental":
+        return <CarRentalPage />
       case "messages":
         return <div className="p-6"><h1 className="text-2xl font-bold">Messages</h1><p>Communication hub coming soon...</p></div>
       case "email-center":

@@ -122,6 +122,86 @@ export type Database = {
           },
         ]
       }
+      car_rentals: {
+        Row: {
+          created_at: string
+          final_mileage: number | null
+          fuel_level_pickup: number | null
+          fuel_level_return: number | null
+          id: string
+          initial_mileage: number | null
+          notes: string | null
+          payment_method: string | null
+          payment_status: string
+          pickup_location: string
+          pickup_time: string | null
+          rental_end_date: string
+          rental_start_date: string
+          rental_status: string
+          renter_name: string
+          return_location: string
+          return_time: string | null
+          total_price: number
+          updated_at: string
+          user_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          final_mileage?: number | null
+          fuel_level_pickup?: number | null
+          fuel_level_return?: number | null
+          id?: string
+          initial_mileage?: number | null
+          notes?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          pickup_location: string
+          pickup_time?: string | null
+          rental_end_date: string
+          rental_start_date: string
+          rental_status?: string
+          renter_name: string
+          return_location: string
+          return_time?: string | null
+          total_price: number
+          updated_at?: string
+          user_id: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          final_mileage?: number | null
+          fuel_level_pickup?: number | null
+          fuel_level_return?: number | null
+          id?: string
+          initial_mileage?: number | null
+          notes?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          pickup_location?: string
+          pickup_time?: string | null
+          rental_end_date?: string
+          rental_start_date?: string
+          rental_status?: string
+          renter_name?: string
+          return_location?: string
+          return_time?: string | null
+          total_price?: number
+          updated_at?: string
+          user_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "car_rentals_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           address: string | null
@@ -875,6 +955,47 @@ export type Database = {
           },
         ]
       }
+      rental_documents: {
+        Row: {
+          created_at: string
+          document_type: string
+          file_name: string
+          file_size: number
+          file_url: string
+          id: string
+          rental_id: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          document_type: string
+          file_name: string
+          file_size: number
+          file_url: string
+          id?: string
+          rental_id: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: string
+          file_name?: string
+          file_size?: number
+          file_url?: string
+          id?: string
+          rental_id?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rental_documents_rental_id_fkey"
+            columns: ["rental_id"]
+            isOneToOne: false
+            referencedRelation: "car_rentals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       signatures: {
         Row: {
           client_id: string
@@ -953,6 +1074,51 @@ export type Database = {
           invoice_number_start?: number | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      vehicles: {
+        Row: {
+          brand: string
+          color: string | null
+          created_at: string
+          id: string
+          model: string
+          photo_url: string | null
+          plate_number: string
+          status: string
+          updated_at: string
+          user_id: string
+          vehicle_type: string
+          year: number
+        }
+        Insert: {
+          brand: string
+          color?: string | null
+          created_at?: string
+          id?: string
+          model: string
+          photo_url?: string | null
+          plate_number: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          vehicle_type: string
+          year: number
+        }
+        Update: {
+          brand?: string
+          color?: string | null
+          created_at?: string
+          id?: string
+          model?: string
+          photo_url?: string | null
+          plate_number?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          vehicle_type?: string
+          year?: number
         }
         Relationships: []
       }
