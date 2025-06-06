@@ -38,9 +38,9 @@ export function CrewControlPage() {
         <Button 
           onClick={() => setShowEmployeeForm(true)}
           className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
-          size="sm"
+          size="lg"
         >
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-5 h-5 mr-2" />
           Add Employee
         </Button>
       </div>
@@ -103,7 +103,7 @@ export function CrewControlPage() {
             placeholder="Search employees by name, position, or location..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-4"
+            className="pl-4 h-12"
           />
         </div>
       </div>
@@ -111,13 +111,13 @@ export function CrewControlPage() {
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
         <div className="overflow-x-auto">
-          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 min-w-fit">
-            <TabsTrigger value="overview" className="text-xs sm:text-sm">Overview</TabsTrigger>
-            <TabsTrigger value="employees" className="text-xs sm:text-sm">Employees</TabsTrigger>
-            <TabsTrigger value="tracking" className="text-xs sm:text-sm">Time Tracking</TabsTrigger>
-            <TabsTrigger value="payroll" className="text-xs sm:text-sm">Payroll</TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs sm:text-sm">Analytics</TabsTrigger>
-            <TabsTrigger value="details" className="text-xs sm:text-sm">Details</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 min-w-fit h-12">
+            <TabsTrigger value="overview" className="text-xs sm:text-sm h-10">Overview</TabsTrigger>
+            <TabsTrigger value="employees" className="text-xs sm:text-sm h-10">Employees</TabsTrigger>
+            <TabsTrigger value="tracking" className="text-xs sm:text-sm h-10">Time Tracking</TabsTrigger>
+            <TabsTrigger value="payroll" className="text-xs sm:text-sm h-10">Payroll</TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs sm:text-sm h-10">Analytics</TabsTrigger>
+            <TabsTrigger value="details" className="text-xs sm:text-sm h-10">Details</TabsTrigger>
           </TabsList>
         </div>
 
