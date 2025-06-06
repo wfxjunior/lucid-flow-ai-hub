@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -179,7 +180,15 @@ export function InvoiceForm() {
   }
 
   const addLineItem = () => {
-    setLineItems([...lineItems, { type: "service", description: "", quantity: 1, rate: 0, tax_rate: 0, amount: 0 }])
+    const newItem: LineItem = { 
+      type: "service", 
+      description: "", 
+      quantity: 1, 
+      rate: 0, 
+      tax_rate: 0, 
+      amount: 0 
+    }
+    setLineItems([...lineItems, newItem])
   }
 
   const removeLineItem = (index: number) => {
