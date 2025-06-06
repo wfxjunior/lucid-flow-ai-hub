@@ -229,6 +229,7 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
   ]
 
   const handleActionClick = (actionId: string) => {
+    console.log('QuickAction clicked:', actionId)
     if (onActionClick) {
       onActionClick(actionId)
     }

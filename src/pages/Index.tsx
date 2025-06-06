@@ -33,6 +33,7 @@ export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
 
   const renderActiveView = () => {
+    console.log('Rendering view:', activeView)
     switch (activeView) {
       case "dashboard":
         return <ImprovedDashboard onNavigate={setActiveView} />
@@ -41,6 +42,8 @@ export default function Index() {
       case "customer-management":
         return <CustomerManagement />
       case "estimates":
+        return <EstimatesPage />
+      case "quotes":
         return <EstimatesPage />
       case "appointments":
         return <AppointmentsPage />
@@ -80,6 +83,12 @@ export default function Index() {
         return <PipelineBoard />
       case "faq-help":
         return <FAQPage />
+      case "messages":
+        return <div className="p-6"><h1 className="text-2xl font-bold">Messages</h1><p>Communication hub coming soon...</p></div>
+      case "email-center":
+        return <div className="p-6"><h1 className="text-2xl font-bold">Email Center</h1><p>Email campaigns coming soon...</p></div>
+      case "payments":
+        return <div className="p-6"><h1 className="text-2xl font-bold">Payments</h1><p>Payment processing coming soon...</p></div>
       default:
         return <ImprovedDashboard onNavigate={setActiveView} />
     }
@@ -103,3 +112,4 @@ export default function Index() {
     </SidebarProvider>
   )
 }
+```
