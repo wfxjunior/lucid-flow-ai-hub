@@ -93,10 +93,10 @@ export function VehicleRegistry() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Vehicle Registry</h2>
-        <Button onClick={() => setShowForm(true)} className="flex items-center gap-2">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h2 className="text-xl md:text-2xl font-semibold">Vehicle Registry</h2>
+        <Button onClick={() => setShowForm(true)} className="flex items-center gap-2 w-full sm:w-auto">
           <Plus className="h-4 w-4" />
           Add Vehicle
         </Button>
@@ -113,16 +113,16 @@ export function VehicleRegistry() {
         />
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
         {vehicles.map((vehicle) => (
           <Card key={vehicle.id} className="hover:shadow-lg transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
-                <div className="flex items-center gap-2">
-                  <Car className="h-5 w-5 text-blue-600" />
-                  <CardTitle className="text-lg">{vehicle.brand} {vehicle.model}</CardTitle>
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <Car className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                  <CardTitle className="text-base md:text-lg truncate">{vehicle.brand} {vehicle.model}</CardTitle>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-shrink-0">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -144,21 +144,21 @@ export function VehicleRegistry() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Plate:</span>
-                  <span className="font-medium">{vehicle.plate_number}</span>
+                  <span className="font-medium text-sm truncate ml-2">{vehicle.plate_number}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Type:</span>
-                  <span className="capitalize">{vehicle.vehicle_type}</span>
+                  <span className="capitalize text-sm">{vehicle.vehicle_type}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Year:</span>
-                  <span>{vehicle.year}</span>
+                  <span className="text-sm">{vehicle.year}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Color:</span>
-                  <span className="capitalize">{vehicle.color}</span>
+                  <span className="capitalize text-sm truncate ml-2">{vehicle.color}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">Status:</span>
                   <span className={`px-2 py-1 rounded text-xs ${
                     vehicle.status === 'active' 
@@ -176,11 +176,11 @@ export function VehicleRegistry() {
 
       {vehicles.length === 0 && (
         <Card>
-          <CardContent className="p-8 text-center">
+          <CardContent className="p-6 md:p-8 text-center">
             <Car className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No vehicles registered</h3>
-            <p className="text-gray-600 mb-4">Get started by adding your first vehicle to the registry.</p>
-            <Button onClick={() => setShowForm(true)}>
+            <p className="text-gray-600 mb-4 text-sm md:text-base">Get started by adding your first vehicle to the registry.</p>
+            <Button onClick={() => setShowForm(true)} className="w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               Add Vehicle
             </Button>

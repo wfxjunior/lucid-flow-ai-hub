@@ -104,10 +104,10 @@ export function RentalManagement() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Rental Management</h2>
-        <Button onClick={() => setShowForm(true)} className="flex items-center gap-2">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h2 className="text-xl md:text-2xl font-semibold">Rental Management</h2>
+        <Button onClick={() => setShowForm(true)} className="flex items-center gap-2 w-full sm:w-auto">
           <Plus className="h-4 w-4" />
           New Rental
         </Button>
@@ -134,19 +134,20 @@ export function RentalManagement() {
       <div className="grid gap-4">
         {rentals.map((rental) => (
           <Card key={rental.id} className="hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold">{rental.renter_name}</h3>
-                  <p className="text-gray-600">
+            <CardContent className="p-4 md:p-6">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-4">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg font-semibold truncate">{rental.renter_name}</h3>
+                  <p className="text-gray-600 text-sm md:text-base truncate">
                     {rental.vehicle.brand} {rental.vehicle.model} ({rental.vehicle.plate_number})
                   </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-shrink-0">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowDocuments(rental.id)}
+                    className="p-2"
                   >
                     <FileText className="h-4 w-4" />
                   </Button>
@@ -154,6 +155,7 @@ export function RentalManagement() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleSendConfirmation(rental)}
+                    className="p-2"
                   >
                     <Mail className="h-4 w-4" />
                   </Button>
@@ -161,22 +163,23 @@ export function RentalManagement() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleEdit(rental)}
+                    className="p-2"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
                 <div>
                   <span className="text-gray-600">Pickup:</span>
                   <p className="font-medium">{new Date(rental.rental_start_date).toLocaleDateString()}</p>
-                  <p className="text-gray-600">{rental.pickup_location}</p>
+                  <p className="text-gray-600 text-xs truncate">{rental.pickup_location}</p>
                 </div>
                 <div>
                   <span className="text-gray-600">Return:</span>
                   <p className="font-medium">{new Date(rental.rental_end_date).toLocaleDateString()}</p>
-                  <p className="text-gray-600">{rental.return_location}</p>
+                  <p className="text-gray-600 text-xs truncate">{rental.return_location}</p>
                 </div>
                 <div>
                   <span className="text-gray-600">Total Price:</span>
@@ -201,11 +204,11 @@ export function RentalManagement() {
 
       {rentals.length === 0 && (
         <Card>
-          <CardContent className="p-8 text-center">
+          <CardContent className="p-6 md:p-8 text-center">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No rentals found</h3>
-            <p className="text-gray-600 mb-4">Start by creating your first rental.</p>
-            <Button onClick={() => setShowForm(true)}>
+            <p className="text-gray-600 mb-4 text-sm md:text-base">Start by creating your first rental.</p>
+            <Button onClick={() => setShowForm(true)} className="w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               New Rental
             </Button>
