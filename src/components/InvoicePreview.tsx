@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -36,7 +35,12 @@ export function InvoicePreview(props: InvoicePreviewProps) {
         title: props.title,
         companyInfo: props.companyInfo,
         clientInfo: props.clientInfo,
-        lineItems: props.lineItems,
+        lineItems: props.lineItems.map(item => ({
+          description: item.description,
+          quantity: item.quantity,
+          rate: item.rate,
+          amount: item.amount
+        })),
         totals: props.totals,
         notes: props.notes,
         status: props.status
