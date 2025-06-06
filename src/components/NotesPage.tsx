@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -35,6 +36,7 @@ export function NotesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingNote, setEditingNote] = useState<Note | null>(null)
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const { toast } = useToast()
 
   // Form state
@@ -70,12 +72,18 @@ export function NotesPage() {
 
   const fetchNotes = async () => {
     try {
+      console.log('Fetching notes...')
       const { data, error } = await supabase
         .from('notes')
         .select('*')
         .order('created_at', { ascending: false })
 
-      if (error) throw error
+      if (error) {
+        console.error('Error fetching notes:', error)
+        throw error
+      }
+      
+      console.log('Fetched notes:', data)
       setNotes(data || [])
     } catch (error) {
       console.error('Error fetching notes:', error)
@@ -101,48 +109,67 @@ export function NotesPage() {
       return
     }
 
+    setSubmitting(true)
+    console.log('Submitting note with data:', formData)
+
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
+      if (!user) {
+        throw new Error('Not authenticated')
+      }
+
+      console.log('Current user:', user.id)
+
+      // Prepare the note data
+      const noteData = {
+        title: formData.title.trim(),
+        content: formData.content || '',
+        related_client: formData.related_client && formData.related_client !== 'no-client' ? formData.related_client : null,
+        related_project: formData.related_project && formData.related_project !== 'no-project' ? formData.related_project : null,
+        tags: formData.tags.trim() || null,
+        attachments: formData.attachments,
+        user_id: user.id,
+        created_by: user.id
+      }
+
+      console.log('Prepared note data:', noteData)
 
       if (editingNote) {
         // Update existing note
-        const { error } = await supabase
+        console.log('Updating note with ID:', editingNote.id)
+        const { data, error } = await supabase
           .from('notes')
           .update({
-            title: formData.title,
-            content: formData.content,
-            related_client: formData.related_client === 'no-client' ? null : formData.related_client,
-            related_project: formData.related_project === 'no-project' ? null : formData.related_project,
-            tags: formData.tags || null,
-            attachments: formData.attachments,
+            ...noteData,
             updated_at: new Date().toISOString()
           })
           .eq('id', editingNote.id)
+          .select()
 
-        if (error) throw error
+        if (error) {
+          console.error('Update error:', error)
+          throw error
+        }
         
+        console.log('Note updated successfully:', data)
         toast({
           title: "Success",
           description: "Note updated successfully"
         })
       } else {
         // Create new note
-        const { error } = await supabase
+        console.log('Creating new note')
+        const { data, error } = await supabase
           .from('notes')
-          .insert({
-            title: formData.title,
-            content: formData.content,
-            related_client: formData.related_client === 'no-client' ? null : formData.related_client,
-            related_project: formData.related_project === 'no-project' ? null : formData.related_project,
-            tags: formData.tags || null,
-            attachments: formData.attachments,
-            user_id: user.id,
-            created_by: user.id
-          })
+          .insert([noteData])
+          .select()
 
-        if (error) throw error
+        if (error) {
+          console.error('Insert error:', error)
+          throw error
+        }
         
+        console.log('Note created successfully:', data)
         toast({
           title: "Success",
           description: "Note created successfully"
@@ -156,9 +183,11 @@ export function NotesPage() {
       console.error('Error saving note:', error)
       toast({
         title: "Error",
-        description: "Failed to save note",
+        description: `Failed to save note: ${error.message}`,
         variant: "destructive"
       })
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -166,13 +195,18 @@ export function NotesPage() {
     if (!confirm('Are you sure you want to delete this note?')) return
 
     try {
+      console.log('Deleting note:', noteId)
       const { error } = await supabase
         .from('notes')
         .delete()
         .eq('id', noteId)
 
-      if (error) throw error
+      if (error) {
+        console.error('Delete error:', error)
+        throw error
+      }
       
+      console.log('Note deleted successfully')
       await fetchNotes()
       toast({
         title: "Success",
@@ -201,12 +235,13 @@ export function NotesPage() {
   }
 
   const openEditDialog = (note: Note) => {
+    console.log('Opening edit dialog for note:', note)
     setEditingNote(note)
     setFormData({
       title: note.title,
       content: note.content || '',
-      related_client: note.related_client || 'no-client',
-      related_project: note.related_project || 'no-project',
+      related_client: note.related_client || '',
+      related_project: note.related_project || '',
       tags: note.tags || '',
       attachments: note.attachments || []
     })
@@ -293,7 +328,7 @@ export function NotesPage() {
                       <SelectValue placeholder="Select client (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="no-client">No client</SelectItem>
+                      <SelectItem value="">No client</SelectItem>
                       {availableClients.map((client) => (
                         <SelectItem key={client} value={client}>{client}</SelectItem>
                       ))}
@@ -311,7 +346,7 @@ export function NotesPage() {
                       <SelectValue placeholder="Select project (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="no-project">No project</SelectItem>
+                      <SelectItem value="">No project</SelectItem>
                       {availableProjects.map((project) => (
                         <SelectItem key={project} value={project}>{project}</SelectItem>
                       ))}
@@ -334,8 +369,8 @@ export function NotesPage() {
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button type="submit">
-                  {editingNote ? 'Update Note' : 'Create Note'}
+                <Button type="submit" disabled={submitting}>
+                  {submitting ? 'Saving...' : (editingNote ? 'Update Note' : 'Create Note')}
                 </Button>
               </div>
             </form>
