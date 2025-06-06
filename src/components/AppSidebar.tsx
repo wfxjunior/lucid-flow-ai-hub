@@ -1,4 +1,3 @@
-
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
@@ -49,11 +48,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: t("sidebar.createInvoice"),
       icon: FileText,
       view: "invoice-creator"
-    },
-    {
-      title: "Features",
-      icon: Lightbulb,
-      view: "features"
     },
     {
       title: "Appointments",
