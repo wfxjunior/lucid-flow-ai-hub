@@ -1,4 +1,3 @@
-
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
@@ -144,6 +143,11 @@ const businessTools = [
     title: "Bids",
     icon: DollarSign,
     view: "bids"
+  },
+  {
+    title: "Contracts",
+    icon: PenTool,
+    view: "contracts"
   }
 ]
 
@@ -203,11 +207,6 @@ const systemTools = [
     title: "Settings",
     icon: Settings,
     view: "settings"
-  },
-  {
-    title: "Contracts",
-    icon: PenTool,
-    view: "contracts"
   }
 ]
 
