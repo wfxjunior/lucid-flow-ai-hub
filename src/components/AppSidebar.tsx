@@ -1,7 +1,8 @@
+
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch
 } from "lucide-react"
 import {
   Sidebar,
@@ -73,6 +74,11 @@ const businessTools = [
     title: "Projects",
     icon: Briefcase,
     view: "projects"
+  },
+  {
+    title: "Pipeline de Vendas",
+    icon: GitBranch,
+    view: "pipeline"
   },
   {
     title: "Work Orders",
@@ -174,6 +180,14 @@ const analytics = [
     title: "Analytics",
     icon: BarChart3,
     view: "analytics"
+  }
+]
+
+const integrations = [
+  {
+    title: "Integrações",
+    icon: Zap,
+    view: "integrations"
   }
 ]
 
@@ -290,6 +304,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         {/* Analytics */}
         {renderMenuSection(analytics, "Analytics")}
+        
+        <SidebarSeparator />
+        
+        {/* Integrations */}
+        {renderMenuSection(integrations, "Integrations")}
         
         <SidebarSeparator />
         

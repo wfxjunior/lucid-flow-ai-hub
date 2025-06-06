@@ -1,8 +1,10 @@
+
 import { useState } from "react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { Toaster } from "@/components/ui/toaster"
 import { BusinessDashboard } from "@/components/BusinessDashboard"
+import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { EstimatesPage } from "@/components/EstimatesPage"
@@ -23,6 +25,8 @@ import { CrewControlPage } from "@/components/CrewControlPage"
 import { EarnSyncPage } from "@/components/EarnSyncPage"
 import { UserGreeting } from "@/components/UserGreeting"
 import { NotesPage } from "@/components/NotesPage"
+import { IntegrationsHub } from "@/components/IntegrationsHub"
+import { PipelineBoard } from "@/components/PipelineBoard"
 
 export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
@@ -30,7 +34,7 @@ export default function Index() {
   const renderActiveView = () => {
     switch (activeView) {
       case "dashboard":
-        return <BusinessDashboard onNavigate={setActiveView} />
+        return <ImprovedDashboard onNavigate={setActiveView} />
       case "invoice-creator":
         return <InvoiceCreator />
       case "customer-management":
@@ -69,8 +73,12 @@ export default function Index() {
         return <CrewControlPage />
       case "earnsync":
         return <EarnSyncPage />
+      case "integrations":
+        return <IntegrationsHub />
+      case "pipeline":
+        return <PipelineBoard />
       default:
-        return <BusinessDashboard onNavigate={setActiveView} />
+        return <ImprovedDashboard onNavigate={setActiveView} />
     }
   }
 
