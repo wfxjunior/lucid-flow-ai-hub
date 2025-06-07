@@ -40,9 +40,10 @@ import { useLanguage } from "@/contexts/LanguageContext"
 
 interface QuickActionsProps {
   onActionClick?: (actionId: string) => void
+  showHeader?: boolean
 }
 
-export function QuickActions({ onActionClick }: QuickActionsProps) {
+export function QuickActions({ onActionClick, showHeader = true }: QuickActionsProps) {
   const { t } = useLanguage()
 
   const quickActions = [
@@ -331,10 +332,12 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
 
   return (
     <div className="w-full space-y-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Quick Actions</h2>
-        <p className="text-sm text-gray-600">Access all your business tools and features</p>
-      </div>
+      {showHeader && (
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Quick Actions</h2>
+          <p className="text-sm text-gray-600">Access all your business tools and features</p>
+        </div>
+      )}
       
       {/* All Actions Grid */}
       <div className="space-y-8">
