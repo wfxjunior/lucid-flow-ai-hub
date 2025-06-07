@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -7,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { Search, Plus, Edit, Trash2, StickyNote, Filter, Upload, X, Mic, MicOff, Bold, Italic } from 'lucide-react'
+import { Search, Plus, Edit, Trash2, StickyNote, Filter, Upload, X, Mic, MicOff, Bold, Italic, AlertCircle } from 'lucide-react'
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { format } from "date-fns"
@@ -37,6 +36,8 @@ export function NotesPage() {
   const [submitting, setSubmitting] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
+  const [user, setUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
   const { toast } = useToast()
 
   // Form state
@@ -71,7 +72,37 @@ export function NotesPage() {
   ]
 
   useEffect(() => {
-    fetchNotes()
+    // Check for existing session first
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log('Current session:', session)
+      setUser(session?.user || null)
+      setAuthLoading(false)
+      
+      if (session?.user) {
+        fetchNotes()
+      } else {
+        setLoading(false)
+      }
+    }
+
+    checkAuth()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state changed:', event, session)
+      setUser(session?.user || null)
+      setAuthLoading(false)
+      
+      if (session?.user) {
+        fetchNotes()
+      } else {
+        setNotes([])
+        setLoading(false)
+      }
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const fetchNotes = async () => {
@@ -104,6 +135,15 @@ export function NotesPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to save notes",
+        variant: "destructive"
+      })
+      return
+    }
+    
     if (!formData.title.trim()) {
       toast({
         title: "Error",
@@ -117,11 +157,6 @@ export function NotesPage() {
     console.log('Submitting note with data:', formData)
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        throw new Error('Not authenticated')
-      }
-
       const noteData = {
         title: formData.title.trim(),
         content: formData.content || '',
@@ -229,7 +264,6 @@ export function NotesPage() {
     setIsDialogOpen(true)
   }
 
-  // Rich text formatting functions
   const formatText = (format: 'bold' | 'italic') => {
     if (!textareaRef) return
 
@@ -254,7 +288,6 @@ export function NotesPage() {
     }
   }
 
-  // Audio recording functions
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -360,6 +393,38 @@ export function NotesPage() {
   const getTags = (tagsString?: string) => {
     if (!tagsString) return []
     return tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+  }
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="space-y-6 bg-white min-h-screen">
+        <div className="flex items-center justify-center h-64">
+          <Card className="bg-white border border-gray-100 max-w-md mx-auto">
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Authentication Required</h3>
+              <p className="text-gray-600 mb-4">
+                Please log in to access your notes.
+              </p>
+              <Button 
+                onClick={() => window.location.href = '/auth'}
+                className="bg-yellow-400 text-black hover:bg-yellow-500"
+              >
+                Go to Login
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
