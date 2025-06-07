@@ -489,7 +489,7 @@ const LandingPage = () => {
                 <span className="ml-2 text-lg sm:text-xl font-bold">FeatherBiz</span>
               </div>
               <p className="text-gray-400 text-sm">
-                Built by FX American Group with <Heart className="inline h-4 w-4 text-red-500 animate-pulse" /> to empower small business heroes.
+                By FX American Group with <Heart className="inline h-4 w-4 text-blue-500 animate-pulse" /> to empower small business heroes.
               </p>
             </div>
             
