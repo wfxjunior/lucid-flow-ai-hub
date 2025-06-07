@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -162,7 +163,10 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <TypingText title="Empower Your Business with AI-Driven Solutions" className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-8" />
+          <TypingText 
+            words={["Empower Your Business with AI-Driven Solutions"]} 
+            className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-8" 
+          />
           <p className="text-lg text-gray-700 mb-12">
             Unlock the full potential of your business with our AI-powered platform. Streamline operations, boost productivity, and drive growth.
           </p>
