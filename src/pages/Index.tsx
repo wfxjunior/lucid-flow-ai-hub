@@ -8,6 +8,7 @@ import { TodoListPage } from "@/components/TodoListPage"
 import { NotesPage } from "@/components/NotesPage"
 import { DocumentTracker } from "@/components/DocumentTracker"
 import { CarRentalPage } from "@/components/CarRentalPage"
+import { EarnSyncPage } from "@/components/EarnSyncPage"
 import { UserGreeting } from "@/components/UserGreeting"
 import { 
   BarChart3, 
@@ -15,7 +16,8 @@ import {
   StickyNote, 
   FileText, 
   Car,
-  Home
+  Home,
+  DollarSign
 } from "lucide-react"
 
 const Index = () => {
@@ -23,8 +25,10 @@ const Index = () => {
 
   const handleNavigate = (view: string) => {
     console.log('Navigation requested:', view)
-    // Handle navigation logic here if needed
-    // For now, we'll just log the navigation request
+    if (view === 'earnsync') {
+      setActiveTab('earnsync')
+    }
+    // Handle other navigation logic here if needed
   }
 
   return (
@@ -46,7 +50,7 @@ const Index = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8">
+          <TabsList className="grid w-full grid-cols-6 mb-8">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <Home className="h-4 w-4" />
               Dashboard
@@ -66,6 +70,10 @@ const Index = () => {
             <TabsTrigger value="car-rental" className="flex items-center gap-2">
               <Car className="h-4 w-4" />
               Car Rental
+            </TabsTrigger>
+            <TabsTrigger value="earnsync" className="flex items-center gap-2">
+              <DollarSign className="h-4 w-4" />
+              EarnSync
             </TabsTrigger>
           </TabsList>
 
@@ -87,6 +95,10 @@ const Index = () => {
 
           <TabsContent value="car-rental">
             <CarRentalPage />
+          </TabsContent>
+
+          <TabsContent value="earnsync">
+            <EarnSyncPage />
           </TabsContent>
         </Tabs>
       </main>
