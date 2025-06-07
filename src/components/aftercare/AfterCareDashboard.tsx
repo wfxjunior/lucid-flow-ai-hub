@@ -42,7 +42,7 @@ export const AfterCareDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const { data: feedbacks, error } = await supabase
+      const { data: feedbacks, error } = await (supabase as any)
         .from('aftercare_feedback')
         .select('*')
         .order('feedback_date', { ascending: false })
@@ -51,12 +51,12 @@ export const AfterCareDashboard = () => {
 
       const totalFeedbacks = feedbacks?.length || 0
       const averageRating = totalFeedbacks > 0 
-        ? feedbacks.reduce((sum, f) => sum + f.overall_rating, 0) / totalFeedbacks 
+        ? feedbacks.reduce((sum: number, f: any) => sum + f.overall_rating, 0) / totalFeedbacks 
         : 0
       const recommendationRate = totalFeedbacks > 0 
-        ? (feedbacks.filter(f => f.would_recommend).length / totalFeedbacks) * 100 
+        ? (feedbacks.filter((f: any) => f.would_recommend).length / totalFeedbacks) * 100 
         : 0
-      const testimonialCount = feedbacks?.filter(f => f.show_as_testimonial).length || 0
+      const testimonialCount = feedbacks?.filter((f: any) => f.show_as_testimonial).length || 0
       const recentFeedbacks = feedbacks?.slice(0, 5) || []
 
       setStats({
@@ -132,7 +132,7 @@ export const AfterCareDashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {stats.recentFeedbacks.map((feedback) => (
+            {stats.recentFeedbacks.map((feedback: any) => (
               <div key={feedback.id} className="border-b pb-4 last:border-b-0">
                 <div className="flex justify-between items-start mb-2">
                   <div>
@@ -175,9 +175,9 @@ export const AfterCareDashboard = () => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {stats.recentFeedbacks
-                .filter(f => f.show_as_testimonial && f.allow_public_display)
+                .filter((f: any) => f.show_as_testimonial && f.allow_public_display)
                 .slice(0, 4)
-                .map((testimonial) => (
+                .map((testimonial: any) => (
                   <div key={testimonial.id} className="bg-muted/50 p-4 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <StarDisplay rating={testimonial.overall_rating} />

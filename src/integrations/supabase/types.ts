@@ -69,6 +69,60 @@ export type Database = {
         }
         Relationships: []
       }
+      aftercare_feedback: {
+        Row: {
+          admin_notes: string | null
+          agency_satisfaction: number
+          allow_public_display: boolean
+          client_name: string
+          communication_quality: number
+          created_at: string
+          feedback_date: string
+          id: string
+          overall_rating: number
+          project_service: string
+          show_as_testimonial: boolean
+          suggestions: string | null
+          updated_at: string
+          user_id: string
+          would_recommend: boolean
+        }
+        Insert: {
+          admin_notes?: string | null
+          agency_satisfaction: number
+          allow_public_display?: boolean
+          client_name: string
+          communication_quality: number
+          created_at?: string
+          feedback_date?: string
+          id?: string
+          overall_rating: number
+          project_service: string
+          show_as_testimonial?: boolean
+          suggestions?: string | null
+          updated_at?: string
+          user_id: string
+          would_recommend?: boolean
+        }
+        Update: {
+          admin_notes?: string | null
+          agency_satisfaction?: number
+          allow_public_display?: boolean
+          client_name?: string
+          communication_quality?: number
+          created_at?: string
+          feedback_date?: string
+          id?: string
+          overall_rating?: number
+          project_service?: string
+          show_as_testimonial?: boolean
+          suggestions?: string | null
+          updated_at?: string
+          user_id?: string
+          would_recommend?: boolean
+        }
+        Relationships: []
+      }
       appointments: {
         Row: {
           appointment_date: string

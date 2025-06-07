@@ -61,7 +61,7 @@ export const AfterCareAdmin = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('aftercare_feedback')
         .select('*')
         .order('feedback_date', { ascending: false })
@@ -96,7 +96,7 @@ export const AfterCareAdmin = () => {
 
   const updateAdminNotes = async (id: string, notes: string) => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('aftercare_feedback')
         .update({ admin_notes: notes })
         .eq('id', id)
@@ -125,7 +125,7 @@ export const AfterCareAdmin = () => {
 
   const toggleTestimonial = async (id: string, showAsTestimonial: boolean) => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('aftercare_feedback')
         .update({ show_as_testimonial: showAsTestimonial })
         .eq('id', id)

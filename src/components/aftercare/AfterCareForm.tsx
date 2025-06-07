@@ -124,7 +124,7 @@ export const AfterCareForm = () => {
       const { data: user } = await supabase.auth.getUser()
       if (!user.user) throw new Error('Not authenticated')
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('aftercare_feedback')
         .insert([{
           ...data,
