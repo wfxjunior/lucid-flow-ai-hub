@@ -33,6 +33,7 @@ import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
 import { BidsPage } from "@/components/BidsPage"
 import { MessagesPage } from "@/components/MessagesPage"
 import { FeaturesPage } from "@/components/FeaturesPage"
+import { AfterCarePage } from "@/components/AfterCarePage"
 import Feedback from "@/pages/Feedback"
 
 const Index = () => {
@@ -63,6 +64,8 @@ const Index = () => {
         return <ProjectsPage />
       case "pipeline":
         return <PipelineBoard />
+      case "aftercare":
+        return <AfterCarePage />
       case "car-rental":
         return <CarRentalPage />
       case "work-orders":
