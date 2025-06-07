@@ -48,7 +48,7 @@ const LandingPage = () => {
     },
     {
       id: 6,
-      icon: Sync,
+      icon: RefreshCw,
       title: "Mobile & Web Sync",
       description: "Seamless synchronization across all your devices and platforms.",
     },
