@@ -39,6 +39,19 @@ const translations = {
       title: "Language",
       selectPlaceholder: "Select language"
     },
+    accounting: {
+      title: "Accounting Documents",
+      subtitle: "Manage receipts, invoices, and financial documents with AI-powered data extraction",
+      uploadDocument: "Upload Document",
+      searchPlaceholder: "Search documents...",
+      filterByCategory: "Filter by category",
+      filterByType: "Filter by type",
+      allCategories: "All categories",
+      allTypes: "All types",
+      noDocuments: "No documents found",
+      noDocumentsMessage: "You haven't uploaded any documents yet.",
+      uploadFirst: "Upload First Document"
+    },
     features: {
       title: "Feature Requests",
       subtitle: "Help us build the future of FeatherBiz!",
@@ -226,6 +239,19 @@ const translations = {
     language: {
       title: "Sprache",
       selectPlaceholder: "Sprache auswählen"
+    },
+    accounting: {
+      title: "Buchhaltungsunterlagen",
+      subtitle: "Verwalten Sie Belege, Rechnungen und Finanzdokumente mit KI-gestützter Datenextraktion",
+      uploadDocument: "Dokument hochladen",
+      searchPlaceholder: "Dokumente suchen...",
+      filterByCategory: "Nach Kategorie filtern",
+      filterByType: "Nach Typ filtern",
+      allCategories: "Alle Kategorien",
+      allTypes: "Alle Typen",
+      noDocuments: "Keine Dokumente gefunden",
+      noDocumentsMessage: "Sie haben noch keine Dokumente hochgeladen.",
+      uploadFirst: "Erstes Dokument hochladen"
     },
     features: {
       title: "Feature-Anfragen",
@@ -415,6 +441,19 @@ const translations = {
       title: "Langue",
       selectPlaceholder: "Sélectionner la langue"
     },
+    accounting: {
+      title: "Documents comptables",
+      subtitle: "Gérez les reçus, factures et documents financiers avec extraction de données alimentée par IA",
+      uploadDocument: "Télécharger un document",
+      searchPlaceholder: "Rechercher des documents...",
+      filterByCategory: "Filtrer par catégorie",
+      filterByType: "Filtrer par type",
+      allCategories: "Toutes les catégories",
+      allTypes: "Tous les types",
+      noDocuments: "Aucun document trouvé",
+      noDocumentsMessage: "Vous n'avez pas encore téléchargé de documents.",
+      uploadFirst: "Télécharger le premier document"
+    },
     features: {
       title: "Demandes de fonctionnalités",
       subtitle: "Aidez-nous à construire l'avenir de FeatherBiz !",
@@ -602,6 +641,19 @@ const translations = {
     language: {
       title: "Idioma",
       selectPlaceholder: "Seleccionar idioma"
+    },
+    accounting: {
+      title: "Documentos contables",
+      subtitle: "Gestiona recibos, facturas y documentos financieros con extracción de datos impulsada por IA",
+      uploadDocument: "Subir documento",
+      searchPlaceholder: "Buscar documentos...",
+      filterByCategory: "Filtrar por categoría",
+      filterByType: "Filtrar por tipo",
+      allCategories: "Todas las categorías",
+      allTypes: "Todos los tipos",
+      noDocuments: "No se encontraron documentos",
+      noDocumentsMessage: "Aún no has subido ningún documento.",
+      uploadFirst: "Subir primer documento"
     },
     features: {
       title: "Solicitudes de funciones",
@@ -791,6 +843,19 @@ const translations = {
       title: "语言",
       selectPlaceholder: "选择语言"
     },
+    accounting: {
+      title: "会计文档",
+      subtitle: "使用AI驱动的数据提取管理收据、发票和财务文档",
+      uploadDocument: "上传文档",
+      searchPlaceholder: "搜索文档...",
+      filterByCategory: "按类别筛选",
+      filterByType: "按类型筛选",
+      allCategories: "所有类别",
+      allTypes: "所有类型",
+      noDocuments: "未找到文档",
+      noDocumentsMessage: "您还没有上传任何文档。",
+      uploadFirst: "上传第一个文档"
+    },
     features: {
       title: "功能请求",
       subtitle: "帮助我们构建FeatherBiz的未来！",
@@ -978,6 +1043,19 @@ const translations = {
     language: {
       title: "Idioma",
       selectPlaceholder: "Selecionar idioma"
+    },
+    accounting: {
+      title: "Documentos Contábeis",
+      subtitle: "Gerencie recibos, faturas e documentos financeiros com extração de dados alimentada por IA",
+      uploadDocument: "Enviar Documento",
+      searchPlaceholder: "Buscar documentos...",
+      filterByCategory: "Filtrar por categoria",
+      filterByType: "Filtrar por tipo",
+      allCategories: "Todas as categorias",
+      allTypes: "Todos os tipos",
+      noDocuments: "Nenhum documento encontrado",
+      noDocumentsMessage: "Você ainda não enviou nenhum documento.",
+      uploadFirst: "Enviar Primeiro Documento"
     },
     features: {
       title: "Solicitações de recursos",
