@@ -46,14 +46,14 @@ const NotesPageContent = () => {
         <div className="flex items-center justify-center h-64">
           <Card className="bg-white border border-gray-100 max-w-md mx-auto">
             <CardContent className="p-8 text-center">
-              <AlertCircle className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
+              <AlertCircle className="h-12 w-12 text-blue-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">Authentication Required</h3>
               <p className="text-gray-600 mb-4">
                 Please log in to access your notes.
               </p>
               <Button 
                 onClick={() => window.location.href = '/auth'}
-                className="bg-yellow-400 text-black hover:bg-yellow-500"
+                className="bg-blue-500 text-white hover:bg-blue-600"
               >
                 Go to Login
               </Button>

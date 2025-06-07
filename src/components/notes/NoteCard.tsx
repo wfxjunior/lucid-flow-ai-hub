@@ -88,7 +88,7 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
         {note.tags && (
           <div className="flex flex-wrap gap-1">
             {getTags(note.tags).map((tag, index) => (
-              <Badge key={index} variant="secondary" className="text-xs bg-yellow-100 text-yellow-800">
+              <Badge key={index} variant="secondary" className="text-xs bg-blue-100 text-blue-800">
                 {tag}
               </Badge>
             ))}

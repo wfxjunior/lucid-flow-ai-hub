@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -34,6 +33,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
   })
 
   const availableClients = [
+    'Personal',
     'Tech Corp Ltd',
     'Acme Corporation', 
     'Global Industries',
@@ -42,6 +42,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
   ]
 
   const availableProjects = [
+    'Personal',
     'Website Redesign',
     'Mobile App Development',
     'Database Migration',
@@ -263,7 +264,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
       <DialogTrigger asChild>
         <Button 
           onClick={resetForm} 
-          className="flex items-center gap-2 bg-yellow-400 text-black hover:bg-yellow-500 border-0 rounded-xl px-6 py-3 font-medium"
+          className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600 border-0 rounded-xl px-6 py-3 font-medium"
         >
           <Plus className="h-4 w-4" />
           New Note
@@ -281,7 +282,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
               placeholder="Title"
-              className="text-lg font-semibold border-0 border-b border-gray-200 rounded-none px-0 py-3 focus:border-yellow-400 bg-transparent"
+              className="text-lg font-semibold border-0 border-b border-gray-200 rounded-none px-0 py-3 focus:border-blue-500 bg-transparent"
               required
             />
           </div>
@@ -321,7 +322,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               value={formData.content}
               onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
               placeholder="Start writing your note..."
-              className="w-full min-h-[300px] p-4 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent bg-white text-gray-900"
+              className="w-full min-h-[300px] p-4 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
               rows={12}
             />
           </div>
@@ -386,7 +387,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
             <Button 
               type="submit" 
               disabled={submitting}
-              className="bg-yellow-400 text-black hover:bg-yellow-500 px-6"
+              className="bg-blue-500 text-white hover:bg-blue-600 px-6"
             >
               {submitting ? 'Saving...' : (editingNote ? 'Update Note' : 'Save Note')}
             </Button>

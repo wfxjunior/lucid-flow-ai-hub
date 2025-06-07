@@ -27,6 +27,7 @@ export const NotesFilters = ({
   setSortOrder
 }: NotesFiltersProps) => {
   const availableClients = [
+    'Personal',
     'Tech Corp Ltd',
     'Acme Corporation', 
     'Global Industries',
@@ -35,6 +36,7 @@ export const NotesFilters = ({
   ]
 
   const availableProjects = [
+    'Personal',
     'Website Redesign',
     'Mobile App Development',
     'Database Migration',
