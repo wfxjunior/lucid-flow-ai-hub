@@ -6,82 +6,105 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 248 249 250; /* #F8F9FA */
+    --foreground: 26 26 26; /* #1A1A1A */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 255 255 255; /* #FFFFFF */
+    --card-foreground: 26 26 26; /* #1A1A1A */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 255 255 255; /* #FFFFFF */
+    --popover-foreground: 26 26 26; /* #1A1A1A */
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 45 140 255; /* #2D8CFF */
+    --primary-foreground: 255 255 255;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 248 249 250; /* #F8F9FA */
+    --secondary-foreground: 77 77 77; /* #4D4D4D */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 248 249 250; /* #F8F9FA */
+    --muted-foreground: 77 77 77; /* #4D4D4D */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 248 249 250; /* #F8F9FA */
+    --accent-foreground: 26 26 26; /* #1A1A1A */
 
-    --destructive: 220 13% 46%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 220 38 38;
+    --destructive-foreground: 248 249 250;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    --border: 224 224 224; /* #E0E0E0 */
+    --input: 224 224 224; /* #E0E0E0 */
+    --ring: 45 140 255; /* #2D8CFF */
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 221 83% 53%;
+    --sidebar-background: 255 255 255; /* #FFFFFF */
+    --sidebar-foreground: 77 77 77; /* #4D4D4D */
+    --sidebar-primary: 45 140 255; /* #2D8CFF */
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: 248 249 250; /* #F8F9FA */
+    --sidebar-accent-foreground: 26 26 26; /* #1A1A1A */
+    --sidebar-border: 224 224 224; /* #E0E0E0 */
+    --sidebar-ring: 45 140 255; /* #2D8CFF */
+
+    /* Custom color variables */
+    --primary-blue: #2D8CFF;
+    --deep-blue-hover: #1C5DB2;
+    --background-light: #F8F9FA;
+    --card-background: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-secondary: #4D4D4D;
+    --success-green: #2ECC71;
+    --highlight-yellow: #F4D35E;
+    --border-neutral: #E0E0E0;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 26 26 26; /* #1A1A1A */
+    --foreground: 248 249 250; /* #F8F9FA */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 77 77 77; /* #4D4D4D */
+    --card-foreground: 248 249 250; /* #F8F9FA */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 77 77 77; /* #4D4D4D */
+    --popover-foreground: 248 249 250; /* #F8F9FA */
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 45 140 255; /* #2D8CFF */
+    --primary-foreground: 255 255 255;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 77 77 77; /* #4D4D4D */
+    --secondary-foreground: 248 249 250; /* #F8F9FA */
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 77 77 77; /* #4D4D4D */
+    --muted-foreground: 224 224 224; /* #E0E0E0 */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 77 77 77; /* #4D4D4D */
+    --accent-foreground: 248 249 250; /* #F8F9FA */
 
-    --destructive: 220 13% 56%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 239 68 68;
+    --destructive-foreground: 248 249 250;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 221 83% 53%;
+    --border: 77 77 77; /* #4D4D4D */
+    --input: 77 77 77; /* #4D4D4D */
+    --ring: 45 140 255; /* #2D8CFF */
+    
+    --sidebar-background: 77 77 77; /* #4D4D4D */
+    --sidebar-foreground: 248 249 250; /* #F8F9FA */
+    --sidebar-primary: 45 140 255; /* #2D8CFF */
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: 26 26 26; /* #1A1A1A */
+    --sidebar-accent-foreground: 248 249 250; /* #F8F9FA */
+    --sidebar-border: 77 77 77; /* #4D4D4D */
+    --sidebar-ring: 45 140 255; /* #2D8CFF */
+
+    /* Custom color variables for dark mode */
+    --primary-blue: #2D8CFF;
+    --deep-blue-hover: #1C5DB2;
+    --background-light: #1A1A1A;
+    --card-background: #4D4D4D;
+    --text-primary: #F8F9FA;
+    --text-secondary: #E0E0E0;
+    --success-green: #2ECC71;
+    --highlight-yellow: #F4D35E;
+    --border-neutral: #4D4D4D;
   }
 }
 
@@ -91,8 +114,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
@@ -115,6 +138,47 @@
   .animate-scale-in {
     animation: scaleIn 0.4s ease-out forwards;
     opacity: 0;
+  }
+
+  /* Custom utility classes for the new color scheme */
+  .bg-primary-blue {
+    background-color: var(--primary-blue);
+  }
+
+  .bg-deep-blue-hover {
+    background-color: var(--deep-blue-hover);
+  }
+
+  .bg-background-light {
+    background-color: var(--background-light);
+  }
+
+  .bg-card-background {
+    background-color: var(--card-background);
+  }
+
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-success-green {
+    color: var(--success-green);
+  }
+
+  .text-highlight-yellow {
+    color: var(--highlight-yellow);
+  }
+
+  .border-neutral {
+    border-color: var(--border-neutral);
+  }
+
+  .hover\:bg-deep-blue-hover:hover {
+    background-color: var(--deep-blue-hover);
   }
 }
 

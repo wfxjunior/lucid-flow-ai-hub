@@ -20,7 +20,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
+				sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica', 'Arial', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -65,7 +65,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom color scheme
+				'primary-blue': 'var(--primary-blue)',
+				'deep-blue-hover': 'var(--deep-blue-hover)',
+				'background-light': 'var(--background-light)',
+				'card-background': 'var(--card-background)',
+				'text-primary': 'var(--text-primary)',
+				'text-secondary': 'var(--text-secondary)',
+				'success-green': 'var(--success-green)',
+				'highlight-yellow': 'var(--highlight-yellow)',
+				'border-neutral': 'var(--border-neutral)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
