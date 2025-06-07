@@ -1104,6 +1104,101 @@ export type Database = {
           },
         ]
       }
+      smart_schedule_settings: {
+        Row: {
+          autofill_client_manager: boolean
+          created_at: string
+          id: string
+          send_aftercare_completion: boolean
+          sync_car_rental: boolean
+          sync_next_projects: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          autofill_client_manager?: boolean
+          created_at?: string
+          id?: string
+          send_aftercare_completion?: boolean
+          sync_car_rental?: boolean
+          sync_next_projects?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          autofill_client_manager?: boolean
+          created_at?: string
+          id?: string
+          send_aftercare_completion?: boolean
+          sync_car_rental?: boolean
+          sync_next_projects?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      smart_schedules: {
+        Row: {
+          assigned_workers: string[] | null
+          client_address: string | null
+          client_id: string | null
+          client_name: string
+          created_at: string
+          end_time: string | null
+          frequency: string
+          id: string
+          job_description: string | null
+          job_type: string
+          service_date: string
+          start_time: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_workers?: string[] | null
+          client_address?: string | null
+          client_id?: string | null
+          client_name: string
+          created_at?: string
+          end_time?: string | null
+          frequency?: string
+          id?: string
+          job_description?: string | null
+          job_type?: string
+          service_date: string
+          start_time?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_workers?: string[] | null
+          client_address?: string | null
+          client_id?: string | null
+          client_name?: string
+          created_at?: string
+          end_time?: string | null
+          frequency?: string
+          id?: string
+          job_description?: string | null
+          job_type?: string
+          service_date?: string
+          start_time?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "smart_schedules_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_settings: {
         Row: {
           created_at: string

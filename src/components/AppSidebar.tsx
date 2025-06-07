@@ -84,6 +84,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       view: "pipeline"
     },
     {
+      title: "SmartSchedule",
+      icon: Calendar,
+      view: "smartschedule"
+    },
+    {
       title: "AfterCare",
       icon: Heart,
       view: "aftercare"
