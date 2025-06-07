@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
@@ -33,6 +34,7 @@ import { BidsPage } from "@/components/BidsPage"
 import { MessagesPage } from "@/components/MessagesPage"
 import { FeaturesPage } from "@/components/FeaturesPage"
 import { AfterCarePage } from "@/components/AfterCarePage"
+import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 import Feedback from "@/pages/Feedback"
 
 const Index = () => {
