@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { BusinessDashboard } from "@/components/BusinessDashboard"
 import { TodoListPage } from "@/components/TodoListPage"
@@ -114,7 +114,8 @@ const Index = () => {
             <header className="bg-white shadow-sm border-b">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-4">
+                    <SidebarTrigger />
                     <h1 className="text-2xl font-bold text-blue-600">FeatherBiz</h1>
                   </div>
                   <div className="flex items-center gap-4">
