@@ -35,7 +35,7 @@ const NotesPageContent = () => {
 
   if (loading) {
     return (
-      <div className="space-y-6 bg-white min-h-screen">
+      <div className="space-y-4 sm:space-y-6 bg-white min-h-screen">
         <div className="flex items-center justify-center h-64">
           <div className="text-gray-500">Loading notes...</div>
         </div>
@@ -44,21 +44,23 @@ const NotesPageContent = () => {
   }
 
   return (
-    <div className="space-y-6 bg-white min-h-screen">
+    <div className="space-y-4 sm:space-y-6 bg-white min-h-screen">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 bg-white border-b border-gray-100">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Notes</h1>
-          <p className="text-gray-600 mt-1">Manage your notes and ideas</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 bg-white border-b border-gray-100 gap-4">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 truncate">Notes</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">Manage your notes and ideas</p>
           <p className="text-xs text-gray-400 mt-1">
             Total notes: {notes.length}
           </p>
         </div>
-        <NotesForm editingNote={editingNote} setEditingNote={setEditingNote} />
+        <div className="flex-shrink-0">
+          <NotesForm editingNote={editingNote} setEditingNote={setEditingNote} />
+        </div>
       </div>
 
       {/* Search and Filters */}
-      <div className="px-6">
+      <div className="px-4 sm:px-6">
         <NotesFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -72,7 +74,7 @@ const NotesPageContent = () => {
       </div>
 
       {/* Notes Grid */}
-      <div className="px-6">
+      <div className="px-4 sm:px-6 pb-6">
         <NotesGrid
           filteredNotes={filteredNotes}
           totalNotes={notes.length}
