@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -5,7 +6,7 @@ import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { TypingText } from "@/components/TypingText"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package } from "lucide-react"
+import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, LayoutDashboard } from "lucide-react"
 import { useState } from "react"
 
 const LandingPage = () => {
@@ -236,6 +237,15 @@ const LandingPage = () => {
               </Button>
               <Button 
                 onClick={() => navigate('/dashboard')}
+                variant="outline"
+                className="border-blue-600 text-blue-600 hover:bg-blue-50 text-sm whitespace-nowrap"
+                size="sm"
+              >
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+              <Button 
+                onClick={() => navigate('/dashboard')}
                 className="bg-blue-600 hover:bg-blue-700 text-white text-sm whitespace-nowrap"
                 size="sm"
               >
@@ -275,6 +285,15 @@ const LandingPage = () => {
                   size="sm"
                 >
                   Sign In
+                </Button>
+                <Button 
+                  onClick={() => navigate('/dashboard')}
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-50 justify-start"
+                  size="sm"
+                >
+                  <LayoutDashboard className="w-4 h-4 mr-2" />
+                  Dashboard
                 </Button>
                 <Button 
                   onClick={() => navigate('/dashboard')}
