@@ -11,7 +11,7 @@ interface Note {
   related_project?: string
   tags?: string
   attachments?: string[]
-  created_by: string
+  created_by?: string
   created_at: string
   updated_at: string
 }
@@ -19,8 +19,6 @@ interface Note {
 interface NotesContextType {
   notes: Note[]
   loading: boolean
-  user: any
-  authLoading: boolean
   fetchNotes: () => Promise<void>
   deleteNote: (noteId: string) => Promise<void>
 }
@@ -38,55 +36,10 @@ export const useNotes = () => {
 export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState(null)
-  const [authLoading, setAuthLoading] = useState(true)
   const { toast } = useToast()
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        console.log('Checking authentication...')
-        const { data: { session }, error } = await supabase.auth.getSession()
-        
-        if (error) {
-          console.error('Error getting session:', error)
-        }
-        
-        console.log('Current session:', session)
-        setUser(session?.user || null)
-        setAuthLoading(false)
-        
-        if (session?.user) {
-          await fetchNotes()
-        } else {
-          setLoading(false)
-        }
-      } catch (error) {
-        console.error('Auth check error:', error)
-        setAuthLoading(false)
-        setLoading(false)
-      }
-    }
-
-    checkAuth()
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('Auth state changed:', event, session)
-      setUser(session?.user || null)
-      setAuthLoading(false)
-      
-      if (session?.user && event === 'SIGNED_IN') {
-        // Defer notes fetching to avoid potential conflicts
-        setTimeout(() => {
-          fetchNotes()
-        }, 100)
-      } else {
-        setNotes([])
-        setLoading(false)
-      }
-    })
-
-    return () => subscription.unsubscribe()
+    fetchNotes()
   }, [])
 
   const fetchNotes = async () => {
@@ -148,8 +101,6 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     <NotesContext.Provider value={{
       notes,
       loading,
-      user,
-      authLoading,
       fetchNotes,
       deleteNote
     }}>

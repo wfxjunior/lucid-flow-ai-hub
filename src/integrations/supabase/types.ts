@@ -867,40 +867,40 @@ export type Database = {
           attachments: string[] | null
           content: string | null
           created_at: string
-          created_by: string
+          created_by: string | null
           id: string
           related_client: string | null
           related_project: string | null
           tags: string | null
           title: string
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           attachments?: string[] | null
           content?: string | null
           created_at?: string
-          created_by: string
+          created_by?: string | null
           id?: string
           related_client?: string | null
           related_project?: string | null
           tags?: string | null
           title: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           attachments?: string[] | null
           content?: string | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           id?: string
           related_client?: string | null
           related_project?: string | null
           tags?: string | null
           title?: string
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }

@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,7 +21,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
   const [isRecording, setIsRecording] = useState(false)
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-  const { user, fetchNotes } = useNotes()
+  const { fetchNotes } = useNotes()
   const { toast } = useToast()
 
   const [formData, setFormData] = useState({
@@ -78,15 +79,6 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to save notes",
-        variant: "destructive"
-      })
-      return
-    }
-    
     if (!formData.title.trim()) {
       toast({
         title: "Error",
@@ -106,9 +98,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
         related_client: formData.related_client && formData.related_client !== 'no-client' ? formData.related_client : null,
         related_project: formData.related_project && formData.related_project !== 'no-project' ? formData.related_project : null,
         tags: formData.tags.trim() || null,
-        attachments: formData.attachments,
-        user_id: user.id,
-        created_by: user.id
+        attachments: formData.attachments
       }
 
       if (editingNote) {
