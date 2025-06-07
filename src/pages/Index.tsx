@@ -1,116 +1,91 @@
+
 import { useState } from "react"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/AppSidebar"
-import { Toaster } from "@/components/ui/toaster"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BusinessDashboard } from "@/components/BusinessDashboard"
-import { ImprovedDashboard } from "@/components/ImprovedDashboard"
-import { InvoiceCreator } from "@/components/InvoiceCreator"
-import { CustomerManagement } from "@/components/CustomerManagement"
-import { EstimatesPage } from "@/components/EstimatesPage"
-import { AppointmentsPage } from "@/components/AppointmentsPage"
-import { ContractsPage } from "@/components/ContractsPage"
-import { ESignaturesPage } from "@/components/ESignaturesPage"
-import { Analytics } from "@/components/Analytics"
-import { SettingsPage } from "@/components/SettingsPage"
-import { WorkOrdersPage } from "@/components/WorkOrdersPage"
 import { TodoListPage } from "@/components/TodoListPage"
-import { ProjectsPage } from "@/components/ProjectsPage"
-import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
-import { FeaturesPage } from "@/components/FeaturesPage"
-import { MeetingsPage } from "@/components/MeetingsPage"
-import { AccountingPage } from "@/components/AccountingPage"
-import { MatTrackPage } from "@/components/MatTrackPage"
-import { CrewControlPage } from "@/components/CrewControlPage"
-import { EarnSyncPage } from "@/components/EarnSyncPage"
-import { UserGreeting } from "@/components/UserGreeting"
 import { NotesPage } from "@/components/NotesPage"
-import { IntegrationsHub } from "@/components/IntegrationsHub"
-import { PipelineBoard } from "@/components/PipelineBoard"
-import { FAQPage } from "@/components/FAQPage"
+import { DocumentTracker } from "@/components/DocumentTracker"
 import { CarRentalPage } from "@/components/CarRentalPage"
+import { UserGreeting } from "@/components/UserGreeting"
+import { 
+  BarChart3, 
+  CheckSquare, 
+  StickyNote, 
+  FileText, 
+  Car,
+  Home
+} from "lucide-react"
 
-export default function Index() {
-  const [activeView, setActiveView] = useState("dashboard")
-
-  const renderActiveView = () => {
-    console.log('Rendering view:', activeView)
-    switch (activeView) {
-      case "dashboard":
-        return <ImprovedDashboard onNavigate={setActiveView} />
-      case "invoice-creator":
-        return <InvoiceCreator />
-      case "customer-management":
-        return <CustomerManagement />
-      case "estimates":
-        return <EstimatesPage />
-      case "quotes":
-        return <EstimatesPage />
-      case "appointments":
-        return <AppointmentsPage />
-      case "contracts":
-        return <ContractsPage />
-      case "e-signatures":
-        return <ESignaturesPage />
-      case "analytics":
-        return <Analytics />
-      case "settings":
-        return <SettingsPage />
-      case "work-orders":
-        return <WorkOrdersPage />
-      case "todo-list":
-        return <TodoListPage />
-      case "projects":
-        return <ProjectsPage />
-      case "notes":
-        return <NotesPage />
-      case "ai-voice":
-        return <AIVoiceAssistant />
-      case "features":
-        return <FeaturesPage />
-      case "meetings":
-        return <MeetingsPage />
-      case "accounting":
-        return <AccountingPage />
-      case "mat-track":
-        return <MatTrackPage />
-      case "crew-control":
-        return <CrewControlPage />
-      case "earnsync":
-        return <EarnSyncPage />
-      case "integrations":
-        return <IntegrationsHub />
-      case "pipeline":
-        return <PipelineBoard />
-      case "faq-help":
-        return <FAQPage />
-      case "car-rental":
-        return <CarRentalPage />
-      case "messages":
-        return <div className="p-6"><h1 className="text-2xl font-bold">Messages</h1><p>Communication hub coming soon...</p></div>
-      case "email-center":
-        return <div className="p-6"><h1 className="text-2xl font-bold">Email Center</h1><p>Email campaigns coming soon...</p></div>
-      case "payments":
-        return <div className="p-6"><h1 className="text-2xl font-bold">Payments</h1><p>Payment processing coming soon...</p></div>
-      default:
-        return <ImprovedDashboard onNavigate={setActiveView} />
-    }
-  }
+const Index = () => {
+  const [activeTab, setActiveTab] = useState("dashboard")
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-        <main className="flex-1 overflow-auto">
-          <div className="p-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-between">
-            <SidebarTrigger className="h-8 w-8" />
-            <UserGreeting />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-bold text-blue-600">FeatherBiz</h1>
+            </div>
+            <div className="flex items-center gap-4">
+              <UserGreeting />
+            </div>
           </div>
-          <div className="p-6">
-            {renderActiveView()}
-          </div>
-        </main>
-        <Toaster />
-      </div>
-    </SidebarProvider>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <Home className="h-4 w-4" />
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="todos" className="flex items-center gap-2">
+              <CheckSquare className="h-4 w-4" />
+              To-Do List
+            </TabsTrigger>
+            <TabsTrigger value="notes" className="flex items-center gap-2">
+              <StickyNote className="h-4 w-4" />
+              Notes
+            </TabsTrigger>
+            <TabsTrigger value="documents" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Documents
+            </TabsTrigger>
+            <TabsTrigger value="car-rental" className="flex items-center gap-2">
+              <Car className="h-4 w-4" />
+              Car Rental
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard">
+            <BusinessDashboard />
+          </TabsContent>
+
+          <TabsContent value="todos">
+            <TodoListPage />
+          </TabsContent>
+
+          <TabsContent value="notes">
+            <NotesPage />
+          </TabsContent>
+
+          <TabsContent value="documents">
+            <DocumentTracker />
+          </TabsContent>
+
+          <TabsContent value="car-rental">
+            <CarRentalPage />
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
   )
 }
+
+export default Index

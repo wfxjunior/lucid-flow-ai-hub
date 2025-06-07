@@ -13,6 +13,7 @@ import Feedback from "./pages/Feedback";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import AdminPage from "./pages/AdminPage";
+import NotesPage from "./pages/NotesPage";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/" element={<LandingPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/dashboard" element={<Index />} />
+            <Route path="/notes" element={<NotesPage />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
