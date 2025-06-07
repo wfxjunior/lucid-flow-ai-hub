@@ -456,7 +456,7 @@ export function NotesPage() {
                       <SelectValue placeholder="Select client (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">No client</SelectItem>
+                      <SelectItem value="no-client">No client</SelectItem>
                       {availableClients.map((client) => (
                         <SelectItem key={client} value={client}>{client}</SelectItem>
                       ))}
@@ -474,7 +474,7 @@ export function NotesPage() {
                       <SelectValue placeholder="Select project (optional)" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">No project</SelectItem>
+                      <SelectItem value="no-project">No project</SelectItem>
                       {availableProjects.map((project) => (
                         <SelectItem key={project} value={project}>{project}</SelectItem>
                       ))}
@@ -537,7 +537,7 @@ export function NotesPage() {
                     <SelectValue placeholder="All clients" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All clients</SelectItem>
+                    <SelectItem value="all-clients">All clients</SelectItem>
                     {availableClients.map((client) => (
                       <SelectItem key={client} value={client}>{client}</SelectItem>
                     ))}
@@ -548,7 +548,7 @@ export function NotesPage() {
                     <SelectValue placeholder="All projects" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All projects</SelectItem>
+                    <SelectItem value="all-projects">All projects</SelectItem>
                     {availableProjects.map((project) => (
                       <SelectItem key={project} value={project}>{project}</SelectItem>
                     ))}
