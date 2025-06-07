@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -42,6 +41,28 @@ export function ProjectForm({ project, projectTypes, onSubmit, onCancel }: Proje
     status: 'planning' as 'planning' | 'in-progress' | 'review' | 'completed' | 'on-hold',
     priority: 'medium' as 'low' | 'medium' | 'high'
   })
+
+  // Default project types including the new industries
+  const defaultProjectTypes = [
+    'Construction',
+    'Renovation',
+    'Maintenance',
+    'Consulting',
+    'Design',
+    'Installation',
+    'Repair',
+    'Inspection',
+    'Outdoor Services',
+    'Electrical',
+    'Carpentry',
+    'Pool Services',
+    'Screen Enclosure',
+    'Catering',
+    'Church',
+    'Roofing'
+  ]
+
+  const availableProjectTypes = projectTypes.length > 0 ? projectTypes : defaultProjectTypes
 
   useEffect(() => {
     if (project) {
@@ -147,7 +168,7 @@ export function ProjectForm({ project, projectTypes, onSubmit, onCancel }: Proje
                   required
                 >
                   <option value="">Select type</option>
-                  {projectTypes.map(type => (
+                  {availableProjectTypes.map(type => (
                     <option key={type} value={type}>{type}</option>
                   ))}
                 </select>

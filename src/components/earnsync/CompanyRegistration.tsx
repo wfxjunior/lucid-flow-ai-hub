@@ -38,6 +38,27 @@ export function CompanyRegistration() {
     dateOfService: ''
   })
 
+  // Work types including the new industries
+  const workTypes = [
+    'Consulting',
+    'Development',
+    'Construction',
+    'Renovation',
+    'Maintenance',
+    'Design',
+    'Installation',
+    'Repair',
+    'Inspection',
+    'Outdoor Services',
+    'Electrical',
+    'Carpentry',
+    'Pool Services',
+    'Screen Enclosure',
+    'Catering',
+    'Church',
+    'Roofing'
+  ]
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const newCompany = {
@@ -105,12 +126,16 @@ export function CompanyRegistration() {
 
               <div>
                 <Label htmlFor="workType">Work Type</Label>
-                <Input
-                  id="workType"
-                  placeholder="e.g., Consulting, Development"
-                  value={formData.workType}
-                  onChange={(e) => setFormData({ ...formData, workType: e.target.value })}
-                />
+                <Select value={formData.workType} onValueChange={(value) => setFormData({ ...formData, workType: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select work type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {workTypes.map((type) => (
+                      <SelectItem key={type} value={type}>{type}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
