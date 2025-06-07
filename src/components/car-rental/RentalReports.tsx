@@ -28,9 +28,9 @@ export function RentalReports() {
   const [filters, setFilters] = useState({
     startDate: '',
     endDate: '',
-    vehicleId: '',
-    status: '',
-    paymentStatus: ''
+    vehicleId: 'all',
+    status: 'all',
+    paymentStatus: 'all'
   })
   const [vehicles, setVehicles] = useState<any[]>([])
   const [filteredRentals, setFilteredRentals] = useState<any[]>([])
@@ -100,13 +100,13 @@ export function RentalReports() {
       if (filters.endDate) {
         query = query.lte('rental_end_date', filters.endDate)
       }
-      if (filters.vehicleId) {
+      if (filters.vehicleId && filters.vehicleId !== 'all') {
         query = query.eq('vehicle_id', filters.vehicleId)
       }
-      if (filters.status) {
+      if (filters.status && filters.status !== 'all') {
         query = query.eq('rental_status', filters.status)
       }
-      if (filters.paymentStatus) {
+      if (filters.paymentStatus && filters.paymentStatus !== 'all') {
         query = query.eq('payment_status', filters.paymentStatus)
       }
 
@@ -131,9 +131,9 @@ export function RentalReports() {
     setFilters({
       startDate: '',
       endDate: '',
-      vehicleId: '',
-      status: '',
-      paymentStatus: ''
+      vehicleId: 'all',
+      status: 'all',
+      paymentStatus: 'all'
     })
   }
 
@@ -219,7 +219,7 @@ export function RentalReports() {
                   <SelectValue placeholder="All vehicles" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All vehicles</SelectItem>
+                  <SelectItem value="all">All vehicles</SelectItem>
                   {vehicles.map((vehicle) => (
                     <SelectItem key={vehicle.id} value={vehicle.id}>
                       {vehicle.brand} {vehicle.model} ({vehicle.plate_number})
@@ -238,7 +238,7 @@ export function RentalReports() {
                   <SelectValue placeholder="All statuses" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All statuses</SelectItem>
+                  <SelectItem value="all">All statuses</SelectItem>
                   <SelectItem value="scheduled">Scheduled</SelectItem>
                   <SelectItem value="ongoing">Ongoing</SelectItem>
                   <SelectItem value="returned">Returned</SelectItem>
@@ -256,7 +256,7 @@ export function RentalReports() {
                   <SelectValue placeholder="All payments" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All payments</SelectItem>
+                  <SelectItem value="all">All payments</SelectItem>
                   <SelectItem value="paid">Paid</SelectItem>
                   <SelectItem value="pending">Pending</SelectItem>
                   <SelectItem value="overdue">Overdue</SelectItem>
@@ -295,9 +295,9 @@ export function RentalReports() {
                   <tr key={rental.id} className="border-b">
                     <td className="p-2">{rental.renter_name}</td>
                     <td className="p-2">
-                      {rental.vehicle.brand} {rental.vehicle.model}
+                      {rental.vehicle?.brand} {rental.vehicle?.model}
                       <br />
-                      <span className="text-sm text-gray-600">({rental.vehicle.plate_number})</span>
+                      <span className="text-sm text-gray-600">({rental.vehicle?.plate_number})</span>
                     </td>
                     <td className="p-2">
                       {new Date(rental.rental_start_date).toLocaleDateString()} - 
