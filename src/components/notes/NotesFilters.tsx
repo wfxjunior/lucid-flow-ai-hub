@@ -45,23 +45,26 @@ export const NotesFilters = ({
   ]
 
   return (
-    <Card className="bg-white border border-gray-100">
-      <CardContent className="p-4">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
+    <Card className="bg-card border border-border">
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex flex-col space-y-3">
+          {/* Search bar - full width on mobile */}
+          <div className="w-full">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 placeholder="Search notes..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white"
+                className="pl-10 bg-background text-sm"
               />
             </div>
           </div>
-          <div className="flex gap-2">
+          
+          {/* Filters - stacked on mobile, row on larger screens */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <Select value={filterClient} onValueChange={setFilterClient}>
-              <SelectTrigger className="w-40 bg-white">
+              <SelectTrigger className="w-full sm:w-36 bg-background text-xs sm:text-sm">
                 <SelectValue placeholder="All clients" />
               </SelectTrigger>
               <SelectContent>
@@ -71,8 +74,9 @@ export const NotesFilters = ({
                 ))}
               </SelectContent>
             </Select>
+            
             <Select value={filterProject} onValueChange={setFilterProject}>
-              <SelectTrigger className="w-40 bg-white">
+              <SelectTrigger className="w-full sm:w-36 bg-background text-xs sm:text-sm">
                 <SelectValue placeholder="All projects" />
               </SelectTrigger>
               <SelectContent>
@@ -82,8 +86,9 @@ export const NotesFilters = ({
                 ))}
               </SelectContent>
             </Select>
+            
             <Select value={sortOrder} onValueChange={(value: 'newest' | 'oldest') => setSortOrder(value)}>
-              <SelectTrigger className="w-32 bg-white">
+              <SelectTrigger className="w-full sm:w-28 bg-background text-xs sm:text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

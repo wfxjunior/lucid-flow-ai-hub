@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -254,25 +253,25 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
       <DialogTrigger asChild>
         <Button 
           onClick={resetForm} 
-          className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600 border-0 rounded-xl px-6 py-3 font-medium"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 border-0 rounded-xl px-4 sm:px-6 py-2 sm:py-3 font-medium text-sm"
         >
           <Plus className="h-4 w-4" />
           New Note
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
+      <DialogContent className="w-[95vw] max-w-4xl max-h-[95vh] overflow-y-auto bg-card mx-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-gray-900">
+          <DialogTitle className="text-lg sm:text-xl font-semibold text-foreground">
             {editingNote ? 'Edit Note' : 'New Note'}
           </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div className="space-y-2">
             <Input
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
               placeholder="Title"
-              className="text-lg font-semibold border-0 border-b border-gray-200 rounded-none px-0 py-3 focus:border-blue-500 bg-transparent"
+              className="text-base sm:text-lg font-semibold border-0 border-b border-border rounded-none px-0 py-2 sm:py-3 focus:border-primary bg-transparent"
               required
             />
           </div>
@@ -284,27 +283,27 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
                 variant="outline"
                 size="sm"
                 onClick={() => formatText('bold')}
-                className="h-8 w-8 p-0"
+                className="h-7 w-7 sm:h-8 sm:w-8 p-0"
               >
-                <Bold className="h-4 w-4" />
+                <Bold className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 onClick={() => formatText('italic')}
-                className="h-8 w-8 p-0"
+                className="h-7 w-7 sm:h-8 sm:w-8 p-0"
               >
-                <Italic className="h-4 w-4" />
+                <Italic className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 onClick={isRecording ? stopRecording : startRecording}
-                className={`h-8 w-8 p-0 ${isRecording ? 'bg-red-100 text-red-600' : ''}`}
+                className={`h-7 w-7 sm:h-8 sm:w-8 p-0 ${isRecording ? 'bg-red-100 text-red-600' : ''}`}
               >
-                {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                {isRecording ? <MicOff className="h-3 w-3 sm:h-4 sm:w-4" /> : <Mic className="h-3 w-3 sm:h-4 sm:w-4" />}
               </Button>
             </div>
             <textarea
@@ -312,19 +311,19 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               value={formData.content}
               onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
               placeholder="Start writing your note..."
-              className="w-full min-h-[300px] p-4 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-              rows={12}
+              className="w-full min-h-[200px] sm:min-h-[300px] p-3 sm:p-4 border border-border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-background text-foreground text-sm sm:text-base"
+              rows={8}
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Client</Label>
+              <Label className="text-sm font-medium text-foreground">Client</Label>
               <Select
                 value={formData.related_client}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, related_client: value }))}
               >
-                <SelectTrigger className="bg-white">
+                <SelectTrigger className="bg-background text-sm">
                   <SelectValue placeholder="Select client (optional)" />
                 </SelectTrigger>
                 <SelectContent>
@@ -337,12 +336,12 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Project</Label>
+              <Label className="text-sm font-medium text-foreground">Project</Label>
               <Select
                 value={formData.related_project}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, related_project: value }))}
               >
-                <SelectTrigger className="bg-white">
+                <SelectTrigger className="bg-background text-sm">
                   <SelectValue placeholder="Select project (optional)" />
                 </SelectTrigger>
                 <SelectContent>
@@ -356,28 +355,28 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Tags</Label>
+            <Label className="text-sm font-medium text-foreground">Tags</Label>
             <Input
               value={formData.tags}
               onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
               placeholder="Enter tags separated by commas"
-              className="bg-white"
+              className="bg-background text-sm"
             />
           </div>
 
-          <div className="flex justify-end gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4">
             <Button 
               type="button" 
               variant="outline" 
               onClick={() => setIsDialogOpen(false)}
-              className="px-6"
+              className="w-full sm:w-auto px-4 sm:px-6 text-sm"
             >
               Cancel
             </Button>
             <Button 
               type="submit" 
               disabled={submitting}
-              className="bg-blue-500 text-white hover:bg-blue-600 px-6"
+              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-4 sm:px-6 text-sm"
             >
               {submitting ? 'Saving...' : (editingNote ? 'Update Note' : 'Save Note')}
             </Button>
