@@ -6,7 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AfterCareForm } from './aftercare/AfterCareForm'
 import { AfterCareAdmin } from './aftercare/AfterCareAdmin'
 import { AfterCareDashboard } from './aftercare/AfterCareDashboard'
-import { Heart, Star, MessageSquare } from 'lucide-react'
+import { FeedbackLinkGenerator } from './aftercare/FeedbackLinkGenerator'
+import { Heart, Star, MessageSquare, Link } from 'lucide-react'
 
 export const AfterCarePage = () => {
   return (
@@ -20,17 +21,21 @@ export const AfterCarePage = () => {
           <h1 className="text-3xl font-bold text-foreground">AfterCare</h1>
         </div>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          AfterCare is the final step of every project. It allows your client to rate the service, 
+          AfterCare is the final step of every project. Generate shareable links for clients to rate your service, 
           evaluate communication, and leave suggestions to help your business grow.
         </p>
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="feedback" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+      <Tabs defaultValue="generate" className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="generate" className="flex items-center gap-2">
+            <Link className="h-4 w-4" />
+            Generate Links
+          </TabsTrigger>
           <TabsTrigger value="feedback" className="flex items-center gap-2">
             <MessageSquare className="h-4 w-4" />
-            Client Feedback
+            Internal Form
           </TabsTrigger>
           <TabsTrigger value="admin" className="flex items-center gap-2">
             <Star className="h-4 w-4" />
@@ -41,6 +46,10 @@ export const AfterCarePage = () => {
             Dashboard
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="generate" className="mt-6">
+          <FeedbackLinkGenerator />
+        </TabsContent>
 
         <TabsContent value="feedback" className="mt-6">
           <AfterCareForm />
