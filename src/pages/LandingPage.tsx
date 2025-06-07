@@ -7,7 +7,7 @@ import { TypingText } from "@/components/TypingText"
 import { CharlieAssistant } from "@/components/CharlieAssistant"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calendar, Mic, Bot, ChartBar, RefreshCw, Video, Instagram, Facebook, Youtube, Twitter, Heart } from "lucide-react"
+import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calendar, Mic, Bot, ChartBar, RefreshCw, Video, Instagram, Facebook, Youtube, Twitter, Heart, Smile } from "lucide-react"
 import { useState } from "react"
 
 const LandingPage = () => {
@@ -485,7 +485,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <div className="col-span-1 sm:col-span-2 md:col-span-1">
               <div className="flex items-center mb-4">
-                <Feather className="h-6 w-6 sm:h-8 sm:w-8 text-blue-400" />
+                <Smile className="h-6 w-6 sm:h-8 sm:w-8 text-blue-400 animate-pulse" />
                 <span className="ml-2 text-lg sm:text-xl font-bold">FeatherBiz</span>
               </div>
               <p className="text-gray-400 text-sm">
