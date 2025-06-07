@@ -21,6 +21,12 @@ import {
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard")
 
+  const handleNavigate = (view: string) => {
+    console.log('Navigation requested:', view)
+    // Handle navigation logic here if needed
+    // For now, we'll just log the navigation request
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Header */}
@@ -64,7 +70,7 @@ const Index = () => {
           </TabsList>
 
           <TabsContent value="dashboard">
-            <BusinessDashboard />
+            <BusinessDashboard onNavigate={handleNavigate} />
           </TabsContent>
 
           <TabsContent value="todos">
