@@ -1,8 +1,7 @@
 
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/AppSidebar"
 import { BusinessDashboard } from "@/components/BusinessDashboard"
 import { TodoListPage } from "@/components/TodoListPage"
 import { NotesPage } from "@/components/NotesPage"
@@ -10,98 +9,130 @@ import { DocumentTracker } from "@/components/DocumentTracker"
 import { CarRentalPage } from "@/components/CarRentalPage"
 import { EarnSyncPage } from "@/components/EarnSyncPage"
 import { UserGreeting } from "@/components/UserGreeting"
-import { 
-  BarChart3, 
-  CheckSquare, 
-  StickyNote, 
-  FileText, 
-  Car,
-  Home,
-  DollarSign
-} from "lucide-react"
+import { ImprovedDashboard } from "@/components/ImprovedDashboard"
+import { EstimatesPage } from "@/components/EstimatesPage"
+import { InvoiceCreator } from "@/components/InvoiceCreator"
+import { QuotesPage } from "@/components/QuotesPage"
+import { ContractsPage } from "@/components/ContractsPage"
+import { AccountingPage } from "@/components/AccountingPage"
+import { CustomerManagement } from "@/components/CustomerManagement"
+import { ProjectsPage } from "@/components/ProjectsPage"
+import { PipelineBoard } from "@/components/PipelineBoard"
+import { WorkOrdersPage } from "@/components/WorkOrdersPage"
+import { MatTrackPage } from "@/components/MatTrackPage"
+import { CrewControlPage } from "@/components/CrewControlPage"
+import { AppointmentsPage } from "@/components/AppointmentsPage"
+import { MeetingsPage } from "@/components/MeetingsPage"
+import { ESignaturesPage } from "@/components/ESignaturesPage"
+import { AIVoice } from "@/components/AIVoice"
+import { Analytics } from "@/components/Analytics"
+import { PaymentsPage } from "@/components/PaymentsPage"
+import { SalesOrdersPage } from "@/components/SalesOrdersPage"
+import { ServiceOrdersPage } from "@/components/ServiceOrdersPage"
+import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
+import { BidsPage } from "@/components/BidsPage"
+import { MessagesPage } from "@/components/MessagesPage"
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState("dashboard")
+  const [activeView, setActiveView] = useState("dashboard")
 
   const handleNavigate = (view: string) => {
     console.log('Navigation requested:', view)
-    if (view === 'earnsync') {
-      setActiveTab('earnsync')
+    setActiveView(view)
+  }
+
+  const renderContent = () => {
+    switch (activeView) {
+      case "dashboard":
+        return <ImprovedDashboard onNavigate={handleNavigate} />
+      case "estimates":
+        return <EstimatesPage />
+      case "invoice-creator":
+        return <InvoiceCreator />
+      case "quotes":
+        return <QuotesPage />
+      case "contracts":
+        return <ContractsPage />
+      case "accounting":
+        return <AccountingPage />
+      case "customer-management":
+        return <CustomerManagement />
+      case "projects":
+        return <ProjectsPage />
+      case "pipeline":
+        return <PipelineBoard />
+      case "car-rental":
+        return <CarRentalPage />
+      case "work-orders":
+        return <WorkOrdersPage />
+      case "mat-track":
+        return <MatTrackPage />
+      case "crew-control":
+        return <CrewControlPage />
+      case "earnsync":
+        return <EarnSyncPage />
+      case "appointments":
+        return <AppointmentsPage />
+      case "meetings":
+        return <MeetingsPage />
+      case "e-signatures":
+        return <ESignaturesPage />
+      case "todo-list":
+        return <TodoListPage />
+      case "notes":
+        return <NotesPage />
+      case "ai-voice":
+        return <AIVoice />
+      case "analytics":
+        return <Analytics />
+      case "payments":
+        return <PaymentsPage />
+      case "sales-orders":
+        return <SalesOrdersPage />
+      case "service-orders":
+        return <ServiceOrdersPage />
+      case "business-proposals":
+        return <BusinessProposalsPage />
+      case "bids":
+        return <BidsPage />
+      case "messages":
+        return <MessagesPage />
+      case "documents":
+        return <DocumentTracker />
+      default:
+        return <ImprovedDashboard onNavigate={handleNavigate} />
     }
-    // Handle other navigation logic here if needed
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-600">FeatherBiz</h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <UserGreeting />
-            </div>
-          </div>
+      <SidebarProvider>
+        <div className="min-h-screen flex w-full">
+          <AppSidebar activeView={activeView} setActiveView={setActiveView} />
+          <SidebarInset className="flex-1">
+            {/* Header */}
+            <header className="bg-white shadow-sm border-b">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                  <div className="flex items-center">
+                    <h1 className="text-2xl font-bold text-blue-600">FeatherBiz</h1>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <UserGreeting />
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            {/* Main Content */}
+            <main className="flex-1 overflow-auto">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {renderContent()}
+              </div>
+            </main>
+          </SidebarInset>
         </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 mb-8">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <Home className="h-4 w-4" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="todos" className="flex items-center gap-2">
-              <CheckSquare className="h-4 w-4" />
-              To-Do List
-            </TabsTrigger>
-            <TabsTrigger value="notes" className="flex items-center gap-2">
-              <StickyNote className="h-4 w-4" />
-              Notes
-            </TabsTrigger>
-            <TabsTrigger value="documents" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Documents
-            </TabsTrigger>
-            <TabsTrigger value="car-rental" className="flex items-center gap-2">
-              <Car className="h-4 w-4" />
-              Car Rental
-            </TabsTrigger>
-            <TabsTrigger value="earnsync" className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4" />
-              EarnSync
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="dashboard">
-            <BusinessDashboard onNavigate={handleNavigate} />
-          </TabsContent>
-
-          <TabsContent value="todos">
-            <TodoListPage />
-          </TabsContent>
-
-          <TabsContent value="notes">
-            <NotesPage />
-          </TabsContent>
-
-          <TabsContent value="documents">
-            <DocumentTracker />
-          </TabsContent>
-
-          <TabsContent value="car-rental">
-            <CarRentalPage />
-          </TabsContent>
-
-          <TabsContent value="earnsync">
-            <EarnSyncPage />
-          </TabsContent>
-        </Tabs>
-      </main>
+      </SidebarProvider>
     </div>
   )
 }
