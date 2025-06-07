@@ -31,7 +31,7 @@ const StarDisplay = ({ rating }: { rating: number }) => (
     {[1, 2, 3, 4, 5].map((star) => (
       <Star
         key={star}
-        className={`h-4 w-4 ${
+        className={`h-3 w-3 md:h-4 md:w-4 ${
           star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
         }`}
       />
@@ -43,9 +43,9 @@ export const AfterCareAdmin = () => {
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([])
   const [filteredFeedbacks, setFilteredFeedbacks] = useState<Feedback[]>([])
   const [filters, setFilters] = useState({
-    rating: '',
-    communication: '',
-    agency: ''
+    rating: 'all',
+    communication: 'all',
+    agency: 'all'
   })
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editNotes, setEditNotes] = useState('')
@@ -81,13 +81,13 @@ export const AfterCareAdmin = () => {
   const applyFilters = () => {
     let filtered = feedbacks
 
-    if (filters.rating) {
+    if (filters.rating !== 'all') {
       filtered = filtered.filter(f => f.overall_rating >= parseInt(filters.rating))
     }
-    if (filters.communication) {
+    if (filters.communication !== 'all') {
       filtered = filtered.filter(f => f.communication_quality >= parseInt(filters.communication))
     }
-    if (filters.agency) {
+    if (filters.agency !== 'all') {
       filtered = filtered.filter(f => f.agency_satisfaction >= parseInt(filters.agency))
     }
 
@@ -159,25 +159,25 @@ export const AfterCareAdmin = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+            <Filter className="h-4 w-4 md:h-5 md:w-5" />
             Filters & Actions
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="text-sm font-medium">Min Overall Rating</label>
+              <label className="text-xs md:text-sm font-medium">Min Overall Rating</label>
               <Select value={filters.rating} onValueChange={(value) => setFilters(prev => ({ ...prev, rating: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="All ratings" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All ratings</SelectItem>
+                  <SelectItem value="all">All ratings</SelectItem>
                   <SelectItem value="1">1+ stars</SelectItem>
                   <SelectItem value="2">2+ stars</SelectItem>
                   <SelectItem value="3">3+ stars</SelectItem>
@@ -188,13 +188,13 @@ export const AfterCareAdmin = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium">Min Communication</label>
+              <label className="text-xs md:text-sm font-medium">Min Communication</label>
               <Select value={filters.communication} onValueChange={(value) => setFilters(prev => ({ ...prev, communication: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="All ratings" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All ratings</SelectItem>
+                  <SelectItem value="all">All ratings</SelectItem>
                   <SelectItem value="1">1+ stars</SelectItem>
                   <SelectItem value="2">2+ stars</SelectItem>
                   <SelectItem value="3">3+ stars</SelectItem>
@@ -205,13 +205,13 @@ export const AfterCareAdmin = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium">Min Agency Rating</label>
+              <label className="text-xs md:text-sm font-medium">Min Agency Rating</label>
               <Select value={filters.agency} onValueChange={(value) => setFilters(prev => ({ ...prev, agency: value }))}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="All ratings" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All ratings</SelectItem>
+                  <SelectItem value="all">All ratings</SelectItem>
                   <SelectItem value="1">1+ stars</SelectItem>
                   <SelectItem value="2">2+ stars</SelectItem>
                   <SelectItem value="3">3+ stars</SelectItem>
@@ -222,8 +222,8 @@ export const AfterCareAdmin = () => {
             </div>
 
             <div className="flex items-end">
-              <Button onClick={exportToPDF} className="w-full">
-                <Download className="h-4 w-4 mr-2" />
+              <Button onClick={exportToPDF} className="w-full text-xs md:text-sm">
+                <Download className="h-3 w-3 md:h-4 md:w-4 mr-2" />
                 Export PDF
               </Button>
             </div>
@@ -236,18 +236,18 @@ export const AfterCareAdmin = () => {
         {filteredFeedbacks.map((feedback) => (
           <Card key={feedback.id}>
             <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-lg">{feedback.client_name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">{feedback.project_service}</p>
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                <div className="flex-1">
+                  <CardTitle className="text-base md:text-lg">{feedback.client_name}</CardTitle>
+                  <p className="text-xs md:text-sm text-muted-foreground">{feedback.project_service}</p>
                   <p className="text-xs text-muted-foreground">Date: {feedback.feedback_date}</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   {feedback.would_recommend && (
-                    <Badge variant="secondary">Recommends</Badge>
+                    <Badge variant="secondary" className="text-xs">Recommends</Badge>
                   )}
                   {feedback.show_as_testimonial && (
-                    <Badge>Testimonial</Badge>
+                    <Badge className="text-xs">Testimonial</Badge>
                   )}
                 </div>
               </div>
@@ -256,15 +256,15 @@ export const AfterCareAdmin = () => {
               {/* Ratings */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <p className="text-sm font-medium">Overall Rating</p>
+                  <p className="text-xs md:text-sm font-medium">Overall Rating</p>
                   <StarDisplay rating={feedback.overall_rating} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">Agency Satisfaction</p>
+                  <p className="text-xs md:text-sm font-medium">Agency Satisfaction</p>
                   <StarDisplay rating={feedback.agency_satisfaction} />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">Communication</p>
+                  <p className="text-xs md:text-sm font-medium">Communication</p>
                   <StarDisplay rating={feedback.communication_quality} />
                 </div>
               </div>
@@ -272,15 +272,15 @@ export const AfterCareAdmin = () => {
               {/* Suggestions */}
               {feedback.suggestions && (
                 <div>
-                  <p className="text-sm font-medium">Suggestions</p>
-                  <p className="text-sm text-muted-foreground">{feedback.suggestions}</p>
+                  <p className="text-xs md:text-sm font-medium">Suggestions</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">{feedback.suggestions}</p>
                 </div>
               )}
 
               {/* Admin Notes */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium">Admin Notes</p>
+                  <p className="text-xs md:text-sm font-medium">Admin Notes</p>
                   <Button
                     size="sm"
                     variant="ghost"
@@ -288,8 +288,9 @@ export const AfterCareAdmin = () => {
                       setEditingId(feedback.id)
                       setEditNotes(feedback.admin_notes || '')
                     }}
+                    className="h-6 w-6 p-0 md:h-8 md:w-8"
                   >
-                    <Edit className="h-4 w-4" />
+                    <Edit className="h-3 w-3 md:h-4 md:w-4" />
                   </Button>
                 </div>
                 {editingId === feedback.id ? (
@@ -298,36 +299,38 @@ export const AfterCareAdmin = () => {
                       value={editNotes}
                       onChange={(e) => setEditNotes(e.target.value)}
                       placeholder="Add internal notes..."
+                      className="text-xs md:text-sm"
                     />
                     <div className="flex gap-2">
-                      <Button size="sm" onClick={() => updateAdminNotes(feedback.id, editNotes)}>
+                      <Button size="sm" onClick={() => updateAdminNotes(feedback.id, editNotes)} className="text-xs">
                         Save
                       </Button>
-                      <Button size="sm" variant="ghost" onClick={() => setEditingId(null)}>
+                      <Button size="sm" variant="ghost" onClick={() => setEditingId(null)} className="text-xs">
                         Cancel
                       </Button>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs md:text-sm text-muted-foreground">
                     {feedback.admin_notes || 'No notes added'}
                   </p>
                 )}
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-between pt-4 border-t">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 border-t">
                 <div className="flex items-center space-x-2">
                   <Switch
                     checked={feedback.show_as_testimonial}
                     onCheckedChange={(checked) => toggleTestimonial(feedback.id, checked)}
                   />
-                  <label className="text-sm">Show as public testimonial</label>
+                  <label className="text-xs md:text-sm">Show as public testimonial</label>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline">
-                    <Eye className="h-4 w-4 mr-2" />
-                    View Details
+                  <Button size="sm" variant="outline" className="text-xs">
+                    <Eye className="h-3 w-3 md:h-4 md:w-4 mr-2" />
+                    <span className="hidden sm:inline">View Details</span>
+                    <span className="sm:hidden">View</span>
                   </Button>
                 </div>
               </div>
@@ -338,10 +341,10 @@ export const AfterCareAdmin = () => {
 
       {filteredFeedbacks.length === 0 && (
         <Card>
-          <CardContent className="p-6 text-center">
-            <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-medium">No feedback found</h3>
-            <p className="text-muted-foreground">No feedback matches your current filters.</p>
+          <CardContent className="p-4 md:p-6 text-center">
+            <MessageSquare className="h-8 w-8 md:h-12 md:w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-base md:text-lg font-medium">No feedback found</h3>
+            <p className="text-xs md:text-sm text-muted-foreground">No feedback matches your current filters.</p>
           </CardContent>
         </Card>
       )}
