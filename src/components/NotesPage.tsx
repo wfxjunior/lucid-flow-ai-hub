@@ -29,9 +29,13 @@ const NotesPageContent = () => {
   const handleSignUpAsGuest = async () => {
     setIsSigningUp(true)
     try {
-      // Generate a random email for guest user
-      const guestEmail = `guest_${Date.now()}@featherbiz.local`
-      const guestPassword = `guest_${Math.random().toString(36).slice(-8)}`
+      // Generate a valid email format for guest user
+      const timestamp = Date.now()
+      const randomId = Math.random().toString(36).substring(2, 15)
+      const guestEmail = `guest${timestamp}${randomId}@example.com`
+      const guestPassword = `guest_${Math.random().toString(36).slice(-8)}${timestamp}`
+      
+      console.log('Attempting to create guest account with email:', guestEmail)
       
       const { data, error } = await supabase.auth.signUp({
         email: guestEmail,
@@ -43,8 +47,13 @@ const NotesPageContent = () => {
         }
       })
 
-      if (error) throw error
+      if (error) {
+        console.error('Signup error:', error)
+        throw error
+      }
 
+      console.log('Guest signup successful:', data)
+      
       toast({
         title: "Welcome!",
         description: "You've been signed in as a guest user. You can now create notes!"
@@ -79,7 +88,7 @@ const NotesPageContent = () => {
   if (authLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-gray-500">Loading authentication...</div>
       </div>
     )
   }

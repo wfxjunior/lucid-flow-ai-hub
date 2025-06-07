@@ -44,27 +44,42 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      console.log('Current session:', session)
-      setUser(session?.user || null)
-      setAuthLoading(false)
-      
-      if (session?.user) {
-        fetchNotes()
-      } else {
+      try {
+        console.log('Checking authentication...')
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (error) {
+          console.error('Error getting session:', error)
+        }
+        
+        console.log('Current session:', session)
+        setUser(session?.user || null)
+        setAuthLoading(false)
+        
+        if (session?.user) {
+          await fetchNotes()
+        } else {
+          setLoading(false)
+        }
+      } catch (error) {
+        console.error('Auth check error:', error)
+        setAuthLoading(false)
         setLoading(false)
       }
     }
 
     checkAuth()
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, session)
       setUser(session?.user || null)
       setAuthLoading(false)
       
-      if (session?.user) {
-        fetchNotes()
+      if (session?.user && event === 'SIGNED_IN') {
+        // Defer notes fetching to avoid potential conflicts
+        setTimeout(() => {
+          fetchNotes()
+        }, 100)
       } else {
         setNotes([])
         setLoading(false)
@@ -77,6 +92,8 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchNotes = async () => {
     try {
       console.log('Fetching notes...')
+      setLoading(true)
+      
       const { data, error } = await supabase
         .from('notes')
         .select('*')
