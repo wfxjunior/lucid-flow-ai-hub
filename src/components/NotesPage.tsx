@@ -17,6 +17,11 @@ const NotesPageContent = () => {
 
   const { notes, loading, user, authLoading } = useNotes()
 
+  console.log('NotesPage - Auth loading:', authLoading)
+  console.log('NotesPage - User:', user?.id)
+  console.log('NotesPage - Notes loading:', loading)
+  console.log('NotesPage - Notes count:', notes.length)
+
   const filteredNotes = notes
     .filter(note => {
       const matchesSearch = note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -66,8 +71,10 @@ const NotesPageContent = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">Loading notes...</div>
+      <div className="space-y-6 bg-white min-h-screen">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading notes...</div>
+        </div>
       </div>
     )
   }
@@ -79,6 +86,11 @@ const NotesPageContent = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Notes</h1>
           <p className="text-gray-600 mt-1">Manage your notes and ideas</p>
+          {user && (
+            <p className="text-xs text-gray-400 mt-1">
+              Logged in as: {user.email} | Total notes: {notes.length}
+            </p>
+          )}
         </div>
         <NotesForm editingNote={editingNote} setEditingNote={setEditingNote} />
       </div>
