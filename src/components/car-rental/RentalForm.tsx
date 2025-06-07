@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { AddressAutocomplete } from "@/components/ui/address-autocomplete"
 import { useForm } from 'react-hook-form'
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
@@ -181,9 +181,11 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
 
             <div>
               <Label htmlFor="pickup_location">Pickup Location *</Label>
-              <Input
+              <AddressAutocomplete
                 id="pickup_location"
-                {...register('pickup_location', { required: 'Pickup location is required' })}
+                value={watch('pickup_location') || ''}
+                onChange={(value) => setValue('pickup_location', value)}
+                placeholder="Enter pickup address..."
                 className={errors.pickup_location ? 'border-red-500' : ''}
               />
               {errors.pickup_location && <p className="text-red-500 text-sm mt-1">{errors.pickup_location.message}</p>}
@@ -191,9 +193,11 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
 
             <div>
               <Label htmlFor="return_location">Return Location *</Label>
-              <Input
+              <AddressAutocomplete
                 id="return_location"
-                {...register('return_location', { required: 'Return location is required' })}
+                value={watch('return_location') || ''}
+                onChange={(value) => setValue('return_location', value)}
+                placeholder="Enter return address..."
                 className={errors.return_location ? 'border-red-500' : ''}
               />
               {errors.return_location && <p className="text-red-500 text-sm mt-1">{errors.return_location.message}</p>}
