@@ -28,6 +28,7 @@ export function ContractForm({ onClose, contract }: ContractFormProps) {
   })
   const [newTag, setNewTag] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     if (contract) {
@@ -149,16 +150,76 @@ By signing below, both parties agree to the terms outlined in this contract.
     }))
   }
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const content = event.target?.result as string
-        setFormData(prev => ({ ...prev, content }))
-        toast.success("File uploaded successfully!")
+    if (!file) return
+
+    // Check file type
+    const allowedTypes = [
+      'text/plain',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/pdf'
+    ]
+    
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Please upload a .txt, .doc, .docx, or .pdf file")
+      return
+    }
+
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("File size must be less than 5MB")
+      return
+    }
+
+    setIsUploading(true)
+    
+    try {
+      let content = ""
+      
+      if (file.type === 'text/plain') {
+        // Handle text files
+        content = await file.text()
+      } else if (file.type === 'application/pdf') {
+        // For PDFs, we'll need a PDF parser or just show a message
+        toast.error("PDF upload is not yet supported. Please use .txt, .doc, or .docx files.")
+        setIsUploading(false)
+        return
+      } else {
+        // For Word documents, we'll read as text (basic implementation)
+        // In a real app, you'd want to use a proper Word document parser
+        const arrayBuffer = await file.arrayBuffer()
+        const decoder = new TextDecoder('utf-8')
+        content = decoder.decode(arrayBuffer)
+        
+        // Clean up the content (remove binary characters for Word docs)
+        content = content.replace(/[^\x20-\x7E\n\r\t]/g, ' ').replace(/\s+/g, ' ').trim()
+        
+        if (!content || content.length < 10) {
+          toast.error("Could not extract readable text from this file. Please try a .txt file instead.")
+          setIsUploading(false)
+          return
+        }
       }
-      reader.readAsText(file)
+
+      if (content) {
+        setFormData(prev => ({ 
+          ...prev, 
+          content,
+          title: prev.title || file.name.replace(/\.[^/.]+$/, "") // Use filename as title if empty
+        }))
+        toast.success("File uploaded and content extracted successfully!")
+      } else {
+        toast.error("No content could be extracted from the file")
+      }
+    } catch (error) {
+      console.error("Error reading file:", error)
+      toast.error("Failed to read file content")
+    } finally {
+      setIsUploading(false)
+      // Clear the input
+      e.target.value = ""
     }
   }
 
@@ -215,13 +276,23 @@ By signing below, both parties agree to the terms outlined in this contract.
             <div className="relative">
               <input
                 type="file"
-                accept=".txt,.doc,.docx"
+                accept=".txt,.doc,.docx,.pdf"
                 onChange={handleFileUpload}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                disabled={isUploading}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                id="file-upload"
               />
-              <Button type="button" variant="outline" size="sm">
-                <Upload className="h-4 w-4 mr-1" />
-                Upload File
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm"
+                disabled={isUploading}
+                asChild
+              >
+                <label htmlFor="file-upload" className="cursor-pointer">
+                  <Upload className="h-4 w-4 mr-1" />
+                  {isUploading ? "Uploading..." : "Upload File"}
+                </label>
               </Button>
             </div>
           </div>
