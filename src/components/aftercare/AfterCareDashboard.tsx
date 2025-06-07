@@ -18,7 +18,7 @@ const StarDisplay = ({ rating }: { rating: number }) => (
     {[1, 2, 3, 4, 5].map((star) => (
       <Star
         key={star}
-        className={`h-4 w-4 ${
+        className={`h-3 w-3 md:h-4 md:w-4 ${
           star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
         }`}
       />
@@ -74,30 +74,30 @@ export const AfterCareDashboard = () => {
   }
 
   if (loading) {
-    return <div>Loading dashboard...</div>
+    return <div className="p-4">Loading dashboard...</div>
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Feedbacks</CardTitle>
-            <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium">Total Feedbacks</CardTitle>
+            <MessageSquare className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalFeedbacks}</div>
+            <div className="text-xl md:text-2xl font-bold">{stats.totalFeedbacks}</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Rating</CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium">Average Rating</CardTitle>
+            <Star className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.averageRating}</div>
+            <div className="text-xl md:text-2xl font-bold">{stats.averageRating}</div>
             <div className="flex mt-1">
               <StarDisplay rating={Math.round(stats.averageRating)} />
             </div>
@@ -106,21 +106,21 @@ export const AfterCareDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Recommendation Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium">Recommendation Rate</CardTitle>
+            <TrendingUp className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.recommendationRate}%</div>
+            <div className="text-xl md:text-2xl font-bold">{stats.recommendationRate}%</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Public Testimonials</CardTitle>
-            <Heart className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs md:text-sm font-medium">Public Testimonials</CardTitle>
+            <Heart className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.testimonialCount}</div>
+            <div className="text-xl md:text-2xl font-bold">{stats.testimonialCount}</div>
           </CardContent>
         </Card>
       </div>
@@ -128,18 +128,18 @@ export const AfterCareDashboard = () => {
       {/* Recent Feedbacks */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Feedback</CardTitle>
+          <CardTitle className="text-lg md:text-xl">Recent Feedback</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {stats.recentFeedbacks.map((feedback: any) => (
               <div key={feedback.id} className="border-b pb-4 last:border-b-0">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <h4 className="font-medium">{feedback.client_name}</h4>
-                    <p className="text-sm text-muted-foreground">{feedback.project_service}</p>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
+                  <div className="flex-1">
+                    <h4 className="font-medium text-sm md:text-base">{feedback.client_name}</h4>
+                    <p className="text-xs md:text-sm text-muted-foreground truncate">{feedback.project_service}</p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     <StarDisplay rating={feedback.overall_rating} />
                     {feedback.would_recommend && (
                       <Badge variant="secondary" className="text-xs">Recommends</Badge>
@@ -147,7 +147,7 @@ export const AfterCareDashboard = () => {
                   </div>
                 </div>
                 {feedback.suggestions && (
-                  <p className="text-sm text-muted-foreground italic">
+                  <p className="text-xs md:text-sm text-muted-foreground italic">
                     "{feedback.suggestions.substring(0, 120)}..."
                   </p>
                 )}
@@ -158,9 +158,9 @@ export const AfterCareDashboard = () => {
 
           {stats.recentFeedbacks.length === 0 && (
             <div className="text-center py-8">
-              <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-medium">No feedback yet</h3>
-              <p className="text-muted-foreground">Start collecting client feedback to see insights here.</p>
+              <MessageSquare className="h-8 w-8 md:h-12 md:w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-base md:text-lg font-medium">No feedback yet</h3>
+              <p className="text-sm text-muted-foreground">Start collecting client feedback to see insights here.</p>
             </div>
           )}
         </CardContent>
@@ -170,10 +170,10 @@ export const AfterCareDashboard = () => {
       {stats.testimonialCount > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Featured Testimonials</CardTitle>
+            <CardTitle className="text-lg md:text-xl">Featured Testimonials</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {stats.recentFeedbacks
                 .filter((f: any) => f.show_as_testimonial && f.allow_public_display)
                 .slice(0, 4)
@@ -181,9 +181,9 @@ export const AfterCareDashboard = () => {
                   <div key={testimonial.id} className="bg-muted/50 p-4 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <StarDisplay rating={testimonial.overall_rating} />
-                      <span className="text-sm font-medium">{testimonial.client_name}</span>
+                      <span className="text-xs md:text-sm font-medium">{testimonial.client_name}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs md:text-sm text-muted-foreground">
                       "{testimonial.suggestions?.substring(0, 100) || 'Great service!'}..."
                     </p>
                   </div>

@@ -120,17 +120,17 @@ export const FeedbackLinkGenerator = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Link className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+          <Link className="h-4 w-4 md:h-5 md:w-5" />
           Generate Client Feedback Link
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="client">Select Client</Label>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="client" className="text-sm font-medium">Select Client</Label>
             <Select value={selectedClient} onValueChange={setSelectedClient}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Choose a client" />
               </SelectTrigger>
               <SelectContent>
@@ -143,16 +143,16 @@ export const FeedbackLinkGenerator = () => {
             </Select>
           </div>
 
-          <div>
-            <Label htmlFor="project">Select Project</Label>
+          <div className="space-y-2">
+            <Label htmlFor="project" className="text-sm font-medium">Select Project</Label>
             <Select value={selectedProject} onValueChange={setSelectedProject}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Choose a project" />
               </SelectTrigger>
               <SelectContent>
                 {projects.map((project) => (
                   <SelectItem key={project.id} value={project.id}>
-                    {project.type}: {project.title}
+                    <span className="truncate">{project.type}: {project.title}</span>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -166,15 +166,16 @@ export const FeedbackLinkGenerator = () => {
         </Button>
 
         {generatedLink && (
-          <div className="space-y-2">
-            <Label>Generated Link</Label>
-            <div className="flex gap-2">
-              <Input value={generatedLink} readOnly className="flex-1" />
-              <Button onClick={copyToClipboard} size="icon" variant="outline">
-                <Copy className="h-4 w-4" />
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">Generated Link</Label>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Input value={generatedLink} readOnly className="flex-1 text-xs sm:text-sm" />
+              <Button onClick={copyToClipboard} size="sm" variant="outline" className="w-full sm:w-auto">
+                <Copy className="h-4 w-4 mr-2" />
+                Copy
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Share this link with your client to collect their feedback.
             </p>
           </div>
