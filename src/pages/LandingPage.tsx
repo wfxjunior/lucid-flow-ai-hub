@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -202,51 +201,14 @@ const LandingPage = () => {
               </div>
             </div>
             
-            {/* Hero Illustration */}
+            {/* Hero Illustration - Updated with uploaded image */}
             <div className="relative order-1 lg:order-2">
               <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl max-w-md mx-auto lg:max-w-none">
-                <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
-                  {/* Mock Dashboard */}
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <div className="flex space-x-1 sm:space-x-2">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-400 rounded-full"></div>
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-400 rounded-full"></div>
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full"></div>
-                    </div>
-                    <div className="text-xs text-gray-400">Dashboard</div>
-                  </div>
-                  
-                  {/* Chart mockup */}
-                  <div className="mb-3 sm:mb-4">
-                    <div className="flex items-end space-x-1 sm:space-x-2 h-12 sm:h-16 lg:h-20">
-                      <div className="bg-blue-500 rounded-t w-3 sm:w-4 h-8 sm:h-12"></div>
-                      <div className="bg-blue-400 rounded-t w-3 sm:w-4 h-5 sm:h-8"></div>
-                      <div className="bg-blue-600 rounded-t w-3 sm:w-4 h-10 sm:h-16"></div>
-                      <div className="bg-blue-500 rounded-t w-3 sm:w-4 h-6 sm:h-10"></div>
-                      <div className="bg-blue-700 rounded-t w-3 sm:w-4 h-12 sm:h-20"></div>
-                      <div className="bg-blue-600 rounded-t w-3 sm:w-4 h-9 sm:h-14"></div>
-                    </div>
-                  </div>
-                  
-                  {/* Checklist mockup */}
-                  <div className="space-y-1 sm:space-y-2">
-                    {[...Array(4)].map((_, index) => (
-                      <div key={index} className="flex items-center space-x-2">
-                        <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full flex items-center justify-center">
-                          <Check className="w-1.5 h-1.5 sm:w-2 sm:h-2 text-white" />
-                        </div>
-                        <div className="h-1.5 sm:h-2 bg-gray-200 rounded flex-1"></div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Character illustration */}
-                <div className="absolute -right-2 sm:-right-4 -bottom-2 sm:-bottom-4">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-                    <div className="text-white text-lg sm:text-xl lg:text-2xl">👩‍💼</div>
-                  </div>
-                </div>
+                <img 
+                  src="/lovable-uploads/7bf03517-f538-4571-8929-9bd8da919263.png" 
+                  alt="FeatherBiz Dashboard Preview" 
+                  className="w-full h-auto rounded-xl sm:rounded-2xl shadow-lg"
+                />
               </div>
             </div>
           </div>
