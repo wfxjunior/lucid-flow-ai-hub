@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -131,10 +130,7 @@ const LandingPage = () => {
               <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
               <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
               <a href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
-              <div className="flex items-center gap-2">
-                <LanguageSelector />
-                <ThemeToggle />
-              </div>
+              <ThemeToggle />
             </div>
 
             {/* Desktop CTA Buttons */}
@@ -174,8 +170,7 @@ const LandingPage = () => {
                 <a href="#features" className="block px-3 py-2 text-gray-600 hover:text-blue-600">Features</a>
                 <a href="#pricing" className="block px-3 py-2 text-gray-600 hover:text-blue-600">Pricing</a>
                 <a href="/contact" className="block px-3 py-2 text-gray-600 hover:text-blue-600">Contact</a>
-                <div className="flex items-center gap-2 px-3 py-2">
-                  <LanguageSelector />
+                <div className="px-3 py-2">
                   <ThemeToggle />
                 </div>
                 <Button 
@@ -556,9 +551,9 @@ const LandingPage = () => {
               </ul>
             </div>
 
-            {/* Contact Info */}
+            {/* Contact Info & Language */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Contact</h3>
+              <h3 className="text-lg font-semibold">Contact & Settings</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4 text-blue-400" />
@@ -572,15 +567,18 @@ const LandingPage = () => {
                   <MapPin className="h-4 w-4 text-blue-400" />
                   <span className="text-gray-400 text-sm">San Francisco, CA</span>
                 </div>
-              </div>
-              <div className="pt-2">
-                <Button 
-                  onClick={() => navigate('/dashboard')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2"
-                  size="sm"
-                >
-                  Get Started Free
-                </Button>
+                <div className="pt-2">
+                  <div className="mb-3">
+                    <LanguageSelector />
+                  </div>
+                  <Button 
+                    onClick={() => navigate('/dashboard')}
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2"
+                    size="sm"
+                  >
+                    Get Started Free
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
