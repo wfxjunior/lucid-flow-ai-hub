@@ -8,6 +8,7 @@ import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { Note, useNotes } from './NotesContext'
 import { FormattedText } from '../FormattedText'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface NoteCardProps {
   note: Note
@@ -16,6 +17,7 @@ interface NoteCardProps {
 
 export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
   const { deleteNote } = useNotes()
+  const { t } = useLanguage()
 
   const getTags = (tagsString?: string) => {
     if (!tagsString) return []
@@ -23,7 +25,7 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
   }
 
   const getPreviewText = (content?: string) => {
-    if (!content) return "Sem conteúdo adicional"
+    if (!content) return t('notes.noAdditionalContent')
     // Remove markdown formatting for preview
     const plainText = content.replace(/[*_`>#\-]/g, '').trim()
     return plainText.length > 120 ? plainText.substring(0, 120) + "..." : plainText
@@ -94,7 +96,7 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
             {note.content ? (
               <FormattedText content={getPreviewText(note.content)} className="text-sm" />
             ) : (
-              <span className="text-gray-400 italic">Sem conteúdo adicional</span>
+              <span className="text-gray-400 italic">{t('notes.noAdditionalContent')}</span>
             )}
           </div>
         </div>

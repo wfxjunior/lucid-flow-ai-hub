@@ -7,6 +7,7 @@ import { NotesProvider, useNotes, Note } from './notes/NotesContext'
 import { NotesForm } from './notes/NotesForm'
 import { NotesFilters } from './notes/NotesFilters'
 import { NotesGrid } from './notes/NotesGrid'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const NotesPageContent = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -17,6 +18,7 @@ const NotesPageContent = () => {
   const [showFilters, setShowFilters] = useState(false)
 
   const { notes, loading, user, authLoading } = useNotes()
+  const { t } = useLanguage()
 
   console.log('NotesPage - Auth loading:', authLoading)
   console.log('NotesPage - User:', user?.id)
@@ -52,15 +54,15 @@ const NotesPageContent = () => {
         <Card className="bg-white border-0 shadow-xl rounded-3xl max-w-md mx-auto">
           <CardContent className="p-8 text-center">
             <AlertCircle className="h-16 w-16 text-blue-400 mx-auto mb-6" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Autenticação Necessária</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">{t('notes.authRequired')}</h3>
             <p className="text-gray-600 mb-6">
-              Faça login para acessar suas notas.
+              {t('notes.authRequiredMessage')}
             </p>
             <Button 
               onClick={() => window.location.href = '/auth'}
               className="bg-blue-500 text-white hover:bg-blue-600 rounded-2xl px-8 py-3 font-medium"
             >
-              Fazer Login
+              {t('auth.login')}
             </Button>
           </CardContent>
         </Card>
@@ -73,7 +75,7 @@ const NotesPageContent = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Carregando notas...</p>
+          <p className="text-gray-600">{t('notes.loading')}</p>
         </div>
       </div>
     )
@@ -86,9 +88,9 @@ const NotesPageContent = () => {
         <div className="px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Notas</h1>
+              <h1 className="text-3xl font-bold text-gray-900">{t('notes.title')}</h1>
               <p className="text-sm text-gray-500 mt-1">
-                {notes.length} {notes.length === 1 ? 'nota' : 'notas'}
+                {notes.length} {notes.length === 1 ? t('notes.noteCount.single') : t('notes.noteCount.plural')}
               </p>
             </div>
             <div className="flex items-center gap-3">

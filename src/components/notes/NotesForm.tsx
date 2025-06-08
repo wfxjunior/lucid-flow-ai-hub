@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { Note, useNotes } from './NotesContext'
 import { RichTextEditor } from '../RichTextEditor'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface NotesFormProps {
   editingNote: Note | null
@@ -28,6 +29,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
   const { fetchNotes } = useNotes()
+  const { t } = useLanguage()
 
   useEffect(() => {
     if (editingNote) {
@@ -91,8 +93,8 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
       if (error) throw error
 
       toast({
-        title: "Sucesso",
-        description: editingNote ? "Nota atualizada com sucesso" : "Nota criada com sucesso"
+        title: t('notes.success'),
+        description: editingNote ? t('notes.noteUpdated') : t('notes.noteCreated')
       })
 
       await fetchNotes()
@@ -100,8 +102,8 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
     } catch (error) {
       console.error('Error saving note:', error)
       toast({
-        title: "Erro",
-        description: "Falha ao salvar nota",
+        title: t('notes.error'),
+        description: t('notes.saveError'),
         variant: "destructive"
       })
     } finally {
@@ -136,7 +138,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
         <div className="sticky top-0 bg-white rounded-t-3xl border-b border-gray-100 px-6 py-4 z-10">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold text-gray-900">
-              {editingNote ? 'Editar Nota' : 'Nova Nota'}
+              {editingNote ? t('notes.editNote') : t('notes.newNote')}
             </DialogTitle>
           </DialogHeader>
         </div>
@@ -147,31 +149,31 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               id="title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Título"
+              placeholder={t('notes.titlePlaceholder')}
               required
               className="text-xl font-semibold border-0 bg-gray-50 rounded-2xl px-6 py-4 focus:bg-white focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
             />
           </div>
 
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Conteúdo</Label>
+            <Label className="text-sm font-medium text-gray-700">{t('notes.content')}</Label>
             <RichTextEditor
               value={formData.content}
               onChange={(value) => setFormData({ ...formData, content: value })}
-              placeholder="Comece a escrever..."
+              placeholder={t('notes.contentPlaceholder')}
               rows={12}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="client" className="text-sm font-medium text-gray-700 mb-3 block">Cliente</Label>
+              <Label htmlFor="client" className="text-sm font-medium text-gray-700 mb-3 block">{t('notes.client')}</Label>
               <Select value={formData.related_client || 'none'} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
                 <SelectTrigger className="bg-gray-50 border-0 rounded-2xl h-12 px-4">
-                  <SelectValue placeholder="Selecionar cliente" />
+                  <SelectValue placeholder={t('notes.selectClient')} />
                 </SelectTrigger>
                 <SelectContent className="rounded-2xl border-0 shadow-xl bg-white">
-                  <SelectItem value="none" className="rounded-xl">Nenhum</SelectItem>
+                  <SelectItem value="none" className="rounded-xl">{t('notes.none')}</SelectItem>
                   {availableClients.map((client) => (
                     <SelectItem key={client} value={client} className="rounded-xl">{client}</SelectItem>
                   ))}
@@ -180,13 +182,13 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
             </div>
 
             <div>
-              <Label htmlFor="project" className="text-sm font-medium text-gray-700 mb-3 block">Projeto</Label>
+              <Label htmlFor="project" className="text-sm font-medium text-gray-700 mb-3 block">{t('notes.project')}</Label>
               <Select value={formData.related_project || 'none'} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
                 <SelectTrigger className="bg-gray-50 border-0 rounded-2xl h-12 px-4">
-                  <SelectValue placeholder="Selecionar projeto" />
+                  <SelectValue placeholder={t('notes.selectProject')} />
                 </SelectTrigger>
                 <SelectContent className="rounded-2xl border-0 shadow-xl bg-white">
-                  <SelectItem value="none" className="rounded-xl">Nenhum</SelectItem>
+                  <SelectItem value="none" className="rounded-xl">{t('notes.none')}</SelectItem>
                   {availableProjects.map((project) => (
                     <SelectItem key={project} value={project} className="rounded-xl">{project}</SelectItem>
                   ))}
@@ -196,12 +198,12 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
           </div>
 
           <div>
-            <Label htmlFor="tags" className="text-sm font-medium text-gray-700 mb-3 block">Tags</Label>
+            <Label htmlFor="tags" className="text-sm font-medium text-gray-700 mb-3 block">{t('notes.tags')}</Label>
             <Input
               id="tags"
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-              placeholder="Adicione tags separadas por vírgula"
+              placeholder={t('notes.tagsPlaceholder')}
               className="border-0 bg-gray-50 rounded-2xl px-4 py-3 h-12 focus:bg-white focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
             />
           </div>
@@ -215,7 +217,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               className="px-8 py-3 rounded-2xl border-2 border-gray-200 hover:border-gray-300 font-medium"
             >
               <X className="h-4 w-4 mr-2" />
-              Cancelar
+              {t('notes.cancel')}
             </Button>
             <Button 
               type="submit" 
@@ -223,7 +225,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               className="px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl font-medium shadow-lg"
             >
               <Save className="h-4 w-4 mr-2" />
-              {loading ? 'Salvando...' : (editingNote ? 'Salvar Alterações' : 'Criar Nota')}
+              {loading ? t('notes.saving') : (editingNote ? t('notes.saveChanges') : t('notes.createNote'))}
             </Button>
           </div>
         </form>
