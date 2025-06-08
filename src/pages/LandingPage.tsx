@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
-import { ThemeToggle } from "@/components/ThemeToggle"
 import { TypingText } from "@/components/TypingText"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -120,7 +119,6 @@ const LandingPage = () => {
               <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
               <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
               <a href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
-              <ThemeToggle />
             </div>
 
             {/* Desktop CTA Buttons */}
@@ -160,9 +158,6 @@ const LandingPage = () => {
                 <a href="#features" className="block px-3 py-2 text-gray-600 hover:text-blue-600">Features</a>
                 <a href="#pricing" className="block px-3 py-2 text-gray-600 hover:text-blue-600">Pricing</a>
                 <a href="/contact" className="block px-3 py-2 text-gray-600 hover:text-blue-600">Contact</a>
-                <div className="px-3 py-2">
-                  <ThemeToggle />
-                </div>
                 <Button 
                   variant="ghost" 
                   className="w-full justify-start text-gray-600 hover:text-blue-600"
