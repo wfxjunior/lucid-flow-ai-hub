@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -17,29 +18,19 @@ const LandingPage = () => {
       id: 1,
       icon: Calculator,
       title: "Send Professional Estimates",
-      description: "Lead onecks and lides in-season with beautiful, professional estimates that convert.",
-      color: "from-blue-500 to-blue-600"
+      description: "Lead your quotes with clarity and speed",
     },
     {
       id: 2,
       icon: Calendar,
       title: "Schedule Jobs with Ease",
-      description: "Learn more consersity and payments with intelligent scheduling and management.",
-      color: "from-green-500 to-green-600"
+      description: "Assign and organize tasks automatically",
     },
     {
       id: 3,
       icon: DollarSign,
       title: "Track Invoices & Payments",
-      description: "Learn malio process and accounting with comprehensive tracking and analytics.",
-      color: "from-purple-500 to-purple-600"
-    },
-    {
-      id: 4,
-      icon: BarChart3,
-      title: "Advanced Analytics",
-      description: "Get detailed insights into your business performance with powerful reporting tools.",
-      color: "from-orange-500 to-orange-600"
+      description: "Monitor billing in real time",
     },
   ]
 
@@ -291,24 +282,111 @@ const LandingPage = () => {
             <p className="text-lg text-gray-600">Everything you need to run your business efficiently</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuresData.map((feature) => (
-              <Card key={feature.id} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <CardHeader className="text-center pb-4">
-                  <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-4`}>
-                    <feature.icon className="h-8 w-8 text-white" />
+          {/* 2-column layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Feature Cards */}
+            <div className="space-y-6">
+              {featuresData.map((feature) => (
+                <div 
+                  key={feature.id} 
+                  className="rounded-xl p-6 text-white shadow-lg"
+                  style={{
+                    background: 'linear-gradient(90deg, #2D8CFF, #1C5DB2)'
+                  }}
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0">
+                      <feature.icon className="h-8 w-8 text-white drop-shadow-sm" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold font-['Inter'] mb-2">
+                        {feature.title}
+                      </h3>
+                      <p className="text-blue-100 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
                   </div>
-                  <CardTitle className="text-xl font-semibold text-gray-900">
-                    {feature.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <CardDescription className="text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              ))}
+            </div>
+
+            {/* Right Column - Chart Graphic */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100 max-w-md w-full">
+                {/* Chart Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900">Performance Overview</h3>
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">👤</span>
+                  </div>
+                </div>
+                
+                {/* Chart Area */}
+                <div className="relative h-48 mb-6">
+                  {/* Chart Lines */}
+                  <svg className="w-full h-full" viewBox="0 0 300 150">
+                    {/* Grid Lines */}
+                    <defs>
+                      <pattern id="grid" width="30" height="15" patternUnits="userSpaceOnUse">
+                        <path d="M 30 0 L 0 0 0 15" fill="none" stroke="#f1f5f9" strokeWidth="1"/>
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                    
+                    {/* Main Chart Line */}
+                    <path
+                      d="M 20 120 Q 60 100 80 80 T 140 60 T 200 40 T 280 20"
+                      fill="none"
+                      stroke="url(#gradient1)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                    />
+                    
+                    {/* Chart Area Fill */}
+                    <path
+                      d="M 20 120 Q 60 100 80 80 T 140 60 T 200 40 T 280 20 L 280 150 L 20 150 Z"
+                      fill="url(#areaGradient)"
+                      opacity="0.1"
+                    />
+                    
+                    {/* Data Points */}
+                    <circle cx="80" cy="80" r="4" fill="#2D8CFF" className="drop-shadow-sm"/>
+                    <circle cx="140" cy="60" r="4" fill="#2D8CFF" className="drop-shadow-sm"/>
+                    <circle cx="200" cy="40" r="4" fill="#2D8CFF" className="drop-shadow-sm"/>
+                    <circle cx="280" cy="20" r="4" fill="#2D8CFF" className="drop-shadow-sm"/>
+                    
+                    {/* Gradients */}
+                    <defs>
+                      <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#2D8CFF"/>
+                        <stop offset="100%" stopColor="#1C5DB2"/>
+                      </linearGradient>
+                      <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#2D8CFF"/>
+                        <stop offset="100%" stopColor="#2D8CFF" stopOpacity="0"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+
+                {/* Chart Stats */}
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-2xl font-bold text-blue-600">127%</div>
+                    <div className="text-xs text-gray-500">Growth</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-green-600">+$45k</div>
+                    <div className="text-xs text-gray-500">Revenue</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-purple-600">98%</div>
+                    <div className="text-xs text-gray-500">Success</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="text-center mt-12">
