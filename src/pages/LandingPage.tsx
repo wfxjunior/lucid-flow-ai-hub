@@ -485,7 +485,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <div className="col-span-1 sm:col-span-2 md:col-span-1">
               <div className="flex items-center mb-4">
-                <Smile className="h-6 w-6 sm:h-8 sm:w-8 text-blue-400 animate-pulse" />
+                <Feather className="h-6 w-6 sm:h-8 sm:w-8 text-blue-400" />
                 <span className="ml-2 text-lg sm:text-xl font-bold">FeatherBiz</span>
               </div>
               <p className="text-gray-400 text-sm">
