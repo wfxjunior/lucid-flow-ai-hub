@@ -187,41 +187,41 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white font-inter">
       {/* Navigation */}
-      <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl">
-                  <Feather className="h-7 w-7 text-white" />
+                <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <Feather className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-2xl font-black text-gray-900 tracking-tight">FeatherBiz</span>
+                <span className="text-xl font-bold text-gray-900">FeatherBiz</span>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-blue-600 text-sm font-semibold transition-all duration-200 hover:scale-105">Features</a>
-              <a href="#pricing" className="text-gray-600 hover:text-blue-600 text-sm font-semibold transition-all duration-200 hover:scale-105">Pricing</a>
-              <a href="#how-it-works" className="text-gray-600 hover:text-blue-600 text-sm font-semibold transition-all duration-200 hover:scale-105">How It Works</a>
-              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 text-sm font-semibold transition-all duration-200 hover:scale-105">Reviews</a>
+            <div className="hidden md:flex items-center space-x-6">
+              <a href="#features" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-colors">Features</a>
+              <a href="#pricing" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-colors">Pricing</a>
+              <a href="#how-it-works" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-colors">How It Works</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-colors">Reviews</a>
             </div>
 
             {/* Desktop CTA Buttons */}
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-3">
               <LanguageSelector />
               <ThemeToggle />
               <Button 
                 variant="ghost" 
-                className="text-gray-600 hover:text-blue-600 font-semibold transition-all duration-200"
+                className="text-gray-600 hover:text-blue-600 font-medium"
                 size="sm"
               >
                 Log In
               </Button>
               <Button 
                 onClick={() => navigate('/dashboard')}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold px-8 py-3 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                 size="sm"
               >
                 Get Started
@@ -234,7 +234,6 @@ const LandingPage = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="rounded-xl"
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
@@ -243,28 +242,28 @@ const LandingPage = () => {
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md">
+            <div className="md:hidden border-t border-gray-200 bg-white">
               <div className="px-2 pt-2 pb-3 space-y-1">
-                <a href="#features" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-semibold rounded-xl hover:bg-gray-50 transition-all">Features</a>
-                <a href="#pricing" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-semibold rounded-xl hover:bg-gray-50 transition-all">Pricing</a>
-                <a href="#how-it-works" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-semibold rounded-xl hover:bg-gray-50 transition-all">How It Works</a>
-                <a href="#testimonials" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-semibold rounded-xl hover:bg-gray-50 transition-all">Reviews</a>
-                <div className="border-t border-gray-100 pt-4 pb-3">
-                  <div className="flex items-center space-x-4 px-3 mb-3">
+                <a href="#features" className="block px-3 py-2 text-gray-600 hover:text-blue-600 text-base font-medium rounded-md hover:bg-gray-50">Features</a>
+                <a href="#pricing" className="block px-3 py-2 text-gray-600 hover:text-blue-600 text-base font-medium rounded-md hover:bg-gray-50">Pricing</a>
+                <a href="#how-it-works" className="block px-3 py-2 text-gray-600 hover:text-blue-600 text-base font-medium rounded-md hover:bg-gray-50">How It Works</a>
+                <a href="#testimonials" className="block px-3 py-2 text-gray-600 hover:text-blue-600 text-base font-medium rounded-md hover:bg-gray-50">Reviews</a>
+                <div className="border-t border-gray-200 pt-4 pb-3">
+                  <div className="flex items-center space-x-3 px-3 mb-3">
                     <LanguageSelector />
                     <ThemeToggle />
                   </div>
                   <div className="space-y-2">
                     <Button 
                       variant="ghost" 
-                      className="w-full justify-start text-gray-600 hover:text-blue-600 rounded-xl"
+                      className="w-full justify-start text-gray-600 hover:text-blue-600"
                       size="sm"
                     >
                       Log In
                     </Button>
                     <Button 
                       onClick={() => navigate('/dashboard')}
-                      className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl"
+                      className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white"
                       size="sm"
                     >
                       Get Started
@@ -278,46 +277,45 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 sm:pt-32 sm:pb-40 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20 overflow-hidden">
-        <div className="absolute inset-0 bg-white/10 opacity-20"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <section className="relative pt-16 pb-24 sm:pt-24 sm:pb-32 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 tracking-tight leading-tight mb-8">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
                 YOUR BUSINESS,
                 <br />
-                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent animate-pulse">
+                <span className="text-blue-600">
                   SIMPLIFIED
                 </span>
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-600 max-w-2xl leading-relaxed font-medium mb-12">
+              <p className="text-xl text-gray-600 max-w-2xl leading-relaxed mb-8">
                 The all-in-one platform for service businesses. Invoicing, scheduling, CRM, and AI assistant — all working together seamlessly.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start mb-10">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                 <Button 
                   onClick={() => navigate('/dashboard')}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xl px-12 py-6 h-auto font-black rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105"
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-3 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
                   size="lg"
                 >
                   Start for free
-                  <ArrowRight className="ml-3 h-6 w-6" />
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="text-xl px-12 py-6 h-auto font-bold border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300 rounded-2xl transition-all duration-300 hover:scale-105"
+                  className="text-lg px-8 py-3 font-semibold border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-blue-300 rounded-lg transition-all duration-200"
                   size="lg"
                 >
-                  <Play className="mr-3 h-6 w-6" />
+                  <Play className="mr-2 h-5 w-5" />
                   Watch demo
                 </Button>
               </div>
-              <div className="flex items-center justify-center lg:justify-start space-x-8 text-sm text-gray-500">
+              <div className="flex items-center justify-center lg:justify-start space-x-6 text-sm text-gray-500">
                 <div className="flex items-center">
-                  <CheckCircle2 className="h-5 w-5 text-green-500 mr-2" />
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mr-2" />
                   Free 14-day trial
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle2 className="h-5 w-5 text-green-500 mr-2" />
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mr-2" />
                   No credit card required
                 </div>
               </div>
@@ -326,33 +324,33 @@ const LandingPage = () => {
             {/* Dashboard Mockup */}
             <div className="relative lg:block">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-3xl blur-3xl"></div>
-                <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200/50 p-8">
-                  <div className="flex items-center space-x-3 mb-6">
-                    <div className="w-4 h-4 bg-red-400 rounded-full"></div>
-                    <div className="w-4 h-4 bg-yellow-400 rounded-full"></div>
-                    <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+                <div className="absolute inset-0 bg-blue-600/10 rounded-2xl blur-2xl"></div>
+                <div className="relative bg-white rounded-2xl shadow-xl border border-gray-200 p-6">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                   </div>
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between p-4 bg-blue-50 rounded-2xl border border-blue-100">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-blue-600 rounded-xl"></div>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-100">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
                         <div>
-                          <div className="h-4 bg-blue-600 rounded w-24"></div>
-                          <div className="h-3 bg-blue-400 rounded w-20 mt-2"></div>
+                          <div className="h-3 bg-blue-600 rounded w-20"></div>
+                          <div className="h-2 bg-blue-400 rounded w-16 mt-1"></div>
                         </div>
                       </div>
-                      <div className="w-8 h-8 bg-green-500 rounded-full"></div>
+                      <div className="w-6 h-6 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl"></div>
-                      <div className="h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl"></div>
-                      <div className="h-20 bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl"></div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="h-16 bg-green-100 rounded-lg"></div>
+                      <div className="h-16 bg-purple-100 rounded-lg"></div>
+                      <div className="h-16 bg-orange-100 rounded-lg"></div>
                     </div>
-                    <div className="space-y-3">
-                      <div className="h-4 bg-gray-200 rounded w-full"></div>
-                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    <div className="space-y-2">
+                      <div className="h-3 bg-gray-200 rounded w-full"></div>
+                      <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                     </div>
                   </div>
                 </div>
