@@ -65,33 +65,35 @@ export function LowStockAlerts({ expanded = false }: LowStockAlertsProps) {
 
   return (
     <Card className="h-fit">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-red-600" />
-          Low Stock Alerts
-          <Badge variant="destructive" className="ml-2">
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-2">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+            <span className="text-base sm:text-lg">Low Stock Alerts</span>
+          </div>
+          <Badge variant="destructive" className="ml-0 sm:ml-2 text-xs self-start sm:self-center">
             {lowStockItems.length}
           </Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 sm:space-y-4">
         {lowStockItems.map((item) => (
-          <div key={item.id} className={`p-4 rounded-lg border ${getUrgencyColor(item.urgencyLevel)}`}>
-            <div className="flex justify-between items-start mb-3">
-              <div>
-                <h4 className="font-medium">{item.name}</h4>
-                <p className="text-sm opacity-75">{item.sku}</p>
+          <div key={item.id} className={`p-3 sm:p-4 rounded-lg border ${getUrgencyColor(item.urgencyLevel)}`}>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-3 mb-3">
+              <div className="min-w-0 flex-1">
+                <h4 className="font-medium text-sm sm:text-base truncate">{item.name}</h4>
+                <p className="text-xs sm:text-sm opacity-75">{item.sku}</p>
               </div>
               <Badge 
                 variant={item.urgencyLevel === 'high' ? 'destructive' : 'secondary'}
-                className="capitalize"
+                className="capitalize text-xs self-start sm:self-center shrink-0"
               >
                 {item.urgencyLevel}
               </Badge>
             </div>
             
             <div className="space-y-2">
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs sm:text-sm">
                 <span>Current: {item.currentStock} {item.unit}</span>
                 <span>Min: {item.minStock} {item.unit}</span>
               </div>
@@ -101,11 +103,11 @@ export function LowStockAlerts({ expanded = false }: LowStockAlertsProps) {
                 className="h-2"
               />
               
-              <div className="flex justify-between items-center text-sm">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 text-xs sm:text-sm">
                 <span className="opacity-75">
                   ~{item.daysUntilOut} days until out
                 </span>
-                <Button size="sm" variant="outline" className="h-8">
+                <Button size="sm" variant="outline" className="h-7 sm:h-8 w-full sm:w-auto">
                   <ShoppingCart className="w-3 h-3 mr-1" />
                   Reorder
                 </Button>
@@ -115,9 +117,9 @@ export function LowStockAlerts({ expanded = false }: LowStockAlertsProps) {
         ))}
         
         {expanded && (
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <h4 className="font-medium text-blue-900 mb-2">Smart Restocking Suggestions</h4>
-            <ul className="text-sm text-blue-700 space-y-1">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-blue-50 rounded-lg">
+            <h4 className="font-medium text-blue-900 mb-2 text-sm sm:text-base">Smart Restocking Suggestions</h4>
+            <ul className="text-xs sm:text-sm text-blue-700 space-y-1">
               <li>• Safety Helmets: Order 25 units to reach optimal level</li>
               <li>• Electrical Wire: Recommend bulk order for better pricing</li>
               <li>• Wood Screws: Consider seasonal demand increase</li>
