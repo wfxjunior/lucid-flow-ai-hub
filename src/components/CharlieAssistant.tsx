@@ -1,15 +1,21 @@
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Bot, Mic, X, Send } from "lucide-react"
+import { Bot, Mic, X, Send, MicOff } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
 
 export function CharlieAssistant() {
   const [isOpen, setIsOpen] = useState(false)
   const [isBlinking, setIsBlinking] = useState(false)
   const [message, setMessage] = useState("")
   const [isListening, setIsListening] = useState(false)
+  const [messages, setMessages] = useState<Array<{type: 'user' | 'ai', message: string}>>([
+    { type: 'ai', message: 'Hi! I\'m Charlie, your AI assistant. I can help you with scheduling, invoicing, and more. Try saying "Schedule a meeting" or "Create an invoice"!' }
+  ])
+  const { toast } = useToast()
+  const recognitionRef = useRef<any>(null)
 
   // Blinking animation every 6-8 seconds
   useEffect(() => {
@@ -21,17 +27,98 @@ export function CharlieAssistant() {
     return () => clearInterval(interval)
   }, [])
 
-  const handleVoiceCommand = () => {
-    setIsListening(!isListening)
-    // Here you would integrate with voice recognition API
-    console.log("Voice command toggle:", !isListening)
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
+      recognitionRef.current = new SpeechRecognition()
+      
+      recognitionRef.current.continuous = false
+      recognitionRef.current.interimResults = false
+      recognitionRef.current.lang = 'en-US'
+
+      recognitionRef.current.onstart = () => {
+        setIsListening(true)
+      }
+
+      recognitionRef.current.onresult = (event: any) => {
+        const result = event.results[0][0].transcript
+        setMessage(result)
+        handleVoiceCommand(result)
+      }
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false)
+      }
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error)
+        setIsListening(false)
+        toast({
+          title: "Voice Error",
+          description: "Please check microphone permissions.",
+          variant: "destructive"
+        })
+      }
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop()
+      }
+    }
+  }, [])
+
+  const handleVoiceCommand = (command: string) => {
+    console.log("Voice command received:", command)
+    
+    // Add user message
+    setMessages(prev => [...prev, { type: 'user', message: command }])
+    
+    // Generate AI response
+    let response = "I understand you said: " + command + ". "
+    const lowerCommand = command.toLowerCase()
+    
+    if (lowerCommand.includes('invoice')) {
+      response += "I'll help you create an invoice. Navigate to the Invoice Creator in the sidebar."
+    } else if (lowerCommand.includes('schedule') || lowerCommand.includes('meeting')) {
+      response += "I'll help you schedule something. Check out the Smart Schedule section."
+    } else if (lowerCommand.includes('customer')) {
+      response += "I'll show you customer management. You can find it in the sidebar."
+    } else {
+      response += "How can I assist you further?"
+    }
+    
+    setTimeout(() => {
+      setMessages(prev => [...prev, { type: 'ai', message: response }])
+      setMessage("")
+    }, 500)
+  }
+
+  const startVoiceRecognition = () => {
+    if (recognitionRef.current && !isListening) {
+      try {
+        recognitionRef.current.start()
+      } catch (error) {
+        console.error('Error starting speech recognition:', error)
+        toast({
+          title: "Error",
+          description: "Could not start voice recognition.",
+          variant: "destructive"
+        })
+      }
+    }
+  }
+
+  const stopVoiceRecognition = () => {
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop()
+    }
   }
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      console.log("Sending message:", message)
-      setMessage("")
-      // Here you would integrate with AI assistant API
+      handleVoiceCommand(message)
     }
   }
 
@@ -68,7 +155,7 @@ export function CharlieAssistant() {
                   <Bot className="h-6 w-6" />
                   <div>
                     <CardTitle className="text-lg">Charlie AI Assistant</CardTitle>
-                    <p className="text-blue-100 text-sm">Online • Multilingual</p>
+                    <p className="text-blue-100 text-sm">Online • Voice Enabled</p>
                   </div>
                 </div>
                 <Button
@@ -85,15 +172,16 @@ export function CharlieAssistant() {
             <CardContent className="p-4">
               {/* Chat Messages Area */}
               <div className="h-32 bg-gray-50 rounded-lg p-3 mb-4 overflow-y-auto">
-                <div className="flex items-start gap-2">
-                  <Bot className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
-                  <div className="bg-white rounded-lg p-2 shadow-sm">
-                    <p className="text-sm text-gray-700">
-                      Hi! I'm Charlie, your AI assistant. I can help you with scheduling, invoicing, and more. 
-                      Try saying "Schedule a meeting" or "Create an invoice"!
-                    </p>
+                {messages.map((msg, index) => (
+                  <div key={index} className={`flex items-start gap-2 mb-2 ${msg.type === 'user' ? 'flex-row-reverse' : ''}`}>
+                    {msg.type === 'ai' && <Bot className="h-4 w-4 text-blue-600 mt-1 flex-shrink-0" />}
+                    <div className={`rounded-lg p-2 shadow-sm text-xs max-w-[80%] ${
+                      msg.type === 'user' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'
+                    }`}>
+                      {msg.message}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
 
               {/* Input Area */}
@@ -117,12 +205,12 @@ export function CharlieAssistant() {
                 </div>
                 
                 <Button
-                  onClick={handleVoiceCommand}
+                  onClick={isListening ? stopVoiceRecognition : startVoiceRecognition}
                   variant={isListening ? "destructive" : "secondary"}
                   className="w-full"
                   size="sm"
                 >
-                  <Mic className={`h-4 w-4 mr-2 ${isListening ? 'animate-pulse' : ''}`} />
+                  {isListening ? <MicOff className="h-4 w-4 mr-2" /> : <Mic className="h-4 w-4 mr-2" />}
                   {isListening ? 'Stop Listening' : 'Voice Command'}
                 </Button>
               </div>
