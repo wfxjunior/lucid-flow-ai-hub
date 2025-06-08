@@ -1,9 +1,11 @@
+
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { TypingText } from "@/components/TypingText"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calculator, Calendar, DollarSign, PieChart, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
 import { useState } from "react"
 
@@ -100,6 +102,33 @@ const LandingPage = () => {
       avatar: "MC",
       rating: 5
     },
+  ]
+
+  const carouselImages = [
+    {
+      src: "/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png",
+      alt: "Customer Database Dashboard",
+      title: "Customer Management",
+      description: "Manage your customer relationships with AI-powered insights"
+    },
+    {
+      src: "/lovable-uploads/5aec6b5d-82e3-44ec-ae90-7c0ac72ba3b4.png",
+      alt: "MatTrack Material Management",
+      title: "Material Tracking",
+      description: "Intelligent material management system with real-time alerts"
+    },
+    {
+      src: "/lovable-uploads/733fa02a-f5d0-4471-9c97-7531308e03fe.png",
+      alt: "To-Do List Dashboard",
+      title: "Task Management",
+      description: "Organize your daily tasks and track your productivity"
+    },
+    {
+      src: "/lovable-uploads/91bcf5c8-cb2d-4bad-8000-bef7d68a66be.png",
+      alt: "Quick Actions Dashboard",
+      title: "Quick Actions",
+      description: "Access your most used features with one click"
+    }
   ]
 
   return (
@@ -201,16 +230,54 @@ const LandingPage = () => {
               </div>
             </div>
             
-            {/* Hero Illustration - Updated with uploaded image */}
+            {/* Hero Illustration - Updated with first carousel image */}
             <div className="relative order-1 lg:order-2">
               <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl max-w-md mx-auto lg:max-w-none">
                 <img 
-                  src="/lovable-uploads/7bf03517-f538-4571-8929-9bd8da919263.png" 
+                  src="/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png" 
                   alt="FeatherBiz Dashboard Preview" 
                   className="w-full h-auto rounded-xl sm:rounded-2xl shadow-lg"
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard Carousel Section */}
+      <section className="py-12 sm:py-16 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Explore Our Platform</h2>
+            <p className="text-base sm:text-lg text-gray-600">See how FeatherBiz can transform your business operations</p>
+          </div>
+          
+          <div className="relative max-w-4xl mx-auto">
+            <Carousel className="w-full">
+              <CarouselContent>
+                {carouselImages.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-sm">
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="text-center mb-4">
+                          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{image.title}</h3>
+                          <p className="text-sm sm:text-base text-gray-600">{image.description}</p>
+                        </div>
+                        <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg">
+                          <img 
+                            src={image.src} 
+                            alt={image.alt}
+                            className="w-full h-auto rounded-lg sm:rounded-xl shadow-lg"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex" />
+              <CarouselNext className="hidden sm:flex" />
+            </Carousel>
           </div>
         </div>
       </section>
