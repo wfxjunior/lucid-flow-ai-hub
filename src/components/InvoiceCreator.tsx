@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
@@ -54,6 +53,7 @@ export function InvoiceCreator() {
   const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [user, setUser] = useState(null)
 
   // Form state
   const [formData, setFormData] = useState({
@@ -67,8 +67,46 @@ export function InvoiceCreator() {
   })
 
   useEffect(() => {
-    fetchInvoices()
+    checkAuthAndFetchData()
   }, [])
+
+  const checkAuthAndFetchData = async () => {
+    try {
+      console.log('Checking authentication...')
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      
+      if (userError) {
+        console.error('Authentication error:', userError)
+        toast({
+          title: "Authentication Error",
+          description: "Please log in to access invoices",
+          variant: "destructive"
+        })
+        return
+      }
+
+      if (!user) {
+        console.log('No user found, user needs to log in')
+        toast({
+          title: "Authentication Required",
+          description: "Please log in to access invoices",
+          variant: "destructive"
+        })
+        return
+      }
+
+      console.log('User authenticated:', user.id)
+      setUser(user)
+      await fetchInvoices()
+    } catch (error) {
+      console.error('Error in checkAuthAndFetchData:', error)
+      toast({
+        title: "Error",
+        description: "Failed to load page",
+        variant: "destructive"
+      })
+    }
+  }
 
   const fetchInvoices = async () => {
     try {
@@ -88,7 +126,6 @@ export function InvoiceCreator() {
       
       console.log('Fetched invoices:', data)
       
-      // Transform the data to match our Invoice interface
       const transformedInvoices: Invoice[] = (data || []).map(invoice => ({
         id: invoice.id,
         invoice_number: invoice.invoice_number,
@@ -118,6 +155,15 @@ export function InvoiceCreator() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to create invoices",
+        variant: "destructive"
+      })
+      return
+    }
+    
     if (!formData.invoice_number.trim() || !formData.client_name.trim()) {
       toast({
         title: "Error",
@@ -131,11 +177,6 @@ export function InvoiceCreator() {
     console.log('Submitting invoice with data:', formData)
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        throw new Error('Not authenticated')
-      }
-
       // First, find or create the client
       let clientId = null
       const { data: existingClient } = await supabase
@@ -153,7 +194,7 @@ export function InvoiceCreator() {
           .from('clients')
           .insert([{
             name: formData.client_name.trim(),
-            email: '', // You might want to add email field to form
+            email: '',
             user_id: user.id
           }])
           .select()
@@ -176,7 +217,6 @@ export function InvoiceCreator() {
       }
 
       if (editingInvoice) {
-        // Update existing invoice
         console.log('Updating invoice with ID:', editingInvoice.id)
         const { data, error } = await supabase
           .from('invoices')
@@ -198,7 +238,6 @@ export function InvoiceCreator() {
           description: "Invoice updated successfully"
         })
       } else {
-        // Create new invoice
         console.log('Creating new invoice')
         const { data, error } = await supabase
           .from('invoices')
@@ -312,6 +351,17 @@ export function InvoiceCreator() {
     )
   }
 
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-2">Authentication Required</h2>
+          <p className="text-gray-600">Please log in to access the invoice system.</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -333,6 +383,9 @@ export function InvoiceCreator() {
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editingInvoice ? 'Edit Invoice' : 'Create New Invoice'}</DialogTitle>
+              <DialogDescription>
+                {editingInvoice ? 'Update the invoice details below.' : 'Fill in the details to create a new invoice.'}
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
