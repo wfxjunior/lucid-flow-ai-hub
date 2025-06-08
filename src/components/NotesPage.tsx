@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Plus } from 'lucide-react'
 import { NotesProvider, useNotes, Note } from './notes/NotesContext'
 import { NotesForm } from './notes/NotesForm'
 import { NotesFilters } from './notes/NotesFilters'
@@ -39,7 +39,7 @@ const NotesPageContent = () => {
 
   if (authLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex items-center justify-center h-64 bg-gray-50">
         <div className="text-gray-500">Loading...</div>
       </div>
     )
@@ -47,9 +47,9 @@ const NotesPageContent = () => {
 
   if (!user) {
     return (
-      <div className="space-y-6 bg-white min-h-screen">
+      <div className="space-y-6 bg-gray-50 min-h-screen">
         <div className="flex items-center justify-center h-64">
-          <Card className="bg-white border border-gray-100 max-w-md mx-auto">
+          <Card className="bg-white border border-gray-100 max-w-md mx-auto shadow-lg">
             <CardContent className="p-8 text-center">
               <AlertCircle className="h-12 w-12 text-blue-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">Authentication Required</h3>
@@ -71,7 +71,7 @@ const NotesPageContent = () => {
 
   if (loading) {
     return (
-      <div className="space-y-6 bg-white min-h-screen">
+      <div className="space-y-6 bg-gray-50 min-h-screen">
         <div className="flex items-center justify-center h-64">
           <div className="text-gray-500">Loading notes...</div>
         </div>
@@ -80,19 +80,23 @@ const NotesPageContent = () => {
   }
 
   return (
-    <div className="space-y-6 bg-white min-h-screen">
-      {/* Header */}
-      <div className="flex items-center justify-between p-6 bg-white border-b border-gray-100">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Notes</h1>
-          <p className="text-gray-600 mt-1">Manage your notes and ideas</p>
-          {user && (
-            <p className="text-xs text-gray-400 mt-1">
-              Logged in as: {user.email} | Total notes: {notes.length}
-            </p>
-          )}
+    <div className="space-y-6 bg-gray-50 min-h-screen">
+      {/* Header - iPhone style */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Notes</h1>
+              <p className="text-sm text-gray-500 mt-1">{notes.length} {notes.length === 1 ? 'note' : 'notes'}</p>
+            </div>
+            <Button 
+              onClick={() => setEditingNote(null)}
+              className="bg-orange-500 hover:bg-orange-600 text-white rounded-full h-12 w-12 p-0 shadow-lg"
+            >
+              <Plus className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
-        <NotesForm editingNote={editingNote} setEditingNote={setEditingNote} />
       </div>
 
       {/* Search and Filters */}
@@ -110,13 +114,16 @@ const NotesPageContent = () => {
       </div>
 
       {/* Notes Grid */}
-      <div className="px-6">
+      <div className="px-6 pb-6">
         <NotesGrid
           filteredNotes={filteredNotes}
           totalNotes={notes.length}
           onEditNote={setEditingNote}
         />
       </div>
+
+      {/* Form Modal */}
+      <NotesForm editingNote={editingNote} setEditingNote={setEditingNote} />
     </div>
   )
 }

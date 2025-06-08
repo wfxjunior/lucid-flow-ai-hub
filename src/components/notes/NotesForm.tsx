@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Save, X } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Save, X } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { Note, useNotes } from './NotesContext'
@@ -39,6 +39,8 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
         tags: editingNote.tags || ''
       })
       setIsOpen(true)
+    } else if (editingNote === null) {
+      setIsOpen(true)
     }
   }, [editingNote])
 
@@ -50,7 +52,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
       related_project: '',
       tags: ''
     })
-    setEditingNote(null)
+    setEditingNote(undefined as any)
     setIsOpen(false)
   }
 
@@ -131,48 +133,43 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
       setIsOpen(open)
       if (!open) resetForm()
     }}>
-      <DialogTrigger asChild>
-        <Button className="bg-blue-500 text-white hover:bg-blue-600">
-          <Plus className="h-4 w-4 mr-2" />
-          New Note
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{editingNote ? 'Edit Note' : 'Create New Note'}</DialogTitle>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl border-0 shadow-2xl">
+        <DialogHeader className="border-b border-gray-100 pb-4">
+          <DialogTitle className="text-xl font-semibold text-gray-900">
+            {editingNote ? 'Edit Note' : 'New Note'}
+          </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
           <div>
-            <Label htmlFor="title">Title *</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Enter note title"
+              placeholder="Title"
               required
+              className="text-lg font-medium border-0 bg-gray-50 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="content">Content</Label>
             <Textarea
               id="content"
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              placeholder="Enter your note content here..."
-              rows={6}
-              className="resize-none"
+              placeholder="Start writing..."
+              rows={8}
+              className="resize-none border-0 bg-gray-50 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-orange-500 text-base leading-relaxed"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="client">Related Client</Label>
+              <Label htmlFor="client" className="text-sm font-medium text-gray-700 mb-2 block">Client</Label>
               <Select value={formData.related_client || 'none'} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-gray-50 border-0 rounded-xl">
                   <SelectValue placeholder="Select client" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="rounded-xl border-0 shadow-lg">
                   <SelectItem value="none">None</SelectItem>
                   {availableClients.map((client) => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
@@ -182,12 +179,12 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
             </div>
 
             <div>
-              <Label htmlFor="project">Related Project</Label>
+              <Label htmlFor="project" className="text-sm font-medium text-gray-700 mb-2 block">Project</Label>
               <Select value={formData.related_project || 'none'} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-gray-50 border-0 rounded-xl">
                   <SelectValue placeholder="Select project" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="rounded-xl border-0 shadow-lg">
                   <SelectItem value="none">None</SelectItem>
                   {availableProjects.map((project) => (
                     <SelectItem key={project} value={project}>{project}</SelectItem>
@@ -198,28 +195,34 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
           </div>
 
           <div>
-            <Label htmlFor="tags">Tags</Label>
+            <Label htmlFor="tags" className="text-sm font-medium text-gray-700 mb-2 block">Tags</Label>
             <Input
               id="tags"
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-              placeholder="Enter tags separated by commas"
+              placeholder="Add tags separated by commas"
+              className="border-0 bg-gray-50 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
-          <div className="flex justify-end gap-2 pt-4">
+          <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">
             <Button
               type="button"
               variant="outline"
               onClick={resetForm}
               disabled={loading}
+              className="px-6 py-2 rounded-xl border-gray-300"
             >
               <X className="h-4 w-4 mr-2" />
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button 
+              type="submit" 
+              disabled={loading}
+              className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl"
+            >
               <Save className="h-4 w-4 mr-2" />
-              {loading ? 'Saving...' : (editingNote ? 'Update Note' : 'Create Note')}
+              {loading ? 'Saving...' : (editingNote ? 'Save Changes' : 'Create Note')}
             </Button>
           </div>
         </form>

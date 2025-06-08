@@ -14,13 +14,17 @@ interface NotesGridProps {
 export const NotesGrid = ({ filteredNotes, totalNotes, onEditNote }: NotesGridProps) => {
   if (filteredNotes.length === 0) {
     return (
-      <Card className="bg-white border border-gray-100">
-        <CardContent className="p-8 text-center">
-          <StickyNote className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No notes found</h3>
-          <p className="text-gray-600 mb-4">
+      <Card className="bg-white border-0 rounded-2xl shadow-sm">
+        <CardContent className="p-12 text-center">
+          <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <StickyNote className="h-8 w-8 text-yellow-600" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            {totalNotes === 0 ? 'No Notes Yet' : 'No notes found'}
+          </h3>
+          <p className="text-gray-500 mb-4">
             {totalNotes === 0 
-              ? "Create your first note to get started" 
+              ? "Start by creating your first note" 
               : "Try adjusting your search or filters"}
           </p>
         </CardContent>
@@ -29,7 +33,7 @@ export const NotesGrid = ({ filteredNotes, totalNotes, onEditNote }: NotesGridPr
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {filteredNotes.map((note) => (
         <NoteCard 
           key={note.id} 
