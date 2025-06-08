@@ -3,13 +3,13 @@ import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Save, X } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { Note, useNotes } from './NotesContext'
+import { RichTextEditor } from '../RichTextEditor'
 
 interface NotesFormProps {
   editingNote: Note | null
@@ -68,7 +68,6 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
 
       const noteData = {
         ...formData,
-        // Convert 'none' values back to empty strings for database
         related_client: formData.related_client === 'none' ? '' : formData.related_client,
         related_project: formData.related_project === 'none' ? '' : formData.related_project,
         user_id: user.id,
@@ -92,8 +91,8 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
       if (error) throw error
 
       toast({
-        title: "Success",
-        description: editingNote ? "Note updated successfully" : "Note created successfully"
+        title: "Sucesso",
+        description: editingNote ? "Nota atualizada com sucesso" : "Nota criada com sucesso"
       })
 
       await fetchNotes()
@@ -101,8 +100,8 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
     } catch (error) {
       console.error('Error saving note:', error)
       toast({
-        title: "Error",
-        description: "Failed to save note",
+        title: "Erro",
+        description: "Falha ao salvar nota",
         variant: "destructive"
       })
     } finally {
@@ -133,61 +132,63 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
       setIsOpen(open)
       if (!open) resetForm()
     }}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl border-0 shadow-2xl">
-        <DialogHeader className="border-b border-gray-100 pb-4">
-          <DialogTitle className="text-xl font-semibold text-gray-900">
-            {editingNote ? 'Edit Note' : 'New Note'}
-          </DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+      <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-white rounded-3xl border-0 shadow-2xl p-0">
+        <div className="sticky top-0 bg-white rounded-t-3xl border-b border-gray-100 px-6 py-4 z-10">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold text-gray-900">
+              {editingNote ? 'Editar Nota' : 'Nova Nota'}
+            </DialogTitle>
+          </DialogHeader>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Title"
+              placeholder="Título"
               required
-              className="text-lg font-medium border-0 bg-gray-50 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-orange-500"
+              className="text-xl font-semibold border-0 bg-gray-50 rounded-2xl px-6 py-4 focus:bg-white focus:ring-2 focus:ring-orange-500 placeholder:text-gray-400"
             />
           </div>
 
-          <div>
-            <Textarea
-              id="content"
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700">Conteúdo</Label>
+            <RichTextEditor
               value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              placeholder="Start writing..."
-              rows={8}
-              className="resize-none border-0 bg-gray-50 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-orange-500 text-base leading-relaxed"
+              onChange={(value) => setFormData({ ...formData, content: value })}
+              placeholder="Comece a escrever..."
+              rows={12}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Label htmlFor="client" className="text-sm font-medium text-gray-700 mb-2 block">Client</Label>
+              <Label htmlFor="client" className="text-sm font-medium text-gray-700 mb-3 block">Cliente</Label>
               <Select value={formData.related_client || 'none'} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
-                <SelectTrigger className="bg-gray-50 border-0 rounded-xl">
-                  <SelectValue placeholder="Select client" />
+                <SelectTrigger className="bg-gray-50 border-0 rounded-2xl h-12 px-4">
+                  <SelectValue placeholder="Selecionar cliente" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl border-0 shadow-lg">
-                  <SelectItem value="none">None</SelectItem>
+                <SelectContent className="rounded-2xl border-0 shadow-xl bg-white">
+                  <SelectItem value="none" className="rounded-xl">Nenhum</SelectItem>
                   {availableClients.map((client) => (
-                    <SelectItem key={client} value={client}>{client}</SelectItem>
+                    <SelectItem key={client} value={client} className="rounded-xl">{client}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <Label htmlFor="project" className="text-sm font-medium text-gray-700 mb-2 block">Project</Label>
+              <Label htmlFor="project" className="text-sm font-medium text-gray-700 mb-3 block">Projeto</Label>
               <Select value={formData.related_project || 'none'} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
-                <SelectTrigger className="bg-gray-50 border-0 rounded-xl">
-                  <SelectValue placeholder="Select project" />
+                <SelectTrigger className="bg-gray-50 border-0 rounded-2xl h-12 px-4">
+                  <SelectValue placeholder="Selecionar projeto" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl border-0 shadow-lg">
-                  <SelectItem value="none">None</SelectItem>
+                <SelectContent className="rounded-2xl border-0 shadow-xl bg-white">
+                  <SelectItem value="none" className="rounded-xl">Nenhum</SelectItem>
                   {availableProjects.map((project) => (
-                    <SelectItem key={project} value={project}>{project}</SelectItem>
+                    <SelectItem key={project} value={project} className="rounded-xl">{project}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -195,34 +196,34 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
           </div>
 
           <div>
-            <Label htmlFor="tags" className="text-sm font-medium text-gray-700 mb-2 block">Tags</Label>
+            <Label htmlFor="tags" className="text-sm font-medium text-gray-700 mb-3 block">Tags</Label>
             <Input
               id="tags"
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-              placeholder="Add tags separated by commas"
-              className="border-0 bg-gray-50 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-orange-500"
+              placeholder="Adicione tags separadas por vírgula"
+              className="border-0 bg-gray-50 rounded-2xl px-4 py-3 h-12 focus:bg-white focus:ring-2 focus:ring-orange-500 placeholder:text-gray-400"
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">
+          <div className="flex justify-end gap-4 pt-6 border-t border-gray-100 sticky bottom-0 bg-white rounded-b-3xl">
             <Button
               type="button"
               variant="outline"
               onClick={resetForm}
               disabled={loading}
-              className="px-6 py-2 rounded-xl border-gray-300"
+              className="px-8 py-3 rounded-2xl border-2 border-gray-200 hover:border-gray-300 font-medium"
             >
               <X className="h-4 w-4 mr-2" />
-              Cancel
+              Cancelar
             </Button>
             <Button 
               type="submit" 
               disabled={loading}
-              className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl"
+              className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-medium shadow-lg"
             >
               <Save className="h-4 w-4 mr-2" />
-              {loading ? 'Saving...' : (editingNote ? 'Save Changes' : 'Create Note')}
+              {loading ? 'Salvando...' : (editingNote ? 'Salvar Alterações' : 'Criar Nota')}
             </Button>
           </div>
         </form>

@@ -3,9 +3,11 @@ import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Edit, Trash2 } from 'lucide-react'
+import { Edit, Trash2, Share, Star } from 'lucide-react'
 import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import { Note, useNotes } from './NotesContext'
+import { FormattedText } from '../FormattedText'
 
 interface NoteCardProps {
   note: Note
@@ -15,32 +17,37 @@ interface NoteCardProps {
 export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
   const { deleteNote } = useNotes()
 
-  const renderFormattedText = (content: string) => {
-    if (!content) return content
-    
-    return content
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-  }
-
   const getTags = (tagsString?: string) => {
     if (!tagsString) return []
     return tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
   }
 
   const getPreviewText = (content?: string) => {
-    if (!content) return "No additional text"
-    return content.length > 100 ? content.substring(0, 100) + "..." : content
+    if (!content) return "Sem conteúdo adicional"
+    // Remove markdown formatting for preview
+    const plainText = content.replace(/[*_`>#\-]/g, '').trim()
+    return plainText.length > 120 ? plainText.substring(0, 120) + "..." : plainText
   }
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-200 bg-yellow-50 border-0 rounded-xl cursor-pointer group h-48 flex flex-col">
-      <CardHeader className="pb-2 flex-shrink-0">
+    <Card className="hover:shadow-xl transition-all duration-300 bg-white border-0 rounded-3xl cursor-pointer group h-64 flex flex-col overflow-hidden shadow-sm hover:scale-[1.02]">
+      <CardHeader className="pb-3 flex-shrink-0 bg-gradient-to-br from-yellow-50 to-orange-50 border-b border-yellow-100/50">
         <div className="flex items-start justify-between">
-          <CardTitle className="text-base font-semibold line-clamp-2 text-gray-900 leading-tight">
+          <CardTitle className="text-lg font-semibold line-clamp-2 text-gray-900 leading-tight">
             {note.title}
           </CardTitle>
-          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation()
+                // Adicionar funcionalidade de favoritar
+              }}
+              className="h-8 w-8 p-0 hover:bg-yellow-200/80 rounded-xl"
+            >
+              <Star className="h-4 w-4 text-yellow-600" />
+            </Button>
             <Button
               variant="ghost"
               size="sm"
@@ -48,9 +55,20 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
                 e.stopPropagation()
                 onEdit(note)
               }}
-              className="h-7 w-7 p-0 hover:bg-yellow-200"
+              className="h-8 w-8 p-0 hover:bg-blue-200/80 rounded-xl"
             >
-              <Edit className="h-3 w-3 text-orange-600" />
+              <Edit className="h-4 w-4 text-blue-600" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation()
+                // Adicionar funcionalidade de compartilhar
+              }}
+              className="h-8 w-8 p-0 hover:bg-green-200/80 rounded-xl"
+            >
+              <Share className="h-4 w-4 text-green-600" />
             </Button>
             <Button
               variant="ghost"
@@ -59,20 +77,25 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
                 e.stopPropagation()
                 deleteNote(note.id)
               }}
-              className="h-7 w-7 p-0 text-red-500 hover:text-red-700 hover:bg-red-100"
+              className="h-8 w-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-100/80 rounded-xl"
             >
-              <Trash2 className="h-3 w-3" />
+              <Trash2 className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </CardHeader>
+      
       <CardContent 
-        className="space-y-2 flex-1 flex flex-col"
+        className="space-y-3 flex-1 flex flex-col p-4"
         onClick={() => onEdit(note)}
       >
         <div className="flex-1">
-          <div className="text-gray-700 text-sm leading-relaxed line-clamp-4">
-            {getPreviewText(note.content)}
+          <div className="text-gray-700 text-sm leading-relaxed line-clamp-5">
+            {note.content ? (
+              <FormattedText content={getPreviewText(note.content)} className="text-sm" />
+            ) : (
+              <span className="text-gray-400 italic">Sem conteúdo adicional</span>
+            )}
           </div>
         </div>
         
@@ -80,12 +103,12 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
           {note.tags && (
             <div className="flex flex-wrap gap-1">
               {getTags(note.tags).slice(0, 3).map((tag, index) => (
-                <Badge key={index} variant="secondary" className="text-xs bg-orange-100 text-orange-700 border-0">
-                  {tag}
+                <Badge key={index} variant="secondary" className="text-xs bg-orange-100 text-orange-700 border-0 rounded-full px-2 py-1">
+                  #{tag}
                 </Badge>
               ))}
               {getTags(note.tags).length > 3 && (
-                <Badge variant="secondary" className="text-xs bg-gray-200 text-gray-600 border-0">
+                <Badge variant="secondary" className="text-xs bg-gray-200 text-gray-600 border-0 rounded-full px-2 py-1">
                   +{getTags(note.tags).length - 3}
                 </Badge>
               )}
@@ -93,11 +116,11 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
           )}
 
           <div className="flex items-center justify-between text-xs text-gray-500">
-            <span>{format(new Date(note.created_at), 'MMM d')}</span>
+            <span className="font-medium">{format(new Date(note.created_at), "d 'de' MMMM", { locale: ptBR })}</span>
             {(note.related_client || note.related_project) && (
               <div className="flex items-center gap-2">
                 {note.related_client && (
-                  <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">
+                  <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
                     {note.related_client}
                   </span>
                 )}
