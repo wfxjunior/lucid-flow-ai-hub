@@ -60,7 +60,7 @@ export const NotesFilters = ({
             </div>
           </div>
           <div className="flex gap-2">
-            <Select value={filterClient} onValueChange={setFilterClient}>
+            <Select value={filterClient || 'all-clients'} onValueChange={setFilterClient}>
               <SelectTrigger className="w-40 bg-white">
                 <SelectValue placeholder="All clients" />
               </SelectTrigger>
@@ -71,7 +71,7 @@ export const NotesFilters = ({
                 ))}
               </SelectContent>
             </Select>
-            <Select value={filterProject} onValueChange={setFilterProject}>
+            <Select value={filterProject || 'all-projects'} onValueChange={setFilterProject}>
               <SelectTrigger className="w-40 bg-white">
                 <SelectValue placeholder="All projects" />
               </SelectTrigger>

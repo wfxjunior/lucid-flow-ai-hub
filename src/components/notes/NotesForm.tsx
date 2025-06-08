@@ -66,6 +66,9 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
 
       const noteData = {
         ...formData,
+        // Convert 'none' values back to empty strings for database
+        related_client: formData.related_client === 'none' ? '' : formData.related_client,
+        related_project: formData.related_project === 'none' ? '' : formData.related_project,
         user_id: user.id,
         created_by: user.id
       }
@@ -165,12 +168,12 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="client">Related Client</Label>
-              <Select value={formData.related_client} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
+              <Select value={formData.related_client || 'none'} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select client" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   {availableClients.map((client) => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
                   ))}
@@ -180,12 +183,12 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
 
             <div>
               <Label htmlFor="project">Related Project</Label>
-              <Select value={formData.related_project} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
+              <Select value={formData.related_project || 'none'} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select project" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   {availableProjects.map((project) => (
                     <SelectItem key={project} value={project}>{project}</SelectItem>
                   ))}
