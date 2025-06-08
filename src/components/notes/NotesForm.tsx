@@ -1,13 +1,15 @@
-import React, { useState, useRef } from 'react'
+
+import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Mic, MicOff, Bold, Italic } from 'lucide-react'
-import { supabase } from "@/integrations/supabase/client"
+import { Plus, Save, X } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
-import { useNotes, Note } from './NotesContext'
+import { supabase } from "@/integrations/supabase/client"
+import { Note, useNotes } from './NotesContext'
 
 interface NotesFormProps {
   editingNote: Note | null
@@ -15,22 +17,93 @@ interface NotesFormProps {
 }
 
 export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const [isRecording, setIsRecording] = useState(false)
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null)
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
-  const { user, fetchNotes } = useNotes()
-  const { toast } = useToast()
-
+  const [isOpen, setIsOpen] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
     content: '',
     related_client: '',
     related_project: '',
-    tags: '',
-    attachments: [] as string[]
+    tags: ''
   })
+  const [loading, setLoading] = useState(false)
+  const { toast } = useToast()
+  const { fetchNotes } = useNotes()
+
+  useEffect(() => {
+    if (editingNote) {
+      setFormData({
+        title: editingNote.title || '',
+        content: editingNote.content || '',
+        related_client: editingNote.related_client || '',
+        related_project: editingNote.related_project || '',
+        tags: editingNote.tags || ''
+      })
+      setIsOpen(true)
+    }
+  }, [editingNote])
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      content: '',
+      related_client: '',
+      related_project: '',
+      tags: ''
+    })
+    setEditingNote(null)
+    setIsOpen(false)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        throw new Error('User not authenticated')
+      }
+
+      const noteData = {
+        ...formData,
+        user_id: user.id,
+        created_by: user.id
+      }
+
+      let error
+      if (editingNote) {
+        const { error: updateError } = await supabase
+          .from('notes')
+          .update(noteData)
+          .eq('id', editingNote.id)
+        error = updateError
+      } else {
+        const { error: insertError } = await supabase
+          .from('notes')
+          .insert([noteData])
+        error = insertError
+      }
+
+      if (error) throw error
+
+      toast({
+        title: "Success",
+        description: editingNote ? "Note updated successfully" : "Note created successfully"
+      })
+
+      await fetchNotes()
+      resetForm()
+    } catch (error) {
+      console.error('Error saving note:', error)
+      toast({
+        title: "Error",
+        description: "Failed to save note",
+        variant: "destructive"
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const availableClients = [
     'Personal',
@@ -50,295 +123,54 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
     'Cloud Integration'
   ]
 
-  const resetForm = () => {
-    setFormData({
-      title: '',
-      content: '',
-      related_client: '',
-      related_project: '',
-      tags: '',
-      attachments: []
-    })
-    setEditingNote(null)
-  }
-
-  const openEditDialog = (note: Note) => {
-    setEditingNote(note)
-    setFormData({
-      title: note.title,
-      content: note.content || '',
-      related_client: note.related_client || '',
-      related_project: note.related_project || '',
-      tags: note.tags || '',
-      attachments: note.attachments || []
-    })
-    setIsDialogOpen(true)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to save notes",
-        variant: "destructive"
-      })
-      return
-    }
-    
-    if (!formData.title.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter a title",
-        variant: "destructive"
-      })
-      return
-    }
-
-    setSubmitting(true)
-    console.log('Submitting note with data:', formData)
-
-    try {
-      const noteData = {
-        title: formData.title.trim(),
-        content: formData.content || '',
-        related_client: formData.related_client && formData.related_client !== 'no-client' ? formData.related_client : null,
-        related_project: formData.related_project && formData.related_project !== 'no-project' ? formData.related_project : null,
-        tags: formData.tags.trim() || null,
-        attachments: formData.attachments,
-        user_id: user.id,
-        created_by: user.id
-      }
-
-      if (editingNote) {
-        const { data, error } = await supabase
-          .from('notes')
-          .update({
-            ...noteData,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', editingNote.id)
-          .select()
-
-        if (error) throw error
-        
-        toast({
-          title: "Success",
-          description: "Note updated successfully"
-        })
-      } else {
-        const { data, error } = await supabase
-          .from('notes')
-          .insert([noteData])
-          .select()
-
-        if (error) throw error
-        
-        toast({
-          title: "Success",
-          description: "Note created successfully"
-        })
-      }
-
-      await fetchNotes()
-      resetForm()
-      setIsDialogOpen(false)
-    } catch (error) {
-      console.error('Error saving note:', error)
-      toast({
-        title: "Error",
-        description: `Failed to save note: ${error.message}`,
-        variant: "destructive"
-      })
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
-  const formatText = (format: 'bold' | 'italic') => {
-    if (!textareaRef.current) return
-
-    const start = textareaRef.current.selectionStart
-    const end = textareaRef.current.selectionEnd
-    const selectedText = textareaRef.current.value.substring(start, end)
-    
-    if (selectedText) {
-      let formattedText = ''
-      if (format === 'bold') {
-        formattedText = `**${selectedText}**`
-      } else if (format === 'italic') {
-        formattedText = `*${selectedText}*`
-      }
-      
-      const newContent = 
-        textareaRef.current.value.substring(0, start) + 
-        formattedText + 
-        textareaRef.current.value.substring(end)
-      
-      setFormData(prev => ({ ...prev, content: newContent }))
-    }
-  }
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      const recorder = new MediaRecorder(stream)
-      const audioChunks: Blob[] = []
-
-      recorder.ondataavailable = (event) => {
-        audioChunks.push(event.data)
-      }
-
-      recorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' })
-        const reader = new FileReader()
-        
-        reader.onloadend = async () => {
-          const base64Audio = reader.result?.toString().split(',')[1]
-          if (base64Audio) {
-            await transcribeAudio(base64Audio)
-          }
-        }
-        
-        reader.readAsDataURL(audioBlob)
-        stream.getTracks().forEach(track => track.stop())
-      }
-
-      recorder.start()
-      setMediaRecorder(recorder)
-      setIsRecording(true)
-    } catch (error) {
-      console.error('Error starting recording:', error)
-      toast({
-        title: "Error",
-        description: "Could not start recording. Please check microphone permissions.",
-        variant: "destructive"
-      })
-    }
-  }
-
-  const stopRecording = () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop()
-      setIsRecording(false)
-      setMediaRecorder(null)
-    }
-  }
-
-  const transcribeAudio = async (audioBase64: string) => {
-    try {
-      toast({
-        title: "Processing",
-        description: "Transcribing audio..."
-      })
-
-      const response = await supabase.functions.invoke('transcribe-audio', {
-        body: { audio: audioBase64 }
-      })
-
-      if (response.error) throw response.error
-
-      const transcription = response.data?.text || ''
-      setFormData(prev => ({
-        ...prev,
-        content: prev.content + (prev.content ? '\n\n' : '') + transcription
-      }))
-
-      toast({
-        title: "Success",
-        description: "Audio transcribed successfully"
-      })
-    } catch (error) {
-      console.error('Error transcribing audio:', error)
-      toast({
-        title: "Error",
-        description: "Failed to transcribe audio",
-        variant: "destructive"
-      })
-    }
-  }
-
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      setIsOpen(open)
+      if (!open) resetForm()
+    }}>
       <DialogTrigger asChild>
-        <Button 
-          onClick={resetForm} 
-          className="flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600 border-0 rounded-xl px-6 py-3 font-medium"
-        >
-          <Plus className="h-4 w-4" />
+        <Button className="bg-blue-500 text-white hover:bg-blue-600">
+          <Plus className="h-4 w-4 mr-2" />
           New Note
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-gray-900">
-            {editingNote ? 'Edit Note' : 'New Note'}
-          </DialogTitle>
+          <DialogTitle>{editingNote ? 'Edit Note' : 'Create New Note'}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="title">Title *</Label>
             <Input
+              id="title"
               value={formData.title}
-              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="Title"
-              className="text-lg font-semibold border-0 border-b border-gray-200 rounded-none px-0 py-3 focus:border-blue-500 bg-transparent"
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              placeholder="Enter note title"
               required
             />
           </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => formatText('bold')}
-                className="h-8 w-8 p-0"
-              >
-                <Bold className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => formatText('italic')}
-                className="h-8 w-8 p-0"
-              >
-                <Italic className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={isRecording ? stopRecording : startRecording}
-                className={`h-8 w-8 p-0 ${isRecording ? 'bg-red-100 text-red-600' : ''}`}
-              >
-                {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-              </Button>
-            </div>
-            <textarea
-              ref={textareaRef}
+          <div>
+            <Label htmlFor="content">Content</Label>
+            <Textarea
+              id="content"
               value={formData.content}
-              onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-              placeholder="Start writing your note..."
-              className="w-full min-h-[300px] p-4 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-              rows={12}
+              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+              placeholder="Enter your note content here..."
+              rows={6}
+              className="resize-none"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Client</Label>
-              <Select
-                value={formData.related_client}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, related_client: value }))}
-              >
-                <SelectTrigger className="bg-white">
-                  <SelectValue placeholder="Select client (optional)" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="client">Related Client</Label>
+              <Select value={formData.related_client} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select client" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="no-client">No client</SelectItem>
+                  <SelectItem value="">None</SelectItem>
                   {availableClients.map((client) => (
                     <SelectItem key={client} value={client}>{client}</SelectItem>
                   ))}
@@ -346,17 +178,14 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Project</Label>
-              <Select
-                value={formData.related_project}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, related_project: value }))}
-              >
-                <SelectTrigger className="bg-white">
-                  <SelectValue placeholder="Select project (optional)" />
+            <div>
+              <Label htmlFor="project">Related Project</Label>
+              <Select value={formData.related_project} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select project" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="no-project">No project</SelectItem>
+                  <SelectItem value="">None</SelectItem>
                   {availableProjects.map((project) => (
                     <SelectItem key={project} value={project}>{project}</SelectItem>
                   ))}
@@ -365,31 +194,29 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Tags</Label>
+          <div>
+            <Label htmlFor="tags">Tags</Label>
             <Input
+              id="tags"
               value={formData.tags}
-              onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
+              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
               placeholder="Enter tags separated by commas"
-              className="bg-white"
             />
           </div>
 
-          <div className="flex justify-end gap-4 pt-4">
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={() => setIsDialogOpen(false)}
-              className="px-6"
+          <div className="flex justify-end gap-2 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={resetForm}
+              disabled={loading}
             >
+              <X className="h-4 w-4 mr-2" />
               Cancel
             </Button>
-            <Button 
-              type="submit" 
-              disabled={submitting}
-              className="bg-blue-500 text-white hover:bg-blue-600 px-6"
-            >
-              {submitting ? 'Saving...' : (editingNote ? 'Update Note' : 'Save Note')}
+            <Button type="submit" disabled={loading}>
+              <Save className="h-4 w-4 mr-2" />
+              {loading ? 'Saving...' : (editingNote ? 'Update Note' : 'Create Note')}
             </Button>
           </div>
         </form>

@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
+import { useNavigate } from "react-router-dom"
 
 interface Note {
   id: string
@@ -12,6 +13,7 @@ interface Note {
   tags?: string
   attachments?: string[]
   created_by: string
+  user_id: string
   created_at: string
   updated_at: string
 }
@@ -41,18 +43,27 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
   const { toast } = useToast()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      console.log('Current session:', session)
-      setUser(session?.user || null)
-      setAuthLoading(false)
-      
-      if (session?.user) {
-        fetchNotes()
-      } else {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        console.log('Current session:', session)
+        setUser(session?.user || null)
+        setAuthLoading(false)
+        
+        if (session?.user) {
+          fetchNotes()
+        } else {
+          setLoading(false)
+          navigate('/auth')
+        }
+      } catch (error) {
+        console.error('Auth check error:', error)
+        setAuthLoading(false)
         setLoading(false)
+        navigate('/auth')
       }
     }
 
@@ -68,15 +79,26 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         setNotes([])
         setLoading(false)
+        navigate('/auth')
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [navigate])
 
   const fetchNotes = async () => {
     try {
       console.log('Fetching notes...')
+      setLoading(true)
+      
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        console.log('No user found')
+        setNotes([])
+        setLoading(false)
+        return
+      }
+
       const { data, error } = await supabase
         .from('notes')
         .select('*')
