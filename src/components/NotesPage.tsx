@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { AlertCircle } from 'lucide-react'
 import { NotesProvider, useNotes, Note } from './notes/NotesContext'
 import { NotesForm } from './notes/NotesForm'
 import { NotesFilters } from './notes/NotesFilters'
@@ -13,8 +15,10 @@ const NotesPageContent = () => {
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest')
   const [editingNote, setEditingNote] = useState<Note | null>(null)
 
-  const { notes, loading } = useNotes()
+  const { notes, loading, user, authLoading } = useNotes()
 
+  console.log('NotesPage - Auth loading:', authLoading)
+  console.log('NotesPage - User:', user?.id)
   console.log('NotesPage - Notes loading:', loading)
   console.log('NotesPage - Notes count:', notes.length)
 
@@ -33,36 +37,66 @@ const NotesPageContent = () => {
       return sortOrder === 'newest' ? dateB - dateA : dateA - dateB
     })
 
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="space-y-6 bg-white min-h-screen">
+        <div className="flex items-center justify-center h-64">
+          <Card className="bg-white border border-gray-100 max-w-md mx-auto">
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="h-12 w-12 text-blue-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Authentication Required</h3>
+              <p className="text-gray-600 mb-4">
+                Please log in to access your notes.
+              </p>
+              <Button 
+                onClick={() => window.location.href = '/auth'}
+                className="bg-blue-500 text-white hover:bg-blue-600"
+              >
+                Go to Login
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-background p-2 sm:p-4">
+      <div className="space-y-6 bg-white min-h-screen">
         <div className="flex items-center justify-center h-64">
-          <div className="text-muted-foreground text-sm">Loading notes...</div>
+          <div className="text-gray-500">Loading notes...</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="space-y-6 bg-white min-h-screen">
       {/* Header */}
-      <div className="flex flex-col space-y-3 p-3 sm:p-6 bg-card border-b border-border">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div className="flex-1 min-w-0">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground truncate">Notes</h1>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1">Manage your notes and ideas</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Total notes: {notes.length}
+      <div className="flex items-center justify-between p-6 bg-white border-b border-gray-100">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Notes</h1>
+          <p className="text-gray-600 mt-1">Manage your notes and ideas</p>
+          {user && (
+            <p className="text-xs text-gray-400 mt-1">
+              Logged in as: {user.email} | Total notes: {notes.length}
             </p>
-          </div>
-          <div className="flex-shrink-0 w-full sm:w-auto">
-            <NotesForm editingNote={editingNote} setEditingNote={setEditingNote} />
-          </div>
+          )}
         </div>
+        <NotesForm editingNote={editingNote} setEditingNote={setEditingNote} />
       </div>
 
       {/* Search and Filters */}
-      <div className="p-3 sm:p-6">
+      <div className="px-6">
         <NotesFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -76,7 +110,7 @@ const NotesPageContent = () => {
       </div>
 
       {/* Notes Grid */}
-      <div className="px-3 sm:px-6 pb-6">
+      <div className="px-6">
         <NotesGrid
           filteredNotes={filteredNotes}
           totalNotes={notes.length}

@@ -11,7 +11,7 @@ interface Note {
   related_project?: string
   tags?: string
   attachments?: string[]
-  created_by?: string
+  created_by: string
   created_at: string
   updated_at: string
 }
@@ -19,6 +19,8 @@ interface Note {
 interface NotesContextType {
   notes: Note[]
   loading: boolean
+  user: any
+  authLoading: boolean
   fetchNotes: () => Promise<void>
   deleteNote: (noteId: string) => Promise<void>
 }
@@ -36,17 +38,45 @@ export const useNotes = () => {
 export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
   const { toast } = useToast()
 
   useEffect(() => {
-    fetchNotes()
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log('Current session:', session)
+      setUser(session?.user || null)
+      setAuthLoading(false)
+      
+      if (session?.user) {
+        fetchNotes()
+      } else {
+        setLoading(false)
+      }
+    }
+
+    checkAuth()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state changed:', event, session)
+      setUser(session?.user || null)
+      setAuthLoading(false)
+      
+      if (session?.user) {
+        fetchNotes()
+      } else {
+        setNotes([])
+        setLoading(false)
+      }
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const fetchNotes = async () => {
     try {
       console.log('Fetching notes...')
-      setLoading(true)
-      
       const { data, error } = await supabase
         .from('notes')
         .select('*')
@@ -101,6 +131,8 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     <NotesContext.Provider value={{
       notes,
       loading,
+      user,
+      authLoading,
       fetchNotes,
       deleteNote
     }}>

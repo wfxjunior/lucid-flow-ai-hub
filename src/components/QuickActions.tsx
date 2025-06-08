@@ -1,7 +1,6 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useState } from "react"
 import { 
   Plus, 
   MessageSquare, 
@@ -35,19 +34,16 @@ import {
   Wrench,
   Car,
   GitBranch,
-  PenTool,
-  Search
+  PenTool
 } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 interface QuickActionsProps {
   onActionClick?: (actionId: string) => void
-  showHeader?: boolean
 }
 
-export function QuickActions({ onActionClick, showHeader = true }: QuickActionsProps) {
+export function QuickActions({ onActionClick }: QuickActionsProps) {
   const { t } = useLanguage()
-  const [searchQuery, setSearchQuery] = useState("")
 
   const quickActions = [
     // Core Business Features
@@ -319,103 +315,74 @@ export function QuickActions({ onActionClick, showHeader = true }: QuickActionsP
     }
   }
 
-  // Filter actions based on search query
-  const filteredActions = quickActions.filter(action =>
-    action.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    action.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    action.category.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-
-  // Group filtered actions by category
+  // Group actions by category
   const categories = {
-    "Financial": filteredActions.filter(action => action.category === "Financial"),
-    "Management": filteredActions.filter(action => action.category === "Management"),
-    "Operations": filteredActions.filter(action => action.category === "Operations"),
-    "Business Tools": filteredActions.filter(action => action.category === "Business Tools"),
-    "Scheduling": filteredActions.filter(action => action.category === "Scheduling"),
-    "Documentation": filteredActions.filter(action => action.category === "Documentation"),
-    "Productivity": filteredActions.filter(action => action.category === "Productivity"),
-    "Communication": filteredActions.filter(action => action.category === "Communication"),
-    "Analytics": filteredActions.filter(action => action.category === "Analytics"),
-    "AI Tools": filteredActions.filter(action => action.category === "AI Tools")
+    "Financial": quickActions.filter(action => action.category === "Financial"),
+    "Management": quickActions.filter(action => action.category === "Management"),
+    "Operations": quickActions.filter(action => action.category === "Operations"),
+    "Business Tools": quickActions.filter(action => action.category === "Business Tools"),
+    "Scheduling": quickActions.filter(action => action.category === "Scheduling"),
+    "Documentation": quickActions.filter(action => action.category === "Documentation"),
+    "Productivity": quickActions.filter(action => action.category === "Productivity"),
+    "Communication": quickActions.filter(action => action.category === "Communication"),
+    "Analytics": quickActions.filter(action => action.category === "Analytics"),
+    "AI Tools": quickActions.filter(action => action.category === "AI Tools")
   }
 
   return (
     <div className="w-full space-y-6">
-      {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-        <Input
-          type="text"
-          placeholder="Search for tools and features..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 pr-4 py-2 w-full max-w-md bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-        />
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Quick Actions</h2>
+        <p className="text-sm text-gray-600">Access all your business tools and features</p>
       </div>
-
-      {showHeader && (
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Quick Actions</h2>
-          <p className="text-sm text-gray-600">Access all your business tools and features</p>
-        </div>
-      )}
       
       {/* All Actions Grid */}
       <div className="space-y-8">
-        {searchQuery && filteredActions.length === 0 ? (
-          <div className="text-center py-8">
-            <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No tools found</h3>
-            <p className="text-gray-500">Try searching with different keywords</p>
-          </div>
-        ) : (
-          Object.entries(categories).map(([categoryName, categoryActions]) => (
-            categoryActions.length > 0 && (
-              <div key={categoryName} className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-gray-800">{categoryName}</h3>
-                  <div className="h-px bg-gray-200 flex-1"></div>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                    {categoryActions.length} {categoryActions.length === 1 ? 'tool' : 'tools'}
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-                  {categoryActions.map((action) => (
-                    <button
-                      key={action.id}
-                      onClick={() => handleActionClick(action.id)}
-                      className={`
-                        group relative overflow-hidden rounded-xl p-4 text-left transition-all duration-300
-                        hover:scale-[1.05] hover:shadow-xl focus:outline-none focus:ring-2 
-                        focus:ring-blue-500 focus:ring-offset-2 ${action.colorClass}
-                        transform
-                      `}
-                    >
-                      <div className="flex flex-col items-center text-center space-y-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 group-hover:bg-gray-200 transition-all duration-300 group-hover:scale-110">
-                          <action.icon className={`h-6 w-6 ${action.iconColorClass}`} />
-                        </div>
-                        <div className="space-y-1">
-                          <h3 className="font-semibold text-gray-700 group-hover:text-gray-800 text-sm leading-tight">
-                            {action.title}
-                          </h3>
-                          <p className="text-xs text-gray-500 leading-tight line-clamp-2">
-                            {action.description}
-                          </p>
-                        </div>
-                      </div>
-                      
-                      {/* Hover effect overlay */}
-                      <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
-                    </button>
-                  ))}
-                </div>
+        {Object.entries(categories).map(([categoryName, categoryActions]) => (
+          categoryActions.length > 0 && (
+            <div key={categoryName} className="space-y-4">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-gray-800">{categoryName}</h3>
+                <div className="h-px bg-gray-200 flex-1"></div>
+                <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                  {categoryActions.length} {categoryActions.length === 1 ? 'tool' : 'tools'}
+                </span>
               </div>
-            )
-          ))
-        )}
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+                {categoryActions.map((action) => (
+                  <button
+                    key={action.id}
+                    onClick={() => handleActionClick(action.id)}
+                    className={`
+                      group relative overflow-hidden rounded-xl p-4 text-left transition-all duration-300
+                      hover:scale-[1.05] hover:shadow-xl focus:outline-none focus:ring-2 
+                      focus:ring-blue-500 focus:ring-offset-2 ${action.colorClass}
+                      transform
+                    `}
+                  >
+                    <div className="flex flex-col items-center text-center space-y-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 group-hover:bg-gray-200 transition-all duration-300 group-hover:scale-110">
+                        <action.icon className={`h-6 w-6 ${action.iconColorClass}`} />
+                      </div>
+                      <div className="space-y-1">
+                        <h3 className="font-semibold text-gray-700 group-hover:text-gray-800 text-sm leading-tight">
+                          {action.title}
+                        </h3>
+                        <p className="text-xs text-gray-500 leading-tight line-clamp-2">
+                          {action.description}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Hover effect overlay */}
+                    <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )
+        ))}
       </div>
 
       {/* Quick Stats */}
@@ -423,13 +390,11 @@ export function QuickActions({ onActionClick, showHeader = true }: QuickActionsP
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-gray-900">Complete Business Suite</h3>
-            <p className="text-sm text-gray-600">
-              {searchQuery ? `${filteredActions.length} of ${quickActions.length} tools found` : 'All tools you need to run your business efficiently'}
-            </p>
+            <p className="text-sm text-gray-600">All tools you need to run your business efficiently</p>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-blue-600">{searchQuery ? filteredActions.length : quickActions.length}</div>
-            <div className="text-xs text-gray-500">{searchQuery ? 'Found' : 'Available'} Tools</div>
+            <div className="text-2xl font-bold text-blue-600">{quickActions.length}</div>
+            <div className="text-xs text-gray-500">Available Tools</div>
           </div>
         </div>
       </div>

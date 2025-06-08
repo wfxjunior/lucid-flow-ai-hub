@@ -112,11 +112,11 @@ export function MaterialList({ searchQuery = '', limit }: MaterialListProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'critical':
-        return <Badge variant="destructive" className="bg-red-100 text-red-800 text-xs">Critical</Badge>
+        return <Badge variant="destructive" className="bg-red-100 text-red-800">Critical</Badge>
       case 'low':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 text-xs">Low Stock</Badge>
+        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Low Stock</Badge>
       default:
-        return <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">Normal</Badge>
+        return <Badge variant="secondary" className="bg-green-100 text-green-800">Normal</Badge>
     }
   }
 
@@ -128,105 +128,101 @@ export function MaterialList({ searchQuery = '', limit }: MaterialListProps) {
   return (
     <>
       <Card>
-        <CardHeader className="pb-3 sm:pb-6">
-          <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-2">
-            <div className="flex items-center gap-2">
-              <Package className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-base sm:text-lg">Materials Inventory</span>
-            </div>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Package className="w-5 h-5" />
+            Materials Inventory
             {limit && (
-              <Badge variant="outline" className="ml-0 sm:ml-2 text-xs self-start sm:self-center">
+              <Badge variant="outline" className="ml-2">
                 Showing {displayMaterials.length} of {materials.length}
               </Badge>
             )}
           </CardTitle>
         </CardHeader>
-        <CardContent className="px-3 sm:px-6">
-          <div className="overflow-x-auto -mx-3 sm:mx-0">
-            <div className="min-w-[800px]">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-xs sm:text-sm">Material</TableHead>
-                    <TableHead className="text-xs sm:text-sm">SKU</TableHead>
-                    <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Category</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Stock</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Status</TableHead>
-                    <TableHead className="text-xs sm:text-sm hidden lg:table-cell">Location</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Value</TableHead>
-                    <TableHead className="text-xs sm:text-sm">Actions</TableHead>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Material</TableHead>
+                  <TableHead>SKU</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Stock</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Value</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {displayMaterials.map((material) => (
+                  <TableRow key={material.id}>
+                    <TableCell>
+                      <div>
+                        <div className="font-medium">{material.name}</div>
+                        <div className="text-sm text-gray-500">{material.supplier}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-mono text-sm">{material.sku}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="capitalize">
+                        {material.category}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{material.currentStock}</span>
+                        <span className="text-sm text-gray-500">{material.unit}</span>
+                        {material.status !== 'normal' && (
+                          <AlertTriangle className="w-4 h-4 text-red-500" />
+                        )}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        Min: {material.minStock} | Max: {material.maxStock}
+                      </div>
+                    </TableCell>
+                    <TableCell>{getStatusBadge(material.status)}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1 text-sm">
+                        <MapPin className="w-3 h-3 text-gray-400" />
+                        {material.location}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">
+                        ${(material.currentStock * material.costPerUnit).toFixed(2)}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        ${material.costPerUnit}/{material.unit}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm">
+                            <MoreHorizontal className="w-4 h-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => console.log('View details:', material.id)}>
+                            <Eye className="w-4 h-4 mr-2" />
+                            View Details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEdit(material)}>
+                            <Edit3 className="w-4 h-4 mr-2" />
+                            Edit Material
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => console.log('Allocate to work:', material.id)}>
+                            <TrendingDown className="w-4 h-4 mr-2" />
+                            Allocate to Work
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {displayMaterials.map((material) => (
-                    <TableRow key={material.id}>
-                      <TableCell className="py-2 sm:py-4">
-                        <div>
-                          <div className="font-medium text-xs sm:text-sm truncate max-w-[120px] sm:max-w-none">{material.name}</div>
-                          <div className="text-xs text-gray-500 truncate max-w-[120px] sm:max-w-none">{material.supplier}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-mono text-xs py-2 sm:py-4">{material.sku}</TableCell>
-                      <TableCell className="hidden sm:table-cell py-2 sm:py-4">
-                        <Badge variant="outline" className="capitalize text-xs">
-                          {material.category}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="py-2 sm:py-4">
-                        <div className="flex items-center gap-1 sm:gap-2">
-                          <span className="font-medium text-xs sm:text-sm">{material.currentStock}</span>
-                          <span className="text-xs text-gray-500">{material.unit}</span>
-                          {material.status !== 'normal' && (
-                            <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
-                          )}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          Min: {material.minStock} | Max: {material.maxStock}
-                        </div>
-                      </TableCell>
-                      <TableCell className="py-2 sm:py-4">{getStatusBadge(material.status)}</TableCell>
-                      <TableCell className="hidden lg:table-cell py-2 sm:py-4">
-                        <div className="flex items-center gap-1 text-xs sm:text-sm">
-                          <MapPin className="w-3 h-3 text-gray-400" />
-                          <span className="truncate max-w-[100px]">{material.location}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="py-2 sm:py-4">
-                        <div className="font-medium text-xs sm:text-sm">
-                          ${(material.currentStock * material.costPerUnit).toFixed(2)}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          ${material.costPerUnit}/{material.unit}
-                        </div>
-                      </TableCell>
-                      <TableCell className="py-2 sm:py-4">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="w-6 h-6 sm:w-8 sm:h-8 p-0">
-                              <MoreHorizontal className="w-3 h-3 sm:w-4 sm:h-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => console.log('View details:', material.id)} className="text-xs sm:text-sm">
-                              <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                              View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleEdit(material)} className="text-xs sm:text-sm">
-                              <Edit3 className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                              Edit Material
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => console.log('Allocate to work:', material.id)} className="text-xs sm:text-sm">
-                              <TrendingDown className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                              Allocate to Work
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </CardContent>
       </Card>

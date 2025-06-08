@@ -32,10 +32,6 @@ import { ServiceOrdersPage } from "@/components/ServiceOrdersPage"
 import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
 import { BidsPage } from "@/components/BidsPage"
 import { MessagesPage } from "@/components/MessagesPage"
-import { FeaturesPage } from "@/components/FeaturesPage"
-import { AfterCarePage } from "@/components/AfterCarePage"
-import { SmartSchedulePage } from "@/components/SmartSchedulePage"
-import Feedback from "@/pages/Feedback"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
@@ -65,10 +61,6 @@ const Index = () => {
         return <ProjectsPage />
       case "pipeline":
         return <PipelineBoard />
-      case "aftercare":
-        return <AfterCarePage />
-      case "smartschedule":
-        return <SmartSchedulePage />
       case "car-rental":
         return <CarRentalPage />
       case "work-orders":
@@ -107,10 +99,6 @@ const Index = () => {
         return <MessagesPage />
       case "documents":
         return <DocumentTracker />
-      case "features":
-        return <FeaturesPage />
-      case "feedback":
-        return <Feedback />
       default:
         return <ImprovedDashboard onNavigate={handleNavigate} />
     }

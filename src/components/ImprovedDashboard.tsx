@@ -131,7 +131,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               <CardDescription>Access your most used business tools</CardDescription>
             </CardHeader>
             <CardContent>
-              <QuickActions onActionClick={handleQuickAction} showHeader={false} />
+              <QuickActions onActionClick={handleQuickAction} />
             </CardContent>
           </Card>
 

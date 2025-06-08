@@ -69,60 +69,6 @@ export type Database = {
         }
         Relationships: []
       }
-      aftercare_feedback: {
-        Row: {
-          admin_notes: string | null
-          agency_satisfaction: number
-          allow_public_display: boolean
-          client_name: string
-          communication_quality: number
-          created_at: string
-          feedback_date: string
-          id: string
-          overall_rating: number
-          project_service: string
-          show_as_testimonial: boolean
-          suggestions: string | null
-          updated_at: string
-          user_id: string
-          would_recommend: boolean
-        }
-        Insert: {
-          admin_notes?: string | null
-          agency_satisfaction: number
-          allow_public_display?: boolean
-          client_name: string
-          communication_quality: number
-          created_at?: string
-          feedback_date?: string
-          id?: string
-          overall_rating: number
-          project_service: string
-          show_as_testimonial?: boolean
-          suggestions?: string | null
-          updated_at?: string
-          user_id: string
-          would_recommend?: boolean
-        }
-        Update: {
-          admin_notes?: string | null
-          agency_satisfaction?: number
-          allow_public_display?: boolean
-          client_name?: string
-          communication_quality?: number
-          created_at?: string
-          feedback_date?: string
-          id?: string
-          overall_rating?: number
-          project_service?: string
-          show_as_testimonial?: boolean
-          suggestions?: string | null
-          updated_at?: string
-          user_id?: string
-          would_recommend?: boolean
-        }
-        Relationships: []
-      }
       appointments: {
         Row: {
           appointment_date: string
@@ -921,40 +867,40 @@ export type Database = {
           attachments: string[] | null
           content: string | null
           created_at: string
-          created_by: string | null
+          created_by: string
           id: string
           related_client: string | null
           related_project: string | null
           tags: string | null
           title: string
           updated_at: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           attachments?: string[] | null
           content?: string | null
           created_at?: string
-          created_by?: string | null
+          created_by: string
           id?: string
           related_client?: string | null
           related_project?: string | null
           tags?: string | null
           title: string
           updated_at?: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           attachments?: string[] | null
           content?: string | null
           created_at?: string
-          created_by?: string | null
+          created_by?: string
           id?: string
           related_client?: string | null
           related_project?: string | null
           tags?: string | null
           title?: string
           updated_at?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -1100,101 +1046,6 @@ export type Database = {
             columns: ["document_id"]
             isOneToOne: false
             referencedRelation: "documents"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      smart_schedule_settings: {
-        Row: {
-          autofill_client_manager: boolean
-          created_at: string
-          id: string
-          send_aftercare_completion: boolean
-          sync_car_rental: boolean
-          sync_next_projects: boolean
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          autofill_client_manager?: boolean
-          created_at?: string
-          id?: string
-          send_aftercare_completion?: boolean
-          sync_car_rental?: boolean
-          sync_next_projects?: boolean
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          autofill_client_manager?: boolean
-          created_at?: string
-          id?: string
-          send_aftercare_completion?: boolean
-          sync_car_rental?: boolean
-          sync_next_projects?: boolean
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      smart_schedules: {
-        Row: {
-          assigned_workers: string[] | null
-          client_address: string | null
-          client_id: string | null
-          client_name: string
-          created_at: string
-          end_time: string | null
-          frequency: string
-          id: string
-          job_description: string | null
-          job_type: string
-          service_date: string
-          start_time: string | null
-          status: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          assigned_workers?: string[] | null
-          client_address?: string | null
-          client_id?: string | null
-          client_name: string
-          created_at?: string
-          end_time?: string | null
-          frequency?: string
-          id?: string
-          job_description?: string | null
-          job_type?: string
-          service_date: string
-          start_time?: string | null
-          status?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          assigned_workers?: string[] | null
-          client_address?: string | null
-          client_id?: string | null
-          client_name?: string
-          created_at?: string
-          end_time?: string | null
-          frequency?: string
-          id?: string
-          job_description?: string | null
-          job_type?: string
-          service_date?: string
-          start_time?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "smart_schedules_client_id_fkey"
-            columns: ["client_id"]
-            isOneToOne: false
-            referencedRelation: "clients"
             referencedColumns: ["id"]
           },
         ]

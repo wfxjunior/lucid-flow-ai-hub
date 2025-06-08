@@ -1,8 +1,7 @@
-
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch, Car, Heart
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch, Car
 } from "lucide-react"
 import {
   Sidebar,
@@ -82,16 +81,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "Sales Pipeline",
       icon: GitBranch,
       view: "pipeline"
-    },
-    {
-      title: "SmartSchedule",
-      icon: Calendar,
-      view: "smartschedule"
-    },
-    {
-      title: "AfterCare",
-      icon: Heart,
-      view: "aftercare"
     },
     {
       title: "Car Rental",

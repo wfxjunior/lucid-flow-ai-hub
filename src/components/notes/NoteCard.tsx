@@ -29,13 +29,11 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
   }
 
   return (
-    <Card className="hover:shadow-md transition-shadow bg-card border border-border cursor-pointer group h-fit">
-      <CardHeader className="pb-2 sm:pb-3 p-3 sm:p-4">
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-sm sm:text-base line-clamp-2 text-foreground leading-tight flex-1 min-w-0">
-            {note.title}
-          </CardTitle>
-          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+    <Card className="hover:shadow-md transition-shadow bg-white border border-gray-100 cursor-pointer group">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <CardTitle className="text-lg line-clamp-2 text-gray-900">{note.title}</CardTitle>
+          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             <Button
               variant="ghost"
               size="sm"
@@ -43,9 +41,9 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
                 e.stopPropagation()
                 onEdit(note)
               }}
-              className="h-6 w-6 sm:h-7 sm:w-7 p-0"
+              className="h-8 w-8 p-0"
             >
-              <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
+              <Edit className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
@@ -54,20 +52,20 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
                 e.stopPropagation()
                 deleteNote(note.id)
               }}
-              className="h-6 w-6 sm:h-7 sm:w-7 p-0 text-destructive hover:text-destructive"
+              className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
             >
-              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+              <Trash2 className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </CardHeader>
       <CardContent 
-        className="space-y-2 sm:space-y-3 pt-0 p-3 sm:p-4"
+        className="space-y-3"
         onClick={() => onEdit(note)}
       >
         {note.content && (
           <div 
-            className="text-muted-foreground text-xs sm:text-sm line-clamp-3 leading-relaxed"
+            className="text-gray-600 text-sm line-clamp-3"
             dangerouslySetInnerHTML={{ __html: renderFormattedText(note.content) }}
           />
         )}
@@ -75,13 +73,13 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
         {(note.related_client || note.related_project) && (
           <div className="space-y-1">
             {note.related_client && (
-              <div className="text-xs text-muted-foreground truncate">
-                Client: <span className="font-medium text-foreground">{note.related_client}</span>
+              <div className="text-xs text-gray-500">
+                Client: <span className="font-medium">{note.related_client}</span>
               </div>
             )}
             {note.related_project && (
-              <div className="text-xs text-muted-foreground truncate">
-                Project: <span className="font-medium text-foreground">{note.related_project}</span>
+              <div className="text-xs text-gray-500">
+                Project: <span className="font-medium">{note.related_project}</span>
               </div>
             )}
           </div>
@@ -90,14 +88,14 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
         {note.tags && (
           <div className="flex flex-wrap gap-1">
             {getTags(note.tags).map((tag, index) => (
-              <Badge key={index} variant="secondary" className="text-xs px-2 py-0.5">
+              <Badge key={index} variant="secondary" className="text-xs bg-blue-100 text-blue-800">
                 {tag}
               </Badge>
             ))}
           </div>
         )}
 
-        <div className="text-xs text-muted-foreground pt-2 border-t border-border">
+        <div className="text-xs text-gray-400 pt-2 border-t border-gray-100">
           {format(new Date(note.created_at), 'MMM d, yyyy')}
         </div>
       </CardContent>
