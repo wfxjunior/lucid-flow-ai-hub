@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -207,38 +206,25 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - Simplified without image */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="text-center lg:text-left order-2 lg:order-1">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
-                Streamline Your Business
-              </h1>
-              <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                All-in-one platform to manage clients, projects, and payments.
-              </p>
-              <div className="mb-6 sm:mb-8">
-                <Button 
-                  onClick={() => navigate('/dashboard')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg w-full sm:w-auto"
-                  size="lg"
-                >
-                  Get Started
-                </Button>
-                <p className="text-sm text-gray-500 mt-3 sm:mt-4">Free 14-day trial. No credit card required</p>
-              </div>
-            </div>
-            
-            {/* Hero Illustration - Updated with first carousel image */}
-            <div className="relative order-1 lg:order-2">
-              <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl max-w-md mx-auto lg:max-w-none">
-                <img 
-                  src="/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png" 
-                  alt="FeatherBiz Dashboard Preview" 
-                  className="w-full h-auto rounded-xl sm:rounded-2xl shadow-lg"
-                />
-              </div>
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
+              Streamline Your Business
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
+              All-in-one platform to manage clients, projects, and payments.
+            </p>
+            <div className="mb-6 sm:mb-8">
+              <Button 
+                onClick={() => navigate('/dashboard')}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg w-full sm:w-auto"
+                size="lg"
+              >
+                Get Started
+              </Button>
+              <p className="text-sm text-gray-500 mt-3 sm:mt-4">Free 14-day trial. No credit card required</p>
             </div>
           </div>
         </div>
