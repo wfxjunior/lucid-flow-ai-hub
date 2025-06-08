@@ -6,7 +6,7 @@ import { ThemeToggle } from "@/components/ThemeToggle"
 import { TypingText } from "@/components/TypingText"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calculator, Calendar, DollarSign, PieChart } from "lucide-react"
+import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calculator, Calendar, DollarSign, PieChart, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
 import { useState } from "react"
 
 const LandingPage = () => {
@@ -470,11 +470,140 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white py-8 border-t">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} FeatherBiz. All rights reserved.
-          </p>
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Company Info */}
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <Feather className="h-8 w-8 text-blue-400" />
+                <span className="ml-2 text-xl font-bold">FeatherBiz</span>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Streamline your business operations with our all-in-one platform for managing clients, projects, and payments.
+              </p>
+              <div className="flex space-x-4">
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Facebook className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Twitter className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Linkedin className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Instagram className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Product Links */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Product</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a href="#features" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#pricing" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <Button 
+                    variant="ghost" 
+                    className="text-gray-400 hover:text-white transition-colors text-sm p-0 h-auto font-normal"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    Dashboard
+                  </Button>
+                </li>
+                <li>
+                  <a href="/integrations" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Integrations
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Company Links */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Company</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  <a href="/careers" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Blog
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Contact</h3>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Mail className="h-4 w-4 text-blue-400" />
+                  <span className="text-gray-400 text-sm">support@featherbiz.com</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="h-4 w-4 text-blue-400" />
+                  <span className="text-gray-400 text-sm">+1 (555) 123-4567</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <MapPin className="h-4 w-4 text-blue-400" />
+                  <span className="text-gray-400 text-sm">San Francisco, CA</span>
+                </div>
+              </div>
+              <div className="pt-2">
+                <Button 
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2"
+                  size="sm"
+                >
+                  Get Started Free
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="mt-8 pt-8 border-t border-gray-800">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-sm text-gray-400">
+                &copy; {new Date().getFullYear()} FeatherBiz. All rights reserved.
+              </p>
+              <div className="flex space-x-6 mt-4 md:mt-0">
+                <a href="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Privacy Policy
+                </a>
+                <a href="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Terms of Service
+                </a>
+                <a href="/cookies" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Cookie Policy
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
