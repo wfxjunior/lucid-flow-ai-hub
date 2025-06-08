@@ -7,13 +7,14 @@ import { TypingText } from "@/components/TypingText"
 import { CharlieAssistant } from "@/components/CharlieAssistant"
 import { useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calendar, Mic, Bot, ChartBar, RefreshCw, Video, Instagram, Facebook, Youtube, Twitter, Heart, Smile } from "lucide-react"
-import { useState } from "react"
+import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calendar, Mic, Bot, ChartBar, RefreshCw, Video, Instagram, Facebook, Youtube, Twitter, Heart, Smile, ChevronLeft } from "lucide-react"
+import { useState, useEffect } from "react"
 
 const LandingPage = () => {
   const navigate = useNavigate()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isYearly, setIsYearly] = useState(false)
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
   const featuresData = [
     {
@@ -21,36 +22,48 @@ const LandingPage = () => {
       icon: Calendar,
       title: "Smart Scheduling",
       description: "Automated scheduling with AI-powered optimization and conflict resolution.",
+      color: "bg-blue-50 border-blue-200",
+      iconColor: "text-blue-600"
     },
     {
       id: 2,
       icon: FileText,
       title: "Automated Invoicing",
       description: "Generate professional invoices instantly with smart templates and automation.",
+      color: "bg-green-50 border-green-200",
+      iconColor: "text-green-600"
     },
     {
       id: 3,
       icon: Users,
       title: "CRM with Tags & Groups",
       description: "Organize clients with smart tagging, grouping, and relationship management.",
+      color: "bg-purple-50 border-purple-200",
+      iconColor: "text-purple-600"
     },
     {
       id: 4,
       icon: Bot,
       title: "AI Voice Assistant (Charlie)",
       description: "Your multilingual AI assistant for voice commands and business automation.",
+      color: "bg-orange-50 border-orange-200",
+      iconColor: "text-orange-600"
     },
     {
       id: 5,
       icon: ChartBar,
       title: "Visual Reports & Analytics",
       description: "Beautiful insights and reports to track your business performance.",
+      color: "bg-pink-50 border-pink-200",
+      iconColor: "text-pink-600"
     },
     {
       id: 6,
       icon: RefreshCw,
       title: "Mobile & Web Sync",
       description: "Seamless synchronization across all your devices and platforms.",
+      color: "bg-indigo-50 border-indigo-200",
+      iconColor: "text-indigo-600"
     },
   ]
 
@@ -116,6 +129,7 @@ const LandingPage = () => {
       location: "Miami, FL 🇺🇸",
       quote: "Charlie helps me schedule everything in Spanish and English. Game changer!",
       rating: 5,
+      avatar: "MR"
     },
     {
       id: 2,
@@ -124,6 +138,7 @@ const LandingPage = () => {
       location: "São Paulo, BR 🇧🇷",
       quote: "A FeatherBiz revolucionou meu negócio. O Charlie é incrível!",
       rating: 5,
+      avatar: "JS"
     },
     {
       id: 3,
@@ -132,35 +147,66 @@ const LandingPage = () => {
       location: "Berlin, DE 🇩🇪",
       quote: "Perfekt für mein kleines Unternehmen. Charlie versteht Deutsch perfekt!",
       rating: 5,
+      avatar: "HM"
     },
+    {
+      id: 4,
+      name: "Sarah Johnson",
+      title: "Cleaning Pro",
+      location: "Toronto, CA 🇨🇦",
+      quote: "FeatherBiz changed how I run my business. Everything is so much easier now!",
+      rating: 5,
+      avatar: "SJ"
+    },
+    {
+      id: 5,
+      name: "Pierre Dubois",
+      title: "Landscaping Services",
+      location: "Paris, FR 🇫🇷",
+      quote: "Incroyable! Charlie comprend parfaitement le français. Merci FeatherBiz!",
+      rating: 5,
+      avatar: "PD"
+    }
   ]
 
-  const integrations = [
-    "Stripe", "Square", "QuickBooks", "WhatsApp", "Google Calendar", "Outlook", "Zapier", "PayPal"
-  ]
+  // Auto-rotate testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [testimonials.length])
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+  }
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-inter">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Feather className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-semibold text-gray-900">FeatherBiz</span>
+                <span className="text-xl font-bold text-gray-900">FeatherBiz</span>
               </div>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">Features</a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">Pricing</a>
-              <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">How It Works</a>
-              <a href="#support" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">Support</a>
+              <a href="#features" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-all duration-200 hover:scale-105">Features</a>
+              <a href="#pricing" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-all duration-200 hover:scale-105">Pricing</a>
+              <a href="#how-it-works" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-all duration-200 hover:scale-105">How It Works</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-all duration-200 hover:scale-105">Reviews</a>
             </div>
 
             {/* Desktop CTA Buttons */}
@@ -169,14 +215,14 @@ const LandingPage = () => {
               <ThemeToggle />
               <Button 
                 variant="ghost" 
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray-600 hover:text-blue-600 font-medium transition-all duration-200"
                 size="sm"
               >
                 Log In
               </Button>
               <Button 
                 onClick={() => navigate('/dashboard')}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-6 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
                 size="sm"
               >
                 Get Started
@@ -189,6 +235,7 @@ const LandingPage = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="rounded-xl"
               >
                 {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
@@ -197,28 +244,28 @@ const LandingPage = () => {
 
           {/* Mobile Navigation */}
           {isMobileMenuOpen && (
-            <div className="md:hidden border-t border-gray-200">
-              <div className="px-2 pt-2 pb-3 space-y-1 bg-white">
-                <a href="#features" className="block px-3 py-2 text-gray-600 hover:text-gray-900 text-base font-medium">Features</a>
-                <a href="#pricing" className="block px-3 py-2 text-gray-600 hover:text-gray-900 text-base font-medium">Pricing</a>
-                <a href="#how-it-works" className="block px-3 py-2 text-gray-600 hover:text-gray-900 text-base font-medium">How It Works</a>
-                <a href="#support" className="block px-3 py-2 text-gray-600 hover:text-gray-900 text-base font-medium">Support</a>
-                <div className="border-t border-gray-200 pt-4 pb-3">
-                  <div className="flex items-center space-x-4 px-3">
+            <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md">
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                <a href="#features" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-medium rounded-xl hover:bg-gray-50 transition-all">Features</a>
+                <a href="#pricing" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-medium rounded-xl hover:bg-gray-50 transition-all">Pricing</a>
+                <a href="#how-it-works" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-medium rounded-xl hover:bg-gray-50 transition-all">How It Works</a>
+                <a href="#testimonials" className="block px-3 py-3 text-gray-600 hover:text-blue-600 text-base font-medium rounded-xl hover:bg-gray-50 transition-all">Reviews</a>
+                <div className="border-t border-gray-100 pt-4 pb-3">
+                  <div className="flex items-center space-x-4 px-3 mb-3">
                     <LanguageSelector />
                     <ThemeToggle />
                   </div>
-                  <div className="mt-3 space-y-1">
+                  <div className="space-y-2">
                     <Button 
                       variant="ghost" 
-                      className="w-full justify-start text-gray-600 hover:text-gray-900"
+                      className="w-full justify-start text-gray-600 hover:text-blue-600 rounded-xl"
                       size="sm"
                     >
                       Log In
                     </Button>
                     <Button 
                       onClick={() => navigate('/dashboard')}
-                      className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white"
+                      className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl"
                       size="sm"
                     >
                       Get Started
@@ -232,64 +279,111 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-16 pb-20 sm:pt-24 sm:pb-32">
+      <section className="pt-16 pb-20 sm:pt-24 sm:pb-32 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 tracking-tight">
-              Your business,
-              <br />
-              <span className="text-blue-600">simplified</span>
-            </h1>
-            <p className="mt-6 text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              The all-in-one platform for service businesses. Invoicing, scheduling, CRM, and AI assistant — all working together seamlessly.
-            </p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4 h-auto font-medium"
-                size="lg"
-              >
-                Start for free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button 
-                variant="outline" 
-                className="text-lg px-8 py-4 h-auto font-medium border-gray-300 text-gray-700 hover:bg-gray-50"
-                size="lg"
-              >
-                <Play className="mr-2 h-5 w-5" />
-                Watch demo
-              </Button>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 tracking-tight leading-tight">
+                YOUR BUSINESS,
+                <br />
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent animate-pulse">
+                  SIMPLIFIED
+                </span>
+              </h1>
+              <p className="mt-6 text-xl sm:text-2xl text-gray-600 max-w-2xl leading-relaxed font-medium">
+                The all-in-one platform for service businesses. Invoicing, scheduling, CRM, and AI assistant — all working together seamlessly.
+              </p>
+              <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Button 
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg px-8 py-4 h-auto font-bold rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105"
+                  size="lg"
+                >
+                  Start for free
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="text-lg px-8 py-4 h-auto font-medium border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-blue-300 rounded-xl transition-all duration-300 hover:scale-105"
+                  size="lg"
+                >
+                  <Play className="mr-2 h-5 w-5" />
+                  Watch demo
+                </Button>
+              </div>
+              <div className="mt-8 flex items-center justify-center lg:justify-start space-x-6 text-sm text-gray-500">
+                <div className="flex items-center">
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mr-2" />
+                  Free 14-day trial
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mr-2" />
+                  No credit card required
+                </div>
+              </div>
             </div>
-            <div className="mt-8 text-sm text-gray-500">
-              Free 14-day trial • No credit card required • Cancel anytime
+            
+            {/* Dashboard Mockup */}
+            <div className="relative lg:block">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-3xl blur-3xl"></div>
+                <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-200/50 p-6 backdrop-blur-sm">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-100">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
+                        <div>
+                          <div className="h-3 bg-blue-600 rounded w-20"></div>
+                          <div className="h-2 bg-blue-400 rounded w-16 mt-1"></div>
+                        </div>
+                      </div>
+                      <div className="w-6 h-6 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-xl"></div>
+                      <div className="h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl"></div>
+                      <div className="h-16 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl"></div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-3 bg-gray-200 rounded w-full"></div>
+                      <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-50">
+      <section id="features" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-              Everything you need to run your business
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+              EVERYTHING YOU NEED TO RUN YOUR BUSINESS
             </h2>
-            <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto font-medium">
               Powerful features designed specifically for service-based businesses
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuresData.map((feature) => (
-              <Card key={feature.id} className="border-0 shadow-sm hover:shadow-lg transition-shadow duration-300 bg-white">
+              <Card key={feature.id} className={`${feature.color} border-2 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-2xl group cursor-pointer`}>
                 <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="h-6 w-6 text-blue-600" />
+                  <div className={`w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className={`h-7 w-7 ${feature.iconColor}`} />
                   </div>
-                  <CardTitle className="text-xl font-semibold text-gray-900">{feature.title}</CardTitle>
+                  <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-gray-600 text-base leading-relaxed">{feature.description}</CardDescription>
+                  <CardDescription className="text-gray-600 text-base leading-relaxed font-medium">{feature.description}</CardDescription>
                 </CardContent>
               </Card>
             ))}
@@ -298,102 +392,181 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20">
+      <section id="how-it-works" className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-              Get started in minutes
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+              GET STARTED IN MINUTES
             </h2>
-            <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto font-medium">
               Four simple steps to transform your business operations
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {howItWorksSteps.map((step, index) => (
-              <div key={step.id} className="text-center">
+              <div key={step.id} className="text-center group">
                 <div className="relative">
-                  <div className="w-16 h-16 bg-blue-100 rounded-2xl mx-auto flex items-center justify-center mb-6">
-                    <step.icon className="h-8 w-8 text-blue-600" />
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl mx-auto flex items-center justify-center mb-6 shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                    <step.icon className="h-10 w-10 text-white" />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  <div className="absolute -top-3 -right-3 w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 text-white rounded-full flex items-center justify-center text-sm font-black shadow-lg">
                     {index + 1}
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{step.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">{step.title}</h3>
+                <p className="text-gray-600 leading-relaxed font-medium">{step.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gray-50">
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-              Simple, transparent pricing
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+              TRUSTED BY SERVICE PROFESSIONALS WORLDWIDE
             </h2>
-            <p className="mt-4 text-xl text-gray-600">
+            <p className="mt-6 text-xl text-gray-600 font-medium">
+              Join thousands who transformed their business with FeatherBiz
+            </p>
+          </div>
+          
+          {/* Testimonials Carousel */}
+          <div className="mt-16 relative">
+            <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-blue-50 to-purple-50 p-8">
+              <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}>
+                {testimonials.map((testimonial) => (
+                  <div key={testimonial.id} className="w-full flex-shrink-0">
+                    <Card className="bg-white shadow-2xl border-0 rounded-2xl max-w-2xl mx-auto">
+                      <CardContent className="pt-8 pb-8 text-center">
+                        <div className="mb-6 flex justify-center">
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <Star key={i} className="h-6 w-6 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                        <p className="text-xl text-gray-700 italic mb-8 leading-relaxed font-medium">"{testimonial.quote}"</p>
+                        <div className="flex items-center justify-center">
+                          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mr-4 text-white font-bold text-lg">
+                            {testimonial.avatar}
+                          </div>
+                          <div className="text-left">
+                            <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
+                            <div className="text-blue-600 font-medium">{testimonial.title}</div>
+                            <div className="text-gray-500 text-sm">{testimonial.location}</div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Navigation Buttons */}
+            <Button
+              onClick={prevTestimonial}
+              variant="outline"
+              size="sm"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full border-2 border-blue-200 bg-white/80 backdrop-blur-sm hover:bg-white hover:border-blue-400 shadow-lg"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <Button
+              onClick={nextTestimonial}
+              variant="outline"
+              size="sm"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full border-2 border-blue-200 bg-white/80 backdrop-blur-sm hover:bg-white hover:border-blue-400 shadow-lg"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+            
+            {/* Dots Indicator */}
+            <div className="flex justify-center space-x-2 mt-6">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    index === currentTestimonial ? 'bg-blue-600 w-8' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+              SIMPLE, TRANSPARENT PRICING
+            </h2>
+            <p className="mt-6 text-xl text-gray-600 font-medium">
               Choose the plan that's right for your business
             </p>
           </div>
           
           {/* Pricing Toggle */}
           <div className="flex justify-center mt-8">
-            <div className="bg-white rounded-lg p-1 flex border border-gray-200">
+            <div className="bg-white rounded-2xl p-2 flex border-2 border-gray-200 shadow-lg">
               <button
                 onClick={() => setIsYearly(false)}
-                className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
-                  !isYearly ? 'bg-blue-600 text-white' : 'text-gray-600 hover:text-gray-900'
+                className={`px-8 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${
+                  !isYearly ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 Monthly
               </button>
               <button
                 onClick={() => setIsYearly(true)}
-                className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
-                  isYearly ? 'bg-blue-600 text-white' : 'text-gray-600 hover:text-gray-900'
+                className={`px-8 py-3 rounded-xl text-sm font-bold transition-all duration-200 relative ${
+                  isYearly ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 Yearly
-                <span className="ml-2 text-green-600 text-xs font-bold">Save 20%</span>
+                <span className="absolute -top-2 -right-2 text-xs font-bold text-white bg-gradient-to-r from-green-500 to-emerald-500 px-2 py-1 rounded-full">
+                  Save 20%
+                </span>
               </button>
             </div>
           </div>
 
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
             {pricingPlans.map((plan) => (
-              <Card key={plan.id} className={`bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 border-0 ${plan.popular ? 'ring-2 ring-blue-600 relative' : ''}`}>
+              <Card key={plan.id} className={`bg-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border-0 rounded-2xl ${plan.popular ? 'ring-4 ring-blue-500/50 relative transform scale-105' : 'border-2 border-gray-100'}`}>
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-blue-600 text-white px-4 py-2 text-sm font-medium rounded-full">
-                      Most Popular
+                    <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 text-sm font-bold rounded-full shadow-lg">
+                      🔥 Most Popular
                     </span>
                   </div>
                 )}
                 <CardHeader className="text-center pb-4 pt-8">
-                  <CardTitle className="text-2xl font-semibold text-gray-900">{plan.name}</CardTitle>
+                  <CardTitle className="text-2xl font-black text-gray-900">{plan.name}</CardTitle>
                   <div className="mt-4">
-                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-600">/mo</span>
+                    <span className="text-5xl font-black text-gray-900">{plan.price}</span>
+                    <span className="text-gray-600 font-medium">/mo</span>
                     {plan.originalPrice && (
-                      <div className="text-sm text-gray-500 line-through">{plan.originalPrice}/mo</div>
+                      <div className="text-sm text-gray-500 line-through font-medium">{plan.originalPrice}/mo</div>
                     )}
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <ul className="space-y-3 mb-8">
+                  <ul className="space-y-4 mb-8">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-start text-gray-700">
-                        <div className="bg-green-100 rounded-full p-1 mr-3 flex-shrink-0 mt-0.5">
-                          <Check className="h-3 w-3 text-green-600" />
+                        <div className="bg-green-100 rounded-full p-1 mr-3 flex-shrink-0 mt-1">
+                          <Check className="h-4 w-4 text-green-600" />
                         </div>
-                        <span className="text-sm">{feature}</span>
+                        <span className="font-medium">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3">
+                  <Button className={`w-full font-bold py-4 rounded-xl transition-all duration-200 hover:scale-105 ${plan.popular ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-xl animate-pulse' : 'bg-gray-900 hover:bg-gray-800 text-white'}`}>
                     Start Free Trial
                   </Button>
                 </CardContent>
@@ -403,116 +576,108 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-              Trusted by service professionals worldwide
-            </h2>
-          </div>
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 border-0">
-                <CardContent className="pt-6">
-                  <div className="mb-4 flex">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-gray-700 italic mb-6 leading-relaxed">"{testimonial.quote}"</p>
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                      <Users className="h-6 w-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                      <div className="text-sm text-gray-500">{testimonial.title}</div>
-                      <div className="text-sm text-gray-500">{testimonial.location}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA Section */}
-      <section className="py-20 bg-blue-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            Ready to transform your business?
+      {/* Gradient CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="2" cy="2" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+            READY TO SIMPLIFY YOUR BUSINESS TODAY?
           </h2>
-          <p className="mt-4 text-xl text-blue-100">
-            Join thousands of service professionals who trust FeatherBiz
+          <p className="mt-6 text-xl text-blue-100 font-medium">
+            Join thousands of service professionals who trust FeatherBiz to run their business
           </p>
-          <Button 
-            onClick={() => navigate('/dashboard')}
-            className="mt-8 bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4 h-auto font-medium"
-            size="lg"
-          >
-            Start your free trial
-          </Button>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              onClick={() => navigate('/dashboard')}
+              className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4 h-auto font-black rounded-xl shadow-2xl hover:shadow-white/25 transition-all duration-300 hover:scale-105"
+              size="lg"
+            >
+              Start for Free
+              <Sparkles className="ml-2 h-5 w-5" />
+            </Button>
+            <Button 
+              variant="outline"
+              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4 h-auto font-black rounded-xl transition-all duration-300 hover:scale-105"
+              size="lg"
+            >
+              Book a Demo
+              <Calendar className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+          <div className="mt-8 flex items-center justify-center space-x-8 text-blue-100 text-sm">
+            <div className="flex items-center">
+              <CheckCircle2 className="h-4 w-4 mr-2" />
+              14-day free trial
+            </div>
+            <div className="flex items-center">
+              <CheckCircle2 className="h-4 w-4 mr-2" />
+              Cancel anytime
+            </div>
+            <div className="flex items-center">
+              <CheckCircle2 className="h-4 w-4 mr-2" />
+              No setup fees
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Feather className="h-5 w-5 text-white" />
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <Feather className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-semibold text-gray-900">FeatherBiz</span>
+                <span className="text-xl font-bold">FeatherBiz</span>
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-400 text-sm leading-relaxed font-medium">
                 Empowering small business heroes with intelligent business management solutions.
               </p>
             </div>
             
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
-              <ul className="space-y-3 text-gray-600 text-sm">
-                <li><a href="#" className="hover:text-gray-900 transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors">Terms</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors">Privacy</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors">Help</a></li>
+              <h3 className="font-bold text-white mb-6">Company</h3>
+              <ul className="space-y-3 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-white transition-colors font-medium">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors font-medium">Terms</a></li>
+                <li><a href="#" className="hover:text-white transition-colors font-medium">Privacy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors font-medium">Help</a></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Product</h3>
-              <ul className="space-y-3 text-gray-600 text-sm">
-                <li><a href="#features" className="hover:text-gray-900 transition-colors">Features</a></li>
-                <li><a href="#pricing" className="hover:text-gray-900 transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors">Integrations</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors">API</a></li>
+              <h3 className="font-bold text-white mb-6">Product</h3>
+              <ul className="space-y-3 text-gray-400 text-sm">
+                <li><a href="#features" className="hover:text-white transition-colors font-medium">Features</a></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors font-medium">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition-colors font-medium">Integrations</a></li>
+                <li><a href="#" className="hover:text-white transition-colors font-medium">API</a></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Connect</h3>
-              <div className="flex space-x-4">
-                <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
-                  <Twitter className="h-4 w-4 text-gray-600" />
+              <h3 className="font-bold text-white mb-6">Connect</h3>
+              <div className="flex space-x-4 mb-6">
+                <div className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110">
+                  <Twitter className="h-5 w-5" />
                 </div>
-                <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
-                  <Facebook className="h-4 w-4 text-gray-600" />
+                <div className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110">
+                  <Facebook className="h-5 w-5" />
                 </div>
-                <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
-                  <Instagram className="h-4 w-4 text-gray-600" />
+                <div className="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110">
+                  <Instagram className="h-5 w-5" />
                 </div>
               </div>
-              <div className="mt-4">
+              <div>
                 <LanguageSelector />
               </div>
             </div>
           </div>
           
-          <div className="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600 text-sm">
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
             <p>&copy; {new Date().getFullYear()} FeatherBiz. All rights reserved.</p>
           </div>
         </div>
