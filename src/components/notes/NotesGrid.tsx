@@ -16,8 +16,8 @@ export const NotesGrid = ({ filteredNotes, totalNotes, onEditNote }: NotesGridPr
     return (
       <Card className="bg-white border-0 rounded-3xl shadow-sm overflow-hidden">
         <CardContent className="p-12 text-center">
-          <div className="w-24 h-24 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FileText className="h-10 w-10 text-orange-600" />
+          <div className="w-24 h-24 bg-gradient-to-br from-yellow-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <FileText className="h-10 w-10 text-blue-600" />
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-3">
             {totalNotes === 0 ? 'Nenhuma nota ainda' : 'Nenhuma nota encontrada'}

@@ -41,7 +41,7 @@ const NotesPageContent = () => {
   if (authLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     )
   }
@@ -51,14 +51,14 @@ const NotesPageContent = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="bg-white border-0 shadow-xl rounded-3xl max-w-md mx-auto">
           <CardContent className="p-8 text-center">
-            <AlertCircle className="h-16 w-16 text-orange-400 mx-auto mb-6" />
+            <AlertCircle className="h-16 w-16 text-blue-400 mx-auto mb-6" />
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Autenticação Necessária</h3>
             <p className="text-gray-600 mb-6">
               Faça login para acessar suas notas.
             </p>
             <Button 
               onClick={() => window.location.href = '/auth'}
-              className="bg-orange-500 text-white hover:bg-orange-600 rounded-2xl px-8 py-3 font-medium"
+              className="bg-blue-500 text-white hover:bg-blue-600 rounded-2xl px-8 py-3 font-medium"
             >
               Fazer Login
             </Button>
@@ -72,7 +72,7 @@ const NotesPageContent = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Carregando notas...</p>
         </div>
       </div>
@@ -101,7 +101,7 @@ const NotesPageContent = () => {
               </Button>
               <Button 
                 onClick={() => setEditingNote(null)}
-                className="bg-orange-500 hover:bg-orange-600 text-white rounded-2xl h-12 w-12 p-0 shadow-lg hover:shadow-xl transition-all duration-200"
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-2xl h-12 w-12 p-0 shadow-lg hover:shadow-xl transition-all duration-200"
               >
                 <Plus className="h-6 w-6" />
               </Button>

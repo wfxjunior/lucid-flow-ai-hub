@@ -31,7 +31,7 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
 
   return (
     <Card className="hover:shadow-xl transition-all duration-300 bg-white border-0 rounded-3xl cursor-pointer group h-64 flex flex-col overflow-hidden shadow-sm hover:scale-[1.02]">
-      <CardHeader className="pb-3 flex-shrink-0 bg-gradient-to-br from-yellow-50 to-orange-50 border-b border-yellow-100/50">
+      <CardHeader className="pb-3 flex-shrink-0 bg-gradient-to-br from-yellow-50 to-blue-50 border-b border-blue-100/50">
         <div className="flex items-start justify-between">
           <CardTitle className="text-lg font-semibold line-clamp-2 text-gray-900 leading-tight">
             {note.title}
@@ -103,7 +103,7 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
           {note.tags && (
             <div className="flex flex-wrap gap-1">
               {getTags(note.tags).slice(0, 3).map((tag, index) => (
-                <Badge key={index} variant="secondary" className="text-xs bg-orange-100 text-orange-700 border-0 rounded-full px-2 py-1">
+                <Badge key={index} variant="secondary" className="text-xs bg-blue-100 text-blue-700 border-0 rounded-full px-2 py-1">
                   #{tag}
                 </Badge>
               ))}

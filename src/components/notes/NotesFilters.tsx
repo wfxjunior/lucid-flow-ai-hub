@@ -52,7 +52,7 @@ export const NotesFilters = ({
           placeholder="Pesquisar notas..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-12 h-12 bg-gray-50 border-0 rounded-2xl focus:bg-white focus:ring-2 focus:ring-orange-500 text-base placeholder:text-gray-400"
+          className="pl-12 h-12 bg-gray-50 border-0 rounded-2xl focus:bg-white focus:ring-2 focus:ring-blue-500 text-base placeholder:text-gray-400"
         />
       </div>
       

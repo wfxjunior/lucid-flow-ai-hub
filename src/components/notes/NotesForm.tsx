@@ -149,7 +149,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="Título"
               required
-              className="text-xl font-semibold border-0 bg-gray-50 rounded-2xl px-6 py-4 focus:bg-white focus:ring-2 focus:ring-orange-500 placeholder:text-gray-400"
+              className="text-xl font-semibold border-0 bg-gray-50 rounded-2xl px-6 py-4 focus:bg-white focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
             />
           </div>
 
@@ -202,7 +202,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
               value={formData.tags}
               onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
               placeholder="Adicione tags separadas por vírgula"
-              className="border-0 bg-gray-50 rounded-2xl px-4 py-3 h-12 focus:bg-white focus:ring-2 focus:ring-orange-500 placeholder:text-gray-400"
+              className="border-0 bg-gray-50 rounded-2xl px-4 py-3 h-12 focus:bg-white focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
             />
           </div>
 
@@ -220,7 +220,7 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
             <Button 
               type="submit" 
               disabled={loading}
-              className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-medium shadow-lg"
+              className="px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl font-medium shadow-lg"
             >
               <Save className="h-4 w-4 mr-2" />
               {loading ? 'Salvando...' : (editingNote ? 'Salvar Alterações' : 'Criar Nota')}
