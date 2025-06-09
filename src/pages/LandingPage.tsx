@@ -1,208 +1,146 @@
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
-import { TypingText } from "@/components/TypingText"
+import { ThemeToggle } from "@/components/ThemeToggle"
 import { useNavigate } from "react-router-dom"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X, Sparkles, Crown, FileText, ClipboardList, UserCheck, Package, Calculator, Calendar, DollarSign, PieChart, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
-import { useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { 
+  Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
+  Star, ArrowRight, Monitor, Smartphone, Headphones, Mail
+} from "lucide-react"
 
-const LandingPage = () => {
+export default function LandingPage() {
   const navigate = useNavigate()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
 
-  const featuresData = [
+  const dashboardImages = [
     {
-      id: 1,
-      icon: Calculator,
-      title: "Send Professional Estimates",
-      description: "Lead your quotes with clarity and speed",
+      src: "/lovable-uploads/0e5059d6-0019-4810-aa5e-28488bd3ebfe.png",
+      alt: "Invoice Management Dashboard",
+      title: "Invoice Management"
     },
     {
-      id: 2,
-      icon: Calendar,
-      title: "Schedule Jobs with Ease",
-      description: "Assign and organize tasks automatically",
+      src: "/lovable-uploads/94a8f69c-f543-4b11-9bf7-8a3bb6f92f0f.png", 
+      alt: "Task Management Dashboard",
+      title: "Task Management"
     },
     {
-      id: 3,
-      icon: DollarSign,
-      title: "Track Invoices & Payments",
-      description: "Monitor billing in real time",
+      src: "/lovable-uploads/d0136229-21fd-4d10-bf06-8b0bcd905d73.png",
+      alt: "Quick Actions Dashboard", 
+      title: "Quick Actions"
     },
+    {
+      src: "/lovable-uploads/8ce55bd9-24d8-4ad9-9f66-9dee70c7954c.png",
+      alt: "Analytics Dashboard",
+      title: "Analytics Dashboard"
+    }
   ]
 
-  const pricingPlans = [
-    {
-      id: 1,
-      name: "Basic",
-      price: "$19",
-      period: "/month",
-      features: ["Manage clients & projects", "Send Invoices", "Basic reporting", "Email support"],
-      recommended: false
-    },
-    {
-      id: 2,
-      name: "Pro",
-      price: "$49",
-      period: "/month",
-      features: ["Automated reminders", "Advanced reporting", "Priority support", "Custom branding", "API access"],
-      recommended: true
-    },
-    {
-      id: 3,
-      name: "Enterprise",
-      price: "Custom",
-      period: "",
-      features: ["Custom solutions", "Dedicated support", "Unlimited everything", "Advanced security", "White-label"],
-      recommended: false
-    },
-  ]
+  // Auto-advance carousel
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % dashboardImages.length)
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [dashboardImages.length])
 
-  const workflowSteps = [
+  const features = [
     {
-      id: 1,
-      title: "Add Clients",
-      description: "Import or manually add your client information to build your customer database.",
+      icon: Zap,
+      title: "AI-Powered Automation",
+      description: "Streamline your workflow with intelligent automation that learns from your business patterns."
+    },
+    {
+      icon: Shield,
+      title: "Enterprise Security",
+      description: "Bank-level security with end-to-end encryption to protect your sensitive business data."
+    },
+    {
       icon: Users,
-      color: "bg-blue-100 text-blue-600"
+      title: "Team Collaboration",
+      description: "Connect your team with real-time collaboration tools and shared workspaces."
     },
     {
-      id: 2,
-      title: "Create Estimates",
-      description: "Generate professional estimates with our intelligent pricing and template system.",
-      icon: FileText,
-      color: "bg-green-100 text-green-600"
+      icon: Briefcase,
+      title: "Project Management",
+      description: "Organize projects, track progress, and meet deadlines with powerful project tools."
     },
     {
-      id: 3,
-      title: "Manage Projects",
-      description: "Track project progress, deadlines, and communicate with your team in real-time.",
-      icon: ClipboardList,
-      color: "bg-purple-100 text-purple-600"
+      icon: BarChart3,
+      title: "Advanced Analytics",
+      description: "Get deep insights into your business performance with comprehensive analytics."
+    },
+    {
+      icon: Clock,
+      title: "Time Tracking",
+      description: "Monitor productivity and billable hours with precise time tracking capabilities."
     }
   ]
 
   const testimonials = [
     {
-      id: 1,
       name: "Sarah Johnson",
-      title: "CEO, Design Studio Pro",
-      quote: "This platform has transformed how we manage our client relationships and projects. The automation features alone have saved us 20+ hours per week.",
-      avatar: "SJ",
+      role: "CEO, TechStart Inc.",
+      content: "FeatherBiz transformed our operations. We've increased efficiency by 40% and our team loves the intuitive interface.",
       rating: 5
     },
     {
-      id: 2,
       name: "Michael Chen",
-      title: "Founder, Tech Solutions Inc",
-      quote: "The analytics dashboard gives us insights we never had before. We've increased our profit margins by 35% using the data-driven recommendations.",
-      avatar: "MC",
+      role: "Freelance Designer",
+      content: "As a solo entrepreneur, FeatherBiz gives me enterprise-level tools without the complexity. Perfect for growing businesses.",
       rating: 5
     },
-  ]
-
-  const carouselImages = [
     {
-      src: "/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png",
-      alt: "Customer Database Dashboard",
-      title: "Customer Management",
-      description: "Manage your customer relationships with AI-powered insights"
-    },
-    {
-      src: "/lovable-uploads/5aec6b5d-82e3-44ec-ae90-7c0ac72ba3b4.png",
-      alt: "MatTrack Material Management",
-      title: "Material Tracking",
-      description: "Intelligent material management system with real-time alerts"
-    },
-    {
-      src: "/lovable-uploads/733fa02a-f5d0-4471-9c97-7531308e03fe.png",
-      alt: "To-Do List Dashboard",
-      title: "Task Management",
-      description: "Organize your daily tasks and track your productivity"
-    },
-    {
-      src: "/lovable-uploads/91bcf5c8-cb2d-4bad-8000-bef7d68a66be.png",
-      alt: "Quick Actions Dashboard",
-      title: "Quick Actions",
-      description: "Access your most used features with one click"
+      name: "Emily Rodriguez",
+      role: "Operations Manager",
+      content: "The automation features save us hours every week. It's like having an extra team member that never sleeps.",
+      rating: 5
     }
   ]
 
+  const stats = [
+    { number: "10,000+", label: "Active Users" },
+    { number: "99.9%", label: "Uptime" },
+    { number: "24/7", label: "Support" },
+    { number: "150+", label: "Integrations" }
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Navigation */}
-      <nav className="bg-white/95 backdrop-blur-sm shadow-sm sticky top-0 z-50 border-b">
+      <nav className="bg-white/95 backdrop-blur-sm shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14 sm:h-16">
-            {/* Logo */}
-            <div className="flex items-center">
-              <Feather className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
-              <span className="ml-2 text-lg sm:text-xl font-bold text-gray-900">FeatherBiz</span>
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">FB</span>
+                </div>
+                <span className="text-xl font-bold text-blue-600">FeatherBiz</span>
+              </div>
+            </div>
+            
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
+              <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
+              <a href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-              <a href="#features" className="text-sm lg:text-base text-gray-600 hover:text-blue-600 transition-colors">Features</a>
-              <a href="#pricing" className="text-sm lg:text-base text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
-              <a href="/contact" className="text-sm lg:text-base text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
-            </div>
-
-            {/* Desktop CTA Buttons */}
-            <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
-              <Button 
-                variant="ghost" 
-                className="text-gray-600 hover:text-blue-600 text-sm lg:text-base"
-                size="sm"
-              >
-                Sign In
-              </Button>
+            <div className="flex items-center space-x-4">
+              <LanguageSelector />
+              <ThemeToggle />
+              <UserGreeting />
               <Button 
                 onClick={() => navigate('/dashboard')}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base px-3 lg:px-4"
-                size="sm"
+                className="bg-blue-600 hover:bg-blue-700 text-white"
               >
-                Try It Free
-              </Button>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                Dashboard
               </Button>
             </div>
           </div>
-
-          {/* Mobile Navigation */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden">
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
-                <a href="#features" className="block px-3 py-2 text-gray-600 hover:text-blue-600 text-base">Features</a>
-                <a href="#pricing" className="block px-3 py-2 text-gray-600 hover:text-blue-600 text-base">Pricing</a>
-                <a href="/contact" className="block px-3 py-2 text-gray-600 hover:text-blue-600 text-base">Contact</a>
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-gray-600 hover:text-blue-600 text-base"
-                  size="sm"
-                >
-                  Sign In
-                </Button>
-                <Button 
-                  onClick={() => navigate('/dashboard')}
-                  className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white text-base"
-                  size="sm"
-                >
-                  Try It Free
-                </Button>
-              </div>
-            </div>
-          )}
         </div>
       </nav>
 
@@ -230,454 +168,255 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Dashboard Carousel Section */}
-      <section className="py-12 sm:py-16 bg-gradient-to-r from-gray-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Dashboard Showcase Carousel */}
+      <section className="py-12 sm:py-16 md:py-20 relative">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Explore Our Platform</h2>
-            <p className="text-base sm:text-lg text-gray-600">See how FeatherBiz can transform your business operations</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Powerful Dashboard Views
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Experience our comprehensive business management tools through intuitive dashboards
+            </p>
           </div>
           
-          <div className="relative max-w-4xl mx-auto">
-            <Carousel className="w-full">
+          <div className="relative">
+            <Carousel className="w-full max-w-5xl mx-auto">
               <CarouselContent>
-                {carouselImages.map((image, index) => (
+                {dashboardImages.map((image, index) => (
                   <CarouselItem key={index}>
-                    <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-sm">
-                      <CardContent className="p-4 sm:p-6">
-                        <div className="text-center mb-4">
-                          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{image.title}</h3>
-                          <p className="text-sm sm:text-base text-gray-600">{image.description}</p>
-                        </div>
-                        <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg">
-                          <img 
-                            src={image.src} 
+                    <Card className="border-0 shadow-2xl">
+                      <CardContent className="p-0">
+                        <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-blue-50 to-blue-100">
+                          <img
+                            src={image.src}
                             alt={image.alt}
-                            className="w-full h-auto rounded-lg sm:rounded-xl shadow-lg"
+                            className="w-full h-auto max-h-[500px] object-contain rounded-lg"
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                          <div className="absolute bottom-4 left-4 right-4">
+                            <h3 className="text-white text-lg sm:text-xl font-semibold mb-2 drop-shadow-lg">
+                              {image.title}
+                            </h3>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
+              <CarouselPrevious className="left-4" />
+              <CarouselNext className="right-4" />
             </Carousel>
+            
+            {/* Carousel indicators */}
+            <div className="flex justify-center mt-6 space-x-2">
+              {dashboardImages.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    currentSlide === index ? 'bg-blue-600' : 'bg-gray-300'
+                  }`}
+                  onClick={() => setCurrentSlide(index)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-12 sm:py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="features" className="py-16 sm:py-20 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Features</h2>
-            <p className="text-base sm:text-lg text-gray-600">Everything you need to run your business efficiently</p>
-          </div>
-          
-          {/* 2-column layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Column - Feature Cards */}
-            <div className="space-y-4 sm:space-y-6">
-              {featuresData.map((feature) => (
-                <div 
-                  key={feature.id} 
-                  className="group relative rounded-xl sm:rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-white to-gray-50 border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  {/* Gradient accent line */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-t-xl sm:rounded-t-2xl"></div>
-                  
-                  <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <feature.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-                      </div>
-                    </div>
-                    <div className="flex-1 text-center sm:text-left">
-                      <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                        {feature.title}
-                      </h3>
-                      <p className="text-gray-600 leading-relaxed text-base sm:text-lg">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Decorative corner element */}
-                  <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center">
-                      <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Right Column - Chart Graphic */}
-            <div className="flex justify-center lg:justify-end mt-8 lg:mt-0">
-              <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-gray-100 max-w-sm sm:max-w-md w-full relative overflow-hidden">
-                {/* Background decoration */}
-                <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full -translate-y-12 translate-x-12 sm:-translate-y-16 sm:translate-x-16"></div>
-                
-                {/* Chart Header */}
-                <div className="flex items-center justify-between mb-4 sm:mb-6 relative z-10">
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900">Performance Overview</h3>
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
-                    <span className="text-white text-base sm:text-lg font-bold">👤</span>
-                  </div>
-                </div>
-                
-                {/* Chart Area */}
-                <div className="relative h-40 sm:h-52 mb-6 sm:mb-8">
-                  <svg className="w-full h-full" viewBox="0 0 300 150">
-                    {/* Grid Lines */}
-                    <defs>
-                      <pattern id="grid" width="30" height="15" patternUnits="userSpaceOnUse">
-                        <path d="M 30 0 L 0 0 0 15" fill="none" stroke="#f1f5f9" strokeWidth="1"/>
-                      </pattern>
-                      <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#3B82F6"/>
-                        <stop offset="100%" stopColor="#1E40AF"/>
-                      </linearGradient>
-                      <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3"/>
-                        <stop offset="100%" stopColor="#3B82F6" stopOpacity="0"/>
-                      </linearGradient>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                    
-                    {/* Main Chart Line */}
-                    <path
-                      d="M 20 120 Q 60 100 80 75 T 140 55 T 200 35 T 280 15"
-                      fill="none"
-                      stroke="url(#gradient1)"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                    
-                    {/* Chart Area Fill */}
-                    <path
-                      d="M 20 120 Q 60 100 80 75 T 140 55 T 200 35 T 280 15 L 280 150 L 20 150 Z"
-                      fill="url(#areaGradient)"
-                    />
-                    
-                    {/* Data Points */}
-                    <circle cx="80" cy="75" r="5" fill="#3B82F6" className="drop-shadow-lg"/>
-                    <circle cx="140" cy="55" r="5" fill="#3B82F6" className="drop-shadow-lg"/>
-                    <circle cx="200" cy="35" r="5" fill="#3B82F6" className="drop-shadow-lg"/>
-                    <circle cx="280" cy="15" r="5" fill="#3B82F6" className="drop-shadow-lg"/>
-                  </svg>
-                </div>
-
-                {/* Chart Stats */}
-                <div className="grid grid-cols-3 gap-3 sm:gap-6 text-center relative z-10">
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
-                    <div className="text-lg sm:text-2xl font-bold text-blue-600 mb-1">127%</div>
-                    <div className="text-xs sm:text-sm text-gray-600 font-medium">Growth</div>
-                  </div>
-                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
-                    <div className="text-lg sm:text-2xl font-bold text-green-600 mb-1">+$45k</div>
-                    <div className="text-xs sm:text-sm text-gray-600 font-medium">Revenue</div>
-                  </div>
-                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg sm:rounded-xl p-3 sm:p-4">
-                    <div className="text-lg sm:text-2xl font-bold text-purple-600 mb-1">98%</div>
-                    <div className="text-xs sm:text-sm text-gray-600 font-medium">Success</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Powerful Features for Modern Business
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Everything you need to run your business efficiently, from client management to financial tracking.
+            </p>
           </div>
 
-          <div className="text-center mt-8 sm:mt-12">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base">
-              See Pricing
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section className="py-12 sm:py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">How It Works</h2>
-            <p className="text-base sm:text-lg text-gray-600">Simple steps to get your business organized</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {workflowSteps.map((step, index) => (
-              <div key={step.id} className="text-center relative">
-                <div className={`w-12 h-12 sm:w-16 sm:h-16 ${step.color} rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6`}>
-                  <step.icon className="h-6 w-6 sm:h-8 sm:w-8" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="group p-6 sm:p-8 bg-gray-50 rounded-2xl hover:bg-blue-50 transition-all duration-300 hover:shadow-lg"
+              >
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-blue-200 transition-colors">
+                  <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
                 </div>
-                <div className="absolute top-6 sm:top-8 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">
-                    {step.id}
-                  </div>
-                </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">{step.title}</h3>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{step.description}</p>
-                
-                {index < workflowSteps.length - 1 && (
-                  <div className="hidden md:block absolute top-6 sm:top-8 left-full w-full">
-                    <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6 text-gray-400 mx-auto" />
-                  </div>
-                )}
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-12 sm:py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Simple, Transparent Pricing</h2>
-            <p className="text-base sm:text-lg text-gray-600">Choose the plan that works best for your business</p>
+      {/* Stats Section */}
+      <section className="py-16 sm:py-20 bg-blue-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Trusted by Businesses Worldwide
+            </h2>
+            <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
+              Join thousands of businesses that have transformed their operations with FeatherBiz
+            </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {pricingPlans.map((plan) => (
-              <Card key={plan.id} className={`relative ${plan.recommended ? 'border-blue-500 border-2 shadow-xl' : 'shadow-lg'}`}>
-                {plan.recommended && (
-                  <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-blue-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-                <CardHeader className="text-center pb-3 sm:pb-4">
-                  <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900">{plan.name}</CardTitle>
-                  <div className="mt-3 sm:mt-4">
-                    <span className="text-3xl sm:text-4xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-sm sm:text-base text-gray-600">{plan.period}</span>
-                  </div>
-                </CardHeader>
-                <CardContent className="px-4 sm:px-6">
-                  <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
-                    {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-center text-sm sm:text-base text-gray-700">
-                        <Check className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 text-green-500 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button 
-                    className={`w-full text-sm sm:text-base ${plan.recommended ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'}`}
-                    onClick={() => navigate('/dashboard')}
-                  >
-                    Get Started
-                  </Button>
-                </CardContent>
-              </Card>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-blue-100 text-sm sm:text-base font-medium">
+                  {stat.label}
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 sm:py-16 bg-gradient-to-r from-blue-50 to-indigo-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="testimonials" className="py-16 sm:py-20 md:py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">What Our Clients Say</h2>
-            <p className="text-base sm:text-lg text-gray-600">Join thousands of satisfied business owners</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              What Our Customers Say
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Don't just take our word for it. Here's what real businesses say about FeatherBiz.
+            </p>
           </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="shadow-xl border-0">
-                <CardContent className="p-6 sm:p-8">
-                  <div className="flex items-center mb-3 sm:mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-gray-700 italic mb-4 sm:mb-6 text-base sm:text-lg leading-relaxed">
-                    "{testimonial.quote}"
-                  </p>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg mr-3 sm:mr-4">
-                      {testimonial.avatar}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900 text-sm sm:text-base">{testimonial.name}</div>
-                      <div className="text-gray-600 text-xs sm:text-sm">{testimonial.title}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 text-sm sm:text-base leading-relaxed">
+                  "{testimonial.content}"
+                </p>
+                <div className="border-t pt-4">
+                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                  <div className="text-gray-600 text-sm">{testimonial.role}</div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 bg-gradient-to-r from-blue-600 to-blue-700">
+      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
-            Ready to Streamline Your Business?
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
+            Ready to Transform Your Business?
           </h2>
-          <p className="text-lg sm:text-xl text-blue-100 mb-6 sm:mb-8">
-            Join thousands of successful businesses using our platform
+          <p className="text-lg sm:text-xl text-blue-100 mb-8 sm:mb-10 max-w-2xl mx-auto">
+            Join thousands of businesses already using FeatherBiz to streamline their operations and boost productivity.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md sm:max-w-none mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               onClick={() => navigate('/dashboard')}
-              className="bg-white text-blue-600 hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
               size="lg"
+              className="bg-white text-blue-600 hover:bg-gray-100 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
             >
               Start Free Trial
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button 
-              variant="outline" 
-              className="border-white text-white hover:bg-white hover:text-blue-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
+              variant="outline"
               size="lg"
+              className="border-white text-white hover:bg-white hover:text-blue-600 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
             >
               Schedule Demo
             </Button>
           </div>
-          <p className="text-blue-200 mt-3 sm:mt-4 text-xs sm:text-sm">No credit card required • 14-day free trial</p>
+          <p className="text-blue-100 text-sm mt-4">
+            No credit card required • 14-day free trial • Cancel anytime
+          </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8 sm:py-12">
+      <footer className="bg-gray-900 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {/* Company Info */}
-            <div className="space-y-3 sm:space-y-4 text-center sm:text-left">
-              <div className="flex items-center justify-center sm:justify-start">
-                <Feather className="h-6 w-6 sm:h-8 sm:w-8 text-blue-400" />
-                <span className="ml-2 text-lg sm:text-xl font-bold">FeatherBiz</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">FB</span>
+                </div>
+                <span className="text-xl font-bold">FeatherBiz</span>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Streamline your business operations with our all-in-one platform for managing clients, projects, and payments.
+                The complete business management platform designed for modern entrepreneurs and growing companies.
               </p>
-              <div className="flex space-x-3 sm:space-x-4 justify-center sm:justify-start">
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
-                  <Facebook className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
-                  <Twitter className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
-                  <Linkedin className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
-                  <Instagram className="h-4 w-4" />
-                </Button>
-              </div>
             </div>
 
-            {/* Product Links */}
-            <div className="space-y-3 sm:space-y-4 text-center sm:text-left">
-              <h3 className="text-base sm:text-lg font-semibold">Product</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#features" className="text-gray-400 hover:text-white transition-colors text-sm">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#pricing" className="text-gray-400 hover:text-white transition-colors text-sm">
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <Button 
-                    variant="ghost" 
-                    className="text-gray-400 hover:text-white transition-colors text-sm p-0 h-auto font-normal"
-                    onClick={() => navigate('/dashboard')}
-                  >
-                    Dashboard
-                  </Button>
-                </li>
-                <li>
-                  <a href="/integrations" className="text-gray-400 hover:text-white transition-colors text-sm">
-                    Integrations
-                  </a>
-                </li>
+            <div>
+              <h4 className="font-semibold mb-4">Platform</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Integrations</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">API</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Security</a></li>
               </ul>
             </div>
 
-            {/* Company Links */}
-            <div className="space-y-3 sm:space-y-4 text-center sm:text-left">
-              <h3 className="text-base sm:text-lg font-semibold">Company</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
-                    Contact
-                  </a>
-                </li>
-                <li>
-                  <a href="/careers" className="text-gray-400 hover:text-white transition-colors text-sm">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="/blog" className="text-gray-400 hover:text-white transition-colors text-sm">
-                    Blog
-                  </a>
-                </li>
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Community</a></li>
               </ul>
             </div>
 
-            {/* Contact Info & Language */}
-            <div className="space-y-3 sm:space-y-4 text-center sm:text-left">
-              <h3 className="text-base sm:text-lg font-semibold">Contact & Settings</h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2 justify-center sm:justify-start">
-                  <Mail className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                  <span className="text-gray-400 text-sm">support@featherbiz.com</span>
-                </div>
-                <div className="flex items-center space-x-2 justify-center sm:justify-start">
-                  <Phone className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                  <span className="text-gray-400 text-sm">+1 (555) 123-4567</span>
-                </div>
-                <div className="flex items-center space-x-2 justify-center sm:justify-start">
-                  <MapPin className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                  <span className="text-gray-400 text-sm">San Francisco, CA</span>
-                </div>
-                <div className="pt-2 space-y-3">
-                  <div className="flex justify-center sm:justify-start">
-                    <LanguageSelector />
-                  </div>
-                  <Button 
-                    onClick={() => navigate('/dashboard')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 w-full sm:w-auto"
-                    size="sm"
-                  >
-                    Get Started Free
-                  </Button>
-                </div>
-              </div>
+            <div>
+              <h4 className="font-semibold mb-4">Company</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
+              </ul>
             </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-800">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <p className="text-sm text-gray-400 text-center md:text-left">
-                &copy; {new Date().getFullYear()} FeatherBiz. All rights reserved.
-              </p>
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-6 text-center">
-                <a href="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Privacy Policy
-                </a>
-                <a href="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Terms of Service
-                </a>
-                <a href="/cookies" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Cookie Policy
-                </a>
-              </div>
+          <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-gray-400 text-sm mb-4 sm:mb-0">
+              © 2024 FeatherBiz. All rights reserved.
+            </p>
+            <div className="flex items-center space-x-6">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Monitor className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Smartphone className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Mail className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Headphones className="w-5 h-5" />
+              </a>
             </div>
           </div>
         </div>
@@ -685,5 +424,3 @@ const LandingPage = () => {
     </div>
   )
 }
-
-export default LandingPage

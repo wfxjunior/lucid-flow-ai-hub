@@ -1,7 +1,7 @@
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch, Car
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch, Car, CalendarCheck
 } from "lucide-react"
 import {
   Sidebar,
@@ -40,12 +40,12 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       view: "dashboard"
     },
     {
-      title: t("sidebar.aiVoice"),
+      title: t("sidebar.aiVoice", "AI Voice"),
       icon: Mic,
       view: "ai-voice"
     },
     {
-      title: t("sidebar.createInvoice"),
+      title: t("sidebar.createInvoice", "Create Invoice"),
       icon: FileText,
       view: "invoice-creator"
     },
@@ -55,12 +55,17 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       view: "appointments"
     },
     {
+      title: "SmartSchedule",
+      icon: CalendarCheck,
+      view: "smart-schedule"
+    },
+    {
       title: "Payments",
       icon: CreditCard,
       view: "payments"
     },
     {
-      title: t("sidebar.esignatures"),
+      title: t("sidebar.esignatures", "E-Signatures"),
       icon: Signature,
       view: "e-signatures"
     }
@@ -236,6 +241,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     if (view === "admin-panel") {
       // Navigate to the dedicated admin page
       window.location.href = "/admin"
+    } else if (view === "smart-schedule") {
+      // For now, redirect to appointments until SmartSchedule component is created
+      setActiveView("appointments")
     } else {
       setActiveView(view)
     }
