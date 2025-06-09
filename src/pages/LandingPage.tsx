@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -144,25 +145,42 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section - Simplified without image */}
+      {/* Hero Section */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
-              Streamline Your Business
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
-              All-in-one platform to manage clients, projects, and payments.
-            </p>
-            <div className="mb-6 sm:mb-8">
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg w-full sm:w-auto"
-                size="lg"
-              >
-                Get Started
-              </Button>
-              <p className="text-sm text-gray-500 mt-3 sm:mt-4">Free 14-day trial. No credit card required</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
+                Streamline Your Business
+              </h1>
+              <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed">
+                All-in-one platform to manage clients, projects, and payments.
+              </p>
+              <div className="mb-6 sm:mb-8">
+                <Button 
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg w-full sm:w-auto"
+                  size="lg"
+                >
+                  Get Started
+                </Button>
+                <p className="text-sm text-gray-500 mt-3 sm:mt-4">Free 14-day trial. No credit card required</p>
+              </div>
+            </div>
+            
+            {/* Hero Image - Dashboard Preview */}
+            <div className="relative">
+              <div className="bg-white rounded-2xl shadow-2xl p-4 sm:p-6 transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                <div className="bg-gray-100 rounded-lg h-64 sm:h-80 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <BarChart3 className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-800">Dashboard Preview</h3>
+                    <p className="text-gray-600 text-sm mt-2">See your business insights at a glance</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -393,7 +411,7 @@ export default function LandingPage() {
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue transition-colors">Blog</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
               </ul>
