@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CompanySettings } from "./CompanySettings"
 import { useState } from "react"
 
 export function SettingsPage() {
@@ -27,9 +26,8 @@ export function SettingsPage() {
 
       <div className="max-w-4xl mx-auto">
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="general">General</TabsTrigger>
-            <TabsTrigger value="company">Company</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
@@ -62,10 +60,6 @@ export function SettingsPage() {
                 <Button>Save Changes</Button>
               </CardContent>
             </Card>
-          </TabsContent>
-
-          <TabsContent value="company">
-            <CompanySettings />
           </TabsContent>
 
           <TabsContent value="billing">

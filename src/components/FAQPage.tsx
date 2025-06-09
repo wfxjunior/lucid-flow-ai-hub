@@ -3,7 +3,8 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ChevronDown, ChevronUp, Search, MessageSquare } from "lucide-react"
+import { ChevronDown, ChevronUp, Search, MessageSquare, ChevronLeft } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import { Badge } from "@/components/ui/badge"
 import { AIFAQAssistant } from "@/components/AIFAQAssistant"
 
@@ -61,6 +62,7 @@ const faqData = [
 ]
 
 export const FAQPage = () => {
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState("")
   const [expandedItems, setExpandedItems] = useState<number[]>([])
 
@@ -79,23 +81,39 @@ export const FAQPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 p-6">
-      <div className="max-w-6xl mx-auto space-y-8">
-        {/* Header Section */}
-        <div className="text-center space-y-6">
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Badge className="bg-blue-100 text-blue-800 border-blue-200">
-                Help Center
-              </Badge>
-            </div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h1>
-            <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
-              Find answers to common questions about FeatherBiz. Can't find what you're looking for? Try our AI assistant below!
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
+      {/* Header */}
+      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/')}
+              className="flex items-center gap-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back to Home</span>
+            </Button>
+            <div className="h-6 w-px bg-gray-300 hidden sm:block" />
+            <h1 className="text-lg sm:text-xl font-bold text-gray-900">FAQ</h1>
           </div>
+          
+          <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+            Help Center
+          </Badge>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-8 sm:py-12 text-center">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Frequently Asked Questions
+          </h1>
+          <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8">
+            Find answers to common questions about FeatherBiz. Can't find what you're looking for? Try our AI assistant below!
+          </p>
           
           {/* Search */}
           <div className="relative max-w-md mx-auto mb-8">
@@ -109,73 +127,87 @@ export const FAQPage = () => {
             />
           </div>
         </div>
+      </section>
 
-        {/* Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* FAQ List */}
-          <div className="lg:col-span-2 space-y-4">
-            {filteredFAQs.length === 0 ? (
-              <Card>
-                <CardContent className="text-center py-8">
-                  <p className="text-gray-500">No FAQs found matching your search.</p>
+      {/* Content */}
+      <section className="container mx-auto px-4 pb-12 sm:pb-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* FAQ List */}
+            <div className="lg:col-span-2 space-y-4">
+              {filteredFAQs.length === 0 ? (
+                <Card>
+                  <CardContent className="text-center py-8">
+                    <p className="text-gray-500">No FAQs found matching your search.</p>
+                  </CardContent>
+                </Card>
+              ) : (
+                filteredFAQs.map((faq) => (
+                  <Card key={faq.id} className="shadow-sm hover:shadow-md transition-shadow">
+                    <CardHeader
+                      className="cursor-pointer"
+                      onClick={() => toggleExpanded(faq.id)}
+                    >
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base font-medium text-left">
+                          {faq.question}
+                        </CardTitle>
+                        {expandedItems.includes(faq.id) ? (
+                          <ChevronUp className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                        )}
+                      </div>
+                    </CardHeader>
+                    {expandedItems.includes(faq.id) && (
+                      <CardContent className="pt-0">
+                        <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                      </CardContent>
+                    )}
+                  </Card>
+                ))
+              )}
+            </div>
+
+            {/* AI Assistant Sidebar */}
+            <div className="space-y-6">
+              <AIFAQAssistant />
+              
+              <Card className="shadow-lg border-0">
+                <CardHeader>
+                  <CardTitle>Need More Help?</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() => navigate('/contact')}
+                  >
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Send Message
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() => navigate('/feedback')}
+                  >
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Send Feedback
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-2" />
+                    Back to Dashboard
+                  </Button>
                 </CardContent>
               </Card>
-            ) : (
-              filteredFAQs.map((faq) => (
-                <Card key={faq.id} className="shadow-sm hover:shadow-md transition-shadow">
-                  <CardHeader
-                    className="cursor-pointer"
-                    onClick={() => toggleExpanded(faq.id)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-base font-medium text-left">
-                        {faq.question}
-                      </CardTitle>
-                      {expandedItems.includes(faq.id) ? (
-                        <ChevronUp className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                      ) : (
-                        <ChevronDown className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                      )}
-                    </div>
-                  </CardHeader>
-                  {expandedItems.includes(faq.id) && (
-                    <CardContent className="pt-0">
-                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                    </CardContent>
-                  )}
-                </Card>
-              ))
-            )}
-          </div>
-
-          {/* AI Assistant Sidebar */}
-          <div className="space-y-6">
-            <AIFAQAssistant />
-            
-            <Card className="shadow-lg border-0">
-              <CardHeader>
-                <CardTitle>Need More Help?</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                >
-                  <MessageSquare className="w-4 h-4 mr-2" />
-                  Contact Support
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                >
-                  <MessageSquare className="w-4 h-4 mr-2" />
-                  Send Feedback
-                </Button>
-              </CardContent>
-            </Card>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }
