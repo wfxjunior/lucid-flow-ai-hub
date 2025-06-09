@@ -241,9 +241,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     if (view === "admin-panel") {
       // Navigate to the dedicated admin page
       window.location.href = "/admin"
-    } else if (view === "smart-schedule") {
-      // For now, redirect to appointments until SmartSchedule component is created
-      setActiveView("appointments")
     } else {
       setActiveView(view)
     }

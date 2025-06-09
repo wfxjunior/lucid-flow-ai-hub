@@ -22,6 +22,7 @@ import { WorkOrdersPage } from "@/components/WorkOrdersPage"
 import { MatTrackPage } from "@/components/MatTrackPage"
 import { CrewControlPage } from "@/components/CrewControlPage"
 import { AppointmentsPage } from "@/components/AppointmentsPage"
+import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 import { MeetingsPage } from "@/components/MeetingsPage"
 import { ESignaturesPage } from "@/components/ESignaturesPage"
 import { AIVoice } from "@/components/AIVoice"
@@ -73,6 +74,8 @@ const Index = () => {
         return <EarnSyncPage />
       case "appointments":
         return <AppointmentsPage />
+      case "smart-schedule":
+        return <SmartSchedulePage />
       case "meetings":
         return <MeetingsPage />
       case "e-signatures":
