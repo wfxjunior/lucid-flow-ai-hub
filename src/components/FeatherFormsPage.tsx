@@ -126,12 +126,13 @@ export function FeatherFormsPage() {
   }
 
   const getVisibilityBadge = (visibility: string) => {
-    const variants = {
-      public: 'default',
-      team: 'secondary',
-      private: 'outline'
+    if (visibility === 'public') {
+      return <Badge variant="default">{visibility}</Badge>
+    } else if (visibility === 'team') {
+      return <Badge variant="secondary">{visibility}</Badge>
+    } else {
+      return <Badge variant="outline">{visibility}</Badge>
     }
-    return <Badge variant={variants[visibility as keyof typeof variants]}>{visibility}</Badge>
   }
 
   const getDestinationIcons = (destinations: string[]) => {
