@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -8,7 +9,9 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
-  Star, ArrowRight, Monitor, Smartphone, Headphones, Mail, Play, Check
+  Star, ArrowRight, Play, Check, FileText, UserCheck, Package, 
+  Car, Calendar, Video, ClipboardList, Calculator, Instagram,
+  Facebook, Twitter, Linkedin, Youtube
 } from "lucide-react"
 
 export default function LandingPage() {
@@ -48,34 +51,49 @@ export default function LandingPage() {
 
   const features = [
     {
+      icon: FileText,
+      title: "AI Invoice",
+      description: "Generate professional invoices automatically with AI-powered smart templates and automated calculations."
+    },
+    {
+      icon: UserCheck,
+      title: "Crew Control",
+      description: "Manage your team effectively with advanced crew scheduling, payroll, and performance tracking tools."
+    },
+    {
+      icon: Package,
+      title: "MatTrack",
+      description: "Track materials and inventory in real-time with intelligent stock management and automated alerts."
+    },
+    {
+      icon: Car,
+      title: "Car Rental",
+      description: "Complete car rental management system with booking, tracking, and maintenance scheduling."
+    },
+    {
+      icon: Calendar,
+      title: "Smart Schedule",
+      description: "AI-powered scheduling that optimizes your time and resources for maximum productivity."
+    },
+    {
+      icon: Video,
+      title: "Meetings",
+      description: "Schedule, manage, and track meetings with integrated video conferencing and note-taking."
+    },
+    {
+      icon: ClipboardList,
+      title: "Appointments",
+      description: "Streamline appointment booking with automated reminders and calendar synchronization."
+    },
+    {
+      icon: Calculator,
+      title: "Estimates",
+      description: "Create accurate project estimates with AI assistance and automated pricing calculations."
+    },
+    {
       icon: Zap,
-      title: "AI-Powered Automation",
-      description: "Streamline your workflow with intelligent automation that learns from your business patterns."
-    },
-    {
-      icon: Shield,
-      title: "Enterprise Security",
-      description: "Bank-level security with end-to-end encryption to protect your sensitive business data."
-    },
-    {
-      icon: Users,
-      title: "Team Collaboration",
-      description: "Connect your team with real-time collaboration tools and shared workspaces."
-    },
-    {
-      icon: Briefcase,
-      title: "Project Management",
-      description: "Organize projects, track progress, and meet deadlines with powerful project tools."
-    },
-    {
-      icon: BarChart3,
-      title: "Advanced Analytics",
-      description: "Get deep insights into your business performance with comprehensive analytics."
-    },
-    {
-      icon: Clock,
-      title: "Time Tracking",
-      description: "Monitor productivity and billable hours with precise time tracking capabilities."
+      title: "And More...",
+      description: "Discover additional powerful features designed to streamline every aspect of your business operations."
     }
   ]
 
@@ -421,6 +439,8 @@ export default function LandingPage() {
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Documentation</a></li>
                 <li><a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Community</a></li>
+                <li><a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a></li>
+                <li><a href="/feedback" className="text-muted-foreground hover:text-primary transition-colors">Feedback</a></li>
               </ul>
             </div>
 
@@ -441,16 +461,19 @@ export default function LandingPage() {
             </p>
             <div className="flex items-center space-x-6">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Monitor className="w-5 h-5" />
+                <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Smartphone className="w-5 h-5" />
+                <Facebook className="w-5 h-5" />
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Mail className="w-5 h-5" />
+                <Twitter className="w-5 h-5" />
               </a>
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Headphones className="w-5 h-5" />
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Youtube className="w-5 h-5" />
               </a>
             </div>
           </div>
