@@ -19,6 +19,7 @@ interface PricingPlan {
   bgGradient: string
   stripePrice: number | null
   recurring?: boolean
+  annualBilling?: boolean
 }
 
 interface PricingCardProps {

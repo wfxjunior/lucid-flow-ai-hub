@@ -28,7 +28,7 @@ serve(async (req) => {
       throw new Error("User not authenticated or email not available");
     }
 
-    const { priceAmount, planName, planId, recurring, trialPeriodDays } = await req.json();
+    const { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling } = await req.json();
     
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
@@ -53,7 +53,11 @@ serve(async (req) => {
               description: `FeatherBiz ${planName} - AI Business Automation Platform`
             },
             unit_amount: priceAmount,
-            ...(recurring && { recurring: { interval: 'month' } })
+            ...(recurring && { 
+              recurring: { 
+                interval: annualBilling ? 'year' : 'month' 
+              } 
+            })
           },
           quantity: 1,
         },
@@ -64,7 +68,8 @@ serve(async (req) => {
       metadata: {
         user_id: user.id,
         plan_id: planId,
-        plan_name: planName
+        plan_name: planName,
+        billing_period: annualBilling ? 'annual' : 'monthly'
       }
     };
 
