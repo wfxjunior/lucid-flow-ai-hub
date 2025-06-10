@@ -1,7 +1,7 @@
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch, Car, CalendarCheck, Gift, Heart
+  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch, Car, CalendarCheck, Gift, Heart, LogOut
 } from "lucide-react"
 import {
   Sidebar,
@@ -20,6 +20,8 @@ import { ThemeToggle } from "@/components/ThemeToggle"
 import { Button } from "@/components/ui/button"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { supabase } from "@/integrations/supabase/client"
+import { toast } from "sonner"
 
 interface AppSidebarProps {
   activeView: string
@@ -263,6 +265,22 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       setActiveView(view)
     }
   }
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('Error signing out:', error)
+        toast.error('Error signing out')
+      } else {
+        toast.success('Logged out successfully')
+        window.location.href = '/auth'
+      }
+    } catch (error) {
+      console.error('Error during logout:', error)
+      toast.error('Error signing out')
+    }
+  }
   
   const renderMenuSection = (items: typeof mainFeatures, sectionTitle: string) => (
     <SidebarGroup className="py-2">
@@ -292,22 +310,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     <Sidebar className="border-r">
       <SidebarContent className="gap-0">
         {/* Header */}
-        <div className="p-4 border-b flex items-center justify-between">
+        <div className="p-4 border-b">
           <div>
             <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
             <p className="text-sm text-gray-500">AI-Powered Business Platform</p>
-          </div>
-          {/* Always show button on screens smaller than md (768px) */}
-          <div className="md:hidden">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => handleMenuClick("dashboard")}
-              className="flex items-center gap-1 text-sm"
-            >
-              <Home className="w-4 h-4" />
-              Dashboard
-            </Button>
           </div>
         </div>
 
@@ -340,7 +346,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         {renderMenuSection(systemTools, "System")}
       </SidebarContent>
       
-      {/* Footer with Language Selector and Theme Toggle */}
+      {/* Footer with Language Selector, Theme Toggle, and Logout */}
       <SidebarFooter className="p-4 border-t">
         <div className="space-y-3">
           <div>
@@ -348,6 +354,14 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
             <LanguageSelector />
           </div>
           <ThemeToggle />
+          <Button 
+            variant="outline" 
+            onClick={handleLogout}
+            className="w-full flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </Button>
         </div>
       </SidebarFooter>
     </Sidebar>
