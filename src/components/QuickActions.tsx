@@ -1,8 +1,7 @@
 
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { QuickActionsSearchBar } from "@/components/QuickActionsSearchBar"
+import { ActionGrid } from "@/components/ActionGrid"
 import { 
   FileText, 
   Users, 
@@ -15,7 +14,6 @@ import {
   Receipt,
   Mic,
   Target,
-  Search,
   Lightbulb,
   Gift,
   Home,
@@ -335,54 +333,16 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
 
   return (
     <div className="space-y-6">
-      {/* Search Bar - Cleaner design */}
-      <div className="relative max-w-md mx-auto">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-        <Input
-          type="text"
-          placeholder="Search quick actions..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10 border-border/50 focus:border-primary"
-        />
-      </div>
-
-      {/* Quick Actions Grid - Clean responsive design */}
-      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {filteredActions.map((action) => (
-          <Card 
-            key={action.id} 
-            className="group cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg border-0 bg-card/50 backdrop-blur-sm"
-            onClick={() => onActionClick(action.id)}
-          >
-            <CardContent className="p-4 flex flex-col items-center justify-center text-center h-28 relative">
-              {/* Icon container with cleaner design */}
-              <div className={`p-3 rounded-xl text-white ${action.color} transition-all duration-200 group-hover:scale-110 group-hover:shadow-md mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
-                <action.icon className="h-5 w-5" />
-              </div>
-              
-              {/* Title with better typography */}
-              <h3 className="font-medium text-sm text-foreground group-hover:text-primary transition-colors duration-200 leading-tight">
-                {action.title}
-              </h3>
-              
-              {/* Subtle hover indicator */}
-              <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-primary/20 transition-colors duration-200" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* No results state */}
-      {filteredActions.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-muted-foreground space-y-2">
-            <Search className="h-8 w-8 mx-auto opacity-50" />
-            <p>No actions found matching "{searchTerm}"</p>
-            <p className="text-sm">Try adjusting your search terms</p>
-          </div>
-        </div>
-      )}
+      <QuickActionsSearchBar 
+        searchTerm={searchTerm} 
+        onSearchChange={setSearchTerm} 
+      />
+      
+      <ActionGrid 
+        actions={filteredActions}
+        onActionClick={onActionClick}
+        searchTerm={searchTerm}
+      />
     </div>
   )
 }
