@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -352,19 +351,19 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
         {filteredActions.map((action) => (
           <Card 
             key={action.id} 
-            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group"
+            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group min-h-[120px]"
             onClick={() => onActionClick(action.id)}
           >
-            <CardContent className="p-4">
+            <CardContent className="p-5">
               <div className="flex items-center space-x-4">
-                <div className={`p-3 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
-                  <action.icon className="h-6 w-6" />
+                <div className={`p-4 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
+                  <action.icon className="h-7 w-7" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm truncate group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-semibold text-base truncate group-hover:text-blue-600 transition-colors">
                     {action.title}
                   </h3>
-                  <p className="text-xs text-muted-foreground truncate">
+                  <p className="text-sm text-muted-foreground truncate mt-1">
                     {action.description}
                   </p>
                 </div>

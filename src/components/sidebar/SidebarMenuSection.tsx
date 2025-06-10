@@ -29,7 +29,7 @@ export function SidebarMenuSection({ items, sectionTitle, activeView, onMenuClic
               <SidebarMenuButton 
                 onClick={() => onMenuClick(item.view)}
                 isActive={activeView === item.view}
-                className="w-full flex items-center gap-3 px-3 py-2 text-base font-medium rounded-md transition-colors hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2 text-lg font-medium rounded-md transition-colors hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 cursor-pointer"
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" />
                 <span className="truncate">{item.title}</span>
