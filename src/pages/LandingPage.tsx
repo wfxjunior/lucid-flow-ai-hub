@@ -255,15 +255,12 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section - HubSpot Style */}
-      <section className="relative py-12 sm:py-16 lg:py-32 overflow-hidden">
+      <section className="relative py-8 sm:py-12 lg:py-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Column - Content */}
-            <div className="space-y-6 lg:space-y-8 text-center lg:text-left">
-              <div className="space-y-4">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                  🚀 New: AI-Powered Business Management
-                </div>
+            <div className="space-y-4 lg:space-y-6 text-center lg:text-left">
+              <div className="space-y-3 lg:space-y-4">
                 <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-foreground leading-tight">
                   Grow your business with 
                   <span className="text-primary"> FeatherBiz</span>
