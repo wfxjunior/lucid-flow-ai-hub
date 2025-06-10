@@ -73,6 +73,20 @@ interface Estimate {
   updated_at: string
 }
 
+interface Invoice {
+  id: string
+  user_id: string
+  client_id: string
+  invoice_number: string
+  title: string
+  description?: string
+  amount: number
+  due_date?: string
+  status: string
+  created_at: string
+  updated_at: string
+}
+
 interface SignatureWithRelations {
   id: string
   user_id: string
@@ -152,6 +166,24 @@ export function useBusinessData() {
 
       if (error) {
         console.error('Error fetching clients:', error)
+        throw error
+      }
+
+      return data || []
+    }
+  })
+
+  // Invoices Query
+  const { data: invoices, isLoading: invoicesLoading } = useQuery({
+    queryKey: ['invoices'],
+    queryFn: async (): Promise<Invoice[]> => {
+      const { data, error } = await supabase
+        .from('invoices')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error fetching invoices:', error)
         throw error
       }
 
@@ -470,6 +502,7 @@ export function useBusinessData() {
     queryClient.invalidateQueries({ queryKey: ['estimates'] })
     queryClient.invalidateQueries({ queryKey: ['signatures'] })
     queryClient.invalidateQueries({ queryKey: ['meetings'] })
+    queryClient.invalidateQueries({ queryKey: ['invoices'] })
   }
 
   return {
@@ -481,11 +514,12 @@ export function useBusinessData() {
     contracts,
     documents,
     estimates,
+    invoices,
     signatures,
     meetings,
     
     // Loading states
-    loading: workOrdersLoading || clientsLoading || appointmentsLoading || contractsLoading || documentsLoading || estimatesLoading || signaturesLoading || meetingsLoading,
+    loading: workOrdersLoading || clientsLoading || appointmentsLoading || contractsLoading || documentsLoading || estimatesLoading || signaturesLoading || meetingsLoading || invoicesLoading,
     
     // Actions
     deleteWorkOrder,

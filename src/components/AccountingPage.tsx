@@ -35,8 +35,8 @@ export function AccountingPage() {
     } catch (error) {
       console.error('Error fetching documents:', error)
       toast({
-        title: "Error",
-        description: "Failed to load accounting documents",
+        title: t("files.error"),
+        description: t("accounting.errorLoadingDocuments") || "Failed to load accounting documents",
         variant: "destructive"
       })
     }
@@ -61,14 +61,14 @@ export function AccountingPage() {
 
       fetchDocuments()
       toast({
-        title: "Success",
-        description: "Document deleted successfully"
+        title: t("files.success"),
+        description: t("files.fileDeleted")
       })
     } catch (error) {
       console.error('Error deleting document:', error)
       toast({
-        title: "Error",
-        description: "Failed to delete document",
+        title: t("files.error"),
+        description: t("files.errorDeletingFile"),
         variant: "destructive"
       })
     }
@@ -90,10 +90,10 @@ export function AccountingPage() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <Receipt className="h-6 w-6" />
-            Accounting Documents
+            {t("accounting.title")}
           </h2>
           <p className="text-muted-foreground">
-            Manage receipts, invoices, and financial documents with AI-powered data extraction
+            {t("accounting.subtitle")}
           </p>
         </div>
         <DocumentUploadDialog 

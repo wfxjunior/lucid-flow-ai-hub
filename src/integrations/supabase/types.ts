@@ -69,6 +69,60 @@ export type Database = {
         }
         Relationships: []
       }
+      aftercare_feedback: {
+        Row: {
+          admin_notes: string | null
+          agency_satisfaction: number
+          allow_public_display: boolean
+          client_name: string
+          communication_quality: number
+          created_at: string
+          feedback_date: string
+          id: string
+          overall_rating: number
+          project_service: string
+          show_as_testimonial: boolean
+          suggestions: string | null
+          updated_at: string
+          user_id: string
+          would_recommend: boolean
+        }
+        Insert: {
+          admin_notes?: string | null
+          agency_satisfaction: number
+          allow_public_display?: boolean
+          client_name: string
+          communication_quality: number
+          created_at?: string
+          feedback_date?: string
+          id?: string
+          overall_rating: number
+          project_service: string
+          show_as_testimonial?: boolean
+          suggestions?: string | null
+          updated_at?: string
+          user_id: string
+          would_recommend?: boolean
+        }
+        Update: {
+          admin_notes?: string | null
+          agency_satisfaction?: number
+          allow_public_display?: boolean
+          client_name?: string
+          communication_quality?: number
+          created_at?: string
+          feedback_date?: string
+          id?: string
+          overall_rating?: number
+          project_service?: string
+          show_as_testimonial?: boolean
+          suggestions?: string | null
+          updated_at?: string
+          user_id?: string
+          would_recommend?: boolean
+        }
+        Relationships: []
+      }
       appointments: {
         Row: {
           appointment_date: string
@@ -122,6 +176,86 @@ export type Database = {
           },
         ]
       }
+      car_rentals: {
+        Row: {
+          created_at: string
+          final_mileage: number | null
+          fuel_level_pickup: number | null
+          fuel_level_return: number | null
+          id: string
+          initial_mileage: number | null
+          notes: string | null
+          payment_method: string | null
+          payment_status: string
+          pickup_location: string
+          pickup_time: string | null
+          rental_end_date: string
+          rental_start_date: string
+          rental_status: string
+          renter_name: string
+          return_location: string
+          return_time: string | null
+          total_price: number
+          updated_at: string
+          user_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          final_mileage?: number | null
+          fuel_level_pickup?: number | null
+          fuel_level_return?: number | null
+          id?: string
+          initial_mileage?: number | null
+          notes?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          pickup_location: string
+          pickup_time?: string | null
+          rental_end_date: string
+          rental_start_date: string
+          rental_status?: string
+          renter_name: string
+          return_location: string
+          return_time?: string | null
+          total_price: number
+          updated_at?: string
+          user_id: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          final_mileage?: number | null
+          fuel_level_pickup?: number | null
+          fuel_level_return?: number | null
+          id?: string
+          initial_mileage?: number | null
+          notes?: string | null
+          payment_method?: string | null
+          payment_status?: string
+          pickup_location?: string
+          pickup_time?: string | null
+          rental_end_date?: string
+          rental_start_date?: string
+          rental_status?: string
+          renter_name?: string
+          return_location?: string
+          return_time?: string | null
+          total_price?: number
+          updated_at?: string
+          user_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "car_rentals_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           address: string | null
@@ -155,6 +289,45 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      company_profiles: {
+        Row: {
+          address: string | null
+          company_name: string
+          created_at: string
+          email: string | null
+          id: string
+          logo_url: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          company_name: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          logo_url?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          company_name?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          logo_url?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -230,6 +403,157 @@ export type Database = {
           title?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      earnsync_companies: {
+        Row: {
+          company_name: string
+          contact_info: string | null
+          created_at: string
+          date_of_service: string | null
+          id: string
+          payment_method: string
+          updated_at: string
+          user_id: string
+          work_type: string | null
+        }
+        Insert: {
+          company_name: string
+          contact_info?: string | null
+          created_at?: string
+          date_of_service?: string | null
+          id?: string
+          payment_method: string
+          updated_at?: string
+          user_id: string
+          work_type?: string | null
+        }
+        Update: {
+          company_name?: string
+          contact_info?: string | null
+          created_at?: string
+          date_of_service?: string | null
+          id?: string
+          payment_method?: string
+          updated_at?: string
+          user_id?: string
+          work_type?: string | null
+        }
+        Relationships: []
+      }
+      earnsync_earnings: {
+        Row: {
+          amount: number
+          company_id: string | null
+          created_at: string
+          date: string
+          id: string
+          payment_status: string
+          receipt_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          company_id?: string | null
+          created_at?: string
+          date: string
+          id?: string
+          payment_status?: string
+          receipt_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          company_id?: string | null
+          created_at?: string
+          date?: string
+          id?: string
+          payment_status?: string
+          receipt_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "earnsync_earnings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "earnsync_companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      earnsync_expenses: {
+        Row: {
+          amount: number
+          category: string
+          company_id: string | null
+          created_at: string
+          date: string
+          description: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          company_id?: string | null
+          created_at?: string
+          date: string
+          description?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          company_id?: string | null
+          created_at?: string
+          date?: string
+          description?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "earnsync_expenses_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "earnsync_companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      earnsync_goals: {
+        Row: {
+          created_at: string
+          id: string
+          monthly_target: number | null
+          updated_at: string
+          user_id: string
+          weekly_target: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          monthly_target?: number | null
+          updated_at?: string
+          user_id: string
+          weekly_target?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          monthly_target?: number | null
+          updated_at?: string
+          user_id?: string
+          weekly_target?: number | null
         }
         Relationships: []
       }
@@ -592,6 +916,48 @@ export type Database = {
         }
         Relationships: []
       }
+      notes: {
+        Row: {
+          attachments: string[] | null
+          content: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          related_client: string | null
+          related_project: string | null
+          tags: string | null
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          attachments?: string[] | null
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          related_client?: string | null
+          related_project?: string | null
+          tags?: string | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          attachments?: string[] | null
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          related_client?: string | null
+          related_project?: string | null
+          tags?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
           amount: number
@@ -639,6 +1005,47 @@ export type Database = {
             columns: ["invoice_id"]
             isOneToOne: false
             referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rental_documents: {
+        Row: {
+          created_at: string
+          document_type: string
+          file_name: string
+          file_size: number
+          file_url: string
+          id: string
+          rental_id: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          document_type: string
+          file_name: string
+          file_size: number
+          file_url: string
+          id?: string
+          rental_id: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: string
+          file_name?: string
+          file_size?: number
+          file_url?: string
+          id?: string
+          rental_id?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rental_documents_rental_id_fkey"
+            columns: ["rental_id"]
+            isOneToOne: false
+            referencedRelation: "car_rentals"
             referencedColumns: ["id"]
           },
         ]
@@ -697,6 +1104,101 @@ export type Database = {
           },
         ]
       }
+      smart_schedule_settings: {
+        Row: {
+          autofill_client_manager: boolean
+          created_at: string
+          id: string
+          send_aftercare_completion: boolean
+          sync_car_rental: boolean
+          sync_next_projects: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          autofill_client_manager?: boolean
+          created_at?: string
+          id?: string
+          send_aftercare_completion?: boolean
+          sync_car_rental?: boolean
+          sync_next_projects?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          autofill_client_manager?: boolean
+          created_at?: string
+          id?: string
+          send_aftercare_completion?: boolean
+          sync_car_rental?: boolean
+          sync_next_projects?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      smart_schedules: {
+        Row: {
+          assigned_workers: string[] | null
+          client_address: string | null
+          client_id: string | null
+          client_name: string
+          created_at: string
+          end_time: string | null
+          frequency: string
+          id: string
+          job_description: string | null
+          job_type: string
+          service_date: string
+          start_time: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_workers?: string[] | null
+          client_address?: string | null
+          client_id?: string | null
+          client_name: string
+          created_at?: string
+          end_time?: string | null
+          frequency?: string
+          id?: string
+          job_description?: string | null
+          job_type?: string
+          service_date: string
+          start_time?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_workers?: string[] | null
+          client_address?: string | null
+          client_id?: string | null
+          client_name?: string
+          created_at?: string
+          end_time?: string | null
+          frequency?: string
+          id?: string
+          job_description?: string | null
+          job_type?: string
+          service_date?: string
+          start_time?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "smart_schedules_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_settings: {
         Row: {
           created_at: string
@@ -721,6 +1223,51 @@ export type Database = {
           invoice_number_start?: number | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      vehicles: {
+        Row: {
+          brand: string
+          color: string | null
+          created_at: string
+          id: string
+          model: string
+          photo_url: string | null
+          plate_number: string
+          status: string
+          updated_at: string
+          user_id: string
+          vehicle_type: string
+          year: number
+        }
+        Insert: {
+          brand: string
+          color?: string | null
+          created_at?: string
+          id?: string
+          model: string
+          photo_url?: string | null
+          plate_number: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          vehicle_type: string
+          year: number
+        }
+        Update: {
+          brand?: string
+          color?: string | null
+          created_at?: string
+          id?: string
+          model?: string
+          photo_url?: string | null
+          plate_number?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          vehicle_type?: string
+          year?: number
         }
         Relationships: []
       }

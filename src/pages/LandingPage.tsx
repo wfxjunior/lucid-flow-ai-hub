@@ -1,547 +1,354 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
-import { AnimatedNumber } from "@/components/AnimatedNumber"
+import { ThemeToggle } from "@/components/ThemeToggle"
 import { useNavigate } from "react-router-dom"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Check, ArrowRight, Users, Shield, Zap, TrendingUp, MessageSquare, Award, Feather, Play, ChevronRight, Building2, Globe, Smartphone, BarChart3, Clock, CheckCircle2, Menu, X } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Card, CardContent } from "@/components/ui/card"
+import { 
+  Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
+  Star, ArrowRight, Monitor, Smartphone, Headphones, Mail
+} from "lucide-react"
 
-const LandingPage = () => {
+export default function LandingPage() {
   const navigate = useNavigate()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
 
-  const features = [
+  const dashboardImages = [
     {
-      icon: Users,
-      title: "Customer Management",
-      description: "Efficiently manage your clients with our comprehensive CRM system",
-      highlight: "Complete CRM"
+      src: "/lovable-uploads/0e5059d6-0019-4810-aa5e-28488bd3ebfe.png",
+      alt: "Invoice Management Dashboard",
+      title: "Invoice Management"
     },
     {
-      icon: Shield,
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security with 99.9% uptime guarantee",
-      highlight: "99.9% Uptime"
+      src: "/lovable-uploads/94a8f69c-f543-4b11-9bf7-8a3bb6f92f0f.png", 
+      alt: "Task Management Dashboard",
+      title: "Task Management"
     },
     {
-      icon: Zap,
-      title: "AI-Powered",
-      description: "Leverage artificial intelligence to automate and optimize your workflow",
-      highlight: "Integrated AI"
+      src: "/lovable-uploads/d0136229-21fd-4d10-bf06-8b0bcd905d73.png",
+      alt: "Quick Actions Dashboard", 
+      title: "Quick Actions"
     },
     {
-      icon: TrendingUp,
-      title: "Analytics Dashboard",
-      description: "Gain insights with powerful analytics and reporting tools",
-      highlight: "Advanced Analytics"
-    },
-    {
-      icon: MessageSquare,
-      title: "Voice Assistant",
-      description: "Control your business with voice commands and AI assistance",
-      highlight: "Voice Command"
-    },
-    {
-      icon: Award,
-      title: "Professional Tools",
-      description: "Create invoices, contracts and documents with ease",
-      highlight: "Pro Documents"
+      src: "/lovable-uploads/8ce55bd9-24d8-4ad9-9f66-9dee70c7954c.png",
+      alt: "Analytics Dashboard",
+      title: "Analytics Dashboard"
     }
   ]
 
-  const useCases = [
+  // Auto-advance carousel
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % dashboardImages.length)
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [dashboardImages.length])
+
+  const features = [
     {
-      icon: Building2,
-      title: "Enterprises",
-      description: "Manage complex operations with enterprise tools",
-      metrics: "500+ companies"
+      icon: Zap,
+      title: "AI-Powered Automation",
+      description: "Streamline your workflow with intelligent automation that learns from your business patterns."
+    },
+    {
+      icon: Shield,
+      title: "Enterprise Security",
+      description: "Bank-level security with end-to-end encryption to protect your sensitive business data."
     },
     {
       icon: Users,
-      title: "Startups",
-      description: "Scale quickly with intelligent automation",
-      metrics: "1000+ startups"
+      title: "Team Collaboration",
+      description: "Connect your team with real-time collaboration tools and shared workspaces."
     },
     {
-      icon: Globe,
-      title: "Freelancers",
-      description: "Organize projects and clients in one place",
-      metrics: "5000+ freelancers"
+      icon: Briefcase,
+      title: "Project Management",
+      description: "Organize projects, track progress, and meet deadlines with powerful project tools."
+    },
+    {
+      icon: BarChart3,
+      title: "Advanced Analytics",
+      description: "Get deep insights into your business performance with comprehensive analytics."
+    },
+    {
+      icon: Clock,
+      title: "Time Tracking",
+      description: "Monitor productivity and billable hours with precise time tracking capabilities."
     }
   ]
 
   const testimonials = [
     {
-      name: "Maria Silva",
-      role: "CEO, TechStart",
-      content: "FeatherBiz transformed our business operations. The AI features have saved us countless hours every week.",
-      rating: 5,
-      company: "TechStart",
-      avatar: "MS"
+      name: "Sarah Johnson",
+      role: "CEO, TechStart Inc.",
+      content: "FeatherBiz transformed our operations. We've increased efficiency by 40% and our team loves the intuitive interface.",
+      rating: 5
     },
     {
-      name: "John Santos",
-      role: "Freelancer",
-      content: "Finally, a platform that understands small business needs. The invoice system is amazing!",
-      rating: 5,
-      company: "Independent",
-      avatar: "JS"
+      name: "Michael Chen",
+      role: "Freelance Designer",
+      content: "As a solo entrepreneur, FeatherBiz gives me enterprise-level tools without the complexity. Perfect for growing businesses.",
+      rating: 5
     },
     {
-      name: "Ana Costa",
-      role: "Business Owner",
-      content: "The voice assistant feature is revolutionary. I can manage everything hands-free while working.",
-      rating: 5,
-      company: "Costa & Co",
-      avatar: "AC"
+      name: "Emily Rodriguez",
+      role: "Operations Manager",
+      content: "The automation features save us hours every week. It's like having an extra team member that never sleeps.",
+      rating: 5
     }
   ]
 
-  const pricingPlans = [
-    {
-      name: "Starter",
-      price: "Free",
-      period: "",
-      description: "Perfect to get started",
-      features: ["Up to 10 clients", "Basic invoicing", "Email support", "Mobile app access"],
-      cta: "Start Free",
-      popular: false
-    },
-    {
-      name: "Professional",
-      price: "$89",
-      period: "/month",
-      description: "For growing businesses",
-      features: ["Unlimited clients", "AI voice assistant", "Advanced analytics", "Priority support", "Custom branding"],
-      cta: "Free 14-day Trial",
-      popular: true
-    },
-    {
-      name: "Enterprise",
-      price: "$299",
-      period: "/month",
-      description: "For large organizations",
-      features: ["Everything in Professional", "White-label solution", "API access", "Dedicated support", "Custom integrations"],
-      cta: "Talk to Sales",
-      popular: false
-    }
-  ]
-
-  const integrations = [
-    { name: "Stripe", logo: "💳" },
-    { name: "WhatsApp", logo: "💬" },
-    { name: "Gmail", logo: "📧" },
-    { name: "Slack", logo: "💼" },
-    { name: "Zoom", logo: "📹" },
-    { name: "Dropbox", logo: "📁" }
+  const stats = [
+    { number: "10,000+", label: "Active Users" },
+    { number: "99.9%", label: "Uptime" },
+    { number: "24/7", label: "Support" },
+    { number: "150+", label: "Integrations" }
   ]
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-lg bg-white/95">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      {/* Navigation */}
+      <nav className="bg-white/95 backdrop-blur-sm shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="flex items-center">
-                <Feather className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 mr-2" />
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">FeatherBiz</h1>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">FB</span>
+                </div>
+                <span className="text-xl font-bold text-blue-600">FeatherBiz</span>
               </div>
-              <span className="ml-2 sm:ml-3 text-xs sm:text-sm text-gray-500 hidden md:block">AI-Powered Business Platform</span>
             </div>
             
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Reviews</a>
               <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
-              <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">Customers</a>
-            </nav>
-
-            {/* Desktop Buttons */}
-            <div className="hidden sm:flex items-center gap-2 lg:gap-3">
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                variant="ghost"
-                className="text-gray-600 hover:text-blue-600 text-sm"
-                size="sm"
-              >
-                Sign In
-              </Button>
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-sm"
-                size="sm"
-              >
-                Try It Free
-              </Button>
-              <div className="hidden lg:block">
-                <UserGreeting />
-              </div>
+              <a href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="sm:hidden">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2"
+            <div className="flex items-center space-x-4">
+              <LanguageSelector />
+              <ThemeToggle />
+              <UserGreeting />
+              <Button 
+                onClick={() => navigate('/dashboard')}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
               >
-                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                Dashboard
               </Button>
             </div>
           </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="sm:hidden border-t border-gray-200 py-4 space-y-4">
-              <nav className="flex flex-col space-y-3">
-                <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-1">Features</a>
-                <a href="#pricing" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-1">Pricing</a>
-                <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors px-2 py-1">Customers</a>
-              </nav>
-              <div className="flex flex-col gap-2 pt-3 border-t border-gray-200">
-                <Button 
-                  onClick={() => navigate('/dashboard')}
-                  variant="ghost"
-                  className="text-gray-600 hover:text-blue-600 justify-start"
-                  size="sm"
-                >
-                  Sign In
-                </Button>
-                <Button 
-                  onClick={() => navigate('/dashboard')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white justify-start"
-                  size="sm"
-                >
-                  Try It Free
-                </Button>
-              </div>
-            </div>
-          )}
         </div>
-      </header>
+      </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-8 sm:pt-12 lg:pt-16 pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-gray-50"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center bg-blue-100 text-blue-800 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium mb-6 sm:mb-8">
-              <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-              New: AI Assistant with Voice Commands
-            </div>
-            
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
-              Transform Your Business with
-              <span className="text-blue-600 block">Artificial Intelligence</span>
+      {/* Hero Section - Simplified without image */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
+              Streamline Your Business
             </h1>
-            
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
-              The only platform you need to manage customers, create documents,
-              automate processes, and grow your business with the power of AI.
+            <p className="text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto">
+              All-in-one platform to manage clients, projects, and payments.
             </p>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 px-4 sm:px-0">
+            <div className="mb-6 sm:mb-8">
               <Button 
                 onClick={() => navigate('/dashboard')}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-lg w-full sm:w-auto"
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg h-12 sm:h-14 w-full sm:w-auto"
               >
-                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Try Free for 14 Days
+                Get Started
               </Button>
-              <Button 
-                onClick={() => navigate('/admin')}
-                variant="outline" 
-                size="lg"
-                className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg h-12 sm:h-14 w-full sm:w-auto"
-              >
-                <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Watch Live Demo
-              </Button>
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-xs sm:text-sm text-gray-500 px-4 sm:px-0">
-              <div className="flex items-center">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-2" />
-                No credit card required
-              </div>
-              <div className="flex items-center">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-2" />
-                2-minute setup
-              </div>
-              <div className="flex items-center">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-2" />
-                Cancel anytime
-              </div>
-            </div>
-          </div>
-
-          {/* Animated Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16 lg:mt-20 max-w-4xl mx-auto px-4 sm:px-0">
-            <div className="text-center animate-fade-in opacity-0" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
-                <AnimatedNumber value={10000} suffix="+" delay={200} />
-              </div>
-              <div className="text-sm sm:text-base text-gray-600">Active Businesses</div>
-            </div>
-            <div className="text-center animate-fade-in opacity-0" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
-                <AnimatedNumber value={99.9} decimals={1} suffix="%" delay={400} />
-              </div>
-              <div className="text-sm sm:text-base text-gray-600">Uptime Guaranteed</div>
-            </div>
-            <div className="text-center animate-fade-in opacity-0" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-2">
-                <AnimatedNumber value={4.9} decimals={1} suffix="★" delay={600} />
-              </div>
-              <div className="text-sm sm:text-base text-gray-600">User Rating</div>
+              <p className="text-sm text-gray-500 mt-3 sm:mt-4">Free 14-day trial. No credit card required</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="py-8 sm:py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-gray-500 mb-6 sm:mb-8 text-sm sm:text-base">Trusted by thousands of companies</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:justify-center lg:items-center gap-6 sm:gap-8 lg:gap-12 opacity-60">
-            {integrations.map((integration, index) => (
-              <div key={index} className="flex items-center justify-center lg:justify-start space-x-2">
-                <span className="text-xl sm:text-2xl">{integration.logo}</span>
-                <span className="font-medium text-gray-700 text-sm sm:text-base">{integration.name}</span>
-              </div>
-            ))}
+      {/* Dashboard Showcase Carousel */}
+      <section className="py-12 sm:py-16 md:py-20 relative">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Powerful Dashboard Views
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Experience our comprehensive business management tools through intuitive dashboards
+            </p>
+          </div>
+          
+          <div className="relative">
+            <Carousel className="w-full max-w-5xl mx-auto">
+              <CarouselContent>
+                {dashboardImages.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <Card className="border-0 shadow-2xl">
+                      <CardContent className="p-0">
+                        <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-blue-50 to-blue-100">
+                          <img
+                            src={image.src}
+                            alt={image.alt}
+                            className="w-full h-auto max-h-[500px] object-contain rounded-lg"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                          <div className="absolute bottom-4 left-4 right-4">
+                            <h3 className="text-white text-lg sm:text-xl font-semibold mb-2 drop-shadow-lg">
+                              {image.title}
+                            </h3>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-4" />
+              <CarouselNext className="right-4" />
+            </Carousel>
+            
+            {/* Carousel indicators */}
+            <div className="flex justify-center mt-6 space-x-2">
+              {dashboardImages.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    currentSlide === index ? 'bg-blue-600' : 'bg-gray-300'
+                  }`}
+                  onClick={() => setCurrentSlide(index)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 sm:py-20 lg:py-24 bg-white">
+      <section id="features" className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Everything You Need in One Platform
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              Powerful Features for Modern Business
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4 sm:px-0">
-              From customer management to AI automation, have all the tools
-              necessary to make your business thrive.
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Everything you need to run your business efficiently, from client management to financial tracking.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {features.map((feature, index) => (
-              <Card 
-                key={index} 
-                className="group hover:shadow-xl transition-all duration-300 border-gray-200 hover:border-blue-200 cursor-pointer"
-                onClick={() => navigate('/dashboard')}
+              <div
+                key={index}
+                className="group p-6 sm:p-8 bg-gray-50 rounded-2xl hover:bg-blue-50 transition-all duration-300 hover:shadow-lg"
               >
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-2 sm:p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                      <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-                    </div>
-                    <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
-                      {feature.highlight}
-                    </span>
-                  </div>
-                  <CardTitle className="text-lg sm:text-xl group-hover:text-blue-600 transition-colors">
-                    {feature.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 leading-relaxed text-sm sm:text-base">
-                    {feature.description}
-                  </CardDescription>
-                  <div className="flex items-center mt-4 text-blue-600 group-hover:text-blue-700">
-                    <span className="text-sm font-medium">Learn more</span>
-                    <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-blue-200 transition-colors">
+                  <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Use Cases */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gray-50">
+      {/* Stats Section */}
+      <section className="py-16 sm:py-20 bg-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-              For Any Type of Business
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Trusted by Businesses Worldwide
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 px-4 sm:px-0">
-              Whether you're a startup, enterprise, or freelancer, we have the ideal solution
+            <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
+              Join thousands of businesses that have transformed their operations with FeatherBiz
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {useCases.map((useCase, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow border-gray-200">
-                <CardHeader>
-                  <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                    <useCase.icon className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
-                  </div>
-                  <CardTitle className="text-xl sm:text-2xl">{useCase.title}</CardTitle>
-                  <div className="text-sm text-blue-600 font-medium">{useCase.metrics}</div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 text-base sm:text-lg">
-                    {useCase.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-blue-100 text-sm sm:text-base font-medium">
+                  {stat.label}
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 sm:py-20 lg:py-24 bg-white">
+      <section id="testimonials" className="py-16 sm:py-20 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Loved by Thousands of Businesses
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              What Our Customers Say
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 px-4 sm:px-0">
-              See what our customers are saying about FeatherBiz
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Don't just take our word for it. Here's what real businesses say about FeatherBiz.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-gray-200">
-                <CardContent className="p-6 sm:p-8">
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-gray-700 mb-6 italic text-base sm:text-lg leading-relaxed">
-                    "{testimonial.content}"
-                  </p>
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center mr-3 sm:mr-4">
-                      <span className="text-blue-600 font-bold text-sm sm:text-base">{testimonial.avatar}</span>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900 text-sm sm:text-base">{testimonial.name}</div>
-                      <div className="text-xs sm:text-sm text-gray-500">{testimonial.role}</div>
-                      <div className="text-xs text-blue-600">{testimonial.company}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <div
+                key={index}
+                className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 text-sm sm:text-base leading-relaxed">
+                  "{testimonial.content}"
+                </p>
+                <div className="border-t pt-4">
+                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                  <div className="text-gray-600 text-sm">{testimonial.role}</div>
+                </div>
+              </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-16 sm:py-20 lg:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Simple and Transparent Pricing
-            </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 px-4 sm:px-0">
-              Choose the ideal plan for your business. No hidden fees.
-            </p>
-            <div className="inline-flex bg-gray-100 p-1 rounded-lg">
-              <button className="px-3 sm:px-4 py-2 text-sm font-medium text-gray-900 bg-white rounded-md shadow-sm">
-                Monthly
-              </button>
-              <button className="px-3 sm:px-4 py-2 text-sm font-medium text-gray-500">
-                Annual (20% off)
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <Card key={index} className={`relative ${plan.popular ? 'border-blue-500 ring-2 ring-blue-200 lg:scale-105' : 'border-gray-200'}`}>
-                {plan.popular && (
-                  <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-blue-600 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-                <CardHeader className="text-center pb-6 sm:pb-8">
-                  <CardTitle className="text-xl sm:text-2xl font-bold">{plan.name}</CardTitle>
-                  <div className="mt-4">
-                    <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-500 text-sm sm:text-base">{plan.period}</span>
-                  </div>
-                  <CardDescription className="text-base sm:text-lg mt-2">{plan.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <ul className="space-y-3 sm:space-y-4">
-                    {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center">
-                        <Check className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 mr-3 flex-shrink-0" />
-                        <span className="text-gray-600 text-sm sm:text-base">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button 
-                    className={`w-full py-2 sm:py-3 text-base sm:text-lg ${plan.popular ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-white hover:bg-gray-50 text-gray-900 border border-gray-300'}`}
-                    onClick={() => navigate('/dashboard')}
-                  >
-                    {plan.cta}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-8 sm:mt-12">
-            <p className="text-gray-600 mb-4 text-sm sm:text-base">Need something custom?</p>
-            <Button 
-              variant="outline"
-              onClick={() => navigate('/contact')}
-              className="border-blue-600 text-blue-600 hover:bg-blue-50"
-            >
-              Talk to Sales
-            </Button>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-            Ready to Revolutionize Your Business?
+      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
+            Ready to Transform Your Business?
           </h2>
-          <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-8 sm:mb-10 leading-relaxed">
-            Join thousands of companies already using FeatherBiz to grow.
-            Start for free today.
+          <p className="text-lg sm:text-xl text-blue-100 mb-8 sm:mb-10 max-w-2xl mx-auto">
+            Join thousands of businesses already using FeatherBiz to streamline their operations and boost productivity.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
-              size="lg"
-              className="bg-white text-blue-600 hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg h-12 sm:h-14 w-full sm:w-auto"
               onClick={() => navigate('/dashboard')}
+              size="lg"
+              className="bg-white text-blue-600 hover:bg-gray-100 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
             >
-              <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              Start Free Now
+              Start Free Trial
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button 
-              size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg h-12 sm:h-14 w-full sm:w-auto"
-              onClick={() => navigate('/contact')}
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-blue-600 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
             >
               Schedule Demo
             </Button>
           </div>
-          <p className="text-blue-200 text-xs sm:text-sm mt-4 sm:mt-6">
-            ✓ Free 14-day trial ✓ No credit card required ✓ 24/7 support
+          <p className="text-blue-100 text-sm mt-4">
+            No credit card required • 14-day free trial • Cancel anytime
           </p>
         </div>
       </section>
@@ -549,63 +356,67 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-2">
-              <div className="flex items-center mb-4 sm:mb-6">
-                <Feather className="h-6 w-6 sm:h-8 sm:w-8 text-blue-400 mr-2 sm:mr-3" />
-                <h3 className="text-xl sm:text-2xl font-bold text-white">FeatherBiz</h3>
-              </div>
-              <p className="text-gray-300 mb-4 sm:mb-6 max-w-md leading-relaxed text-sm sm:text-base">
-                The most advanced business management platform,
-                powered by artificial intelligence to help your business grow.
-              </p>
-              <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">
-                <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white hover:bg-gray-800 justify-start sm:justify-center">
-                  Twitter
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white hover:bg-gray-800 justify-start sm:justify-center">
-                  LinkedIn
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white hover:bg-gray-800 justify-start sm:justify-center">
-                  Facebook
-                </Button>
-              </div>
-            </div>
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div>
-              <h4 className="font-semibold text-base sm:text-lg mb-4 sm:mb-6 text-white">Product</h4>
-              <ul className="space-y-2 sm:space-y-3">
-                <li><a href="#features" className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Features</a></li>
-                <li><a href="#pricing" className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Pricing</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base">API</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Integrations</a></li>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">FB</span>
+                </div>
+                <span className="text-xl font-bold">FeatherBiz</span>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                The complete business management platform designed for modern entrepreneurs and growing companies.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Platform</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Integrations</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">API</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Security</a></li>
               </ul>
             </div>
-            
+
             <div>
-              <h4 className="font-semibold text-base sm:text-lg mb-4 sm:mb-6 text-white">Support</h4>
-              <ul className="space-y-2 sm:space-y-3">
-                <li><Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-0 h-auto text-sm sm:text-base justify-start" onClick={() => navigate('/faq')}>FAQ</Button></li>
-                <li><Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-0 h-auto text-sm sm:text-base justify-start" onClick={() => navigate('/contact')}>Contact</Button></li>
-                <li><Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-0 h-auto text-sm sm:text-base justify-start" onClick={() => navigate('/feedback')}>Feedback</Button></li>
-                <li><a href="#" className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Documentation</a></li>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Community</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Company</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Press</a></li>
               </ul>
             </div>
           </div>
-          
-          <div className="border-t border-gray-800 mt-8 sm:mt-12 pt-6 sm:pt-8 flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            <p className="text-gray-400 text-xs sm:text-sm text-center lg:text-left">
+
+          <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-gray-400 text-sm mb-4 sm:mb-0">
               © 2024 FeatherBiz. All rights reserved.
             </p>
-            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <div className="w-full sm:w-48">
-                <LanguageSelector />
-              </div>
-              <div className="flex items-center space-x-4 sm:space-x-6">
-                <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">Privacy</a>
-                <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">Terms</a>
-                <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">Cookies</a>
-              </div>
+            <div className="flex items-center space-x-6">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Monitor className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Smartphone className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Mail className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Headphones className="w-5 h-5" />
+              </a>
             </div>
           </div>
         </div>
@@ -613,5 +424,3 @@ const LandingPage = () => {
     </div>
   )
 }
-
-export default LandingPage

@@ -27,22 +27,22 @@ export default function PaymentSuccess() {
             <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
           </div>
           <CardTitle className="text-2xl text-green-600 dark:text-green-400">
-            Pagamento Realizado!
+            Payment Successful!
           </CardTitle>
           <CardDescription>
-            Seu pagamento foi processado com sucesso.
-            {planId && ` Bem-vindo ao plano ${planId}!`}
+            Your payment has been processed successfully.
+            {planId && ` Welcome to the ${planId} plan!`}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Você receberá um email de confirmação em breve.
+            You will receive a confirmation email shortly.
           </p>
           <Button onClick={() => navigate("/")} className="w-full">
-            Voltar ao Dashboard
+            Return to Dashboard
           </Button>
           <p className="text-xs text-muted-foreground">
-            Redirecionando automaticamente em 10 segundos...
+            Redirecting automatically in 10 seconds...
           </p>
         </CardContent>
       </Card>

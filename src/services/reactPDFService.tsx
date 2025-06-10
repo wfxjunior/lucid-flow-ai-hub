@@ -1,6 +1,7 @@
 import React from 'react'
 import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer'
 import { BusinessData } from './pdfService'
+import { InvoicePDFTemplate, generateInvoicePDF } from '../components/InvoicePDFTemplate'
 
 // Estilos otimizados para React-PDF
 const styles = StyleSheet.create({
@@ -284,7 +285,47 @@ const WorkOrderPDF = ({ workOrder, businessData }: { workOrder: any, businessDat
   </Document>
 )
 
-// Serviço principal React-PDF
+// Updated Invoice PDF component to use the new template
+const InvoicePDF = ({ invoice, businessData }: { invoice: any, businessData: BusinessData }) => {
+  const invoiceData = {
+    invoiceNumber: invoice.invoice_number || invoice.id.slice(0, 8),
+    invoiceDate: invoice.invoice_date ? new Date(invoice.invoice_date).toLocaleDateString() : new Date().toLocaleDateString(),
+    dueDate: invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : undefined,
+    title: invoice.title || 'Professional Services Invoice',
+    companyInfo: {
+      name: businessData.companyName || 'FeatherBiz',
+      address: businessData.companyAddress || '123 Business St, Suite 100\nBusiness City, BC 12345',
+      phone: businessData.companyPhone || '(555) 123-4567',
+      email: businessData.companyEmail || 'info@featherbiz.com'
+    },
+    clientInfo: {
+      name: invoice.client?.name || 'Client Name',
+      email: invoice.client?.email || 'client@email.com',
+      phone: invoice.client?.phone,
+      address: invoice.client?.address
+    },
+    lineItems: invoice.line_items || [
+      {
+        description: invoice.description || 'Professional Services',
+        quantity: 1,
+        rate: invoice.amount || 0,
+        amount: invoice.amount || 0
+      }
+    ],
+    totals: {
+      subtotal: invoice.amount || 0,
+      discount: 0,
+      tax: 0,
+      total: invoice.amount || 0
+    },
+    notes: invoice.notes || invoice.description,
+    status: invoice.status || 'draft'
+  }
+
+  return <InvoicePDFTemplate invoiceData={invoiceData} />
+}
+
+// Service principal React-PDF
 export class ReactPDFService {
   private static businessData: BusinessData = {
     companyName: "FeatherBiz",
@@ -324,6 +365,45 @@ export class ReactPDFService {
     link.download = `ordem_servico_${workOrder.work_order_number || workOrder.id}_${Date.now()}.pdf`
     link.click()
     URL.revokeObjectURL(url)
+  }
+
+  static async generateInvoicePDF(invoice: any): Promise<void> {
+    const invoiceData = {
+      invoiceNumber: invoice.invoice_number || invoice.id.slice(0, 8),
+      invoiceDate: invoice.invoice_date ? new Date(invoice.invoice_date).toLocaleDateString() : new Date().toLocaleDateString(),
+      dueDate: invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : undefined,
+      title: invoice.title || 'Professional Services Invoice',
+      companyInfo: {
+        name: this.businessData.companyName,
+        address: this.businessData.companyAddress,
+        phone: this.businessData.companyPhone,
+        email: this.businessData.companyEmail
+      },
+      clientInfo: {
+        name: invoice.client?.name || 'Client Name',
+        email: invoice.client?.email || 'client@email.com',
+        phone: invoice.client?.phone,
+        address: invoice.client?.address
+      },
+      lineItems: invoice.line_items || [
+        {
+          description: invoice.description || 'Professional Services',
+          quantity: 1,
+          rate: invoice.amount || 0,
+          amount: invoice.amount || 0
+        }
+      ],
+      totals: {
+        subtotal: invoice.amount || 0,
+        discount: 0,
+        tax: 0,
+        total: invoice.amount || 0
+      },
+      notes: invoice.notes || invoice.description,
+      status: invoice.status || 'draft'
+    }
+
+    await generateInvoicePDF(invoiceData)
   }
 
   static async generateAnalyticsReportPDF(data: any): Promise<void> {
