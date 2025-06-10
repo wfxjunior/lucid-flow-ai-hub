@@ -36,19 +36,19 @@ const Auth = () => {
     const newErrors: string[] = []
     
     if (!email) {
-      newErrors.push('E-mail é obrigatório')
+      newErrors.push('Email is required')
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.push('E-mail deve ter um formato válido')
+      newErrors.push('Email must have a valid format')
     }
     
     if (!password) {
-      newErrors.push('Senha é obrigatória')
+      newErrors.push('Password is required')
     } else if (password.length < 6) {
-      newErrors.push('Senha deve ter pelo menos 6 caracteres')
+      newErrors.push('Password must be at least 6 characters')
     }
     
     if (!isLogin && password !== confirmPassword) {
-      newErrors.push('Senhas não coincidem')
+      newErrors.push('Passwords do not match')
     }
     
     setErrors(newErrors)
@@ -86,17 +86,17 @@ const Auth = () => {
         
         if (error) {
           if (error.message.includes('Invalid login credentials')) {
-            throw new Error('E-mail ou senha incorretos')
+            throw new Error('Invalid email or password')
           } else if (error.message.includes('Email not confirmed')) {
-            throw new Error('Confirme seu e-mail antes de fazer login')
+            throw new Error('Please confirm your email before logging in')
           } else {
             throw new Error(error.message)
           }
         }
         
         toast({
-          title: "Sucesso",
-          description: "Login realizado com sucesso"
+          title: "Success",
+          description: "Login successful"
         })
         
         // Force page refresh for clean state
@@ -114,15 +114,15 @@ const Auth = () => {
         
         if (error) {
           if (error.message.includes('User already registered')) {
-            throw new Error('Este e-mail já está cadastrado. Tente fazer login.')
+            throw new Error('This email is already registered. Try logging in.')
           } else {
             throw new Error(error.message)
           }
         }
         
         toast({
-          title: "Conta criada com sucesso!",
-          description: "Verifique seu e-mail para confirmar a conta antes de fazer login."
+          title: "Account created successfully!",
+          description: "Check your email to confirm your account before logging in."
         })
         
         // Switch to login mode after successful signup
@@ -134,7 +134,7 @@ const Auth = () => {
       console.error('Auth error:', error)
       setErrors([error.message])
       toast({
-        title: "Erro",
+        title: "Error",
         description: error.message,
         variant: "destructive"
       })
@@ -145,7 +145,7 @@ const Auth = () => {
 
   const handleForgotPassword = async () => {
     if (!email) {
-      setErrors(['Digite seu e-mail para recuperar a senha'])
+      setErrors(['Enter your email to reset password'])
       return
     }
     
@@ -158,12 +158,12 @@ const Auth = () => {
       if (error) throw error
       
       toast({
-        title: "E-mail enviado",
-        description: "Verifique sua caixa de entrada para redefinir sua senha"
+        title: "Email sent",
+        description: "Check your inbox to reset your password"
       })
     } catch (error: any) {
       toast({
-        title: "Erro",
+        title: "Error",
         description: error.message,
         variant: "destructive"
       })
@@ -185,12 +185,12 @@ const Auth = () => {
             <span className="text-2xl font-bold text-primary">FeatherBiz</span>
           </div>
           <CardTitle className="text-2xl">
-            {isLogin ? 'Fazer Login' : 'Criar Conta'}
+            {isLogin ? 'Sign In' : 'Create Account'}
           </CardTitle>
           <p className="text-muted-foreground">
             {isLogin 
-              ? 'Entre para acessar sua conta' 
-              : 'Crie sua conta gratuita'
+              ? 'Enter your credentials to access your account' 
+              : 'Create your free account'
             }
           </p>
         </CardHeader>
@@ -213,12 +213,12 @@ const Auth = () => {
             <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center space-x-2">
                 <Mail className="w-4 h-4" />
-                <span>E-mail</span>
+                <span>Email</span>
               </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="seu@email.com"
+                placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-4"
@@ -229,13 +229,13 @@ const Auth = () => {
             <div className="space-y-2">
               <Label htmlFor="password" className="flex items-center space-x-2">
                 <Lock className="w-4 h-4" />
-                <span>Senha</span>
+                <span>Password</span>
               </Label>
               <div className="relative">
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Digite sua senha"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-4 pr-10"
@@ -255,11 +255,11 @@ const Auth = () => {
             
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirmar Senha</Label>
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
-                  placeholder="Confirme sua senha"
+                  placeholder="Confirm your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="pl-4"
@@ -274,7 +274,7 @@ const Auth = () => {
               disabled={loading}
               size="lg"
             >
-              {loading ? 'Processando...' : (isLogin ? 'Entrar' : 'Criar Conta')}
+              {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
             </Button>
           </form>
           
@@ -286,14 +286,14 @@ const Auth = () => {
                 disabled={loading}
                 className="text-sm"
               >
-                Esqueceu sua senha?
+                Forgot your password?
               </Button>
             </div>
           )}
           
           <div className="text-center">
             <p className="text-sm text-muted-foreground">
-              {isLogin ? "Não tem uma conta?" : "Já tem uma conta?"}
+              {isLogin ? "Don't have an account?" : "Already have an account?"}
             </p>
             <Button
               variant="link"
@@ -305,16 +305,16 @@ const Auth = () => {
               }}
               className="text-primary font-medium"
             >
-              {isLogin ? "Criar conta gratuita" : "Fazer login"}
+              {isLogin ? "Create free account" : "Sign in"}
             </Button>
           </div>
           
           {!isLogin && (
             <div className="text-center text-xs text-muted-foreground">
-              Ao criar uma conta, você concorda com nossos{' '}
-              <a href="#" className="text-primary hover:underline">Termos de Uso</a>
-              {' '}e{' '}
-              <a href="#" className="text-primary hover:underline">Política de Privacidade</a>
+              By creating an account, you agree to our{' '}
+              <a href="#" className="text-primary hover:underline">Terms of Service</a>
+              {' '}and{' '}
+              <a href="#" className="text-primary hover:underline">Privacy Policy</a>
             </div>
           )}
         </CardContent>
