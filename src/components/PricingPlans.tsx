@@ -8,18 +8,17 @@ import { TrustIndicators } from "./pricing/TrustIndicators"
 
 const plans = [
   {
-    id: "free-invoice",
-    name: "Free Starter",
-    description: "Perfect for new contractors",
+    id: "free",
+    name: "Free",
+    description: "Perfect for getting started",
     price: "$0",
     period: "forever",
     icon: Zap,
     features: [
       "5 invoices per month",
       "Basic templates",
-      "Email sending",
-      "Basic customer management",
-      "Standard support"
+      "Standard support",
+      "Basic customer management"
     ],
     buttonText: "Start Free",
     popular: false,
@@ -28,34 +27,14 @@ const plans = [
     stripePrice: null
   },
   {
-    id: "trial",
-    name: "Free Trial",
-    description: "Try everything for 7 days",
-    price: "$0",
-    period: "7 days",
-    icon: Star,
-    features: [
-      "All premium features",
-      "Unlimited invoices",
-      "AI voice assistant",
-      "Advanced analytics",
-      "Priority support",
-      "All integrations"
-    ],
-    buttonText: "Start Free Trial",
-    popular: true,
-    color: "from-blue-500 to-purple-600",
-    bgGradient: "from-blue-50 to-purple-50",
-    stripePrice: null
-  },
-  {
-    id: "monthly",
+    id: "professional",
     name: "Professional",
-    description: "Everything you need to grow",
+    description: "Everything you need to grow - 7 days free!",
     price: "$29",
     period: "month",
     icon: Crown,
     features: [
+      "7-day free trial",
       "Unlimited invoices",
       "AI voice assistant",
       "Advanced customer management",
@@ -63,38 +42,17 @@ const plans = [
       "E-signatures",
       "Priority support",
       "All integrations",
-      "Document tracking"
+      "Document tracking",
+      "Work orders",
+      "Appointments",
+      "Contracts",
+      "File management"
     ],
-    buttonText: "Get Started",
-    popular: false,
+    buttonText: "Start Free Trial",
+    popular: true,
     color: "from-green-500 to-emerald-600",
     bgGradient: "from-green-50 to-emerald-50",
     stripePrice: 2900,
-    recurring: true
-  },
-  {
-    id: "annual",
-    name: "Business Pro",
-    description: "Best value - Save 17%!",
-    price: "$290",
-    period: "year",
-    originalPrice: "$348",
-    icon: Sparkles,
-    features: [
-      "Everything in Professional",
-      "2 months FREE",
-      "Advanced AI features",
-      "White-label options",
-      "Custom integrations",
-      "Dedicated support",
-      "Early access to new features",
-      "Business consultation"
-    ],
-    buttonText: "Go Annual",
-    popular: false,
-    color: "from-purple-500 to-pink-600",
-    bgGradient: "from-purple-50 to-pink-50",
-    stripePrice: 29000,
     recurring: true
   }
 ]
@@ -104,10 +62,10 @@ export function PricingPlans() {
 
   const handlePlanSelection = async (plan: typeof plans[0]) => {
     if (plan.stripePrice === null) {
-      // Handle free plans
+      // Handle free plan
       toast({
         title: "Free Plan Selected",
-        description: `You've selected the ${plan.name}. No payment required!`,
+        description: `You've selected the ${plan.name}. Start creating your invoices!`,
       })
       return
     }
@@ -125,13 +83,14 @@ export function PricingPlans() {
         return
       }
 
-      // Create checkout session
+      // Create checkout session with trial
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
           priceAmount: plan.stripePrice,
           planName: plan.name,
           planId: plan.id,
-          recurring: plan.recurring || false
+          recurring: plan.recurring || false,
+          trialPeriodDays: 7
         }
       })
 
@@ -162,7 +121,7 @@ export function PricingPlans() {
         <PricingHeader />
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8 max-w-8xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
           {plans.map((plan) => (
             <PricingCard 
               key={plan.id} 

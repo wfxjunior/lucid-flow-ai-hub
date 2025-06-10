@@ -28,7 +28,7 @@ serve(async (req) => {
       throw new Error("User not authenticated or email not available");
     }
 
-    const { priceAmount, planName, planId, recurring } = await req.json();
+    const { priceAmount, planName, planId, recurring, trialPeriodDays } = await req.json();
     
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
@@ -41,25 +41,23 @@ serve(async (req) => {
       customerId = customers.data[0].id;
     }
 
-    const lineItems = [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: { 
-            name: planName,
-            description: `Hubsfy ${planName} - AI Business Automation Platform`
-          },
-          unit_amount: priceAmount,
-          ...(recurring && { recurring: { interval: planId.includes('annual') ? 'year' : 'month' } })
-        },
-        quantity: 1,
-      },
-    ];
-
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig: any = {
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
-      line_items: lineItems,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: { 
+              name: planName,
+              description: `FeatherBiz ${planName} - AI Business Automation Platform`
+            },
+            unit_amount: priceAmount,
+            ...(recurring && { recurring: { interval: 'month' } })
+          },
+          quantity: 1,
+        },
+      ],
       mode: recurring ? "subscription" : "payment",
       success_url: `${req.headers.get("origin")}/payment-success?plan=${planId}`,
       cancel_url: `${req.headers.get("origin")}/pricing?canceled=true`,
@@ -68,7 +66,16 @@ serve(async (req) => {
         plan_id: planId,
         plan_name: planName
       }
-    });
+    };
+
+    // Add trial period for subscriptions
+    if (recurring && trialPeriodDays) {
+      sessionConfig.subscription_data = {
+        trial_period_days: trialPeriodDays
+      };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
