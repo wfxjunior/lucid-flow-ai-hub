@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -62,7 +61,7 @@ export function SmartSchedulePage() {
     description: ""
   })
 
-  const handleAddressSelect = (address: string) => {
+  const handleAddressChange = (address: string) => {
     setFormData(prev => ({ ...prev, location: address }))
   }
 
@@ -249,7 +248,7 @@ export function SmartSchedulePage() {
                 <Label htmlFor="location">Location</Label>
                 <AddressAutocomplete
                   value={formData.location}
-                  onAddressSelect={handleAddressSelect}
+                  onChange={handleAddressChange}
                   placeholder="Enter address or location"
                 />
               </div>
