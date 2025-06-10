@@ -442,6 +442,7 @@ export default function LandingPage() {
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Community</a></li>
                 <li><a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a></li>
                 <li><a href="/feedback" className="text-muted-foreground hover:text-primary transition-colors">Feedback</a></li>
+                <li><a href="/referrals" className="text-muted-foreground hover:text-primary transition-colors">Referrals</a></li>
               </ul>
             </div>
 
