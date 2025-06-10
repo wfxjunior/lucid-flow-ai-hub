@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -80,29 +79,29 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Header - Improved mobile layout */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">{t("dashboard.title", "Business Dashboard")}</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("dashboard.title", "Business Dashboard")}</h1>
+          <p className="text-sm sm:text-base text-muted-foreground mt-1">
             {t("dashboard.welcome", "Welcome back! Here's what's happening with your business today.")}
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => onNavigate('analytics')}>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button variant="outline" onClick={() => onNavigate('analytics')} className="w-full sm:w-auto">
             <BarChart3 className="mr-2 h-4 w-4" />
             {t("dashboard.viewAnalytics", "View Analytics")}
           </Button>
-          <Button onClick={() => onNavigate('invoice-creator')}>
+          <Button onClick={() => onNavigate('invoice-creator')} className="w-full sm:w-auto">
             <Zap className="mr-2 h-4 w-4" />
             {t("dashboard.createInvoice", "Create Invoice")}
           </Button>
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {/* Stats Cards - Improved responsive grid */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <StatsCard
             key={index}
@@ -118,16 +117,16 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="overview">{t("dashboard.overview", "Overview")}</TabsTrigger>
-          <TabsTrigger value="tasks">{t("dashboard.tasksActivities", "Tasks & Activities")}</TabsTrigger>
-          <TabsTrigger value="quick-actions">{t("dashboard.quickActions", "Quick Actions")}</TabsTrigger>
+          <TabsTrigger value="overview" className="text-xs sm:text-sm">{t("dashboard.overview", "Overview")}</TabsTrigger>
+          <TabsTrigger value="tasks" className="text-xs sm:text-sm">{t("dashboard.tasksActivities", "Tasks & Activities")}</TabsTrigger>
+          <TabsTrigger value="quick-actions" className="text-xs sm:text-sm">{t("dashboard.quickActions", "Quick Actions")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           {/* Quick Actions Section */}
           <Card>
             <CardHeader>
-              <CardTitle>{t("dashboard.quickActions", "Quick Actions")}</CardTitle>
+              <CardTitle className="text-lg sm:text-xl">{t("dashboard.quickActions", "Quick Actions")}</CardTitle>
               <CardDescription>Access your most used business tools</CardDescription>
             </CardHeader>
             <CardContent>
@@ -135,12 +134,12 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             </CardContent>
           </Card>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+          <div className="grid gap-4 lg:grid-cols-7">
             {/* Revenue Chart */}
-            <Card className="col-span-4">
+            <Card className="lg:col-span-4">
               <CardHeader>
-                <CardTitle>{t("dashboard.revenueOverview", "Revenue Overview")}</CardTitle>
-                <CardDescription>{t("dashboard.monthlyRevenue6Months", "Monthly revenue for the last 6 months")}</CardDescription>
+                <CardTitle className="text-lg sm:text-xl">{t("dashboard.revenueOverview", "Revenue Overview")}</CardTitle>
+                <CardDescription className="text-sm">{t("dashboard.monthlyRevenue6Months", "Monthly revenue for the last 6 months")}</CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
                 <div className="h-[200px] flex items-center justify-center bg-gray-50 rounded-lg">
@@ -153,18 +152,18 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             </Card>
 
             {/* Recent Activity */}
-            <Card className="col-span-3">
+            <Card className="lg:col-span-3">
               <CardHeader>
-                <CardTitle>{t("dashboard.recentActivity", "Recent Activity")}</CardTitle>
-                <CardDescription>{t("dashboard.latestActivities", "Latest business activities")}</CardDescription>
+                <CardTitle className="text-lg sm:text-xl">{t("dashboard.recentActivity", "Recent Activity")}</CardTitle>
+                <CardDescription className="text-sm">{t("dashboard.latestActivities", "Latest business activities")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {recentActivities.map((activity) => (
                     <div key={activity.id} className="flex items-center space-x-4">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">{activity.action}</p>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{activity.action}</p>
                         <p className="text-xs text-muted-foreground">{activity.time}</p>
                       </div>
                     </div>
@@ -176,26 +175,27 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         </TabsContent>
 
         <TabsContent value="tasks" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2">
             {/* Upcoming Tasks */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <Clock className="h-5 w-5" />
                   {t("dashboard.upcomingTasks", "Upcoming Tasks")}
                 </CardTitle>
-                <CardDescription>{t("dashboard.tasksNeedAttention", "Tasks that need your attention")}</CardDescription>
+                <CardDescription className="text-sm">{t("dashboard.tasksNeedAttention", "Tasks that need your attention")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {upcomingTasks.map((task) => (
                     <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex-1">
-                        <p className="font-medium text-sm">{task.title}</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate">{task.title}</p>
                         <p className="text-xs text-muted-foreground">{t("dashboard.due", "Due")}: {task.due}</p>
                       </div>
                       <Badge 
                         variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
+                        className="ml-2 flex-shrink-0"
                       >
                         {task.priority}
                       </Badge>
@@ -208,11 +208,11 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             {/* Quick Stats */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <CheckCircle className="h-5 w-5" />
                   {t("dashboard.todayProgress", "Today's Progress")}
                 </CardTitle>
-                <CardDescription>{t("dashboard.productivityMetrics", "Your productivity metrics")}</CardDescription>
+                <CardDescription className="text-sm">{t("dashboard.productivityMetrics", "Your productivity metrics")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -241,8 +241,8 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         </TabsContent>
       </Tabs>
 
-      {/* Bottom Section - Key Metrics */}
-      <div className="grid gap-4 md:grid-cols-3">
+      {/* Bottom Section - Key Metrics - Improved mobile grid */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">{t("dashboard.activeProjects", "Active Projects")}</CardTitle>
@@ -265,7 +265,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="sm:col-span-2 lg:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">{t("dashboard.averageDealSize", "Average Deal Size")}</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
