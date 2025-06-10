@@ -355,8 +355,8 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
             onClick={() => onActionClick(action.id)}
           >
             <CardContent className="p-3 sm:p-4 flex flex-col items-center justify-center text-center h-full">
-              <div className={`p-3 sm:p-4 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg mb-2 sm:mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
-                <action.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+              <div className={`p-4 sm:p-5 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg mb-2 sm:mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
+                <action.icon className="h-7 w-7 sm:h-8 sm:w-8" />
               </div>
               <div className="flex-1 flex flex-col justify-center min-w-0">
                 <h3 className="font-semibold text-xs sm:text-sm leading-tight group-hover:text-blue-600 transition-colors mb-1">
