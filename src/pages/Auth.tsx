@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -17,6 +18,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
   const { toast } = useToast()
   const navigate = useNavigate()
 
@@ -40,14 +42,16 @@ const Auth = () => {
       newErrors.push('Email must have a valid format')
     }
     
-    if (!password) {
-      newErrors.push('Password is required')
-    } else if (password.length < 6) {
-      newErrors.push('Password must be at least 6 characters')
-    }
-    
-    if (!isLogin && password !== confirmPassword) {
-      newErrors.push('Passwords do not match')
+    if (!showForgotPassword) {
+      if (!password) {
+        newErrors.push('Password is required')
+      } else if (password.length < 6) {
+        newErrors.push('Password must be at least 6 characters')
+      }
+      
+      if (!isLogin && password !== confirmPassword) {
+        newErrors.push('Passwords do not match')
+      }
     }
     
     setErrors(newErrors)
@@ -142,25 +146,40 @@ const Auth = () => {
     }
   }
 
-  const handleForgotPassword = async () => {
-    if (!email) {
-      setErrors(['Enter your email to reset password'])
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!email.trim()) {
+      setErrors(['Please enter your email address'])
+      return
+    }
+    
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setErrors(['Please enter a valid email address'])
       return
     }
     
     setLoading(true)
+    setErrors([])
+    
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth`
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/auth?type=recovery`
       })
       
-      if (error) throw error
+      if (error) {
+        throw error
+      }
       
       toast({
-        title: "Email sent",
-        description: "Check your inbox to reset your password"
+        title: "Password reset email sent",
+        description: "Check your email for a link to reset your password"
       })
+      
+      setShowForgotPassword(false)
     } catch (error: any) {
+      console.error('Password reset error:', error)
+      setErrors([error.message])
       toast({
         title: "Error",
         description: error.message,
@@ -169,6 +188,76 @@ const Auth = () => {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+        <Card className="w-full max-w-md shadow-xl">
+          <CardHeader className="text-center space-y-4">
+            <CardTitle className="text-2xl">Reset Password</CardTitle>
+            <p className="text-muted-foreground">
+              Enter your email address and we'll send you a link to reset your password
+            </p>
+          </CardHeader>
+          
+          <CardContent className="space-y-6">
+            {errors.length > 0 && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  <ul className="list-disc list-inside space-y-1">
+                    {errors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            <form onSubmit={handleForgotPassword} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="flex items-center space-x-2">
+                  <Mail className="w-4 h-4" />
+                  <span>Email</span>
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-4"
+                  required
+                />
+              </div>
+              
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={loading}
+                size="lg"
+              >
+                {loading ? 'Sending...' : 'Send Reset Link'}
+              </Button>
+            </form>
+            
+            <div className="text-center">
+              <Button
+                variant="link"
+                onClick={() => {
+                  setShowForgotPassword(false)
+                  setErrors([])
+                }}
+                className="text-primary font-medium"
+              >
+                Back to Sign In
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -273,7 +362,7 @@ const Auth = () => {
             <div className="text-center">
               <Button
                 variant="link"
-                onClick={handleForgotPassword}
+                onClick={() => setShowForgotPassword(true)}
                 disabled={loading}
                 className="text-sm"
               >
@@ -293,6 +382,7 @@ const Auth = () => {
                 setErrors([])
                 setPassword('')
                 setConfirmPassword('')
+                setShowForgotPassword(false)
               }}
               className="text-primary font-medium"
             >
