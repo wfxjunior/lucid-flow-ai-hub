@@ -1,9 +1,8 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
@@ -157,8 +156,8 @@ export default function LandingPage() {
               <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</a>
               <a href="#testimonials" className="text-muted-foreground hover:text-primary transition-colors">Reviews</a>
               <a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</a>
-              <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
-              <a href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</a>
+              <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+              <Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -438,18 +437,18 @@ export default function LandingPage() {
               <ul className="space-y-2 text-sm">
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Help Center</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Documentation</a></li>
-                <li><a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
+                <li><Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Community</a></li>
-                <li><a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a></li>
-                <li><a href="/feedback" className="text-muted-foreground hover:text-primary transition-colors">Feedback</a></li>
-                <li><a href="/referrals" className="text-muted-foreground hover:text-primary transition-colors">Referrals</a></li>
+                <li><Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
+                <li><Link to="/feedback" className="text-muted-foreground hover:text-primary transition-colors">Feedback</Link></li>
+                <li><Link to="/referrals" className="text-muted-foreground hover:text-primary transition-colors">Referrals</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</a></li>
+                <li><Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Case Studies</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Guides</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Webinars</a></li>
