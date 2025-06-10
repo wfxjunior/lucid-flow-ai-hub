@@ -15,7 +15,6 @@ import {
   Receipt,
   Mic,
   Target,
-  Gift,
   Search
 } from "lucide-react"
 
@@ -114,14 +113,6 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       icon: Target,
       color: "bg-amber-500",
       hoverColor: "hover:bg-amber-600"
-    },
-    {
-      id: "referrals",
-      title: "Invite & Earn",
-      description: "Refer friends for rewards",
-      icon: Gift,
-      color: "bg-gradient-to-r from-yellow-400 to-orange-500",
-      hoverColor: "hover:from-yellow-500 hover:to-orange-600"
     }
   ]
 

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter, Globe, Clock, MessageSquare as FeedbackIcon, Download, Languages } from "lucide-react"
+import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter, Globe, Clock, MessageSquare as FeedbackIcon, Download, Languages, FileSpreadsheet } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -142,6 +142,20 @@ export function AdminDashboard() {
     }
   ])
 
+  // Global data for all pages export
+  const allPagesData = {
+    dashboard: { name: "Dashboard", records: 1, description: "Main dashboard data" },
+    invoices: { name: "Invoices", records: 234, description: "All invoice records" },
+    customers: { name: "Customers", records: 156, description: "Customer database" },
+    projects: { name: "Projects", records: 89, description: "Project management data" },
+    appointments: { name: "Appointments", records: 67, description: "Scheduled appointments" },
+    estimates: { name: "Estimates", records: 45, description: "Price estimates" },
+    contracts: { name: "Contracts", records: 34, description: "Contract documents" },
+    payments: { name: "Payments", records: 298, description: "Payment transactions" },
+    accounting: { name: "Accounting", records: 445, description: "Financial records" },
+    analytics: { name: "Analytics", records: 1, description: "Business analytics data" }
+  }
+
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("all")
   const [statusFilter, setStatusFilter] = useState("all")
@@ -224,7 +238,7 @@ export function AdminDashboard() {
     })
   }
 
-  const handleExport = (type: 'users' | 'activity' | 'feedback' | 'analytics' | 'languages') => {
+  const handleExport = (type: 'users' | 'activity' | 'feedback' | 'analytics' | 'languages' | 'all-pages') => {
     switch (type) {
       case 'users':
         exportToCSV(
@@ -261,7 +275,41 @@ export function AdminDashboard() {
           ['Language', 'Users', 'Percentage', 'Code']
         )
         break
+      case 'all-pages':
+        const allPagesArray = Object.entries(allPagesData).map(([key, value]) => ({
+          page: key,
+          name: value.name,
+          records: value.records,
+          description: value.description
+        }))
+        exportToCSV(
+          allPagesArray,
+          'all_pages_export',
+          ['Page', 'Name', 'Records', 'Description']
+        )
+        break
     }
+  }
+
+  const exportAllPages = () => {
+    const allExports = [
+      { type: 'users', data: users, headers: ['Name', 'Email', 'Role', 'Status', 'Last Login', 'Join Date', 'Country'] },
+      { type: 'activity', data: activityLogs, headers: ['User', 'Action', 'Timestamp', 'Details'] },
+      { type: 'feedback', data: feedbacks, headers: ['User', 'Type', 'Subject', 'Message', 'Status', 'Timestamp'] },
+      { type: 'analytics', data: countryStats, headers: ['Country', 'Users', 'Percentage'] },
+      { type: 'languages', data: languageStats, headers: ['Language', 'Users', 'Percentage', 'Code'] }
+    ]
+
+    allExports.forEach(({ type, data, headers }) => {
+      setTimeout(() => {
+        exportToCSV(data, `${type}_data`, headers)
+      }, 500 * allExports.indexOf(allExports.find(item => item.type === type)!))
+    })
+
+    toast({
+      title: "Bulk Export Started",
+      description: "All pages are being exported. Downloads will start shortly."
+    })
   }
 
   const getRoleColor = (role: string) => {
@@ -297,6 +345,14 @@ export function AdminDashboard() {
           <p className="text-lg text-muted-foreground">Complete system administration and control</p>
         </div>
         <div className="flex items-center gap-3">
+          <Button 
+            onClick={exportAllPages}
+            className="flex items-center gap-2"
+            variant="default"
+          >
+            <FileSpreadsheet className="h-4 w-4" />
+            Export All Pages
+          </Button>
           <Select onValueChange={(value) => handleExport(value as any)}>
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Export Data" />
@@ -307,6 +363,7 @@ export function AdminDashboard() {
               <SelectItem value="feedback">Export Feedback</SelectItem>
               <SelectItem value="analytics">Export Analytics</SelectItem>
               <SelectItem value="languages">Export Languages</SelectItem>
+              <SelectItem value="all-pages">Export All Pages Summary</SelectItem>
             </SelectContent>
           </Select>
           <Button 
@@ -319,6 +376,44 @@ export function AdminDashboard() {
           </Button>
         </div>
       </div>
+
+      {/* New All Pages Export Overview */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileSpreadsheet className="h-5 w-5" />
+            All Pages Export Control
+          </CardTitle>
+          <CardDescription>Overview and export control for all system pages</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(allPagesData).map(([key, value]) => (
+              <div key={key} className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold">{value.name}</h3>
+                    <p className="text-sm text-muted-foreground">{value.description}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{value.records} records</p>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => {
+                      toast({
+                        title: `${value.name} Export`,
+                        description: `Exporting ${value.records} records from ${value.name}`
+                      })
+                    }}
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

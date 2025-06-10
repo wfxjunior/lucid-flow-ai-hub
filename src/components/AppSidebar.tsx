@@ -88,11 +88,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       view: "pipeline"
     },
     {
-      title: "Referrals",
-      icon: Gift,
-      view: "referrals"
-    },
-    {
       title: "Car Rental",
       icon: Car,
       view: "car-rental"
@@ -213,6 +208,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       title: "Admin Panel",
       icon: Shield,
       view: "admin-panel"
+    },
+    {
+      title: "Referrals",
+      icon: Gift,
+      view: "referrals"
     },
     {
       title: "Features",
