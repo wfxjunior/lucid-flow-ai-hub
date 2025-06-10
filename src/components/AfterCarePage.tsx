@@ -79,72 +79,72 @@ export function AfterCarePage() {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`h-4 w-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+        className={`h-3 w-3 sm:h-4 sm:w-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
       />
     ))
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6 p-2 sm:p-4 lg:p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-3 sm:space-y-4 lg:space-y-6 p-2 sm:p-4 lg:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500 animate-pulse" />
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight flex items-center gap-2">
+            <Heart className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-blue-500 animate-pulse" />
             AfterCare
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm lg:text-base text-muted-foreground mt-1">
             Manage client feedback and maintain long-term relationships
           </p>
         </div>
-        <Button onClick={generateReport} className="w-full sm:w-auto">
-          <Download className="mr-2 h-4 w-4" />
+        <Button onClick={generateReport} className="w-full sm:w-auto text-xs sm:text-sm">
+          <Download className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
           Generate Report
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-2 sm:gap-3 lg:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
             <CardTitle className="text-xs sm:text-sm font-medium">Total Feedback</CardTitle>
-            <Heart className="h-4 w-4 text-muted-foreground" />
+            <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">{feedbacks.length}</div>
+          <CardContent className="pt-0">
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold">{feedbacks.length}</div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
             <CardTitle className="text-xs sm:text-sm font-medium">Average Rating</CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
+            <Star className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">
+          <CardContent className="pt-0">
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold">
               {(feedbacks.reduce((sum, f) => sum + f.overallRating, 0) / feedbacks.length).toFixed(1)}
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
             <CardTitle className="text-xs sm:text-sm font-medium">Would Recommend</CardTitle>
-            <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">
+          <CardContent className="pt-0">
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold">
               {Math.round((feedbacks.filter(f => f.wouldRecommend).length / feedbacks.length) * 100)}%
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
             <CardTitle className="text-xs sm:text-sm font-medium">Public Testimonials</CardTitle>
-            <Eye className="h-4 w-4 text-muted-foreground" />
+            <Eye className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">
+          <CardContent className="pt-0">
+            <div className="text-lg sm:text-xl lg:text-2xl font-bold">
               {feedbacks.filter(f => f.showAsTestimonial).length}
             </div>
           </CardContent>
@@ -153,51 +153,51 @@ export function AfterCarePage() {
 
       {/* Send Feedback Form */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-lg sm:text-xl">Send Feedback Request</CardTitle>
-          <CardDescription className="text-sm">
+        <CardHeader className="pb-3 sm:pb-4">
+          <CardTitle className="text-base sm:text-lg lg:text-xl">Send Feedback Request</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             Send a feedback form to a client after project completion
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmitFeedback} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="clientName" className="text-sm">Client Name</Label>
+          <form onSubmit={handleSubmitFeedback} className="space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+              <div className="space-y-1 sm:space-y-2">
+                <Label htmlFor="clientName" className="text-xs sm:text-sm">Client Name</Label>
                 <Input
                   id="clientName"
                   value={feedbackForm.clientName}
                   onChange={(e) => setFeedbackForm({ ...feedbackForm, clientName: e.target.value })}
                   placeholder="Enter client name"
                   required
-                  className="mt-1"
+                  className="text-xs sm:text-sm"
                 />
               </div>
-              <div>
-                <Label htmlFor="projectService" className="text-sm">Project/Service</Label>
+              <div className="space-y-1 sm:space-y-2">
+                <Label htmlFor="projectService" className="text-xs sm:text-sm">Project/Service</Label>
                 <Input
                   id="projectService"
                   value={feedbackForm.projectService}
                   onChange={(e) => setFeedbackForm({ ...feedbackForm, projectService: e.target.value })}
                   placeholder="Enter project or service name"
                   required
-                  className="mt-1"
+                  className="text-xs sm:text-sm"
                 />
               </div>
             </div>
-            <div>
-              <Label htmlFor="suggestions" className="text-sm">Additional Notes (Optional)</Label>
+            <div className="space-y-1 sm:space-y-2">
+              <Label htmlFor="suggestions" className="text-xs sm:text-sm">Additional Notes (Optional)</Label>
               <Textarea
                 id="suggestions"
                 value={feedbackForm.suggestions}
                 onChange={(e) => setFeedbackForm({ ...feedbackForm, suggestions: e.target.value })}
                 placeholder="Any specific questions or notes for the client..."
                 rows={3}
-                className="mt-1"
+                className="text-xs sm:text-sm"
               />
             </div>
-            <Button type="submit" className="w-full sm:w-auto">
-              <Send className="mr-2 h-4 w-4" />
+            <Button type="submit" className="w-full sm:w-auto text-xs sm:text-sm">
+              <Send className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
               Send Feedback Request
             </Button>
           </form>
@@ -206,9 +206,9 @@ export function AfterCarePage() {
 
       {/* Feedback Results */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-lg sm:text-xl">Client Feedback</CardTitle>
-          <CardDescription className="text-sm">
+        <CardHeader className="pb-3 sm:pb-4">
+          <CardTitle className="text-base sm:text-lg lg:text-xl">Client Feedback</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             View and manage client feedback responses
           </CardDescription>
         </CardHeader>
@@ -217,14 +217,14 @@ export function AfterCarePage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-xs sm:text-sm">Client</TableHead>
-                  <TableHead className="text-xs sm:text-sm">Project/Service</TableHead>
-                  <TableHead className="text-xs sm:text-sm">Overall Rating</TableHead>
-                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Communication</TableHead>
-                  <TableHead className="text-xs sm:text-sm">Would Recommend</TableHead>
-                  <TableHead className="text-xs sm:text-sm hidden md:table-cell">Public Display</TableHead>
-                  <TableHead className="text-xs sm:text-sm hidden lg:table-cell">Date</TableHead>
-                  <TableHead className="text-xs sm:text-sm">Actions</TableHead>
+                  <TableHead className="text-xs sm:text-sm min-w-[100px]">Client</TableHead>
+                  <TableHead className="text-xs sm:text-sm min-w-[120px]">Project/Service</TableHead>
+                  <TableHead className="text-xs sm:text-sm min-w-[100px]">Overall Rating</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell min-w-[100px]">Communication</TableHead>
+                  <TableHead className="text-xs sm:text-sm min-w-[80px]">Recommend</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden md:table-cell min-w-[80px]">Public</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden lg:table-cell min-w-[80px]">Date</TableHead>
+                  <TableHead className="text-xs sm:text-sm min-w-[80px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -235,7 +235,7 @@ export function AfterCarePage() {
                     <TableCell>
                       <div className="flex items-center gap-1">
                         {renderStars(feedback.overallRating)}
-                        <span className="ml-1 sm:ml-2 text-xs">{feedback.overallRating}/5</span>
+                        <span className="ml-1 text-xs">{feedback.overallRating}/5</span>
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
@@ -255,12 +255,12 @@ export function AfterCarePage() {
                     </TableCell>
                     <TableCell className="hidden lg:table-cell text-xs sm:text-sm">{feedback.feedbackDate}</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1 sm:gap-2">
+                      <div className="flex items-center gap-1">
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => sendFollowUpEmail(feedback.clientName)}
-                          className="h-8 w-8 p-0"
+                          className="h-6 w-6 sm:h-8 sm:w-8 p-0"
                         >
                           <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
@@ -268,7 +268,7 @@ export function AfterCarePage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => toast.success('Feedback details viewed')}
-                          className="h-8 w-8 p-0"
+                          className="h-6 w-6 sm:h-8 sm:w-8 p-0"
                         >
                           <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
