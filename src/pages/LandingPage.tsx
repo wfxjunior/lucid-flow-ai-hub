@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -9,7 +8,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
-  Star, ArrowRight, Monitor, Smartphone, Headphones, Mail, Play, Check, Feather
+  Star, ArrowRight, Monitor, Smartphone, Headphones, Mail, Play, Check
 } from "lucide-react"
 
 export default function LandingPage() {
@@ -125,8 +124,12 @@ export default function LandingPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Feather className="w-5 h-5 text-primary-foreground" />
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center p-1">
+                  <img 
+                    src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
+                    alt="FeatherBiz Logo" 
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <span className="text-xl font-bold text-primary">FeatherBiz</span>
               </div>
@@ -377,8 +380,12 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Feather className="w-5 h-5 text-primary-foreground" />
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center p-1">
+                  <img 
+                    src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
+                    alt="FeatherBiz Logo" 
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <span className="text-xl font-bold text-primary">FeatherBiz</span>
               </div>
