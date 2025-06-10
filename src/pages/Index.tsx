@@ -33,6 +33,7 @@ import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
 import { BidsPage } from "@/components/BidsPage"
 import { MessagesPage } from "@/components/MessagesPage"
 import { SmartSchedulePage } from "@/components/SmartSchedulePage"
+import { ReferralsPage } from "@/components/ReferralsPage"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
@@ -62,6 +63,8 @@ const Index = () => {
         return <ProjectsPage />
       case "pipeline":
         return <PipelineBoard />
+      case "referrals":
+        return <ReferralsPage />
       case "car-rental":
         return <CarRentalPage />
       case "work-orders":
