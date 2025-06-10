@@ -17,9 +17,9 @@ export function QuickActionCard({ id, title, icon: Icon, color, onClick }: Quick
       className="group cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg border-0 bg-card/50 backdrop-blur-sm"
       onClick={() => onClick(id)}
     >
-      <CardContent className="p-4 flex flex-col items-center justify-center text-center h-28 relative">
+      <CardContent className="p-4 flex flex-col items-center justify-center text-center h-32 relative">
         {/* Icon container with cleaner design */}
-        <div className={`p-3 rounded-xl text-white ${color} transition-all duration-200 group-hover:scale-110 group-hover:shadow-md mb-3 ${id === 'aftercare' ? 'animate-pulse' : ''}`}>
+        <div className={`p-3 rounded-xl text-white ${color} transition-all duration-200 group-hover:scale-110 group-hover:shadow-md mb-3`}>
           <Icon className="h-5 w-5" />
         </div>
         

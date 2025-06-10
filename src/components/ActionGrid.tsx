@@ -32,7 +32,7 @@ export function ActionGrid({ actions, onActionClick, searchTerm }: ActionGridPro
   }
 
   return (
-    <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+    <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
       {actions.map((action) => (
         <QuickActionCard
           key={action.id}
