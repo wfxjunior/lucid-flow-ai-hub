@@ -70,8 +70,8 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
 
       const noteData = {
         ...formData,
-        related_client: formData.related_client === 'none' ? '' : formData.related_client,
-        related_project: formData.related_project === 'none' ? '' : formData.related_project,
+        related_client: formData.related_client === 'none-client' ? '' : formData.related_client,
+        related_project: formData.related_project === 'none-project' ? '' : formData.related_project,
         user_id: user.id,
         created_by: user.id
       }
@@ -168,12 +168,12 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Label htmlFor="client" className="text-sm font-medium text-gray-700 mb-3 block">{t('notes.client')}</Label>
-              <Select value={formData.related_client || 'none'} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
+              <Select value={formData.related_client || 'none-client'} onValueChange={(value) => setFormData({ ...formData, related_client: value })}>
                 <SelectTrigger className="bg-gray-50 border-0 rounded-2xl h-12 px-4">
                   <SelectValue placeholder={t('notes.selectClient')} />
                 </SelectTrigger>
                 <SelectContent className="rounded-2xl border-0 shadow-xl bg-white">
-                  <SelectItem value="none" className="rounded-xl">{t('notes.none')}</SelectItem>
+                  <SelectItem value="none-client" className="rounded-xl">{t('notes.none')}</SelectItem>
                   {availableClients.map((client) => (
                     <SelectItem key={client} value={client} className="rounded-xl">{client}</SelectItem>
                   ))}
@@ -183,12 +183,12 @@ export const NotesForm = ({ editingNote, setEditingNote }: NotesFormProps) => {
 
             <div>
               <Label htmlFor="project" className="text-sm font-medium text-gray-700 mb-3 block">{t('notes.project')}</Label>
-              <Select value={formData.related_project || 'none'} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
+              <Select value={formData.related_project || 'none-project'} onValueChange={(value) => setFormData({ ...formData, related_project: value })}>
                 <SelectTrigger className="bg-gray-50 border-0 rounded-2xl h-12 px-4">
                   <SelectValue placeholder={t('notes.selectProject')} />
                 </SelectTrigger>
                 <SelectContent className="rounded-2xl border-0 shadow-xl bg-white">
-                  <SelectItem value="none" className="rounded-xl">{t('notes.none')}</SelectItem>
+                  <SelectItem value="none-project" className="rounded-xl">{t('notes.none')}</SelectItem>
                   {availableProjects.map((project) => (
                     <SelectItem key={project} value={project} className="rounded-xl">{project}</SelectItem>
                   ))}
