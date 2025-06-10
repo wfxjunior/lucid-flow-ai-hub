@@ -37,6 +37,7 @@ import { ReferralsPage } from "@/components/ReferralsPage"
 import { IntegrationsHub } from "@/components/IntegrationsHub"
 import { FeaturesPage } from "@/components/FeaturesPage"
 import { AfterCarePage } from "@/components/AfterCarePage"
+import { FeatherFormsPage } from "@/components/FeatherFormsPage"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
@@ -62,6 +63,8 @@ const Index = () => {
         return <AccountingPage />
       case "customer-management":
         return <CustomerManagement />
+      case "feather-forms":
+        return <FeatherFormsPage />
       case "projects":
         return <ProjectsPage />
       case "pipeline":

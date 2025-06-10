@@ -123,6 +123,14 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       hoverColor: "hover:bg-green-600"
     },
     {
+      id: "feather-forms",
+      title: "FeatherForms",
+      description: "Build custom forms",
+      icon: Clipboard,
+      color: "bg-blue-500",
+      hoverColor: "hover:bg-blue-600"
+    },
+    {
       id: "projects",
       title: "Projects",
       description: "Manage projects",

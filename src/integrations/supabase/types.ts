@@ -622,6 +622,42 @@ export type Database = {
           },
         ]
       }
+      feather_forms: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          thank_you_message: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+          visibility: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          thank_you_message?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+          visibility?: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          thank_you_message?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
       files: {
         Row: {
           created_at: string
@@ -712,6 +748,123 @@ export type Database = {
             columns: ["parent_folder_id"]
             isOneToOne: false
             referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      form_destinations: {
+        Row: {
+          created_at: string | null
+          destination_config: Json
+          destination_type: string
+          form_id: string
+          id: string
+          is_active: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          destination_config: Json
+          destination_type: string
+          form_id: string
+          id?: string
+          is_active?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          destination_config?: Json
+          destination_type?: string
+          form_id?: string
+          id?: string
+          is_active?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_destinations_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "feather_forms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      form_fields: {
+        Row: {
+          created_at: string | null
+          field_label: string
+          field_options: Json | null
+          field_order: number
+          field_placeholder: string | null
+          field_type: string
+          form_id: string
+          id: string
+          is_required: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          field_label: string
+          field_options?: Json | null
+          field_order: number
+          field_placeholder?: string | null
+          field_type: string
+          form_id: string
+          id?: string
+          is_required?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          field_label?: string
+          field_options?: Json | null
+          field_order?: number
+          field_placeholder?: string | null
+          field_type?: string
+          form_id?: string
+          id?: string
+          is_required?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_fields_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "feather_forms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      form_responses: {
+        Row: {
+          form_id: string
+          id: string
+          ip_address: string | null
+          respondent_email: string | null
+          respondent_name: string | null
+          response_data: Json
+          submitted_at: string | null
+        }
+        Insert: {
+          form_id: string
+          id?: string
+          ip_address?: string | null
+          respondent_email?: string | null
+          respondent_name?: string | null
+          response_data: Json
+          submitted_at?: string | null
+        }
+        Update: {
+          form_id?: string
+          id?: string
+          ip_address?: string | null
+          respondent_email?: string | null
+          respondent_name?: string | null
+          response_data?: Json
+          submitted_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "form_responses_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "feather_forms"
             referencedColumns: ["id"]
           },
         ]
