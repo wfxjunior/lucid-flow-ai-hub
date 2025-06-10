@@ -388,7 +388,7 @@ export default function LandingPage() {
             <Button 
               variant="outline"
               size="lg"
-              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
+              className="border-2 border-primary-foreground/20 text-primary-foreground bg-transparent hover:bg-primary-foreground hover:text-primary transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
             >
               Get Free Demo
             </Button>
