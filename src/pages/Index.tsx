@@ -1,4 +1,5 @@
-import { useState } from "react"
+
+import { useState, useEffect } from "react"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { BusinessDashboard } from "@/components/BusinessDashboard"
@@ -41,84 +42,116 @@ import { FeatherFormsPage } from "@/components/FeatherFormsPage"
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
 
+  // Debug logs para rastrear mudanças de estado
+  useEffect(() => {
+    console.log('Dashboard activeView changed to:', activeView)
+  }, [activeView])
+
   const handleNavigate = (view: string) => {
     console.log('Navigation requested:', view)
-    setActiveView(view)
+    if (view && typeof view === 'string') {
+      setActiveView(view)
+    } else {
+      console.warn('Invalid navigation view:', view)
+      setActiveView("dashboard")
+    }
   }
 
   const renderContent = () => {
-    switch (activeView) {
-      case "dashboard":
-        return <ImprovedDashboard onNavigate={handleNavigate} />
-      case "estimates":
-        return <EstimatesPage />
-      case "invoice-creator":
-        return <InvoiceCreator />
-      case "quotes":
-        return <QuotesPage />
-      case "contracts":
-        return <ContractsPage />
-      case "accounting":
-        return <AccountingPage />
-      case "customer-management":
-        return <CustomerManagement />
-      case "feather-forms":
-        return <FeatherFormsPage />
-      case "projects":
-        return <ProjectsPage />
-      case "pipeline":
-        return <PipelineBoard />
-      case "referrals":
-        return <ReferralsPage />
-      case "integrations":
-        return <IntegrationsHub />
-      case "features":
-        return <FeaturesPage />
-      case "car-rental":
-        return <CarRentalPage />
-      case "work-orders":
-        return <WorkOrdersPage />
-      case "mat-track":
-        return <MatTrackPage />
-      case "crew-control":
-        return <CrewControlPage />
-      case "earnsync":
-        return <EarnSyncPage />
-      case "aftercare":
-        return <AfterCarePage />
-      case "appointments":
-        return <AppointmentsPage />
-      case "smart-schedule":
-        return <SmartSchedulePage />
-      case "meetings":
-        return <MeetingsPage />
-      case "e-signatures":
-        return <ESignaturesPage />
-      case "todo-list":
-        return <TodoListPage />
-      case "notes":
-        return <NotesPage />
-      case "ai-voice":
-        return <AIVoice />
-      case "analytics":
-        return <Analytics />
-      case "payments":
-        return <PaymentsPage />
-      case "sales-orders":
-        return <SalesOrdersPage />
-      case "service-orders":
-        return <ServiceOrdersPage />
-      case "business-proposals":
-        return <BusinessProposalsPage />
-      case "bids":
-        return <BidsPage />
-      case "messages":
-        return <MessagesPage />
-      case "documents":
-        return <DocumentTracker />
-      default:
-        return <ImprovedDashboard onNavigate={handleNavigate} />
+    console.log('Rendering content for view:', activeView)
+    
+    try {
+      switch (activeView) {
+        case "dashboard":
+          return <ImprovedDashboard onNavigate={handleNavigate} />
+        case "estimates":
+          return <EstimatesPage />
+        case "invoice-creator":
+          return <InvoiceCreator />
+        case "quotes":
+          return <QuotesPage />
+        case "contracts":
+          return <ContractsPage />
+        case "accounting":
+          return <AccountingPage />
+        case "customer-management":
+          return <CustomerManagement />
+        case "feather-forms":
+          return <FeatherFormsPage />
+        case "projects":
+          return <ProjectsPage />
+        case "pipeline":
+          return <PipelineBoard />
+        case "referrals":
+          return <ReferralsPage />
+        case "integrations":
+          return <IntegrationsHub />
+        case "features":
+          return <FeaturesPage />
+        case "car-rental":
+          return <CarRentalPage />
+        case "work-orders":
+          return <WorkOrdersPage />
+        case "mat-track":
+          return <MatTrackPage />
+        case "crew-control":
+          return <CrewControlPage />
+        case "earnsync":
+          return <EarnSyncPage />
+        case "aftercare":
+          return <AfterCarePage />
+        case "appointments":
+          return <AppointmentsPage />
+        case "smart-schedule":
+          return <SmartSchedulePage />
+        case "meetings":
+          return <MeetingsPage />
+        case "e-signatures":
+          return <ESignaturesPage />
+        case "todo-list":
+          return <TodoListPage />
+        case "notes":
+          return <NotesPage />
+        case "ai-voice":
+          return <AIVoice />
+        case "analytics":
+          return <Analytics />
+        case "payments":
+          return <PaymentsPage />
+        case "sales-orders":
+          return <SalesOrdersPage />
+        case "service-orders":
+          return <ServiceOrdersPage />
+        case "business-proposals":
+          return <BusinessProposalsPage />
+        case "bids":
+          return <BidsPage />
+        case "messages":
+          return <MessagesPage />
+        case "documents":
+          return <DocumentTracker />
+        default:
+          console.warn('Unknown view, defaulting to dashboard:', activeView)
+          return <ImprovedDashboard onNavigate={handleNavigate} />
+      }
+    } catch (error) {
+      console.error('Error rendering content for view:', activeView, error)
+      return <ImprovedDashboard onNavigate={handleNavigate} />
     }
+  }
+
+  const currentContent = renderContent()
+  
+  if (!currentContent) {
+    console.error('No content rendered for view:', activeView)
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-2">Carregando...</h2>
+          <p className="text-gray-600">Por favor, aguarde um momento.</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -145,7 +178,7 @@ const Index = () => {
             {/* Main Content - Improved mobile padding */}
             <main className="flex-1 overflow-auto">
               <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
-                {renderContent()}
+                {currentContent}
               </div>
             </main>
           </SidebarInset>
