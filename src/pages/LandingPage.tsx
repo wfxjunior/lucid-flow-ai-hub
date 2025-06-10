@@ -20,6 +20,7 @@ export default function LandingPage() {
   const navigate = useNavigate()
   const { toast } = useToast()
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
   const dashboardImages = [
     {
@@ -51,6 +52,14 @@ export default function LandingPage() {
     }, 2000)
     return () => clearInterval(timer)
   }, [dashboardImages.length])
+
+  // Auto-advance testimonials every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
 
   const features = [
     {
@@ -117,6 +126,24 @@ export default function LandingPage() {
       name: "Emily Rodriguez",
       role: "Operations Manager",
       content: "The automation features save us hours every week. It's like having an extra team member that never sleeps.",
+      rating: 5
+    },
+    {
+      name: "David Thompson",
+      role: "Small Business Owner",
+      content: "I was skeptical about switching platforms, but FeatherBiz made the transition seamless. Our productivity has never been higher.",
+      rating: 5
+    },
+    {
+      name: "Lisa Park",
+      role: "Marketing Director",
+      content: "The analytics dashboard gives us insights we never had before. It's helped us make data-driven decisions that boosted our revenue by 25%.",
+      rating: 5
+    },
+    {
+      name: "James Wilson",
+      role: "Contractor",
+      content: "From invoicing to project management, FeatherBiz handles everything. I can focus on what I do best while the platform takes care of the rest.",
       rating: 5
     }
   ]
@@ -432,11 +459,16 @@ export default function LandingPage() {
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-background p-6 sm:p-8 rounded-2xl shadow-sm border"
+                className={`bg-background p-6 sm:p-8 rounded-2xl shadow-sm border transition-all duration-1000 ${
+                  index === currentTestimonial ? 'opacity-100 animate-fade-in' : 
+                  index === (currentTestimonial + 1) % testimonials.length ? 'opacity-70' :
+                  index === (currentTestimonial + 2) % testimonials.length ? 'opacity-70' :
+                  'opacity-40'
+                }`}
               >
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 fill-current" />
                   ))}
                 </div>
                 <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">

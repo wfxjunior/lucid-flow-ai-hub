@@ -48,11 +48,8 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
         ${plan.popular ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}
         group-hover:shadow-2xl transition-all duration-300
       `}>
-        {/* Background Pattern */}
+        {/* Background Pattern - Removed circles */}
         <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
-        <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 opacity-10">
-          <div className={`w-full h-full rounded-full bg-gradient-to-br ${plan.color}`}></div>
-        </div>
         
         <div className="relative z-10">
           <CardHeader className="text-center pb-2 pt-6 sm:pt-8 px-4 sm:px-6">
