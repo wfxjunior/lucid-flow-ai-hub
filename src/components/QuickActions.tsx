@@ -346,27 +346,25 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
         />
       </div>
 
-      {/* Quick Actions Grid - Improved mobile responsiveness */}
-      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      {/* Quick Actions Grid - Square responsive design */}
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
         {filteredActions.map((action) => (
           <Card 
             key={action.id} 
-            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group min-h-[120px] max-w-full"
+            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group aspect-square flex flex-col"
             onClick={() => onActionClick(action.id)}
           >
-            <CardContent className="p-4 sm:p-5">
-              <div className="flex items-center space-x-3 sm:space-x-4">
-                <div className={`p-3 sm:p-4 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg flex-shrink-0 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
-                  <action.icon className="h-6 w-6 sm:h-7 sm:w-7" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm sm:text-base truncate group-hover:text-blue-600 transition-colors">
-                    {action.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground truncate mt-1">
-                    {action.description}
-                  </p>
-                </div>
+            <CardContent className="p-3 sm:p-4 flex flex-col items-center justify-center text-center h-full">
+              <div className={`p-3 sm:p-4 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg mb-2 sm:mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
+                <action.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+              </div>
+              <div className="flex-1 flex flex-col justify-center min-w-0">
+                <h3 className="font-semibold text-xs sm:text-sm leading-tight group-hover:text-blue-600 transition-colors mb-1">
+                  {action.title}
+                </h3>
+                <p className="text-xs text-muted-foreground leading-tight line-clamp-2 hidden sm:block">
+                  {action.description}
+                </p>
               </div>
             </CardContent>
           </Card>
