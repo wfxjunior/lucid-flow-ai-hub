@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -40,11 +41,11 @@ export default function LandingPage() {
     }
   ]
 
-  // Auto-advance carousel every 3 seconds
+  // Auto-advance carousel every 2 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % dashboardImages.length)
-    }, 3000)
+    }, 2000)
     return () => clearInterval(timer)
   }, [dashboardImages.length])
 
@@ -380,15 +381,15 @@ export default function LandingPage() {
             <Button 
               onClick={() => navigate('/dashboard')}
               size="lg"
-              className="bg-background text-primary hover:bg-background/90 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
+              className="bg-background text-primary hover:bg-background/90 transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
             >
-              Schedule Demo
+              Try it Free
               <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
             <Button 
               variant="outline"
               size="lg"
-              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
+              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
             >
               Get Free Demo
             </Button>
