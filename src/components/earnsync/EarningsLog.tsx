@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Plus, DollarSign, Calendar, Building2, Upload, Filter, Search } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
+import { toast } from "sonner"
 
 export function EarningsLog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -53,6 +53,12 @@ export function EarningsLog() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!formData.date || !formData.amount || !formData.company) {
+      toast.error('Please fill in all required fields')
+      return
+    }
+
     const newEarning = {
       id: earnings.length + 1,
       date: formData.date,
@@ -61,6 +67,7 @@ export function EarningsLog() {
       paymentStatus: formData.paymentStatus,
       receiptUrl: formData.receipt ? formData.receipt.name : null
     }
+    
     setEarnings([newEarning, ...earnings])
     setFormData({
       date: '',
@@ -70,6 +77,7 @@ export function EarningsLog() {
       receipt: null
     })
     setIsDialogOpen(false)
+    toast.success('Earnings logged successfully!')
   }
 
   const filteredEarnings = earnings.filter(earning => {

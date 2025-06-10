@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
 
 interface Note {
   id: string
@@ -38,85 +39,144 @@ export const useNotes = () => {
 }
 
 export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: '1',
-      title: 'Meeting Notes - Project Alpha',
-      content: 'Discussed project timeline and deliverables. Client wants completion by end of month.',
-      related_client: 'John Doe',
-      related_project: 'Website Redesign',
-      tags: 'meeting, urgent, deadline',
-      attachments: [],
-      created_by: 'demo-user',
-      user_id: 'demo-user',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: '2',
-      title: 'Technical Requirements',
-      content: 'Need to implement responsive design, SEO optimization, and performance improvements.',
-      related_client: 'ABC Company',
-      related_project: 'E-commerce Platform',
-      tags: 'technical, requirements',
-      attachments: [],
-      created_by: 'demo-user',
-      user_id: 'demo-user',
-      created_at: new Date(Date.now() - 86400000).toISOString(),
-      updated_at: new Date(Date.now() - 86400000).toISOString()
-    }
-  ])
+  const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(false)
-  const [user] = useState({ id: 'demo-user', email: 'demo@example.com' })
-  const [authLoading] = useState(false)
+  const [user, setUser] = useState(null)
+  const [authLoading, setAuthLoading] = useState(true)
   const { toast } = useToast()
 
+  useEffect(() => {
+    checkUser()
+    fetchNotes()
+  }, [])
+
+  const checkUser = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    } catch (error) {
+      console.error('Error checking user:', error)
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
   const fetchNotes = async () => {
-    setLoading(true)
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500))
-    setLoading(false)
+    try {
+      setLoading(true)
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) {
+        setNotes([])
+        return
+      }
+
+      const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      setNotes(data || [])
+    } catch (error) {
+      console.error('Error fetching notes:', error)
+      toast({
+        title: "Error",
+        description: "Failed to fetch notes",
+        variant: "destructive"
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const addNote = async (noteData: Omit<Note, 'id' | 'created_at' | 'updated_at'>) => {
-    const newNote: Note = {
-      ...noteData,
-      id: Date.now().toString(),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('User not authenticated')
+
+      const { data, error } = await supabase
+        .from('notes')
+        .insert([{
+          ...noteData,
+          user_id: user.id,
+          created_by: user.id
+        }])
+        .select()
+        .single()
+
+      if (error) throw error
+
+      setNotes(prev => [data, ...prev])
+      toast({
+        title: "Success",
+        description: "Note created successfully"
+      })
+    } catch (error) {
+      console.error('Error creating note:', error)
+      toast({
+        title: "Error",
+        description: "Failed to create note",
+        variant: "destructive"
+      })
     }
-    setNotes(prev => [newNote, ...prev])
-    toast({
-      title: "Success",
-      description: "Note created successfully"
-    })
   }
 
   const updateNote = async (noteId: string, updates: Partial<Note>) => {
-    setNotes(prev => prev.map(note => 
-      note.id === noteId 
-        ? { ...note, ...updates, updated_at: new Date().toISOString() }
-        : note
-    ))
-    toast({
-      title: "Success",
-      description: "Note updated successfully"
-    })
+    try {
+      const { data, error } = await supabase
+        .from('notes')
+        .update(updates)
+        .eq('id', noteId)
+        .select()
+        .single()
+
+      if (error) throw error
+
+      setNotes(prev => prev.map(note => 
+        note.id === noteId ? { ...note, ...data } : note
+      ))
+      
+      toast({
+        title: "Success",
+        description: "Note updated successfully"
+      })
+    } catch (error) {
+      console.error('Error updating note:', error)
+      toast({
+        title: "Error",
+        description: "Failed to update note",
+        variant: "destructive"
+      })
+    }
   }
 
   const deleteNote = async (noteId: string) => {
     if (!confirm('Are you sure you want to delete this note?')) return
 
-    setNotes(prev => prev.filter(note => note.id !== noteId))
-    toast({
-      title: "Success",
-      description: "Note deleted successfully"
-    })
-  }
+    try {
+      const { error } = await supabase
+        .from('notes')
+        .delete()
+        .eq('id', noteId)
 
-  useEffect(() => {
-    fetchNotes()
-  }, [])
+      if (error) throw error
+
+      setNotes(prev => prev.filter(note => note.id !== noteId))
+      toast({
+        title: "Success",
+        description: "Note deleted successfully"
+      })
+    } catch (error) {
+      console.error('Error deleting note:', error)
+      toast({
+        title: "Error",
+        description: "Failed to delete note",
+        variant: "destructive"
+      })
+    }
+  }
 
   return (
     <NotesContext.Provider value={{

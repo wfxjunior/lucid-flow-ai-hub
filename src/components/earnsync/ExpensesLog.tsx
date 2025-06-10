@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Plus, Receipt, Calendar, Building2, Filter, Search } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { toast } from "sonner"
 
 export function ExpensesLog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -55,6 +55,12 @@ export function ExpensesLog() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!formData.category || !formData.amount || !formData.date) {
+      toast.error('Please fill in all required fields')
+      return
+    }
+
     const newExpense = {
       id: expenses.length + 1,
       category: formData.category,
@@ -63,6 +69,7 @@ export function ExpensesLog() {
       date: formData.date,
       company: formData.company
     }
+    
     setExpenses([newExpense, ...expenses])
     setFormData({
       category: '',
@@ -72,6 +79,7 @@ export function ExpensesLog() {
       company: ''
     })
     setIsDialogOpen(false)
+    toast.success('Expense logged successfully!')
   }
 
   const filteredExpenses = expenses.filter(expense => {
