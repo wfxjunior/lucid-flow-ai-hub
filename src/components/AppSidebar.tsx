@@ -55,7 +55,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       view: "appointments"
     },
     {
-      title: "SmartSchedule",
+      title: "Smart Schedule",
       icon: CalendarCheck,
       view: "smart-schedule"
     },
@@ -163,7 +163,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       view: "bids"
     },
     {
-      title: t("sidebar.contracts"),
+      title: "Contracts",
       icon: PenTool,
       view: "contracts"
     }
@@ -189,7 +189,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
   const analytics = [
     {
-      title: t("sidebar.analytics"),
+      title: "Analytics",
       icon: BarChart3,
       view: "analytics"
     }

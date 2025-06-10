@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -52,54 +51,54 @@ export function PipelineBoard() {
   
   const stages: Stage[] = [
     { id: 'lead', name: 'Leads', color: 'bg-gray-100', count: 8 },
-    { id: 'qualified', name: 'Qualificados', color: 'bg-blue-100', count: 5 },
-    { id: 'proposal', name: 'Proposta Enviada', color: 'bg-yellow-100', count: 3 },
-    { id: 'negotiation', name: 'Negociação', color: 'bg-orange-100', count: 2 },
-    { id: 'closed-won', name: 'Fechado-Ganho', color: 'bg-green-100', count: 1 },
-    { id: 'closed-lost', name: 'Fechado-Perdido', color: 'bg-red-100', count: 1 }
+    { id: 'qualified', name: 'Qualified', color: 'bg-blue-100', count: 5 },
+    { id: 'proposal', name: 'Proposal Sent', color: 'bg-yellow-100', count: 3 },
+    { id: 'negotiation', name: 'Negotiation', color: 'bg-orange-100', count: 2 },
+    { id: 'closed-won', name: 'Closed-Won', color: 'bg-green-100', count: 1 },
+    { id: 'closed-lost', name: 'Closed-Lost', color: 'bg-red-100', count: 1 }
   ]
 
   const [leads, setLeads] = useState<Lead[]>([
     {
       id: '1',
-      name: 'João Silva',
-      company: 'Silva Construções',
+      name: 'John Silva',
+      company: 'Silva Construction',
       value: 15000,
       probability: 80,
       stage: 'negotiation',
       lastContact: '2024-01-10',
       source: 'Website',
       phone: '(11) 99999-9999',
-      email: 'joao@silva.com',
-      notes: 'Cliente interessado em reforma completa',
+      email: 'john@silva.com',
+      notes: 'Customer interested in complete renovation',
       assignedTo: 'Maria Santos'
     },
     {
       id: '2',
       name: 'Ana Costa',
-      company: 'Costa Empreendimentos',
+      company: 'Costa Enterprises',
       value: 25000,
       probability: 60,
       stage: 'proposal',
       lastContact: '2024-01-09',
-      source: 'Indicação',
+      source: 'Referral',
       phone: '(11) 88888-8888',
       email: 'ana@costa.com',
-      notes: 'Precisa de orçamento detalhado',
+      notes: 'Needs detailed quote',
       assignedTo: 'Carlos Lima'
     },
     {
       id: '3',
-      name: 'Pedro Oliveira',
-      company: 'Oliveira Ltda',
+      name: 'Peter Oliveira',
+      company: 'Oliveira Ltd',
       value: 8000,
       probability: 40,
       stage: 'qualified',
       lastContact: '2024-01-08',
       source: 'Google Ads',
       phone: '(11) 77777-7777',
-      email: 'pedro@oliveira.com',
-      notes: 'Primeiro contato realizado',
+      email: 'peter@oliveira.com',
+      notes: 'First contact made',
       assignedTo: 'Maria Santos'
     }
   ])
@@ -116,9 +115,9 @@ export function PipelineBoard() {
   }
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'BRL'
+      currency: 'USD'
     }).format(value)
   }
 
@@ -139,8 +138,8 @@ export function PipelineBoard() {
     )
     
     toast({
-      title: "Lead Movido",
-      description: `${leadData.name} foi movido para ${stages.find(s => s.id === stageId)?.name}`,
+      title: "Lead Moved",
+      description: `${leadData.name} was moved to ${stages.find(s => s.id === stageId)?.name}`,
     })
   }
 
@@ -159,82 +158,82 @@ export function PipelineBoard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Pipeline de Vendas</h1>
+          <h1 className="text-3xl font-bold">Sales Pipeline</h1>
           <p className="text-muted-foreground">
-            Gerencie seus leads e oportunidades de vendas
+            Manage your leads and sales opportunities
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm">
             <Filter className="w-4 h-4 mr-2" />
-            Filtros
+            Filters
           </Button>
           <Dialog open={isAddingLead} onOpenChange={setIsAddingLead}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
-                Novo Lead
+                New Lead
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>Adicionar Novo Lead</DialogTitle>
+                <DialogTitle>Add New Lead</DialogTitle>
                 <DialogDescription>
-                  Preencha as informações do novo lead no pipeline
+                  Fill in the information for the new lead in the pipeline
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="name">Nome</Label>
-                    <Input id="name" placeholder="Nome do contato" />
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" placeholder="Contact name" />
                   </div>
                   <div>
-                    <Label htmlFor="company">Empresa</Label>
-                    <Input id="company" placeholder="Nome da empresa" />
+                    <Label htmlFor="company">Company</Label>
+                    <Input id="company" placeholder="Company name" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="phone">Telefone</Label>
+                    <Label htmlFor="phone">Phone</Label>
                     <Input id="phone" placeholder="(11) 99999-9999" />
                   </div>
                   <div>
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="email@exemplo.com" />
+                    <Input id="email" type="email" placeholder="email@example.com" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="value">Valor Estimado</Label>
+                    <Label htmlFor="value">Estimated Value</Label>
                     <Input id="value" type="number" placeholder="15000" />
                   </div>
                   <div>
-                    <Label htmlFor="source">Origem</Label>
+                    <Label htmlFor="source">Source</Label>
                     <Select>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione a origem" />
+                        <SelectValue placeholder="Select source" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="website">Website</SelectItem>
-                        <SelectItem value="referral">Indicação</SelectItem>
+                        <SelectItem value="referral">Referral</SelectItem>
                         <SelectItem value="google-ads">Google Ads</SelectItem>
-                        <SelectItem value="social-media">Redes Sociais</SelectItem>
-                        <SelectItem value="cold-call">Ligação Fria</SelectItem>
+                        <SelectItem value="social-media">Social Media</SelectItem>
+                        <SelectItem value="cold-call">Cold Call</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="notes">Observações</Label>
-                  <Textarea id="notes" placeholder="Informações adicionais sobre o lead" />
+                  <Label htmlFor="notes">Notes</Label>
+                  <Textarea id="notes" placeholder="Additional information about the lead" />
                 </div>
                 <div className="flex justify-end gap-2">
                   <Button variant="outline" onClick={() => setIsAddingLead(false)}>
-                    Cancelar
+                    Cancel
                   </Button>
                   <Button onClick={() => setIsAddingLead(false)}>
-                    Adicionar Lead
+                    Add Lead
                   </Button>
                 </div>
               </div>
@@ -250,7 +249,7 @@ export function PipelineBoard() {
             <div className="flex items-center gap-2">
               <Target className="w-5 h-5 text-blue-500" />
               <div>
-                <p className="text-sm text-muted-foreground">Total de Leads</p>
+                <p className="text-sm text-muted-foreground">Total Leads</p>
                 <p className="text-2xl font-bold">{leads.length}</p>
               </div>
             </div>
@@ -261,7 +260,7 @@ export function PipelineBoard() {
             <div className="flex items-center gap-2">
               <DollarSign className="w-5 h-5 text-green-500" />
               <div>
-                <p className="text-sm text-muted-foreground">Valor Total</p>
+                <p className="text-sm text-muted-foreground">Total Value</p>
                 <p className="text-2xl font-bold">{formatCurrency(leads.reduce((sum, lead) => sum + lead.value, 0))}</p>
               </div>
             </div>
@@ -272,7 +271,7 @@ export function PipelineBoard() {
             <div className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-purple-500" />
               <div>
-                <p className="text-sm text-muted-foreground">Taxa de Conversão</p>
+                <p className="text-sm text-muted-foreground">Conversion Rate</p>
                 <p className="text-2xl font-bold">25%</p>
               </div>
             </div>
@@ -283,8 +282,8 @@ export function PipelineBoard() {
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-orange-500" />
               <div>
-                <p className="text-sm text-muted-foreground">Ciclo Médio</p>
-                <p className="text-2xl font-bold">21 dias</p>
+                <p className="text-sm text-muted-foreground">Avg. Cycle</p>
+                <p className="text-2xl font-bold">21 days</p>
               </div>
             </div>
           </CardContent>
@@ -346,7 +345,7 @@ export function PipelineBoard() {
                           
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Clock className="w-3 h-3" />
-                            <span>Último contato: {new Date(lead.lastContact).toLocaleDateString('pt-BR')}</span>
+                            <span>Last contact: {new Date(lead.lastContact).toLocaleDateString('en-US')}</span>
                           </div>
                         </div>
                       </CardContent>
@@ -356,7 +355,7 @@ export function PipelineBoard() {
                   {getLeadsByStage(stage.id).length === 0 && (
                     <div className="text-center py-8 text-muted-foreground">
                       <Target className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm">Nenhum lead neste estágio</p>
+                      <p className="text-sm">No leads in this stage</p>
                     </div>
                   )}
                 </CardContent>
@@ -381,7 +380,7 @@ export function PipelineBoard() {
                     <div className="flex items-center gap-2">
                       <DollarSign className="w-5 h-5 text-green-500" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Valor</p>
+                        <p className="text-sm text-muted-foreground">Value</p>
                         <p className="text-xl font-bold">{formatCurrency(selectedLead.value)}</p>
                       </div>
                     </div>
@@ -392,7 +391,7 @@ export function PipelineBoard() {
                     <div className="flex items-center gap-2">
                       <TrendingUp className="w-5 h-5 text-blue-500" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Probabilidade</p>
+                        <p className="text-sm text-muted-foreground">Probability</p>
                         <p className="text-xl font-bold">{selectedLead.probability}%</p>
                       </div>
                     </div>
@@ -411,26 +410,26 @@ export function PipelineBoard() {
                 </div>
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">Responsável: {selectedLead.assignedTo}</span>
+                  <span className="text-sm">Assigned to: {selectedLead.assignedTo}</span>
                 </div>
               </div>
               
               <div>
-                <Label>Observações</Label>
+                <Label>Notes</Label>
                 <Textarea value={selectedLead.notes} readOnly className="mt-1" />
               </div>
               
               <div className="flex justify-end gap-2">
                 <Button variant="outline">
                   <Phone className="w-4 h-4 mr-2" />
-                  Ligar
+                  Call
                 </Button>
                 <Button variant="outline">
                   <Mail className="w-4 h-4 mr-2" />
                   Email
                 </Button>
                 <Button>
-                  Editar Lead
+                  Edit Lead
                 </Button>
               </div>
             </div>
