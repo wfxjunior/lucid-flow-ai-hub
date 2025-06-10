@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -77,7 +76,7 @@ export function UserGreeting() {
   if (!user) {
     return (
       <Button onClick={() => navigate('/auth')} variant="outline">
-        Entrar
+        Sign In
       </Button>
     )
   }
@@ -94,41 +93,57 @@ export function UserGreeting() {
     if (metadata?.first_name || metadata?.last_name) {
       return `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim()
     }
-    return user.email?.split('@')[0] || 'Usuário'
+    return user.email?.split('@')[0] || 'User'
+  }
+
+  const getGreeting = () => {
+    const hour = new Date().getHours()
+    if (hour < 12) return 'Good morning'
+    if (hour < 18) return 'Good afternoon'
+    return 'Good evening'
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-          <Avatar className="h-10 w-10">
-            <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold">
-              {getInitials()}
-            </AvatarFallback>
-          </Avatar>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <div className="flex flex-col space-y-1 p-2">
-          <p className="text-sm font-medium leading-none">{getDisplayName()}</p>
-          <p className="text-xs leading-none text-muted-foreground">
-            {user.email}
-          </p>
-          {user.user_metadata?.country && (
+    <div className="flex items-center gap-3">
+      <div className="hidden sm:block text-right">
+        <p className="text-sm font-medium text-gray-700">
+          {getGreeting()}, {getDisplayName()}!
+        </p>
+        <p className="text-xs text-gray-500">Welcome back</p>
+      </div>
+      
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+            <Avatar className="h-10 w-10">
+              <AvatarFallback className="bg-blue-100 text-blue-700 font-semibold">
+                {getInitials()}
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <div className="flex flex-col space-y-1 p-2">
+            <p className="text-sm font-medium leading-none">Hello, {getDisplayName()}!</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {user.user_metadata.country}
+              {user.email}
             </p>
-          )}
-        </div>
-        <DropdownMenuItem onClick={() => navigate('/dashboard?view=settings')}>
-          <Settings className="mr-2 h-4 w-4" />
-          <span>Configurações</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleLogout}>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Sair</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+            {user.user_metadata?.country && (
+              <p className="text-xs leading-none text-muted-foreground">
+                {user.user_metadata.country}
+              </p>
+            )}
+          </div>
+          <DropdownMenuItem onClick={() => navigate('/dashboard?view=settings')}>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Sign Out</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }
