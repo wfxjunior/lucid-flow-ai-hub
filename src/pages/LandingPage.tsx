@@ -158,6 +158,7 @@ export default function LandingPage() {
               <a href="#testimonials" className="text-muted-foreground hover:text-primary transition-colors">Reviews</a>
               <a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</a>
               <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
+              <a href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</a>
             </div>
 
             <div className="flex items-center space-x-4">
@@ -207,7 +208,7 @@ export default function LandingPage() {
                   </Button>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Free 14-day trial • No credit card required • Setup in 2 minutes
+                  Free 7-day trial • No credit card required • Setup in 2 minutes
                 </p>
               </div>
 
@@ -267,7 +268,7 @@ export default function LandingPage() {
       <section className="py-8 sm:py-12 border-y bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8">
-            <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">
+            <p className="text-lg sm:text-xl font-bold text-primary uppercase tracking-wide animate-fade-in">
               Trusted by <AnimatedNumber value={10000} suffix="+" delay={200} /> businesses worldwide
             </p>
           </div>
@@ -394,7 +395,7 @@ export default function LandingPage() {
             </Button>
           </div>
           <p className="text-primary-foreground/60 text-sm mt-4 sm:mt-6">
-            No credit card required • 14-day free trial • Cancel anytime
+            No credit card required • 7-day free trial • Cancel anytime
           </p>
         </div>
       </section>
@@ -402,7 +403,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-background border-t py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 sm:mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8 sm:mb-12">
             <div className="col-span-1 sm:col-span-2 lg:col-span-1">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 flex items-center justify-center">
@@ -445,19 +446,29 @@ export default function LandingPage() {
             </div>
 
             <div>
+              <h4 className="font-semibold mb-4 text-foreground">Resources</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Case Studies</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Guides</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Webinars</a></li>
+              </ul>
+            </div>
+
+            <div>
               <h4 className="font-semibold mb-4 text-foreground">Company</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Blog</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Press</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Partners</a></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             <p className="text-muted-foreground text-sm text-center sm:text-left">
-              © 2024 FeatherBiz. All rights reserved.
+              © 2025 FeatherBiz. By FX American Group.
             </p>
             <div className="flex items-center space-x-6">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">

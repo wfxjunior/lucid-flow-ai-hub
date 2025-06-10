@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import AdminPage from "./pages/AdminPage";
 import NotesPage from "./pages/NotesPage";
 import Auth from "./pages/Auth";
+import Blog from "./pages/Blog";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
