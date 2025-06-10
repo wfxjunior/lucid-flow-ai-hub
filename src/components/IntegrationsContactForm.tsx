@@ -14,7 +14,13 @@ import {
   Lightbulb,
   Clock,
   CheckCircle,
-  Plus
+  Plus,
+  Globe,
+  Database,
+  Zap,
+  CreditCard,
+  Users,
+  BarChart3
 } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 
@@ -62,6 +68,51 @@ export function IntegrationsContactForm() {
     { name: 'Xero', category: 'Accounting', requests: 19 }
   ]
 
+  const lovableCompatibleIntegrations = [
+    {
+      category: 'Web APIs & REST Services',
+      description: 'Any service with a REST API or webhook support',
+      examples: ['Stripe', 'PayPal', 'Twilio', 'SendGrid', 'Mailchimp'],
+      icon: Globe,
+      compatibility: 'Excellent'
+    },
+    {
+      category: 'Database Services',
+      description: 'Cloud databases and data storage services',
+      examples: ['Supabase', 'Firebase', 'Airtable', 'Google Sheets API'],
+      icon: Database,
+      compatibility: 'Excellent'
+    },
+    {
+      category: 'Authentication Providers',
+      description: 'OAuth and SSO authentication services',
+      examples: ['Google OAuth', 'GitHub', 'LinkedIn', 'Auth0'],
+      icon: Users,
+      compatibility: 'Excellent'
+    },
+    {
+      category: 'Payment Processing',
+      description: 'Online payment and billing platforms',
+      examples: ['Stripe', 'PayPal', 'Square', 'Paddle'],
+      icon: CreditCard,
+      compatibility: 'Excellent'
+    },
+    {
+      category: 'Analytics & Tracking',
+      description: 'Web analytics and user tracking services',
+      examples: ['Google Analytics', 'Mixpanel', 'Hotjar', 'Posthog'],
+      icon: BarChart3,
+      compatibility: 'Good'
+    },
+    {
+      category: 'Automation & Webhooks',
+      description: 'Services that support webhook notifications',
+      examples: ['Zapier', 'Make.com', 'IFTTT', 'Custom webhooks'],
+      icon: Zap,
+      compatibility: 'Good'
+    }
+  ]
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
@@ -104,8 +155,16 @@ export function IntegrationsContactForm() {
     }))
   }
 
+  const getCompatibilityColor = (compatibility: string) => {
+    switch (compatibility) {
+      case 'Excellent': return 'text-green-600 bg-green-50 border-green-200'
+      case 'Good': return 'text-blue-600 bg-blue-50 border-blue-200'
+      default: return 'text-gray-600 bg-gray-50 border-gray-200'
+    }
+  }
+
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-2 mb-4">
@@ -116,6 +175,66 @@ export function IntegrationsContactForm() {
           Can't find the integration you need? Let us know what tools you'd like to connect with FeatherBiz and we'll prioritize building them.
         </p>
       </div>
+
+      {/* Lovable Compatible Integrations */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-green-500" />
+            Lovable-Compatible Integration Types
+          </CardTitle>
+          <CardDescription>
+            These types of integrations work excellently with Lovable's React/TypeScript architecture
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {lovableCompatibleIntegrations.map((integration, index) => (
+              <div key={index} className="border rounded-lg p-4 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-2">
+                    <integration.icon className="w-5 h-5 text-blue-500" />
+                    <h4 className="font-semibold">{integration.category}</h4>
+                  </div>
+                  <Badge 
+                    variant="secondary" 
+                    className={`text-xs ${getCompatibilityColor(integration.compatibility)}`}
+                  >
+                    {integration.compatibility}
+                  </Badge>
+                </div>
+                <p className="text-sm text-muted-foreground">{integration.description}</p>
+                <div className="flex flex-wrap gap-1">
+                  {integration.examples.map((example, i) => (
+                    <Badge key={i} variant="outline" className="text-xs">
+                      {example}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h4 className="font-medium text-blue-900 mb-2">What works best with Lovable:</h4>
+            <ul className="text-sm text-blue-800 space-y-1">
+              <li>• <strong>REST APIs:</strong> Services with HTTP/JSON APIs integrate seamlessly</li>
+              <li>• <strong>Webhooks:</strong> Real-time notifications and event-driven integrations</li>
+              <li>• <strong>JavaScript SDKs:</strong> Client-side libraries work perfectly in React</li>
+              <li>• <strong>Cloud Services:</strong> SaaS platforms with modern API architectures</li>
+            </ul>
+          </div>
+
+          <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <h4 className="font-medium text-amber-900 mb-2">Limited compatibility:</h4>
+            <ul className="text-sm text-amber-800 space-y-1">
+              <li>• <strong>Desktop-only software:</strong> Applications without web APIs</li>
+              <li>• <strong>Legacy systems:</strong> Old systems with SOAP or proprietary protocols</li>
+              <li>• <strong>Direct database access:</strong> Services requiring direct DB connections</li>
+            </ul>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Form */}
