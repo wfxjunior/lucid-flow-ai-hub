@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter, Globe, Clock, MessageSquare as FeedbackIcon, Download } from "lucide-react"
+import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter, Globe, Clock, MessageSquare as FeedbackIcon, Download, Languages } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -110,6 +110,14 @@ export function AdminDashboard() {
     { country: "Others", users: 8, percentage: 6 }
   ]
 
+  const languageStats = [
+    { language: "Portuguese", users: 77, percentage: 60, code: "pt" },
+    { language: "Spanish", users: 28, percentage: 22, code: "es" },
+    { language: "English", users: 15, percentage: 12, code: "en" },
+    { language: "French", users: 5, percentage: 4, code: "fr" },
+    { language: "German", users: 3, percentage: 2, code: "de" }
+  ]
+
   const [activityLogs] = useState<ActivityLog[]>([
     {
       id: "1",
@@ -216,7 +224,7 @@ export function AdminDashboard() {
     })
   }
 
-  const handleExport = (type: 'users' | 'activity' | 'feedback' | 'analytics') => {
+  const handleExport = (type: 'users' | 'activity' | 'feedback' | 'analytics' | 'languages') => {
     switch (type) {
       case 'users':
         exportToCSV(
@@ -244,6 +252,13 @@ export function AdminDashboard() {
           countryStats,
           'country_analytics',
           ['Country', 'Users', 'Percentage']
+        )
+        break
+      case 'languages':
+        exportToCSV(
+          languageStats,
+          'language_analytics',
+          ['Language', 'Users', 'Percentage', 'Code']
         )
         break
     }
@@ -291,6 +306,7 @@ export function AdminDashboard() {
               <SelectItem value="activity">Export Activity Logs</SelectItem>
               <SelectItem value="feedback">Export Feedback</SelectItem>
               <SelectItem value="analytics">Export Analytics</SelectItem>
+              <SelectItem value="languages">Export Languages</SelectItem>
             </SelectContent>
           </Select>
           <Button 
@@ -334,13 +350,13 @@ export function AdminDashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Feedback</CardTitle>
-            <FeedbackIcon className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Top Language</CardTitle>
+            <Languages className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{feedbacks.filter(f => f.status === "pending").length}</div>
+            <div className="text-2xl font-bold">{languageStats[0].language}</div>
             <p className="text-xs text-muted-foreground">
-              Needs attention
+              {languageStats[0].percentage}% of users
             </p>
           </CardContent>
         </Card>
@@ -366,6 +382,7 @@ export function AdminDashboard() {
           <TabsTrigger value="sessions">Live Sessions</TabsTrigger>
           <TabsTrigger value="feedback">Feedback Control</TabsTrigger>
           <TabsTrigger value="analytics">Country Analytics</TabsTrigger>
+          <TabsTrigger value="languages">Language Analytics</TabsTrigger>
           <TabsTrigger value="activity">Activity Logs</TabsTrigger>
           <TabsTrigger value="settings">System Settings</TabsTrigger>
         </TabsList>
@@ -626,6 +643,58 @@ export function AdminDashboard() {
                       <div className="w-32 bg-gray-200 rounded-full h-2">
                         <div 
                           className="bg-blue-500 h-2 rounded-full" 
+                          style={{ width: `${stat.percentage}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm font-medium">{stat.percentage}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Language Analytics Tab */}
+        <TabsContent value="languages" className="space-y-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Language Access Analytics</CardTitle>
+                <CardDescription>Distribution of languages used by users</CardDescription>
+              </div>
+              <Button 
+                onClick={() => handleExport('languages')}
+                variant="outline" 
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export Languages
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {languageStats.map((stat, index) => (
+                  <div key={stat.language} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-sm font-medium">
+                        {index + 1}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div>
+                          <h4 className="font-medium">{stat.language}</h4>
+                          <p className="text-sm text-muted-foreground">{stat.users} users • {stat.code}</p>
+                        </div>
+                        <Badge variant="outline" className="ml-2">
+                          {stat.code}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-purple-500 h-2 rounded-full" 
                           style={{ width: `${stat.percentage}%` }}
                         ></div>
                       </div>

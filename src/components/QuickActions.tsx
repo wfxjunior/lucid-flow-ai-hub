@@ -1,6 +1,8 @@
 
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { 
   FileText, 
   Users, 
@@ -13,7 +15,8 @@ import {
   Receipt,
   Mic,
   Target,
-  Gift
+  Gift,
+  Search
 } from "lucide-react"
 
 interface QuickActionsProps {
@@ -21,6 +24,8 @@ interface QuickActionsProps {
 }
 
 export function QuickActions({ onActionClick }: QuickActionsProps) {
+  const [searchTerm, setSearchTerm] = useState("")
+
   const quickActions = [
     {
       id: "invoice-creator",
@@ -120,31 +125,57 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
     }
   ]
 
+  const filteredActions = quickActions.filter(action =>
+    action.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    action.description.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {quickActions.map((action) => (
-        <Card 
-          key={action.id} 
-          className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group"
-          onClick={() => onActionClick(action.id)}
-        >
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-4">
-              <div className={`p-3 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg`}>
-                <action.icon className="h-6 w-6" />
+    <div className="space-y-4">
+      {/* Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Input
+          type="text"
+          placeholder="Search quick actions..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+
+      {/* Quick Actions Grid */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filteredActions.map((action) => (
+          <Card 
+            key={action.id} 
+            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group"
+            onClick={() => onActionClick(action.id)}
+          >
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-4">
+                <div className={`p-3 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg`}>
+                  <action.icon className="h-6 w-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-sm truncate group-hover:text-blue-600 transition-colors">
+                    {action.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {action.description}
+                  </p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-sm truncate group-hover:text-blue-600 transition-colors">
-                  {action.title}
-                </h3>
-                <p className="text-xs text-muted-foreground truncate">
-                  {action.description}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {filteredActions.length === 0 && (
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">No actions found matching "{searchTerm}"</p>
+        </div>
+      )}
     </div>
   )
 }
