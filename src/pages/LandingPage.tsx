@@ -38,11 +38,11 @@ export default function LandingPage() {
     }
   ]
 
-  // Auto-advance carousel
+  // Auto-advance carousel every 3 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % dashboardImages.length)
-    }, 4000)
+    }, 3000)
     return () => clearInterval(timer)
   }, [dashboardImages.length])
 
@@ -144,12 +144,6 @@ export default function LandingPage() {
 
             <div className="flex items-center space-x-4">
               <UserGreeting />
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                Dashboard
-              </Button>
             </div>
           </div>
         </div>
@@ -213,7 +207,13 @@ export default function LandingPage() {
             {/* Right Column - Dashboard Preview */}
             <div className="relative mt-8 lg:mt-0">
               <div className="relative z-10">
-                <Carousel className="w-full">
+                <Carousel 
+                  className="w-full"
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                >
                   <CarouselContent>
                     {dashboardImages.map((image, index) => (
                       <CarouselItem key={index}>
@@ -223,7 +223,10 @@ export default function LandingPage() {
                               <img
                                 src={image.src}
                                 alt={image.alt}
-                                className="w-full h-auto object-contain rounded-lg"
+                                className="w-full h-auto object-contain rounded-lg transition-opacity duration-500"
+                                style={{
+                                  opacity: index === currentSlide ? 1 : 0.7
+                                }}
                               />
                             </div>
                           </CardContent>
