@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, Users, MapPin, Settings } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Calendar, Clock, Users, MapPin, Settings, Plus } from "lucide-react"
 
 export function SmartSchedulePage() {
-  const [schedules] = useState([
+  const [schedules, setSchedules] = useState([
     {
       id: 1,
       clientName: "John Smith",
@@ -34,12 +35,19 @@ export function SmartSchedulePage() {
     }
   ])
 
+  const [isAddingSchedule, setIsAddingSchedule] = useState(false)
+
+  const handleAddSchedule = () => {
+    // Add new schedule functionality
+    setIsAddingSchedule(false)
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">SmartSchedule</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Smart Schedule</h1>
           <p className="text-muted-foreground">
             Intelligent scheduling with automated optimization
           </p>
@@ -49,10 +57,63 @@ export function SmartSchedulePage() {
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </Button>
-          <Button>
-            <Calendar className="mr-2 h-4 w-4" />
-            New Schedule
-          </Button>
+          <Dialog open={isAddingSchedule} onOpenChange={setIsAddingSchedule}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                New Schedule
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create New Schedule</DialogTitle>
+                <DialogDescription>
+                  Add a new scheduled appointment
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="client">Client Name</Label>
+                  <Input id="client" placeholder="Enter client name" />
+                </div>
+                <div>
+                  <Label htmlFor="jobType">Job Type</Label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select job type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="cleaning">Cleaning</SelectItem>
+                      <SelectItem value="maintenance">Maintenance</SelectItem>
+                      <SelectItem value="repair">Repair</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="date">Date</Label>
+                    <Input id="date" type="date" />
+                  </div>
+                  <div>
+                    <Label htmlFor="time">Time</Label>
+                    <Input id="time" type="time" />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="address">Address</Label>
+                  <Input id="address" placeholder="Enter address" />
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setIsAddingSchedule(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleAddSchedule}>
+                    Create Schedule
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
@@ -119,7 +180,7 @@ export function SmartSchedulePage() {
         <CardContent>
           <div className="space-y-4">
             {schedules.map((schedule) => (
-              <div key={schedule.id} className="flex items-center justify-between p-4 border rounded-lg">
+              <div key={schedule.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                     <Calendar className="h-6 w-6 text-blue-600" />

@@ -35,7 +35,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   
   const mainFeatures = [
     {
-      title: t("sidebar.dashboard"),
+      title: "Dashboard",
       icon: Home,
       view: "dashboard"
     },

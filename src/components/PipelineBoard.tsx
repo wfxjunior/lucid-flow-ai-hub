@@ -158,24 +158,24 @@ export function PipelineBoard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Sales Pipeline</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Sales Pipeline</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
             Manage your leads and sales opportunities
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+          <Button variant="outline" size="sm" className="w-full sm:w-auto">
             <Filter className="w-4 h-4 mr-2" />
             Filters
           </Button>
           <Dialog open={isAddingLead} onOpenChange={setIsAddingLead}>
             <DialogTrigger asChild>
-              <Button>
+              <Button className="w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 New Lead
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-2xl mx-4 sm:mx-auto">
               <DialogHeader>
                 <DialogTitle>Add New Lead</DialogTitle>
                 <DialogDescription>
@@ -243,7 +243,7 @@ export function PipelineBoard() {
       </div>
 
       {/* Pipeline Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
@@ -291,26 +291,26 @@ export function PipelineBoard() {
       </div>
 
       {/* Pipeline Board */}
-      <div className="overflow-x-auto">
-        <div className="flex gap-4 min-w-max pb-4">
+      <div className="overflow-x-auto pb-4">
+        <div className="flex gap-3 sm:gap-4 min-w-max">
           {stages.map((stage) => (
             <div
               key={stage.id}
-              className="w-80 flex-shrink-0"
+              className="w-72 sm:w-80 flex-shrink-0"
               onDrop={(e) => handleDrop(e, stage.id)}
               onDragOver={handleDragOver}
             >
               <Card className={`${stage.color} border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors`}>
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{stage.name}</CardTitle>
+                    <CardTitle className="text-base sm:text-lg">{stage.name}</CardTitle>
                     <Badge variant="secondary">{getLeadsByStage(stage.id).length}</Badge>
                   </div>
-                  <CardDescription>
+                  <CardDescription className="text-sm">
                     {formatCurrency(getTotalValue(stage.id))}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3 max-h-96 overflow-y-auto">
+                <CardContent className="space-y-3 max-h-80 sm:max-h-96 overflow-y-auto">
                   {getLeadsByStage(stage.id).map((lead) => (
                     <Card
                       key={lead.id}
@@ -319,33 +319,33 @@ export function PipelineBoard() {
                       onDragStart={(e) => handleDragStart(e, lead)}
                       onClick={() => setSelectedLead(lead)}
                     >
-                      <CardContent className="p-4">
+                      <CardContent className="p-3 sm:p-4">
                         <div className="space-y-2">
                           <div className="flex items-start justify-between">
-                            <div>
-                              <p className="font-medium text-sm">{lead.name}</p>
-                              <p className="text-xs text-muted-foreground">{lead.company}</p>
+                            <div className="min-w-0 flex-1">
+                              <p className="font-medium text-sm truncate">{lead.name}</p>
+                              <p className="text-xs text-muted-foreground truncate">{lead.company}</p>
                             </div>
-                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0 flex-shrink-0">
                               <MoreHorizontal className="w-3 h-3" />
                             </Button>
                           </div>
                           
                           <div className="flex items-center justify-between">
-                            <p className="font-bold text-green-600">{formatCurrency(lead.value)}</p>
-                            <Badge variant="secondary" className={getProbabilityColor(lead.probability)}>
+                            <p className="font-bold text-green-600 text-sm">{formatCurrency(lead.value)}</p>
+                            <Badge variant="secondary" className={`text-xs ${getProbabilityColor(lead.probability)}`}>
                               {lead.probability}%
                             </Badge>
                           </div>
                           
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <User className="w-3 h-3" />
-                            <span>{lead.assignedTo}</span>
+                            <User className="w-3 h-3 flex-shrink-0" />
+                            <span className="truncate">{lead.assignedTo}</span>
                           </div>
                           
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <Clock className="w-3 h-3" />
-                            <span>Last contact: {new Date(lead.lastContact).toLocaleDateString('en-US')}</span>
+                            <Clock className="w-3 h-3 flex-shrink-0" />
+                            <span className="truncate">Last: {new Date(lead.lastContact).toLocaleDateString()}</span>
                           </div>
                         </div>
                       </CardContent>
@@ -353,9 +353,9 @@ export function PipelineBoard() {
                   ))}
                   
                   {getLeadsByStage(stage.id).length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <Target className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm">No leads in this stage</p>
+                    <div className="text-center py-6 sm:py-8 text-muted-foreground">
+                      <Target className="w-6 sm:w-8 h-6 sm:h-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-xs sm:text-sm">No leads in this stage</p>
                     </div>
                   )}
                 </CardContent>
@@ -368,31 +368,31 @@ export function PipelineBoard() {
       {/* Lead Details Modal */}
       {selectedLead && (
         <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{selectedLead.name}</DialogTitle>
-              <DialogDescription>{selectedLead.company}</DialogDescription>
+              <DialogTitle className="text-lg sm:text-xl">{selectedLead.name}</DialogTitle>
+              <DialogDescription className="text-sm sm:text-base">{selectedLead.company}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Card>
-                  <CardContent className="p-4">
+                  <CardContent className="p-3 sm:p-4">
                     <div className="flex items-center gap-2">
-                      <DollarSign className="w-5 h-5 text-green-500" />
-                      <div>
-                        <p className="text-sm text-muted-foreground">Value</p>
-                        <p className="text-xl font-bold">{formatCurrency(selectedLead.value)}</p>
+                      <DollarSign className="w-4 sm:w-5 h-4 sm:h-5 text-green-500 flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm text-muted-foreground">Value</p>
+                        <p className="text-lg sm:text-xl font-bold truncate">{formatCurrency(selectedLead.value)}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
                 <Card>
-                  <CardContent className="p-4">
+                  <CardContent className="p-3 sm:p-4">
                     <div className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-blue-500" />
+                      <TrendingUp className="w-4 sm:w-5 h-4 sm:h-5 text-blue-500 flex-shrink-0" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Probability</p>
-                        <p className="text-xl font-bold">{selectedLead.probability}%</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Probability</p>
+                        <p className="text-lg sm:text-xl font-bold">{selectedLead.probability}%</p>
                       </div>
                     </div>
                   </CardContent>
@@ -401,34 +401,34 @@ export function PipelineBoard() {
               
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">{selectedLead.phone}</span>
+                  <Phone className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <span className="text-sm break-all">{selectedLead.phone}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">{selectedLead.email}</span>
+                  <Mail className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <span className="text-sm break-all">{selectedLead.email}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-muted-foreground" />
+                  <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   <span className="text-sm">Assigned to: {selectedLead.assignedTo}</span>
                 </div>
               </div>
               
               <div>
-                <Label>Notes</Label>
-                <Textarea value={selectedLead.notes} readOnly className="mt-1" />
+                <Label className="text-sm font-medium">Notes</Label>
+                <Textarea value={selectedLead.notes} readOnly className="mt-1 text-sm" />
               </div>
               
-              <div className="flex justify-end gap-2">
-                <Button variant="outline">
+              <div className="flex flex-col sm:flex-row justify-end gap-2">
+                <Button variant="outline" className="w-full sm:w-auto">
                   <Phone className="w-4 h-4 mr-2" />
                   Call
                 </Button>
-                <Button variant="outline">
+                <Button variant="outline" className="w-full sm:w-auto">
                   <Mail className="w-4 h-4 mr-2" />
                   Email
                 </Button>
-                <Button>
+                <Button className="w-full sm:w-auto">
                   Edit Lead
                 </Button>
               </div>
