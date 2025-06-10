@@ -35,7 +35,8 @@ import {
   Mail,
   MessageSquare,
   Send,
-  CalendarCheck
+  CalendarCheck,
+  Heart
 } from "lucide-react"
 
 interface QuickActionsProps {
@@ -62,6 +63,14 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       icon: Mic,
       color: "bg-cyan-500",
       hoverColor: "hover:bg-cyan-600"
+    },
+    {
+      id: "aftercare",
+      title: "AfterCare",
+      description: "Client feedback & relationships",
+      icon: Heart,
+      color: "bg-blue-500",
+      hoverColor: "hover:bg-blue-600"
     },
     {
       id: "invoice-creator",
@@ -340,7 +349,7 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
           >
             <CardContent className="p-4">
               <div className="flex items-center space-x-4">
-                <div className={`p-3 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg`}>
+                <div className={`p-3 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
                   <action.icon className="h-6 w-6" />
                 </div>
                 <div className="flex-1 min-w-0">

@@ -85,42 +85,42 @@ export function AfterCarePage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6 p-2 sm:p-4 lg:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Heart className="h-8 w-8 text-red-500" />
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+            <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500 animate-pulse" />
             AfterCare
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm sm:text-base text-muted-foreground mt-1">
             Manage client feedback and maintain long-term relationships
           </p>
         </div>
-        <Button onClick={generateReport}>
+        <Button onClick={generateReport} className="w-full sm:w-auto">
           <Download className="mr-2 h-4 w-4" />
           Generate Report
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Feedback</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Feedback</CardTitle>
             <Heart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{feedbacks.length}</div>
+            <div className="text-xl sm:text-2xl font-bold">{feedbacks.length}</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Rating</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">Average Rating</CardTitle>
             <Star className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl sm:text-2xl font-bold">
               {(feedbacks.reduce((sum, f) => sum + f.overallRating, 0) / feedbacks.length).toFixed(1)}
             </div>
           </CardContent>
@@ -128,11 +128,11 @@ export function AfterCarePage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Would Recommend</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">Would Recommend</CardTitle>
             <MessageSquare className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl sm:text-2xl font-bold">
               {Math.round((feedbacks.filter(f => f.wouldRecommend).length / feedbacks.length) * 100)}%
             </div>
           </CardContent>
@@ -140,11 +140,11 @@ export function AfterCarePage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Public Testimonials</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">Public Testimonials</CardTitle>
             <Eye className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl sm:text-2xl font-bold">
               {feedbacks.filter(f => f.showAsTestimonial).length}
             </div>
           </CardContent>
@@ -154,8 +154,8 @@ export function AfterCarePage() {
       {/* Send Feedback Form */}
       <Card>
         <CardHeader>
-          <CardTitle>Send Feedback Request</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Send Feedback Request</CardTitle>
+          <CardDescription className="text-sm">
             Send a feedback form to a client after project completion
           </CardDescription>
         </CardHeader>
@@ -163,37 +163,40 @@ export function AfterCarePage() {
           <form onSubmit={handleSubmitFeedback} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="clientName">Client Name</Label>
+                <Label htmlFor="clientName" className="text-sm">Client Name</Label>
                 <Input
                   id="clientName"
                   value={feedbackForm.clientName}
                   onChange={(e) => setFeedbackForm({ ...feedbackForm, clientName: e.target.value })}
                   placeholder="Enter client name"
                   required
+                  className="mt-1"
                 />
               </div>
               <div>
-                <Label htmlFor="projectService">Project/Service</Label>
+                <Label htmlFor="projectService" className="text-sm">Project/Service</Label>
                 <Input
                   id="projectService"
                   value={feedbackForm.projectService}
                   onChange={(e) => setFeedbackForm({ ...feedbackForm, projectService: e.target.value })}
                   placeholder="Enter project or service name"
                   required
+                  className="mt-1"
                 />
               </div>
             </div>
             <div>
-              <Label htmlFor="suggestions">Additional Notes (Optional)</Label>
+              <Label htmlFor="suggestions" className="text-sm">Additional Notes (Optional)</Label>
               <Textarea
                 id="suggestions"
                 value={feedbackForm.suggestions}
                 onChange={(e) => setFeedbackForm({ ...feedbackForm, suggestions: e.target.value })}
                 placeholder="Any specific questions or notes for the client..."
                 rows={3}
+                className="mt-1"
               />
             </div>
-            <Button type="submit">
+            <Button type="submit" className="w-full sm:w-auto">
               <Send className="mr-2 h-4 w-4" />
               Send Feedback Request
             </Button>
@@ -204,8 +207,8 @@ export function AfterCarePage() {
       {/* Feedback Results */}
       <Card>
         <CardHeader>
-          <CardTitle>Client Feedback</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Client Feedback</CardTitle>
+          <CardDescription className="text-sm">
             View and manage client feedback responses
           </CardDescription>
         </CardHeader>
@@ -214,58 +217,60 @@ export function AfterCarePage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Project/Service</TableHead>
-                  <TableHead>Overall Rating</TableHead>
-                  <TableHead>Communication</TableHead>
-                  <TableHead>Would Recommend</TableHead>
-                  <TableHead>Public Display</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Client</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Project/Service</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Overall Rating</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Communication</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Would Recommend</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden md:table-cell">Public Display</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden lg:table-cell">Date</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {feedbacks.map((feedback) => (
                   <TableRow key={feedback.id}>
-                    <TableCell className="font-medium">{feedback.clientName}</TableCell>
-                    <TableCell>{feedback.projectService}</TableCell>
+                    <TableCell className="font-medium text-xs sm:text-sm">{feedback.clientName}</TableCell>
+                    <TableCell className="text-xs sm:text-sm">{feedback.projectService}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
                         {renderStars(feedback.overallRating)}
-                        <span className="ml-2 text-sm">{feedback.overallRating}/5</span>
+                        <span className="ml-1 sm:ml-2 text-xs">{feedback.overallRating}/5</span>
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <div className="flex items-center gap-1">
                         {renderStars(feedback.communicationQuality)}
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={feedback.wouldRecommend ? "default" : "secondary"}>
+                      <Badge variant={feedback.wouldRecommend ? "default" : "secondary"} className="text-xs">
                         {feedback.wouldRecommend ? "Yes" : "No"}
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      <Badge variant={feedback.allowPublicDisplay ? "default" : "outline"}>
+                    <TableCell className="hidden md:table-cell">
+                      <Badge variant={feedback.allowPublicDisplay ? "default" : "outline"} className="text-xs">
                         {feedback.allowPublicDisplay ? "Allowed" : "Private"}
                       </Badge>
                     </TableCell>
-                    <TableCell>{feedback.feedbackDate}</TableCell>
+                    <TableCell className="hidden lg:table-cell text-xs sm:text-sm">{feedback.feedbackDate}</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1 sm:gap-2">
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => sendFollowUpEmail(feedback.clientName)}
+                          className="h-8 w-8 p-0"
                         >
-                          <Mail className="h-4 w-4" />
+                          <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => toast.success('Feedback details viewed')}
+                          className="h-8 w-8 p-0"
                         >
-                          <Eye className="h-4 w-4" />
+                          <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </div>
                     </TableCell>
