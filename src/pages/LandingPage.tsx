@@ -11,11 +11,14 @@ import {
   Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
   Star, ArrowRight, Play, Check, FileText, UserCheck, Package, 
   Car, Calendar, Video, ClipboardList, Calculator, Instagram,
-  Facebook, Twitter, Linkedin, Youtube
+  Facebook, Twitter, Linkedin, Youtube, Crown
 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
 
 export default function LandingPage() {
   const navigate = useNavigate()
+  const { toast } = useToast()
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const dashboardImages = [
@@ -134,6 +137,89 @@ export default function LandingPage() {
     "Enterprise-grade security"
   ]
 
+  const handleStartFreeTrial = async () => {
+    try {
+      // Check if user is authenticated
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        // If not authenticated, redirect to auth page
+        navigate('/auth')
+        return
+      }
+
+      // If authenticated, start the professional plan trial
+      const professionalPlan = {
+        id: "professional",
+        name: "Professional",
+        description: "Everything you need to grow - 7 days free!",
+        price: "$29",
+        period: "month",
+        icon: Crown,
+        features: [
+          "7-day free trial",
+          "Unlimited invoices",
+          "AI voice assistant",
+          "Advanced customer management",
+          "Analytics dashboard",
+          "E-signatures",
+          "Priority support",
+          "All integrations",
+          "Document tracking",
+          "Work orders",
+          "Appointments",
+          "Contracts",
+          "File management"
+        ],
+        buttonText: "Start Free Trial",
+        popular: true,
+        color: "from-green-500 to-emerald-600",
+        bgGradient: "from-green-50 to-emerald-50",
+        stripePrice: 2900,
+        recurring: true
+      }
+
+      // Create checkout session with trial
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          priceAmount: professionalPlan.stripePrice,
+          planName: professionalPlan.name,
+          planId: professionalPlan.id,
+          recurring: professionalPlan.recurring,
+          trialPeriodDays: 7,
+          annualBilling: false
+        }
+      })
+
+      if (error) {
+        throw error
+      }
+
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank')
+      } else {
+        throw new Error('No checkout URL received')
+      }
+
+    } catch (error) {
+      console.error('Error starting free trial:', error)
+      toast({
+        title: "Error",
+        description: "There was an error starting your free trial. Please try again.",
+        variant: "destructive"
+      })
+    }
+  }
+
+  const handleTryItFree = () => {
+    // Scroll to pricing section to show all plan options
+    const pricingSection = document.getElementById('pricing')
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -191,7 +277,7 @@ export default function LandingPage() {
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Button 
-                    onClick={() => navigate('/dashboard')}
+                    onClick={handleStartFreeTrial}
                     size="lg"
                     className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
                   >
@@ -201,6 +287,7 @@ export default function LandingPage() {
                   <Button 
                     variant="outline"
                     size="lg"
+                    onClick={handleTryItFree}
                     className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg border-2"
                   >
                     <Play className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
@@ -384,7 +471,7 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
-              onClick={() => navigate('/dashboard')}
+              onClick={handleStartFreeTrial}
               size="lg"
               className="bg-background text-primary hover:bg-background/90 transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
             >
@@ -394,6 +481,7 @@ export default function LandingPage() {
             <Button 
               variant="outline"
               size="lg"
+              onClick={handleTryItFree}
               className="border-2 border-primary-foreground/20 text-primary-foreground bg-transparent hover:bg-primary-foreground hover:text-primary transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
             >
               Get Free Demo
