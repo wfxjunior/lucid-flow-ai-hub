@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -346,23 +347,23 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
         />
       </div>
 
-      {/* Quick Actions Grid - Square responsive design */}
-      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
+      {/* Quick Actions Grid - Fully responsive design */}
+      <div className="grid gap-2 xs:gap-3 grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
         {filteredActions.map((action) => (
           <Card 
             key={action.id} 
-            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group aspect-square flex flex-col"
+            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group aspect-square flex flex-col border-0 shadow-sm hover:shadow-md"
             onClick={() => onActionClick(action.id)}
           >
-            <CardContent className="p-3 sm:p-4 flex flex-col items-center justify-center text-center h-full">
-              <div className={`p-4 sm:p-5 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg mb-2 sm:mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
-                <action.icon className="h-7 w-7 sm:h-8 sm:w-8" />
+            <CardContent className="p-2 xs:p-3 sm:p-4 flex flex-col items-center justify-center text-center h-full">
+              <div className={`p-2 xs:p-3 sm:p-4 md:p-5 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg mb-1 xs:mb-2 sm:mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
+                <action.icon className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 lg:h-8 lg:w-8" />
               </div>
               <div className="flex-1 flex flex-col justify-center min-w-0">
-                <h3 className="font-semibold text-xs sm:text-sm leading-tight group-hover:text-blue-600 transition-colors mb-1">
+                <h3 className="font-semibold text-[10px] xs:text-xs sm:text-sm leading-tight group-hover:text-blue-600 transition-colors mb-0.5 xs:mb-1">
                   {action.title}
                 </h3>
-                <p className="text-xs text-muted-foreground leading-tight line-clamp-2 hidden sm:block">
+                <p className="text-[8px] xs:text-xs text-muted-foreground leading-tight line-clamp-2 hidden xs:block">
                   {action.description}
                 </p>
               </div>
