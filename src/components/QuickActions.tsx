@@ -15,7 +15,8 @@ import {
   Receipt,
   Mic,
   Target,
-  Search
+  Search,
+  Lightbulb
 } from "lucide-react"
 
 interface QuickActionsProps {
@@ -113,6 +114,14 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       icon: Target,
       color: "bg-amber-500",
       hoverColor: "hover:bg-amber-600"
+    },
+    {
+      id: "features",
+      title: "Feature Requests",
+      description: "Suggest new features",
+      icon: Lightbulb,
+      color: "bg-yellow-500",
+      hoverColor: "hover:bg-yellow-600"
     }
   ]
 

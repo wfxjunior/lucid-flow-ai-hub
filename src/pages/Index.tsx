@@ -35,6 +35,7 @@ import { MessagesPage } from "@/components/MessagesPage"
 import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 import { ReferralsPage } from "@/components/ReferralsPage"
 import { IntegrationsHub } from "@/components/IntegrationsHub"
+import { FeaturesPage } from "@/components/FeaturesPage"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
@@ -68,6 +69,8 @@ const Index = () => {
         return <ReferralsPage />
       case "integrations":
         return <IntegrationsHub />
+      case "features":
+        return <FeaturesPage />
       case "car-rental":
         return <CarRentalPage />
       case "work-orders":
