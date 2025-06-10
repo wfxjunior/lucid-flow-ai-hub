@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -176,14 +175,6 @@ const Auth = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center space-y-4">
-          <div className="flex items-center justify-center space-x-2">
-            <img 
-              src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
-              alt="FeatherBiz Logo" 
-              className="w-10 h-10 object-contain"
-            />
-            <span className="text-2xl font-bold text-primary">FeatherBiz</span>
-          </div>
           <CardTitle className="text-2xl">
             {isLogin ? 'Sign In' : 'Create Account'}
           </CardTitle>
