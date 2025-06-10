@@ -9,7 +9,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
-  Star, ArrowRight, Monitor, Smartphone, Headphones, Mail, Play, Check
+  Star, ArrowRight, Monitor, Smartphone, Headphones, Mail, Play, Check, Feather
 } from "lucide-react"
 
 export default function LandingPage() {
@@ -126,7 +126,7 @@ export default function LandingPage() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-sm">FB</span>
+                  <Feather className="w-5 h-5 text-primary-foreground" />
                 </div>
                 <span className="text-xl font-bold text-primary">FeatherBiz</span>
               </div>
@@ -378,7 +378,7 @@ export default function LandingPage() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-sm">FB</span>
+                  <Feather className="w-5 h-5 text-primary-foreground" />
                 </div>
                 <span className="text-xl font-bold text-primary">FeatherBiz</span>
               </div>
