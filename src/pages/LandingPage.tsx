@@ -382,7 +382,7 @@ export default function LandingPage() {
               size="lg"
               className="bg-background text-primary hover:bg-background/90 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
             >
-              Start Free Trial
+              Schedule Demo
               <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
             <Button 
@@ -390,7 +390,7 @@ export default function LandingPage() {
               size="lg"
               className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
             >
-              Schedule Demo
+              Get Free Demo
             </Button>
           </div>
           <p className="text-primary-foreground/60 text-sm mt-4 sm:mt-6">
