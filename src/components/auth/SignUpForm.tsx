@@ -21,55 +21,55 @@ interface SignUpFormProps {
 }
 
 const countries = [
-  { value: 'us', label: 'United States' },
-  { value: 'ca', label: 'Canada' },
-  { value: 'gb', label: 'United Kingdom' },
-  { value: 'au', label: 'Australia' },
-  { value: 'de', label: 'Germany' },
-  { value: 'fr', label: 'France' },
-  { value: 'es', label: 'Spain' },
-  { value: 'it', label: 'Italy' },
-  { value: 'br', label: 'Brazil' },
-  { value: 'mx', label: 'Mexico' },
-  { value: 'jp', label: 'Japan' },
-  { value: 'kr', label: 'South Korea' },
-  { value: 'cn', label: 'China' },
-  { value: 'in', label: 'India' },
-  { value: 'sg', label: 'Singapore' },
-  { value: 'nl', label: 'Netherlands' },
-  { value: 'se', label: 'Sweden' },
-  { value: 'no', label: 'Norway' },
-  { value: 'dk', label: 'Denmark' },
-  { value: 'fi', label: 'Finland' },
-  { value: 'ch', label: 'Switzerland' },
-  { value: 'at', label: 'Austria' },
-  { value: 'be', label: 'Belgium' },
-  { value: 'ie', label: 'Ireland' },
-  { value: 'nz', label: 'New Zealand' },
-  { value: 'za', label: 'South Africa' },
-  { value: 'ae', label: 'United Arab Emirates' },
-  { value: 'il', label: 'Israel' },
-  { value: 'pl', label: 'Poland' },
-  { value: 'cz', label: 'Czech Republic' },
-  { value: 'hu', label: 'Hungary' },
-  { value: 'ro', label: 'Romania' },
-  { value: 'bg', label: 'Bulgaria' },
-  { value: 'hr', label: 'Croatia' },
-  { value: 'sk', label: 'Slovakia' },
-  { value: 'si', label: 'Slovenia' },
-  { value: 'ee', label: 'Estonia' },
-  { value: 'lv', label: 'Latvia' },
-  { value: 'lt', label: 'Lithuania' },
-  { value: 'pt', label: 'Portugal' },
-  { value: 'gr', label: 'Greece' },
-  { value: 'cy', label: 'Cyprus' },
-  { value: 'mt', label: 'Malta' },
-  { value: 'lu', label: 'Luxembourg' },
-  { value: 'is', label: 'Iceland' },
-  { value: 'tr', label: 'Turkey' },
-  { value: 'ru', label: 'Russia' },
-  { value: 'ua', label: 'Ukraine' },
-  { value: 'other', label: 'Other' }
+  { value: 'us', label: 'United States', flag: '🇺🇸' },
+  { value: 'ca', label: 'Canada', flag: '🇨🇦' },
+  { value: 'gb', label: 'United Kingdom', flag: '🇬🇧' },
+  { value: 'au', label: 'Australia', flag: '🇦🇺' },
+  { value: 'de', label: 'Germany', flag: '🇩🇪' },
+  { value: 'fr', label: 'France', flag: '🇫🇷' },
+  { value: 'es', label: 'Spain', flag: '🇪🇸' },
+  { value: 'it', label: 'Italy', flag: '🇮🇹' },
+  { value: 'br', label: 'Brazil', flag: '🇧🇷' },
+  { value: 'mx', label: 'Mexico', flag: '🇲🇽' },
+  { value: 'jp', label: 'Japan', flag: '🇯🇵' },
+  { value: 'kr', label: 'South Korea', flag: '🇰🇷' },
+  { value: 'cn', label: 'China', flag: '🇨🇳' },
+  { value: 'in', label: 'India', flag: '🇮🇳' },
+  { value: 'sg', label: 'Singapore', flag: '🇸🇬' },
+  { value: 'nl', label: 'Netherlands', flag: '🇳🇱' },
+  { value: 'se', label: 'Sweden', flag: '🇸🇪' },
+  { value: 'no', label: 'Norway', flag: '🇳🇴' },
+  { value: 'dk', label: 'Denmark', flag: '🇩🇰' },
+  { value: 'fi', label: 'Finland', flag: '🇫🇮' },
+  { value: 'ch', label: 'Switzerland', flag: '🇨🇭' },
+  { value: 'at', label: 'Austria', flag: '🇦🇹' },
+  { value: 'be', label: 'Belgium', flag: '🇧🇪' },
+  { value: 'ie', label: 'Ireland', flag: '🇮🇪' },
+  { value: 'nz', label: 'New Zealand', flag: '🇳🇿' },
+  { value: 'za', label: 'South Africa', flag: '🇿🇦' },
+  { value: 'ae', label: 'United Arab Emirates', flag: '🇦🇪' },
+  { value: 'il', label: 'Israel', flag: '🇮🇱' },
+  { value: 'pl', label: 'Poland', flag: '🇵🇱' },
+  { value: 'cz', label: 'Czech Republic', flag: '🇨🇿' },
+  { value: 'hu', label: 'Hungary', flag: '🇭🇺' },
+  { value: 'ro', label: 'Romania', flag: '🇷🇴' },
+  { value: 'bg', label: 'Bulgaria', flag: '🇧🇬' },
+  { value: 'hr', label: 'Croatia', flag: '🇭🇷' },
+  { value: 'sk', label: 'Slovakia', flag: '🇸🇰' },
+  { value: 'si', label: 'Slovenia', flag: '🇸🇮' },
+  { value: 'ee', label: 'Estonia', flag: '🇪🇪' },
+  { value: 'lv', label: 'Latvia', flag: '🇱🇻' },
+  { value: 'lt', label: 'Lithuania', flag: '🇱🇹' },
+  { value: 'pt', label: 'Portugal', flag: '🇵🇹' },
+  { value: 'gr', label: 'Greece', flag: '🇬🇷' },
+  { value: 'cy', label: 'Cyprus', flag: '🇨🇾' },
+  { value: 'mt', label: 'Malta', flag: '🇲🇹' },
+  { value: 'lu', label: 'Luxembourg', flag: '🇱🇺' },
+  { value: 'is', label: 'Iceland', flag: '🇮🇸' },
+  { value: 'tr', label: 'Turkey', flag: '🇹🇷' },
+  { value: 'ru', label: 'Russia', flag: '🇷🇺' },
+  { value: 'ua', label: 'Ukraine', flag: '🇺🇦' },
+  { value: 'other', label: 'Other', flag: '🌍' }
 ]
 
 export function SignUpForm({
@@ -106,25 +106,6 @@ export function SignUpForm({
             className="pl-4"
             required
           />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="country" className="flex items-center space-x-2">
-            <Globe className="w-4 h-4" />
-            <span>Country</span>
-          </Label>
-          <Select value={country} onValueChange={setCountry} required>
-            <SelectTrigger className="pl-4">
-              <SelectValue placeholder="Select your country" />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((country) => (
-                <SelectItem key={country.value} value={country.value}>
-                  {country.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
         </div>
         
         <div className="space-y-2">
@@ -165,6 +146,28 @@ export function SignUpForm({
             className="pl-4"
             required
           />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="country" className="flex items-center space-x-2">
+            <Globe className="w-4 h-4" />
+            <span>Country</span>
+          </Label>
+          <Select value={country} onValueChange={setCountry} required>
+            <SelectTrigger className="pl-4">
+              <SelectValue placeholder="Select your country" />
+            </SelectTrigger>
+            <SelectContent className="max-h-[300px]">
+              {countries.map((country) => (
+                <SelectItem key={country.value} value={country.value}>
+                  <div className="flex items-center">
+                    <span className="mr-2">{country.flag}</span>
+                    {country.label}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         
         <Button 
