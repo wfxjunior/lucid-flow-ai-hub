@@ -1,11 +1,12 @@
 import { useState } from "react"
-import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter, Globe, Clock, MessageSquare as FeedbackIcon } from "lucide-react"
+import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter, Globe, Clock, MessageSquare as FeedbackIcon, Download } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useToast } from "@/hooks/use-toast"
 
 interface User {
   id: string
@@ -39,6 +40,8 @@ interface Feedback {
 }
 
 export function AdminDashboard() {
+  const { toast } = useToast()
+  
   const [users, setUsers] = useState<User[]>([
     {
       id: "1",
@@ -187,6 +190,65 @@ export function AdminDashboard() {
     }))
   }
 
+  const exportToCSV = (data: any[], filename: string, headers: string[]) => {
+    const csvContent = [
+      headers.join(','),
+      ...data.map(row => headers.map(header => {
+        const key = header.toLowerCase().replace(/\s+/g, '_')
+        const value = row[key] || ''
+        return `"${String(value).replace(/"/g, '""')}"`
+      }).join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.setAttribute('href', url)
+    link.setAttribute('download', `${filename}_${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    toast({
+      title: "Export Complete",
+      description: `${filename} has been exported successfully`
+    })
+  }
+
+  const handleExport = (type: 'users' | 'activity' | 'feedback' | 'analytics') => {
+    switch (type) {
+      case 'users':
+        exportToCSV(
+          users,
+          'users_data',
+          ['Name', 'Email', 'Role', 'Status', 'Last Login', 'Join Date', 'Country']
+        )
+        break
+      case 'activity':
+        exportToCSV(
+          activityLogs,
+          'activity_logs',
+          ['User', 'Action', 'Timestamp', 'Details']
+        )
+        break
+      case 'feedback':
+        exportToCSV(
+          feedbacks,
+          'feedback_data',
+          ['User', 'Type', 'Subject', 'Message', 'Status', 'Timestamp']
+        )
+        break
+      case 'analytics':
+        exportToCSV(
+          countryStats,
+          'country_analytics',
+          ['Country', 'Users', 'Percentage']
+        )
+        break
+    }
+  }
+
   const getRoleColor = (role: string) => {
     switch (role) {
       case "admin": return "bg-red-100 text-red-800"
@@ -214,9 +276,32 @@ export function AdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <p className="text-lg text-muted-foreground">Complete system administration and control</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <p className="text-lg text-muted-foreground">Complete system administration and control</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Select onValueChange={(value) => handleExport(value as any)}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Export Data" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="users">Export Users</SelectItem>
+              <SelectItem value="activity">Export Activity Logs</SelectItem>
+              <SelectItem value="feedback">Export Feedback</SelectItem>
+              <SelectItem value="analytics">Export Analytics</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button 
+            onClick={() => handleExport('users')}
+            className="flex items-center gap-2"
+            variant="outline"
+          >
+            <Download className="h-4 w-4" />
+            Quick Export
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -287,38 +372,48 @@ export function AdminDashboard() {
 
         {/* User Management Tab */}
         <TabsContent value="users" className="space-y-4">
-          <div className="flex gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search users..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+          <div className="flex justify-between items-center">
+            <div className="flex gap-4 flex-1">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Search users..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Select value={roleFilter} onValueChange={setRoleFilter}>
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Filter by role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Roles</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="moderator">Moderator</SelectItem>
+                  <SelectItem value="user">User</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="suspended">Suspended</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            <Select value={roleFilter} onValueChange={setRoleFilter}>
-              <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Filter by role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="moderator">Moderator</SelectItem>
-                <SelectItem value="user">User</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="suspended">Suspended</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-              </SelectContent>
-            </Select>
+            <Button 
+              onClick={() => handleExport('users')}
+              variant="outline"
+              className="ml-4 flex items-center gap-2"
+            >
+              <Download className="h-4 w-4" />
+              Export Users
+            </Button>
           </div>
 
           <div className="grid gap-4">
@@ -389,9 +484,20 @@ export function AdminDashboard() {
         {/* Live Sessions Tab */}
         <TabsContent value="sessions" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Live User Sessions</CardTitle>
-              <CardDescription>Real-time user activity and page access</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Live User Sessions</CardTitle>
+                <CardDescription>Real-time user activity and page access</CardDescription>
+              </div>
+              <Button 
+                onClick={() => handleExport('users')}
+                variant="outline" 
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export Sessions
+              </Button>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -422,9 +528,20 @@ export function AdminDashboard() {
         {/* Feedback Control Tab */}
         <TabsContent value="feedback" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Feedback Management</CardTitle>
-              <CardDescription>Control and respond to user feedback</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Feedback Management</CardTitle>
+                <CardDescription>Control and respond to user feedback</CardDescription>
+              </div>
+              <Button 
+                onClick={() => handleExport('feedback')}
+                variant="outline" 
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export Feedback
+              </Button>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -477,9 +594,20 @@ export function AdminDashboard() {
         {/* Country Analytics Tab */}
         <TabsContent value="analytics" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Country Access Analytics</CardTitle>
-              <CardDescription>Geographic distribution of users</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Country Access Analytics</CardTitle>
+                <CardDescription>Geographic distribution of users</CardDescription>
+              </div>
+              <Button 
+                onClick={() => handleExport('analytics')}
+                variant="outline" 
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export Analytics
+              </Button>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -512,6 +640,18 @@ export function AdminDashboard() {
 
         {/* Activity Logs Tab */}
         <TabsContent value="activity" className="space-y-4">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold">Activity Logs</h3>
+            <Button 
+              onClick={() => handleExport('activity')}
+              variant="outline" 
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <Download className="h-4 w-4" />
+              Export Logs
+            </Button>
+          </div>
           <div className="grid gap-4">
             {activityLogs.map((log) => (
               <Card key={log.id}>
