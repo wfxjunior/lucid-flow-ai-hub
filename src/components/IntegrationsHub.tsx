@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { 
@@ -20,9 +20,9 @@ import {
   Settings,
   ExternalLink,
   Plus,
-  Smartphone,
   Cloud,
-  BarChart3
+  BarChart3,
+  Send
 } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 
@@ -117,6 +117,13 @@ export function IntegrationsHub() {
 
   const [selectedIntegration, setSelectedIntegration] = useState<Integration | null>(null)
   const [isConfiguring, setIsConfiguring] = useState(false)
+  const [showRequestDialog, setShowRequestDialog] = useState(false)
+  const [requestForm, setRequestForm] = useState({
+    integrationName: '',
+    contactEmail: '',
+    businessUse: '',
+    description: ''
+  })
 
   const categories = [
     { id: 'all', name: 'Todas', icon: Settings },
@@ -155,6 +162,26 @@ export function IntegrationsHub() {
     })
   }
 
+  const handleRequestSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Here you would typically send the request to your backend
+    console.log('Integration request submitted:', requestForm)
+    
+    toast({
+      title: "Solicitação Enviada!",
+      description: "Sua solicitação de integração foi enviada. Entraremos em contato em breve.",
+    })
+    
+    setShowRequestDialog(false)
+    setRequestForm({
+      integrationName: '',
+      contactEmail: '',
+      businessUse: '',
+      description: ''
+    })
+  }
+
   const connectedCount = integrations.filter(i => i.connected).length
 
   return (
@@ -171,10 +198,83 @@ export function IntegrationsHub() {
           <Badge variant="secondary" className="text-sm">
             {connectedCount} conectadas
           </Badge>
-          <Button>
-            <Plus className="w-4 h-4 mr-2" />
-            Solicitar Integração
-          </Button>
+          <Dialog open={showRequestDialog} onOpenChange={setShowRequestDialog}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Solicitar Integração
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>Solicitar Nova Integração</DialogTitle>
+                <DialogDescription>
+                  Nos informe qual integração você gostaria de ver no FeatherBiz
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleRequestSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="integration-name">Nome da Integração *</Label>
+                  <Input
+                    id="integration-name"
+                    placeholder="Ex: Slack, Trello, Notion..."
+                    value={requestForm.integrationName}
+                    onChange={(e) => setRequestForm(prev => ({ ...prev, integrationName: e.target.value }))}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="contact-email">Seu Email *</Label>
+                  <Input
+                    id="contact-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={requestForm.contactEmail}
+                    onChange={(e) => setRequestForm(prev => ({ ...prev, contactEmail: e.target.value }))}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="business-use">Como você usaria essa integração? *</Label>
+                  <Textarea
+                    id="business-use"
+                    placeholder="Descreva brevemente como essa integração ajudaria seu negócio..."
+                    value={requestForm.businessUse}
+                    onChange={(e) => setRequestForm(prev => ({ ...prev, businessUse: e.target.value }))}
+                    required
+                    rows={3}
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="description">Detalhes Adicionais</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Funcionalidades específicas que você gostaria de ver..."
+                    value={requestForm.description}
+                    onChange={(e) => setRequestForm(prev => ({ ...prev, description: e.target.value }))}
+                    rows={2}
+                  />
+                </div>
+                
+                <div className="flex gap-2">
+                  <Button type="submit" className="flex-1">
+                    <Send className="w-4 h-4 mr-2" />
+                    Enviar Solicitação
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => setShowRequestDialog(false)}
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
