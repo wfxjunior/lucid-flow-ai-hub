@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Search, Edit, Trash2, Eye, FileText, DollarSign, TrendingUp, Send, Download, PenTool } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Download, FileText, DollarSign, TrendingUp, Send, Copy } from "lucide-react"
 import { EstimateForm } from "@/components/EstimateForm"
 import { InlineEstimateEditor } from "@/components/InlineEstimateEditor"
 import { useBusinessData } from "@/hooks/useBusinessData"
@@ -32,7 +32,7 @@ export function EstimatesPage() {
     const client = clientsMap[estimate.client_id]
     const clientName = client?.name || 'Unknown Client'
     
-    const matchesSearch = estimate.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = estimate.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          (estimate.estimate_number || '').toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || estimate.status === statusFilter
@@ -49,6 +49,18 @@ export function EstimatesPage() {
     const client = clientsMap[estimate.client_id]
     const estimateWithClient = { ...estimate, client }
     await generateEstimatePDF(estimateWithClient)
+  }
+
+  const handleDuplicate = (estimate: any) => {
+    const duplicated = {
+      ...estimate,
+      id: undefined,
+      estimate_number: `EST-${Date.now().toString().slice(-6)}`,
+      status: 'draft',
+      title: `Copy of ${estimate.title}`
+    }
+    setEditingEstimate(duplicated)
+    setShowForm(true)
   }
 
   const handleCloseForm = () => {
@@ -84,12 +96,11 @@ export function EstimatesPage() {
 
   if (showForm) {
     return (
-      <div className="container mx-auto p-4 sm:p-6">
-        <EstimateForm
-          estimate={editingEstimate}
-          onClose={handleCloseForm}
-        />
-      </div>
+      <EstimateForm
+        estimate={editingEstimate}
+        onClose={handleCloseForm}
+        onSuccess={handleCloseForm}
+      />
     )
   }
 
@@ -99,17 +110,17 @@ export function EstimatesPage() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Estimates</h1>
           <p className="text-sm sm:text-base text-muted-foreground">
-            Create and manage project estimates for your clients
+            Create professional estimates with editable line items and instant PDF generation
           </p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setShowInlineEditor(true)}>
-            <PenTool className="mr-2 h-4 w-4" />
-            Inline Editor
+            <FileText className="mr-2 h-4 w-4" />
+            Legacy Editor
           </Button>
           <Button onClick={() => setShowForm(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Quick Estimate
+            New Estimate
           </Button>
         </div>
       </div>
@@ -206,7 +217,7 @@ export function EstimatesPage() {
         <CardHeader>
           <CardTitle className="text-lg sm:text-xl">Estimates</CardTitle>
           <CardDescription className="text-sm">
-            A list of all your estimates with their current status and details.
+            Manage your estimates with the new editable interface
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0 sm:p-6">
@@ -229,7 +240,7 @@ export function EstimatesPage() {
                     <TableHead className="min-w-[100px]">Amount</TableHead>
                     <TableHead className="min-w-[100px]">Status</TableHead>
                     <TableHead className="min-w-[100px] hidden md:table-cell">Date</TableHead>
-                    <TableHead className="min-w-[100px]">Actions</TableHead>
+                    <TableHead className="min-w-[120px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -240,7 +251,7 @@ export function EstimatesPage() {
                     return (
                       <TableRow key={estimate.id}>
                         <TableCell className="font-medium text-xs sm:text-sm">
-                          {estimate.estimate_number || 'EST-' + estimate.id.slice(0, 8)}
+                          {estimate.estimate_number || 'EST-' + estimate.id?.slice(0, 8)}
                         </TableCell>
                         <TableCell className="text-xs sm:text-sm">
                           <div>
@@ -254,7 +265,7 @@ export function EstimatesPage() {
                         </TableCell>
                         <TableCell>
                           <Badge className={`${getStatusColor(estimate.status)} text-xs`}>
-                            {estimate.status.charAt(0).toUpperCase() + estimate.status.slice(1)}
+                            {estimate.status?.charAt(0).toUpperCase() + estimate.status?.slice(1)}
                           </Badge>
                         </TableCell>
                         <TableCell className="hidden md:table-cell text-xs sm:text-sm">
@@ -267,8 +278,18 @@ export function EstimatesPage() {
                               size="sm"
                               onClick={() => handleEdit(estimate)}
                               className="h-8 w-8 p-0"
+                              title="Edit"
                             >
                               <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDuplicate(estimate)}
+                              className="h-8 w-8 p-0"
+                              title="Duplicate"
+                            >
+                              <Copy className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                             <Button
                               variant="ghost"
@@ -276,6 +297,7 @@ export function EstimatesPage() {
                               onClick={() => handleGeneratePDF(estimate)}
                               disabled={isGenerating}
                               className="h-8 w-8 p-0"
+                              title="Download PDF"
                             >
                               <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
