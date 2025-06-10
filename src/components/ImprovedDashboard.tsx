@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { StatsCard } from "@/components/StatsCard"
 import { QuickActions } from "@/components/QuickActions"
+import { SubscriptionStatus } from "@/components/pricing/SubscriptionStatus"
 import { 
   TrendingUp, 
   Users, 
@@ -156,18 +156,23 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
-          {/* Quick Actions Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">
-                {t ? t("dashboard.quickActions", "Quick Actions") : "Quick Actions"}
-              </CardTitle>
-              <CardDescription>Access your most used business tools</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <QuickActions onActionClick={handleQuickAction} />
-            </CardContent>
-          </Card>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {/* Quick Actions Section */}
+            <Card className="lg:col-span-2">
+              <CardHeader>
+                <CardTitle className="text-lg sm:text-xl">
+                  {t ? t("dashboard.quickActions", "Quick Actions") : "Quick Actions"}
+                </CardTitle>
+                <CardDescription>Access your most used business tools</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <QuickActions onActionClick={handleQuickAction} />
+              </CardContent>
+            </Card>
+
+            {/* Subscription Status */}
+            <SubscriptionStatus />
+          </div>
 
           <div className="grid gap-4 lg:grid-cols-7">
             {/* Revenue Chart */}
