@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
 import { AnimatedNumber } from "@/components/AnimatedNumber"
+import { PricingPlans } from "@/components/PricingPlans"
 import { useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
@@ -365,6 +366,11 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-16 sm:py-20 lg:py-32">
+        <PricingPlans />
       </section>
 
       {/* CTA Section - HubSpot Style */}
