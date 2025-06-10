@@ -239,8 +239,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
     if (view === "admin-panel") {
-      // Navigate to the dedicated admin page
       window.location.href = "/admin"
+    } else if (view === "feedback") {
+      window.location.href = "/feedback"
+    } else if (view === "faq-help") {
+      window.location.href = "/faq"
     } else {
       setActiveView(view)
     }
@@ -326,7 +329,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarFooter className="p-4 border-t">
         <div className="space-y-3">
           <div>
-            <p className="text-sm font-medium text-gray-500 mb-2">{t("language.title")}</p>
+            <p className="text-sm font-medium text-gray-500 mb-2">Language</p>
             <LanguageSelector />
           </div>
           <ThemeToggle />

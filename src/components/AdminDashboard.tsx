@@ -1,6 +1,5 @@
-
 import { useState } from "react"
-import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter } from "lucide-react"
+import { Users, Activity, Settings, FileText, BarChart3, Shield, Database, Bell, Search, Filter, Globe, Clock, MessageSquare as FeedbackIcon } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,6 +15,9 @@ interface User {
   status: "active" | "suspended" | "pending"
   lastLogin: string
   joinDate: string
+  currentPage?: string
+  sessionDuration?: string
+  country?: string
 }
 
 interface ActivityLog {
@@ -24,6 +26,16 @@ interface ActivityLog {
   action: string
   timestamp: string
   details: string
+}
+
+interface Feedback {
+  id: string
+  user: string
+  type: "bug" | "feature" | "general"
+  subject: string
+  message: string
+  status: "pending" | "resolved" | "in-progress"
+  timestamp: string
 }
 
 export function AdminDashboard() {
@@ -35,7 +47,10 @@ export function AdminDashboard() {
       role: "user",
       status: "active",
       lastLogin: "2024-01-20",
-      joinDate: "2024-01-01"
+      joinDate: "2024-01-01",
+      currentPage: "/dashboard",
+      sessionDuration: "2h 15m",
+      country: "Brazil"
     },
     {
       id: "2",
@@ -44,7 +59,10 @@ export function AdminDashboard() {
       role: "moderator",
       status: "active",
       lastLogin: "2024-01-19",
-      joinDate: "2024-01-05"
+      joinDate: "2024-01-05",
+      currentPage: "/invoices",
+      sessionDuration: "45m",
+      country: "Portugal"
     },
     {
       id: "3",
@@ -53,9 +71,41 @@ export function AdminDashboard() {
       role: "user",
       status: "suspended",
       lastLogin: "2024-01-15",
-      joinDate: "2024-01-10"
+      joinDate: "2024-01-10",
+      currentPage: "/offline",
+      sessionDuration: "0m",
+      country: "Spain"
     }
   ])
+
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([
+    {
+      id: "1",
+      user: "João Silva",
+      type: "bug",
+      subject: "Invoice generation error",
+      message: "Getting an error when trying to generate PDF invoices",
+      status: "pending",
+      timestamp: "2024-01-20 14:30"
+    },
+    {
+      id: "2",
+      user: "Maria Santos",
+      type: "feature",
+      subject: "Dark mode request",
+      message: "Would love to have a dark mode option",
+      status: "in-progress",
+      timestamp: "2024-01-19 10:15"
+    }
+  ])
+
+  const countryStats = [
+    { country: "Brazil", users: 45, percentage: 35 },
+    { country: "Portugal", users: 32, percentage: 25 },
+    { country: "Spain", users: 28, percentage: 22 },
+    { country: "USA", users: 15, percentage: 12 },
+    { country: "Others", users: 8, percentage: 6 }
+  ]
 
   const [activityLogs] = useState<ActivityLog[]>([
     {
@@ -123,6 +173,20 @@ export function AdminDashboard() {
     }))
   }
 
+  const handleFeedbackAction = (feedbackId: string, action: "resolve" | "progress" | "pending") => {
+    setFeedbacks(feedbacks.map(feedback => {
+      if (feedback.id === feedbackId) {
+        const statusMap = {
+          resolve: "resolved" as const,
+          progress: "in-progress" as const,
+          pending: "pending" as const
+        }
+        return { ...feedback, status: statusMap[action] }
+      }
+      return feedback
+    }))
+  }
+
   const getRoleColor = (role: string) => {
     switch (role) {
       case "admin": return "bg-red-100 text-red-800"
@@ -135,6 +199,14 @@ export function AdminDashboard() {
     switch (status) {
       case "active": return "bg-green-100 text-green-800"
       case "suspended": return "bg-red-100 text-red-800"
+      default: return "bg-yellow-100 text-yellow-800"
+    }
+  }
+
+  const getFeedbackStatusColor = (status: string) => {
+    switch (status) {
+      case "resolved": return "bg-green-100 text-green-800"
+      case "in-progress": return "bg-blue-100 text-blue-800"
       default: return "bg-yellow-100 text-yellow-800"
     }
   }
@@ -164,41 +236,39 @@ export function AdminDashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Invoices</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalInvoices}</div>
+            <div className="text-2xl font-bold">{users.filter(u => u.status === "active" && u.currentPage !== "/offline").length}</div>
             <p className="text-xs text-muted-foreground">
-              +12% from last month
+              Users currently online
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Pending Feedback</CardTitle>
+            <FeedbackIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats.totalRevenue.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{feedbacks.filter(f => f.status === "pending").length}</div>
             <p className="text-xs text-muted-foreground">
-              +8% from last month
+              Needs attention
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">System Health</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Top Country</CardTitle>
+            <Globe className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              <Badge className="bg-green-100 text-green-800">Healthy</Badge>
-            </div>
+            <div className="text-2xl font-bold">{countryStats[0].country}</div>
             <p className="text-xs text-muted-foreground">
-              All systems operational
+              {countryStats[0].percentage}% of users
             </p>
           </CardContent>
         </Card>
@@ -208,6 +278,9 @@ export function AdminDashboard() {
       <Tabs defaultValue="users" className="space-y-4">
         <TabsList>
           <TabsTrigger value="users">User Management</TabsTrigger>
+          <TabsTrigger value="sessions">Live Sessions</TabsTrigger>
+          <TabsTrigger value="feedback">Feedback Control</TabsTrigger>
+          <TabsTrigger value="analytics">Country Analytics</TabsTrigger>
           <TabsTrigger value="activity">Activity Logs</TabsTrigger>
           <TabsTrigger value="settings">System Settings</TabsTrigger>
         </TabsList>
@@ -311,6 +384,130 @@ export function AdminDashboard() {
               </Card>
             ))}
           </div>
+        </TabsContent>
+
+        {/* Live Sessions Tab */}
+        <TabsContent value="sessions" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Live User Sessions</CardTitle>
+              <CardDescription>Real-time user activity and page access</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {users.filter(u => u.status === "active").map((user) => (
+                  <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-medium">{user.name}</h4>
+                        <Badge variant="outline" className="bg-green-100 text-green-800">
+                          {user.currentPage !== "/offline" ? "Online" : "Offline"}
+                        </Badge>
+                        <span className="text-sm text-muted-foreground">from {user.country}</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">Current page: {user.currentPage}</p>
+                      <p className="text-xs text-muted-foreground">Session duration: {user.sessionDuration}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">{user.sessionDuration}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Feedback Control Tab */}
+        <TabsContent value="feedback" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Feedback Management</CardTitle>
+              <CardDescription>Control and respond to user feedback</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {feedbacks.map((feedback) => (
+                  <div key={feedback.id} className="p-4 border rounded-lg space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-medium">{feedback.subject}</h4>
+                        <Badge variant="outline" className={getFeedbackStatusColor(feedback.status)}>
+                          {feedback.status}
+                        </Badge>
+                        <Badge variant="outline">
+                          {feedback.type}
+                        </Badge>
+                      </div>
+                      <span className="text-sm text-muted-foreground">{feedback.timestamp}</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">From: {feedback.user}</p>
+                    <p className="text-sm">{feedback.message}</p>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleFeedbackAction(feedback.id, "progress")}
+                      >
+                        Mark In Progress
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleFeedbackAction(feedback.id, "resolve")}
+                      >
+                        Mark Resolved
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleFeedbackAction(feedback.id, "pending")}
+                      >
+                        Mark Pending
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Country Analytics Tab */}
+        <TabsContent value="analytics" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Country Access Analytics</CardTitle>
+              <CardDescription>Geographic distribution of users</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {countryStats.map((stat, index) => (
+                  <div key={stat.country} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-sm font-medium">
+                        {index + 1}
+                      </div>
+                      <div>
+                        <h4 className="font-medium">{stat.country}</h4>
+                        <p className="text-sm text-muted-foreground">{stat.users} users</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-blue-500 h-2 rounded-full" 
+                          style={{ width: `${stat.percentage}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-sm font-medium">{stat.percentage}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         {/* Activity Logs Tab */}
