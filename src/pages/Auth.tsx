@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
@@ -180,24 +179,6 @@ const Auth = () => {
     setErrors([])
   }
 
-  if (showForgotPassword) {
-    return (
-      <AuthLayout 
-        title="Reset Password" 
-        description="Enter your email address and we'll send you a link to reset your password"
-      >
-        <ForgotPasswordForm
-          email={email}
-          setEmail={setEmail}
-          loading={loading}
-          errors={errors}
-          onSubmit={handleForgotPassword}
-          onBackToSignIn={handleBackToSignIn}
-        />
-      </AuthLayout>
-    )
-  }
-
   return (
     <AuthLayout 
       title={isLogin ? 'Sign In' : 'Create Account'}
@@ -206,7 +187,16 @@ const Auth = () => {
         : 'Create your free account'
       }
     >
-      {isLogin ? (
+      {showForgotPassword ? (
+        <ForgotPasswordForm
+          email={email}
+          setEmail={setEmail}
+          loading={loading}
+          errors={errors}
+          onSubmit={handleForgotPassword}
+          onBackToSignIn={handleBackToSignIn}
+        />
+      ) : isLogin ? (
         <SignInForm
           email={email}
           setEmail={setEmail}
