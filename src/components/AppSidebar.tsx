@@ -1,3 +1,4 @@
+
 import { 
   Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
   Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
@@ -73,7 +74,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
   const businessTools = [
     {
-      title: t("sidebar.customers"),
+      title: "Customers",
       icon: Users,
       view: "customer-management"
     },

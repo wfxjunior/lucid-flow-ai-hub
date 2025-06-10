@@ -32,6 +32,7 @@ import { ServiceOrdersPage } from "@/components/ServiceOrdersPage"
 import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
 import { BidsPage } from "@/components/BidsPage"
 import { MessagesPage } from "@/components/MessagesPage"
+import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
@@ -73,6 +74,8 @@ const Index = () => {
         return <EarnSyncPage />
       case "appointments":
         return <AppointmentsPage />
+      case "smart-schedule":
+        return <SmartSchedulePage />
       case "meetings":
         return <MeetingsPage />
       case "e-signatures":
