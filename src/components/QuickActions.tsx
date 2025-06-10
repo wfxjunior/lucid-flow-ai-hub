@@ -334,47 +334,53 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
   )
 
   return (
-    <div className="space-y-4">
-      {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+    <div className="space-y-6">
+      {/* Search Bar - Cleaner design */}
+      <div className="relative max-w-md mx-auto">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
         <Input
           type="text"
           placeholder="Search quick actions..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
+          className="pl-10 border-border/50 focus:border-primary"
         />
       </div>
 
-      {/* Quick Actions Grid - Fully responsive design */}
-      <div className="grid gap-2 xs:gap-3 grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8">
+      {/* Quick Actions Grid - Clean responsive design */}
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {filteredActions.map((action) => (
           <Card 
             key={action.id} 
-            className="cursor-pointer transition-all hover:shadow-lg hover:scale-105 group aspect-square flex flex-col border-0 shadow-sm hover:shadow-md"
+            className="group cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg border-0 bg-card/50 backdrop-blur-sm"
             onClick={() => onActionClick(action.id)}
           >
-            <CardContent className="p-2 xs:p-3 sm:p-4 flex flex-col items-center justify-center text-center h-full">
-              <div className={`p-2 xs:p-3 sm:p-4 md:p-5 rounded-lg text-white ${action.color} ${action.hoverColor} transition-colors group-hover:shadow-lg mb-1 xs:mb-2 sm:mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
-                <action.icon className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 lg:h-8 lg:w-8" />
+            <CardContent className="p-4 flex flex-col items-center justify-center text-center h-28 relative">
+              {/* Icon container with cleaner design */}
+              <div className={`p-3 rounded-xl text-white ${action.color} transition-all duration-200 group-hover:scale-110 group-hover:shadow-md mb-3 ${action.id === 'aftercare' ? 'animate-pulse' : ''}`}>
+                <action.icon className="h-5 w-5" />
               </div>
-              <div className="flex-1 flex flex-col justify-center min-w-0">
-                <h3 className="font-semibold text-[10px] xs:text-xs sm:text-sm leading-tight group-hover:text-blue-600 transition-colors mb-0.5 xs:mb-1">
-                  {action.title}
-                </h3>
-                <p className="text-[8px] xs:text-xs text-muted-foreground leading-tight line-clamp-2 hidden xs:block">
-                  {action.description}
-                </p>
-              </div>
+              
+              {/* Title with better typography */}
+              <h3 className="font-medium text-sm text-foreground group-hover:text-primary transition-colors duration-200 leading-tight">
+                {action.title}
+              </h3>
+              
+              {/* Subtle hover indicator */}
+              <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-primary/20 transition-colors duration-200" />
             </CardContent>
           </Card>
         ))}
       </div>
 
+      {/* No results state */}
       {filteredActions.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">No actions found matching "{searchTerm}"</p>
+        <div className="text-center py-12">
+          <div className="text-muted-foreground space-y-2">
+            <Search className="h-8 w-8 mx-auto opacity-50" />
+            <p>No actions found matching "{searchTerm}"</p>
+            <p className="text-sm">Try adjusting your search terms</p>
+          </div>
         </div>
       )}
     </div>
