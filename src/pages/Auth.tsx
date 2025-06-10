@@ -1,14 +1,13 @@
 
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { useNavigate } from "react-router-dom"
-import { AlertCircle, Eye, EyeOff, Mail, Lock } from "lucide-react"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AuthLayout } from '@/components/auth/AuthLayout'
+import { SignInForm } from '@/components/auth/SignInForm'
+import { SignUpForm } from '@/components/auth/SignUpForm'
+import { ForgotPasswordForm } from '@/components/auth/ForgotPasswordForm'
+import { useAuthValidation } from '@/hooks/useAuthValidation'
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true)
@@ -16,11 +15,11 @@ const Auth = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const { toast } = useToast()
   const navigate = useNavigate()
+  const { validateForm } = useAuthValidation()
 
   useEffect(() => {
     // Check if user is already authenticated
@@ -32,31 +31,6 @@ const Auth = () => {
     }
     checkAuth()
   }, [navigate])
-
-  const validateForm = () => {
-    const newErrors: string[] = []
-    
-    if (!email) {
-      newErrors.push('Email is required')
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.push('Email must have a valid format')
-    }
-    
-    if (!showForgotPassword) {
-      if (!password) {
-        newErrors.push('Password is required')
-      } else if (password.length < 6) {
-        newErrors.push('Password must be at least 6 characters')
-      }
-      
-      if (!isLogin && password !== confirmPassword) {
-        newErrors.push('Passwords do not match')
-      }
-    }
-    
-    setErrors(newErrors)
-    return newErrors.length === 0
-  }
 
   const cleanupAuthState = () => {
     // Clear any existing auth state
@@ -70,7 +44,9 @@ const Auth = () => {
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!validateForm()) {
+    const validationErrors = validateForm(email, password, confirmPassword, !isLogin)
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors)
       return
     }
     
@@ -149,13 +125,9 @@ const Auth = () => {
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!email.trim()) {
-      setErrors(['Please enter your email address'])
-      return
-    }
-    
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setErrors(['Please enter a valid email address'])
+    const validationErrors = validateForm(email, '', '', false, true)
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors)
       return
     }
     
@@ -190,217 +162,77 @@ const Auth = () => {
     }
   }
 
+  const handleSwitchMode = () => {
+    setIsLogin(!isLogin)
+    setErrors([])
+    setPassword('')
+    setConfirmPassword('')
+    setShowForgotPassword(false)
+  }
+
+  const handleBackToSignIn = () => {
+    setShowForgotPassword(false)
+    setErrors([])
+  }
+
+  const handleShowForgotPassword = () => {
+    setShowForgotPassword(true)
+    setErrors([])
+  }
+
   if (showForgotPassword) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-        <Card className="w-full max-w-md shadow-xl">
-          <CardHeader className="text-center space-y-4">
-            <CardTitle className="text-2xl">Reset Password</CardTitle>
-            <p className="text-muted-foreground">
-              Enter your email address and we'll send you a link to reset your password
-            </p>
-          </CardHeader>
-          
-          <CardContent className="space-y-6">
-            {errors.length > 0 && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  <ul className="list-disc list-inside space-y-1">
-                    {errors.map((error, index) => (
-                      <li key={index}>{error}</li>
-                    ))}
-                  </ul>
-                </AlertDescription>
-              </Alert>
-            )}
-            
-            <form onSubmit={handleForgotPassword} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="flex items-center space-x-2">
-                  <Mail className="w-4 h-4" />
-                  <span>Email</span>
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-4"
-                  required
-                />
-              </div>
-              
-              <Button 
-                type="submit" 
-                className="w-full"
-                disabled={loading}
-                size="lg"
-              >
-                {loading ? 'Sending...' : 'Send Reset Link'}
-              </Button>
-            </form>
-            
-            <div className="text-center">
-              <Button
-                variant="link"
-                onClick={() => {
-                  setShowForgotPassword(false)
-                  setErrors([])
-                }}
-                className="text-primary font-medium"
-              >
-                Back to Sign In
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <AuthLayout 
+        title="Reset Password" 
+        description="Enter your email address and we'll send you a link to reset your password"
+      >
+        <ForgotPasswordForm
+          email={email}
+          setEmail={setEmail}
+          loading={loading}
+          errors={errors}
+          onSubmit={handleForgotPassword}
+          onBackToSignIn={handleBackToSignIn}
+        />
+      </AuthLayout>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="text-center space-y-4">
-          <CardTitle className="text-2xl">
-            {isLogin ? 'Sign In' : 'Create Account'}
-          </CardTitle>
-          <p className="text-muted-foreground">
-            {isLogin 
-              ? 'Enter your credentials to access your account' 
-              : 'Create your free account'
-            }
-          </p>
-        </CardHeader>
-        
-        <CardContent className="space-y-6">
-          {errors.length > 0 && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                <ul className="list-disc list-inside space-y-1">
-                  {errors.map((error, index) => (
-                    <li key={index}>{error}</li>
-                  ))}
-                </ul>
-              </AlertDescription>
-            </Alert>
-          )}
-          
-          <form onSubmit={handleAuth} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="flex items-center space-x-2">
-                <Mail className="w-4 h-4" />
-                <span>Email</span>
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pl-4"
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="password" className="flex items-center space-x-2">
-                <Lock className="w-4 h-4" />
-                <span>Password</span>
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-4 pr-10"
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </Button>
-              </div>
-            </div>
-            
-            {!isLogin && (
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm your password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="pl-4"
-                  required
-                />
-              </div>
-            )}
-            
-            <Button 
-              type="submit" 
-              className="w-full"
-              disabled={loading}
-              size="lg"
-            >
-              {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
-            </Button>
-          </form>
-          
-          {isLogin && (
-            <div className="text-center">
-              <Button
-                variant="link"
-                onClick={() => setShowForgotPassword(true)}
-                disabled={loading}
-                className="text-sm"
-              >
-                Forgot your password?
-              </Button>
-            </div>
-          )}
-          
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground">
-              {isLogin ? "Don't have an account?" : "Already have an account?"}
-            </p>
-            <Button
-              variant="link"
-              onClick={() => {
-                setIsLogin(!isLogin)
-                setErrors([])
-                setPassword('')
-                setConfirmPassword('')
-                setShowForgotPassword(false)
-              }}
-              className="text-primary font-medium"
-            >
-              {isLogin ? "Create free account" : "Sign in"}
-            </Button>
-          </div>
-          
-          {!isLogin && (
-            <div className="text-center text-xs text-muted-foreground">
-              By creating an account, you agree to our{' '}
-              <a href="#" className="text-primary hover:underline">Terms of Service</a>
-              {' '}and{' '}
-              <a href="#" className="text-primary hover:underline">Privacy Policy</a>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+    <AuthLayout 
+      title={isLogin ? 'Sign In' : 'Create Account'}
+      description={isLogin 
+        ? 'Enter your credentials to access your account' 
+        : 'Create your free account'
+      }
+    >
+      {isLogin ? (
+        <SignInForm
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          loading={loading}
+          errors={errors}
+          onSubmit={handleAuth}
+          onForgotPassword={handleShowForgotPassword}
+          onSwitchToSignUp={handleSwitchMode}
+        />
+      ) : (
+        <SignUpForm
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
+          loading={loading}
+          errors={errors}
+          onSubmit={handleAuth}
+          onSwitchToSignIn={handleSwitchMode}
+        />
+      )}
+    </AuthLayout>
   )
 }
 
