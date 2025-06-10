@@ -1,27 +1,14 @@
+
 import { 
-  Home, FileText, Users, BarChart3, Calendar, Settings, Signature, PenTool, Briefcase, CheckSquare,
-  Mic, CreditCard, MessageSquare, Mail, Send, Calculator, TrendingUp, Receipt, 
-  FileSpreadsheet, Package, Clipboard, DollarSign, HelpCircle, Crown, Moon, Globe, Lightbulb, Video, Shield, Warehouse, UserCheck, Target, StickyNote, Zap, GitBranch, Car, CalendarCheck, Gift, Heart, LogOut
-} from "lucide-react"
-import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarSeparator,
-  SidebarFooter,
 } from "@/components/ui/sidebar"
-import { LanguageSelector } from "@/components/LanguageSelector"
-import { ThemeToggle } from "@/components/ThemeToggle"
-import { Button } from "@/components/ui/button"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { useLanguage } from "@/contexts/LanguageContext"
-import { supabase } from "@/integrations/supabase/client"
-import { toast } from "sonner"
+import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
+import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
+import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
+import { useSidebarMenuData } from "@/components/sidebar/SidebarMenuData"
 
 interface AppSidebarProps {
   activeView: string
@@ -31,227 +18,16 @@ interface AppSidebarProps {
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   console.log('AppSidebar rendering with activeView:', activeView)
   const isMobile = useIsMobile()
-  const { t } = useLanguage()
+  console.log('isMobile state:', isMobile)
   
-  console.log('isMobile state:', isMobile) // Debug log to check mobile detection
-  
-  const mainFeatures = [
-    {
-      title: "Dashboard",
-      icon: Home,
-      view: "dashboard"
-    },
-    {
-      title: t("sidebar.aiVoice", "AI Voice"),
-      icon: Mic,
-      view: "ai-voice"
-    },
-    {
-      title: t("sidebar.createInvoice", "Create Invoice"),
-      icon: FileText,
-      view: "invoice-creator"
-    },
-    {
-      title: "Appointments",
-      icon: Calendar,
-      view: "appointments"
-    },
-    {
-      title: "Smart Schedule",
-      icon: CalendarCheck,
-      view: "smart-schedule"
-    },
-    {
-      title: "Payments",
-      icon: CreditCard,
-      view: "payments"
-    },
-    {
-      title: t("sidebar.esignatures", "E-Signatures"),
-      icon: Signature,
-      view: "e-signatures"
-    }
-  ]
-
-  const businessTools = [
-    {
-      title: "Customers",
-      icon: Users,
-      view: "customer-management"
-    },
-    {
-      title: "FeatherForms",
-      icon: Clipboard,
-      view: "feather-forms"
-    },
-    {
-      title: "Projects",
-      icon: Briefcase,
-      view: "projects"
-    },
-    {
-      title: "Sales Pipeline",
-      icon: GitBranch,
-      view: "pipeline"
-    },
-    {
-      title: "Car Rental",
-      icon: Car,
-      view: "car-rental"
-    },
-    {
-      title: "Work Orders",
-      icon: Package,
-      view: "work-orders"
-    },
-    {
-      title: "MatTrack",
-      icon: Warehouse,
-      view: "mat-track"
-    },
-    {
-      title: "CrewControl",
-      icon: UserCheck,
-      view: "crew-control"
-    },
-    {
-      title: "EarnSync",
-      icon: Target,
-      view: "earnsync"
-    },
-    {
-      title: "AfterCare",
-      icon: Heart,
-      view: "aftercare"
-    },
-    {
-      title: "Meetings",
-      icon: Video,
-      view: "meetings"
-    },
-    {
-      title: "To-Do List",
-      icon: CheckSquare,
-      view: "todo-list"
-    },
-    {
-      title: "Notes",
-      icon: StickyNote,
-      view: "notes"
-    },
-    {
-      title: "Quotes",
-      icon: FileSpreadsheet,
-      view: "quotes"
-    },
-    {
-      title: "Estimates",
-      icon: Calculator,
-      view: "estimates"
-    },
-    {
-      title: "Accounting",
-      icon: Receipt,
-      view: "accounting"
-    },
-    {
-      title: "Sales Orders",
-      icon: TrendingUp,
-      view: "sales-orders"
-    },
-    {
-      title: "Service Orders",
-      icon: Package,
-      view: "service-orders"
-    },
-    {
-      title: "Business Proposals",
-      icon: Clipboard,
-      view: "business-proposals"
-    },
-    {
-      title: "Bids",
-      icon: DollarSign,
-      view: "bids"
-    },
-    {
-      title: "Contracts",
-      icon: PenTool,
-      view: "contracts"
-    }
-  ]
-
-  const communication = [
-    {
-      title: "Email Center",
-      icon: Mail,
-      view: "email-center"
-    },
-    {
-      title: "Messages",
-      icon: MessageSquare,
-      view: "messages"
-    },
-    {
-      title: "Communication Hub",
-      icon: Send,
-      view: "communication-hub"
-    }
-  ]
-
-  const analytics = [
-    {
-      title: "Analytics",
-      icon: BarChart3,
-      view: "analytics"
-    }
-  ]
-
-  const integrations = [
-    {
-      title: "Integrations",
-      icon: Zap,
-      view: "integrations"
-    }
-  ]
-
-  const systemTools = [
-    {
-      title: "Admin Panel",
-      icon: Shield,
-      view: "admin-panel"
-    },
-    {
-      title: "Referrals",
-      icon: Gift,
-      view: "referrals"
-    },
-    {
-      title: "Features",
-      icon: Lightbulb,
-      view: "features"
-    },
-    {
-      title: "FAQ & Help",
-      icon: HelpCircle,
-      view: "faq-help"
-    },
-    {
-      title: "Feedback",
-      icon: MessageSquare,
-      view: "feedback"
-    },
-    {
-      title: "Pricing Plans",
-      icon: Crown,
-      view: "pricing"
-    },
-    {
-      title: "Settings",
-      icon: Settings,
-      view: "settings"
-    }
-  ]
+  const {
+    mainFeatures,
+    businessTools,
+    communication,
+    analytics,
+    integrations,
+    systemTools
+  } = useSidebarMenuData()
   
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
@@ -266,104 +42,65 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     }
   }
 
-  const handleLogout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut()
-      if (error) {
-        console.error('Error signing out:', error)
-        toast.error('Error signing out')
-      } else {
-        toast.success('Logged out successfully')
-        window.location.href = '/auth'
-      }
-    } catch (error) {
-      console.error('Error during logout:', error)
-      toast.error('Error signing out')
-    }
-  }
-  
-  const renderMenuSection = (items: typeof mainFeatures, sectionTitle: string) => (
-    <SidebarGroup className="py-2">
-      <SidebarGroupLabel className="px-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-        {sectionTitle}
-      </SidebarGroupLabel>
-      <SidebarGroupContent className="mt-2">
-        <SidebarMenu className="space-y-1">
-          {items.map((item) => (
-            <SidebarMenuItem key={item.view}>
-              <SidebarMenuButton 
-                onClick={() => handleMenuClick(item.view)}
-                isActive={activeView === item.view}
-                className="w-full flex items-center gap-3 px-3 py-2 text-base font-medium rounded-md transition-colors hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 cursor-pointer"
-              >
-                <item.icon className="w-5 h-5 flex-shrink-0" />
-                <span className="truncate">{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
-  )
-
   return (
     <Sidebar className="border-r">
       <SidebarContent className="gap-0">
-        {/* Header */}
-        <div className="p-4 border-b">
-          <div>
-            <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
-            <p className="text-sm text-gray-500">AI-Powered Business Platform</p>
-          </div>
-        </div>
+        <SidebarHeader />
 
-        {/* Main Features */}
-        {renderMenuSection(mainFeatures, "Main Features")}
+        <SidebarMenuSection 
+          items={mainFeatures} 
+          sectionTitle="Main Features" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {/* Business Tools */}
-        {renderMenuSection(businessTools, "Business Tools")}
+        <SidebarMenuSection 
+          items={businessTools} 
+          sectionTitle="Business Tools" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {/* Communication */}
-        {renderMenuSection(communication, "Communication")}
+        <SidebarMenuSection 
+          items={communication} 
+          sectionTitle="Communication" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {/* Analytics */}
-        {renderMenuSection(analytics, "Analytics")}
+        <SidebarMenuSection 
+          items={analytics} 
+          sectionTitle="Analytics" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {/* Integrations */}
-        {renderMenuSection(integrations, "Integrations")}
+        <SidebarMenuSection 
+          items={integrations} 
+          sectionTitle="Integrations" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {/* System */}
-        {renderMenuSection(systemTools, "System")}
+        <SidebarMenuSection 
+          items={systemTools} 
+          sectionTitle="System" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
       </SidebarContent>
       
-      {/* Footer with Language Selector, Theme Toggle, and Logout */}
-      <SidebarFooter className="p-4 border-t">
-        <div className="space-y-3">
-          <div>
-            <p className="text-sm font-medium text-gray-500 mb-2">Language</p>
-            <LanguageSelector />
-          </div>
-          <ThemeToggle />
-          <Button 
-            variant="outline" 
-            onClick={handleLogout}
-            className="w-full flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-          >
-            <LogOut className="w-4 h-4" />
-            Logout
-          </Button>
-        </div>
-      </SidebarFooter>
+      <SidebarFooter />
     </Sidebar>
   )
 }
