@@ -12,37 +12,72 @@ import { User as SupabaseUser } from "@supabase/supabase-js"
 export function UserGreeting() {
   const navigate = useNavigate()
   const [user, setUser] = useState<SupabaseUser | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        setUser(user)
+      } catch (error) {
+        console.error('Error getting user:', error)
+      } finally {
+        setLoading(false)
+      }
     }
+    
     getUser()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null)
+      setLoading(false)
     })
 
     return () => subscription.unsubscribe()
   }, [])
 
+  const cleanupAuthState = () => {
+    // Clear any existing auth state
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+        localStorage.removeItem(key)
+      }
+    })
+  }
+
   const handleLogout = async () => {
     try {
-      const { error } = await supabase.auth.signOut()
-      if (error) throw error
+      // Clean up auth state first
+      cleanupAuthState()
       
-      toast.success("Logged out successfully")
-      navigate("/auth")
+      // Attempt global sign out
+      try {
+        await supabase.auth.signOut({ scope: 'global' })
+      } catch (err) {
+        console.error('Error during signout:', err)
+        // Continue even if this fails
+      }
+      
+      toast.success("Logout realizado com sucesso")
+      
+      // Force page refresh to ensure clean state
+      window.location.href = "/auth"
     } catch (error: any) {
-      toast.error("Error logging out")
+      console.error('Logout error:', error)
+      toast.error("Erro ao fazer logout")
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse"></div>
+    )
   }
 
   if (!user) {
     return (
       <Button onClick={() => navigate('/auth')} variant="outline">
-        Sign In
+        Entrar
       </Button>
     )
   }
@@ -59,7 +94,7 @@ export function UserGreeting() {
     if (metadata?.first_name || metadata?.last_name) {
       return `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim()
     }
-    return user.email?.split('@')[0] || 'User'
+    return user.email?.split('@')[0] || 'Usuário'
   }
 
   return (
@@ -87,11 +122,11 @@ export function UserGreeting() {
         </div>
         <DropdownMenuItem onClick={() => navigate('/dashboard?view=settings')}>
           <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
+          <span>Configurações</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
+          <span>Sair</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
