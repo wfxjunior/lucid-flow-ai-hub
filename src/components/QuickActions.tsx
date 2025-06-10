@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -16,7 +15,8 @@ import {
   Mic,
   Target,
   Search,
-  Lightbulb
+  Lightbulb,
+  Gift
 } from "lucide-react"
 
 interface QuickActionsProps {
@@ -114,6 +114,14 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       icon: Target,
       color: "bg-amber-500",
       hoverColor: "hover:bg-amber-600"
+    },
+    {
+      id: "referrals",
+      title: "Referral Program",
+      description: "Invite friends & earn",
+      icon: Gift,
+      color: "bg-purple-600",
+      hoverColor: "hover:bg-purple-700"
     },
     {
       id: "features",
