@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
@@ -36,10 +37,6 @@ import { ReferralsPage } from "@/components/ReferralsPage"
 import { IntegrationsHub } from "@/components/IntegrationsHub"
 import { FeaturesPage } from "@/components/FeaturesPage"
 import { AfterCarePage } from "@/components/AfterCarePage"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/AppSidebar"
-import { UserGreeting } from "@/components/UserGreeting"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
