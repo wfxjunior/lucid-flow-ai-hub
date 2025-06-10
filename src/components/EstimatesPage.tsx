@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Search, Edit, Trash2, Eye, FileText, DollarSign, TrendingUp, Send, Download } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Eye, FileText, DollarSign, TrendingUp, Send, Download, PenTool } from "lucide-react"
 import { EstimateForm } from "@/components/EstimateForm"
+import { InlineEstimateEditor } from "@/components/InlineEstimateEditor"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
@@ -16,6 +17,7 @@ export function EstimatesPage() {
   const { estimates, clients, loading } = useBusinessData()
   const { generateEstimatePDF, isGenerating } = usePDFGeneration()
   const [showForm, setShowForm] = useState(false)
+  const [showInlineEditor, setShowInlineEditor] = useState(false)
   const [editingEstimate, setEditingEstimate] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
@@ -51,6 +53,7 @@ export function EstimatesPage() {
 
   const handleCloseForm = () => {
     setShowForm(false)
+    setShowInlineEditor(false)
     setEditingEstimate(null)
   }
 
@@ -64,6 +67,19 @@ export function EstimatesPage() {
       case 'expired': return 'bg-orange-100 text-orange-800'
       default: return 'bg-gray-100 text-gray-800'
     }
+  }
+
+  if (showInlineEditor) {
+    return (
+      <div className="container mx-auto p-4 sm:p-6">
+        <InlineEstimateEditor />
+        <div className="mt-6">
+          <Button variant="outline" onClick={handleCloseForm}>
+            Back to Estimates
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   if (showForm) {
@@ -86,10 +102,16 @@ export function EstimatesPage() {
             Create and manage project estimates for your clients
           </p>
         </div>
-        <Button onClick={() => setShowForm(true)} className="w-full sm:w-auto">
-          <Plus className="mr-2 h-4 w-4" />
-          New Estimate
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setShowInlineEditor(true)}>
+            <PenTool className="mr-2 h-4 w-4" />
+            Inline Editor
+          </Button>
+          <Button onClick={() => setShowForm(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Quick Estimate
+          </Button>
+        </div>
       </div>
 
       {/* Summary Cards */}
