@@ -1201,7 +1201,15 @@ export type Database = {
       }
       user_settings: {
         Row: {
+          company_address: string | null
+          company_email: string | null
+          company_logo: string | null
+          company_name: string | null
+          company_phone: string | null
           created_at: string
+          default_notes: string | null
+          default_payment_terms: string | null
+          estimate_number_prefix: string | null
           estimate_number_start: number | null
           id: string
           invoice_number_start: number | null
@@ -1209,7 +1217,15 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          company_address?: string | null
+          company_email?: string | null
+          company_logo?: string | null
+          company_name?: string | null
+          company_phone?: string | null
           created_at?: string
+          default_notes?: string | null
+          default_payment_terms?: string | null
+          estimate_number_prefix?: string | null
           estimate_number_start?: number | null
           id?: string
           invoice_number_start?: number | null
@@ -1217,7 +1233,15 @@ export type Database = {
           user_id: string
         }
         Update: {
+          company_address?: string | null
+          company_email?: string | null
+          company_logo?: string | null
+          company_name?: string | null
+          company_phone?: string | null
           created_at?: string
+          default_notes?: string | null
+          default_payment_terms?: string | null
+          estimate_number_prefix?: string | null
           estimate_number_start?: number | null
           id?: string
           invoice_number_start?: number | null

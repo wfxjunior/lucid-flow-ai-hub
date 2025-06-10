@@ -64,6 +64,23 @@ export function InlineEstimateEditor() {
     defaultNotes: "Thank you for your business!"
   })
 
+  // Load settings from database when userSettings changes
+  useEffect(() => {
+    if (userSettings) {
+      setSettings({
+        estimateNumberPrefix: userSettings.estimate_number_prefix || "EST-",
+        estimateNumberStart: userSettings.estimate_number_start || 1001,
+        companyName: userSettings.company_name || "FeatherBiz",
+        companyAddress: userSettings.company_address || "123 Business St, Suite 100\nBusiness City, BC 12345",
+        companyPhone: userSettings.company_phone || "(555) 123-4567",
+        companyEmail: userSettings.company_email || "info@featherbiz.com",
+        companyLogo: userSettings.company_logo || undefined,
+        defaultPaymentTerms: userSettings.default_payment_terms || "Payment due within 30 days",
+        defaultNotes: userSettings.default_notes || "Thank you for your business!"
+      })
+    }
+  }, [userSettings])
+
   // Generate estimate number on load
   useEffect(() => {
     const generateNumber = () => {
@@ -113,15 +130,20 @@ export function InlineEstimateEditor() {
   const saveSettings = async () => {
     try {
       await updateUserSettings({
+        estimate_number_prefix: settings.estimateNumberPrefix,
         estimate_number_start: settings.estimateNumberStart,
         company_name: settings.companyName,
         company_address: settings.companyAddress,
         company_phone: settings.companyPhone,
-        company_email: settings.companyEmail
+        company_email: settings.companyEmail,
+        company_logo: settings.companyLogo,
+        default_payment_terms: settings.defaultPaymentTerms,
+        default_notes: settings.defaultNotes
       })
       toast.success("Settings saved successfully!")
       setShowSettings(false)
     } catch (error) {
+      console.error('Error saving settings:', error)
       toast.error("Failed to save settings")
     }
   }
