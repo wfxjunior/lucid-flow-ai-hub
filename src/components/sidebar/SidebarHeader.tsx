@@ -18,8 +18,6 @@ export function SidebarHeader() {
         <Building2 className="h-6 w-6 text-blue-600" />
         <div className="flex flex-col">
           <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
-          <p className="text-xs text-gray-500 font-medium">Organize. Send. Grow. All-in-one</p>
-          <p className="text-xs text-gray-400">AI-Powered Business Platform</p>
         </div>
       </div>
     </div>

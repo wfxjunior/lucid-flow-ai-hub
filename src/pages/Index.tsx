@@ -167,9 +167,6 @@ const Index = () => {
                         <Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                         <div className="flex flex-col">
                           <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
-                          <p className="text-xs text-muted-foreground font-medium hidden sm:block">
-                            Organize. Send. Grow. All-in-one
-                          </p>
                         </div>
                       </div>
                     </div>

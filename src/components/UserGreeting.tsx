@@ -88,7 +88,7 @@ export const UserGreeting = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-6">
         <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
         <HelpCenter variant="outline" size="sm" />
       </div>
@@ -97,7 +97,7 @@ export const UserGreeting = () => {
 
   if (!userEmail) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-6">
         <Button 
           variant="outline" 
           size="sm"
@@ -111,7 +111,11 @@ export const UserGreeting = () => {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-6">
+      <span className="text-sm text-muted-foreground hidden sm:inline">
+        Hello, {getUserDisplayName(userEmail)}!
+      </span>
+      
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
