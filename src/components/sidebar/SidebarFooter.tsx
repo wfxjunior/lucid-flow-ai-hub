@@ -35,7 +35,7 @@ export function SidebarFooter() {
         <Button 
           variant="outline" 
           onClick={handleLogout}
-          className="w-full flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="w-full flex items-center gap-2 text-gray-600 hover:text-gray-700 hover:bg-gray-50"
         >
           <LogOut className="w-4 h-4" />
           Logout

@@ -1,13 +1,19 @@
 
-import {
+import { 
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarGroupContent,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuButton
 } from "@/components/ui/sidebar"
-import { MenuItem } from "./SidebarMenuData"
+
+interface MenuItem {
+  title: string
+  icon: any
+  view: string
+  badge?: string
+}
 
 interface SidebarMenuSectionProps {
   items: MenuItem[]
@@ -16,23 +22,31 @@ interface SidebarMenuSectionProps {
   onMenuClick: (view: string) => void
 }
 
-export function SidebarMenuSection({ items, sectionTitle, activeView, onMenuClick }: SidebarMenuSectionProps) {
+export function SidebarMenuSection({ 
+  items, 
+  sectionTitle, 
+  activeView, 
+  onMenuClick 
+}: SidebarMenuSectionProps) {
   return (
-    <SidebarGroup className="py-2">
-      <SidebarGroupLabel className="px-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">
-        {sectionTitle}
-      </SidebarGroupLabel>
-      <SidebarGroupContent className="mt-2">
-        <SidebarMenu className="space-y-1">
+    <SidebarGroup>
+      <SidebarGroupLabel>{sectionTitle}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.view}>
               <SidebarMenuButton 
-                onClick={() => onMenuClick(item.view)}
                 isActive={activeView === item.view}
-                className="w-full flex items-center gap-3 px-3 py-2 text-lg font-medium rounded-md transition-colors hover:bg-gray-100 data-[active=true]:bg-blue-50 data-[active=true]:text-blue-700 cursor-pointer"
+                onClick={() => onMenuClick(item.view)}
+                className="text-xs"
               >
-                <item.icon className="w-5 h-5 flex-shrink-0" />
-                <span className="truncate">{item.title}</span>
+                <item.icon className="w-4 h-4" />
+                <span>{item.title}</span>
+                {item.badge && (
+                  <span className="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                    {item.badge}
+                  </span>
+                )}
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
