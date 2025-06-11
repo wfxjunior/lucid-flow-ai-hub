@@ -1,5 +1,5 @@
-
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { UserGreeting } from "@/components/UserGreeting"
@@ -41,6 +41,7 @@ import { AuthGuard } from "@/components/AuthGuard"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
+  const navigate = useNavigate()
 
   // Debug logs para rastrear mudanças de estado
   useEffect(() => {
@@ -55,6 +56,10 @@ const Index = () => {
       console.warn('Invalid navigation view:', view)
       setActiveView("dashboard")
     }
+  }
+
+  const handleLogoClick = () => {
+    navigate("/")
   }
 
   const renderContent = () => {
@@ -153,7 +158,10 @@ const Index = () => {
                   <div className="flex justify-between items-center h-14 sm:h-16">
                     <div className="flex items-center gap-2 sm:gap-4">
                       <SidebarTrigger />
-                      <div className="flex flex-col">
+                      <div 
+                        className="flex flex-col cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={handleLogoClick}
+                      >
                         <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
                         <p className="text-xs text-muted-foreground font-medium hidden sm:block">
                           Organize. Send. Grow. All-in-one
