@@ -2,12 +2,6 @@
 import { useState, useEffect } from "react"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
-import { BusinessDashboard } from "@/components/BusinessDashboard"
-import { TodoListPage } from "@/components/TodoListPage"
-import { NotesPage } from "@/components/NotesPage"
-import { DocumentTracker } from "@/components/DocumentTracker"
-import { CarRentalPage } from "@/components/CarRentalPage"
-import { EarnSyncPage } from "@/components/EarnSyncPage"
 import { UserGreeting } from "@/components/UserGreeting"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { EstimatesPage } from "@/components/EstimatesPage"
@@ -38,6 +32,12 @@ import { IntegrationsHub } from "@/components/IntegrationsHub"
 import { FeaturesPage } from "@/components/FeaturesPage"
 import { AfterCarePage } from "@/components/AfterCarePage"
 import { FeatherFormsPage } from "@/components/FeatherFormsPage"
+import { CarRentalPage } from "@/components/CarRentalPage"
+import { EarnSyncPage } from "@/components/EarnSyncPage"
+import { TodoListPage } from "@/components/TodoListPage"
+import { NotesPage } from "@/components/NotesPage"
+import { DocumentTracker } from "@/components/DocumentTracker"
+import { AuthGuard } from "@/components/AuthGuard"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
@@ -140,51 +140,39 @@ const Index = () => {
     }
   }
 
-  const currentContent = renderContent()
-  
-  if (!currentContent) {
-    console.error('No content rendered for view:', activeView)
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold mb-2">Carregando...</h2>
-          <p className="text-gray-600">Por favor, aguarde um momento.</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <SidebarProvider>
-        <div className="min-h-screen flex w-full">
-          <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-          <SidebarInset className="flex-1">
-            {/* Header - Improved mobile responsiveness */}
-            <header className="bg-white shadow-sm border-b">
-              <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
-                <div className="flex justify-between items-center h-14 sm:h-16">
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <SidebarTrigger />
-                    <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
-                  </div>
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <UserGreeting />
+    <AuthGuard>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+        <SidebarProvider>
+          <div className="min-h-screen flex w-full">
+            <AppSidebar activeView={activeView} setActiveView={setActiveView} />
+            <SidebarInset className="flex-1">
+              {/* Header - Improved mobile responsiveness */}
+              <header className="bg-white shadow-sm border-b">
+                <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+                  <div className="flex justify-between items-center h-14 sm:h-16">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      <SidebarTrigger />
+                      <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
+                    </div>
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      <UserGreeting />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </header>
+              </header>
 
-            {/* Main Content - Improved mobile padding */}
-            <main className="flex-1 overflow-auto">
-              <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
-                {currentContent}
-              </div>
-            </main>
-          </SidebarInset>
-        </div>
-      </SidebarProvider>
-    </div>
+              {/* Main Content - Improved mobile padding */}
+              <main className="flex-1 overflow-auto">
+                <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
+                  {renderContent()}
+                </div>
+              </main>
+            </SidebarInset>
+          </div>
+        </SidebarProvider>
+      </div>
+    </AuthGuard>
   )
 }
 

@@ -1,121 +1,134 @@
-import React, { useState, useEffect } from 'react'
-import { useToast } from "@/hooks/use-toast"
-import { supabase } from "@/integrations/supabase/client"
-import { useNavigate } from "react-router-dom"
+
+import { useState, useEffect } from 'react'
+import { supabase } from '@/integrations/supabase/client'
+import { useNavigate } from 'react-router-dom'
 import { AuthLayout } from '@/components/auth/AuthLayout'
 import { SignInForm } from '@/components/auth/SignInForm'
 import { SignUpForm } from '@/components/auth/SignUpForm'
 import { ForgotPasswordForm } from '@/components/auth/ForgotPasswordForm'
-import { useAuthValidation } from '@/hooks/useAuthValidation'
+import { toast } from 'sonner'
 
-const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true)
+type AuthMode = 'signin' | 'signup' | 'forgot-password'
+
+export default function Auth() {
+  const [mode, setMode] = useState<AuthMode>('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
-  const [showForgotPassword, setShowForgotPassword] = useState(false)
-  const { toast } = useToast()
   const navigate = useNavigate()
-  const { validateForm } = useAuthValidation()
 
   useEffect(() => {
     // Check if user is already authenticated
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        navigate('/dashboard')
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        navigate('/app')
       }
     }
     checkAuth()
   }, [navigate])
 
-  const cleanupAuthState = () => {
-    // Clear any existing auth state
-    Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-        localStorage.removeItem(key)
-      }
-    })
+  const clearErrors = () => setErrors([])
+  const addError = (error: string) => setErrors(prev => [...prev, error])
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
   }
 
-  const handleAuth = async (e: React.FormEvent) => {
+  const validatePassword = (password: string) => {
+    return password.length >= 6
+  }
+
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
+    clearErrors()
     
-    const validationErrors = validateForm(email, password, confirmPassword, !isLogin)
-    if (validationErrors.length > 0) {
-      setErrors(validationErrors)
+    if (!validateEmail(email)) {
+      addError('Please enter a valid email address')
       return
     }
-    
-    setLoading(true)
-    setErrors([])
 
+    if (!validatePassword(password)) {
+      addError('Password must be at least 6 characters long')
+      return
+    }
+
+    setLoading(true)
+    
     try {
-      if (isLogin) {
-        // Clean up any existing state before login
-        cleanupAuthState()
-        
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password
-        })
-        
-        if (error) {
-          if (error.message.includes('Invalid login credentials')) {
-            throw new Error('Invalid email or password')
-          } else if (error.message.includes('Email not confirmed')) {
-            throw new Error('Please confirm your email before logging in')
-          } else {
-            throw new Error(error.message)
-          }
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          addError('Invalid email or password. Please check your credentials.')
+        } else if (error.message.includes('Email not confirmed')) {
+          addError('Please check your email and click the confirmation link before signing in.')
+        } else {
+          addError(error.message)
         }
-        
-        toast({
-          title: "Success",
-          description: "Login successful"
-        })
-        
-        // Force page refresh for clean state
-        window.location.href = '/dashboard'
-        
       } else {
-        // Sign up
-        const { data, error } = await supabase.auth.signUp({
-          email: email.trim(),
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`
-          }
-        })
-        
-        if (error) {
-          if (error.message.includes('User already registered')) {
-            throw new Error('This email is already registered. Try logging in.')
-          } else {
-            throw new Error(error.message)
-          }
+        toast.success('Successfully signed in!')
+        navigate('/app')
+      }
+    } catch (error) {
+      console.error('Sign in error:', error)
+      addError('An unexpected error occurred. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault()
+    clearErrors()
+
+    if (!validateEmail(email)) {
+      addError('Please enter a valid email address')
+      return
+    }
+
+    if (!validatePassword(password)) {
+      addError('Password must be at least 6 characters long')
+      return
+    }
+
+    if (password !== confirmPassword) {
+      addError('Passwords do not match')
+      return
+    }
+
+    setLoading(true)
+    
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/app`
         }
-        
-        toast({
-          title: "Account created successfully!",
-          description: "Check your email to confirm your account before logging in."
-        })
-        
-        // Switch to login mode after successful signup
-        setIsLogin(true)
+      })
+
+      if (error) {
+        if (error.message.includes('User already registered')) {
+          addError('An account with this email already exists. Please sign in instead.')
+        } else {
+          addError(error.message)
+        }
+      } else {
+        toast.success('Account created! Please check your email for confirmation.')
+        setMode('signin')
         setPassword('')
         setConfirmPassword('')
       }
-    } catch (error: any) {
-      console.error('Auth error:', error)
-      setErrors([error.message])
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive"
-      })
+    } catch (error) {
+      console.error('Sign up error:', error)
+      addError('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -123,107 +136,96 @@ const Auth = () => {
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    const validationErrors = validateForm(email, '', '', false, true)
-    if (validationErrors.length > 0) {
-      setErrors(validationErrors)
+    clearErrors()
+
+    if (!validateEmail(email)) {
+      addError('Please enter a valid email address')
       return
     }
-    
+
     setLoading(true)
-    setErrors([])
     
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: `${window.location.origin}/auth?type=recovery`
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/app`
       })
-      
+
       if (error) {
-        throw error
+        addError(error.message)
+      } else {
+        toast.success('Password reset email sent! Check your inbox.')
+        setMode('signin')
       }
-      
-      toast({
-        title: "Password reset email sent",
-        description: "Check your email for a link to reset your password"
-      })
-      
-      setShowForgotPassword(false)
-    } catch (error: any) {
+    } catch (error) {
       console.error('Password reset error:', error)
-      setErrors([error.message])
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive"
-      })
+      addError('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleSwitchMode = () => {
-    setIsLogin(!isLogin)
-    setErrors([])
-    setPassword('')
-    setConfirmPassword('')
-    setShowForgotPassword(false)
+  const getAuthContent = () => {
+    switch (mode) {
+      case 'signin':
+        return {
+          title: 'Welcome Back',
+          description: 'Sign in to your FeatherBiz account',
+          form: (
+            <SignInForm
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              loading={loading}
+              errors={errors}
+              onSubmit={handleSignIn}
+              onForgotPassword={() => setMode('forgot-password')}
+              onSwitchToSignUp={() => setMode('signup')}
+            />
+          )
+        }
+      case 'signup':
+        return {
+          title: 'Create Account',
+          description: 'Start your free FeatherBiz trial today',
+          form: (
+            <SignUpForm
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
+              loading={loading}
+              errors={errors}
+              onSubmit={handleSignUp}
+              onSwitchToSignIn={() => setMode('signin')}
+            />
+          )
+        }
+      case 'forgot-password':
+        return {
+          title: 'Reset Password',
+          description: 'Enter your email to receive reset instructions',
+          form: (
+            <ForgotPasswordForm
+              email={email}
+              setEmail={setEmail}
+              loading={loading}
+              errors={errors}
+              onSubmit={handleForgotPassword}
+              onBackToSignIn={() => setMode('signin')}
+            />
+          )
+        }
+    }
   }
 
-  const handleBackToSignIn = () => {
-    setShowForgotPassword(false)
-    setErrors([])
-  }
-
-  const handleShowForgotPassword = () => {
-    setShowForgotPassword(true)
-    setErrors([])
-  }
+  const { title, description, form } = getAuthContent()
 
   return (
-    <AuthLayout 
-      title={isLogin ? 'Sign In' : 'Create Account'}
-      description={isLogin 
-        ? 'Enter your credentials to access your account' 
-        : 'Create your free account'
-      }
-    >
-      {showForgotPassword ? (
-        <ForgotPasswordForm
-          email={email}
-          setEmail={setEmail}
-          loading={loading}
-          errors={errors}
-          onSubmit={handleForgotPassword}
-          onBackToSignIn={handleBackToSignIn}
-        />
-      ) : isLogin ? (
-        <SignInForm
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          loading={loading}
-          errors={errors}
-          onSubmit={handleAuth}
-          onForgotPassword={handleShowForgotPassword}
-          onSwitchToSignUp={handleSwitchMode}
-        />
-      ) : (
-        <SignUpForm
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          confirmPassword={confirmPassword}
-          setConfirmPassword={setConfirmPassword}
-          loading={loading}
-          errors={errors}
-          onSubmit={handleAuth}
-          onSwitchToSignIn={handleSwitchMode}
-        />
-      )}
+    <AuthLayout title={title} description={description}>
+      {form}
     </AuthLayout>
   )
 }
-
-export default Auth
