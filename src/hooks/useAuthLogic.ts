@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
@@ -39,15 +38,13 @@ export function useAuthLogic() {
   }
 
   const getRedirectUrl = () => {
-    // Detect current domain and set appropriate redirect
+    // Always use featherbiz.com for production redirects
     const currentDomain = window.location.hostname
     
     if (currentDomain === 'featherbiz.com') {
       return 'https://featherbiz.com/app'
-    } else if (currentDomain.includes('lovable.app')) {
-      return `${window.location.origin}/app`
     } else {
-      // Local development fallback
+      // For development or other domains, use the current origin
       return `${window.location.origin}/app`
     }
   }
