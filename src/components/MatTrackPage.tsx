@@ -26,16 +26,16 @@ export function MatTrackPage() {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">MatTrack</h1>
-          <p className="text-gray-600 mt-1">Intelligent Material Management System</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">MatTrack</h1>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Intelligent Material Management System</p>
         </div>
         <Button 
           onClick={() => setShowMaterialForm(true)}
-          className="bg-blue-600 hover:bg-blue-700"
+          className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Material
@@ -43,51 +43,51 @@ export function MatTrackPage() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-600 text-sm font-medium">Total Materials</p>
-                <p className="text-2xl font-bold text-blue-900">{statsData.totalMaterials}</p>
+                <p className="text-blue-600 text-xs sm:text-sm font-medium">Total Materials</p>
+                <p className="text-lg sm:text-2xl font-bold text-blue-900">{statsData.totalMaterials}</p>
               </div>
-              <Package className="w-8 h-8 text-blue-600" />
+              <Package className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-red-600 text-sm font-medium">Low Stock Alerts</p>
-                <p className="text-2xl font-bold text-red-900">{statsData.lowStockItems}</p>
+                <p className="text-red-600 text-xs sm:text-sm font-medium">Low Stock Alerts</p>
+                <p className="text-lg sm:text-2xl font-bold text-red-900">{statsData.lowStockItems}</p>
               </div>
-              <AlertTriangle className="w-8 h-8 text-red-600" />
+              <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-green-600 text-sm font-medium">Allocated Today</p>
-                <p className="text-2xl font-bold text-green-900">{statsData.allocatedToday}</p>
+                <p className="text-green-600 text-xs sm:text-sm font-medium">Allocated Today</p>
+                <p className="text-lg sm:text-2xl font-bold text-green-900">{statsData.allocatedToday}</p>
               </div>
-              <TrendingDown className="w-8 h-8 text-green-600" />
+              <TrendingDown className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-          <CardContent className="p-6">
+          <CardContent className="p-3 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-purple-600 text-sm font-medium">Total Value</p>
-                <p className="text-2xl font-bold text-purple-900">${statsData.totalValue.toLocaleString()}</p>
+                <p className="text-purple-600 text-xs sm:text-sm font-medium">Total Value</p>
+                <p className="text-lg sm:text-2xl font-bold text-purple-900">${statsData.totalValue.toLocaleString()}</p>
               </div>
-              <Package className="w-8 h-8 text-purple-600" />
+              <Package className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
@@ -104,24 +104,24 @@ export function MatTrackPage() {
             className="pl-10"
           />
         </div>
-        <Button variant="outline">
+        <Button variant="outline" className="w-full sm:w-auto">
           <Filter className="w-4 h-4 mr-2" />
           Filters
         </Button>
       </div>
 
       {/* Main Content Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="materials">Materials</TabsTrigger>
-          <TabsTrigger value="alerts">Alerts</TabsTrigger>
-          <TabsTrigger value="allocation">Allocation</TabsTrigger>
-          <TabsTrigger value="insights">Insights</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
+        <TabsList className="grid w-full grid-cols-5 text-xs sm:text-sm">
+          <TabsTrigger value="overview" className="px-2 sm:px-4">Overview</TabsTrigger>
+          <TabsTrigger value="materials" className="px-2 sm:px-4">Materials</TabsTrigger>
+          <TabsTrigger value="alerts" className="px-2 sm:px-4">Alerts</TabsTrigger>
+          <TabsTrigger value="allocation" className="px-2 sm:px-4">Allocation</TabsTrigger>
+          <TabsTrigger value="insights" className="px-2 sm:px-4">Insights</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value="overview" className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <LowStockAlerts />
             <MaterialInsights />
           </div>

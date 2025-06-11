@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -119,22 +120,22 @@ export function SmartSchedulePage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Zap className="h-8 w-8 text-blue-600" />
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+            <Zap className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
             Smart Schedule
           </h1>
-          <p className="text-lg text-muted-foreground">AI-powered intelligent scheduling system</p>
+          <p className="text-sm sm:text-lg text-muted-foreground">AI-powered intelligent scheduling system</p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={() => setShowForm(true)} className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button onClick={() => setShowForm(true)} className="flex items-center gap-2 w-full sm:w-auto">
             <Plus className="h-4 w-4" />
             New Appointment
           </Button>
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
             <Settings className="h-4 w-4" />
             Settings
           </Button>
@@ -142,47 +143,47 @@ export function SmartSchedulePage() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-blue-600" />
+              <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
               <div>
-                <p className="text-2xl font-bold">8</p>
-                <p className="text-sm text-muted-foreground">This Week</p>
+                <p className="text-xl sm:text-2xl font-bold">8</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">This Week</p>
               </div>
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-green-600" />
+              <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
               <div>
-                <p className="text-2xl font-bold">3</p>
-                <p className="text-sm text-muted-foreground">Today</p>
+                <p className="text-xl sm:text-2xl font-bold">3</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Today</p>
               </div>
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-orange-600" />
+              <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
               <div>
-                <p className="text-2xl font-bold">2</p>
-                <p className="text-sm text-muted-foreground">Site Visits</p>
+                <p className="text-xl sm:text-2xl font-bold">2</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Site Visits</p>
               </div>
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-purple-600" />
+              <Target className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
               <div>
-                <p className="text-2xl font-bold">95%</p>
-                <p className="text-sm text-muted-foreground">Success Rate</p>
+                <p className="text-xl sm:text-2xl font-bold">95%</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Success Rate</p>
               </div>
             </div>
           </CardContent>
@@ -193,7 +194,7 @@ export function SmartSchedulePage() {
       {showForm && (
         <Card>
           <CardHeader>
-            <CardTitle>Schedule New Appointment</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Schedule New Appointment</CardTitle>
             <CardDescription>Create a new appointment with intelligent scheduling</CardDescription>
           </CardHeader>
           <CardContent>
@@ -294,9 +295,9 @@ export function SmartSchedulePage() {
                 />
               </div>
 
-              <div className="flex gap-2">
-                <Button type="submit">Schedule Appointment</Button>
-                <Button type="button" variant="outline" onClick={() => setShowForm(false)}>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button type="submit" className="w-full sm:w-auto">Schedule Appointment</Button>
+                <Button type="button" variant="outline" onClick={() => setShowForm(false)} className="w-full sm:w-auto">
                   Cancel
                 </Button>
               </div>
@@ -308,28 +309,30 @@ export function SmartSchedulePage() {
       {/* Appointments List */}
       <Card>
         <CardHeader>
-          <CardTitle>Upcoming Appointments</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Upcoming Appointments</CardTitle>
           <CardDescription>Your scheduled appointments and meetings</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {appointments.map((appointment) => (
-              <div key={appointment.id} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-4">
+              <div key={appointment.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                   <div className="flex items-center gap-2">
                     {getTypeIcon(appointment.type)}
                     <div>
-                      <h3 className="font-semibold">{appointment.title}</h3>
-                      <p className="text-sm text-muted-foreground">{appointment.client}</p>
+                      <h3 className="font-semibold text-sm sm:text-base">{appointment.title}</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{appointment.client}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    {appointment.date} at {appointment.time}
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    {appointment.location}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                      {appointment.date} at {appointment.time}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="truncate max-w-[200px]">{appointment.location}</span>
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

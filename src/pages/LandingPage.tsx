@@ -141,36 +141,6 @@ export default function LandingPage() {
       role: "Small Business Owner",
       content: "I was skeptical about switching platforms, but FeatherBiz made the transition seamless. Our productivity has never been higher.",
       rating: 5
-    },
-    {
-      name: "Lisa Park",
-      role: "Marketing Director",
-      content: "The analytics dashboard gives us insights we never had before. It's helped us make data-driven decisions that boosted our revenue by 25%.",
-      rating: 5
-    },
-    {
-      name: "James Wilson",
-      role: "Contractor",
-      content: "From invoicing to project management, FeatherBiz handles everything. I can focus on what I do best while the platform takes care of the rest.",
-      rating: 5
-    },
-    {
-      name: "Maria Gonzalez",
-      role: "Restaurant Owner",
-      content: "FeatherBiz streamlined our entire operation. Order management, inventory, and staff scheduling all in one place. Game changer!",
-      rating: 5
-    },
-    {
-      name: "Robert Kim",
-      role: "Consultant",
-      content: "The client portal feature alone has transformed how I work with my clients. Everything is organized and professional.",
-      rating: 5
-    },
-    {
-      name: "Amanda Foster",
-      role: "Creative Agency Director",
-      content: "We've cut our administrative time in half since switching to FeatherBiz. More time for creativity, less time on paperwork.",
-      rating: 5
     }
   ]
 
@@ -479,7 +449,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
