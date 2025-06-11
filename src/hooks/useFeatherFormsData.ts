@@ -90,13 +90,20 @@ export function useFeatherFormsData() {
   })
 
   const createForm = async (formData: Partial<FeatherForm>) => {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      throw new Error('User not authenticated')
+    }
+
     const { data, error } = await supabase
       .from('feather_forms')
       .insert([{
         title: formData.title || 'New Form',
         description: formData.description || null,
         visibility: formData.visibility || 'private',
-        is_active: true
+        is_active: true,
+        user_id: user.id
       }])
       .select()
       .single()
@@ -115,6 +122,12 @@ export function useFeatherFormsData() {
   }
 
   const duplicateForm = async (formId: string) => {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      throw new Error('User not authenticated')
+    }
+
     // Get the original form
     const { data: originalForm, error: fetchError } = await supabase
       .from('feather_forms')
@@ -132,7 +145,8 @@ export function useFeatherFormsData() {
         description: originalForm.description,
         visibility: originalForm.visibility,
         thank_you_message: originalForm.thank_you_message,
-        is_active: true
+        is_active: true,
+        user_id: user.id
       }])
       .select()
       .single()
