@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -192,7 +191,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             </Card>
 
             {/* Subscription Status */}
-            <SubscriptionStatus />
+            <SubscriptionStatus onNavigate={onNavigate} />
           </div>
 
           <div className="grid gap-4 lg:grid-cols-7">

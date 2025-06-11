@@ -3,9 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSubscription } from "@/hooks/useSubscription";
-import { Settings, RefreshCw, AlertCircle } from "lucide-react";
+import { Settings, RefreshCw, AlertCircle, Crown } from "lucide-react";
 
-export const SubscriptionStatus = () => {
+interface SubscriptionStatusProps {
+  onNavigate?: (view: string) => void;
+}
+
+export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
   const { subscription, loading, checkSubscription, openCustomerPortal, isSubscribed, planName } = useSubscription();
 
   if (loading) {
@@ -28,6 +32,15 @@ export const SubscriptionStatus = () => {
   const formatDate = (dateString: string | null) => {
     if (!dateString) return null;
     return new Date(dateString).toLocaleDateString('en-US');
+  };
+
+  const handleUpgrade = () => {
+    if (onNavigate) {
+      onNavigate('pricing');
+    } else {
+      // Fallback to window location if onNavigate is not available
+      window.location.href = '/';
+    }
   };
 
   return (
@@ -81,6 +94,14 @@ export const SubscriptionStatus = () => {
                 <p className="text-blue-700">You're currently using the free plan. Upgrade to access premium features.</p>
               </div>
             </div>
+            <Button
+              onClick={handleUpgrade}
+              className="w-full mt-3"
+              size="sm"
+            >
+              <Crown className="mr-2 h-4 w-4" />
+              Upgrade to Premium
+            </Button>
           </div>
         )}
 
