@@ -258,12 +258,7 @@ export default function LandingPage() {
                     className="w-10 h-10 object-contain"
                   />
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
-                  <span className="text-xs text-muted-foreground font-medium">
-                    Organize. Send. Grow. All-in-one
-                  </span>
-                </div>
+                <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
               </div>
             </div>
             
@@ -535,12 +530,7 @@ export default function LandingPage() {
                       className="w-8 h-8 object-contain"
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
-                    <span className="text-xs text-muted-foreground font-medium">
-                      Organize. Send. Grow. All-in-one
-                    </span>
-                  </div>
+                  <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
                 </div>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
