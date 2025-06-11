@@ -288,7 +288,7 @@ export default function LandingPage() {
                     className="w-10 h-10 object-contain"
                   />
                 </div>
-                <span className="text-xl font-bold text-primary">FeatherBiz</span>
+                <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
               </div>
             </div>
             
@@ -559,7 +559,7 @@ export default function LandingPage() {
                     className="w-8 h-8 object-contain"
                   />
                 </div>
-                <span className="text-xl font-bold text-primary">FeatherBiz</span>
+                <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 The complete business management platform designed for modern entrepreneurs and growing companies.
