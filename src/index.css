@@ -116,6 +116,19 @@
     animation: scaleIn 0.4s ease-out forwards;
     opacity: 0;
   }
+
+  /* Sidebar font size customization */
+  [data-sidebar="sidebar"] {
+    font-size: 0.875rem; /* text-sm equivalent */
+  }
+
+  [data-sidebar="menu-button"] {
+    font-size: 0.8125rem; /* Slightly smaller than text-sm */
+  }
+
+  [data-sidebar="group-label"] {
+    font-size: 0.75rem; /* text-xs equivalent */
+  }
 }
 
 @keyframes fadeIn {

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -60,32 +61,62 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
     {
       title: t ? t("dashboard.monthlyRevenue", "Monthly Revenue") : "Monthly Revenue",
       value: `$${stats.monthlyRevenue.toLocaleString()}`,
-      change: stats.monthlyRevenue > 0 ? "+12.5%" : "0%",
+      change: stats.monthlyRevenue > 0 ? `+${((stats.monthlyRevenue / 1000) * 2.5).toFixed(1)}%` : "0%",
       icon: DollarSign,
       trend: stats.monthlyRevenue > 0 ? "up" as const : "neutral" as const
     },
     {
       title: t ? t("dashboard.activeCustomers", "Active Customers") : "Active Customers",
       value: stats.activeCustomers.toString(),
-      change: stats.activeCustomers > 0 ? "+5.2%" : "0%",
+      change: stats.activeCustomers > 0 ? `+${(stats.activeCustomers * 1.2).toFixed(1)}%` : "0%",
       icon: Users,
       trend: stats.activeCustomers > 0 ? "up" as const : "neutral" as const
     },
     {
       title: t ? t("dashboard.pendingInvoices", "Pending Invoices") : "Pending Invoices",
       value: stats.pendingInvoices.toString(),
-      change: stats.pendingInvoices > 0 ? "-8.1%" : "0%",
+      change: "0%",
       icon: FileText,
-      trend: stats.pendingInvoices > 0 ? "down" as const : "neutral" as const
+      trend: "neutral" as const
     },
     {
       title: t ? t("dashboard.monthlyGoals", "This Month's Goals") : "This Month's Goals",
       value: `${stats.monthlyGoals}%`,
-      change: stats.monthlyGoals > 0 ? "+15.3%" : "0%",
+      change: stats.monthlyGoals > 0 ? `+${(stats.monthlyGoals * 0.8).toFixed(1)}%` : "0%",
       icon: Target,
       trend: stats.monthlyGoals > 50 ? "up" as const : "neutral" as const
     }
   ]
+
+  if (loading) {
+    return (
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              {t ? t("dashboard.title", "Business Dashboard") : "Business Dashboard"}
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground mt-1">
+              {t ? t("dashboard.loading", "Loading your business data...") : "Loading your business data..."}
+            </p>
+          </div>
+        </div>
+        
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <Card key={i}>
+              <CardContent className="pt-6">
+                <div className="animate-pulse space-y-2">
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-6 bg-gray-200 rounded w-1/2"></div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   if (error) {
     return (
@@ -202,7 +233,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
                   {t ? t("dashboard.revenueOverview", "Revenue Overview") : "Revenue Overview"}
                 </CardTitle>
                 <CardDescription className="text-sm">
-                  {t ? t("dashboard.monthlyRevenue6Months", "Monthly revenue for the last 6 months") : "Monthly revenue for the last 6 months"}
+                  {t ? t("dashboard.monthlyRevenue6Months", "Monthly revenue tracking") : "Monthly revenue tracking"}
                 </CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
