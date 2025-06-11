@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -7,21 +7,29 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { FileText, Send, Eye, Clock, CheckCircle, XCircle, Plus, Upload, Search, Download } from "lucide-react"
+import { FileText, Send, Eye, Clock, CheckCircle, XCircle, Plus, Upload, Search, Download, Zap } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { useSignNowIntegration } from "@/hooks/useSignNowIntegration"
 import { DocumentForm } from "@/components/DocumentForm"
-import { SignatureCanvas } from "@/components/SignatureCanvas"
 import { toast } from "sonner"
 
 export function ESignaturesPage() {
   const { clients, documents, signatures, createDocument, sendDocumentForSignature, loading } = useBusinessData()
   const { generatePDF, isGenerating } = usePDFGeneration()
+  const { uploadAndSendForSignature, checkStatus, downloadSignedDocument, isLoading: signNowLoading } = useSignNowIntegration()
+  
   const [selectedClient, setSelectedClient] = useState<string>("")
   const [selectedDocument, setSelectedDocument] = useState<string>("")
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [showDocumentForm, setShowDocumentForm] = useState(false)
+  const [showSignNowDialog, setShowSignNowDialog] = useState(false)
+  const [signNowForm, setSignNowForm] = useState({
+    signerEmail: '',
+    signerName: '',
+    fileName: ''
+  })
 
   const filteredDocuments = documents?.filter(doc => {
     const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -50,6 +58,73 @@ export function ESignaturesPage() {
     } catch (error) {
       console.error("Error sending document:", error)
       toast.error("Failed to send document")
+    }
+  }
+
+  const handleSignNowUpload = async () => {
+    if (!signNowForm.signerEmail || !signNowForm.fileName) {
+      toast.error("Please fill in all required fields")
+      return
+    }
+
+    try {
+      // For demo purposes, we'll create a simple PDF content
+      // In a real scenario, you'd get this from a document or generate it
+      const pdfContent = "data:application/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iaiAKPDwKPj4KZW5kb2JqCjIgMCBvYmoKPDwKPj4KZW5kb2JqCjMgMCBvYmoKPDwKPj4KZW5kb2JqCnRyYWlsZXIKPDwKPj4Kc3RhcnR4cmVmCjEwOQolJUVPRgo="
+      
+      const result = await uploadAndSendForSignature(
+        pdfContent,
+        signNowForm.fileName,
+        signNowForm.signerEmail,
+        signNowForm.signerName
+      )
+      
+      console.log("SignNow result:", result)
+      setShowSignNowDialog(false)
+      setSignNowForm({ signerEmail: '', signerName: '', fileName: '' })
+      
+    } catch (error) {
+      console.error("SignNow error:", error)
+    }
+  }
+
+  const handleCheckSignNowStatus = async (documentId: string) => {
+    try {
+      const status = await checkStatus(documentId)
+      console.log("Document status:", status)
+      toast.success(`Document status: ${status.mapped_status}`)
+    } catch (error) {
+      console.error("Status check error:", error)
+      toast.error("Failed to check document status")
+    }
+  }
+
+  const handleDownloadSigned = async (documentId: string) => {
+    try {
+      const result = await downloadSignedDocument(documentId)
+      
+      // Create download link
+      const byteCharacters = atob(result.pdf_data)
+      const byteNumbers = new Array(byteCharacters.length)
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i)
+      }
+      const byteArray = new Uint8Array(byteNumbers)
+      const blob = new Blob([byteArray], { type: 'application/pdf' })
+      
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `signed-document-${documentId}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+      
+      toast.success("Signed document downloaded!")
+    } catch (error) {
+      console.error("Download error:", error)
+      toast.error("Failed to download signed document")
     }
   }
 
@@ -124,27 +199,101 @@ export function ESignaturesPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">E-Signatures</h1>
-          <p className="text-muted-foreground">Manage documents and collect digital signatures</p>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            <Zap className="h-8 w-8 text-blue-600" />
+            E-Signatures with SignNow
+          </h1>
+          <p className="text-muted-foreground">Manage documents and collect digital signatures via SignNow API</p>
         </div>
-        <Dialog open={showDocumentForm} onOpenChange={setShowDocumentForm}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Create Document
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Create New Document</DialogTitle>
-              <DialogDescription>
-                Create a new document for e-signature
-              </DialogDescription>
-            </DialogHeader>
-            <DocumentForm onClose={() => setShowDocumentForm(false)} />
-          </DialogContent>
-        </Dialog>
+        <div className="flex gap-2">
+          <Dialog open={showSignNowDialog} onOpenChange={setShowSignNowDialog}>
+            <DialogTrigger asChild>
+              <Button className="bg-purple-600 hover:bg-purple-700">
+                <Zap className="h-4 w-4 mr-2" />
+                SignNow Upload
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Upload to SignNow</DialogTitle>
+                <DialogDescription>
+                  Upload a document directly to SignNow and send for signature
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="fileName">Document Name</Label>
+                  <Input
+                    id="fileName"
+                    value={signNowForm.fileName}
+                    onChange={(e) => setSignNowForm(prev => ({ ...prev, fileName: e.target.value }))}
+                    placeholder="Contract Agreement.pdf"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signerEmail">Signer Email</Label>
+                  <Input
+                    id="signerEmail"
+                    type="email"
+                    value={signNowForm.signerEmail}
+                    onChange={(e) => setSignNowForm(prev => ({ ...prev, signerEmail: e.target.value }))}
+                    placeholder="client@email.com"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signerName">Signer Name (Optional)</Label>
+                  <Input
+                    id="signerName"
+                    value={signNowForm.signerName}
+                    onChange={(e) => setSignNowForm(prev => ({ ...prev, signerName: e.target.value }))}
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setShowSignNowDialog(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSignNowUpload} disabled={signNowLoading}>
+                    {signNowLoading ? "Uploading..." : "Upload & Send"}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={showDocumentForm} onOpenChange={setShowDocumentForm}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Create Document
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Create New Document</DialogTitle>
+                <DialogDescription>
+                  Create a new document for e-signature
+                </DialogDescription>
+              </DialogHeader>
+              <DocumentForm onClose={() => setShowDocumentForm(false)} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
+
+      {/* SignNow Integration Info */}
+      <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-purple-700">
+            <Zap className="h-5 w-5" />
+            SignNow Integration Active
+          </CardTitle>
+          <CardDescription className="text-purple-600">
+            Your documents are now powered by SignNow's enterprise-grade e-signature platform. 
+            Upload documents directly or use the traditional workflow below.
+          </CardDescription>
+        </CardHeader>
+      </Card>
 
       {/* Send Document Section */}
       <Card>
