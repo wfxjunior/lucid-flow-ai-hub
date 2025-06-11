@@ -15,7 +15,7 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
         <CardHeader className="text-center space-y-4">
           <div className="flex flex-col items-center space-y-2">
             <p className="text-sm text-muted-foreground font-medium">
-              Organize. Send. Grow. All-in-one
+              Transforme sua gestão empresarial em uma experiência inteligente e eficiente
             </p>
           </div>
           <CardTitle className="text-2xl">{title}</CardTitle>
