@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
@@ -42,15 +43,17 @@ export default function Auth() {
   }
 
   const getRedirectUrl = () => {
-    // Use custom domain if available, otherwise use current origin
-    const customDomain = 'https://featherbiz.com'
-    const currentOrigin = window.location.origin
+    // Detect current domain and set appropriate redirect
+    const currentDomain = window.location.hostname
     
-    // Check if we're on the custom domain or development
-    if (currentOrigin.includes('featherbiz.com')) {
-      return `${customDomain}/app`
+    if (currentDomain === 'featherbiz.com') {
+      return 'https://featherbiz.com/app'
+    } else if (currentDomain.includes('lovable.app')) {
+      return `${window.location.origin}/app`
+    } else {
+      // Local development fallback
+      return `${window.location.origin}/app`
     }
-    return `${currentOrigin}/app`
   }
 
   const handleSignIn = async (e: React.FormEvent) => {
