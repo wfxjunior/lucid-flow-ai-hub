@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { StatsCard } from "@/components/StatsCard"
 import { QuickActions } from "@/components/QuickActions"
 import { SubscriptionStatus } from "@/components/pricing/SubscriptionStatus"
+import { useDashboardData } from "@/hooks/useDashboardData"
 import { 
   TrendingUp, 
   Users, 
@@ -17,7 +19,8 @@ import {
   AlertCircle,
   BarChart3,
   Target,
-  Zap
+  Zap,
+  RefreshCw
 } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
@@ -28,6 +31,7 @@ interface ImprovedDashboardProps {
 export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState("overview")
+  const { stats, loading, error, refreshData } = useDashboardData()
 
   // Debug log para verificar se o componente está sendo renderizado
   useEffect(() => {
@@ -53,54 +57,68 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
     }
   }
 
-  const stats = [
+  const statsCards = [
     {
-      title: t("dashboard.monthlyRevenue", "Monthly Revenue"),
-      value: "$12,345",
-      change: "+12.5%",
+      title: t ? t("dashboard.monthlyRevenue", "Monthly Revenue") : "Monthly Revenue",
+      value: `$${stats.monthlyRevenue.toLocaleString()}`,
+      change: stats.monthlyRevenue > 0 ? "+12.5%" : "0%",
       icon: DollarSign,
-      trend: "up" as const
+      trend: stats.monthlyRevenue > 0 ? "up" as const : "neutral" as const
     },
     {
-      title: t("dashboard.activeCustomers", "Active Customers"),
-      value: "1,234",
-      change: "+5.2%",
+      title: t ? t("dashboard.activeCustomers", "Active Customers") : "Active Customers",
+      value: stats.activeCustomers.toString(),
+      change: stats.activeCustomers > 0 ? "+5.2%" : "0%",
       icon: Users,
-      trend: "up" as const
+      trend: stats.activeCustomers > 0 ? "up" as const : "neutral" as const
     },
     {
-      title: t("dashboard.pendingInvoices", "Pending Invoices"),
-      value: "23",
-      change: "-8.1%",
+      title: t ? t("dashboard.pendingInvoices", "Pending Invoices") : "Pending Invoices",
+      value: stats.pendingInvoices.toString(),
+      change: stats.pendingInvoices > 0 ? "-8.1%" : "0%",
       icon: FileText,
-      trend: "down" as const
+      trend: stats.pendingInvoices > 0 ? "down" as const : "neutral" as const
     },
     {
-      title: t("dashboard.monthlyGoals", "This Month's Goals"),
-      value: "87%",
-      change: "+15.3%",
+      title: t ? t("dashboard.monthlyGoals", "This Month's Goals") : "This Month's Goals",
+      value: `${stats.monthlyGoals}%`,
+      change: stats.monthlyGoals > 0 ? "+15.3%" : "0%",
       icon: Target,
-      trend: "up" as const
+      trend: stats.monthlyGoals > 50 ? "up" as const : "neutral" as const
     }
   ]
 
-  const upcomingTasks = [
-    { id: 1, title: t("dashboard.followUpClient", "Follow up with client ABC Corp"), due: t("dashboard.today", "Today"), priority: "high" },
-    { id: 2, title: t("dashboard.monthlyReport", "Send monthly report to stakeholders"), due: t("dashboard.tomorrow", "Tomorrow"), priority: "medium" },
-    { id: 3, title: t("dashboard.reviewContracts", "Review and approve new contracts"), due: t("dashboard.friday", "Friday"), priority: "high" },
-    { id: 4, title: t("dashboard.updateTimeline", "Update project timeline"), due: t("dashboard.nextWeek", "Next week"), priority: "low" }
-  ]
-
-  const recentActivities = [
-    { id: 1, action: t("dashboard.invoiceSent", "Invoice #001 sent to ABC Corp"), time: t("dashboard.hoursAgo", "2 hours ago"), type: "invoice" },
-    { id: 2, action: t("dashboard.newCustomer", "New customer registration: XYZ Ltd"), time: t("dashboard.hoursAgo4", "4 hours ago"), type: "customer" },
-    { id: 3, action: t("dashboard.paymentReceived", "Payment received: $2,500"), time: t("dashboard.hoursAgo6", "6 hours ago"), type: "payment" },
-    { id: 4, action: t("dashboard.milestoneCompleted", "Project milestone completed"), time: t("dashboard.dayAgo", "1 day ago"), type: "project" }
-  ]
-
-  // Renderização com fallbacks de segurança
-  if (!t) {
-    console.warn('Language context not available, using fallbacks')
+  if (error) {
+    return (
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              {t ? t("dashboard.title", "Business Dashboard") : "Business Dashboard"}
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground mt-1">
+              {t ? t("dashboard.welcome", "Welcome back! Here's what's happening with your business today.") : "Welcome back! Here's what's happening with your business today."}
+            </p>
+          </div>
+          <Button onClick={refreshData} variant="outline">
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Refresh
+          </Button>
+        </div>
+        
+        <Card className="border-destructive">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 text-destructive">
+              <AlertCircle className="h-5 w-5" />
+              <p>Error loading dashboard data: {error}</p>
+            </div>
+            <Button onClick={refreshData} variant="outline" className="mt-4">
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -124,12 +142,15 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <Zap className="mr-2 h-4 w-4" />
             {t ? t("dashboard.createInvoice", "Create Invoice") : "Create Invoice"}
           </Button>
+          <Button variant="outline" onClick={refreshData} size="sm">
+            <RefreshCw className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
       {/* Stats Cards - Improved responsive grid */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, index) => (
+        {statsCards.map((stat, index) => (
           <StatsCard
             key={index}
             title={stat.title}
@@ -190,7 +211,10 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
                   <div className="text-center">
                     <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-2" />
                     <p className="text-sm text-gray-500">
-                      {t ? t("dashboard.revenueChartPlaceholder", "Revenue chart will be displayed here") : "Revenue chart will be displayed here"}
+                      {stats.monthlyRevenue > 0 
+                        ? `Current Month: $${stats.monthlyRevenue.toLocaleString()}`
+                        : "No revenue data yet. Start creating invoices!"
+                      }
                     </p>
                   </div>
                 </div>
@@ -209,15 +233,22 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {recentActivities.map((activity) => (
-                    <div key={activity.id} className="flex items-center space-x-4">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{activity.action}</p>
-                        <p className="text-xs text-muted-foreground">{activity.time}</p>
+                  {stats.recentActivities.length > 0 ? (
+                    stats.recentActivities.map((activity) => (
+                      <div key={activity.id} className="flex items-center space-x-4">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{activity.action}</p>
+                          <p className="text-xs text-muted-foreground">{activity.time}</p>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-sm text-gray-500">No recent activities</p>
+                      <p className="text-xs text-gray-400">Activities will appear here as you use the platform</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -239,22 +270,29 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {upcomingTasks.map((task) => (
-                    <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm truncate">{task.title}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {t ? t("dashboard.due", "Due") : "Due"}: {task.due}
-                        </p>
+                  {stats.upcomingTasks.length > 0 ? (
+                    stats.upcomingTasks.map((task) => (
+                      <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm truncate">{task.title}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {t ? t("dashboard.due", "Due") : "Due"}: {task.due}
+                          </p>
+                        </div>
+                        <Badge 
+                          variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
+                          className="ml-2 flex-shrink-0"
+                        >
+                          {task.priority}
+                        </Badge>
                       </div>
-                      <Badge 
-                        variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
-                        className="ml-2 flex-shrink-0"
-                      >
-                        {task.priority}
-                      </Badge>
+                    ))
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-sm text-gray-500">No upcoming tasks</p>
+                      <p className="text-xs text-gray-400">Schedule appointments to see them here</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -275,25 +313,25 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
                   <span className="text-sm">
                     {t ? t("dashboard.tasksCompleted", "Tasks Completed") : "Tasks Completed"}
                   </span>
-                  <span className="font-bold">7/10</span>
+                  <span className="font-bold">{stats.upcomingTasks.length}/10</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">
-                    {t ? t("dashboard.invoicesSent", "Invoices Sent") : "Invoices Sent"}
+                    {t ? t("dashboard.invoicesSent", "Invoices Created") : "Invoices Created"}
                   </span>
-                  <span className="font-bold">3</span>
+                  <span className="font-bold">{stats.pendingInvoices}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">
-                    {t ? t("dashboard.meetingsAttended", "Meetings Attended") : "Meetings Attended"}
+                    {t ? t("dashboard.meetingsAttended", "Active Customers") : "Active Customers"}
                   </span>
-                  <span className="font-bold">2</span>
+                  <span className="font-bold">{stats.activeCustomers}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">
-                    {t ? t("dashboard.customerCalls", "Customer Calls") : "Customer Calls"}
+                    {t ? t("dashboard.customerCalls", "Monthly Revenue") : "Monthly Revenue"}
                   </span>
-                  <span className="font-bold">5</span>
+                  <span className="font-bold">${stats.monthlyRevenue.toLocaleString()}</span>
                 </div>
               </CardContent>
             </Card>
@@ -315,9 +353,9 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
+            <div className="text-2xl font-bold">{stats.upcomingTasks.length}</div>
             <p className="text-xs text-muted-foreground">
-              {t ? t("dashboard.fromLastMonth", "+2 from last month") : "+2 from last month"}
+              {t ? t("dashboard.fromLastMonth", "Scheduled appointments") : "Scheduled appointments"}
             </p>
           </CardContent>
         </Card>
@@ -330,9 +368,9 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">68.2%</div>
+            <div className="text-2xl font-bold">{stats.monthlyGoals}%</div>
             <p className="text-xs text-muted-foreground">
-              {t ? t("dashboard.fromLastMonth42", "+4.2% from last month") : "+4.2% from last month"}
+              {t ? t("dashboard.fromLastMonth42", "Progress towards goals") : "Progress towards goals"}
             </p>
           </CardContent>
         </Card>
@@ -345,9 +383,11 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$2,845</div>
+            <div className="text-2xl font-bold">
+              ${stats.activeCustomers > 0 ? Math.round(stats.monthlyRevenue / stats.activeCustomers).toLocaleString() : '0'}
+            </div>
             <p className="text-xs text-muted-foreground">
-              {t ? t("dashboard.fromLastMonth121", "+12.1% from last month") : "+12.1% from last month"}
+              {t ? t("dashboard.fromLastMonth121", "Revenue per customer") : "Revenue per customer"}
             </p>
           </CardContent>
         </Card>

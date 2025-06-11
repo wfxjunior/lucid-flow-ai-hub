@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSubscription } from "@/hooks/useSubscription";
-import { Settings, RefreshCw } from "lucide-react";
+import { Settings, RefreshCw, AlertCircle } from "lucide-react";
 
 export const SubscriptionStatus = () => {
   const { subscription, loading, checkSubscription, openCustomerPortal, isSubscribed, planName } = useSubscription();
@@ -12,23 +12,29 @@ export const SubscriptionStatus = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Status da Assinatura</CardTitle>
-          <CardDescription>Carregando...</CardDescription>
+          <CardTitle>Subscription Status</CardTitle>
+          <CardDescription>Loading...</CardDescription>
         </CardHeader>
+        <CardContent>
+          <div className="animate-pulse space-y-2">
+            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        </CardContent>
       </Card>
     );
   }
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return null;
-    return new Date(dateString).toLocaleDateString('pt-BR');
+    return new Date(dateString).toLocaleDateString('en-US');
   };
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          Status da Assinatura
+          Subscription Status
           <Button
             variant="outline"
             size="sm"
@@ -39,12 +45,12 @@ export const SubscriptionStatus = () => {
           </Button>
         </CardTitle>
         <CardDescription>
-          Gerencie sua assinatura do FeatherBiz
+          Manage your FeatherBiz subscription
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
-          <span>Plano Atual:</span>
+          <span>Current Plan:</span>
           <Badge variant={isSubscribed ? "default" : "secondary"}>
             {planName}
           </Badge>
@@ -52,7 +58,7 @@ export const SubscriptionStatus = () => {
         
         {subscription?.current_period_end && (
           <div className="flex items-center justify-between">
-            <span>Renovação:</span>
+            <span>Renewal:</span>
             <span className="text-sm text-muted-foreground">
               {formatDate(subscription.current_period_end)}
             </span>
@@ -62,9 +68,21 @@ export const SubscriptionStatus = () => {
         <div className="flex items-center justify-between">
           <span>Status:</span>
           <Badge variant={isSubscribed ? "default" : "secondary"}>
-            {isSubscribed ? "Ativo" : "Inativo"}
+            {isSubscribed ? "Active" : "Free Plan"}
           </Badge>
         </div>
+
+        {!isSubscribed && (
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="h-4 w-4 text-blue-600 mt-0.5" />
+              <div className="text-sm">
+                <p className="font-medium text-blue-900">Free Plan Active</p>
+                <p className="text-blue-700">You're currently using the free plan. Upgrade to access premium features.</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {isSubscribed && (
           <Button
@@ -73,7 +91,7 @@ export const SubscriptionStatus = () => {
             variant="outline"
           >
             <Settings className="mr-2 h-4 w-4" />
-            Gerenciar Assinatura
+            Manage Subscription
           </Button>
         )}
       </CardContent>

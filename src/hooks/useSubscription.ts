@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 interface SubscriptionData {
   subscribed: boolean;
@@ -13,7 +13,6 @@ interface SubscriptionData {
 export const useSubscription = () => {
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
 
   const checkSubscription = async () => {
     try {
@@ -21,7 +20,13 @@ export const useSubscription = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        setSubscription(null);
+        // User not authenticated, set to free plan
+        setSubscription({
+          subscribed: false,
+          plan_id: 'free',
+          plan_name: 'Free',
+          current_period_end: null
+        });
         return;
       }
 
@@ -33,10 +38,12 @@ export const useSubscription = () => {
 
       if (error) {
         console.error('Error checking subscription:', error);
-        toast({
-          title: "Erro ao verificar assinatura",
-          description: "Não foi possível verificar o status da sua assinatura.",
-          variant: "destructive",
+        // Set default free plan on error
+        setSubscription({
+          subscribed: false,
+          plan_id: 'free',
+          plan_name: 'Free',
+          current_period_end: null
         });
         return;
       }
@@ -44,10 +51,12 @@ export const useSubscription = () => {
       setSubscription(data);
     } catch (error) {
       console.error('Error checking subscription:', error);
-      toast({
-        title: "Erro",
-        description: "Ocorreu um erro ao verificar sua assinatura.",
-        variant: "destructive",
+      // Set default free plan on error
+      setSubscription({
+        subscribed: false,
+        plan_id: 'free',
+        plan_name: 'Free',
+        current_period_end: null
       });
     } finally {
       setLoading(false);
@@ -59,11 +68,7 @@ export const useSubscription = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        toast({
-          title: "Erro",
-          description: "Você precisa estar logado para acessar o portal.",
-          variant: "destructive",
-        });
+        toast.error('You need to be logged in to access the portal.');
         return;
       }
 
@@ -75,22 +80,14 @@ export const useSubscription = () => {
 
       if (error) {
         console.error('Error creating portal session:', error);
-        toast({
-          title: "Erro",
-          description: "Não foi possível abrir o portal de gerenciamento.",
-          variant: "destructive",
-        });
+        toast.error('Could not open subscription management portal.');
         return;
       }
 
       window.open(data.url, '_blank');
     } catch (error) {
       console.error('Error opening customer portal:', error);
-      toast({
-        title: "Erro",
-        description: "Ocorreu um erro ao abrir o portal.",
-        variant: "destructive",
-      });
+      toast.error('An error occurred while opening the portal.');
     }
   };
 
