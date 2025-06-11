@@ -7,7 +7,7 @@ interface StatsCardProps {
   title: string
   value: string
   change: string
-  trend: "up" | "down"
+  trend: "up" | "down" | "neutral"
   icon: LucideIcon
   delay?: number
 }
@@ -23,7 +23,7 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
     return () => clearTimeout(timer)
   }, [delay])
 
-  const changeColor = trend === "up" ? "text-green-600" : "text-red-600"
+  const changeColor = trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-gray-600"
 
   return (
     <Card className={`transition-all duration-500 hover:shadow-lg hover:scale-105 ${
