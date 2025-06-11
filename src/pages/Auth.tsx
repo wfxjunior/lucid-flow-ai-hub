@@ -6,6 +6,7 @@ import { AuthLayout } from '@/components/auth/AuthLayout'
 import { SignInForm } from '@/components/auth/SignInForm'
 import { SignUpForm } from '@/components/auth/SignUpForm'
 import { ForgotPasswordForm } from '@/components/auth/ForgotPasswordForm'
+import { SupabaseConfigGuide } from '@/components/auth/SupabaseConfigGuide'
 import { toast } from 'sonner'
 
 type AuthMode = 'signin' | 'signup' | 'forgot-password'
@@ -40,6 +41,18 @@ export default function Auth() {
 
   const validatePassword = (password: string) => {
     return password.length >= 6
+  }
+
+  const getRedirectUrl = () => {
+    // Use custom domain if available, otherwise use current origin
+    const customDomain = 'https://featherbiz.com'
+    const currentOrigin = window.location.origin
+    
+    // Check if we're on the custom domain or development
+    if (currentOrigin.includes('featherbiz.com')) {
+      return `${customDomain}/app`
+    }
+    return `${currentOrigin}/app`
   }
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -110,7 +123,7 @@ export default function Auth() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/app`
+          emailRedirectTo: getRedirectUrl()
         }
       })
 
@@ -147,7 +160,7 @@ export default function Auth() {
     
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/app`
+        redirectTo: getRedirectUrl()
       })
 
       if (error) {
@@ -224,8 +237,13 @@ export default function Auth() {
   const { title, description, form } = getAuthContent()
 
   return (
-    <AuthLayout title={title} description={description}>
-      {form}
-    </AuthLayout>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <AuthLayout title={title} description={description}>
+          {form}
+        </AuthLayout>
+        <SupabaseConfigGuide />
+      </div>
+    </div>
   )
 }
