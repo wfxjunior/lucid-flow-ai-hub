@@ -32,40 +32,40 @@ const handler = async (req: Request): Promise<Response> => {
     
     switch (type) {
       case 'signup':
-        subject = 'Confirme sua conta no FeatherBiz';
+        subject = 'Confirm your FeatherBiz account';
         content = `
           <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px;">
             <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
               <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="color: #1e40af; margin: 0; font-size: 28px;">Confirme sua conta</h1>
-                <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Último passo para acessar o FeatherBiz</p>
+                <h1 style="color: #1e40af; margin: 0; font-size: 28px;">Confirm your account</h1>
+                <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Last step to access FeatherBiz</p>
               </div>
               
               <div style="margin-bottom: 30px;">
                 <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                  Olá! Obrigado por se cadastrar no FeatherBiz.
+                  Hello! Thank you for signing up for FeatherBiz.
                 </p>
                 <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                  Para confirmar sua conta e começar a usar nossa plataforma, clique no botão abaixo:
+                  To confirm your account and start using our platform, click the button below:
                 </p>
               </div>
 
               <div style="text-align: center; margin-bottom: 30px;">
                 <a href="${baseUrl}?token=${token}&type=signup" 
                    style="background-color: #1e40af; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; font-size: 16px;">
-                  Confirmar Conta
+                  Confirm Account
                 </a>
               </div>
 
               <div style="background-color: #fef3cd; border: 1px solid #fbbf24; border-radius: 6px; padding: 16px; margin-bottom: 20px;">
                 <p style="color: #92400e; font-size: 14px; margin: 0;">
-                  ⚡ Este link expira em 24 horas. Se você não solicitou esta confirmação, pode ignorar este email.
+                  ⚡ This link expires in 24 hours. If you didn't request this confirmation, you can ignore this email.
                 </p>
               </div>
 
               <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: center;">
                 <p style="color: #64748b; font-size: 14px; margin: 0;">
-                  © 2024 FeatherBiz. Todos os direitos reservados.
+                  © 2024 FeatherBiz. All rights reserved.
                 </p>
               </div>
             </div>
@@ -74,40 +74,40 @@ const handler = async (req: Request): Promise<Response> => {
         break;
         
       case 'recovery':
-        subject = 'Redefinir senha - FeatherBiz';
+        subject = 'Reset your FeatherBiz password';
         content = `
           <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px;">
             <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
               <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="color: #dc2626; margin: 0; font-size: 28px;">Redefinir Senha</h1>
-                <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Solicitação de nova senha</p>
+                <h1 style="color: #dc2626; margin: 0; font-size: 28px;">Reset Password</h1>
+                <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Password reset request</p>
               </div>
               
               <div style="margin-bottom: 30px;">
                 <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                  Recebemos uma solicitação para redefinir a senha da sua conta FeatherBiz.
+                  We received a request to reset your FeatherBiz account password.
                 </p>
                 <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                  Clique no botão abaixo para criar uma nova senha:
+                  Click the button below to create a new password:
                 </p>
               </div>
 
               <div style="text-align: center; margin-bottom: 30px;">
                 <a href="${baseUrl}?token=${token}&type=recovery" 
                    style="background-color: #dc2626; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; font-size: 16px;">
-                  Redefinir Senha
+                  Reset Password
                 </a>
               </div>
 
               <div style="background-color: #fee2e2; border: 1px solid #fca5a5; border-radius: 6px; padding: 16px; margin-bottom: 20px;">
                 <p style="color: #991b1b; font-size: 14px; margin: 0;">
-                  🔒 Se você não solicitou esta redefinição, ignore este email. Sua senha permanecerá inalterada.
+                  🔒 If you didn't request this password reset, ignore this email. Your password will remain unchanged.
                 </p>
               </div>
 
               <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: center;">
                 <p style="color: #64748b; font-size: 14px; margin: 0;">
-                  © 2024 FeatherBiz. Todos os direitos reservados.
+                  © 2024 FeatherBiz. All rights reserved.
                 </p>
               </div>
             </div>

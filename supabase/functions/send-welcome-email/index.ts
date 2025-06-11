@@ -29,57 +29,57 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz <hello@featherbiz.com>",
       to: [email],
-      subject: "Bem-vindo ao FeatherBiz! 🚀",
+      subject: "Welcome to FeatherBiz! 🚀",
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px;">
           <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <div style="text-align: center; margin-bottom: 30px;">
-              <h1 style="color: #1e40af; margin: 0; font-size: 28px;">Bem-vindo ao FeatherBiz!</h1>
-              <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Sua jornada empresarial começa aqui</p>
+              <h1 style="color: #1e40af; margin: 0; font-size: 28px;">Welcome to FeatherBiz!</h1>
+              <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Your business journey starts here</p>
             </div>
             
             <div style="margin-bottom: 30px;">
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-                Olá <strong>${displayName}</strong>,
+                Hello <strong>${displayName}</strong>,
               </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-                Parabéns por se juntar ao FeatherBiz! Estamos muito animados em tê-lo conosco.
+                Congratulations on joining FeatherBiz! We're excited to have you with us.
               </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                Com o FeatherBiz, você pode:
+                With FeatherBiz, you can:
               </p>
             </div>
 
             <div style="background-color: #f1f5f9; border-radius: 6px; padding: 20px; margin-bottom: 30px;">
               <ul style="margin: 0; padding-left: 20px; color: #334155;">
-                <li style="margin-bottom: 8px;">📋 Gerenciar projetos e clientes</li>
-                <li style="margin-bottom: 8px;">💰 Criar orçamentos e faturas</li>
-                <li style="margin-bottom: 8px;">📅 Agendar compromissos</li>
-                <li style="margin-bottom: 8px;">📄 Gerar contratos e documentos</li>
-                <li style="margin-bottom: 8px;">📊 Acompanhar métricas do negócio</li>
+                <li style="margin-bottom: 8px;">📋 Manage projects and clients</li>
+                <li style="margin-bottom: 8px;">💰 Create quotes and invoices</li>
+                <li style="margin-bottom: 8px;">📅 Schedule appointments</li>
+                <li style="margin-bottom: 8px;">📄 Generate contracts and documents</li>
+                <li style="margin-bottom: 8px;">📊 Track business metrics</li>
               </ul>
             </div>
 
             <div style="text-align: center; margin-bottom: 30px;">
               <a href="https://featherbiz.com/app" 
                  style="background-color: #1e40af; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; font-size: 16px;">
-                Começar Agora
+                Get Started
               </a>
             </div>
 
             <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: center;">
               <p style="color: #64748b; font-size: 14px; margin: 0 0 10px 0;">
-                Precisa de ajuda? Estamos aqui para você!
+                Need help? We're here for you!
               </p>
               <p style="color: #64748b; font-size: 14px; margin: 0;">
-                📧 <a href="mailto:suporte@featherbiz.com" style="color: #1e40af;">suporte@featherbiz.com</a>
+                📧 <a href="mailto:support@featherbiz.com" style="color: #1e40af;">support@featherbiz.com</a>
               </p>
             </div>
           </div>
           
           <div style="text-align: center; margin-top: 20px;">
             <p style="color: #94a3b8; font-size: 12px; margin: 0;">
-              © 2024 FeatherBiz. Todos os direitos reservados.
+              © 2024 FeatherBiz. All rights reserved.
             </p>
           </div>
         </div>
