@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -7,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { FileText, Send, Eye, Clock, CheckCircle, XCircle, Plus, Upload, Search, Download, Zap } from "lucide-react"
+import { FileText, Send, Eye, Clock, CheckCircle, XCircle, Plus, Upload, Search, Download, Zap, PenTool } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { useSignNowIntegration } from "@/hooks/useSignNowIntegration"
@@ -17,15 +18,15 @@ import { toast } from "sonner"
 export function ESignaturesPage() {
   const { clients, documents, signatures, createDocument, sendDocumentForSignature, loading } = useBusinessData()
   const { generatePDF, isGenerating } = usePDFGeneration()
-  const { uploadAndSendForSignature, checkStatus, downloadSignedDocument, isLoading: signNowLoading } = useSignNowIntegration()
+  const { uploadAndSendForSignature, checkStatus, downloadSignedDocument, isLoading: featherSignLoading } = useSignNowIntegration()
   
   const [selectedClient, setSelectedClient] = useState<string>("")
   const [selectedDocument, setSelectedDocument] = useState<string>("")
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [showDocumentForm, setShowDocumentForm] = useState(false)
-  const [showSignNowDialog, setShowSignNowDialog] = useState(false)
-  const [signNowForm, setSignNowForm] = useState({
+  const [showFeatherSignDialog, setShowFeatherSignDialog] = useState(false)
+  const [featherSignForm, setFeatherSignForm] = useState({
     signerEmail: '',
     signerName: '',
     fileName: ''
@@ -61,8 +62,8 @@ export function ESignaturesPage() {
     }
   }
 
-  const handleSignNowUpload = async () => {
-    if (!signNowForm.signerEmail || !signNowForm.fileName) {
+  const handleFeatherSignUpload = async () => {
+    if (!featherSignForm.signerEmail || !featherSignForm.fileName) {
       toast.error("Please fill in all required fields")
       return
     }
@@ -74,21 +75,21 @@ export function ESignaturesPage() {
       
       const result = await uploadAndSendForSignature(
         pdfContent,
-        signNowForm.fileName,
-        signNowForm.signerEmail,
-        signNowForm.signerName
+        featherSignForm.fileName,
+        featherSignForm.signerEmail,
+        featherSignForm.signerName
       )
       
-      console.log("SignNow result:", result)
-      setShowSignNowDialog(false)
-      setSignNowForm({ signerEmail: '', signerName: '', fileName: '' })
+      console.log("FeatherSign result:", result)
+      setShowFeatherSignDialog(false)
+      setFeatherSignForm({ signerEmail: '', signerName: '', fileName: '' })
       
     } catch (error) {
-      console.error("SignNow error:", error)
+      console.error("FeatherSign error:", error)
     }
   }
 
-  const handleCheckSignNowStatus = async (documentId: string) => {
+  const handleCheckDocumentStatus = async (documentId: string) => {
     try {
       const status = await checkStatus(documentId)
       console.log("Document status:", status)
@@ -200,24 +201,24 @@ export function ESignaturesPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Zap className="h-8 w-8 text-blue-600" />
-            E-Signatures with SignNow
+            <PenTool className="h-8 w-8 text-blue-600" />
+            FeatherSign E-Signatures
           </h1>
-          <p className="text-muted-foreground">Manage documents and collect digital signatures via SignNow API</p>
+          <p className="text-muted-foreground">Professional digital signature solution for your documents</p>
         </div>
         <div className="flex gap-2">
-          <Dialog open={showSignNowDialog} onOpenChange={setShowSignNowDialog}>
+          <Dialog open={showFeatherSignDialog} onOpenChange={setShowFeatherSignDialog}>
             <DialogTrigger asChild>
-              <Button className="bg-purple-600 hover:bg-purple-700">
-                <Zap className="h-4 w-4 mr-2" />
-                SignNow Upload
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <PenTool className="h-4 w-4 mr-2" />
+                Send for Signature
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Upload to SignNow</DialogTitle>
+                <DialogTitle>Send Document for Signature</DialogTitle>
                 <DialogDescription>
-                  Upload a document directly to SignNow and send for signature
+                  Upload a document and send it for digital signature
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
@@ -225,8 +226,8 @@ export function ESignaturesPage() {
                   <Label htmlFor="fileName">Document Name</Label>
                   <Input
                     id="fileName"
-                    value={signNowForm.fileName}
-                    onChange={(e) => setSignNowForm(prev => ({ ...prev, fileName: e.target.value }))}
+                    value={featherSignForm.fileName}
+                    onChange={(e) => setFeatherSignForm(prev => ({ ...prev, fileName: e.target.value }))}
                     placeholder="Contract Agreement.pdf"
                   />
                 </div>
@@ -235,8 +236,8 @@ export function ESignaturesPage() {
                   <Input
                     id="signerEmail"
                     type="email"
-                    value={signNowForm.signerEmail}
-                    onChange={(e) => setSignNowForm(prev => ({ ...prev, signerEmail: e.target.value }))}
+                    value={featherSignForm.signerEmail}
+                    onChange={(e) => setFeatherSignForm(prev => ({ ...prev, signerEmail: e.target.value }))}
                     placeholder="client@email.com"
                   />
                 </div>
@@ -244,17 +245,17 @@ export function ESignaturesPage() {
                   <Label htmlFor="signerName">Signer Name (Optional)</Label>
                   <Input
                     id="signerName"
-                    value={signNowForm.signerName}
-                    onChange={(e) => setSignNowForm(prev => ({ ...prev, signerName: e.target.value }))}
+                    value={featherSignForm.signerName}
+                    onChange={(e) => setFeatherSignForm(prev => ({ ...prev, signerName: e.target.value }))}
                     placeholder="John Doe"
                   />
                 </div>
                 <div className="flex justify-end gap-2">
-                  <Button variant="outline" onClick={() => setShowSignNowDialog(false)}>
+                  <Button variant="outline" onClick={() => setShowFeatherSignDialog(false)}>
                     Cancel
                   </Button>
-                  <Button onClick={handleSignNowUpload} disabled={signNowLoading}>
-                    {signNowLoading ? "Uploading..." : "Upload & Send"}
+                  <Button onClick={handleFeatherSignUpload} disabled={featherSignLoading}>
+                    {featherSignLoading ? "Sending..." : "Send for Signature"}
                   </Button>
                 </div>
               </div>
@@ -281,16 +282,16 @@ export function ESignaturesPage() {
         </div>
       </div>
 
-      {/* SignNow Integration Info */}
-      <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+      {/* FeatherSign Platform Info */}
+      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-purple-700">
-            <Zap className="h-5 w-5" />
-            SignNow Integration Active
+          <CardTitle className="flex items-center gap-2 text-blue-700">
+            <PenTool className="h-5 w-5" />
+            FeatherSign Platform
           </CardTitle>
-          <CardDescription className="text-purple-600">
-            Your documents are now powered by SignNow's enterprise-grade e-signature platform. 
-            Upload documents directly or use the traditional workflow below.
+          <CardDescription className="text-blue-600">
+            Secure, legally binding digital signatures for all your business documents. 
+            Send documents for signature instantly and track their progress in real-time.
           </CardDescription>
         </CardHeader>
       </Card>
