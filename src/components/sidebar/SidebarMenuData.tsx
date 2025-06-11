@@ -105,6 +105,11 @@ export function useSidebarMenuData() {
       view: "aftercare"
     },
     {
+      title: "FeatherTax",
+      icon: Calculator,
+      view: "feather-tax"
+    },
+    {
       title: "Meetings",
       icon: Video,
       view: "meetings"

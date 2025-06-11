@@ -185,6 +185,14 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       hoverColor: "hover:bg-red-700"
     },
     {
+      id: "feather-tax",
+      title: "FeatherTax",
+      description: "Tax management & reporting",
+      icon: Calculator,
+      color: "bg-green-600",
+      hoverColor: "hover:bg-green-700"
+    },
+    {
       id: "meetings",
       title: "Meetings",
       description: "Schedule meetings",

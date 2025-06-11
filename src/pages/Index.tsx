@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Building2, Feather } from "lucide-react"
@@ -35,6 +36,7 @@ import { AfterCarePage } from "@/components/AfterCarePage"
 import { FeatherFormsPage } from "@/components/FeatherFormsPage"
 import { CarRentalPage } from "@/components/CarRentalPage"
 import { EarnSyncPage } from "@/components/EarnSyncPage"
+import { FeatherTaxPage } from "@/components/FeatherTaxPage"
 import { TodoListPage } from "@/components/TodoListPage"
 import { NotesPage } from "@/components/NotesPage"
 import { DocumentTracker } from "@/components/DocumentTracker"
@@ -107,6 +109,8 @@ const Index = () => {
           return <CrewControlPage />
         case "earnsync":
           return <EarnSyncPage />
+        case "feather-tax":
+          return <FeatherTaxPage />
         case "aftercare":
           return <AfterCarePage />
         case "appointments":
