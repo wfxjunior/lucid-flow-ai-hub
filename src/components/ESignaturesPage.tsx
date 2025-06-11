@@ -11,14 +11,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { FileText, Send, Eye, Clock, CheckCircle, XCircle, Plus, Upload, Search, Download, Zap, PenTool } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
-import { useSignNowIntegration } from "@/hooks/useSignNowIntegration"
+import { useFeatherSignIntegration } from "@/hooks/useFeatherSignIntegration"
 import { DocumentForm } from "@/components/DocumentForm"
 import { toast } from "sonner"
 
 export function ESignaturesPage() {
   const { clients, documents, signatures, createDocument, sendDocumentForSignature, loading } = useBusinessData()
   const { generatePDF, isGenerating } = usePDFGeneration()
-  const { uploadAndSendForSignature, checkStatus, downloadSignedDocument, isLoading: featherSignLoading } = useSignNowIntegration()
+  const { uploadAndSendForSignature, checkStatus, downloadSignedDocument, isLoading: featherSignLoading } = useFeatherSignIntegration()
   
   const [selectedClient, setSelectedClient] = useState<string>("")
   const [selectedDocument, setSelectedDocument] = useState<string>("")
@@ -197,24 +197,28 @@ export function ESignaturesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <PenTool className="h-8 w-8 text-blue-600" />
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+            <PenTool className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
             FeatherSign E-Signatures
           </h1>
-          <p className="text-muted-foreground">Professional digital signature solution for your documents</p>
+          <p className="text-sm sm:text-base text-muted-foreground">Professional digital signature solution for your documents</p>
         </div>
-        <div className="flex gap-2">
+        
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <Dialog open={showFeatherSignDialog} onOpenChange={setShowFeatherSignDialog}>
             <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
                 <PenTool className="h-4 w-4 mr-2" />
-                Send for Signature
+                <span className="hidden sm:inline">Send for Signature</span>
+                <span className="sm:hidden">FeatherSign</span>
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="mx-4 max-w-md sm:max-w-lg">
               <DialogHeader>
                 <DialogTitle>Send Document for Signature</DialogTitle>
                 <DialogDescription>
@@ -250,11 +254,11 @@ export function ESignaturesPage() {
                     placeholder="John Doe"
                   />
                 </div>
-                <div className="flex justify-end gap-2">
-                  <Button variant="outline" onClick={() => setShowFeatherSignDialog(false)}>
+                <div className="flex flex-col sm:flex-row justify-end gap-2">
+                  <Button variant="outline" onClick={() => setShowFeatherSignDialog(false)} className="w-full sm:w-auto">
                     Cancel
                   </Button>
-                  <Button onClick={handleFeatherSignUpload} disabled={featherSignLoading}>
+                  <Button onClick={handleFeatherSignUpload} disabled={featherSignLoading} className="w-full sm:w-auto">
                     {featherSignLoading ? "Sending..." : "Send for Signature"}
                   </Button>
                 </div>
@@ -264,12 +268,13 @@ export function ESignaturesPage() {
 
           <Dialog open={showDocumentForm} onOpenChange={setShowDocumentForm}>
             <DialogTrigger asChild>
-              <Button>
+              <Button variant="outline" className="w-full sm:w-auto">
                 <Plus className="h-4 w-4 mr-2" />
-                Create Document
+                <span className="hidden sm:inline">Create Document</span>
+                <span className="sm:hidden">Create</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="mx-4 max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Create New Document</DialogTitle>
                 <DialogDescription>
@@ -284,12 +289,12 @@ export function ESignaturesPage() {
 
       {/* FeatherSign Platform Info */}
       <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-blue-700">
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="flex items-center gap-2 text-blue-700 text-lg sm:text-xl">
             <PenTool className="h-5 w-5" />
             FeatherSign Platform
           </CardTitle>
-          <CardDescription className="text-blue-600">
+          <CardDescription className="text-blue-600 text-sm sm:text-base">
             Secure, legally binding digital signatures for all your business documents. 
             Send documents for signature instantly and track their progress in real-time.
           </CardDescription>
@@ -298,17 +303,17 @@ export function ESignaturesPage() {
 
       {/* Send Document Section */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
             <Send className="h-5 w-5" />
             Send Document for Signature
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm sm:text-base">
             Select a document and client to send for digital signature
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div className="space-y-2">
               <Label htmlFor="document-select">Select Document</Label>
               <Select value={selectedDocument} onValueChange={setSelectedDocument}>
@@ -318,10 +323,10 @@ export function ESignaturesPage() {
                 <SelectContent>
                   {filteredDocuments.map((doc) => (
                     <SelectItem key={doc.id} value={doc.id}>
-                      <div className="flex items-center gap-2">
-                        <FileText className="h-4 w-4" />
-                        <span>{doc.title}</span>
-                        <Badge variant="outline" className={getStatusColor(doc.status)}>
+                      <div className="flex items-center gap-2 max-w-full">
+                        <FileText className="h-4 w-4 flex-shrink-0" />
+                        <span className="truncate">{doc.title}</span>
+                        <Badge variant="outline" className={`${getStatusColor(doc.status)} flex-shrink-0`}>
                           {doc.status}
                         </Badge>
                       </div>
@@ -340,9 +345,9 @@ export function ESignaturesPage() {
                 <SelectContent>
                   {clients?.map((client) => (
                     <SelectItem key={client.id} value={client.id}>
-                      <div className="flex flex-col">
-                        <span className="font-medium">{client.name}</span>
-                        <span className="text-sm text-muted-foreground">{client.email}</span>
+                      <div className="flex flex-col max-w-full">
+                        <span className="font-medium truncate">{client.name}</span>
+                        <span className="text-sm text-muted-foreground truncate">{client.email}</span>
                       </div>
                     </SelectItem>
                   ))}
@@ -374,7 +379,7 @@ export function ESignaturesPage() {
           />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
@@ -390,41 +395,40 @@ export function ESignaturesPage() {
 
       {/* Documents Grid */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Documents</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">Documents</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredDocuments.map((document) => (
             <Card key={document.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg truncate">{document.title}</CardTitle>
-                  <Badge className={getStatusColor(document.status)}>
+                <div className="flex items-start justify-between gap-2">
+                  <CardTitle className="text-base sm:text-lg truncate">{document.title}</CardTitle>
+                  <Badge className={`${getStatusColor(document.status)} flex-shrink-0`}>
                     {getStatusIcon(document.status)}
-                    <span className="ml-1">{document.status}</span>
+                    <span className="ml-1 hidden sm:inline">{document.status}</span>
                   </Badge>
                 </div>
                 <CardDescription className="text-sm">
                   Type: {document.document_type}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">
-                    Created: {new Date(document.created_at).toLocaleDateString()}
-                  </span>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      <Eye className="h-4 w-4 mr-1" />
-                      View
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => handleGenerateDocumentPDF(document)}
-                      disabled={isGenerating}
-                    >
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </div>
+              <CardContent className="pt-0 space-y-3">
+                <span className="text-sm text-muted-foreground block">
+                  Created: {new Date(document.created_at).toLocaleDateString()}
+                </span>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button variant="outline" size="sm" className="flex-1">
+                    <Eye className="h-4 w-4 mr-1" />
+                    <span className="hidden sm:inline">View</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleGenerateDocumentPDF(document)}
+                    disabled={isGenerating}
+                    className="flex-1 sm:flex-initial"
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -434,19 +438,19 @@ export function ESignaturesPage() {
 
       {/* Signatures Grid */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Signature Requests</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">Signature Requests</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredSignatures.map((signature) => (
             <Card key={signature.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg truncate">{signature.document?.title || 'Unknown Document'}</CardTitle>
-                  <Badge className={getStatusColor(signature.status)}>
+                <div className="flex items-start justify-between gap-2">
+                  <CardTitle className="text-base sm:text-lg truncate">{signature.document?.title || 'Unknown Document'}</CardTitle>
+                  <Badge className={`${getStatusColor(signature.status)} flex-shrink-0`}>
                     {getStatusIcon(signature.status)}
-                    <span className="ml-1">{signature.status}</span>
+                    <span className="ml-1 hidden sm:inline">{signature.status}</span>
                   </Badge>
                 </div>
-                <CardDescription className="text-sm">
+                <CardDescription className="text-sm truncate">
                   Client: {signature.client?.name || 'Unknown Client'}
                 </CardDescription>
               </CardHeader>
@@ -454,23 +458,23 @@ export function ESignaturesPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Sent:</span>
-                    <span>{new Date(signature.created_at).toLocaleDateString()}</span>
+                    <span className="truncate ml-2">{new Date(signature.created_at).toLocaleDateString()}</span>
                   </div>
                   {signature.signed_at && (
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Signed:</span>
-                      <span>{new Date(signature.signed_at).toLocaleDateString()}</span>
+                      <span className="truncate ml-2">{new Date(signature.signed_at).toLocaleDateString()}</span>
                     </div>
                   )}
-                  <div className="flex gap-2 pt-2">
+                  <div className="flex flex-col sm:flex-row gap-2 pt-2">
                     <Button variant="outline" size="sm" className="flex-1">
                       <Eye className="h-4 w-4 mr-1" />
-                      View
+                      <span className="hidden sm:inline">View</span>
                     </Button>
                     {signature.status === 'pending' && (
                       <Button variant="outline" size="sm" className="flex-1">
                         <Send className="h-4 w-4 mr-1" />
-                        Remind
+                        <span className="hidden sm:inline">Remind</span>
                       </Button>
                     )}
                   </div>
