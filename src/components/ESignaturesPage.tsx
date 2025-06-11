@@ -201,9 +201,9 @@ export function ESignaturesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div className="space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
-            <PenTool className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
-            FeatherSign E-Signatures
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight flex items-center gap-2 whitespace-nowrap">
+            <PenTool className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-blue-600 flex-shrink-0" />
+            <span className="break-keep">FeatherSign E-Signatures</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground">Professional digital signature solution for your documents</p>
         </div>
