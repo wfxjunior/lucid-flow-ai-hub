@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
@@ -6,7 +5,6 @@ import { AuthLayout } from '@/components/auth/AuthLayout'
 import { SignInForm } from '@/components/auth/SignInForm'
 import { SignUpForm } from '@/components/auth/SignUpForm'
 import { ForgotPasswordForm } from '@/components/auth/ForgotPasswordForm'
-import { SupabaseConfigGuide } from '@/components/auth/SupabaseConfigGuide'
 import { toast } from 'sonner'
 
 type AuthMode = 'signin' | 'signup' | 'forgot-password'
@@ -237,13 +235,8 @@ export default function Auth() {
   const { title, description, form } = getAuthContent()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <AuthLayout title={title} description={description}>
-          {form}
-        </AuthLayout>
-        <SupabaseConfigGuide />
-      </div>
-    </div>
+    <AuthLayout title={title} description={description}>
+      {form}
+    </AuthLayout>
   )
 }
