@@ -1,5 +1,7 @@
+
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { Building2 } from "lucide-react"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { UserGreeting } from "@/components/UserGreeting"
@@ -159,13 +161,16 @@ const Index = () => {
                     <div className="flex items-center gap-2 sm:gap-4">
                       <SidebarTrigger />
                       <div 
-                        className="flex flex-col cursor-pointer hover:opacity-80 transition-opacity"
+                        className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={handleLogoClick}
                       >
-                        <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
-                        <p className="text-xs text-muted-foreground font-medium hidden sm:block">
-                          Organize. Send. Grow. All-in-one
-                        </p>
+                        <Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                        <div className="flex flex-col">
+                          <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
+                          <p className="text-xs text-muted-foreground font-medium hidden sm:block">
+                            Organize. Send. Grow. All-in-one
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4">
