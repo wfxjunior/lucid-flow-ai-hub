@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
@@ -53,6 +52,16 @@ export default function Auth() {
     } else {
       // Local development fallback
       return `${window.location.origin}/app`
+    }
+  }
+
+  const sendWelcomeEmail = async (email: string) => {
+    try {
+      await supabase.functions.invoke('send-welcome-email', {
+        body: { email }
+      })
+    } catch (error) {
+      console.error('Error sending welcome email:', error)
     }
   }
 
@@ -135,6 +144,8 @@ export default function Auth() {
           addError(error.message)
         }
       } else {
+        // Send welcome email after successful signup
+        await sendWelcomeEmail(email)
         toast.success('Account created! Please check your email for confirmation.')
         setMode('signin')
         setPassword('')
