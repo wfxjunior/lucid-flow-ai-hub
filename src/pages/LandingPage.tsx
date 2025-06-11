@@ -258,7 +258,12 @@ export default function LandingPage() {
                     className="w-10 h-10 object-contain"
                   />
                 </div>
-                <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
+                <div className="flex flex-col">
+                  <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
+                  <span className="text-xs text-muted-foreground font-medium">
+                    Organize. Send. Grow. All-in-one
+                  </span>
+                </div>
               </div>
             </div>
             
@@ -521,15 +526,22 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8 sm:mb-12">
             <div className="col-span-1 sm:col-span-2 lg:col-span-1">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 flex items-center justify-center">
-                  <img 
-                    src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
-                    alt="FeatherBiz Logo" 
-                    className="w-8 h-8 object-contain"
-                  />
+              <div className="flex flex-col space-y-2 mb-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <img 
+                      src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
+                      alt="FeatherBiz Logo" 
+                      className="w-8 h-8 object-contain"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
+                    <span className="text-xs text-muted-foreground font-medium">
+                      Organize. Send. Grow. All-in-one
+                    </span>
+                  </div>
                 </div>
-                <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 The complete business management platform designed for modern entrepreneurs and growing companies.

@@ -153,7 +153,12 @@ const Index = () => {
                   <div className="flex justify-between items-center h-14 sm:h-16">
                     <div className="flex items-center gap-2 sm:gap-4">
                       <SidebarTrigger />
-                      <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
+                      <div className="flex flex-col">
+                        <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
+                        <p className="text-xs text-muted-foreground font-medium hidden sm:block">
+                          Organize. Send. Grow. All-in-one
+                        </p>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4">
                       <UserGreeting />
