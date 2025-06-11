@@ -16,9 +16,7 @@ export function SidebarHeader() {
         onClick={handleLogoClick}
       >
         <Icons.logo className="h-6 w-6 text-blue-600" />
-        <div className="flex flex-col">
-          <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
-        </div>
+        <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
       </div>
     </div>
   )
