@@ -35,11 +35,27 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
   };
 
   const handleUpgrade = () => {
-    if (onNavigate) {
+    console.log('Upgrade button clicked, onNavigate type:', typeof onNavigate);
+    
+    if (typeof onNavigate === 'function') {
+      console.log('Calling onNavigate with pricing');
       onNavigate('pricing');
     } else {
-      // Fallback to window location if onNavigate is not available
-      window.location.href = '/';
+      console.log('onNavigate not available, using fallback navigation');
+      // Check if we're in a single-page app context
+      if (window.location.hash) {
+        // Hash-based routing
+        window.location.hash = '#pricing';
+      } else {
+        // Try to scroll to pricing section if it exists on the same page
+        const pricingSection = document.getElementById('pricing');
+        if (pricingSection) {
+          pricingSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          // Fallback to root with pricing hash
+          window.location.href = '/#pricing';
+        }
+      }
     }
   };
 

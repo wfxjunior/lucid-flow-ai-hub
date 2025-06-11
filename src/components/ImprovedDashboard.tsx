@@ -57,6 +57,17 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
     }
   }
 
+  // Fixed navigation function for subscription upgrade
+  const handleSubscriptionUpgrade = () => {
+    console.log('Upgrading subscription - navigating to pricing')
+    if (typeof onNavigate === 'function') {
+      onNavigate('pricing')
+    } else {
+      // Fallback navigation
+      window.location.href = '/#pricing'
+    }
+  }
+
   const statsCards = [
     {
       title: t ? t("dashboard.monthlyRevenue", "Monthly Revenue") : "Monthly Revenue",
@@ -221,8 +232,8 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               </CardContent>
             </Card>
 
-            {/* Subscription Status */}
-            <SubscriptionStatus onNavigate={onNavigate} />
+            {/* Subscription Status with fixed navigation */}
+            <SubscriptionStatus onNavigate={handleSubscriptionUpgrade} />
           </div>
 
           <div className="grid gap-4 lg:grid-cols-7">
