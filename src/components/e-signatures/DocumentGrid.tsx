@@ -1,9 +1,10 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { FileText, Eye, Download, Clock, CheckCircle, XCircle, Send } from "lucide-react"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { DocumentSignatureDialog } from "./DocumentSignatureDialog"
+import { useState } from "react"
 
 interface Document {
   id: string
@@ -20,6 +21,7 @@ interface DocumentGridProps {
 
 export function DocumentGrid({ documents }: DocumentGridProps) {
   const { generatePDF, isGenerating } = usePDFGeneration()
+  const [signatureDialogOpen, setSignatureDialogOpen] = useState<string | null>(null)
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -120,6 +122,12 @@ export function DocumentGrid({ documents }: DocumentGridProps) {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
+                <DocumentSignatureDialog
+                  document={document}
+                  documentType={document.document_type as 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder'}
+                  open={signatureDialogOpen === document.id}
+                  onOpenChange={(open) => setSignatureDialogOpen(open ? document.id : null)}
+                />
               </div>
             </CardContent>
           </Card>
@@ -127,4 +135,26 @@ export function DocumentGrid({ documents }: DocumentGridProps) {
       </div>
     </div>
   )
+}
+
+function getStatusColor(status: string) {
+  switch (status) {
+    case 'signed': return 'bg-green-100 text-green-800'
+    case 'pending': return 'bg-yellow-100 text-yellow-800'
+    case 'declined': return 'bg-red-100 text-red-800'
+    case 'sent': return 'bg-blue-100 text-blue-800'
+    case 'draft': return 'bg-gray-100 text-gray-800'
+    default: return 'bg-gray-100 text-gray-800'
+  }
+}
+
+function getStatusIcon(status: string) {
+  switch (status) {
+    case 'signed': return <CheckCircle className="h-4 w-4" />
+    case 'pending': return <Clock className="h-4 w-4" />
+    case 'declined': return <XCircle className="h-4 w-4" />
+    case 'sent': return <Send className="h-4 w-4" />
+    case 'draft': return <FileText className="h-4 w-4" />
+    default: return <FileText className="h-4 w-4" />
+  }
 }

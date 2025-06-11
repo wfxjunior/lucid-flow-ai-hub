@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,9 +5,10 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Search, Edit, Trash2, Download, FileText, DollarSign, TrendingUp, Send, Copy } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Download, FileText, DollarSign, TrendingUp, Send, Copy, PenTool } from "lucide-react"
 import { EstimateForm } from "@/components/EstimateForm"
 import { InlineEstimateEditor } from "@/components/InlineEstimateEditor"
+import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
@@ -21,6 +21,7 @@ export function EstimatesPage() {
   const [editingEstimate, setEditingEstimate] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
+  const [signatureDialogOpen, setSignatureDialogOpen] = useState<string | null>(null)
 
   // Create a mapping of clients for easy lookup
   const clientsMap = (clients || []).reduce((acc, client) => {
@@ -217,7 +218,7 @@ export function EstimatesPage() {
         <CardHeader>
           <CardTitle className="text-lg sm:text-xl">Estimates</CardTitle>
           <CardDescription className="text-sm">
-            Manage your estimates with the new editable interface
+            Manage your estimates with the new editable interface and digital signatures
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0 sm:p-6">
@@ -240,7 +241,7 @@ export function EstimatesPage() {
                     <TableHead className="min-w-[100px]">Amount</TableHead>
                     <TableHead className="min-w-[100px]">Status</TableHead>
                     <TableHead className="min-w-[100px] hidden md:table-cell">Date</TableHead>
-                    <TableHead className="min-w-[120px]">Actions</TableHead>
+                    <TableHead className="min-w-[150px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -301,6 +302,21 @@ export function EstimatesPage() {
                             >
                               <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setSignatureDialogOpen(estimate.id)}
+                              className="h-8 w-8 p-0"
+                              title="Send for Signature"
+                            >
+                              <PenTool className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            <DocumentSignatureDialog
+                              document={estimate}
+                              documentType="estimate"
+                              open={signatureDialogOpen === estimate.id}
+                              onOpenChange={(open) => setSignatureDialogOpen(open ? estimate.id : null)}
+                            />
                           </div>
                         </TableCell>
                       </TableRow>

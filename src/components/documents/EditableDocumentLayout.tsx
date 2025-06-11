@@ -1,75 +1,42 @@
-
 import { useState, useEffect } from "react"
-import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { EditableDocumentHeader } from "./EditableDocumentHeader"
-import { EditableLineItems, LineItem } from "./EditableLineItems"
+import { EditableLineItems } from "./EditableLineItems"
 import { DocumentActions } from "./DocumentActions"
-
-interface CompanyInfo {
-  name: string
-  logo?: string
-  address: string
-  phone: string
-  email: string
-}
-
-interface ClientInfo {
-  id?: string
-  name: string
-  email: string
-  address: string
-  phone?: string
-}
-
-interface DocumentData {
-  id?: string
-  number: string
-  date: string
-  dueDate: string
-  status: string
-  paymentMethod: string
-  companyInfo: CompanyInfo
-  clientInfo: ClientInfo
-  lineItems: LineItem[]
-  notes: string
-  terms: string
-}
+import { toast } from "sonner"
 
 interface EditableDocumentLayoutProps {
   documentType: string
-  initialData?: Partial<DocumentData>
-  availableClients?: ClientInfo[]
-  onSave: (data: DocumentData) => Promise<void>
-  onGeneratePDF: (data: DocumentData) => Promise<void>
-  onDuplicate: (data: DocumentData) => void
-  className?: string
+  initialData?: any
+  availableClients: Array<{
+    id: string
+    name: string
+    email: string
+    address: string
+    phone: string
+  }>
+  onSave: (data: any) => Promise<void>
+  onGeneratePDF: (data: any) => Promise<void>
+  onDuplicate: (data: any) => void
 }
 
 export function EditableDocumentLayout({
   documentType,
   initialData,
-  availableClients = [],
+  availableClients,
   onSave,
   onGeneratePDF,
-  onDuplicate,
-  className = ""
+  onDuplicate
 }: EditableDocumentLayoutProps) {
-  const [isSaving, setIsSaving] = useState(false)
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
-  
-  const [documentData, setDocumentData] = useState<DocumentData>({
-    number: `${documentType.toUpperCase()}-${Date.now().toString().slice(-6)}`,
+  const [formData, setFormData] = useState<any>(initialData || {
+    number: '',
     date: new Date().toISOString().split('T')[0],
     dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     status: 'draft',
     paymentMethod: 'card',
-    companyInfo: {
-      name: 'FeatherBiz',
-      address: '123 Business St, Suite 100\nBusiness City, BC 12345',
-      phone: '(555) 123-4567',
-      email: 'info@featherbiz.com'
-    },
     clientInfo: {
+      id: '',
       name: '',
       email: '',
       address: '',
@@ -85,14 +52,24 @@ export function EditableDocumentLayout({
       total: 0
     }],
     notes: '',
-    terms: 'Payment due within 30 days. Thank you for your business!',
-    ...initialData
+    terms: 'This document is valid for 30 days from the date issued.'
   })
+  const [isSaving, setIsSaving] = useState(false)
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData)
+    }
+  }, [initialData])
 
   const handleSave = async () => {
     setIsSaving(true)
     try {
-      await onSave(documentData)
+      await onSave(formData)
+    } catch (error) {
+      console.error("Error during save:", error)
+      toast.error("Failed to save document")
     } finally {
       setIsSaving(false)
     }
@@ -101,84 +78,53 @@ export function EditableDocumentLayout({
   const handleGeneratePDF = async () => {
     setIsGeneratingPDF(true)
     try {
-      await onGeneratePDF(documentData)
+      await onGeneratePDF(formData)
+    } catch (error) {
+      console.error("Error during PDF generation:", error)
+      toast.error("Failed to generate PDF")
     } finally {
       setIsGeneratingPDF(false)
     }
   }
 
   const handleDuplicate = () => {
-    const duplicatedData = {
-      ...documentData,
-      id: undefined,
-      number: `${documentType.toUpperCase()}-${Date.now().toString().slice(-6)}`,
-      date: new Date().toISOString().split('T')[0],
-      status: 'draft'
-    }
-    onDuplicate(duplicatedData)
+    onDuplicate(formData)
   }
 
   return (
-    <div className={`max-w-4xl mx-auto space-y-6 ${className}`}>
-      {/* Document Header */}
-      <EditableDocumentHeader
-        documentType={documentType}
-        documentNumber={documentData.number}
-        documentDate={documentData.date}
-        dueDate={documentData.dueDate}
-        status={documentData.status}
-        paymentMethod={documentData.paymentMethod}
-        companyInfo={documentData.companyInfo}
-        clientInfo={documentData.clientInfo}
-        availableClients={availableClients}
-        onCompanyInfoChange={(info) => setDocumentData(prev => ({ ...prev, companyInfo: info }))}
-        onClientInfoChange={(info) => setDocumentData(prev => ({ ...prev, clientInfo: info }))}
-        onDocumentNumberChange={(number) => setDocumentData(prev => ({ ...prev, number }))}
-        onDocumentDateChange={(date) => setDocumentData(prev => ({ ...prev, date }))}
-        onDueDateChange={(dueDate) => setDocumentData(prev => ({ ...prev, dueDate }))}
-        onStatusChange={(status) => setDocumentData(prev => ({ ...prev, status }))}
-        onPaymentMethodChange={(paymentMethod) => setDocumentData(prev => ({ ...prev, paymentMethod }))}
-      />
-
-      {/* Line Items */}
-      <EditableLineItems
-        items={documentData.lineItems}
-        onItemsChange={(lineItems) => setDocumentData(prev => ({ ...prev, lineItems }))}
-      />
-
-      {/* Notes and Terms */}
-      <div className="bg-white border rounded-lg p-6 space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Notes</label>
-          <Textarea
-            value={documentData.notes}
-            onChange={(e) => setDocumentData(prev => ({ ...prev, notes: e.target.value }))}
-            placeholder="Additional notes..."
-            rows={3}
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl sm:text-2xl">
+            {documentType.charAt(0).toUpperCase() + documentType.slice(1)} Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <EditableDocumentHeader
+            documentType={documentType}
+            data={formData}
+            availableClients={availableClients}
+            onChange={setFormData}
           />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Terms & Conditions</label>
-          <Textarea
-            value={documentData.terms}
-            onChange={(e) => setDocumentData(prev => ({ ...prev, terms: e.target.value }))}
-            placeholder="Payment terms and conditions..."
-            rows={3}
+          
+          <EditableLineItems
+            items={formData.lineItems}
+            onChange={(items) => setFormData(prev => ({ ...prev, lineItems: items }))}
           />
-        </div>
-      </div>
-
-      {/* Document Actions */}
-      <DocumentActions
-        documentType={documentType}
-        documentData={documentData}
-        onSave={handleSave}
-        onGeneratePDF={handleGeneratePDF}
-        onDuplicate={handleDuplicate}
-        isSaving={isSaving}
-        isGeneratingPDF={isGeneratingPDF}
-      />
+          
+          <div className="border-t pt-6">
+            <DocumentActions
+              onSave={handleSave}
+              onGeneratePDF={handleGeneratePDF}
+              onDuplicate={handleDuplicate}
+              isSaving={isSaving}
+              isGeneratingPDF={isGeneratingPDF}
+              document={formData}
+              documentType={documentType as any}
+            />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
