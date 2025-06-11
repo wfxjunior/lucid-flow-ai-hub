@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -102,14 +103,14 @@ export function EditableDocumentLayout({
         <CardContent className="space-y-6">
           <EditableDocumentHeader
             documentType={documentType}
-            data={formData}
+            formData={formData}
             availableClients={availableClients}
-            onChange={setFormData}
+            onFormDataChange={setFormData}
           />
           
           <EditableLineItems
             items={formData.lineItems}
-            onChange={(items) => setFormData(prev => ({ ...prev, lineItems: items }))}
+            onItemsChange={(items) => setFormData(prev => ({ ...prev, lineItems: items }))}
           />
           
           <div className="border-t pt-6">

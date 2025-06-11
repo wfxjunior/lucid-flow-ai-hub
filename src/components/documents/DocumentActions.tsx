@@ -25,6 +25,17 @@ export function DocumentActions({
 }: DocumentActionsProps) {
   const [signatureDialogOpen, setSignatureDialogOpen] = useState(false)
 
+  // Map extended document types to supported signature types
+  const getSignatureDocumentType = (type: string): 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder' => {
+    switch (type) {
+      case 'bid':
+      case 'proposal':
+        return 'contract' // Map bids and proposals to contract type for signatures
+      default:
+        return type as 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder'
+    }
+  }
+
   return (
     <div className="flex flex-col sm:flex-row gap-2">
       <Button 
@@ -58,7 +69,7 @@ export function DocumentActions({
       {document && (
         <DocumentSignatureDialog
           document={document}
-          documentType={documentType}
+          documentType={getSignatureDocumentType(documentType)}
           open={signatureDialogOpen}
           onOpenChange={setSignatureDialogOpen}
         />
