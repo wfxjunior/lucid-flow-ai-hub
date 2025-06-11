@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -222,7 +221,7 @@ export function ESignaturesPage() {
               <DialogHeader>
                 <DialogTitle>Send Document for Signature</DialogTitle>
                 <DialogDescription>
-                  Upload a document and send it for digital signature
+                  Upload a document and send it for digital signature using FeatherSign
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
@@ -278,7 +277,7 @@ export function ESignaturesPage() {
               <DialogHeader>
                 <DialogTitle>Create New Document</DialogTitle>
                 <DialogDescription>
-                  Create a new document for e-signature
+                  Create a new document for your business needs
                 </DialogDescription>
               </DialogHeader>
               <DocumentForm onClose={() => setShowDocumentForm(false)} />
