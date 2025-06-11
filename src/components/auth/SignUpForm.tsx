@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Mail, Lock, Globe } from "lucide-react"
 import { ErrorAlert } from './ErrorAlert'
+import { Link } from 'react-router-dom'
 
 interface SignUpFormProps {
   email: string
@@ -86,12 +88,22 @@ export function SignUpForm({
 }: SignUpFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [country, setCountry] = useState('')
+  const [termsAccepted, setTermsAccepted] = useState(false)
+  const [privacyAccepted, setPrivacyAccepted] = useState(false)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!termsAccepted || !privacyAccepted) {
+      return
+    }
+    onSubmit(e)
+  }
 
   return (
     <>
       <ErrorAlert errors={errors} />
       
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email" className="flex items-center space-x-2">
             <Mail className="w-4 h-4" />
@@ -169,11 +181,43 @@ export function SignUpForm({
             </SelectContent>
           </Select>
         </div>
+
+        <div className="space-y-3">
+          <div className="flex items-start space-x-2">
+            <Checkbox 
+              id="terms" 
+              checked={termsAccepted}
+              onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
+              className="mt-1"
+            />
+            <Label htmlFor="terms" className="text-sm leading-5">
+              I agree to the{' '}
+              <Link to="/terms" className="text-primary hover:underline" target="_blank">
+                Terms of Service
+              </Link>
+            </Label>
+          </div>
+          
+          <div className="flex items-start space-x-2">
+            <Checkbox 
+              id="privacy" 
+              checked={privacyAccepted}
+              onCheckedChange={(checked) => setPrivacyAccepted(checked as boolean)}
+              className="mt-1"
+            />
+            <Label htmlFor="privacy" className="text-sm leading-5">
+              I agree to the{' '}
+              <Link to="/privacy" className="text-primary hover:underline" target="_blank">
+                Privacy Policy
+              </Link>
+            </Label>
+          </div>
+        </div>
         
         <Button 
           type="submit" 
           className="w-full"
-          disabled={loading || !country}
+          disabled={loading || !country || !termsAccepted || !privacyAccepted}
           size="lg"
         >
           {loading ? 'Processing...' : 'Create Account'}
@@ -191,13 +235,6 @@ export function SignUpForm({
         >
           Sign in
         </Button>
-      </div>
-      
-      <div className="text-center text-xs text-muted-foreground">
-        By creating an account, you agree to our{' '}
-        <a href="#" className="text-primary hover:underline">Terms of Service</a>
-        {' '}and{' '}
-        <a href="#" className="text-primary hover:underline">Privacy Policy</a>
       </div>
     </>
   )
