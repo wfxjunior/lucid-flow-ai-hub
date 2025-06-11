@@ -14,16 +14,6 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center space-y-4">
           <div className="flex flex-col items-center space-y-2">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 flex items-center justify-center">
-                <img 
-                  src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
-                  alt="FeatherBiz Logo" 
-                  className="w-8 h-8 object-contain"
-                />
-              </div>
-              <span className="text-xl font-bold text-blue-600">FeatherBiz</span>
-            </div>
             <p className="text-sm text-muted-foreground font-medium">
               Organize. Send. Grow. All-in-one
             </p>
