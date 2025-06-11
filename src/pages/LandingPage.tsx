@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { UserGreeting } from "@/components/UserGreeting"
 import { LanguageSelector } from "@/components/LanguageSelector"
@@ -6,7 +5,7 @@ import { AnimatedNumber } from "@/components/AnimatedNumber"
 import { PricingPlans } from "@/components/PricingPlans"
 import { useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
 import { 
   Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
@@ -22,6 +21,7 @@ export default function LandingPage() {
   const { toast } = useToast()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>()
 
   const dashboardImages = [
     {
@@ -53,6 +53,13 @@ export default function LandingPage() {
     }, 2000)
     return () => clearInterval(timer)
   }, [dashboardImages.length])
+
+  // Control carousel API when currentSlide changes
+  useEffect(() => {
+    if (carouselApi) {
+      carouselApi.scrollTo(currentSlide)
+    }
+  }, [carouselApi, currentSlide])
 
   // Auto-advance testimonials every 4 seconds
   useEffect(() => {
@@ -145,6 +152,24 @@ export default function LandingPage() {
       name: "James Wilson",
       role: "Contractor",
       content: "From invoicing to project management, FeatherBiz handles everything. I can focus on what I do best while the platform takes care of the rest.",
+      rating: 5
+    },
+    {
+      name: "Maria Gonzalez",
+      role: "Restaurant Owner",
+      content: "FeatherBiz streamlined our entire operation. Order management, inventory, and staff scheduling all in one place. Game changer!",
+      rating: 5
+    },
+    {
+      name: "Robert Kim",
+      role: "Consultant",
+      content: "The client portal feature alone has transformed how I work with my clients. Everything is organized and professional.",
+      rating: 5
+    },
+    {
+      name: "Amanda Foster",
+      role: "Creative Agency Director",
+      content: "We've cut our administrative time in half since switching to FeatherBiz. More time for creativity, less time on paperwork.",
       rating: 5
     }
   ]
@@ -340,6 +365,7 @@ export default function LandingPage() {
               <div className="relative z-10">
                 <Carousel 
                   className="w-full"
+                  setApi={setCarouselApi}
                   opts={{
                     align: "start",
                     loop: true,
@@ -355,9 +381,6 @@ export default function LandingPage() {
                                 src={image.src}
                                 alt={image.alt}
                                 className="w-full h-auto object-contain rounded-lg transition-opacity duration-500"
-                                style={{
-                                  opacity: index === currentSlide ? 1 : 0.7
-                                }}
                               />
                             </div>
                           </CardContent>
