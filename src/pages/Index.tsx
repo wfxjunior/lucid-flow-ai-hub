@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { Building2 } from "lucide-react"
+import { Building2, Feather } from "lucide-react"
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { UserGreeting } from "@/components/UserGreeting"
@@ -164,6 +163,7 @@ const Index = () => {
                         className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={handleLogoClick}
                       >
+                        <Feather className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                         <Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                         <div className="flex flex-col">
                           <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
