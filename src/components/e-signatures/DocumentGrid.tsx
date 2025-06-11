@@ -43,9 +43,9 @@ export function DocumentGrid({ documents }: DocumentGridProps) {
     }
   }
 
-  const handleGenerateDocumentPDF = async (document: Document) => {
+  const handleGenerateDocumentPDF = async (doc: Document) => {
     // Create a temporary element for the document
-    const element = document.createElement('div')
+    const element = window.document.createElement('div')
     element.style.cssText = `
       width: 210mm;
       min-height: 297mm;
@@ -59,13 +59,13 @@ export function DocumentGrid({ documents }: DocumentGridProps) {
     
     element.innerHTML = `
       <div style="text-align: center; margin-bottom: 40px;">
-        <h1 style="color: #2563eb; margin: 0;">${document.title}</h1>
-        <p style="color: #666; margin: 10px 0;">Document Type: ${document.document_type}</p>
-        <p style="color: #666; margin: 5px 0;">Created: ${new Date(document.created_at).toLocaleDateString()}</p>
+        <h1 style="color: #2563eb; margin: 0;">${doc.title}</h1>
+        <p style="color: #666; margin: 10px 0;">Document Type: ${doc.document_type}</p>
+        <p style="color: #666; margin: 5px 0;">Created: ${new Date(doc.created_at).toLocaleDateString()}</p>
       </div>
       
       <div style="margin-bottom: 30px;">
-        <div style="white-space: pre-wrap; line-height: 1.8;">${document.content}</div>
+        <div style="white-space: pre-wrap; line-height: 1.8;">${doc.content}</div>
       </div>
       
       <div style="margin-top: 50px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
@@ -75,12 +75,12 @@ export function DocumentGrid({ documents }: DocumentGridProps) {
       </div>
     `
     
-    document.body.appendChild(element)
+    window.document.body.appendChild(element)
     
     try {
-      await generatePDF(element, `document_${document.title}_${Date.now()}.pdf`)
+      await generatePDF(element, `document_${doc.title}_${Date.now()}.pdf`)
     } finally {
-      document.body.removeChild(element)
+      window.document.body.removeChild(element)
     }
   }
 
