@@ -16,7 +16,11 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { toast } from "sonner"
 
-export const UserGreeting = () => {
+interface UserGreetingProps {
+  onNavigate?: (view: string) => void
+}
+
+export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
@@ -86,6 +90,22 @@ export const UserGreeting = () => {
     return email.split('@')[0]
   }
 
+  const handleSettingsClick = () => {
+    if (onNavigate) {
+      onNavigate('settings')
+    } else {
+      navigate('/app')
+    }
+  }
+
+  const handleDashboardClick = () => {
+    if (onNavigate) {
+      onNavigate('dashboard')
+    } else {
+      navigate('/app')
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="flex items-center gap-6">
@@ -138,15 +158,15 @@ export const UserGreeting = () => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate('/app')}>
+          <DropdownMenuItem onClick={handleDashboardClick}>
             <Home className="mr-2 h-4 w-4" />
             <span>Dashboard</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSettingsClick}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSettingsClick}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </DropdownMenuItem>

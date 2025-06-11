@@ -38,6 +38,7 @@ import { EarnSyncPage } from "@/components/EarnSyncPage"
 import { TodoListPage } from "@/components/TodoListPage"
 import { NotesPage } from "@/components/NotesPage"
 import { DocumentTracker } from "@/components/DocumentTracker"
+import { SettingsPage } from "@/components/SettingsPage"
 import { AuthGuard } from "@/components/AuthGuard"
 
 const Index = () => {
@@ -70,6 +71,8 @@ const Index = () => {
       switch (activeView) {
         case "dashboard":
           return <ImprovedDashboard onNavigate={handleNavigate} />
+        case "settings":
+          return <SettingsPage />
         case "estimates":
           return <EstimatesPage />
         case "invoice-creator":
@@ -165,13 +168,10 @@ const Index = () => {
                       >
                         <Feather className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                         <Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-                        <div className="flex flex-col">
-                          <h1 className="text-lg sm:text-2xl font-bold text-blue-600">FeatherBiz</h1>
-                        </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4">
-                      <UserGreeting />
+                      <UserGreeting onNavigate={handleNavigate} />
                     </div>
                   </div>
                 </div>
