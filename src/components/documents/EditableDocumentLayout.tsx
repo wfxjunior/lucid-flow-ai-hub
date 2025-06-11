@@ -36,6 +36,13 @@ export function EditableDocumentLayout({
     dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     status: 'draft',
     paymentMethod: 'card',
+    companyInfo: {
+      name: '',
+      logo: '',
+      address: '',
+      phone: '',
+      email: ''
+    },
     clientInfo: {
       id: '',
       name: '',
@@ -103,9 +110,21 @@ export function EditableDocumentLayout({
         <CardContent className="space-y-6">
           <EditableDocumentHeader
             documentType={documentType}
-            data={formData}
+            documentNumber={formData.number || ''}
+            documentDate={formData.date || ''}
+            dueDate={formData.dueDate || ''}
+            status={formData.status || 'draft'}
+            paymentMethod={formData.paymentMethod || 'card'}
+            companyInfo={formData.companyInfo || { name: '', logo: '', address: '', phone: '', email: '' }}
+            clientInfo={formData.clientInfo || { id: '', name: '', email: '', address: '', phone: '' }}
+            onCompanyInfoChange={(info) => setFormData(prev => ({ ...prev, companyInfo: info }))}
+            onClientInfoChange={(info) => setFormData(prev => ({ ...prev, clientInfo: info }))}
+            onDocumentNumberChange={(number) => setFormData(prev => ({ ...prev, number }))}
+            onDocumentDateChange={(date) => setFormData(prev => ({ ...prev, date }))}
+            onDueDateChange={(dueDate) => setFormData(prev => ({ ...prev, dueDate }))}
+            onStatusChange={(status) => setFormData(prev => ({ ...prev, status }))}
+            onPaymentMethodChange={(paymentMethod) => setFormData(prev => ({ ...prev, paymentMethod }))}
             availableClients={availableClients}
-            onChange={setFormData}
           />
           
           <EditableLineItems
@@ -121,7 +140,7 @@ export function EditableDocumentLayout({
               isSaving={isSaving}
               isGeneratingPDF={isGeneratingPDF}
               document={formData}
-              documentType={documentType as any}
+              documentType={documentType as 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder' | 'bid' | 'proposal'}
             />
           </div>
         </CardContent>
