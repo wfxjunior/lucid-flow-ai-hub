@@ -103,9 +103,9 @@ export function EditableDocumentLayout({
         <CardContent className="space-y-6">
           <EditableDocumentHeader
             documentType={documentType}
-            formData={formData}
+            data={formData}
             availableClients={availableClients}
-            onFormDataChange={setFormData}
+            onChange={setFormData}
           />
           
           <EditableLineItems
