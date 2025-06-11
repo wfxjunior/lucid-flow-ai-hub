@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { supabase } from "@/integrations/supabase/client"
 import { useNavigate } from "react-router-dom"
 import { HelpCenter } from "@/components/HelpCenter"
-import { User, LogOut, Settings } from "lucide-react"
+import { User, LogOut, Settings, Home } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -138,6 +138,10 @@ export const UserGreeting = () => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => navigate('/app')}>
+            <Home className="mr-2 h-4 w-4" />
+            <span>Dashboard</span>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
