@@ -40,7 +40,22 @@ export function useDashboardData() {
         const { data: { user } } = await supabase.auth.getUser()
         
         if (!user) {
-          setError("User not authenticated")
+          // Provide realistic starter data for non-authenticated users
+          setStats({
+            monthlyRevenue: 0,
+            activeCustomers: 0,
+            pendingInvoices: 0,
+            monthlyGoals: 0,
+            recentActivities: [
+              { id: 1, action: "Welcome to FeatherBiz!", time: "Just now", type: "system" },
+              { id: 2, action: "Complete your profile setup", time: "Just now", type: "task" }
+            ],
+            upcomingTasks: [
+              { id: 1, title: "Set up your first client", due: "Today", priority: "high" },
+              { id: 2, title: "Create your first invoice", due: "This week", priority: "medium" }
+            ]
+          })
+          setLoading(false)
           return
         }
 
@@ -94,7 +109,7 @@ export function useDashboardData() {
           .slice(0, 2)
           .map((invoice, index) => ({
             id: index + 1,
-            action: `Invoice paid: $${invoice.amount}`,
+            action: `Invoice paid: $${Number(invoice.amount).toFixed(2)}`,
             time: new Date(invoice.created_at).toLocaleDateString(),
             type: 'payment'
           })) || []
@@ -116,11 +131,15 @@ export function useDashboardData() {
           priority: 'medium'
         })) || []
 
+        // Calculate monthly goals progress
+        const monthlyGoalTarget = 5000 // $5,000 monthly target
+        const goalProgress = monthlyRevenue > 0 ? Math.min(100, Math.round((monthlyRevenue / monthlyGoalTarget) * 100)) : 0
+
         setStats({
           monthlyRevenue,
           activeCustomers: clients?.length || 0,
           pendingInvoices,
-          monthlyGoals: monthlyRevenue > 0 ? Math.min(100, Math.round((monthlyRevenue / 10000) * 100)) : 0,
+          monthlyGoals: goalProgress,
           recentActivities: [...recentInvoices, ...recentAppointments],
           upcomingTasks
         })

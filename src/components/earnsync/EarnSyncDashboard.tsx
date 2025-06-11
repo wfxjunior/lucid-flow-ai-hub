@@ -5,22 +5,22 @@ import { Badge } from "@/components/ui/badge"
 import { Calendar, DollarSign, Building2, Receipt } from 'lucide-react'
 
 export function EarnSyncDashboard() {
-  // Mock data for recent activities
+  // Realistic sample data for demonstration
   const recentEarnings = [
-    { id: 1, company: 'ABC Corp', amount: 250.00, date: '2024-01-10', status: 'paid' },
-    { id: 2, company: 'XYZ Ltd', amount: 180.50, date: '2024-01-09', status: 'pending' },
-    { id: 3, company: 'Tech Solutions', amount: 320.00, date: '2024-01-08', status: 'paid' },
+    { id: 1, company: 'Local Construction Co', amount: 1250.00, date: new Date().toLocaleDateString(), status: 'paid' },
+    { id: 2, company: 'Home Renovation LLC', amount: 875.50, date: new Date(Date.now() - 86400000).toLocaleDateString(), status: 'pending' },
+    { id: 3, company: 'Metro Building Services', amount: 2100.00, date: new Date(Date.now() - 172800000).toLocaleDateString(), status: 'paid' },
   ]
 
   const recentExpenses = [
-    { id: 1, category: 'Fuel', amount: 45.20, date: '2024-01-10', company: 'ABC Corp' },
-    { id: 2, category: 'Food', amount: 28.50, date: '2024-01-09', company: 'XYZ Ltd' },
-    { id: 3, category: 'Other', amount: 15.00, date: '2024-01-08', company: 'Tech Solutions' },
+    { id: 1, category: 'Fuel', amount: 85.20, date: new Date().toLocaleDateString(), company: 'Local Construction Co' },
+    { id: 2, category: 'Tools', amount: 245.99, date: new Date(Date.now() - 86400000).toLocaleDateString(), company: 'Home Renovation LLC' },
+    { id: 3, category: 'Materials', amount: 156.75, date: new Date(Date.now() - 172800000).toLocaleDateString(), company: 'Metro Building Services' },
   ]
 
   const upcomingJobs = [
-    { id: 1, company: 'Future Corp', date: '2024-01-12', workType: 'Consultation' },
-    { id: 2, company: 'Next Gen Ltd', date: '2024-01-15', workType: 'Development' },
+    { id: 1, company: 'Residential Builders Inc', date: new Date(Date.now() + 172800000).toLocaleDateString(), workType: 'Electrical Installation' },
+    { id: 2, company: 'Commercial Properties Ltd', date: new Date(Date.now() + 432000000).toLocaleDateString(), workType: 'HVAC Maintenance' },
   ]
 
   return (
@@ -41,7 +41,7 @@ export function EarnSyncDashboard() {
                 <p className="text-xs md:text-sm text-gray-600">{earning.date}</p>
               </div>
               <div className="text-right ml-2">
-                <p className="font-bold text-green-600 text-sm md:text-base">${earning.amount}</p>
+                <p className="font-bold text-green-600 text-sm md:text-base">${earning.amount.toFixed(2)}</p>
                 <Badge variant={earning.status === 'paid' ? 'default' : 'secondary'} className="text-xs">
                   {earning.status}
                 </Badge>
@@ -67,7 +67,7 @@ export function EarnSyncDashboard() {
                 <p className="text-xs md:text-sm text-gray-600 truncate">{expense.company}</p>
               </div>
               <div className="text-right ml-2">
-                <p className="font-bold text-red-600 text-sm md:text-base">-${expense.amount}</p>
+                <p className="font-bold text-red-600 text-sm md:text-base">-${expense.amount.toFixed(2)}</p>
                 <p className="text-xs md:text-sm text-gray-600">{expense.date}</p>
               </div>
             </div>
