@@ -13,11 +13,6 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center space-y-4">
-          <div className="flex flex-col items-center space-y-2">
-            <p className="text-sm text-muted-foreground font-medium">
-              Organize. Send. Grow. All-in-one
-            </p>
-          </div>
           <CardTitle className="text-2xl">{title}</CardTitle>
           <p className="text-muted-foreground">{description}</p>
         </CardHeader>
