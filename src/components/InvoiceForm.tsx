@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +9,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useReceiptEmail } from '@/hooks/useReceiptEmail';
 import { ReceiptEmailButton } from '@/components/ReceiptEmailButton';
+import { CurrencySelector } from '@/components/ui/currency-selector';
+import { getDefaultCurrency, getCurrencySymbol } from '@/utils/currencyUtils';
 
 interface Client {
   id: string;
@@ -30,6 +31,7 @@ export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [currency, setCurrency] = useState(getDefaultCurrency().code);
   const [loading, setLoading] = useState(false);
   const [lastCreatedInvoice, setLastCreatedInvoice] = useState<any>(null);
   const { sendInvoiceReceipt } = useReceiptEmail();
@@ -87,6 +89,7 @@ export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
         amount: parseFloat(amount),
         due_date: dueDate || null,
         status: 'pending',
+        currency: currency,
         user_id: (await supabase.auth.getUser()).data.user?.id
       };
 
@@ -113,7 +116,8 @@ export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
           total: parseFloat(amount)
         },
         date: new Date().toISOString(),
-        number: invoiceNumber
+        number: invoiceNumber,
+        currency: currency
       };
 
       setLastCreatedInvoice(invoiceWithClient);
@@ -126,6 +130,7 @@ export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
       setAmount('');
       setDueDate('');
       setSelectedClientId('');
+      setCurrency(getDefaultCurrency().code);
       
       if (onInvoiceCreated) {
         onInvoiceCreated(data);
@@ -138,6 +143,8 @@ export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
       setLoading(false);
     }
   };
+
+  const currencySymbol = getCurrencySymbol(currency);
 
   return (
     <div className="space-y-6">
@@ -188,17 +195,33 @@ export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
               />
             </div>
 
-            <div>
-              <Label htmlFor="amount">Amount *</Label>
-              <Input
-                id="amount"
-                type="number"
-                step="0.01"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0.00"
-                required
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="currency">Currency</Label>
+                <CurrencySelector
+                  value={currency}
+                  onValueChange={setCurrency}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="amount">Amount *</Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+                    {currencySymbol}
+                  </span>
+                  <Input
+                    id="amount"
+                    type="number"
+                    step="0.01"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="0.00"
+                    className="pl-8"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
             <div>
@@ -233,7 +256,7 @@ export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
                   Client: {lastCreatedInvoice.clientInfo?.name} ({lastCreatedInvoice.clientInfo?.email})
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Amount: ${lastCreatedInvoice.totals?.total?.toFixed(2)}
+                  Amount: {getCurrencySymbol(lastCreatedInvoice.currency)}{lastCreatedInvoice.totals?.total?.toFixed(2)}
                 </p>
               </div>
               <ReceiptEmailButton

@@ -1,10 +1,11 @@
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Plus, Trash2 } from "lucide-react"
+import { CurrencySelector } from "@/components/ui/currency-selector"
+import { getCurrencySymbol } from "@/utils/currencyUtils"
 
 export interface LineItem {
   id: string
@@ -20,6 +21,7 @@ interface EditableLineItemsProps {
   items: LineItem[]
   onItemsChange: (items: LineItem[]) => void
   currency?: string
+  onCurrencyChange?: (currency: string) => void
 }
 
 const taxRates = [
@@ -30,8 +32,14 @@ const taxRates = [
   { label: 'Custom', value: -1 }
 ]
 
-export function EditableLineItems({ items, onItemsChange, currency = '$' }: EditableLineItemsProps) {
+export function EditableLineItems({ 
+  items, 
+  onItemsChange, 
+  currency = 'USD',
+  onCurrencyChange 
+}: EditableLineItemsProps) {
   const [customTaxRates, setCustomTaxRates] = useState<Record<string, number>>({})
+  const currencySymbol = getCurrencySymbol(currency)
 
   const updateItem = (id: string, field: keyof LineItem, value: any) => {
     const updatedItems = items.map(item => {
@@ -91,6 +99,20 @@ export function EditableLineItems({ items, onItemsChange, currency = '$' }: Edit
 
   return (
     <div className="bg-white border rounded-lg overflow-hidden mb-6">
+      {/* Currency Selector */}
+      {onCurrencyChange && (
+        <div className="p-4 border-b bg-gray-50">
+          <div className="flex items-center gap-4">
+            <label className="text-sm font-medium">Currency:</label>
+            <CurrencySelector
+              value={currency}
+              onValueChange={onCurrencyChange}
+              className="w-64"
+            />
+          </div>
+        </div>
+      )}
+
       <Table>
         <TableHeader>
           <TableRow className="bg-blue-50">
@@ -134,7 +156,7 @@ export function EditableLineItems({ items, onItemsChange, currency = '$' }: Edit
               </TableCell>
               <TableCell>
                 <div className="flex items-center">
-                  <span className="mr-1">{currency}</span>
+                  <span className="mr-1">{currencySymbol}</span>
                   <Input
                     type="number"
                     min="0"
@@ -163,7 +185,7 @@ export function EditableLineItems({ items, onItemsChange, currency = '$' }: Edit
                 </Select>
               </TableCell>
               <TableCell className="text-center font-medium">
-                {currency}{item.total.toFixed(2)}
+                {currencySymbol}{item.total.toFixed(2)}
               </TableCell>
               <TableCell>
                 <Button
@@ -194,15 +216,15 @@ export function EditableLineItems({ items, onItemsChange, currency = '$' }: Edit
           <div className="w-64 space-y-2">
             <div className="flex justify-between">
               <span>Subtotal:</span>
-              <span>{currency}{subtotal.toFixed(2)}</span>
+              <span>{currencySymbol}{subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax:</span>
-              <span>{currency}{totalTax.toFixed(2)}</span>
+              <span>{currencySymbol}{totalTax.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-bold text-lg border-t pt-2">
               <span>Total:</span>
-              <span>{currency}{grandTotal.toFixed(2)}</span>
+              <span>{currencySymbol}{grandTotal.toFixed(2)}</span>
             </div>
           </div>
         </div>

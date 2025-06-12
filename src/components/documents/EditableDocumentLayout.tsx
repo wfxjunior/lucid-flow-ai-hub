@@ -6,6 +6,7 @@ import { EditableDocumentHeader } from "./EditableDocumentHeader"
 import { EditableLineItems } from "./EditableLineItems"
 import { DocumentActions } from "./DocumentActions"
 import { toast } from "sonner"
+import { getDefaultCurrency } from "@/utils/currencyUtils"
 
 interface EditableDocumentLayoutProps {
   documentType: string
@@ -36,6 +37,7 @@ export function EditableDocumentLayout({
     dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     status: 'draft',
     paymentMethod: 'card',
+    currency: getDefaultCurrency().code,
     companyInfo: {
       name: '',
       logo: '',
@@ -67,7 +69,10 @@ export function EditableDocumentLayout({
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData)
+      setFormData({
+        ...initialData,
+        currency: initialData.currency || getDefaultCurrency().code
+      })
     }
   }, [initialData])
 
@@ -130,6 +135,8 @@ export function EditableDocumentLayout({
           <EditableLineItems
             items={formData.lineItems}
             onItemsChange={(items) => setFormData(prev => ({ ...prev, lineItems: items }))}
+            currency={formData.currency}
+            onCurrencyChange={(currency) => setFormData(prev => ({ ...prev, currency }))}
           />
           
           <div className="border-t pt-6">
