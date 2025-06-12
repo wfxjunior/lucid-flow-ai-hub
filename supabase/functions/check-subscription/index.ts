@@ -55,7 +55,12 @@ serve(async (req) => {
         status: "inactive",
         updated_at: new Date().toISOString(),
       }, { onConflict: 'user_id' });
-      return new Response(JSON.stringify({ subscribed: false, plan: "free" }), {
+      return new Response(JSON.stringify({ 
+        subscribed: false, 
+        plan_id: "free",
+        plan_name: "Free",
+        current_period_end: null
+      }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });
@@ -64,37 +69,59 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     logStep("Found Stripe customer", { customerId });
 
+    // Check for active subscriptions
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
       status: "active",
-      limit: 1,
+      limit: 10,
     });
-    const hasActiveSub = subscriptions.data.length > 0;
+
+    // Also check for trialing subscriptions
+    const trialingSubscriptions = await stripe.subscriptions.list({
+      customer: customerId,
+      status: "trialing",
+      limit: 10,
+    });
+
+    const allActiveSubscriptions = [...subscriptions.data, ...trialingSubscriptions.data];
+    const hasActiveSub = allActiveSubscriptions.length > 0;
     let planName = "Free";
     let planId = "free";
     let currentPeriodEnd = null;
 
     if (hasActiveSub) {
-      const subscription = subscriptions.data[0];
+      const subscription = allActiveSubscriptions[0];
       currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
-      logStep("Active subscription found", { subscriptionId: subscription.id, endDate: currentPeriodEnd });
+      logStep("Active subscription found", { 
+        subscriptionId: subscription.id, 
+        endDate: currentPeriodEnd,
+        status: subscription.status
+      });
       
-      // Determine plan from price
+      // Get price information to determine plan
       const priceId = subscription.items.data[0].price.id;
       const price = await stripe.prices.retrieve(priceId);
       const amount = price.unit_amount || 0;
       const isAnnual = price.recurring?.interval === 'year';
       
-      if (amount <= 999) {
+      logStep("Price details", { priceId, amount, interval: price.recurring?.interval });
+      
+      // Improved plan determination logic
+      if (amount >= 29000) { // $290 annual
+        planName = "Professional Annual";
+        planId = "professional-annual";
+      } else if (amount >= 2900) { // $29 monthly
+        planName = "Professional Monthly";
+        planId = "professional-monthly";
+      } else if (amount >= 999) { // Any other plan above $9.99
         planName = isAnnual ? "Basic Annual" : "Basic Monthly";
         planId = isAnnual ? "basic-annual" : "basic-monthly";
-      } else if (amount <= 2999) {
+      } else {
+        // Default to professional if we can't determine
         planName = isAnnual ? "Professional Annual" : "Professional Monthly";
         planId = isAnnual ? "professional-annual" : "professional-monthly";
-      } else {
-        planName = isAnnual ? "Enterprise Annual" : "Enterprise Monthly";
-        planId = isAnnual ? "enterprise-annual" : "enterprise-monthly";
       }
+      
       logStep("Determined subscription plan", { priceId, amount, planName, planId });
 
       await supabaseClient.from("user_subscriptions").upsert({
@@ -103,7 +130,7 @@ serve(async (req) => {
         stripe_subscription_id: subscription.id,
         plan_id: planId,
         plan_name: planName,
-        status: "active",
+        status: subscription.status,
         current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
         current_period_end: currentPeriodEnd,
         updated_at: new Date().toISOString(),

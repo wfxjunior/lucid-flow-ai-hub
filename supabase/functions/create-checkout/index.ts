@@ -30,6 +30,8 @@ serve(async (req) => {
 
     const { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling } = await req.json();
     
+    console.log('Checkout request:', { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling });
+    
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
@@ -39,6 +41,9 @@ serve(async (req) => {
     let customerId;
     if (customers.data.length > 0) {
       customerId = customers.data[0].id;
+      console.log('Found existing customer:', customerId);
+    } else {
+      console.log('No existing customer found, will create new one');
     }
 
     const sessionConfig: any = {
@@ -63,24 +68,36 @@ serve(async (req) => {
         },
       ],
       mode: recurring ? "subscription" : "payment",
-      success_url: `${req.headers.get("origin")}/payment-success?plan=${planId}`,
+      success_url: `${req.headers.get("origin")}/payment-success?plan=${planId}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.get("origin")}/pricing?canceled=true`,
       metadata: {
         user_id: user.id,
         plan_id: planId,
         plan_name: planName,
         billing_period: annualBilling ? 'annual' : 'monthly'
-      }
+      },
+      allow_promotion_codes: true,
+      billing_address_collection: 'auto',
     };
 
     // Add trial period for subscriptions
-    if (recurring && trialPeriodDays) {
+    if (recurring && trialPeriodDays && trialPeriodDays > 0) {
       sessionConfig.subscription_data = {
-        trial_period_days: trialPeriodDays
+        trial_period_days: trialPeriodDays,
+        metadata: {
+          user_id: user.id,
+          plan_id: planId,
+          plan_name: planName,
+        }
       };
+      console.log('Added trial period:', trialPeriodDays, 'days');
     }
 
+    console.log('Creating Stripe checkout session with config:', JSON.stringify(sessionConfig, null, 2));
+
     const session = await stripe.checkout.sessions.create(sessionConfig);
+
+    console.log('Stripe session created successfully:', session.id);
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -88,7 +105,10 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error('Error creating checkout session:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      error: error.message,
+      details: error instanceof Error ? error.stack : 'Unknown error'
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

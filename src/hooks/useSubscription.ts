@@ -22,7 +22,6 @@ export const useSubscription = () => {
       
       if (!session) {
         console.log('useSubscription: No session found, setting free plan');
-        // User not authenticated, set to free plan
         setSubscription({
           subscribed: false,
           plan_id: 'free',
@@ -35,9 +34,8 @@ export const useSubscription = () => {
       console.log('useSubscription: Session found, calling check-subscription function...');
       console.log('User email:', session.user.email);
 
-      // Added timeout to prevent hanging
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Timeout: Subscription check took too long')), 10000);
+        setTimeout(() => reject(new Error('Timeout: Subscription check took too long')), 15000);
       });
 
       const subscriptionPromise = supabase.functions.invoke('check-subscription', {
@@ -49,8 +47,8 @@ export const useSubscription = () => {
       const { data, error } = await Promise.race([subscriptionPromise, timeoutPromise]) as any;
 
       console.log('useSubscription: Function response received');
-      console.log('Data:', data);
-      console.log('Error:', error);
+      console.log('Response data:', data);
+      console.log('Response error:', error);
 
       if (error) {
         console.error('useSubscription: Error from check-subscription function:', error);
@@ -64,11 +62,28 @@ export const useSubscription = () => {
         return;
       }
 
-      console.log('useSubscription: Setting subscription data:', data);
-      setSubscription(data);
+      // Validate the response data
+      if (data && typeof data === 'object') {
+        const validatedData = {
+          subscribed: Boolean(data.subscribed),
+          plan_id: data.plan_id || 'free',
+          plan_name: data.plan_name || 'Free',
+          current_period_end: data.current_period_end || null
+        };
+        
+        console.log('useSubscription: Setting validated subscription data:', validatedData);
+        setSubscription(validatedData);
+      } else {
+        console.warn('useSubscription: Invalid response data, setting free plan');
+        setSubscription({
+          subscribed: false,
+          plan_id: 'free',
+          plan_name: 'Free',
+          current_period_end: null
+        });
+      }
     } catch (error) {
       console.error('useSubscription: Unexpected error:', error);
-      // Set default free plan on error
       setSubscription({
         subscribed: false,
         plan_id: 'free',
@@ -94,9 +109,8 @@ export const useSubscription = () => {
 
       console.log('useSubscription: Calling customer-portal function...');
 
-      // Added timeout for portal as well
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Timeout: Portal request took too long')), 8000);
+        setTimeout(() => reject(new Error('Timeout: Portal request took too long')), 10000);
       });
 
       const portalPromise = supabase.functions.invoke('customer-portal', {
@@ -136,7 +150,10 @@ export const useSubscription = () => {
     const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange((event) => {
       console.log('useSubscription: Auth state changed:', event);
       if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-        checkSubscription();
+        // Add a small delay to ensure the session is properly set
+        setTimeout(() => {
+          checkSubscription();
+        }, 100);
       }
     });
 
