@@ -13,6 +13,7 @@ export default function PaymentSuccess() {
   const { checkSubscription, isSubscribed, planName } = useSubscription()
   const [isVerifying, setIsVerifying] = useState(true)
   const [verificationComplete, setVerificationComplete] = useState(false)
+  const [showCelebration, setShowCelebration] = useState(false)
   
   const planId = searchParams.get("plan")
   const sessionId = searchParams.get("session_id")
@@ -36,6 +37,11 @@ export default function PaymentSuccess() {
         console.log('PaymentSuccess: Subscription check completed')
         
         setVerificationComplete(true)
+        
+        // Show celebration for free trial starts
+        if (planId === 'professional' || planId === 'professional-annual') {
+          setShowCelebration(true)
+        }
       } catch (error) {
         console.error('PaymentSuccess: Error verifying payment:', error)
       } finally {
@@ -61,7 +67,19 @@ export default function PaymentSuccess() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4">
-      <Card className="w-full max-w-md text-center shadow-lg">
+      {/* Party Balloons Animation */}
+      {showCelebration && (
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-10">
+          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s' }}>🎈</div>
+          <div className="absolute top-20 right-20 text-5xl animate-bounce" style={{ animationDelay: '0.5s' }}>🎉</div>
+          <div className="absolute top-32 left-1/4 text-4xl animate-bounce" style={{ animationDelay: '1s' }}>🎊</div>
+          <div className="absolute top-16 right-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s' }}>🎈</div>
+          <div className="absolute top-40 right-10 text-4xl animate-bounce" style={{ animationDelay: '2s' }}>🎉</div>
+          <div className="absolute top-24 left-1/2 text-6xl animate-bounce" style={{ animationDelay: '0.8s' }}>🎊</div>
+        </div>
+      )}
+
+      <Card className="w-full max-w-md text-center shadow-lg relative z-20">
         <CardHeader>
           <div className="mx-auto mb-4 w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
             {isVerifying ? (
@@ -70,6 +88,22 @@ export default function PaymentSuccess() {
               <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
             )}
           </div>
+          
+          {/* Special congratulations message for free trial */}
+          {showCelebration && !isVerifying && (
+            <div className="mb-4 p-4 bg-gradient-to-r from-purple-100 to-pink-100 border border-purple-200 rounded-lg">
+              <div className="text-2xl font-bold text-purple-800 mb-2">
+                🎉 Congratulations! 🎉
+              </div>
+              <div className="text-lg text-purple-700 font-semibold">
+                Something big is starting now!
+              </div>
+              <div className="text-sm text-purple-600 mt-2">
+                Your 7-day free trial has begun!
+              </div>
+            </div>
+          )}
+          
           <CardTitle className="text-2xl text-green-600 dark:text-green-400">
             {isVerifying ? "Processing Payment..." : "Payment Successful!"}
           </CardTitle>
@@ -105,7 +139,11 @@ export default function PaymentSuccess() {
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
                   {isSubscribed ? (
-                    "You now have access to all premium features!"
+                    showCelebration ? (
+                      "Your 7-day free trial is now active! Explore all premium features and see what FeatherBiz can do for your business."
+                    ) : (
+                      "You now have access to all premium features!"
+                    )
                   ) : (
                     "Your subscription will be activated shortly. You'll receive a confirmation email."
                   )}
@@ -119,7 +157,7 @@ export default function PaymentSuccess() {
               </div>
               
               <Button onClick={handleReturnToDashboard} className="w-full">
-                Return to Dashboard
+                {showCelebration ? "Start Exploring Premium Features!" : "Return to Dashboard"}
               </Button>
               
               <p className="text-xs text-muted-foreground">
