@@ -119,15 +119,15 @@
 
   /* Enhanced sidebar font size customization */
   [data-sidebar="sidebar"] {
-    font-size: 1rem; /* increased from 0.875rem (text-sm) to text-base */
+    font-size: 1.125rem; /* increased from 1rem to text-lg */
   }
 
   [data-sidebar="menu-button"] {
-    font-size: 0.9375rem; /* increased from 0.8125rem to slightly larger */
+    font-size: 1.0625rem; /* increased from 0.9375rem to larger size */
   }
 
   [data-sidebar="group-label"] {
-    font-size: 0.875rem; /* increased from 0.75rem (text-xs) to text-sm */
+    font-size: 1rem; /* increased from 0.875rem to text-base */
     font-weight: 600; /* made labels bolder */
   }
 }
