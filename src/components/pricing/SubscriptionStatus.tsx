@@ -3,8 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSubscription } from "@/hooks/useSubscription";
-import { Settings, RefreshCw, AlertCircle, Crown } from "lucide-react";
+import { Settings, RefreshCw, AlertCircle, Crown, CheckCircle, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface SubscriptionStatusProps {
   onNavigate?: (view: string) => void;
@@ -13,13 +14,14 @@ interface SubscriptionStatusProps {
 export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
   const { subscription, loading, checkSubscription, openCustomerPortal, isSubscribed, planName } = useSubscription();
   const navigate = useNavigate();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   if (loading) {
     return (
       <Card>
         <CardHeader>
           <CardTitle>Subscription Status</CardTitle>
-          <CardDescription>Loading...</CardDescription>
+          <CardDescription>Loading subscription information...</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="animate-pulse space-y-2">
@@ -36,8 +38,17 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
     return new Date(dateString).toLocaleDateString('en-US');
   };
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await checkSubscription();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   const handleUpgrade = () => {
-    console.log('Upgrade button clicked');
+    console.log('Upgrade button clicked - navigating to pricing');
     
     // Try to navigate to the landing page pricing section
     navigate('/#pricing');
@@ -54,35 +65,52 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
     }, 100);
   };
 
+  const getStatusIcon = () => {
+    if (isSubscribed) {
+      return <CheckCircle className="h-4 w-4 text-green-600" />;
+    } else {
+      return <XCircle className="h-4 w-4 text-gray-400" />;
+    }
+  };
+
+  const getStatusColor = () => {
+    return isSubscribed ? "default" : "secondary";
+  };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          Subscription Status
+          <span className="flex items-center gap-2">
+            {getStatusIcon()}
+            Subscription Status
+          </span>
           <Button
             variant="outline"
             size="sm"
-            onClick={checkSubscription}
+            onClick={handleRefresh}
+            disabled={isRefreshing}
             className="h-8 w-8 p-0"
           >
-            <RefreshCw className="h-4 w-4" />
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           </Button>
         </CardTitle>
         <CardDescription>
-          Manage your FeatherBiz subscription
+          Manage your FeatherBiz subscription and billing
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
-          <span>Current Plan:</span>
-          <Badge variant={isSubscribed ? "default" : "secondary"}>
+          <span className="font-medium">Current Plan:</span>
+          <Badge variant={getStatusColor()} className="flex items-center gap-1">
+            {isSubscribed && <Crown className="h-3 w-3" />}
             {planName}
           </Badge>
         </div>
         
         {subscription?.current_period_end && (
           <div className="flex items-center justify-between">
-            <span>Renewal:</span>
+            <span className="font-medium">Renewal Date:</span>
             <span className="text-sm text-muted-foreground">
               {formatDate(subscription.current_period_end)}
             </span>
@@ -90,41 +118,61 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
         )}
 
         <div className="flex items-center justify-between">
-          <span>Status:</span>
-          <Badge variant={isSubscribed ? "default" : "secondary"}>
+          <span className="font-medium">Status:</span>
+          <Badge variant={getStatusColor()}>
             {isSubscribed ? "Active" : "Free Plan"}
           </Badge>
         </div>
 
         {!isSubscribed && (
-          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <div className="flex items-start gap-2">
-              <AlertCircle className="h-4 w-4 text-blue-600 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-medium text-blue-900">Free Plan Active</p>
-                <p className="text-blue-700">You're currently using the free plan. Upgrade to access premium features.</p>
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="font-medium text-blue-900 mb-1">Free Plan Active</p>
+                <p className="text-blue-700 text-sm mb-3">
+                  You're currently using the free plan with limited features. Upgrade to Professional to unlock:
+                </p>
+                <ul className="text-blue-700 text-sm space-y-1 mb-3">
+                  <li>• Unlimited invoices and estimates</li>
+                  <li>• AI voice assistant</li>
+                  <li>• Advanced analytics</li>
+                  <li>• Priority support</li>
+                </ul>
+                <Button
+                  onClick={handleUpgrade}
+                  className="w-full"
+                  size="sm"
+                >
+                  <Crown className="mr-2 h-4 w-4" />
+                  Upgrade to Professional
+                </Button>
               </div>
             </div>
-            <Button
-              onClick={handleUpgrade}
-              className="w-full mt-3"
-              size="sm"
-            >
-              <Crown className="mr-2 h-4 w-4" />
-              Upgrade to Premium
-            </Button>
           </div>
         )}
 
         {isSubscribed && (
-          <Button
-            onClick={openCustomerPortal}
-            className="w-full"
-            variant="outline"
-          >
-            <Settings className="mr-2 h-4 w-4" />
-            Manage Subscription
-          </Button>
+          <div className="space-y-3">
+            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span className="text-green-800 font-medium">Premium Active</span>
+              </div>
+              <p className="text-green-700 text-sm mt-1">
+                You have access to all premium features and priority support.
+              </p>
+            </div>
+            
+            <Button
+              onClick={openCustomerPortal}
+              className="w-full"
+              variant="outline"
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              Manage Subscription
+            </Button>
+          </div>
         )}
       </CardContent>
     </Card>

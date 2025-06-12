@@ -118,22 +118,31 @@ export function PricingPlans() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly")
 
   const handlePlanSelection = async (plan: typeof plans.monthly[0]) => {
+    console.log('=== STRIPE CHECKOUT STARTED ===')
+    console.log('Selected plan:', plan.name, plan.id)
+    console.log('Plan details:', { 
+      price: plan.stripePrice, 
+      recurring: plan.recurring,
+      annualBilling: (plan as any).annualBilling 
+    })
+
     if (plan.stripePrice === null) {
-      // Handle free plan
+      console.log('Free plan selected - no payment needed')
       toast({
         title: "Free Plan Selected",
-        description: `You've selected the ${plan.name}. Start creating your invoices!`,
+        description: `You've selected the ${plan.name} plan. Start creating your invoices!`,
       })
       return
     }
 
     try {
-      console.log('Starting plan selection for:', plan.name)
+      console.log('Checking user authentication...')
       
       // Get current user session
       const { data: { session } } = await supabase.auth.getSession()
       
       if (!session) {
+        console.log('No user session found')
         toast({
           title: "Authentication Required",
           description: "Please log in to subscribe to a paid plan.",
@@ -142,39 +151,58 @@ export function PricingPlans() {
         return
       }
 
-      console.log('User session found, creating checkout session...')
+      console.log('User authenticated:', session.user.email)
+      console.log('Creating checkout session...')
 
-      // Create checkout session with trial
+      // Prepare checkout data
+      const checkoutData = {
+        priceAmount: plan.stripePrice,
+        planName: plan.name,
+        planId: plan.id,
+        recurring: plan.recurring || false,
+        trialPeriodDays: 7,
+        annualBilling: (plan as any).annualBilling || false
+      }
+
+      console.log('Checkout data:', checkoutData)
+
+      // Create checkout session
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: {
-          priceAmount: plan.stripePrice,
-          planName: plan.name,
-          planId: plan.id,
-          recurring: plan.recurring || false,
-          trialPeriodDays: 7,
-          annualBilling: (plan as any).annualBilling || false
+        body: checkoutData,
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
         }
       })
 
-      console.log('Checkout response:', { data, error })
+      console.log('Checkout response received')
+      console.log('Data:', data)
+      console.log('Error:', error)
 
       if (error) {
-        console.error('Checkout error:', error)
+        console.error('Checkout error details:', error)
         throw error
       }
 
       if (data?.url) {
-        console.log('Redirecting to checkout:', data.url)
+        console.log('Redirecting to checkout URL:', data.url)
         // Open Stripe checkout in a new tab
         window.open(data.url, '_blank')
+        
+        toast({
+          title: "Redirecting to Payment",
+          description: "Opening Stripe checkout in a new tab...",
+        })
       } else {
-        throw new Error('No checkout URL received')
+        throw new Error('No checkout URL received from server')
       }
 
     } catch (error) {
-      console.error('Error creating checkout session:', error)
+      console.error('=== STRIPE CHECKOUT ERROR ===')
+      console.error('Error object:', error)
+      console.error('Error message:', error?.message)
+      console.error('Error details:', JSON.stringify(error, null, 2))
       
-      // Provide more specific error message
+      // Provide more specific error messages
       let errorMessage = "There was an error processing your request. Please try again."
       
       if (error && typeof error === 'object' && 'message' in error) {
@@ -183,6 +211,12 @@ export function PricingPlans() {
           errorMessage = "Payment system configuration error. Please contact support."
         } else if (message.includes('Invalid API Key')) {
           errorMessage = "Payment system configuration error. Please contact support."
+        } else if (message.includes('No such price')) {
+          errorMessage = "Invalid pricing configuration. Please contact support."
+        } else if (message.includes('network') || message.includes('fetch')) {
+          errorMessage = "Network error. Please check your connection and try again."
+        } else {
+          errorMessage = `Payment error: ${message}`
         }
       }
       
@@ -191,6 +225,8 @@ export function PricingPlans() {
         description: errorMessage,
         variant: "destructive"
       })
+    } finally {
+      console.log('=== STRIPE CHECKOUT COMPLETED ===')
     }
   }
 
