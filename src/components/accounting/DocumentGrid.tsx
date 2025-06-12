@@ -56,7 +56,7 @@ export function DocumentGrid({ documents, onDelete, onUploadClick }: DocumentGri
     return (
       <Card>
         <CardContent className="flex flex-col items-center justify-center py-12">
-          <Receipt className="h-12 w-12 text-muted-foreground mb-4" />
+          <Receipt className="h-16 w-16 text-muted-foreground mb-4" />
           <h3 className="text-lg font-semibold mb-2">No Documents Found</h3>
           <p className="text-muted-foreground text-center mb-4">
             Start by uploading your first accounting document.
@@ -80,8 +80,8 @@ export function DocumentGrid({ documents, onDelete, onUploadClick }: DocumentGri
           <Card key={doc.id} className="hover:shadow-md transition-shadow">
             <CardContent className="p-4">
               <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <FileIcon className="h-5 w-5 text-blue-600" />
+                <div className="flex items-center gap-3">
+                  <FileIcon className="h-8 w-8 text-blue-600 flex-shrink-0" />
                   <div className="min-w-0 flex-1">
                     <h4 className="font-medium truncate">{doc.title}</h4>
                     <p className="text-xs text-muted-foreground">{formatFileSize(doc.file_size)}</p>
