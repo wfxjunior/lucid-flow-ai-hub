@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Plus, Target, Calendar, DollarSign } from "lucide-react"
-import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { formatCurrency } from "@/utils/currencyUtils"
 
@@ -23,8 +22,29 @@ interface Goal {
 }
 
 export function SavingsGoals() {
-  const [goals, setGoals] = useState<Goal[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [goals, setGoals] = useState<Goal[]>([
+    {
+      id: '1',
+      title: 'Emergency Fund',
+      description: 'Build a 6-month emergency fund',
+      target_amount: 10000,
+      current_amount: 6700,
+      target_date: '2024-12-31',
+      goal_type: 'savings',
+      status: 'active'
+    },
+    {
+      id: '2',
+      title: 'New Car',
+      description: 'Save for a reliable vehicle',
+      target_amount: 25000,
+      current_amount: 8500,
+      target_date: '2025-06-30',
+      goal_type: 'purchase',
+      status: 'active'
+    }
+  ])
+  const [isLoading, setIsLoading] = useState(false)
   const [isAddingGoal, setIsAddingGoal] = useState(false)
   const { toast } = useToast()
 
@@ -35,31 +55,6 @@ export function SavingsGoals() {
     target_date: '',
     goal_type: 'savings'
   })
-
-  useEffect(() => {
-    loadGoals()
-  }, [])
-
-  const loadGoals = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('feather_budget_goals')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setGoals(data || [])
-    } catch (error) {
-      console.error('Error loading goals:', error)
-      toast({
-        title: "Error",
-        description: "Failed to load savings goals",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const handleAddGoal = async () => {
     if (!newGoal.title || !newGoal.target_amount) {
@@ -72,32 +67,30 @@ export function SavingsGoals() {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('feather_budget_goals')
-        .insert([{
-          ...newGoal,
-          target_amount: parseFloat(newGoal.target_amount),
-          user_id: (await supabase.auth.getUser()).data.user?.id
-        }])
-        .select()
-
-      if (error) throw error
-
-      if (data) {
-        setGoals([data[0], ...goals])
-        setNewGoal({
-          title: '',
-          description: '',
-          target_amount: '',
-          target_date: '',
-          goal_type: 'savings'
-        })
-        setIsAddingGoal(false)
-        toast({
-          title: "Success",
-          description: "Savings goal created successfully",
-        })
+      const goal: Goal = {
+        id: Date.now().toString(),
+        title: newGoal.title,
+        description: newGoal.description,
+        target_amount: parseFloat(newGoal.target_amount),
+        current_amount: 0,
+        target_date: newGoal.target_date,
+        goal_type: newGoal.goal_type,
+        status: 'active'
       }
+
+      setGoals([goal, ...goals])
+      setNewGoal({
+        title: '',
+        description: '',
+        target_amount: '',
+        target_date: '',
+        goal_type: 'savings'
+      })
+      setIsAddingGoal(false)
+      toast({
+        title: "Success",
+        description: "Savings goal created successfully",
+      })
     } catch (error) {
       console.error('Error adding goal:', error)
       toast({
@@ -114,13 +107,6 @@ export function SavingsGoals() {
       if (!goal) return
 
       const newAmount = goal.current_amount + amount
-      const { error } = await supabase
-        .from('feather_budget_goals')
-        .update({ current_amount: newAmount })
-        .eq('id', goalId)
-
-      if (error) throw error
-
       setGoals(goals.map(g => 
         g.id === goalId 
           ? { ...g, current_amount: newAmount }
@@ -149,10 +135,6 @@ export function SavingsGoals() {
     if (current >= target) return <Badge className="bg-green-500">Completed</Badge>
     if (status === 'paused') return <Badge variant="secondary">Paused</Badge>
     return <Badge variant="outline">In Progress</Badge>
-  }
-
-  if (isLoading) {
-    return <div className="flex justify-center py-8">Loading...</div>
   }
 
   return (

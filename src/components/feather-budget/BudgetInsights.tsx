@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Brain, TrendingUp, TrendingDown, AlertTriangle, CheckCircle, Lightbulb } from "lucide-react"
-import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 
 interface Insight {
@@ -18,94 +17,40 @@ interface Insight {
 }
 
 export function BudgetInsights() {
-  const [insights, setInsights] = useState<Insight[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [insights, setInsights] = useState<Insight[]>([
+    {
+      id: '1',
+      insight_type: 'spending_alert',
+      title: 'Food Spending Alert',
+      message: "You've spent 30% more on food this week compared to last week. Consider meal planning to reduce costs.",
+      severity: 'warning',
+      is_read: false,
+      created_at: new Date().toISOString()
+    },
+    {
+      id: '2',
+      insight_type: 'savings_tip',
+      title: 'Savings Opportunity',
+      message: 'Your entertainment expenses could be reduced by $150/month. This would help you reach your car savings goal 2 months earlier!',
+      severity: 'info',
+      is_read: false,
+      created_at: new Date().toISOString()
+    },
+    {
+      id: '3',
+      insight_type: 'goal_progress',
+      title: 'Goal Achievement',
+      message: "Great job! You're 67% towards your emergency fund goal. Keep up the momentum!",
+      severity: 'success',
+      is_read: true,
+      created_at: new Date().toISOString()
+    }
+  ])
+  const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
-
-  useEffect(() => {
-    loadInsights()
-    generateSampleInsights()
-  }, [])
-
-  const loadInsights = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('feather_budget_insights')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setInsights(data || [])
-    } catch (error) {
-      console.error('Error loading insights:', error)
-      toast({
-        title: "Error",
-        description: "Failed to load AI insights",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const generateSampleInsights = async () => {
-    try {
-      const user = await supabase.auth.getUser()
-      if (!user.data.user) return
-
-      // Check if we already have insights
-      const { data: existingInsights } = await supabase
-        .from('feather_budget_insights')
-        .select('id')
-        .limit(1)
-
-      if (existingInsights && existingInsights.length > 0) return
-
-      // Generate sample insights
-      const sampleInsights = [
-        {
-          insight_type: 'spending_alert',
-          title: 'Food Spending Alert',
-          message: "You've spent 30% more on food this week compared to last week. Consider meal planning to reduce costs.",
-          severity: 'warning',
-          user_id: user.data.user.id
-        },
-        {
-          insight_type: 'savings_tip',
-          title: 'Savings Opportunity',
-          message: 'Your entertainment expenses could be reduced by $150/month. This would help you reach your car savings goal 2 months earlier!',
-          severity: 'info',
-          user_id: user.data.user.id
-        },
-        {
-          insight_type: 'goal_progress',
-          title: 'Goal Achievement',
-          message: "Great job! You're 67% towards your emergency fund goal. Keep up the momentum!",
-          severity: 'success',
-          user_id: user.data.user.id
-        }
-      ]
-
-      const { error } = await supabase
-        .from('feather_budget_insights')
-        .insert(sampleInsights)
-
-      if (error) throw error
-      loadInsights()
-    } catch (error) {
-      console.error('Error generating sample insights:', error)
-    }
-  }
 
   const markAsRead = async (insightId: string) => {
     try {
-      const { error } = await supabase
-        .from('feather_budget_insights')
-        .update({ is_read: true })
-        .eq('id', insightId)
-
-      if (error) throw error
-
       setInsights(insights.map(insight => 
         insight.id === insightId 
           ? { ...insight, is_read: true }

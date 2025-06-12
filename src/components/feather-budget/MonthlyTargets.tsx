@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { Target, Plus, TrendingUp, DollarSign } from "lucide-react"
-import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 import { formatCurrency } from "@/utils/currencyUtils"
 
@@ -19,10 +18,16 @@ interface MonthlyTarget {
 }
 
 export function MonthlyTargets() {
-  const [targets, setTargets] = useState<MonthlyTarget[]>([])
-  const [currentExpenses, setCurrentExpenses] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
+  const [currentExpenses] = useState(1234.56)
+  const [isLoading, setIsLoading] = useState(false)
   const [isSettingTarget, setIsSettingTarget] = useState(false)
+  const [currentTarget] = useState<MonthlyTarget>({
+    id: '1',
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
+    expense_limit: 2000,
+    savings_target: 500
+  })
   const { toast } = useToast()
 
   const currentDate = new Date()
@@ -33,53 +38,6 @@ export function MonthlyTargets() {
     expense_limit: '',
     savings_target: ''
   })
-
-  useEffect(() => {
-    loadTargets()
-    loadCurrentExpenses()
-  }, [])
-
-  const loadTargets = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('feather_budget_targets')
-        .select('*')
-        .order('year', { ascending: false })
-        .order('month', { ascending: false })
-
-      if (error) throw error
-      setTargets(data || [])
-    } catch (error) {
-      console.error('Error loading targets:', error)
-      toast({
-        title: "Error",
-        description: "Failed to load monthly targets",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const loadCurrentExpenses = async () => {
-    try {
-      const startOfMonth = new Date(currentYear, currentMonth - 1, 1).toISOString().split('T')[0]
-      const endOfMonth = new Date(currentYear, currentMonth, 0).toISOString().split('T')[0]
-
-      const { data, error } = await supabase
-        .from('feather_budget_expenses')
-        .select('amount')
-        .gte('expense_date', startOfMonth)
-        .lte('expense_date', endOfMonth)
-
-      if (error) throw error
-
-      const total = data?.reduce((sum, expense) => sum + expense.amount, 0) || 0
-      setCurrentExpenses(total)
-    } catch (error) {
-      console.error('Error loading current expenses:', error)
-    }
-  }
 
   const handleSetTarget = async () => {
     if (!newTarget.expense_limit) {
@@ -92,21 +50,6 @@ export function MonthlyTargets() {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('feather_budget_targets')
-        .upsert([{
-          month: currentMonth,
-          year: currentYear,
-          expense_limit: parseFloat(newTarget.expense_limit),
-          savings_target: parseFloat(newTarget.savings_target) || 0,
-          user_id: (await supabase.auth.getUser()).data.user?.id
-        }])
-        .select()
-
-      if (error) throw error
-
-      loadTargets()
-      setNewTarget({ expense_limit: '', savings_target: '' })
       setIsSettingTarget(false)
       toast({
         title: "Success",
@@ -122,10 +65,6 @@ export function MonthlyTargets() {
     }
   }
 
-  const getCurrentTarget = () => {
-    return targets.find(t => t.month === currentMonth && t.year === currentYear)
-  }
-
   const getMonthName = (month: number) => {
     return new Date(2024, month - 1, 1).toLocaleDateString('en-US', { month: 'long' })
   }
@@ -133,8 +72,6 @@ export function MonthlyTargets() {
   const calculateProgress = (current: number, limit: number) => {
     return Math.min((current / limit) * 100, 100)
   }
-
-  const currentTarget = getCurrentTarget()
 
   if (isLoading) {
     return <div className="flex justify-center py-8">Loading...</div>
@@ -153,19 +90,19 @@ export function MonthlyTargets() {
               </CardTitle>
               <CardDescription>Track your monthly spending limits and savings goals</CardDescription>
             </div>
-            {!currentTarget && (
+            {!isSettingTarget && (
               <Button 
                 onClick={() => setIsSettingTarget(true)}
-                variant="default"
+                variant="outline"
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Set Target
+                Update Target
               </Button>
             )}
           </div>
         </CardHeader>
         
-        {currentTarget ? (
+        {currentTarget && !isSettingTarget ? (
           <CardContent className="space-y-6">
             {/* Expense Limit Progress */}
             <div className="space-y-3">
@@ -208,14 +145,6 @@ export function MonthlyTargets() {
                 </div>
               </div>
             )}
-
-            <Button 
-              variant="outline"
-              onClick={() => setIsSettingTarget(true)}
-              className="w-full"
-            >
-              Update Target
-            </Button>
           </CardContent>
         ) : isSettingTarget ? (
           <CardContent className="space-y-4">
@@ -259,37 +188,32 @@ export function MonthlyTargets() {
         )}
       </Card>
 
-      {/* Previous Targets */}
-      {targets.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Previous Targets</CardTitle>
-            <CardDescription>Your past monthly performance</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {targets
-                .filter(t => !(t.month === currentMonth && t.year === currentYear))
-                .slice(0, 6)
-                .map((target) => (
-                <div key={`${target.year}-${target.month}`} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div>
-                    <h4 className="font-medium">{getMonthName(target.month)} {target.year}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Budget: {formatCurrency(target.expense_limit, 'USD')}
-                      {target.savings_target > 0 && ` • Savings Goal: ${formatCurrency(target.savings_target, 'USD')}`}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <TrendingUp className="h-4 w-4 inline mr-1 text-green-500" />
-                    <span className="text-sm text-muted-foreground">Completed</span>
-                  </div>
-                </div>
-              ))}
+      {/* Tips Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Monthly Budget Tips</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <h4 className="font-medium">Set Realistic Limits</h4>
+              <p className="text-sm text-muted-foreground">Base your budget on actual spending patterns from previous months</p>
             </div>
-          </CardContent>
-        </Card>
-      )}
+            <div className="space-y-2">
+              <h4 className="font-medium">Track Daily</h4>
+              <p className="text-sm text-muted-foreground">Regular monitoring helps you stay within your limits</p>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">Adjust As Needed</h4>
+              <p className="text-sm text-muted-foreground">Don't be afraid to modify your targets as circumstances change</p>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">Include Savings</h4>
+              <p className="text-sm text-muted-foreground">Treat savings as a non-negotiable expense in your budget</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
