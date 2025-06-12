@@ -1,42 +1,43 @@
+
 import { useState, useEffect } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import BusinessDashboard from "@/components/BusinessDashboard";
-import ImprovedDashboard from "@/components/ImprovedDashboard";
-import CustomerManagement from "@/components/CustomerManagement";
+import { BusinessDashboard } from "@/components/BusinessDashboard";
+import { ImprovedDashboard } from "@/components/ImprovedDashboard";
+import { CustomerManagement } from "@/components/CustomerManagement";
 import { CreateInvoice } from "@/components/CreateInvoice";
 import { ESignaturesPage } from "@/components/ESignaturesPage";
-import ProjectsPage from "@/components/ProjectsPage";
-import AIVoice from "@/components/AIVoice";
+import { ProjectsPage } from "@/components/ProjectsPage";
+import { AIVoice } from "@/components/AIVoice";
 import { FeatherFormsPage } from "@/components/FeatherFormsPage";
 import { PipelineBoard } from "@/components/PipelineBoard";
 import { CarRentalPage } from "@/components/CarRentalPage";
-import WorkOrdersPage from "@/components/WorkOrdersPage";
+import { WorkOrdersPage } from "@/components/WorkOrdersPage";
 import { MatTrackPage } from "@/components/MatTrackPage";
 import { CrewControlPage } from "@/components/CrewControlPage";
 import { EarnSyncPage } from "@/components/EarnSyncPage";
 import { AfterCarePage } from "@/components/AfterCarePage";
 import { FeatherTaxPage } from "@/components/FeatherTaxPage";
-import MeetingsPage from "@/components/MeetingsPage";
+import { MeetingsPage } from "@/components/MeetingsPage";
 import { TodoListPage } from "@/components/TodoListPage";
-import NotesPage from "@/components/NotesPage";
-import QuotesPage from "@/components/QuotesPage";
-import EstimatesPage from "@/components/EstimatesPage";
-import AccountingPage from "@/components/AccountingPage";
+import { NotesPage } from "@/components/NotesPage";
+import { QuotesPage } from "@/components/QuotesPage";
+import { EstimatesPage } from "@/components/EstimatesPage";
+import { AccountingPage } from "@/components/AccountingPage";
 import { SalesOrdersPage } from "@/components/SalesOrdersPage";
 import { ServiceOrdersPage } from "@/components/ServiceOrdersPage";
 import { BusinessProposalsPage } from "@/components/BusinessProposalsPage";
 import { BidsPage } from "@/components/BidsPage";
-import ContractsPage from "@/components/ContractsPage";
-import Analytics from "@/components/Analytics";
+import { ContractsPage } from "@/components/ContractsPage";
+import { Analytics } from "@/components/Analytics";
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
-import MessagesPage from "@/components/MessagesPage";
-import AppointmentsPage from "@/components/AppointmentsPage";
-import PaymentsPage from "@/components/PaymentsPage";
-import IntegrationsHub from "@/components/IntegrationsHub";
+import { MessagesPage } from "@/components/MessagesPage";
+import { AppointmentsPage } from "@/components/AppointmentsPage";
+import { PaymentsPage } from "@/components/PaymentsPage";
+import { IntegrationsHub } from "@/components/IntegrationsHub";
 import { SmartSchedulePage } from "@/components/SmartSchedulePage";
-import SettingsPage from "@/components/SettingsPage";
-import CompanySettings from "@/components/CompanySettings";
+import { SettingsPage } from "@/components/SettingsPage";
+import { CompanySettings } from "@/components/CompanySettings";
 import { FeatherBudgetPage } from "@/components/feather-budget/FeatherBudgetPage";
 import { AuthGuard } from "@/components/AuthGuard";
 
@@ -85,7 +86,7 @@ const Index = () => {
   const renderContent = () => {
     switch (currentView) {
       case "dashboard":
-        return <BusinessDashboard />;
+        return <BusinessDashboard onNavigate={setCurrentView} />;
       case "improved-dashboard":
         return <ImprovedDashboard />;
       case "customer-management":
@@ -167,7 +168,7 @@ const Index = () => {
     <AuthGuard>
       <SidebarProvider>
         <div className="min-h-screen flex w-full bg-background">
-          <AppSidebar currentView={currentView} onViewChange={setCurrentView} />
+          <AppSidebar onViewChange={setCurrentView} />
           <main className="flex-1 overflow-auto">
             {renderContent()}
           </main>
