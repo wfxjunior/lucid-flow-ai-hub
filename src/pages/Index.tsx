@@ -32,6 +32,23 @@ const Index = () => {
     }
   }
 
+  const handleActionClick = (actionId: string) => {
+    // Map action IDs to appropriate navigation
+    switch (actionId) {
+      case 'create-invoice':
+      case 'manage-customers':
+      case 'create-estimate':
+      case 'view-analytics':
+        navigate('/app')
+        break
+      case 'upgrade':
+        setCurrentView('pricing')
+        break
+      default:
+        navigate('/app')
+    }
+  }
+
   const renderCurrentView = () => {
     switch (currentView) {
       case 'analytics':
@@ -154,7 +171,7 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Quick Actions - Takes 2 columns */}
               <div className="lg:col-span-2">
-                <QuickActions onNavigate={handleNavigation} />
+                <QuickActions onActionClick={handleActionClick} />
               </div>
 
               {/* Recent Activity - Takes 1 column */}
