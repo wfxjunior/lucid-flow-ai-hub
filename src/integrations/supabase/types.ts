@@ -557,6 +557,42 @@ export type Database = {
         }
         Relationships: []
       }
+      email_logs: {
+        Row: {
+          created_at: string
+          email_id: string | null
+          email_type: string
+          id: string
+          order_number: string | null
+          recipient: string
+          sent_at: string
+          transaction_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email_id?: string | null
+          email_type: string
+          id?: string
+          order_number?: string | null
+          recipient: string
+          sent_at?: string
+          transaction_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email_id?: string | null
+          email_type?: string
+          id?: string
+          order_number?: string | null
+          recipient?: string
+          sent_at?: string
+          transaction_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       estimates: {
         Row: {
           accepted_at: string | null

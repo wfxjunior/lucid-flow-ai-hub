@@ -103,8 +103,8 @@ const generateReceiptHTML = (data: ReceiptEmailRequest) => {
           </div>
         </div>
 
-        <!-- Download Section -->
         ${data.pdfUrl ? `
+        <!-- Download Section -->
         <div style="padding: 20px 30px; background-color: #fef3c7; border-left: 4px solid #f59e0b;">
           <h3 style="color: #92400e; margin: 0 0 10px 0; font-size: 16px;">📄 Download Your Receipt</h3>
           <p style="color: #451a03; margin: 0 0 15px 0;">Click the link below to download a PDF copy of your receipt:</p>
@@ -152,7 +152,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending receipt email to:", receiptData.customerEmail);
 
     const emailResponse = await resend.emails.send({
-      from: "FeatherBiz Receipts <receipts@featherbiz.com>",
+      from: "FeatherBiz <onboarding@resend.dev>",
       to: [receiptData.customerEmail],
       subject: "🧾 Your Receipt from FeatherBiz – Thank You!",
       html: generateReceiptHTML(receiptData),
@@ -167,12 +167,26 @@ const handler = async (req: Request): Promise<Response> => {
       { auth: { persistSession: false } }
     );
 
+    // Get user_id from the authorization header
+    const authHeader = req.headers.get('authorization');
+    let userId = null;
+    
+    if (authHeader) {
+      try {
+        const jwt = authHeader.replace('Bearer ', '');
+        const { data: { user } } = await supabaseClient.auth.getUser(jwt);
+        userId = user?.id;
+      } catch (error) {
+        console.warn('Could not extract user from token:', error);
+      }
+    }
+
     await supabaseClient.from("email_logs").insert({
+      user_id: userId,
       email_type: "receipt",
       recipient: receiptData.customerEmail,
       order_number: receiptData.orderNumber,
       transaction_id: receiptData.transactionId,
-      sent_at: new Date().toISOString(),
       email_id: emailResponse.data?.id,
     });
 
