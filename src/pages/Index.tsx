@@ -88,6 +88,11 @@ const Index = () => {
     setCurrentView(view as ViewType);
   };
 
+  // Handler for AppSidebar that accepts string
+  const handleSidebarViewChange = (view: string) => {
+    setCurrentView(view as ViewType);
+  };
+
   const renderContent = () => {
     switch (currentView) {
       case "dashboard":
@@ -173,7 +178,7 @@ const Index = () => {
     <AuthGuard>
       <SidebarProvider>
         <div className="min-h-screen flex w-full bg-background">
-          <AppSidebar activeView={currentView} setActiveView={setCurrentView} />
+          <AppSidebar activeView={currentView} setActiveView={handleSidebarViewChange} />
           <main className="flex-1 overflow-auto">
             {renderContent()}
           </main>
