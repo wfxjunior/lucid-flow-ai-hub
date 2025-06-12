@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { DollarSign, FileText, Users, Calendar, TrendingUp, ArrowRight, Zap, Crown, Star } from "lucide-react"
+import { DollarSign, FileText, Users, Calendar, TrendingUp, ArrowRight, Feather, Crown, Star } from "lucide-react"
 import { useSubscription } from "@/hooks/useSubscription"
 import { HelpCenter } from "@/components/HelpCenter"
 import { ThemeToggle } from "@/components/ThemeToggle"
@@ -62,7 +62,7 @@ const Index = () => {
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Zap className="h-6 w-6 text-white" />
+                  <Feather className="h-6 w-6 text-white" />
                 </div>
                 <h1 className="text-4xl font-bold text-gray-900">FeatherBiz</h1>
               </div>
@@ -220,7 +220,7 @@ const Index = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center cursor-pointer" onClick={() => setCurrentView('dashboard')}>
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                <Zap className="h-5 w-5 text-white" />
+                <Feather className="h-5 w-5 text-white" />
               </div>
               <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
             </div>
