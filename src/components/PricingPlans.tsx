@@ -128,6 +128,8 @@ export function PricingPlans() {
     }
 
     try {
+      console.log('Starting plan selection for:', plan.name)
+      
       // Get current user session
       const { data: { session } } = await supabase.auth.getSession()
       
@@ -139,6 +141,8 @@ export function PricingPlans() {
         })
         return
       }
+
+      console.log('User session found, creating checkout session...')
 
       // Create checkout session with trial
       const { data, error } = await supabase.functions.invoke('create-checkout', {
@@ -152,11 +156,15 @@ export function PricingPlans() {
         }
       })
 
+      console.log('Checkout response:', { data, error })
+
       if (error) {
+        console.error('Checkout error:', error)
         throw error
       }
 
       if (data?.url) {
+        console.log('Redirecting to checkout:', data.url)
         // Open Stripe checkout in a new tab
         window.open(data.url, '_blank')
       } else {
@@ -165,9 +173,22 @@ export function PricingPlans() {
 
     } catch (error) {
       console.error('Error creating checkout session:', error)
+      
+      // Provide more specific error message
+      let errorMessage = "There was an error processing your request. Please try again."
+      
+      if (error && typeof error === 'object' && 'message' in error) {
+        const message = error.message as string
+        if (message.includes('secret_key_required') || message.includes('publishable API key')) {
+          errorMessage = "Payment system configuration error. Please contact support."
+        } else if (message.includes('Invalid API Key')) {
+          errorMessage = "Payment system configuration error. Please contact support."
+        }
+      }
+      
       toast({
         title: "Payment Error",
-        description: "There was an error processing your request. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       })
     }
