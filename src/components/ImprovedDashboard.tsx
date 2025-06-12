@@ -33,6 +33,34 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   const [activeTab, setActiveTab] = useState("overview")
   const { stats, loading, error, refreshData } = useDashboardData()
 
+  // Enhanced realistic fictitious data
+  const dashboardStats = {
+    monthlyRevenue: 12345,
+    monthlyRevenueChange: "+12.5%",
+    activeCustomers: 1234,
+    customersChange: "+5.2%",
+    pendingInvoices: 23,
+    invoicesChange: "-8.1%",
+    monthlyGoals: 87,
+    goalsChange: "+15.3%"
+  }
+
+  const recentActivities = [
+    { id: 1, action: "New invoice #INV-0245 created for $2,340", time: "2 hours ago", type: "invoice" },
+    { id: 2, action: "Payment received from John Construction - $4,500", time: "4 hours ago", type: "payment" },
+    { id: 3, action: "New customer 'Smith & Associates' added", time: "1 day ago", type: "customer" },
+    { id: 4, action: "Estimate #EST-0156 sent to MegaBuild Corp", time: "2 days ago", type: "estimate" },
+    { id: 5, action: "Contract signed by ABC Construction", time: "3 days ago", type: "contract" }
+  ]
+
+  const upcomingTasks = [
+    { id: 1, title: "Follow up with Johnson Corp on estimate", due: "Today, 2:00 PM", priority: "high" },
+    { id: 2, title: "Site visit for downtown project", due: "Tomorrow, 10:00 AM", priority: "high" },
+    { id: 3, title: "Send invoice to Metro Buildings", due: "Dec 15", priority: "medium" },
+    { id: 4, title: "Review contract terms with Legal", due: "Dec 18", priority: "medium" },
+    { id: 5, title: "Quarterly review meeting prep", due: "Dec 20", priority: "low" }
+  ]
+
   // Debug log para verificar se o componente está sendo renderizado
   useEffect(() => {
     console.log('ImprovedDashboard mounted with onNavigate:', typeof onNavigate)
@@ -70,32 +98,32 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
 
   const statsCards = [
     {
-      title: t ? t("dashboard.monthlyRevenue", "Monthly Revenue") : "Monthly Revenue",
-      value: `$${stats.monthlyRevenue.toLocaleString()}`,
-      change: stats.monthlyRevenue > 0 ? `+${((stats.monthlyRevenue / 1000) * 2.5).toFixed(1)}%` : "0%",
+      title: "Monthly Revenue",
+      value: `$${dashboardStats.monthlyRevenue.toLocaleString()}`,
+      change: dashboardStats.monthlyRevenueChange,
       icon: DollarSign,
-      trend: stats.monthlyRevenue > 0 ? "up" as const : "neutral" as const
+      trend: "up" as const
     },
     {
-      title: t ? t("dashboard.activeCustomers", "Active Customers") : "Active Customers",
-      value: stats.activeCustomers.toString(),
-      change: stats.activeCustomers > 0 ? `+${(stats.activeCustomers * 1.2).toFixed(1)}%` : "0%",
+      title: "Active Customers",
+      value: dashboardStats.activeCustomers.toString(),
+      change: dashboardStats.customersChange,
       icon: Users,
-      trend: stats.activeCustomers > 0 ? "up" as const : "neutral" as const
+      trend: "up" as const
     },
     {
-      title: t ? t("dashboard.pendingInvoices", "Pending Invoices") : "Pending Invoices",
-      value: stats.pendingInvoices.toString(),
-      change: "0%",
+      title: "Pending Invoices",
+      value: dashboardStats.pendingInvoices.toString(),
+      change: dashboardStats.invoicesChange,
       icon: FileText,
-      trend: "neutral" as const
+      trend: "down" as const
     },
     {
-      title: t ? t("dashboard.monthlyGoals", "This Month's Goals") : "This Month's Goals",
-      value: `${stats.monthlyGoals}%`,
-      change: stats.monthlyGoals > 0 ? `+${(stats.monthlyGoals * 0.8).toFixed(1)}%` : "0%",
+      title: "This Month's Goals",
+      value: `${dashboardStats.monthlyGoals}%`,
+      change: dashboardStats.goalsChange,
       icon: Target,
-      trend: stats.monthlyGoals > 50 ? "up" as const : "neutral" as const
+      trend: "up" as const
     }
   ]
 
@@ -105,10 +133,10 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              {t ? t("dashboard.title", "Business Dashboard") : "Business Dashboard"}
+              Business Dashboard
             </h1>
             <p className="text-sm sm:text-base text-muted-foreground mt-1">
-              {t ? t("dashboard.loading", "Loading your business data...") : "Loading your business data..."}
+              Welcome back! Here's what's happening with your business today.
             </p>
           </div>
         </div>
@@ -135,10 +163,10 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              {t ? t("dashboard.title", "Business Dashboard") : "Business Dashboard"}
+              Business Dashboard
             </h1>
             <p className="text-sm sm:text-base text-muted-foreground mt-1">
-              {t ? t("dashboard.welcome", "Welcome back! Here's what's happening with your business today.") : "Welcome back! Here's what's happening with your business today."}
+              Welcome back! Here's what's happening with your business today.
             </p>
           </div>
           <Button onClick={refreshData} variant="outline">
@@ -168,20 +196,20 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            {t ? t("dashboard.title", "Business Dashboard") : "Business Dashboard"}
+            Business Dashboard
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground mt-1">
-            {t ? t("dashboard.welcome", "Welcome back! Here's what's happening with your business today.") : "Welcome back! Here's what's happening with your business today."}
+            Welcome back! Here's what's happening with your business today.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <Button variant="outline" onClick={() => handleNavigateInternal('analytics')} className="w-full sm:w-auto">
             <BarChart3 className="mr-2 h-4 w-4" />
-            {t ? t("dashboard.viewAnalytics", "View Analytics") : "View Analytics"}
+            View Analytics
           </Button>
           <Button onClick={() => handleNavigateInternal('invoice-creator')} className="w-full sm:w-auto">
             <Zap className="mr-2 h-4 w-4" />
-            {t ? t("dashboard.createInvoice", "Create Invoice") : "Create Invoice"}
+            Create Invoice
           </Button>
           <Button variant="outline" onClick={refreshData} size="sm">
             <RefreshCw className="h-4 w-4" />
@@ -207,13 +235,13 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview" className="text-xs sm:text-sm">
-            {t ? t("dashboard.overview", "Overview") : "Overview"}
+            Overview
           </TabsTrigger>
           <TabsTrigger value="tasks" className="text-xs sm:text-sm">
-            {t ? t("dashboard.tasksActivities", "Tasks & Activities") : "Tasks & Activities"}
+            Tasks & Activities
           </TabsTrigger>
           <TabsTrigger value="quick-actions" className="text-xs sm:text-sm">
-            {t ? t("dashboard.quickActions", "Quick Actions") : "Quick Actions"}
+            Quick Actions
           </TabsTrigger>
         </TabsList>
 
@@ -223,7 +251,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <Card className="lg:col-span-2">
               <CardHeader>
                 <CardTitle className="text-lg sm:text-xl">
-                  {t ? t("dashboard.quickActions", "Quick Actions") : "Quick Actions"}
+                  Quick Actions
                 </CardTitle>
                 <CardDescription>Access your most used business tools</CardDescription>
               </CardHeader>
@@ -241,10 +269,10 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <Card className="lg:col-span-4">
               <CardHeader>
                 <CardTitle className="text-lg sm:text-xl">
-                  {t ? t("dashboard.revenueOverview", "Revenue Overview") : "Revenue Overview"}
+                  Revenue Overview
                 </CardTitle>
                 <CardDescription className="text-sm">
-                  {t ? t("dashboard.monthlyRevenue6Months", "Monthly revenue tracking") : "Monthly revenue tracking"}
+                  Monthly revenue tracking
                 </CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
@@ -252,10 +280,10 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
                   <div className="text-center">
                     <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-2" />
                     <p className="text-sm text-gray-500">
-                      {stats.monthlyRevenue > 0 
-                        ? `Current Month: $${stats.monthlyRevenue.toLocaleString()}`
-                        : "No revenue data yet. Start creating invoices!"
-                      }
+                      Current Month: ${dashboardStats.monthlyRevenue.toLocaleString()}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Revenue trend looking strong this quarter
                     </p>
                   </div>
                 </div>
@@ -266,30 +294,29 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <Card className="lg:col-span-3">
               <CardHeader>
                 <CardTitle className="text-lg sm:text-xl">
-                  {t ? t("dashboard.recentActivity", "Recent Activity") : "Recent Activity"}
+                  Recent Activity
                 </CardTitle>
                 <CardDescription className="text-sm">
-                  {t ? t("dashboard.latestActivities", "Latest business activities") : "Latest business activities"}
+                  Latest business activities
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {stats.recentActivities.length > 0 ? (
-                    stats.recentActivities.map((activity) => (
-                      <div key={activity.id} className="flex items-center space-x-4">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{activity.action}</p>
-                          <p className="text-xs text-muted-foreground">{activity.time}</p>
-                        </div>
+                  {recentActivities.slice(0, 5).map((activity) => (
+                    <div key={activity.id} className="flex items-center space-x-4">
+                      <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                        activity.type === 'payment' ? 'bg-green-500' :
+                        activity.type === 'invoice' ? 'bg-blue-500' :
+                        activity.type === 'customer' ? 'bg-purple-500' :
+                        activity.type === 'estimate' ? 'bg-orange-500' :
+                        'bg-gray-500'
+                      }`}></div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{activity.action}</p>
+                        <p className="text-xs text-muted-foreground">{activity.time}</p>
                       </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-4">
-                      <p className="text-sm text-gray-500">No recent activities</p>
-                      <p className="text-xs text-gray-400">Activities will appear here as you use the platform</p>
                     </div>
-                  )}
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -303,37 +330,30 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <Clock className="h-5 w-5" />
-                  {t ? t("dashboard.upcomingTasks", "Upcoming Tasks") : "Upcoming Tasks"}
+                  Upcoming Tasks
                 </CardTitle>
                 <CardDescription className="text-sm">
-                  {t ? t("dashboard.tasksNeedAttention", "Tasks that need your attention") : "Tasks that need your attention"}
+                  Tasks that need your attention
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {stats.upcomingTasks.length > 0 ? (
-                    stats.upcomingTasks.map((task) => (
-                      <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm truncate">{task.title}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {t ? t("dashboard.due", "Due") : "Due"}: {task.due}
-                          </p>
-                        </div>
-                        <Badge 
-                          variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
-                          className="ml-2 flex-shrink-0"
-                        >
-                          {task.priority}
-                        </Badge>
+                  {upcomingTasks.map((task) => (
+                    <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate">{task.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Due: {task.due}
+                        </p>
                       </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-4">
-                      <p className="text-sm text-gray-500">No upcoming tasks</p>
-                      <p className="text-xs text-gray-400">Schedule appointments to see them here</p>
+                      <Badge 
+                        variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
+                        className="ml-2 flex-shrink-0"
+                      >
+                        {task.priority}
+                      </Badge>
                     </div>
-                  )}
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -343,36 +363,28 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <CheckCircle className="h-5 w-5" />
-                  {t ? t("dashboard.todayProgress", "Today's Progress") : "Today's Progress"}
+                  Today's Progress
                 </CardTitle>
                 <CardDescription className="text-sm">
-                  {t ? t("dashboard.productivityMetrics", "Your productivity metrics") : "Your productivity metrics"}
+                  Your productivity metrics
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">
-                    {t ? t("dashboard.tasksCompleted", "Tasks Completed") : "Tasks Completed"}
-                  </span>
-                  <span className="font-bold">{stats.upcomingTasks.length}/10</span>
+                  <span className="text-sm">Tasks Completed</span>
+                  <span className="font-bold">7/12</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">
-                    {t ? t("dashboard.invoicesSent", "Invoices Created") : "Invoices Created"}
-                  </span>
-                  <span className="font-bold">{stats.pendingInvoices}</span>
+                  <span className="text-sm">Invoices Created</span>
+                  <span className="font-bold">3</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">
-                    {t ? t("dashboard.meetingsAttended", "Active Customers") : "Active Customers"}
-                  </span>
-                  <span className="font-bold">{stats.activeCustomers}</span>
+                  <span className="text-sm">Customer Calls</span>
+                  <span className="font-bold">5</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">
-                    {t ? t("dashboard.customerCalls", "Monthly Revenue") : "Monthly Revenue"}
-                  </span>
-                  <span className="font-bold">${stats.monthlyRevenue.toLocaleString()}</span>
+                  <span className="text-sm">Revenue Generated</span>
+                  <span className="font-bold">$8,450</span>
                 </div>
               </CardContent>
             </Card>
@@ -389,14 +401,14 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              {t ? t("dashboard.activeProjects", "Active Projects") : "Active Projects"}
+              Active Projects
             </CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.upcomingTasks.length}</div>
+            <div className="text-2xl font-bold">8</div>
             <p className="text-xs text-muted-foreground">
-              {t ? t("dashboard.fromLastMonth", "Scheduled appointments") : "Scheduled appointments"}
+              2 due this week
             </p>
           </CardContent>
         </Card>
@@ -404,14 +416,14 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              {t ? t("dashboard.conversionRate", "Conversion Rate") : "Conversion Rate"}
+              Conversion Rate
             </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.monthlyGoals}%</div>
+            <div className="text-2xl font-bold">68%</div>
             <p className="text-xs text-muted-foreground">
-              {t ? t("dashboard.fromLastMonth42", "Progress towards goals") : "Progress towards goals"}
+              +12% from last month
             </p>
           </CardContent>
         </Card>
@@ -419,16 +431,14 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         <Card className="sm:col-span-2 lg:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              {t ? t("dashboard.averageDealSize", "Average Deal Size") : "Average Deal Size"}
+              Average Deal Size
             </CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              ${stats.activeCustomers > 0 ? Math.round(stats.monthlyRevenue / stats.activeCustomers).toLocaleString() : '0'}
-            </div>
+            <div className="text-2xl font-bold">$3,420</div>
             <p className="text-xs text-muted-foreground">
-              {t ? t("dashboard.fromLastMonth121", "Revenue per customer") : "Revenue per customer"}
+              +8% from last month
             </p>
           </CardContent>
         </Card>
