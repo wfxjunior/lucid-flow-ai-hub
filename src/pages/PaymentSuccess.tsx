@@ -29,8 +29,8 @@ export default function PaymentSuccess() {
       try {
         setIsVerifying(true)
         
-        // Wait a moment for Stripe to process
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        // Reduced wait time from 2 seconds to 500ms for faster processing
+        await new Promise(resolve => setTimeout(resolve, 500))
         
         // Check subscription status
         await checkSubscription()
@@ -51,11 +51,11 @@ export default function PaymentSuccess() {
 
     verifyPayment()
 
-    // Auto redirect after 15 seconds
+    // Reduced auto redirect time from 15 to 10 seconds
     const timer = setTimeout(() => {
       console.log('PaymentSuccess: Auto-redirecting to dashboard')
       navigate("/")
-    }, 15000)
+    }, 10000)
 
     return () => clearTimeout(timer)
   }, [navigate, planId, sessionId, checkSubscription])
@@ -93,29 +93,29 @@ export default function PaymentSuccess() {
           {showCelebration && !isVerifying && (
             <div className="mb-4 p-4 bg-gradient-to-r from-purple-100 to-pink-100 border border-purple-200 rounded-lg">
               <div className="text-2xl font-bold text-purple-800 mb-2">
-                🎉 Congratulations! 🎉
+                🎉 Parabéns! 🎉
               </div>
               <div className="text-lg text-purple-700 font-semibold">
-                Something big is starting now!
+                Algo grande está começando agora!
               </div>
               <div className="text-sm text-purple-600 mt-2">
-                Your 7-day free trial has begun!
+                Seu teste gratuito de 7 dias começou!
               </div>
             </div>
           )}
           
           <CardTitle className="text-2xl text-green-600 dark:text-green-400">
-            {isVerifying ? "Processing Payment..." : "Payment Successful!"}
+            {isVerifying ? "Processando Pagamento..." : "Pagamento Realizado com Sucesso!"}
           </CardTitle>
           <CardDescription>
             {isVerifying ? (
-              "Please wait while we verify your payment..."
+              "Aguarde enquanto verificamos seu pagamento..."
             ) : verificationComplete && isSubscribed ? (
-              <>Your payment has been processed successfully. Welcome to the {planName} plan!</>
+              <>Seu pagamento foi processado com sucesso. Bem-vindo ao plano {planName}!</>
             ) : verificationComplete ? (
-              "Your payment was processed. Subscription verification is in progress."
+              "Seu pagamento foi processado. A verificação da assinatura está em andamento."
             ) : (
-              `Your payment has been processed successfully.${planId ? ` Welcome to the ${planId} plan!` : ''}`
+              `Seu pagamento foi processado com sucesso.${planId ? ` Bem-vindo ao plano ${planId}!` : ''}`
             )}
           </CardDescription>
         </CardHeader>
@@ -123,14 +123,14 @@ export default function PaymentSuccess() {
           {!isVerifying && verificationComplete && (
             <div className="flex justify-center">
               <Badge variant={isSubscribed ? "default" : "secondary"} className="px-3 py-1">
-                {isSubscribed ? `${planName} Plan Active` : "Processing..."}
+                {isSubscribed ? `Plano ${planName} Ativo` : "Processando..."}
               </Badge>
             </div>
           )}
 
           {sessionId && (
             <div className="text-xs text-muted-foreground bg-gray-50 p-2 rounded">
-              Session ID: {sessionId.substring(0, 20)}...
+              ID da Sessão: {sessionId.substring(0, 20)}...
             </div>
           )}
 
@@ -140,28 +140,28 @@ export default function PaymentSuccess() {
                 <p className="text-sm text-muted-foreground">
                   {isSubscribed ? (
                     showCelebration ? (
-                      "Your 7-day free trial is now active! Explore all premium features and see what FeatherBiz can do for your business."
+                      "Seu teste gratuito de 7 dias está ativo! Explore todos os recursos premium e veja o que o FeatherBiz pode fazer pelo seu negócio."
                     ) : (
-                      "You now have access to all premium features!"
+                      "Agora você tem acesso a todos os recursos premium!"
                     )
                   ) : (
-                    "Your subscription will be activated shortly. You'll receive a confirmation email."
+                    "Sua assinatura será ativada em breve. Você receberá um email de confirmação."
                   )}
                 </p>
                 {!isSubscribed && (
                   <div className="flex items-center justify-center gap-2 text-amber-600">
                     <AlertCircle className="h-4 w-4" />
-                    <span className="text-xs">If your subscription doesn't activate within a few minutes, please contact support.</span>
+                    <span className="text-xs">Se sua assinatura não ativar em alguns minutos, entre em contato com o suporte.</span>
                   </div>
                 )}
               </div>
               
               <Button onClick={handleReturnToDashboard} className="w-full">
-                {showCelebration ? "Start Exploring Premium Features!" : "Return to Dashboard"}
+                {showCelebration ? "Começar a Explorar Recursos Premium!" : "Voltar ao Dashboard"}
               </Button>
               
               <p className="text-xs text-muted-foreground">
-                Redirecting automatically in 15 seconds...
+                Redirecionando automaticamente em 10 segundos...
               </p>
             </>
           )}

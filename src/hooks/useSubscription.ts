@@ -35,11 +35,18 @@ export const useSubscription = () => {
       console.log('useSubscription: Session found, calling check-subscription function...');
       console.log('User email:', session.user.email);
 
-      const { data, error } = await supabase.functions.invoke('check-subscription', {
+      // Added timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Timeout: Subscription check took too long')), 10000);
+      });
+
+      const subscriptionPromise = supabase.functions.invoke('check-subscription', {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
       });
+
+      const { data, error } = await Promise.race([subscriptionPromise, timeoutPromise]) as any;
 
       console.log('useSubscription: Function response received');
       console.log('Data:', data);
@@ -81,36 +88,43 @@ export const useSubscription = () => {
       
       if (!session) {
         console.log('useSubscription: No session for portal access');
-        toast.error('You need to be logged in to access the subscription portal.');
+        toast.error('Você precisa estar logado para acessar o portal de assinatura.');
         return;
       }
 
       console.log('useSubscription: Calling customer-portal function...');
 
-      const { data, error } = await supabase.functions.invoke('customer-portal', {
+      // Added timeout for portal as well
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Timeout: Portal request took too long')), 8000);
+      });
+
+      const portalPromise = supabase.functions.invoke('customer-portal', {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
       });
 
+      const { data, error } = await Promise.race([portalPromise, timeoutPromise]) as any;
+
       console.log('useSubscription: Portal response:', { data, error });
 
       if (error) {
         console.error('useSubscription: Portal error:', error);
-        toast.error('Could not open subscription management portal. Please try again.');
+        toast.error('Não foi possível abrir o portal de gerenciamento de assinatura. Tente novamente.');
         return;
       }
 
       if (data?.url) {
         console.log('useSubscription: Opening portal URL:', data.url);
         window.open(data.url, '_blank');
-        toast.success('Opening subscription management portal...');
+        toast.success('Abrindo portal de gerenciamento de assinatura...');
       } else {
         throw new Error('No portal URL received');
       }
     } catch (error) {
       console.error('useSubscription: Portal error:', error);
-      toast.error('An error occurred while opening the subscription portal.');
+      toast.error('Ocorreu um erro ao abrir o portal de assinatura.');
     }
   };
 
