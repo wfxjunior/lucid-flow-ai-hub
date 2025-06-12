@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserGreeting } from "@/components/UserGreeting"
@@ -56,26 +57,24 @@ const Index = () => {
         return <PricingPlans />
       default:
         return (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {/* Welcome Section */}
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center gap-2 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Feather className="h-6 w-6 text-white" />
-                </div>
-                <h1 className="text-4xl font-bold text-gray-900">FeatherBiz</h1>
+                <Feather className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-blue-600" />
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600">FeatherBiz</h1>
               </div>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
                 Organize. Send. Grow. All-in-one business management platform designed to streamline your workflow.
               </p>
-              <div className="flex items-center justify-center gap-4 flex-wrap">
-                <Badge variant="secondary" className="px-3 py-1">
+              <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap px-4">
+                <Badge variant="secondary" className="px-2 py-1 sm:px-3">
                   AI-Powered
                 </Badge>
-                <Badge variant="secondary" className="px-3 py-1">
+                <Badge variant="secondary" className="px-2 py-1 sm:px-3">
                   Cloud-Based
                 </Badge>
-                <Badge variant="secondary" className="px-3 py-1">
+                <Badge variant="secondary" className="px-2 py-1 sm:px-3">
                   Real-time Sync
                 </Badge>
               </div>
@@ -85,9 +84,9 @@ const Index = () => {
 
             {/* Subscription Status */}
             {!loading && (
-              <Card className="border-2 border-dashed border-blue-200 bg-blue-50/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <Card className="border-2 border-dashed border-blue-200 bg-blue-50/50 mx-4 sm:mx-0">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                     {isSubscribed ? (
                       <>
                         <Crown className="h-5 w-5 text-yellow-500" />
@@ -100,7 +99,7 @@ const Index = () => {
                       </>
                     )}
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-sm sm:text-base">
                     {isSubscribed 
                       ? "Enjoy all premium features and priority support."
                       : "Upgrade to unlock advanced features and grow your business faster."
@@ -108,19 +107,19 @@ const Index = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                       <Badge variant={isSubscribed ? "default" : "secondary"}>
                         {isSubscribed ? "Premium Active" : "Free Plan"}
                       </Badge>
                       {subscription?.current_period_end && (
-                        <span className="text-sm text-gray-600">
+                        <span className="text-xs sm:text-sm text-muted-foreground">
                           Renews: {new Date(subscription.current_period_end).toLocaleDateString()}
                         </span>
                       )}
                     </div>
                     {!isSubscribed && (
-                      <Button onClick={() => setCurrentView('pricing')} className="ml-auto">
+                      <Button onClick={() => setCurrentView('pricing')} className="w-full sm:w-auto">
                         <Crown className="mr-2 h-4 w-4" />
                         Upgrade Now
                       </Button>
@@ -131,7 +130,7 @@ const Index = () => {
             )}
 
             {/* Stats Overview */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-0">
               <StatsCard
                 title="Total Revenue"
                 value="$24,500"
@@ -167,7 +166,7 @@ const Index = () => {
             </div>
 
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-0">
               {/* Quick Actions - Takes 2 columns */}
               <div className="lg:col-span-2">
                 <QuickActions onActionClick={handleActionClick} />
@@ -180,13 +179,13 @@ const Index = () => {
             </div>
 
             {/* Get Started Section */}
-            <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+            <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200 mx-4 sm:mx-0">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <TrendingUp className="h-5 w-5 text-blue-600" />
                   Ready to Grow Your Business?
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm sm:text-base">
                   Access powerful tools to manage customers, create invoices, track finances, and automate your workflow.
                 </CardDescription>
               </CardHeader>
@@ -249,10 +248,12 @@ const Index = () => {
               </button>
             </nav>
 
-            <div className="flex items-center gap-4">
-              <LanguageSelector />
-              <ThemeToggle />
-              <HelpCenter variant="outline" size="sm" />
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="hidden sm:flex items-center gap-4">
+                <LanguageSelector />
+                <ThemeToggle />
+                <HelpCenter variant="outline" size="sm" />
+              </div>
               <UserGreeting />
             </div>
           </div>
@@ -260,7 +261,7 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {renderCurrentView()}
       </main>
     </div>
