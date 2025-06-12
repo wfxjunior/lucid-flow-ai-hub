@@ -83,12 +83,17 @@ export type ViewType =
 const Index = () => {
   const [currentView, setCurrentView] = useState<ViewType>("improved-dashboard");
 
+  // Navigation handler that accepts string and converts to ViewType
+  const handleNavigate = (view: string) => {
+    setCurrentView(view as ViewType);
+  };
+
   const renderContent = () => {
     switch (currentView) {
       case "dashboard":
-        return <BusinessDashboard onNavigate={setCurrentView} />;
+        return <BusinessDashboard onNavigate={handleNavigate} />;
       case "improved-dashboard":
-        return <ImprovedDashboard />;
+        return <ImprovedDashboard onNavigate={handleNavigate} />;
       case "customer-management":
         return <CustomerManagement />;
       case "invoice-creator":
@@ -144,7 +149,7 @@ const Index = () => {
       case "analytics":
         return <Analytics />;
       case "analytics-dashboard":
-        return <AnalyticsDashboard />;
+        return <AnalyticsDashboard onNavigate={handleNavigate} />;
       case "messages":
         return <MessagesPage />;
       case "appointments":
@@ -160,7 +165,7 @@ const Index = () => {
       case "company-settings":
         return <CompanySettings />;
       default:
-        return <ImprovedDashboard />;
+        return <ImprovedDashboard onNavigate={handleNavigate} />;
     }
   };
 
@@ -168,7 +173,7 @@ const Index = () => {
     <AuthGuard>
       <SidebarProvider>
         <div className="min-h-screen flex w-full bg-background">
-          <AppSidebar onViewChange={setCurrentView} />
+          <AppSidebar activeView={currentView} setActiveView={setCurrentView} />
           <main className="flex-1 overflow-auto">
             {renderContent()}
           </main>
