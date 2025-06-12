@@ -38,7 +38,7 @@ export function SidebarMenuSection({
               <SidebarMenuButton 
                 isActive={activeView === item.view}
                 onClick={() => onMenuClick(item.view)}
-                className="text-xs"
+                className="text-sm font-medium" // increased from text-xs
               >
                 <item.icon className="w-4 h-4" />
                 <span>{item.title}</span>

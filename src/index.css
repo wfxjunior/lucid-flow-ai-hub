@@ -117,17 +117,18 @@
     opacity: 0;
   }
 
-  /* Sidebar font size customization */
+  /* Enhanced sidebar font size customization */
   [data-sidebar="sidebar"] {
-    font-size: 0.875rem; /* text-sm equivalent */
+    font-size: 1rem; /* increased from 0.875rem (text-sm) to text-base */
   }
 
   [data-sidebar="menu-button"] {
-    font-size: 0.8125rem; /* Slightly smaller than text-sm */
+    font-size: 0.9375rem; /* increased from 0.8125rem to slightly larger */
   }
 
   [data-sidebar="group-label"] {
-    font-size: 0.75rem; /* text-xs equivalent */
+    font-size: 0.875rem; /* increased from 0.75rem (text-xs) to text-sm */
+    font-weight: 600; /* made labels bolder */
   }
 }
 
