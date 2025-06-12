@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
@@ -38,15 +39,8 @@ export function useAuthLogic() {
   }
 
   const getRedirectUrl = () => {
-    // Always use featherbiz.com for production redirects
-    const currentDomain = window.location.hostname
-    
-    if (currentDomain === 'featherbiz.com') {
-      return 'https://featherbiz.com/app'
-    } else {
-      // For development or other domains, use the current origin
-      return `${window.location.origin}/app`
-    }
+    // Get current origin for redirect
+    return `${window.location.origin}/app`
   }
 
   const sendWelcomeEmail = async (email: string) => {
@@ -64,12 +58,12 @@ export function useAuthLogic() {
     clearErrors()
     
     if (!validateEmail(email)) {
-      addError('Please enter a valid email address')
+      addError('Por favor, insira um endereço de email válido')
       return
     }
 
     if (!validatePassword(password)) {
-      addError('Password must be at least 6 characters long')
+      addError('A senha deve ter pelo menos 6 caracteres')
       return
     }
 
@@ -83,19 +77,19 @@ export function useAuthLogic() {
 
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
-          addError('Invalid email or password. Please check your credentials.')
+          addError('Email ou senha inválidos. Verifique suas credenciais.')
         } else if (error.message.includes('Email not confirmed')) {
-          addError('Please check your email and click the confirmation link before signing in.')
+          addError('Por favor, verifique seu email e clique no link de confirmação antes de fazer login.')
         } else {
           addError(error.message)
         }
       } else {
-        toast.success('Successfully signed in!')
+        toast.success('Login realizado com sucesso!')
         navigate('/app')
       }
     } catch (error) {
       console.error('Sign in error:', error)
-      addError('An unexpected error occurred. Please try again.')
+      addError('Ocorreu um erro inesperado. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -106,17 +100,17 @@ export function useAuthLogic() {
     clearErrors()
 
     if (!validateEmail(email)) {
-      addError('Please enter a valid email address')
+      addError('Por favor, insira um endereço de email válido')
       return
     }
 
     if (!validatePassword(password)) {
-      addError('Password must be at least 6 characters long')
+      addError('A senha deve ter pelo menos 6 caracteres')
       return
     }
 
     if (password !== confirmPassword) {
-      addError('Passwords do not match')
+      addError('As senhas não coincidem')
       return
     }
 
@@ -133,21 +127,21 @@ export function useAuthLogic() {
 
       if (error) {
         if (error.message.includes('User already registered')) {
-          addError('An account with this email already exists. Please sign in instead.')
+          addError('Uma conta com este email já existe. Faça login em vez disso.')
         } else {
           addError(error.message)
         }
       } else {
         // Send welcome email after successful signup
         await sendWelcomeEmail(email)
-        toast.success('Account created! Please check your email for confirmation.')
+        toast.success('Conta criada! Verifique seu email para confirmação.')
         setMode('signin')
         setPassword('')
         setConfirmPassword('')
       }
     } catch (error) {
       console.error('Sign up error:', error)
-      addError('An unexpected error occurred. Please try again.')
+      addError('Ocorreu um erro inesperado. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -158,7 +152,7 @@ export function useAuthLogic() {
     clearErrors()
 
     if (!validateEmail(email)) {
-      addError('Please enter a valid email address')
+      addError('Por favor, insira um endereço de email válido')
       return
     }
 
@@ -172,12 +166,12 @@ export function useAuthLogic() {
       if (error) {
         addError(error.message)
       } else {
-        toast.success('Password reset email sent! Check your inbox.')
+        toast.success('Email de redefinição de senha enviado! Verifique sua caixa de entrada.')
         setMode('signin')
       }
     } catch (error) {
       console.error('Password reset error:', error)
-      addError('An unexpected error occurred. Please try again.')
+      addError('Ocorreu um erro inesperado. Tente novamente.')
     } finally {
       setLoading(false)
     }

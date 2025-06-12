@@ -69,14 +69,14 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
       
       if (error) {
         console.error('Sign out error:', error)
-        toast.error('Error signing out. Please try again.')
+        toast.error('Erro ao fazer logout. Tente novamente.')
       } else {
-        toast.success('Successfully signed out!')
+        toast.success('Logout realizado com sucesso!')
         navigate('/auth')
       }
     } catch (error) {
       console.error('Unexpected sign out error:', error)
-      toast.error('Unexpected error occurred.')
+      toast.error('Erro inesperado ocorreu.')
     } finally {
       setIsLoading(false)
     }
@@ -123,7 +123,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           size="sm"
           onClick={() => navigate('/auth')}
         >
-          Sign In
+          Entrar
         </Button>
         <HelpCenter variant="outline" size="sm" />
       </div>
@@ -133,7 +133,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   return (
     <div className="flex items-center gap-6">
       <span className="text-sm text-muted-foreground hidden sm:inline">
-        Hello, {getUserDisplayName(userEmail)}!
+        Olá, {getUserDisplayName(userEmail)}!
       </span>
       
       <DropdownMenu>
@@ -164,16 +164,16 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleSettingsClick}>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+            <span>Perfil</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleSettingsClick}>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+            <span>Configurações</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>{isLoading ? 'Signing out...' : 'Sign out'}</span>
+            <span>{isLoading ? 'Saindo...' : 'Sair'}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
