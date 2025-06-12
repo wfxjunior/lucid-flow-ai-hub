@@ -1,8 +1,7 @@
-
 import { 
   Users, Briefcase, PenTool, CheckSquare, Package, Clipboard, DollarSign, 
   Calculator, TrendingUp, Receipt, FileSpreadsheet, GitBranch, Car, 
-  Warehouse, UserCheck, Target, StickyNote, Video, Heart
+  Warehouse, UserCheck, Target, StickyNote, Video, Heart, PiggyBank
 } from "lucide-react"
 import { MenuItem } from "./types"
 
@@ -16,6 +15,11 @@ export const businessTools: MenuItem[] = [
     title: "FeatherForms",
     icon: Clipboard,
     view: "feather-forms"
+  },
+  {
+    title: "FeatherBudget AI",
+    icon: PiggyBank,
+    view: "feather-budget"
   },
   {
     title: "Projects",

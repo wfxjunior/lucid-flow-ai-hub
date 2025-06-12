@@ -1,8 +1,7 @@
-
 import { 
   Users, Briefcase, GitBranch, Car, Package, Warehouse, UserCheck, Target,
   Calculator, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt,
-  TrendingUp, Clipboard, DollarSign, PenTool
+  TrendingUp, Clipboard, DollarSign, PenTool, PiggyBank
 } from "lucide-react"
 
 export const businessToolsActions = [
@@ -21,6 +20,14 @@ export const businessToolsActions = [
     icon: Clipboard,
     color: "bg-blue-500",
     hoverColor: "hover:bg-blue-600"
+  },
+  {
+    id: "feather-budget",
+    title: "FeatherBudget AI",
+    description: "Smart finance tracking",
+    icon: PiggyBank,
+    color: "bg-emerald-500",
+    hoverColor: "hover:bg-emerald-600"
   },
   {
     id: "projects",
