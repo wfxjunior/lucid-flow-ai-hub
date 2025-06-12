@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Settings, RefreshCw, AlertCircle, Crown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface SubscriptionStatusProps {
   onNavigate?: (view: string) => void;
@@ -11,6 +12,7 @@ interface SubscriptionStatusProps {
 
 export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
   const { subscription, loading, checkSubscription, openCustomerPortal, isSubscribed, planName } = useSubscription();
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -35,28 +37,21 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
   };
 
   const handleUpgrade = () => {
-    console.log('Upgrade button clicked, onNavigate type:', typeof onNavigate);
+    console.log('Upgrade button clicked');
     
-    if (typeof onNavigate === 'function') {
-      console.log('Calling onNavigate with pricing');
-      onNavigate('pricing');
-    } else {
-      console.log('onNavigate not available, using fallback navigation');
-      // Check if we're in a single-page app context
-      if (window.location.hash) {
-        // Hash-based routing
-        window.location.hash = '#pricing';
+    // Try to navigate to the landing page pricing section
+    navigate('/#pricing');
+    
+    // If we're already on a single page, try to scroll to pricing
+    setTimeout(() => {
+      const pricingSection = document.getElementById('pricing');
+      if (pricingSection) {
+        pricingSection.scrollIntoView({ behavior: 'smooth' });
       } else {
-        // Try to scroll to pricing section if it exists on the same page
-        const pricingSection = document.getElementById('pricing');
-        if (pricingSection) {
-          pricingSection.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          // Fallback to root with pricing hash
-          window.location.href = '/#pricing';
-        }
+        // If no pricing section found, navigate to the landing page
+        window.location.href = '/#pricing';
       }
-    }
+    }, 100);
   };
 
   return (
