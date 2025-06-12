@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserGreeting } from "@/components/UserGreeting"
@@ -219,9 +218,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center cursor-pointer" onClick={() => setCurrentView('dashboard')}>
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                <Feather className="h-5 w-5 text-white" />
-              </div>
+              <Feather className="h-8 w-8 text-blue-600 mr-3" />
               <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
             </div>
             
