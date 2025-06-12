@@ -1,7 +1,8 @@
+
 import { 
   Users, Briefcase, GitBranch, Car, Package, Warehouse, UserCheck, Target,
   Calculator, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt,
-  TrendingUp, Clipboard, DollarSign, PenTool, PiggyBank
+  TrendingUp, Clipboard, DollarSign, PenTool, PiggyBank, Calendar
 } from "lucide-react"
 
 export const businessToolsActions = [
@@ -30,12 +31,28 @@ export const businessToolsActions = [
     hoverColor: "hover:bg-emerald-600"
   },
   {
+    id: "feather-tax",
+    title: "FeatherTax",
+    description: "Tax management & reporting",
+    icon: Calculator,
+    color: "bg-green-600",
+    hoverColor: "hover:bg-green-700"
+  },
+  {
     id: "projects",
     title: "Projects",
     description: "Manage projects",
     icon: Briefcase,
     color: "bg-orange-500",
     hoverColor: "hover:bg-orange-600"
+  },
+  {
+    id: "project-timeline",
+    title: "Project Timeline",
+    description: "Track project progress",
+    icon: Calendar,
+    color: "bg-purple-500",
+    hoverColor: "hover:bg-purple-600"
   },
   {
     id: "pipeline",
@@ -84,14 +101,6 @@ export const businessToolsActions = [
     icon: Target,
     color: "bg-red-600",
     hoverColor: "hover:bg-red-700"
-  },
-  {
-    id: "feather-tax",
-    title: "FeatherTax",
-    description: "Tax management & reporting",
-    icon: Calculator,
-    color: "bg-green-600",
-    hoverColor: "hover:bg-green-700"
   },
   {
     id: "meetings",

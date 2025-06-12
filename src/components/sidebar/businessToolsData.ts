@@ -1,7 +1,9 @@
+
 import { 
   Users, Briefcase, PenTool, CheckSquare, Package, Clipboard, DollarSign, 
   Calculator, TrendingUp, Receipt, FileSpreadsheet, GitBranch, Car, 
-  Warehouse, UserCheck, Target, StickyNote, Video, Heart, PiggyBank
+  Warehouse, UserCheck, Target, StickyNote, Video, Heart, PiggyBank,
+  Clock, BarChart3, Calendar
 } from "lucide-react"
 import { MenuItem } from "./types"
 
@@ -22,9 +24,19 @@ export const businessTools: MenuItem[] = [
     view: "feather-budget"
   },
   {
+    title: "FeatherTax",
+    icon: Calculator,
+    view: "feather-tax"
+  },
+  {
     title: "Projects",
     icon: Briefcase,
     view: "projects"
+  },
+  {
+    title: "Project Timeline",
+    icon: Calendar,
+    view: "project-timeline"
   },
   {
     title: "Sales Pipeline",
@@ -60,11 +72,6 @@ export const businessTools: MenuItem[] = [
     title: "AfterCare",
     icon: Heart,
     view: "aftercare"
-  },
-  {
-    title: "FeatherTax",
-    icon: Calculator,
-    view: "feather-tax"
   },
   {
     title: "Meetings",
