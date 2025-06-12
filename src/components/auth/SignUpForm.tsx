@@ -18,6 +18,8 @@ interface SignUpFormProps {
   setConfirmPassword: (password: string) => void
   loading: boolean
   errors: string[]
+  selectedCountry: string
+  setSelectedCountry: (country: string) => void
   onSubmit: (e: React.FormEvent) => void
   onSwitchToSignIn: () => void
 }
@@ -83,11 +85,12 @@ export function SignUpForm({
   setConfirmPassword,
   loading,
   errors,
+  selectedCountry,
+  setSelectedCountry,
   onSubmit,
   onSwitchToSignIn
 }: SignUpFormProps) {
   const [showPassword, setShowPassword] = useState(false)
-  const [country, setCountry] = useState('')
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [privacyAccepted, setPrivacyAccepted] = useState(false)
 
@@ -165,7 +168,7 @@ export function SignUpForm({
             <Globe className="w-4 h-4" />
             <span>Country</span>
           </Label>
-          <Select value={country} onValueChange={setCountry} required>
+          <Select value={selectedCountry} onValueChange={setSelectedCountry} required>
             <SelectTrigger className="pl-4">
               <SelectValue placeholder="Select your country" />
             </SelectTrigger>
@@ -217,7 +220,7 @@ export function SignUpForm({
         <Button 
           type="submit" 
           className="w-full"
-          disabled={loading || !country || !termsAccepted || !privacyAccepted}
+          disabled={loading || !selectedCountry || !termsAccepted || !privacyAccepted}
           size="lg"
         >
           {loading ? 'Processing...' : 'Create Account'}

@@ -18,6 +18,8 @@ export function AuthContainer() {
     setConfirmPassword,
     loading,
     errors,
+    selectedCountry,
+    setSelectedCountry,
     handleSignIn,
     handleSignUp,
     handleForgotPassword
@@ -57,6 +59,8 @@ export function AuthContainer() {
               setConfirmPassword={setConfirmPassword}
               loading={loading}
               errors={errors}
+              selectedCountry={selectedCountry}
+              setSelectedCountry={setSelectedCountry}
               onSubmit={handleSignUp}
               onSwitchToSignIn={() => setMode('signin')}
             />

@@ -13,6 +13,7 @@ export function useAuthLogic() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
+  const [selectedCountry, setSelectedCountry] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -53,17 +54,51 @@ export function useAuthLogic() {
     }
   }
 
+  // Get localized error messages based on selected country
+  const getLocalizedMessage = (key: string) => {
+    if (selectedCountry === 'br') {
+      const messages = {
+        'invalid_email': 'Por favor, insira um endereço de email válido',
+        'weak_password': 'A senha deve ter pelo menos 6 caracteres',
+        'invalid_credentials': 'Email ou senha inválidos. Verifique suas credenciais.',
+        'email_not_confirmed': 'Por favor, verifique seu email e clique no link de confirmação antes de fazer login.',
+        'password_mismatch': 'As senhas não coincidem',
+        'user_exists': 'Uma conta com este email já existe. Faça login em vez disso.',
+        'unexpected_error': 'Ocorreu um erro inesperado. Tente novamente.',
+        'signin_success': 'Login realizado com sucesso!',
+        'signup_success': 'Conta criada! Verifique seu email para confirmação.',
+        'reset_sent': 'Email de redefinição de senha enviado! Verifique sua caixa de entrada.'
+      }
+      return messages[key] || key
+    }
+    
+    // Default English messages
+    const messages = {
+      'invalid_email': 'Please enter a valid email address',
+      'weak_password': 'Password must be at least 6 characters long',
+      'invalid_credentials': 'Invalid email or password. Please check your credentials.',
+      'email_not_confirmed': 'Please check your email and click the confirmation link before signing in.',
+      'password_mismatch': 'Passwords do not match',
+      'user_exists': 'An account with this email already exists. Please sign in instead.',
+      'unexpected_error': 'An unexpected error occurred. Please try again.',
+      'signin_success': 'Successfully signed in!',
+      'signup_success': 'Account created! Please check your email for confirmation.',
+      'reset_sent': 'Password reset email sent! Please check your inbox.'
+    }
+    return messages[key] || key
+  }
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     clearErrors()
     
     if (!validateEmail(email)) {
-      addError('Por favor, insira um endereço de email válido')
+      addError(getLocalizedMessage('invalid_email'))
       return
     }
 
     if (!validatePassword(password)) {
-      addError('A senha deve ter pelo menos 6 caracteres')
+      addError(getLocalizedMessage('weak_password'))
       return
     }
 
@@ -77,19 +112,19 @@ export function useAuthLogic() {
 
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
-          addError('Email ou senha inválidos. Verifique suas credenciais.')
+          addError(getLocalizedMessage('invalid_credentials'))
         } else if (error.message.includes('Email not confirmed')) {
-          addError('Por favor, verifique seu email e clique no link de confirmação antes de fazer login.')
+          addError(getLocalizedMessage('email_not_confirmed'))
         } else {
           addError(error.message)
         }
       } else {
-        toast.success('Login realizado com sucesso!')
+        toast.success(getLocalizedMessage('signin_success'))
         navigate('/app')
       }
     } catch (error) {
       console.error('Sign in error:', error)
-      addError('Ocorreu um erro inesperado. Tente novamente.')
+      addError(getLocalizedMessage('unexpected_error'))
     } finally {
       setLoading(false)
     }
@@ -100,17 +135,17 @@ export function useAuthLogic() {
     clearErrors()
 
     if (!validateEmail(email)) {
-      addError('Por favor, insira um endereço de email válido')
+      addError(getLocalizedMessage('invalid_email'))
       return
     }
 
     if (!validatePassword(password)) {
-      addError('A senha deve ter pelo menos 6 caracteres')
+      addError(getLocalizedMessage('weak_password'))
       return
     }
 
     if (password !== confirmPassword) {
-      addError('As senhas não coincidem')
+      addError(getLocalizedMessage('password_mismatch'))
       return
     }
 
@@ -127,21 +162,21 @@ export function useAuthLogic() {
 
       if (error) {
         if (error.message.includes('User already registered')) {
-          addError('Uma conta com este email já existe. Faça login em vez disso.')
+          addError(getLocalizedMessage('user_exists'))
         } else {
           addError(error.message)
         }
       } else {
         // Send welcome email after successful signup
         await sendWelcomeEmail(email)
-        toast.success('Conta criada! Verifique seu email para confirmação.')
+        toast.success(getLocalizedMessage('signup_success'))
         setMode('signin')
         setPassword('')
         setConfirmPassword('')
       }
     } catch (error) {
       console.error('Sign up error:', error)
-      addError('Ocorreu um erro inesperado. Tente novamente.')
+      addError(getLocalizedMessage('unexpected_error'))
     } finally {
       setLoading(false)
     }
@@ -152,7 +187,7 @@ export function useAuthLogic() {
     clearErrors()
 
     if (!validateEmail(email)) {
-      addError('Por favor, insira um endereço de email válido')
+      addError(getLocalizedMessage('invalid_email'))
       return
     }
 
@@ -166,12 +201,12 @@ export function useAuthLogic() {
       if (error) {
         addError(error.message)
       } else {
-        toast.success('Email de redefinição de senha enviado! Verifique sua caixa de entrada.')
+        toast.success(getLocalizedMessage('reset_sent'))
         setMode('signin')
       }
     } catch (error) {
       console.error('Password reset error:', error)
-      addError('Ocorreu um erro inesperado. Tente novamente.')
+      addError(getLocalizedMessage('unexpected_error'))
     } finally {
       setLoading(false)
     }
@@ -188,6 +223,8 @@ export function useAuthLogic() {
     setConfirmPassword,
     loading,
     errors,
+    selectedCountry,
+    setSelectedCountry,
     handleSignIn,
     handleSignUp,
     handleForgotPassword
