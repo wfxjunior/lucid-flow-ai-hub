@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { supabase } from "@/integrations/supabase/client"
 import { useNavigate } from "react-router-dom"
 import { HelpCenter } from "@/components/HelpCenter"
-import { User, LogOut, Settings, Home } from "lucide-react"
+import { User, Settings, Home } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,26 +61,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
 
     return () => subscription.unsubscribe()
   }, [navigate])
-
-  const handleSignOut = async () => {
-    try {
-      setIsLoading(true)
-      const { error } = await supabase.auth.signOut()
-      
-      if (error) {
-        console.error('Sign out error:', error)
-        toast.error('Error signing out. Please try again.')
-      } else {
-        toast.success('Successfully signed out!')
-        navigate('/auth')
-      }
-    } catch (error) {
-      console.error('Unexpected sign out error:', error)
-      toast.error('An unexpected error occurred.')
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const getUserInitials = (email: string) => {
     return email.substring(0, 2).toUpperCase()
@@ -180,11 +160,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           <DropdownMenuItem onClick={handleSettingsClick}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>{isLoading ? 'Signing out...' : 'Sign Out'}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
