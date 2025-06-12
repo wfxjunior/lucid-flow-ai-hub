@@ -152,7 +152,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending receipt email to:", receiptData.customerEmail);
 
     const emailResponse = await resend.emails.send({
-      from: "FeatherBiz <onboarding@resend.dev>",
+      from: "FeatherBiz Receipts <receipts@featherbiz.com>",
       to: [receiptData.customerEmail],
       subject: "🧾 Your Receipt from FeatherBiz – Thank You!",
       html: generateReceiptHTML(receiptData),
