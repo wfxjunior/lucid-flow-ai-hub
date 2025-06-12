@@ -90,7 +90,17 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
     return email.split('@')[0]
   }
 
+  const handleProfileClick = () => {
+    console.log('Profile clicked, onNavigate type:', typeof onNavigate)
+    if (onNavigate) {
+      onNavigate('settings')
+    } else {
+      navigate('/app')
+    }
+  }
+
   const handleSettingsClick = () => {
+    console.log('Settings clicked, onNavigate type:', typeof onNavigate)
     if (onNavigate) {
       onNavigate('settings')
     } else {
@@ -99,6 +109,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   }
 
   const handleDashboardClick = () => {
+    console.log('Dashboard clicked, onNavigate type:', typeof onNavigate)
     if (onNavigate) {
       onNavigate('dashboard')
     } else {
@@ -162,7 +173,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             <Home className="mr-2 h-4 w-4" />
             <span>Dashboard</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleSettingsClick}>
+          <DropdownMenuItem onClick={handleProfileClick}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
