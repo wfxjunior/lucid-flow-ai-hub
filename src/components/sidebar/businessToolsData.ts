@@ -29,6 +29,11 @@ export const businessTools: MenuItem[] = [
     view: "feather-tax"
   },
   {
+    title: "EasyCalc",
+    icon: Calculator,
+    view: "easy-calc"
+  },
+  {
     title: "Projects",
     icon: Briefcase,
     view: "projects"

@@ -39,6 +39,14 @@ export const businessToolsActions = [
     hoverColor: "hover:bg-green-700"
   },
   {
+    id: "easy-calc",
+    title: "EasyCalc",
+    description: "AI-powered smart estimates",
+    icon: Calculator,
+    color: "bg-blue-600",
+    hoverColor: "hover:bg-blue-700"
+  },
+  {
     id: "projects",
     title: "Projects",
     description: "Manage projects",
