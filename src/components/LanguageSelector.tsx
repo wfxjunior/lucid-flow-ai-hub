@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { ChevronUp } from "lucide-react"
 
 const languages = [
   { code: "en-US", name: "English (US)", flag: "🇺🇸" },
@@ -18,12 +19,17 @@ const languages = [
 ]
 
 export function LanguageSelector() {
-  const { currentLanguage, setLanguage, t } = useLanguage()
+  const { currentLanguage, setLanguage } = useLanguage()
+  
+  const currentFlag = languages.find(lang => lang.code === currentLanguage)?.flag || "🇺🇸"
 
   return (
     <Select value={currentLanguage} onValueChange={setLanguage}>
-      <SelectTrigger className="w-full h-8 bg-transparent border-gray-700 text-gray-400 text-xs hover:bg-gray-800/50 focus:ring-1 focus:ring-gray-600">
-        <SelectValue placeholder={t("language.selectPlaceholder")} />
+      <SelectTrigger className="w-auto h-8 bg-transparent border-none text-gray-400 text-xs hover:bg-gray-800/50 focus:ring-1 focus:ring-gray-600 px-2">
+        <div className="flex items-center gap-1">
+          <span className="text-base">{currentFlag}</span>
+          <ChevronUp className="h-3 w-3" />
+        </div>
       </SelectTrigger>
       <SelectContent>
         {languages.map((language) => (

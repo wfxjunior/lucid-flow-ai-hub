@@ -7,10 +7,7 @@ export function SidebarFooter() {
   return (
     <UISidebarFooter className="p-4 border-t">
       <div className="space-y-3">
-        <div>
-          <p className="text-sm font-medium text-gray-500 mb-2">Language</p>
-          <LanguageSelector />
-        </div>
+        <LanguageSelector />
         <ThemeToggle />
       </div>
     </UISidebarFooter>
