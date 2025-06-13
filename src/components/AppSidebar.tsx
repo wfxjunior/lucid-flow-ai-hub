@@ -9,6 +9,13 @@ import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
 import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
 import { useSidebarMenuData } from "@/components/sidebar/SidebarMenuData"
+import { 
+  coreBusinessTools, 
+  financialTools, 
+  operationsTools, 
+  documentsTools, 
+  productivityTools 
+} from "@/components/sidebar/businessToolsData"
 
 interface AppSidebarProps {
   activeView: string
@@ -22,7 +29,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   
   const {
     mainFeatures,
-    businessTools,
     communication,
     analytics,
     integrations,
@@ -57,8 +63,44 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
         
         <SidebarMenuSection 
-          items={businessTools} 
-          sectionTitle="Business Tools" 
+          items={coreBusinessTools} 
+          sectionTitle="Core Business" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+        
+        <SidebarMenuSection 
+          items={financialTools} 
+          sectionTitle="Financial Tools" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+        
+        <SidebarMenuSection 
+          items={operationsTools} 
+          sectionTitle="Operations" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+        
+        <SidebarMenuSection 
+          items={documentsTools} 
+          sectionTitle="Documents & Forms" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+        
+        <SidebarMenuSection 
+          items={productivityTools} 
+          sectionTitle="Productivity" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />

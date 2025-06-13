@@ -7,17 +7,32 @@ import {
 } from "lucide-react"
 import { MenuItem } from "./types"
 
-export const businessTools: MenuItem[] = [
+// Core Business Management
+export const coreBusinessTools: MenuItem[] = [
   {
     title: "Customers",
     icon: Users,
     view: "customer-management"
   },
   {
-    title: "FeatherForms",
-    icon: Clipboard,
-    view: "feather-forms"
+    title: "Projects",
+    icon: Briefcase,
+    view: "projects"
   },
+  {
+    title: "Project Timeline",
+    icon: Calendar,
+    view: "project-timeline"
+  },
+  {
+    title: "Sales Pipeline",
+    icon: GitBranch,
+    view: "pipeline"
+  }
+]
+
+// Financial Tools
+export const financialTools: MenuItem[] = [
   {
     title: "FeatherBudget AI",
     icon: PiggyBank,
@@ -34,20 +49,24 @@ export const businessTools: MenuItem[] = [
     view: "easy-calc"
   },
   {
-    title: "Projects",
-    icon: Briefcase,
-    view: "projects"
+    title: "Accounting",
+    icon: Receipt,
+    view: "accounting"
   },
   {
-    title: "Project Timeline",
-    icon: Calendar,
-    view: "project-timeline"
+    title: "Quotes",
+    icon: FileSpreadsheet,
+    view: "quotes"
   },
   {
-    title: "Sales Pipeline",
-    icon: GitBranch,
-    view: "pipeline"
-  },
+    title: "Estimates",
+    icon: Calculator,
+    view: "estimates"
+  }
+]
+
+// Operations & Specialized Tools
+export const operationsTools: MenuItem[] = [
   {
     title: "Car Rental",
     icon: Car,
@@ -77,36 +96,15 @@ export const businessTools: MenuItem[] = [
     title: "AfterCare",
     icon: Heart,
     view: "aftercare"
-  },
+  }
+]
+
+// Documents & Forms
+export const documentsTools: MenuItem[] = [
   {
-    title: "Meetings",
-    icon: Video,
-    view: "meetings"
-  },
-  {
-    title: "To-Do List",
-    icon: CheckSquare,
-    view: "todo-list"
-  },
-  {
-    title: "Notes",
-    icon: StickyNote,
-    view: "notes"
-  },
-  {
-    title: "Quotes",
-    icon: FileSpreadsheet,
-    view: "quotes"
-  },
-  {
-    title: "Estimates",
-    icon: Calculator,
-    view: "estimates"
-  },
-  {
-    title: "Accounting",
-    icon: Receipt,
-    view: "accounting"
+    title: "FeatherForms",
+    icon: Clipboard,
+    view: "feather-forms"
   },
   {
     title: "Sales Orders",
@@ -128,4 +126,32 @@ export const businessTools: MenuItem[] = [
     icon: PenTool,
     view: "contracts"
   }
+]
+
+// Productivity Tools
+export const productivityTools: MenuItem[] = [
+  {
+    title: "Meetings",
+    icon: Video,
+    view: "meetings"
+  },
+  {
+    title: "To-Do List",
+    icon: CheckSquare,
+    view: "todo-list"
+  },
+  {
+    title: "Notes",
+    icon: StickyNote,
+    view: "notes"
+  }
+]
+
+// Legacy export for compatibility
+export const businessTools: MenuItem[] = [
+  ...coreBusinessTools,
+  ...financialTools,
+  ...operationsTools,
+  ...documentsTools,
+  ...productivityTools
 ]

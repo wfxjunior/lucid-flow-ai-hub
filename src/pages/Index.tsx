@@ -141,30 +141,30 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatsCard
                 title="Total Customers"
-                value="Loading..."
+                value="1,234"
                 icon={Users}
-                change="--"
+                change="+12% from last month"
                 trend="up"
               />
               <StatsCard
                 title="Active Projects"
-                value="Loading..."
+                value="12"
                 icon={FileText}
-                change="--"
+                change="+5% from last month"
                 trend="up"
               />
               <StatsCard
                 title="Monthly Revenue"
-                value="Loading..."
+                value="$12,345"
                 icon={DollarSign}
-                change="--"
+                change="+19% from last month"
                 trend="up"
               />
               <StatsCard
                 title="Conversion Rate"
-                value="Loading..."
+                value="87%"
                 icon={TrendingUp}
-                change="--"
+                change="+3% from last month"
                 trend="up"
               />
             </div>

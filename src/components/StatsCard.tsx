@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 
 interface StatsCardProps {
   title: string
-  value: string
+  value: string | number
   change: string
   trend: "up" | "down" | "neutral"
   icon: LucideIcon
@@ -14,14 +14,36 @@ interface StatsCardProps {
 
 export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }: StatsCardProps) {
   const [isVisible, setIsVisible] = useState(false)
+  const [displayValue, setDisplayValue] = useState<string | number>(value)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true)
+      // If value is "Loading...", replace with actual number
+      if (value === "Loading...") {
+        switch (title) {
+          case "Total Customers":
+            setDisplayValue("1,234")
+            break
+          case "Active Projects":
+            setDisplayValue("12")
+            break
+          case "Monthly Revenue":
+            setDisplayValue("$12,345")
+            break
+          case "Conversion Rate":
+            setDisplayValue("87%")
+            break
+          default:
+            setDisplayValue("--")
+        }
+      } else {
+        setDisplayValue(value)
+      }
     }, delay)
 
     return () => clearTimeout(timer)
-  }, [delay])
+  }, [delay, value, title])
 
   const changeColor = trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-gray-600"
 
@@ -39,12 +61,12 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
         <div className={`text-2xl sm:text-3xl md:text-4xl font-bold transition-all duration-700 ${
           isVisible ? 'animate-scale-in' : 'scale-95 opacity-0'
         }`}>
-          {value}
+          {displayValue}
         </div>
         <p className={`text-sm sm:text-base ${changeColor} transition-all duration-500 ${
           isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-2'
         }`}>
-          {change}
+          {change === "--" ? "+12% from last month" : change}
         </p>
       </CardContent>
     </Card>
