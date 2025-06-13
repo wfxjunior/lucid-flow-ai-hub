@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -41,7 +42,7 @@ export function AnalyticsDashboard() {
     await generateAnalyticsReportPDF(analyticsData)
   }
 
-  // Business tools data for different charts
+  // Business tools data for different charts - using only blue, gray, green
   const businessToolsData = {
     "work-orders": [
       { name: 'Completed', value: completedWorkOrders, color: '#10b981' },
@@ -65,7 +66,7 @@ export function AnalyticsDashboard() {
     ]
   }
 
-  // Mock data for charts using blue, gray, green colors
+  // Monthly data using only blue, gray, green colors
   const monthlyData = [
     { month: 'Jan', revenue: 12500, expenses: 8000, profit: 4500 },
     { month: 'Feb', revenue: 15000, expenses: 9500, profit: 5500 },
@@ -75,12 +76,7 @@ export function AnalyticsDashboard() {
     { month: 'Jun', revenue: 32000, expenses: 18500, profit: 13500 },
   ]
 
-  const clientData = [
-    { name: 'Residential', value: 45, color: '#3b82f6' },
-    { name: 'Commercial', value: 35, color: '#10b981' },
-    { name: 'Industrial', value: 20, color: '#6b7280' },
-  ]
-
+  // Project status data using only blue, gray, green colors
   const projectStatusData = [
     { status: 'Completed', count: completedWorkOrders },
     { status: 'In Progress', count: workOrders?.filter(wo => wo.status === 'in_progress').length || 0 },
@@ -146,7 +142,7 @@ export function AnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold">{pendingProjects}</div>
-            <p className="text-xs text-yellow-600 flex items-center">
+            <p className="text-xs text-blue-600 flex items-center">
               <TrendingDown className="h-3 w-3 mr-1" />
               -3% from last month
             </p>
