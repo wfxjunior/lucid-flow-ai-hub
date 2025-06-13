@@ -28,27 +28,10 @@ jobs:
         node-version: '18'
         
     - name: Install dependencies
-      run: |
-        if [ -f bun.lockb ]; then
-          curl -fsSL https://bun.sh/install | bash
-          export PATH="$HOME/.bun/bin:$PATH"
-          bun install
-        elif [ -f yarn.lock ]; then
-          yarn install --frozen-lockfile
-        elif [ -f package-lock.json ]; then
-          npm ci
-        else
-          npm install
-        fi
+      run: npm install
       
     - name: Build
-      run: |
-        if [ -f bun.lockb ]; then
-          export PATH="$HOME/.bun/bin:$PATH"
-          bun run build
-        else
-          npm run build
-        fi
+      run: npm run build
       env:
         VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
         VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
