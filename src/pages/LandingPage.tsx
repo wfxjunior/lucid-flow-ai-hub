@@ -145,7 +145,7 @@ export default function LandingPage() {
   ]
 
   const stats = [
-    { number: 10000, label: "Active Users", suffix: "+" },
+    { number: 12900, label: "Active Users", suffix: "+" },
     { number: 99.9, label: "Uptime", suffix: "%", decimals: 1 },
     { number: 24, label: "Support", suffix: "/7" },
     { number: 150, label: "Integrations", suffix: "+" }
@@ -253,7 +253,7 @@ export default function LandingPage() {
               <div className="flex items-center space-x-2">
                 <div className="w-10 h-10 flex items-center justify-center">
                   <img 
-                    src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
+                    src="/lovable-uploads/7b2174fb-03a6-4038-9b69-f5fdfd2fcdc4.png" 
                     alt="FeatherBiz Logo" 
                     className="w-10 h-10 object-contain"
                   />
@@ -374,7 +374,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8">
             <p className="text-lg sm:text-xl font-bold text-primary uppercase tracking-wide animate-fade-in">
-              Trusted by <AnimatedNumber value={10000} suffix="+" delay={200} /> businesses worldwide
+              Trusted by <AnimatedNumber value={12900} suffix="+" delay={200} /> businesses worldwide
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
@@ -525,7 +525,7 @@ export default function LandingPage() {
                 <div className="flex items-center space-x-2">
                   <div className="w-8 h-8 flex items-center justify-center">
                     <img 
-                      src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
+                      src="/lovable-uploads/7b2174fb-03a6-4038-9b69-f5fdfd2fcdc4.png" 
                       alt="FeatherBiz Logo" 
                       className="w-8 h-8 object-contain"
                     />
