@@ -5,6 +5,14 @@ import { ActionGrid } from "@/components/ActionGrid"
 import { limitedQuickActions } from "@/components/quick-actions/limitedQuickActions"
 import { Button } from "@/components/ui/button"
 import { Mic, MicOff } from "lucide-react"
+import { useSidebarMenuData } from "@/components/sidebar/SidebarMenuData"
+import { 
+  coreBusinessTools, 
+  financialTools, 
+  operationsTools, 
+  documentsTools, 
+  productivityTools 
+} from "@/components/sidebar/businessToolsData"
 
 // Declare speech recognition types
 declare global {
@@ -21,6 +29,7 @@ interface LimitedQuickActionsProps {
 export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [isListening, setIsListening] = useState(false)
+  const { mainFeatures, communication, analytics, integrations, systemTools } = useSidebarMenuData()
 
   const filteredActions = limitedQuickActions.filter(action =>
     action.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -31,6 +40,20 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
     console.log('LimitedQuickActions: Action clicked:', actionId)
     onActionClick(actionId)
   }
+
+  // Combine all sidebar items for voice recognition
+  const allSidebarItems = [
+    ...mainFeatures,
+    ...coreBusinessTools,
+    ...financialTools,
+    ...operationsTools,
+    ...documentsTools,
+    ...productivityTools,
+    ...communication,
+    ...analytics,
+    ...integrations,
+    ...systemTools
+  ]
 
   const handleVoiceCommand = () => {
     if (!isListening) {
@@ -51,19 +74,71 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
           const transcript = event.results[0][0].transcript.toLowerCase()
           console.log('Voice command:', transcript)
           
-          // Match voice command to actions
-          const matchedAction = limitedQuickActions.find(action => 
+          // Check for theme commands
+          if (transcript.includes('dark mode') || transcript.includes('activate dark mode') || transcript.includes('trigger dark mode')) {
+            const root = window.document.documentElement
+            root.classList.remove('light')
+            root.classList.add('dark')
+            root.setAttribute('data-theme', 'dark')
+            localStorage.setItem('theme', 'dark')
+            setIsListening(false)
+            return
+          }
+          
+          if (transcript.includes('light mode') || transcript.includes('activate light mode')) {
+            const root = window.document.documentElement
+            root.classList.remove('dark')
+            root.classList.add('light')
+            root.setAttribute('data-theme', 'light')
+            localStorage.setItem('theme', 'light')
+            setIsListening(false)
+            return
+          }
+
+          // Check for language commands
+          const languageCommands: { [key: string]: string } = {
+            'portuguese': 'pt',
+            'chinese': 'zh',
+            'german': 'de',
+            'french': 'fr',
+            'spanish': 'es'
+          }
+
+          for (const [language, code] of Object.entries(languageCommands)) {
+            if (transcript.includes(`change language to ${language}`) || transcript.includes(language)) {
+              // This would need to integrate with your language context
+              console.log(`Changing language to ${language} (${code})`)
+              setIsListening(false)
+              return
+            }
+          }
+          
+          // Match voice command to quick actions first
+          const matchedQuickAction = limitedQuickActions.find(action => 
             transcript.includes(action.title.toLowerCase()) ||
             transcript.includes(action.id.toLowerCase())
           )
           
-          if (matchedAction) {
-            handleActionClick(matchedAction.id)
-          } else {
-            // Set search term if no direct match
-            setSearchTerm(transcript)
+          if (matchedQuickAction) {
+            handleActionClick(matchedQuickAction.id)
+            setIsListening(false)
+            return
           }
+
+          // Match voice command to sidebar items
+          const matchedSidebarItem = allSidebarItems.find(item => 
+            transcript.includes(item.title.toLowerCase()) ||
+            transcript.includes(item.view.toLowerCase())
+          )
           
+          if (matchedSidebarItem) {
+            handleActionClick(matchedSidebarItem.view)
+            setIsListening(false)
+            return
+          }
+
+          // Set search term if no direct match
+          setSearchTerm(transcript)
           setIsListening(false)
         }
         

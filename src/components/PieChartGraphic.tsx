@@ -3,32 +3,80 @@ import React from 'react'
 import { BarChart3, TrendingUp, Users, DollarSign } from 'lucide-react'
 
 export function PieChartGraphic() {
+  // Sample data for the line chart
+  const monthlyData = [
+    { month: 'Jan', value: 12000 },
+    { month: 'Feb', value: 15000 },
+    { month: 'Mar', value: 18500 },
+    { month: 'Apr', value: 22000 },
+    { month: 'May', value: 28000 },
+    { month: 'Jun', value: 32000 },
+  ]
+
+  const maxValue = Math.max(...monthlyData.map(d => d.value))
+
   return (
     <div className="w-full bg-gradient-to-br from-blue-50 to-green-50 rounded-lg p-4 sm:p-6">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-        {/* Left side - Pie Chart representation */}
+        {/* Left side - Line Chart representation */}
         <div className="flex-1 flex items-center justify-center">
-          <div className="relative w-48 h-48 sm:w-56 sm:h-56">
-            {/* Pie Chart representation using CSS */}
-            <div className="relative w-full h-full rounded-full overflow-hidden">
-              {/* Blue segment (40%) */}
-              <div 
-                className="absolute w-full h-full rounded-full"
-                style={{
-                  background: `conic-gradient(
-                    #3b82f6 0deg 144deg,
-                    #10b981 144deg 252deg,
-                    #6b7280 252deg 360deg
-                  )`
-                }}
-              ></div>
-              
-              {/* Center circle to create donut effect */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-full flex items-center justify-center">
-                <div className="text-center">
-                  <p className="text-lg sm:text-xl font-bold text-gray-800">87%</p>
-                  <p className="text-xs text-gray-600">Growth</p>
-                </div>
+          <div className="relative w-64 h-48 sm:w-72 sm:h-56">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Monthly Revenue Trend</h3>
+            
+            {/* Line Chart representation using CSS and SVG */}
+            <div className="relative w-full h-32 border-l-2 border-b-2 border-gray-400">
+              {/* Grid lines */}
+              <div className="absolute inset-0">
+                {[...Array(4)].map((_, i) => (
+                  <div 
+                    key={i}
+                    className="absolute w-full border-t border-gray-200"
+                    style={{ top: `${(i + 1) * 25}%` }}
+                  />
+                ))}
+                {[...Array(5)].map((_, i) => (
+                  <div 
+                    key={i}
+                    className="absolute h-full border-r border-gray-200"
+                    style={{ left: `${(i + 1) * 20}%` }}
+                  />
+                ))}
+              </div>
+
+              {/* Line chart points and line */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <polyline
+                  fill="none"
+                  stroke="#3b82f6"
+                  strokeWidth="2"
+                  points={monthlyData.map((data, index) => {
+                    const x = (index / (monthlyData.length - 1)) * 100
+                    const y = 100 - (data.value / maxValue) * 100
+                    return `${x},${y}`
+                  }).join(' ')}
+                />
+                {monthlyData.map((data, index) => {
+                  const x = (index / (monthlyData.length - 1)) * 100
+                  const y = 100 - (data.value / maxValue) * 100
+                  return (
+                    <circle
+                      key={index}
+                      cx={x}
+                      cy={y}
+                      r="2"
+                      fill="#10b981"
+                      stroke="#3b82f6"
+                      strokeWidth="1"
+                    />
+                  )
+                })}
+              </svg>
+
+              {/* Month labels */}
+              <div className="absolute -bottom-6 w-full flex justify-between text-xs text-gray-600">
+                {monthlyData.map(data => (
+                  <span key={data.month}>{data.month}</span>
+                ))}
               </div>
             </div>
             
@@ -48,15 +96,15 @@ export function PieChartGraphic() {
           <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Revenue (40%)</span>
+              <span className="text-sm text-gray-600">Revenue Trend</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Customers (30%)</span>
+              <span className="text-sm text-gray-600">Growth Points</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Projects (30%)</span>
+              <span className="text-sm text-gray-600">Baseline</span>
             </div>
           </div>
 
@@ -78,7 +126,7 @@ export function PieChartGraphic() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Revenue</p>
-                <p className="text-lg font-semibold text-gray-800">$12,345</p>
+                <p className="text-lg font-semibold text-gray-800">$32,000</p>
               </div>
             </div>
             
@@ -88,7 +136,7 @@ export function PieChartGraphic() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Growth</p>
-                <p className="text-lg font-semibold text-gray-800">+23%</p>
+                <p className="text-lg font-semibold text-gray-800">+35%</p>
               </div>
             </div>
           </div>

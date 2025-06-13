@@ -1,15 +1,17 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell, AreaChart, Area } from "recharts"
 import { TrendingUp, TrendingDown, DollarSign, Users, FileText, Calendar, Download } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { useState } from "react"
 
 export function AnalyticsDashboard() {
   const { workOrders, estimates, clients, contracts, signatures } = useBusinessData()
   const { generateAnalyticsReportPDF, isGenerating } = usePDFGeneration()
+  const [selectedBusinessTool, setSelectedBusinessTool] = useState("work-orders")
 
   // Generate analytics data
   const totalRevenue = estimates?.reduce((sum, est) => sum + (est.amount || 0), 0) || 0
@@ -39,7 +41,31 @@ export function AnalyticsDashboard() {
     await generateAnalyticsReportPDF(analyticsData)
   }
 
-  // Mock data for charts
+  // Business tools data for different charts
+  const businessToolsData = {
+    "work-orders": [
+      { name: 'Completed', value: completedWorkOrders, color: '#10b981' },
+      { name: 'In Progress', value: workOrders?.filter(wo => wo.status === 'in_progress').length || 0, color: '#3b82f6' },
+      { name: 'Pending', value: workOrders?.filter(wo => wo.status === 'pending').length || 0, color: '#6b7280' },
+    ],
+    "estimates": [
+      { name: 'Approved', value: estimates?.filter(est => est.status === 'approved').length || 0, color: '#10b981' },
+      { name: 'Sent', value: estimatesSent, color: '#3b82f6' },
+      { name: 'Draft', value: estimates?.filter(est => est.status === 'draft').length || 0, color: '#6b7280' },
+    ],
+    "contracts": [
+      { name: 'Active', value: contractsSigned, color: '#10b981' },
+      { name: 'Pending', value: contracts?.filter(c => c.status === 'pending').length || 0, color: '#3b82f6' },
+      { name: 'Expired', value: contracts?.filter(c => c.status === 'expired').length || 0, color: '#6b7280' },
+    ],
+    "customers": [
+      { name: 'Active', value: activeClients, color: '#10b981' },
+      { name: 'Inactive', value: clients?.filter(c => c.status === 'inactive').length || 0, color: '#6b7280' },
+      { name: 'Prospective', value: clients?.filter(c => c.status === 'prospect').length || 0, color: '#3b82f6' },
+    ]
+  }
+
+  // Mock data for charts using blue, gray, green colors
   const monthlyData = [
     { month: 'Jan', revenue: 12500, expenses: 8000, profit: 4500 },
     { month: 'Feb', revenue: 15000, expenses: 9500, profit: 5500 },
@@ -52,7 +78,7 @@ export function AnalyticsDashboard() {
   const clientData = [
     { name: 'Residential', value: 45, color: '#3b82f6' },
     { name: 'Commercial', value: 35, color: '#10b981' },
-    { name: 'Industrial', value: 20, color: '#f59e0b' },
+    { name: 'Industrial', value: 20, color: '#6b7280' },
   ]
 
   const projectStatusData = [
@@ -63,9 +89,9 @@ export function AnalyticsDashboard() {
   ]
 
   const chartConfig = {
-    revenue: { label: "Revenue", color: "hsl(var(--primary))" },
-    expenses: { label: "Expenses", color: "hsl(var(--destructive))" },
-    profit: { label: "Profit", color: "hsl(142.1 76.2% 36.3%)" },
+    revenue: { label: "Revenue", color: "#3b82f6" },
+    expenses: { label: "Expenses", color: "#6b7280" },
+    profit: { label: "Profit", color: "#10b981" },
   }
 
   return (
@@ -168,16 +194,16 @@ export function AnalyticsDashboard() {
                   type="monotone" 
                   dataKey="revenue" 
                   stackId="1"
-                  stroke="var(--color-revenue)" 
-                  fill="var(--color-revenue)" 
+                  stroke="#3b82f6" 
+                  fill="#3b82f6" 
                   fillOpacity={0.6}
                 />
                 <Area 
                   type="monotone" 
                   dataKey="expenses" 
                   stackId="2"
-                  stroke="var(--color-expenses)" 
-                  fill="var(--color-expenses)" 
+                  stroke="#6b7280" 
+                  fill="#6b7280" 
                   fillOpacity={0.6}
                 />
               </AreaChart>
@@ -185,25 +211,40 @@ export function AnalyticsDashboard() {
           </CardContent>
         </Card>
 
-        {/* Client Distribution */}
+        {/* Business Tools Chart with Dropdown */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">Client Distribution</CardTitle>
-            <CardDescription className="text-sm">Breakdown by client type</CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg sm:text-xl">Business Tools Analysis</CardTitle>
+                <CardDescription className="text-sm">Select a tool to view analytics</CardDescription>
+              </div>
+              <Select value={selectedBusinessTool} onValueChange={setSelectedBusinessTool}>
+                <SelectTrigger className="w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="work-orders">Work Orders</SelectItem>
+                  <SelectItem value="estimates">Estimates</SelectItem>
+                  <SelectItem value="contracts">Contracts</SelectItem>
+                  <SelectItem value="customers">Customers</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </CardHeader>
           <CardContent className="p-2 sm:p-4">
             <ChartContainer config={chartConfig} className="h-48 sm:h-64 w-full">
               <PieChart margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                 <Pie
-                  data={clientData}
+                  data={businessToolsData[selectedBusinessTool as keyof typeof businessToolsData]}
                   cx="50%"
                   cy="50%"
                   outerRadius={60}
                   dataKey="value"
-                  label={({ name, value }) => `${name}: ${value}%`}
+                  label={({ name, value }) => `${name}: ${value}`}
                   fontSize={10}
                 >
-                  {clientData.map((entry, index) => (
+                  {businessToolsData[selectedBusinessTool as keyof typeof businessToolsData].map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -236,7 +277,7 @@ export function AnalyticsDashboard() {
                   className="text-xs sm:text-sm"
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="count" fill="hsl(var(--primary))" />
+                <Bar dataKey="count" fill="#3b82f6" />
               </BarChart>
             </ChartContainer>
           </CardContent>
@@ -266,9 +307,9 @@ export function AnalyticsDashboard() {
                 <Line 
                   type="monotone" 
                   dataKey="profit" 
-                  stroke="var(--color-profit)" 
+                  stroke="#10b981" 
                   strokeWidth={3}
-                  dot={{ fill: "var(--color-profit)" }}
+                  dot={{ fill: "#10b981" }}
                 />
               </LineChart>
             </ChartContainer>
@@ -293,7 +334,7 @@ export function AnalyticsDashboard() {
               <div className="text-xs sm:text-sm text-muted-foreground">Contracts Signed</div>
             </div>
             <div className="text-center p-3 sm:p-4 border rounded-lg sm:col-span-2 lg:col-span-1">
-              <div className="text-xl sm:text-2xl font-bold text-orange-600">
+              <div className="text-xl sm:text-2xl font-bold text-gray-600">
                 {signatures?.filter(s => s.status === 'signed').length || 0}
               </div>
               <div className="text-xs sm:text-sm text-muted-foreground">Documents Signed</div>
