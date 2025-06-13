@@ -7,7 +7,7 @@ import { UserGreeting } from "@/components/UserGreeting"
 import { LimitedQuickActions } from "@/components/LimitedQuickActions"
 import { RecentActivity } from "@/components/RecentActivity"
 import { StatsCard } from "@/components/StatsCard"
-import { DashboardGraphic } from "@/components/DashboardGraphic"
+import { PieChartGraphic } from "@/components/PieChartGraphic"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { CreateInvoice } from "@/components/CreateInvoice"
 import { CustomerManagement } from "@/components/CustomerManagement"
@@ -135,16 +135,15 @@ const Index = () => {
         return <SettingsPage />
       default:
         return (
-          <div className="flex-1 p-6 space-y-6">
-            <div className="flex items-center justify-between">
+          <div className="flex-1 p-3 sm:p-6 space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <UserGreeting />
-              <SidebarTrigger />
+              <div className="flex items-center gap-2 sm:gap-4">
+                <SidebarTrigger />
+              </div>
             </div>
             
-            {/* Dashboard Graphic */}
-            <DashboardGraphic />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <StatsCard
                 title={t("dashboard.totalCustomers")}
                 value="1,234"
@@ -174,6 +173,9 @@ const Index = () => {
                 trend="up"
               />
             </div>
+
+            {/* Pie Chart Graphic */}
+            <PieChartGraphic />
             
             <LimitedQuickActions onActionClick={setActiveView} />
             <RecentActivity />

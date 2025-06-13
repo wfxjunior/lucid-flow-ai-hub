@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/integrations/supabase/client"
@@ -122,77 +121,111 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-6">
-        <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
-        <HelpCenter variant="outline" size="sm" />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
+        <div className="flex items-center gap-4">
+          <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+          <div className="h-4 w-24 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" className="w-auto">
+            <Home className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline">Dashboard</span>
+          </Button>
+          <HelpCenter variant="outline" size="sm" />
+        </div>
       </div>
     )
   }
 
   if (!userEmail) {
     return (
-      <div className="flex items-center gap-6">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => navigate('/auth')}
-        >
-          Sign In
-        </Button>
-        <HelpCenter variant="outline" size="sm" />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
+        <div className="text-lg sm:text-xl font-semibold">Welcome to FeatherBiz</div>
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => navigate('/auth')}
+          >
+            Sign In
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => onNavigate?.('dashboard')}
+            className="flex items-center gap-2"
+          >
+            <Home className="w-4 h-4" />
+            <span className="hidden sm:inline">Dashboard</span>
+          </Button>
+          <HelpCenter variant="outline" size="sm" />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="flex items-center gap-6">
-      <span className="text-sm text-muted-foreground hidden sm:inline">
-        Hello, {getUserDisplayName(userEmail)}!
-      </span>
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
+      <div className="flex items-center gap-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="bg-blue-500 text-white text-xs">
+                  {getUserInitials(userEmail)}
+                </AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {getUserDisplayName(userEmail)}
+                </p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {userEmail}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleDashboardClick}>
+              <Home className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleProfileClick}>
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSettingsClick}>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>{isLoading ? 'Signing out...' : 'Sign Out'}</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        
+        <span className="text-sm sm:text-base text-muted-foreground">
+          Hello, {getUserDisplayName(userEmail)}!
+        </span>
+      </div>
       
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-blue-500 text-white text-xs">
-                {getUserInitials(userEmail)}
-              </AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {getUserDisplayName(userEmail)}
-              </p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {userEmail}
-              </p>
-            </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleDashboardClick}>
-            <Home className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleProfileClick}>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleSettingsClick}>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>{isLoading ? 'Signing out...' : 'Sign Out'}</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      
-      <HelpCenter variant="outline" size="sm" />
+      <div className="flex items-center gap-2">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => onNavigate?.('dashboard')}
+          className="flex items-center gap-2"
+        >
+          <Home className="w-4 h-4" />
+          <span className="hidden sm:inline">Dashboard</span>
+        </Button>
+        <HelpCenter variant="outline" size="sm" />
+      </div>
     </div>
   )
 }
