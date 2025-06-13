@@ -1,168 +1,210 @@
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Mic, MicOff, Brain, MessageSquare, Send, FileText, Calendar, Users, BarChart3 } from "lucide-react"
+import { Mic, MicOff, Volume2, VolumeX, Loader2 } from "lucide-react"
+import { toast } from "sonner"
+import { supabase } from '@/integrations/supabase/client'
 
 export function AIVoiceAssistant() {
   const [isListening, setIsListening] = useState(false)
-  const [inputMessage, setInputMessage] = useState("")
-  const [responses, setResponses] = useState<Array<{type: 'user' | 'ai', message: string}>>([
-    { type: 'ai', message: 'Hello! I\'m your AI assistant. I can help you create invoices, schedule appointments, manage customers, and much more. How can I assist you today?' }
-  ])
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [transcript, setTranscript] = useState('')
+  const [response, setResponse] = useState('')
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
 
-  const toggleListening = () => {
-    setIsListening(!isListening)
-    if (!isListening) {
-      // Simulate voice recognition
-      setTimeout(() => {
-        const voiceMessage = "Create an invoice for John Smith"
-        setResponses(prev => [...prev, 
-          { type: 'user', message: voiceMessage },
-          { type: 'ai', message: 'I\'ll help you create an invoice for John Smith. Let me gather the necessary information and prepare the invoice template for you.' }
-        ])
-        setIsListening(false)
-      }, 3000)
+  const startListening = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const mediaRecorder = new MediaRecorder(stream)
+      mediaRecorderRef.current = mediaRecorder
+      audioChunksRef.current = []
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunksRef.current.push(event.data)
+      }
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
+        await processAudio(audioBlob)
+      }
+
+      mediaRecorder.start()
+      setIsListening(true)
+      toast.success('Listening... Speak now!')
+    } catch (error) {
+      console.error('Error accessing microphone:', error)
+      toast.error('Could not access microphone')
     }
   }
 
-  const sendMessage = () => {
-    if (inputMessage.trim()) {
-      setResponses(prev => [...prev, 
-        { type: 'user', message: inputMessage },
-        { type: 'ai', message: 'I understand your request. Let me help you with that. I\'ll process your request and provide the best assistance possible.' }
-      ])
-      setInputMessage("")
+  const stopListening = () => {
+    if (mediaRecorderRef.current && isListening) {
+      mediaRecorderRef.current.stop()
+      setIsListening(false)
+      setIsProcessing(true)
+      
+      // Stop all tracks
+      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop())
     }
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      sendMessage()
+  const processAudio = async (audioBlob: Blob) => {
+    try {
+      const formData = new FormData()
+      formData.append('audio', audioBlob, 'recording.wav')
+
+      const { data, error } = await supabase.functions.invoke('transcribe-audio', {
+        body: formData
+      })
+
+      if (error) throw error
+
+      const transcribedText = data.transcript || 'No speech detected'
+      setTranscript(transcribedText)
+      
+      // Generate AI response
+      const aiResponse = await generateAIResponse(transcribedText)
+      setResponse(aiResponse)
+      
+      // Speak the response
+      speakText(aiResponse)
+      
+    } catch (error) {
+      console.error('Error processing audio:', error)
+      toast.error('Failed to process audio')
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  const generateAIResponse = async (text: string): Promise<string> => {
+    // Simple AI response logic - in production, you'd use a proper AI service
+    const responses = {
+      'hello': 'Hello! How can I help you with your business today?',
+      'help': 'I can assist you with creating invoices, managing appointments, tracking projects, and more. What would you like to do?',
+      'invoice': 'I can help you create an invoice. Please tell me the client name and amount.',
+      'appointment': 'I can schedule an appointment for you. What date and time would you prefer?',
+      'project': 'I can help you manage your projects. Would you like to create a new project or view existing ones?'
+    }
+    
+    const lowerText = text.toLowerCase()
+    for (const [key, response] of Object.entries(responses)) {
+      if (lowerText.includes(key)) {
+        return response
+      }
+    }
+    
+    return `I heard you say: "${text}". I'm here to help with your business needs. You can ask me about invoices, appointments, projects, or other business tasks.`
+  }
+
+  const speakText = (text: string) => {
+    if ('speechSynthesis' in window) {
+      setIsSpeaking(true)
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.onend = () => setIsSpeaking(false)
+      utterance.onerror = () => setIsSpeaking(false)
+      speechSynthesis.speak(utterance)
+    }
+  }
+
+  const stopSpeaking = () => {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel()
+      setIsSpeaking(false)
     }
   }
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      {/* Main AI Voice Assistant Card */}
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50">
-        <CardHeader className="text-center">
-          <CardTitle className="flex items-center justify-center gap-3 text-2xl">
-            <Brain className="h-8 w-8 text-blue-600" />
-            AI Voice Assistant
+    <div className="container mx-auto py-8 space-y-6">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold">AI Voice Assistant</h1>
+        <p className="text-muted-foreground mt-2">Speak with your AI business assistant</p>
+      </div>
+
+      <Card className="max-w-2xl mx-auto">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Mic className="h-5 w-5" />
+            Voice Controls
           </CardTitle>
-          <CardDescription className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Speak naturally or type your requests. I can help with invoices, appointments, customer management, and more.
+          <CardDescription>
+            Click the microphone to start speaking, then click stop when you're done
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Voice Command Button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-4">
             <Button
-              onClick={toggleListening}
-              variant={isListening ? "destructive" : "default"}
+              onClick={isListening ? stopListening : startListening}
+              disabled={isProcessing}
               size="lg"
-              className="px-8 py-4 text-lg rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+              variant={isListening ? "destructive" : "default"}
+              className="min-w-32"
             >
-              {isListening ? <MicOff className="h-5 w-5 mr-2" /> : <Mic className="h-5 w-5 mr-2" />}
-              {isListening ? "Stop Listening" : "Start Voice Command"}
+              {isProcessing ? (
+                <Loader2 className="h-5 w-5 animate-spin mr-2" />
+              ) : isListening ? (
+                <MicOff className="h-5 w-5 mr-2" />
+              ) : (
+                <Mic className="h-5 w-5 mr-2" />
+              )}
+              {isProcessing ? 'Processing...' : isListening ? 'Stop' : 'Start Listening'}
             </Button>
+
+            {isSpeaking && (
+              <Button
+                onClick={stopSpeaking}
+                variant="outline"
+                size="lg"
+              >
+                <VolumeX className="h-5 w-5 mr-2" />
+                Stop Speaking
+              </Button>
+            )}
           </div>
 
-          {isListening && (
-            <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-              Listening...
+          {transcript && (
+            <div className="space-y-2">
+              <h3 className="font-semibold">You said:</h3>
+              <p className="p-3 bg-muted rounded-lg">{transcript}</p>
             </div>
           )}
 
-          {/* Message Input Bar */}
-          <div className="flex gap-3 items-center bg-white rounded-full border-2 border-gray-200 p-2 shadow-sm">
-            <Input
-              type="text"
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Type your request here..."
-              className="flex-1 border-0 bg-transparent text-base placeholder:text-gray-500 focus-visible:ring-0"
-              onKeyPress={handleKeyPress}
-            />
-            <Button 
-              onClick={sendMessage} 
-              size="icon"
-              className="rounded-full bg-blue-600 hover:bg-blue-700 h-10 w-10"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Conversation Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" />
-            Conversation
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4 max-h-96 overflow-y-auto">
-            {responses.map((response, index) => (
-              <div key={index} className={`flex ${response.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] p-4 rounded-2xl ${
-                  response.type === 'user' 
-                    ? 'bg-blue-600 text-white ml-4' 
-                    : 'bg-gray-100 text-gray-800 mr-4'
-                }`}>
-                  <p className="text-sm leading-relaxed">{response.message}</p>
-                </div>
+          {response && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold">AI Response:</h3>
+                {isSpeaking && <Volume2 className="h-4 w-4 animate-pulse text-blue-500" />}
               </div>
-            ))}
-          </div>
+              <p className="p-3 bg-blue-50 rounded-lg border border-blue-200">{response}</p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* Quick AI Actions */}
-      <Card>
+      <Card className="max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle>Quick AI Actions</CardTitle>
-          <CardDescription>Click on any action to get started quickly</CardDescription>
+          <CardTitle>Voice Commands</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-blue-50 hover:border-blue-200"
-              onClick={() => setInputMessage("Create a new invoice")}
-            >
-              <FileText className="h-6 w-6 text-blue-600" />
-              <span className="text-sm">Create Invoice</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-green-50 hover:border-green-200"
-              onClick={() => setInputMessage("Schedule a meeting")}
-            >
-              <Calendar className="h-6 w-6 text-green-600" />
-              <span className="text-sm">Schedule Meeting</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-purple-50 hover:border-purple-200"
-              onClick={() => setInputMessage("Add a new customer")}
-            >
-              <Users className="h-6 w-6 text-purple-600" />
-              <span className="text-sm">Add Customer</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              className="h-auto p-4 flex flex-col items-center gap-2 hover:bg-orange-50 hover:border-orange-200"
-              onClick={() => setInputMessage("Generate analytics report")}
-            >
-              <BarChart3 className="h-6 w-6 text-orange-600" />
-              <span className="text-sm">Generate Report</span>
-            </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <h4 className="font-medium mb-2">General:</h4>
+              <ul className="space-y-1 text-muted-foreground">
+                <li>• "Hello" - Greeting</li>
+                <li>• "Help" - Get assistance</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium mb-2">Business Tasks:</h4>
+              <ul className="space-y-1 text-muted-foreground">
+                <li>• "Invoice" - Create invoice</li>
+                <li>• "Appointment" - Schedule meeting</li>
+                <li>• "Project" - Manage projects</li>
+              </ul>
+            </div>
           </div>
         </CardContent>
       </Card>
