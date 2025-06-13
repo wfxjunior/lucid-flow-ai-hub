@@ -29,16 +29,8 @@ jobs:
       with:
         bun-version: latest
         
-    - name: Cache Bun dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.bun/install/cache
-        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
-        restore-keys: |
-          ${{ runner.os }}-bun-
-        
     - name: Install dependencies
-      run: bun install --no-save
+      run: bun install
       
     - name: Build
       run: bun run build
