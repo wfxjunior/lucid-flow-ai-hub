@@ -1,11 +1,13 @@
+
 import { useState } from "react"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { UserGreeting } from "@/components/UserGreeting"
-import { QuickActions } from "@/components/QuickActions"
+import { LimitedQuickActions } from "@/components/LimitedQuickActions"
 import { RecentActivity } from "@/components/RecentActivity"
 import { StatsCard } from "@/components/StatsCard"
+import { DashboardGraphic } from "@/components/DashboardGraphic"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { CreateInvoice } from "@/components/CreateInvoice"
 import { CustomerManagement } from "@/components/CustomerManagement"
@@ -139,6 +141,9 @@ const Index = () => {
               <SidebarTrigger />
             </div>
             
+            {/* Dashboard Graphic */}
+            <DashboardGraphic />
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatsCard
                 title={t("dashboard.totalCustomers")}
@@ -170,7 +175,7 @@ const Index = () => {
               />
             </div>
             
-            <QuickActions onActionClick={setActiveView} />
+            <LimitedQuickActions onActionClick={setActiveView} />
             <RecentActivity />
           </div>
         )
