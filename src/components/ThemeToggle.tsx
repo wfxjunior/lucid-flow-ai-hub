@@ -42,7 +42,7 @@ export function ThemeToggle() {
         }`}
       >
         {theme === "light" ? (
-          <Sun className="h-3 w-3 text-yellow-500" />
+          <Sun className="h-3 w-3 text-gray-500" />
         ) : (
           <Moon className="h-3 w-3 text-blue-600" />
         )}

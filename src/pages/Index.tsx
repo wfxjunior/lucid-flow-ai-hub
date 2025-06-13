@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
@@ -136,12 +135,7 @@ const Index = () => {
       default:
         return (
           <div className="flex-1 p-3 sm:p-6 space-y-4 sm:space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <UserGreeting />
-              <div className="flex items-center gap-2 sm:gap-4">
-                <SidebarTrigger />
-              </div>
-            </div>
+            <UserGreeting onNavigate={setActiveView} />
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <StatsCard

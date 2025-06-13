@@ -1,9 +1,11 @@
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/integrations/supabase/client"
 import { useNavigate } from "react-router-dom"
 import { HelpCenter } from "@/components/HelpCenter"
-import { User, LogOut, Settings, Home } from "lucide-react"
+import { User, LogOut, Settings } from "lucide-react"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -111,26 +113,15 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
     }
   }
 
-  const handleDashboardClick = () => {
-    if (onNavigate) {
-      onNavigate('dashboard')
-    } else {
-      navigate('/')
-    }
-  }
-
   if (isLoading) {
     return (
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
         <div className="flex items-center gap-4">
+          <SidebarTrigger className="h-10 w-10" />
           <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
           <div className="h-4 w-24 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="w-auto">
-            <Home className="w-4 h-4 sm:mr-2" />
-            <span className="hidden sm:inline">Dashboard</span>
-          </Button>
           <HelpCenter variant="outline" size="sm" />
         </div>
       </div>
@@ -140,7 +131,10 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   if (!userEmail) {
     return (
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
-        <div className="text-lg sm:text-xl font-semibold">Welcome to FeatherBiz</div>
+        <div className="flex items-center gap-4">
+          <SidebarTrigger className="h-10 w-10" />
+          <div className="text-lg sm:text-xl font-semibold">Welcome to FeatherBiz</div>
+        </div>
         <div className="flex items-center gap-2">
           <Button 
             variant="outline" 
@@ -148,15 +142,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             onClick={() => navigate('/auth')}
           >
             Sign In
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => onNavigate?.('dashboard')}
-            className="flex items-center gap-2"
-          >
-            <Home className="w-4 h-4" />
-            <span className="hidden sm:inline">Dashboard</span>
           </Button>
           <HelpCenter variant="outline" size="sm" />
         </div>
@@ -167,6 +152,8 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
       <div className="flex items-center gap-4">
+        <SidebarTrigger className="h-10 w-10" />
+        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
@@ -189,10 +176,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleDashboardClick}>
-              <Home className="mr-2 h-4 w-4" />
-              <span>Dashboard</span>
-            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleProfileClick}>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
@@ -215,15 +198,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
       </div>
       
       <div className="flex items-center gap-2">
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => onNavigate?.('dashboard')}
-          className="flex items-center gap-2"
-        >
-          <Home className="w-4 h-4" />
-          <span className="hidden sm:inline">Dashboard</span>
-        </Button>
         <HelpCenter variant="outline" size="sm" />
       </div>
     </div>

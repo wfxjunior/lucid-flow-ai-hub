@@ -6,6 +6,14 @@ import { limitedQuickActions } from "@/components/quick-actions/limitedQuickActi
 import { Button } from "@/components/ui/button"
 import { Mic, MicOff } from "lucide-react"
 
+// Declare speech recognition types
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+    SpeechRecognition: any;
+  }
+}
+
 interface LimitedQuickActionsProps {
   onActionClick: (actionId: string) => void
 }
@@ -27,7 +35,7 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
   const handleVoiceCommand = () => {
     if (!isListening) {
       // Start voice recognition
-      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
         const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition
         const recognition = new SpeechRecognition()
         
@@ -39,7 +47,7 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
           setIsListening(true)
         }
         
-        recognition.onresult = (event) => {
+        recognition.onresult = (event: any) => {
           const transcript = event.results[0][0].transcript.toLowerCase()
           console.log('Voice command:', transcript)
           
