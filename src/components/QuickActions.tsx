@@ -2,8 +2,7 @@
 import { useState } from "react"
 import { QuickActionsSearchBar } from "@/components/QuickActionsSearchBar"
 import { ActionGrid } from "@/components/ActionGrid"
-import { getAllQuickActions } from "./quick-actions/quickActionsData"
-import { filterActions } from "./quick-actions/quickActionsUtils"
+import { quickActionsData } from "@/components/quick-actions/quickActionsData"
 
 interface QuickActionsProps {
   onActionClick: (actionId: string) => void
@@ -12,11 +11,27 @@ interface QuickActionsProps {
 export function QuickActions({ onActionClick }: QuickActionsProps) {
   const [searchTerm, setSearchTerm] = useState("")
 
-  const quickActions = getAllQuickActions()
-  const filteredActions = filterActions(quickActions, searchTerm)
+  console.log('QuickActions rendering with data:', quickActionsData)
+  console.log('Available actions:', quickActionsData.map(action => action.id))
+
+  const filteredActions = quickActionsData.filter(action =>
+    action.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    action.description.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  console.log('Filtered actions:', filteredActions.length, 'for search term:', searchTerm)
+
+  const handleActionClick = (actionId: string) => {
+    console.log('QuickActions: Action clicked:', actionId)
+    onActionClick(actionId)
+  }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold">Quick Actions</h2>
+      </div>
+      
       <QuickActionsSearchBar 
         searchTerm={searchTerm} 
         onSearchChange={setSearchTerm} 
@@ -24,7 +39,7 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
       
       <ActionGrid 
         actions={filteredActions}
-        onActionClick={onActionClick}
+        onActionClick={handleActionClick}
         searchTerm={searchTerm}
       />
     </div>
