@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { ResponsiveCarRentalPage } from '@/components/ResponsiveCarRentalPage'
 import { ResponsiveMatTrackPage } from '@/components/ResponsiveMatTrackPage'
 import Index from '@/pages/Index'
+import Auth from '@/pages/Auth'
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   // For now, we'll just return children since we're using the Index page with its own auth
@@ -21,6 +22,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/auth" element={<Auth />} />
         <Route 
           path="/car-rental" 
           element={
