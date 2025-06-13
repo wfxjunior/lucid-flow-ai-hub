@@ -1,19 +1,13 @@
 
-import { 
+import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuButton
+  SidebarMenuButton,
 } from "@/components/ui/sidebar"
-
-interface MenuItem {
-  title: string
-  icon: any
-  view: string
-  badge?: string
-}
+import { MenuItem } from "./types"
 
 interface SidebarMenuSectionProps {
   items: MenuItem[]
@@ -30,23 +24,20 @@ export function SidebarMenuSection({
 }: SidebarMenuSectionProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{sectionTitle}</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-xs font-medium text-sidebar-foreground/70 px-2 py-1.5">
+        {sectionTitle}
+      </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.view}>
-              <SidebarMenuButton 
-                isActive={activeView === item.view}
+              <SidebarMenuButton
                 onClick={() => onMenuClick(item.view)}
-                className="text-sm font-medium" // increased from text-xs
+                isActive={activeView === item.view}
+                className="w-full justify-start px-2 py-1.5 text-sm font-medium transition-colors hover:bg-blue-500/10 hover:text-blue-600 data-[active=true]:bg-blue-500/20 data-[active=true]:text-blue-700 data-[active=true]:font-semibold"
               >
-                <item.icon className="w-4 h-4" />
+                <item.icon className="mr-2 h-4 w-4" />
                 <span>{item.title}</span>
-                {item.badge && (
-                  <span className="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                    {item.badge}
-                  </span>
-                )}
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

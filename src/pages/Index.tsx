@@ -16,7 +16,6 @@ import { EstimatesPage } from "@/components/EstimatesPage"
 import { QuotesPage } from "@/components/QuotesPage"
 import { AccountingPage } from "@/components/AccountingPage"
 import { SalesOrdersPage } from "@/components/SalesOrdersPage"
-import { ServiceOrdersPage } from "@/components/ServiceOrdersPage"
 import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
 import { BidsPage } from "@/components/BidsPage"
 import { ContractsPage } from "@/components/ContractsPage"
@@ -105,8 +104,6 @@ const Index = () => {
         return <AccountingPage />
       case "sales-orders":
         return <SalesOrdersPage />
-      case "service-orders":
-        return <ServiceOrdersPage />
       case "business-proposals":
         return <BusinessProposalsPage />
       case "bids":
@@ -144,30 +141,30 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatsCard
                 title="Total Customers"
-                value="2,847"
+                value="Loading..."
                 icon={Users}
-                change="+12.5%"
+                change="--"
                 trend="up"
               />
               <StatsCard
                 title="Active Projects"
-                value="127"
+                value="Loading..."
                 icon={FileText}
-                change="+8.2%"
+                change="--"
                 trend="up"
               />
               <StatsCard
                 title="Monthly Revenue"
-                value="$45,820"
+                value="Loading..."
                 icon={DollarSign}
-                change="+15.3%"
+                change="--"
                 trend="up"
               />
               <StatsCard
                 title="Conversion Rate"
-                value="68.5%"
+                value="Loading..."
                 icon={TrendingUp}
-                change="+3.2%"
+                change="--"
                 trend="up"
               />
             </div>

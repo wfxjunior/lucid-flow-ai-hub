@@ -114,11 +114,6 @@ export const businessTools: MenuItem[] = [
     view: "sales-orders"
   },
   {
-    title: "Service Orders",
-    icon: Package,
-    view: "service-orders"
-  },
-  {
     title: "Business Proposals",
     icon: Clipboard,
     view: "business-proposals"
