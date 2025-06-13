@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/integrations/supabase/client"
@@ -46,9 +47,9 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
 
     getUser()
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state changed:', event, !!session)
         if (event === 'SIGNED_OUT' || !session) {
           setUserEmail(null)
           navigate('/auth')
@@ -64,18 +65,24 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   const handleSignOut = async () => {
     try {
       setIsLoading(true)
-      const { error } = await supabase.auth.signOut()
+      
+      // Clear any existing auth state
+      localStorage.clear()
+      sessionStorage.clear()
+      
+      const { error } = await supabase.auth.signOut({ scope: 'global' })
       
       if (error) {
         console.error('Sign out error:', error)
-        toast.error('Error signing out. Please try again.')
+        toast.error('Erro ao sair. Tente novamente.')
       } else {
-        toast.success('Successfully signed out!')
-        navigate('/auth')
+        toast.success('Logout realizado com sucesso!')
+        // Force redirect to auth page
+        window.location.href = '/auth'
       }
     } catch (error) {
       console.error('Unexpected sign out error:', error)
-      toast.error('An unexpected error occurred.')
+      toast.error('Erro inesperado.')
     } finally {
       setIsLoading(false)
     }
@@ -90,29 +97,26 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   }
 
   const handleProfileClick = () => {
-    console.log('Profile clicked, onNavigate type:', typeof onNavigate)
     if (onNavigate) {
       onNavigate('settings')
     } else {
-      navigate('/app')
+      navigate('/')
     }
   }
 
   const handleSettingsClick = () => {
-    console.log('Settings clicked, onNavigate type:', typeof onNavigate)
     if (onNavigate) {
       onNavigate('settings')
     } else {
-      navigate('/app')
+      navigate('/')
     }
   }
 
   const handleDashboardClick = () => {
-    console.log('Dashboard clicked, onNavigate type:', typeof onNavigate)
     if (onNavigate) {
       onNavigate('dashboard')
     } else {
-      navigate('/app')
+      navigate('/')
     }
   }
 
@@ -133,7 +137,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           size="sm"
           onClick={() => navigate('/auth')}
         >
-          Sign In
+          Entrar
         </Button>
         <HelpCenter variant="outline" size="sm" />
       </div>
@@ -143,7 +147,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   return (
     <div className="flex items-center gap-6">
       <span className="text-sm text-muted-foreground hidden sm:inline">
-        Hello, {getUserDisplayName(userEmail)}!
+        Olá, {getUserDisplayName(userEmail)}!
       </span>
       
       <DropdownMenu>
@@ -174,16 +178,16 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleProfileClick}>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+            <span>Perfil</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleSettingsClick}>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+            <span>Configurações</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>{isLoading ? 'Signing out...' : 'Sign Out'}</span>
+            <span>{isLoading ? 'Saindo...' : 'Sair'}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

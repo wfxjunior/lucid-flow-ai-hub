@@ -21,7 +21,7 @@ export function useAuthLogic() {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        navigate('/app')
+        navigate('/')
       }
     }
     checkAuth()
@@ -40,8 +40,7 @@ export function useAuthLogic() {
   }
 
   const getRedirectUrl = () => {
-    // Get current origin for redirect
-    return `${window.location.origin}/app`
+    return `${window.location.origin}/`
   }
 
   const sendWelcomeEmail = async (email: string) => {
@@ -54,7 +53,6 @@ export function useAuthLogic() {
     }
   }
 
-  // Get localized error messages based on selected country
   const getLocalizedMessage = (key: string) => {
     if (selectedCountry === 'br') {
       const messages = {
@@ -72,7 +70,6 @@ export function useAuthLogic() {
       return messages[key] || key
     }
     
-    // Default English messages
     const messages = {
       'invalid_email': 'Please enter a valid email address',
       'weak_password': 'Password must be at least 6 characters long',
@@ -92,39 +89,46 @@ export function useAuthLogic() {
     e.preventDefault()
     clearErrors()
     
-    if (!validateEmail(email)) {
-      addError(getLocalizedMessage('invalid_email'))
+    if (!email.trim()) {
+      addError('Email é obrigatório')
       return
     }
 
-    if (!validatePassword(password)) {
-      addError(getLocalizedMessage('weak_password'))
+    if (!password.trim()) {
+      addError('Senha é obrigatória')
       return
     }
 
     setLoading(true)
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      console.log('Attempting sign in with:', email)
+      
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password: password.trim(),
       })
 
+      console.log('Sign in response:', { data, error })
+
       if (error) {
+        console.error('Sign in error:', error)
         if (error.message.includes('Invalid login credentials')) {
-          addError(getLocalizedMessage('invalid_credentials'))
+          addError('Email ou senha incorretos. Verifique suas credenciais.')
         } else if (error.message.includes('Email not confirmed')) {
-          addError(getLocalizedMessage('email_not_confirmed'))
+          addError('Verifique seu email e clique no link de confirmação.')
         } else {
-          addError(error.message)
+          addError(`Erro: ${error.message}`)
         }
-      } else {
-        toast.success(getLocalizedMessage('signin_success'))
-        navigate('/app')
+      } else if (data.user) {
+        console.log('Sign in successful, user:', data.user)
+        toast.success('Login realizado com sucesso!')
+        // Force redirect to home page
+        window.location.href = '/'
       }
-    } catch (error) {
-      console.error('Sign in error:', error)
-      addError(getLocalizedMessage('unexpected_error'))
+    } catch (error: any) {
+      console.error('Unexpected sign in error:', error)
+      addError('Erro inesperado. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -167,7 +171,6 @@ export function useAuthLogic() {
           addError(error.message)
         }
       } else {
-        // Send welcome email after successful signup
         await sendWelcomeEmail(email)
         toast.success(getLocalizedMessage('signup_success'))
         setMode('signin')
