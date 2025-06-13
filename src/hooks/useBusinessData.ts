@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -505,6 +506,14 @@ export function useBusinessData() {
     queryClient.invalidateQueries({ queryKey: ['invoices'] })
   }
 
+  // Computed analytics values
+  const totalRevenue = invoices?.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + Number(inv.amount), 0) || 0
+  const monthlyRevenue = totalRevenue // Simplified for now
+  const completedWorkOrders = workOrders?.filter(wo => wo.status === 'completed').length || 0
+  const estimatesSent = estimates?.filter(est => est.status === 'sent').length || 0
+  const contractsSigned = contracts?.filter(c => c.status === 'signed').length || 0
+  const activeClients = clients?.filter(c => c.status === 'active').length || 0
+
   return {
     // Data
     workOrders,
@@ -517,6 +526,14 @@ export function useBusinessData() {
     invoices,
     signatures,
     meetings,
+    
+    // Analytics data
+    totalRevenue,
+    monthlyRevenue,
+    completedWorkOrders,
+    estimatesSent,
+    contractsSigned,
+    activeClients,
     
     // Loading states
     loading: workOrdersLoading || clientsLoading || appointmentsLoading || contractsLoading || documentsLoading || estimatesLoading || signaturesLoading || meetingsLoading || invoicesLoading,
