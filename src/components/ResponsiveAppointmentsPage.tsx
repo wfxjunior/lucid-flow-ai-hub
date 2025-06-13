@@ -3,7 +3,6 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Calendar, Plus, Clock, MapPin, User } from "lucide-react"
-import { AppointmentForm } from "./AppointmentForm"
 
 export function ResponsiveAppointmentsPage() {
   const [showForm, setShowForm] = useState(false)
@@ -19,14 +18,6 @@ export function ResponsiveAppointmentsPage() {
       status: "confirmed"
     }
   ]
-
-  if (showForm) {
-    return (
-      <div className="p-4 sm:p-6">
-        <AppointmentForm onClose={() => setShowForm(false)} />
-      </div>
-    )
-  }
 
   return (
     <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
@@ -134,6 +125,22 @@ export function ResponsiveAppointmentsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {showForm && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Create New Appointment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <p className="text-muted-foreground">Appointment form will be implemented here.</p>
+              <Button onClick={() => setShowForm(false)} variant="outline">
+                Close
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }

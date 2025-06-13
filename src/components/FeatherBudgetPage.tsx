@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PiggyBank, TrendingUp, Target, Brain, AlertTriangle } from "lucide-react"
-import { ExpenseTracker } from './ExpenseTracker'
-import { SavingsGoals } from './SavingsGoals'
-import { BudgetInsights } from './BudgetInsights'
-import { MonthlyTargets } from './MonthlyTargets'
-import { DreamPlanning } from './DreamPlanning'
+import { ExpenseTracker } from './feather-budget/ExpenseTracker'
+import { SavingsGoals } from './feather-budget/SavingsGoals'
+import { BudgetInsights } from './feather-budget/BudgetInsights'
+import { MonthlyTargets } from './feather-budget/MonthlyTargets'
+import { DreamPlanning } from './feather-budget/DreamPlanning'
 
 export function FeatherBudgetPage() {
   const [activeTab, setActiveTab] = useState('expenses')
