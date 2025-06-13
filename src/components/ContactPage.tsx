@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -20,9 +21,11 @@ import {
 } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import { IntegrationsContactForm } from "./IntegrationsContactForm"
+import { useNavigate } from 'react-router-dom'
 
 export function ContactPage() {
   const { toast } = useToast()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("general")
   const [formData, setFormData] = useState({
     name: '',
@@ -187,8 +190,16 @@ export function ContactPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8 space-y-8">
-        {/* Header */}
+        {/* Header with Logo */}
         <div className="text-center space-y-4">
+          <div className="flex justify-center mb-6">
+            <img 
+              src="/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png" 
+              alt="FeatherBiz" 
+              className="h-16 w-auto cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => navigate('/')}
+            />
+          </div>
           <h1 className="text-4xl font-bold">Get in Touch</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Have questions, suggestions, or need help? We're here to assist you with anything you need.

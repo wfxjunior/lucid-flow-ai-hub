@@ -10,7 +10,8 @@ export function usePDFGeneration() {
     companyName: "FeatherBiz",
     companyAddress: "123 Business St, Suite 100, Business City, BC 12345",
     companyPhone: "(555) 123-4567",
-    companyEmail: "info@featherbiz.com"
+    companyEmail: "info@featherbiz.com",
+    companyLogo: "/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png"
   }
 
   const generatePDF = async (
@@ -88,6 +89,7 @@ export function usePDFGeneration() {
     generateContractPDF,
     generateWorkOrderPDF,
     generateEstimatePDF,
-    generateAnalyticsReportPDF
+    generateAnalyticsReportPDF,
+    businessData
   }
 }
