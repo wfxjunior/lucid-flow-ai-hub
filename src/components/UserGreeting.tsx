@@ -74,15 +74,15 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
       
       if (error) {
         console.error('Sign out error:', error)
-        toast.error('Erro ao sair. Tente novamente.')
+        toast.error('Error signing out. Please try again.')
       } else {
-        toast.success('Logout realizado com sucesso!')
+        toast.success('Successfully signed out!')
         // Force redirect to auth page
         window.location.href = '/auth'
       }
     } catch (error) {
       console.error('Unexpected sign out error:', error)
-      toast.error('Erro inesperado.')
+      toast.error('Unexpected error occurred.')
     } finally {
       setIsLoading(false)
     }
@@ -137,7 +137,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           size="sm"
           onClick={() => navigate('/auth')}
         >
-          Entrar
+          Sign In
         </Button>
         <HelpCenter variant="outline" size="sm" />
       </div>
@@ -147,7 +147,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   return (
     <div className="flex items-center gap-6">
       <span className="text-sm text-muted-foreground hidden sm:inline">
-        Olá, {getUserDisplayName(userEmail)}!
+        Hello, {getUserDisplayName(userEmail)}!
       </span>
       
       <DropdownMenu>
@@ -178,16 +178,16 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleProfileClick}>
             <User className="mr-2 h-4 w-4" />
-            <span>Perfil</span>
+            <span>Profile</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleSettingsClick}>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Configurações</span>
+            <span>Settings</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>{isLoading ? 'Saindo...' : 'Sair'}</span>
+            <span>{isLoading ? 'Signing out...' : 'Sign Out'}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
