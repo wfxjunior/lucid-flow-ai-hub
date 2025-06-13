@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LucideIcon } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 interface StatsCardProps {
   title: string
@@ -15,6 +16,7 @@ interface StatsCardProps {
 export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }: StatsCardProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [displayValue, setDisplayValue] = useState<string | number>(value)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,15 +25,19 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
       if (value === "Loading...") {
         switch (title) {
           case "Total Customers":
+          case t("dashboard.totalCustomers"):
             setDisplayValue("1,234")
             break
           case "Active Projects":
+          case t("dashboard.activeProjects"):
             setDisplayValue("12")
             break
           case "Monthly Revenue":
+          case t("dashboard.monthlyRevenue"):
             setDisplayValue("$12,345")
             break
           case "Conversion Rate":
+          case t("dashboard.conversionRate"):
             setDisplayValue("87%")
             break
           default:
@@ -43,7 +49,7 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
     }, delay)
 
     return () => clearTimeout(timer)
-  }, [delay, value, title])
+  }, [delay, value, title, t])
 
   const changeColor = trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-gray-600"
 
@@ -66,7 +72,7 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
         <p className={`text-sm sm:text-base ${changeColor} transition-all duration-500 ${
           isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-2'
         }`}>
-          {change === "--" ? "+12% from last month" : change}
+          {change === "--" ? `+12% ${t("dashboard.fromLastMonth")}` : change}
         </p>
       </CardContent>
     </Card>

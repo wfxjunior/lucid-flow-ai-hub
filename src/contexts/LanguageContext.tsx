@@ -1,3 +1,4 @@
+
 import React, {
   createContext,
   useContext,
@@ -25,6 +26,40 @@ interface LanguageProviderProps {
 
 const translations = {
   "en-US": {
+    dashboard: {
+      title: "Dashboard",
+      welcome: "Welcome back",
+      totalCustomers: "Total Customers",
+      activeProjects: "Active Projects", 
+      monthlyRevenue: "Monthly Revenue",
+      conversionRate: "Conversion Rate",
+      fromLastMonth: "from last month"
+    },
+    sidebar: {
+      mainFeatures: "Main Features",
+      coreBusiness: "Core Business",
+      financialTools: "Financial Tools",
+      operations: "Operations",
+      documentsAndForms: "Documents & Forms",
+      productivity: "Productivity",
+      communication: "Communication",
+      analytics: "Analytics",
+      integrations: "Integrations",
+      system: "System",
+      aiVoice: "AI Voice",
+      createInvoice: "Create Invoice",
+      esignatures: "E-Signatures",
+      customers: "Customers",
+      projects: "Projects",
+      projectTimeline: "Project Timeline",
+      salesPipeline: "Sales Pipeline",
+      featherBudget: "FeatherBudget AI",
+      featherTax: "FeatherTax",
+      easyCalc: "EasyCalc",
+      accounting: "Accounting",
+      quotes: "Quotes",
+      estimates: "Estimates"
+    },
     notes: {
       title: "Notes",
       noteCount: {
@@ -69,6 +104,40 @@ const translations = {
     }
   },
   de: {
+    dashboard: {
+      title: "Dashboard",
+      welcome: "Willkommen zurück",
+      totalCustomers: "Gesamtkunden",
+      activeProjects: "Aktive Projekte",
+      monthlyRevenue: "Monatlicher Umsatz",
+      conversionRate: "Konversionsrate",
+      fromLastMonth: "vom letzten Monat"
+    },
+    sidebar: {
+      mainFeatures: "Hauptfunktionen",
+      coreBusiness: "Kerngeschäft",
+      financialTools: "Finanztools",
+      operations: "Betrieb",
+      documentsAndForms: "Dokumente & Formulare",
+      productivity: "Produktivität",
+      communication: "Kommunikation",
+      analytics: "Analytics",
+      integrations: "Integrationen",
+      system: "System",
+      aiVoice: "KI Stimme",
+      createInvoice: "Rechnung erstellen",
+      esignatures: "E-Signaturen",
+      customers: "Kunden",
+      projects: "Projekte",
+      projectTimeline: "Projektzeitplan",
+      salesPipeline: "Verkaufspipeline",
+      featherBudget: "FeatherBudget KI",
+      featherTax: "FeatherTax",
+      easyCalc: "EasyCalc",
+      accounting: "Buchhaltung",
+      quotes: "Angebote",
+      estimates: "Kostenvoranschläge"
+    },
     notes: {
       title: "Notizen",
       noteCount: {
@@ -113,6 +182,40 @@ const translations = {
     }
   },
   fr: {
+    dashboard: {
+      title: "Tableau de bord",
+      welcome: "Bon retour",
+      totalCustomers: "Total des clients",
+      activeProjects: "Projets actifs",
+      monthlyRevenue: "Revenus mensuels",
+      conversionRate: "Taux de conversion",
+      fromLastMonth: "du mois dernier"
+    },
+    sidebar: {
+      mainFeatures: "Fonctionnalités principales",
+      coreBusiness: "Cœur de métier",
+      financialTools: "Outils financiers",
+      operations: "Opérations",
+      documentsAndForms: "Documents et formulaires",
+      productivity: "Productivité",
+      communication: "Communication",
+      analytics: "Analyses",
+      integrations: "Intégrations",
+      system: "Système",
+      aiVoice: "Voix IA",
+      createInvoice: "Créer une facture",
+      esignatures: "Signatures électroniques",
+      customers: "Clients",
+      projects: "Projets",
+      projectTimeline: "Chronologie du projet",
+      salesPipeline: "Pipeline de vente",
+      featherBudget: "FeatherBudget IA",
+      featherTax: "FeatherTax",
+      easyCalc: "EasyCalc",
+      accounting: "Comptabilité",
+      quotes: "Devis",
+      estimates: "Estimations"
+    },
     notes: {
       title: "Notes",
       noteCount: {
@@ -157,6 +260,40 @@ const translations = {
     }
   },
   es: {
+    dashboard: {
+      title: "Panel de control",
+      welcome: "Bienvenido de vuelta",
+      totalCustomers: "Total de clientes",
+      activeProjects: "Proyectos activos",
+      monthlyRevenue: "Ingresos mensuales",
+      conversionRate: "Tasa de conversión",
+      fromLastMonth: "del mes pasado"
+    },
+    sidebar: {
+      mainFeatures: "Características principales",
+      coreBusiness: "Negocio principal",
+      financialTools: "Herramientas financieras",
+      operations: "Operaciones",
+      documentsAndForms: "Documentos y formularios",
+      productivity: "Productividad",
+      communication: "Comunicación",
+      analytics: "Analíticas",
+      integrations: "Integraciones",
+      system: "Sistema",
+      aiVoice: "Voz IA",
+      createInvoice: "Crear factura",
+      esignatures: "Firmas electrónicas",
+      customers: "Clientes",
+      projects: "Proyectos",
+      projectTimeline: "Cronología del proyecto",
+      salesPipeline: "Pipeline de ventas",
+      featherBudget: "FeatherBudget IA",
+      featherTax: "FeatherTax",
+      easyCalc: "EasyCalc",
+      accounting: "Contabilidad",
+      quotes: "Cotizaciones",
+      estimates: "Estimaciones"
+    },
     notes: {
       title: "Notas",
       noteCount: {
@@ -201,6 +338,40 @@ const translations = {
     }
   },
   zh: {
+    dashboard: {
+      title: "仪表板",
+      welcome: "欢迎回来",
+      totalCustomers: "客户总数",
+      activeProjects: "活跃项目",
+      monthlyRevenue: "月收入",
+      conversionRate: "转化率",
+      fromLastMonth: "与上月相比"
+    },
+    sidebar: {
+      mainFeatures: "主要功能",
+      coreBusiness: "核心业务",
+      financialTools: "财务工具",
+      operations: "运营",
+      documentsAndForms: "文档和表单",
+      productivity: "生产力",
+      communication: "沟通",
+      analytics: "分析",
+      integrations: "集成",
+      system: "系统",
+      aiVoice: "AI语音",
+      createInvoice: "创建发票",
+      esignatures: "电子签名",
+      customers: "客户",
+      projects: "项目",
+      projectTimeline: "项目时间表",
+      salesPipeline: "销售管道",
+      featherBudget: "FeatherBudget AI",
+      featherTax: "FeatherTax",
+      easyCalc: "EasyCalc",
+      accounting: "会计",
+      quotes: "报价",
+      estimates: "估算"
+    },
     notes: {
       title: "笔记",
       noteCount: {
@@ -245,6 +416,40 @@ const translations = {
     }
   },
   "pt-BR": {
+    dashboard: {
+      title: "Painel",
+      welcome: "Bem-vindo de volta",
+      totalCustomers: "Total de clientes",
+      activeProjects: "Projetos ativos",
+      monthlyRevenue: "Receita mensal",
+      conversionRate: "Taxa de conversão",
+      fromLastMonth: "do mês passado"
+    },
+    sidebar: {
+      mainFeatures: "Recursos principais",
+      coreBusiness: "Negócio principal",
+      financialTools: "Ferramentas financeiras",
+      operations: "Operações",
+      documentsAndForms: "Documentos e formulários",
+      productivity: "Produtividade",
+      communication: "Comunicação",
+      analytics: "Análises",
+      integrations: "Integrações",
+      system: "Sistema",
+      aiVoice: "Voz IA",
+      createInvoice: "Criar fatura",
+      esignatures: "Assinaturas eletrônicas",
+      customers: "Clientes",
+      projects: "Projetos",
+      projectTimeline: "Cronograma do projeto",
+      salesPipeline: "Pipeline de vendas",
+      featherBudget: "FeatherBudget IA",
+      featherTax: "FeatherTax",
+      easyCalc: "EasyCalc",
+      accounting: "Contabilidade",
+      quotes: "Cotações",
+      estimates: "Orçamentos"
+    },
     notes: {
       title: "Notas",
       noteCount: {

@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
@@ -7,6 +6,7 @@ import { UserGreeting } from "@/components/UserGreeting"
 import { QuickActions } from "@/components/QuickActions"
 import { RecentActivity } from "@/components/RecentActivity"
 import { StatsCard } from "@/components/StatsCard"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { CreateInvoice } from "@/components/CreateInvoice"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { ProjectsPage } from "@/components/ProjectsPage"
@@ -48,6 +48,7 @@ import { Users, FileText, DollarSign, TrendingUp } from "lucide-react"
 
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard")
+  const { t } = useLanguage()
 
   console.log('Index component rendering with activeView:', activeView)
 
@@ -140,31 +141,31 @@ const Index = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatsCard
-                title="Total Customers"
+                title={t("dashboard.totalCustomers")}
                 value="1,234"
                 icon={Users}
-                change="+12% from last month"
+                change={`+12% ${t("dashboard.fromLastMonth")}`}
                 trend="up"
               />
               <StatsCard
-                title="Active Projects"
+                title={t("dashboard.activeProjects")}
                 value="12"
                 icon={FileText}
-                change="+5% from last month"
+                change={`+5% ${t("dashboard.fromLastMonth")}`}
                 trend="up"
               />
               <StatsCard
-                title="Monthly Revenue"
+                title={t("dashboard.monthlyRevenue")}
                 value="$12,345"
                 icon={DollarSign}
-                change="+19% from last month"
+                change={`+19% ${t("dashboard.fromLastMonth")}`}
                 trend="up"
               />
               <StatsCard
-                title="Conversion Rate"
+                title={t("dashboard.conversionRate")}
                 value="87%"
                 icon={TrendingUp}
-                change="+3% from last month"
+                change={`+3% ${t("dashboard.fromLastMonth")}`}
                 trend="up"
               />
             </div>

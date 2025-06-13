@@ -5,6 +5,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
 import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
@@ -25,6 +26,7 @@ interface AppSidebarProps {
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   console.log('AppSidebar rendering with activeView:', activeView)
   const isMobile = useIsMobile()
+  const { t } = useLanguage()
   console.log('isMobile state:', isMobile)
   
   const {
@@ -55,7 +57,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
         <SidebarMenuSection 
           items={mainFeatures} 
-          sectionTitle="Main Features" 
+          sectionTitle={t("sidebar.mainFeatures")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -64,7 +66,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={coreBusinessTools} 
-          sectionTitle="Core Business" 
+          sectionTitle={t("sidebar.coreBusiness")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -73,7 +75,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={financialTools} 
-          sectionTitle="Financial Tools" 
+          sectionTitle={t("sidebar.financialTools")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -82,7 +84,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={operationsTools} 
-          sectionTitle="Operations" 
+          sectionTitle={t("sidebar.operations")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -91,7 +93,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={documentsTools} 
-          sectionTitle="Documents & Forms" 
+          sectionTitle={t("sidebar.documentsAndForms")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -100,7 +102,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={productivityTools} 
-          sectionTitle="Productivity" 
+          sectionTitle={t("sidebar.productivity")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -109,7 +111,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={communication} 
-          sectionTitle="Communication" 
+          sectionTitle={t("sidebar.communication")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -118,7 +120,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={analytics} 
-          sectionTitle="Analytics" 
+          sectionTitle={t("sidebar.analytics")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -127,7 +129,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={integrations} 
-          sectionTitle="Integrations" 
+          sectionTitle={t("sidebar.integrations")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -136,7 +138,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarMenuSection 
           items={systemTools} 
-          sectionTitle="System" 
+          sectionTitle={t("sidebar.system")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />

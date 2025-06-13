@@ -15,11 +15,11 @@ export function useSidebarMenuData() {
   const translatedMainFeatures: MenuItem[] = mainFeatures.map(item => {
     switch (item.view) {
       case "ai-voice":
-        return { ...item, title: t("sidebar.aiVoice", "AI Voice") }
+        return { ...item, title: t("sidebar.aiVoice") }
       case "invoice-creator":
-        return { ...item, title: t("sidebar.createInvoice", "Create Invoice") }
+        return { ...item, title: t("sidebar.createInvoice") }
       case "e-signatures":
-        return { ...item, title: t("sidebar.esignatures", "E-Signatures") }
+        return { ...item, title: t("sidebar.esignatures") }
       default:
         return item
     }
