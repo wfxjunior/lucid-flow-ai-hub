@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Plus, Edit, FileText, Mail } from 'lucide-react'
 import { RentalForm } from './RentalForm'
-import { RentalDocuments } from './RentalDocuments'
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 
@@ -29,7 +28,6 @@ export function RentalManagement() {
   const [rentals, setRentals] = useState<Rental[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editingRental, setEditingRental] = useState<Rental | null>(null)
-  const [showDocuments, setShowDocuments] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const { toast } = useToast()
 
@@ -80,6 +78,14 @@ export function RentalManagement() {
     })
   }
 
+  const handleViewDocuments = (rental: Rental) => {
+    // For now, just show a toast indicating documents would be shown
+    toast({
+      title: "Documents",
+      description: `Viewing documents for ${rental.renter_name}'s rental`,
+    })
+  }
+
   const getStatusColor = (status: string) => {
     const colors = {
       scheduled: 'bg-blue-100 text-blue-800',
@@ -124,13 +130,6 @@ export function RentalManagement() {
         />
       )}
 
-      {showDocuments && (
-        <RentalDocuments
-          rentalId={showDocuments}
-          onClose={() => setShowDocuments(null)}
-        />
-      )}
-
       <div className="grid gap-4">
         {rentals.map((rental) => (
           <Card key={rental.id} className="hover:shadow-md transition-shadow">
@@ -146,7 +145,7 @@ export function RentalManagement() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setShowDocuments(rental.id)}
+                    onClick={() => handleViewDocuments(rental)}
                     className="p-2"
                   >
                     <FileText className="h-4 w-4" />
