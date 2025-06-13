@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -44,24 +45,29 @@ export function AnalyticsDashboard() {
   // Business tools data for different charts - using only blue, gray, green
   const businessToolsData = {
     "work-orders": [
-      { name: 'Completed', value: completedWorkOrders, color: '#10b981' },
-      { name: 'In Progress', value: workOrders?.filter(wo => wo.status === 'in_progress').length || 0, color: '#3b82f6' },
-      { name: 'Pending', value: workOrders?.filter(wo => wo.status === 'pending').length || 0, color: '#6b7280' },
+      { name: 'Completed', value: completedWorkOrders, color: '#10b981', fill: '#10b981' },
+      { name: 'In Progress', value: workOrders?.filter(wo => wo.status === 'in_progress').length || 0, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Pending', value: workOrders?.filter(wo => wo.status === 'pending').length || 0, color: '#6b7280', fill: '#6b7280' },
     ],
     "estimates": [
-      { name: 'Approved', value: estimates?.filter(est => est.status === 'approved').length || 0, color: '#10b981' },
-      { name: 'Sent', value: estimatesSent, color: '#3b82f6' },
-      { name: 'Draft', value: estimates?.filter(est => est.status === 'draft').length || 0, color: '#6b7280' },
+      { name: 'Approved', value: estimates?.filter(est => est.status === 'approved').length || 0, color: '#10b981', fill: '#10b981' },
+      { name: 'Sent', value: estimatesSent, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Draft', value: estimates?.filter(est => est.status === 'draft').length || 0, color: '#6b7280', fill: '#6b7280' },
     ],
     "contracts": [
-      { name: 'Active', value: contractsSigned, color: '#10b981' },
-      { name: 'Pending', value: contracts?.filter(c => c.status === 'pending').length || 0, color: '#3b82f6' },
-      { name: 'Expired', value: contracts?.filter(c => c.status === 'expired').length || 0, color: '#6b7280' },
+      { name: 'Active', value: contractsSigned, color: '#10b981', fill: '#10b981' },
+      { name: 'Pending', value: contracts?.filter(c => c.status === 'pending').length || 0, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Expired', value: contracts?.filter(c => c.status === 'expired').length || 0, color: '#6b7280', fill: '#6b7280' },
     ],
     "customers": [
-      { name: 'Active', value: activeClients, color: '#10b981' },
-      { name: 'Inactive', value: clients?.filter(c => c.status === 'inactive').length || 0, color: '#6b7280' },
-      { name: 'Prospective', value: clients?.filter(c => c.status === 'prospect').length || 0, color: '#3b82f6' },
+      { name: 'Active', value: activeClients, color: '#10b981', fill: '#10b981' },
+      { name: 'Inactive', value: clients?.filter(c => c.status === 'inactive').length || 0, color: '#6b7280', fill: '#6b7280' },
+      { name: 'Prospective', value: clients?.filter(c => c.status === 'prospect').length || 0, color: '#3b82f6', fill: '#3b82f6' },
+    ],
+    "invoices": [
+      { name: 'Paid', value: 65, color: '#10b981', fill: '#10b981' },
+      { name: 'Pending', value: 25, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Overdue', value: 10, color: '#6b7280', fill: '#6b7280' },
     ]
   }
 
@@ -223,6 +229,7 @@ export function AnalyticsDashboard() {
                   <SelectItem value="estimates">Estimates</SelectItem>
                   <SelectItem value="contracts">Contracts</SelectItem>
                   <SelectItem value="customers">Customers</SelectItem>
+                  <SelectItem value="invoices">Invoices</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -240,7 +247,7 @@ export function AnalyticsDashboard() {
                   fontSize={10}
                 >
                   {businessToolsData[selectedBusinessTool as keyof typeof businessToolsData].map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Pie>
                 <ChartTooltip content={<ChartTooltipContent />} />
