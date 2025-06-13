@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -78,10 +77,10 @@ export function AnalyticsDashboard() {
 
   // Project status data using only blue, gray, green colors
   const projectStatusData = [
-    { status: 'Completed', count: completedWorkOrders },
-    { status: 'In Progress', count: workOrders?.filter(wo => wo.status === 'in_progress').length || 0 },
-    { status: 'Pending', count: workOrders?.filter(wo => wo.status === 'pending').length || 0 },
-    { status: 'Cancelled', count: workOrders?.filter(wo => wo.status === 'cancelled').length || 0 },
+    { status: 'Completed', count: completedWorkOrders, fill: '#10b981' },
+    { status: 'In Progress', count: workOrders?.filter(wo => wo.status === 'in_progress').length || 0, fill: '#3b82f6' },
+    { status: 'Pending', count: workOrders?.filter(wo => wo.status === 'pending').length || 0, fill: '#6b7280' },
+    { status: 'Cancelled', count: workOrders?.filter(wo => wo.status === 'cancelled').length || 0, fill: '#6b7280' },
   ]
 
   const chartConfig = {
