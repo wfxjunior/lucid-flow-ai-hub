@@ -3,6 +3,16 @@ import { mainFeaturesActions } from "./mainFeaturesActions"
 import { businessToolsActions } from "./businessToolsActions" 
 import { communicationActions } from "./communicationActions"
 import { analyticsActions } from "./analyticsActions"
+import { LucideIcon } from "lucide-react"
+
+export interface QuickAction {
+  id: string
+  title: string
+  description: string
+  icon: LucideIcon
+  color: string
+  hoverColor: string
+}
 
 // Combine all actions into a single array
 export const quickActionsData = [

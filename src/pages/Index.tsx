@@ -147,28 +147,28 @@ const Index = () => {
                 value="2,847"
                 icon={Users}
                 change="+12.5%"
-                changeType="positive"
+                trend="up"
               />
               <StatsCard
                 title="Active Projects"
                 value="127"
                 icon={FileText}
                 change="+8.2%"
-                changeType="positive"
+                trend="up"
               />
               <StatsCard
                 title="Monthly Revenue"
                 value="$45,820"
                 icon={DollarSign}
                 change="+15.3%"
-                changeType="positive"
+                trend="up"
               />
               <StatsCard
                 title="Conversion Rate"
                 value="68.5%"
                 icon={TrendingUp}
                 change="+3.2%"
-                changeType="positive"
+                trend="up"
               />
             </div>
             
