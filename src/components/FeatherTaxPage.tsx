@@ -25,14 +25,6 @@ export function FeatherTaxPage() {
     { code: "BR", name: "Brazil", flag: "🇧🇷" }
   ]
 
-  const taxSummary = {
-    totalIncome: 125400,
-    taxableIncome: 118200,
-    deductions: 7200,
-    estimatedTax: 23640,
-    quarterlyPayment: 5910
-  }
-
   const upcomingDeadlines = [
     { date: "2024-01-15", description: "Q4 Estimated Tax Payment", priority: "high" },
     { date: "2024-03-15", description: "Corporate Tax Return", priority: "medium" },
@@ -77,7 +69,7 @@ export function FeatherTaxPage() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${taxSummary.totalIncome.toLocaleString()}</div>
+            <div className="text-2xl font-bold">Loading...</div>
             <p className="text-xs text-muted-foreground">
               This tax year
             </p>
@@ -90,7 +82,7 @@ export function FeatherTaxPage() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${taxSummary.taxableIncome.toLocaleString()}</div>
+            <div className="text-2xl font-bold">Loading...</div>
             <p className="text-xs text-muted-foreground">
               After deductions
             </p>
@@ -103,7 +95,7 @@ export function FeatherTaxPage() {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${taxSummary.deductions.toLocaleString()}</div>
+            <div className="text-2xl font-bold">Loading...</div>
             <p className="text-xs text-muted-foreground">
               Business expenses
             </p>
@@ -116,7 +108,7 @@ export function FeatherTaxPage() {
             <Calculator className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${taxSummary.estimatedTax.toLocaleString()}</div>
+            <div className="text-2xl font-bold">Loading...</div>
             <p className="text-xs text-muted-foreground">
               For this year
             </p>

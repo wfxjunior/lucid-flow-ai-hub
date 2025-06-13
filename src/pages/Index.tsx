@@ -28,9 +28,9 @@ import { MeetingsPage } from "@/components/MeetingsPage"
 import { TodoListPage } from "@/components/TodoListPage"
 import { NotesPage } from "@/components/NotesPage"
 import { MessagesPage } from "@/components/MessagesPage"
-import { SmartSchedulePage } from "@/components/SmartSchedulePage"
-import { AppointmentsPage } from "@/components/AppointmentsPage"
-import { PaymentsPage } from "@/components/PaymentsPage"
+import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
+import { ResponsiveAppointmentsPage } from "@/components/ResponsiveAppointmentsPage"
+import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
 import { ProjectTimelinePage } from "@/components/ProjectTimelinePage"
 import { Analytics } from "@/components/Analytics"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
@@ -113,11 +113,11 @@ const Index = () => {
       case "messages":
         return <MessagesPage />
       case "schedule":
-        return <SmartSchedulePage />
+        return <ResponsiveSmartSchedulePage />
       case "appointments":
-        return <AppointmentsPage />
+        return <ResponsiveAppointmentsPage />
       case "payments":
-        return <PaymentsPage />
+        return <ResponsivePaymentsPage />
       case "analytics":
         return <Analytics />
       case "analytics-dashboard":
