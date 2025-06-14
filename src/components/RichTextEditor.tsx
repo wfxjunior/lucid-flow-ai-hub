@@ -155,7 +155,7 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
         contentEditable
         onInput={handleInput}
         onKeyDown={handleKeyDown}
-        className="min-h-[200px] p-4 border rounded-b-md rounded-t-none border-t-0 focus:ring-0 focus:border-gray-300 focus:outline-none bg-white"
+        className="min-h-[200px] p-4 border rounded-b-md rounded-t-none border-t-0 focus:ring-0 focus:border-gray-300 focus:outline-none bg-white rich-text-editor"
         style={{ 
           fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           lineHeight: '1.6'
@@ -166,31 +166,40 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
       <div className="text-xs text-gray-500 px-2">
         Use Cmd+B para negrito, Cmd+I para itálico, Cmd+U para sublinhado
       </div>
-      <style jsx>{`
-        [contenteditable]:empty:before {
+      <style>{`
+        .rich-text-editor:empty:before {
           content: attr(data-placeholder);
           color: #9ca3af;
           pointer-events: none;
         }
-        [contenteditable] blockquote {
+        .rich-text-editor blockquote {
           border-left: 4px solid #e5e7eb;
           padding-left: 16px;
           margin: 8px 0;
           color: #6b7280;
           font-style: italic;
         }
-        [contenteditable] ul {
+        .rich-text-editor ul {
           list-style-type: disc;
           padding-left: 20px;
           margin: 8px 0;
         }
-        [contenteditable] ol {
+        .rich-text-editor ol {
           list-style-type: decimal;
           padding-left: 20px;
           margin: 8px 0;
         }
-        [contenteditable] li {
+        .rich-text-editor li {
           margin: 4px 0;
+        }
+        .rich-text-editor strong {
+          font-weight: bold;
+        }
+        .rich-text-editor em {
+          font-style: italic;
+        }
+        .rich-text-editor u {
+          text-decoration: underline;
         }
       `}</style>
     </div>
