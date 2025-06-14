@@ -14,7 +14,7 @@ interface RichTextEditorProps {
 export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichTextEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const insertText = useCallback((before: string, after: string = '') => {
+  const insertFormatting = useCallback((prefix: string, suffix: string = '') => {
     const textarea = textareaRef.current
     if (!textarea) return
 
@@ -22,18 +22,29 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
     const end = textarea.selectionEnd
     const selectedText = value.substring(start, end)
     
-    const newText = value.substring(0, start) + before + selectedText + after + value.substring(end)
+    let newText: string
+    let newCursorPos: number
+
+    if (selectedText) {
+      // Se há texto selecionado, envolve o texto com a formatação
+      newText = value.substring(0, start) + prefix + selectedText + suffix + value.substring(end)
+      newCursorPos = start + prefix.length + selectedText.length + suffix.length
+    } else {
+      // Se não há texto selecionado, insere a formatação e posiciona o cursor entre as marcações
+      newText = value.substring(0, start) + prefix + suffix + value.substring(end)
+      newCursorPos = start + prefix.length
+    }
+    
     onChange(newText)
 
-    // Restore cursor position
+    // Restaura o foco e posição do cursor
     setTimeout(() => {
       textarea.focus()
-      const newCursorPos = start + before.length + selectedText.length + after.length
       textarea.setSelectionRange(newCursorPos, newCursorPos)
     }, 0)
   }, [value, onChange])
 
-  const insertBulletList = useCallback(() => {
+  const insertListItem = useCallback((listType: 'bullet' | 'numbered') => {
     const textarea = textareaRef.current
     if (!textarea) return
 
@@ -41,27 +52,14 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
     const lineStart = value.lastIndexOf('\n', start - 1) + 1
     const currentLine = value.substring(lineStart, start)
     
-    if (currentLine.trim() === '') {
-      insertText('• ')
-    } else {
-      insertText('\n• ')
-    }
-  }, [value, insertText])
-
-  const insertNumberedList = useCallback(() => {
-    const textarea = textareaRef.current
-    if (!textarea) return
-
-    const start = textarea.selectionStart
-    const lineStart = value.lastIndexOf('\n', start - 1) + 1
-    const currentLine = value.substring(lineStart, start)
+    const prefix = listType === 'bullet' ? '• ' : '1. '
     
     if (currentLine.trim() === '') {
-      insertText('1. ')
+      insertFormatting(prefix)
     } else {
-      insertText('\n1. ')
+      insertFormatting('\n' + prefix)
     }
-  }, [value, insertText])
+  }, [value, insertFormatting])
 
   const insertQuote = useCallback(() => {
     const textarea = textareaRef.current
@@ -72,11 +70,11 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
     const currentLine = value.substring(lineStart, start)
     
     if (currentLine.trim() === '') {
-      insertText('> ')
+      insertFormatting('> ')
     } else {
-      insertText('\n> ')
+      insertFormatting('\n> ')
     }
-  }, [value, insertText])
+  }, [value, insertFormatting])
 
   return (
     <div className="space-y-2">
@@ -85,9 +83,9 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => insertText('**', '**')}
+          onClick={() => insertFormatting('**', '**')}
           className="h-8 px-2"
-          title="Bold"
+          title="Negrito"
         >
           <Bold className="h-4 w-4" />
         </Button>
@@ -95,9 +93,9 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => insertText('*', '*')}
+          onClick={() => insertFormatting('*', '*')}
           className="h-8 px-2"
-          title="Italic"
+          title="Itálico"
         >
           <Italic className="h-4 w-4" />
         </Button>
@@ -105,9 +103,9 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => insertText('__', '__')}
+          onClick={() => insertFormatting('__', '__')}
           className="h-8 px-2"
-          title="Underline"
+          title="Sublinhado"
         >
           <Underline className="h-4 w-4" />
         </Button>
@@ -116,9 +114,9 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
           type="button"
           variant="ghost"
           size="sm"
-          onClick={insertBulletList}
+          onClick={() => insertListItem('bullet')}
           className="h-8 px-2"
-          title="Bullet List"
+          title="Lista com marcadores"
         >
           <List className="h-4 w-4" />
         </Button>
@@ -126,9 +124,9 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
           type="button"
           variant="ghost"
           size="sm"
-          onClick={insertNumberedList}
+          onClick={() => insertListItem('numbered')}
           className="h-8 px-2"
-          title="Numbered List"
+          title="Lista numerada"
         >
           <ListOrdered className="h-4 w-4" />
         </Button>
@@ -138,7 +136,7 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
           size="sm"
           onClick={insertQuote}
           className="h-8 px-2"
-          title="Quote"
+          title="Citação"
         >
           <Quote className="h-4 w-4" />
         </Button>
@@ -153,7 +151,7 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
         style={{ fontFamily: 'ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco, Consolas, monospace' }}
       />
       <div className="text-xs text-gray-500 px-2">
-        Use **bold**, *italic*, __underline__, • for bullets, 1. for numbers, {'>'}  for quotes
+        Use **negrito**, *itálico*, __sublinhado__, • para marcadores, 1. para números, {'>'}  para citações
       </div>
     </div>
   )
