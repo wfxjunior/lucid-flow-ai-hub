@@ -1,97 +1,109 @@
 
 import { Button } from "@/components/ui/button"
-import { 
-  BarChart3,
-  Zap,
-  RefreshCw,
-  Mic,
-  AlertCircle
-} from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+import { RefreshCw, Mic, BarChart3, Zap } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface DashboardHeaderProps {
   onNavigate: (view: string) => void
   onRefresh: () => void
-  loading?: boolean
-  error?: string | null
+  loading: boolean
+  error: string | null
 }
 
 export function DashboardHeader({ onNavigate, onRefresh, loading, error }: DashboardHeaderProps) {
-  if (loading) {
-    return (
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            Business Dashboard
-          </h1>
-          <p className="text-sm sm:text-base text-muted-foreground mt-1">
-            Welcome back! Here's what's happening with your business today.
-          </p>
-        </div>
-      </div>
-    )
-  }
+  const isMobile = useIsMobile()
 
-  if (error) {
-    return (
-      <div className="space-y-4">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  return (
+    <div className="space-y-4">
+      {/* Main Header */}
+      <div className="flex flex-col space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
               Business Dashboard
             </h1>
             <p className="text-sm sm:text-base text-muted-foreground mt-1">
               Welcome back! Here's what's happening with your business today.
             </p>
           </div>
-          <Button onClick={onRefresh} variant="outline">
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Refresh
+          
+          {/* Refresh Button */}
+          <Button
+            onClick={onRefresh}
+            variant="outline"
+            size="sm"
+            disabled={loading}
+            className="self-start sm:self-center"
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+            {loading ? 'Updating...' : 'Refresh'}
           </Button>
         </div>
-        
-        <Card className="border-destructive">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2 text-destructive">
-              <AlertCircle className="h-5 w-5" />
-              <p>Error loading dashboard data: {error}</p>
-            </div>
-            <Button onClick={onRefresh} variant="outline" className="mt-4">
-              Try Again
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
 
-  return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-          Business Dashboard
-        </h1>
-        <p className="text-sm sm:text-base text-muted-foreground mt-1">
-          Welcome back! Here's what's happening with your business today.
-        </p>
+        {/* Mobile-Optimized Action Buttons */}
+        {isMobile ? (
+          <div className="flex flex-col gap-2">
+            <Button
+              onClick={() => onNavigate('ai-voice')}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 py-3"
+            >
+              <Mic className="h-5 w-5" />
+              AI Voice Assistant
+            </Button>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                onClick={() => onNavigate('analytics')}
+                variant="outline"
+                className="flex items-center justify-center gap-2 py-3"
+              >
+                <BarChart3 className="h-4 w-4" />
+                View Analytics
+              </Button>
+              <Button
+                onClick={() => onNavigate('invoice-creator')}
+                variant="outline"
+                className="flex items-center justify-center gap-2 py-3"
+              >
+                <Zap className="h-4 w-4" />
+                Create Invoice
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            <Button
+              onClick={() => onNavigate('ai-voice')}
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2"
+            >
+              <Mic className="h-4 w-4" />
+              AI Voice Assistant
+            </Button>
+            <Button
+              onClick={() => onNavigate('analytics')}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <BarChart3 className="h-4 w-4" />
+              View Analytics
+            </Button>
+            <Button
+              onClick={() => onNavigate('invoice-creator')}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Zap className="h-4 w-4" />
+              Create Invoice
+            </Button>
+          </div>
+        )}
       </div>
-      <div className="flex flex-col sm:flex-row gap-2">
-        <Button onClick={() => onNavigate('ai-voice')} className="w-full sm:w-auto">
-          <Mic className="mr-2 h-4 w-4" />
-          AI Voice Assistant
-        </Button>
-        <Button variant="outline" onClick={() => onNavigate('analytics')} className="w-full sm:w-auto">
-          <BarChart3 className="mr-2 h-4 w-4" />
-          View Analytics
-        </Button>
-        <Button onClick={() => onNavigate('invoice-creator')} variant="outline" className="w-full sm:w-auto">
-          <Zap className="mr-2 h-4 w-4" />
-          Create Invoice
-        </Button>
-        <Button variant="outline" onClick={onRefresh} size="sm">
-          <RefreshCw className="h-4 w-4" />
-        </Button>
-      </div>
+
+      {/* Error Display */}
+      {error && (
+        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
+          <p className="text-sm text-destructive">{error}</p>
+        </div>
+      )}
     </div>
   )
 }

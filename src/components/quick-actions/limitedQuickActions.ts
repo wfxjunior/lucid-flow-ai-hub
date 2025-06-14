@@ -9,7 +9,6 @@ import {
   Clock,
   GanttChart,
   FilePlus,
-  Target,
   DollarSign,
   HeartHandshake
 } from "lucide-react"
@@ -54,7 +53,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "appointments",
     title: "Appointments",
     description: "Schedule appointments",
-    icon: Calendar,
+    icon: "Calendar",
     color: "bg-indigo-500",
     hoverColor: "hover:bg-indigo-600"
   },
@@ -114,38 +113,5 @@ export const limitedQuickActions: QuickAction[] = [
     icon: HeartHandshake,
     color: "bg-rose-500",
     hoverColor: "hover:bg-rose-600"
-  },
-  // Fourth row - additional actions to reach 16
-  {
-    id: "reports",
-    title: "Reports",
-    description: "Business reports",
-    icon: FileText,
-    color: "bg-slate-500",
-    hoverColor: "hover:bg-slate-600"
-  },
-  {
-    id: "analytics",
-    title: "Analytics",
-    description: "Data insights",
-    icon: Target,
-    color: "bg-violet-500",
-    hoverColor: "hover:bg-violet-600"
-  },
-  {
-    id: "settings",
-    title: "Settings",
-    description: "App configuration",
-    icon: Users,
-    color: "bg-gray-500",
-    hoverColor: "hover:bg-gray-600"
-  },
-  {
-    id: "help",
-    title: "Help",
-    description: "Get support",
-    icon: HeartHandshake,
-    color: "bg-blue-400",
-    hoverColor: "hover:bg-blue-500"
   }
 ]

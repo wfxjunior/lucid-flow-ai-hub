@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { QuickActionsSearchBar } from "@/components/QuickActionsSearchBar"
 import { LimitedQuickActionsGrid } from "@/components/LimitedQuickActionsGrid"
@@ -146,7 +145,6 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <h2 className="text-xl font-semibold">Quick Actions</h2>
           <Button
             onClick={handleVoiceCommand}
             variant={isListening ? "default" : "outline"}
