@@ -1,3 +1,4 @@
+
 import { 
   FileText, 
   Users, 
@@ -6,12 +7,16 @@ import {
   Calendar,
   Briefcase,
   Clock,
-  GanttChart
+  GanttChart,
+  FilePlus,
+  Target,
+  DollarSign,
+  HeartHandshake
 } from "lucide-react"
 import { QuickAction } from "./quickActionsUtils"
 
 export const limitedQuickActions: QuickAction[] = [
-  // Existing actions
+  // First row - existing actions
   {
     id: "create-invoice",
     title: "Create Invoice",
@@ -44,7 +49,7 @@ export const limitedQuickActions: QuickAction[] = [
     color: "bg-orange-500",
     hoverColor: "hover:bg-orange-600"
   },
-  // New actions row
+  // Second row - existing actions
   {
     id: "appointments",
     title: "Appointments",
@@ -76,5 +81,71 @@ export const limitedQuickActions: QuickAction[] = [
     icon: GanttChart,
     color: "bg-cyan-500",
     hoverColor: "hover:bg-cyan-600"
+  },
+  // Third row - new actions
+  {
+    id: "add-invoice",
+    title: "Add Invoice",
+    description: "Quick invoice creation",
+    icon: FilePlus,
+    color: "bg-emerald-500",
+    hoverColor: "hover:bg-emerald-600"
+  },
+  {
+    id: "easy-calc",
+    title: "EasyCalc",
+    description: "Simple calculations",
+    icon: Calculator,
+    color: "bg-amber-500",
+    hoverColor: "hover:bg-amber-600"
+  },
+  {
+    id: "earn-sync",
+    title: "EarnSync",
+    description: "Sync earnings data",
+    icon: DollarSign,
+    color: "bg-lime-500",
+    hoverColor: "hover:bg-lime-600"
+  },
+  {
+    id: "after-care",
+    title: "After Care",
+    description: "Customer follow-up",
+    icon: HeartHandshake,
+    color: "bg-rose-500",
+    hoverColor: "hover:bg-rose-600"
+  },
+  // Fourth row - additional actions to reach 16
+  {
+    id: "reports",
+    title: "Reports",
+    description: "Business reports",
+    icon: FileText,
+    color: "bg-slate-500",
+    hoverColor: "hover:bg-slate-600"
+  },
+  {
+    id: "analytics",
+    title: "Analytics",
+    description: "Data insights",
+    icon: Target,
+    color: "bg-violet-500",
+    hoverColor: "hover:bg-violet-600"
+  },
+  {
+    id: "settings",
+    title: "Settings",
+    description: "App configuration",
+    icon: Users,
+    color: "bg-gray-500",
+    hoverColor: "hover:bg-gray-600"
+  },
+  {
+    id: "help",
+    title: "Help",
+    description: "Get support",
+    icon: HeartHandshake,
+    color: "bg-blue-400",
+    hoverColor: "hover:bg-blue-500"
   }
 ]
