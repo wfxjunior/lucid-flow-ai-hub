@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Calculator, FileDown, Share2, Save, RotateCcw, Plus, Minus } from "lucide-react"
+import { Calculator, FileDown, Share2, Save, RotateCcw, Plus, Minus, Upload } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -361,33 +361,44 @@ export function EasyCalcPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-              <Calculator className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+    <div className="min-h-screen bg-background p-2 sm:p-4 md:p-6">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+        {/* Header - Responsive */}
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 sm:p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                <Calculator className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground">EasyCalc</h1>
+                <p className="text-sm sm:text-base text-muted-foreground">AI-powered smart estimates for any industry</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">EasyCalc</h1>
-              <p className="text-muted-foreground">AI-powered smart estimates for any industry</p>
+            
+            {/* Project Name Input - Full width on mobile */}
+            <div className="w-full sm:w-auto">
+              <Input
+                placeholder="Project name..."
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+                className="w-full sm:w-48"
+              />
             </div>
           </div>
-          <div className="flex gap-2">
-            <Input
-              placeholder="Project name..."
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
-              className="w-48"
-            />
-            <Button variant="outline" onClick={exportProject}>
-              <FileDown className="h-4 w-4 mr-2" />
-              Export
+
+          {/* Action Buttons - Responsive Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+            <Button variant="outline" onClick={exportProject} className="text-xs sm:text-sm">
+              <FileDown className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Export</span>
+              <span className="xs:hidden">Export</span>
             </Button>
-            <Button variant="outline" asChild>
-              <label htmlFor="import-project">
-                Import
+            <Button variant="outline" asChild className="text-xs sm:text-sm">
+              <label htmlFor="import-project" className="cursor-pointer">
+                <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                <span className="hidden xs:inline">Import</span>
+                <span className="xs:hidden">Import</span>
                 <input
                   id="import-project"
                   type="file"
@@ -397,33 +408,39 @@ export function EasyCalcPage() {
                 />
               </label>
             </Button>
-            <Button variant="outline" onClick={resetForm}>
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Reset
+            <Button variant="outline" onClick={saveEstimate} className="text-xs sm:text-sm">
+              <Save className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Save</span>
+              <span className="xs:hidden">Save</span>
+            </Button>
+            <Button variant="outline" onClick={resetForm} className="text-xs sm:text-sm">
+              <RotateCcw className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Reset</span>
+              <span className="xs:hidden">Reset</span>
             </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
           {/* Input Form */}
-          <div className="lg:col-span-2">
+          <div className="xl:col-span-2">
             <Tabs defaultValue="measurements" className="space-y-4">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="measurements">Measurements</TabsTrigger>
-                <TabsTrigger value="details">Job Details</TabsTrigger>
-                <TabsTrigger value="pricing">Pricing</TabsTrigger>
+                <TabsTrigger value="measurements" className="text-xs sm:text-sm">Measurements</TabsTrigger>
+                <TabsTrigger value="details" className="text-xs sm:text-sm">Job Details</TabsTrigger>
+                <TabsTrigger value="pricing" className="text-xs sm:text-sm">Pricing</TabsTrigger>
               </TabsList>
 
               <TabsContent value="measurements">
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Measurements & Units</CardTitle>
-                    <CardDescription>Enter the dimensions for your project</CardDescription>
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="text-lg sm:text-xl">Measurements & Units</CardTitle>
+                    <CardDescription className="text-sm">Enter the dimensions for your project</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label>Unit Type</Label>
+                  <CardContent className="space-y-4 p-4 sm:p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="space-y-2 sm:col-span-1">
+                        <Label className="text-sm">Unit Type</Label>
                         <Select value={estimateData.units} onValueChange={(value: 'sqft' | 'sqm' | 'linear') => 
                           setEstimateData(prev => ({ ...prev, units: value }))}>
                           <SelectTrigger>
@@ -440,7 +457,7 @@ export function EasyCalcPage() {
 
                     {estimateData.units === 'linear' ? (
                       <div className="space-y-2">
-                        <Label htmlFor="linearFeet">Linear Feet</Label>
+                        <Label htmlFor="linearFeet" className="text-sm">Linear Feet</Label>
                         <Input
                           id="linearFeet"
                           type="number"
@@ -456,9 +473,9 @@ export function EasyCalcPage() {
                             <h4 className="text-sm font-medium">Primary Area</h4>
                           </div>
                           
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                              <Label htmlFor="width">Width ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                              <Label htmlFor="width" className="text-sm">Width ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
                               <Input
                                 id="width"
                                 type="number"
@@ -468,7 +485,7 @@ export function EasyCalcPage() {
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor="length">Length ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                              <Label htmlFor="length" className="text-sm">Length ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
                               <Input
                                 id="length"
                                 type="number"
@@ -478,8 +495,8 @@ export function EasyCalcPage() {
                               />
                             </div>
                             {estimateData.surfaceType === 'Wall' && (
-                              <div className="space-y-2">
-                                <Label htmlFor="height">Height ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                              <div className="space-y-2 sm:col-span-2">
+                                <Label htmlFor="height" className="text-sm">Height ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
                                 <Input
                                   id="height"
                                   type="number"
@@ -496,7 +513,7 @@ export function EasyCalcPage() {
 
                         {/* Additional Dimension Pairs */}
                         <div className="space-y-4">
-                          <div className="flex items-center justify-between">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <h4 className="text-sm font-medium">Additional Areas</h4>
                             <Button
                               type="button"
@@ -504,14 +521,15 @@ export function EasyCalcPage() {
                               size="sm"
                               onClick={addDimensionPair}
                               disabled={estimateData.dimensions.length >= 10}
+                              className="w-full sm:w-auto text-xs sm:text-sm"
                             >
-                              <Plus className="h-4 w-4 mr-2" />
+                              <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                               Add Area
                             </Button>
                           </div>
 
                           {estimateData.dimensions.map((dimension, index) => (
-                            <div key={dimension.id} className="space-y-2 p-4 border rounded-lg">
+                            <div key={dimension.id} className="space-y-2 p-3 sm:p-4 border rounded-lg">
                               <div className="flex items-center justify-between">
                                 <Label className="text-sm font-medium">Area {index + 2}</Label>
                                 <Button
@@ -519,13 +537,14 @@ export function EasyCalcPage() {
                                   variant="outline"
                                   size="sm"
                                   onClick={() => removeDimensionPair(dimension.id)}
+                                  className="text-xs"
                                 >
-                                  <Minus className="h-4 w-4" />
+                                  <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                                 </Button>
                               </div>
-                              <div className="grid grid-cols-2 gap-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                  <Label>Width ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                                  <Label className="text-sm">Width ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
                                   <Input
                                     type="number"
                                     placeholder="Enter width"
@@ -534,7 +553,7 @@ export function EasyCalcPage() {
                                   />
                                 </div>
                                 <div className="space-y-2">
-                                  <Label>Length ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                                  <Label className="text-sm">Length ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
                                   <Input
                                     type="number"
                                     placeholder="Enter length"
@@ -547,7 +566,7 @@ export function EasyCalcPage() {
                           ))}
 
                           {estimateData.dimensions.length < 10 && (
-                            <div className="text-center text-sm text-muted-foreground">
+                            <div className="text-center text-xs sm:text-sm text-muted-foreground">
                               You can add up to {10 - estimateData.dimensions.length} more areas
                             </div>
                           )}
@@ -560,14 +579,14 @@ export function EasyCalcPage() {
 
               <TabsContent value="details">
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Job Details</CardTitle>
-                    <CardDescription>Specify the type of work and materials</CardDescription>
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="text-lg sm:text-xl">Job Details</CardTitle>
+                    <CardDescription className="text-sm">Specify the type of work and materials</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                  <CardContent className="space-y-4 p-4 sm:p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label>Industry Type</Label>
+                        <Label className="text-sm">Industry Type</Label>
                         <Select value={estimateData.industry} onValueChange={(value) => 
                           setEstimateData(prev => ({ ...prev, industry: value }))}>
                           <SelectTrigger>
@@ -581,7 +600,7 @@ export function EasyCalcPage() {
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label>Surface Type</Label>
+                        <Label className="text-sm">Surface Type</Label>
                         <Select value={estimateData.surfaceType} onValueChange={(value) => 
                           setEstimateData(prev => ({ ...prev, surfaceType: value }))}>
                           <SelectTrigger>
@@ -597,7 +616,7 @@ export function EasyCalcPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Material Type</Label>
+                      <Label className="text-sm">Material Type</Label>
                       <Select value={estimateData.materialType} onValueChange={(value) => 
                         setEstimateData(prev => ({ ...prev, materialType: value }))}>
                         <SelectTrigger>
@@ -612,13 +631,14 @@ export function EasyCalcPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="notes">Project Notes</Label>
+                      <Label htmlFor="notes" className="text-sm">Project Notes</Label>
                       <Textarea
                         id="notes"
                         placeholder="Add any special requirements, conditions, or notes..."
                         value={estimateData.notes}
                         onChange={(e) => setEstimateData(prev => ({ ...prev, notes: e.target.value }))}
                         rows={4}
+                        className="resize-none"
                       />
                     </div>
                   </CardContent>
@@ -627,14 +647,14 @@ export function EasyCalcPage() {
 
               <TabsContent value="pricing">
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Pricing Configuration</CardTitle>
-                    <CardDescription>Set your labor rates and markup</CardDescription>
+                  <CardHeader className="p-4 sm:p-6">
+                    <CardTitle className="text-lg sm:text-xl">Pricing Configuration</CardTitle>
+                    <CardDescription className="text-sm">Set your labor rates and markup</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                  <CardContent className="space-y-4 p-4 sm:p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="laborRate">Labor Rate ($ per sq ft)</Label>
+                        <Label htmlFor="laborRate" className="text-sm">Labor Rate ($ per sq ft)</Label>
                         <Input
                           id="laborRate"
                           type="number"
@@ -645,7 +665,7 @@ export function EasyCalcPage() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="markup">Markup Percentage (%)</Label>
+                        <Label htmlFor="markup" className="text-sm">Markup Percentage (%)</Label>
                         <Input
                           id="markup"
                           type="number"
@@ -674,21 +694,21 @@ export function EasyCalcPage() {
           {/* Results Panel */}
           <div className="space-y-4">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   Estimate Summary
-                  {result && <Badge variant="secondary">Generated</Badge>}
+                  {result && <Badge variant="secondary" className="text-xs">Generated</Badge>}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 {result ? (
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span>Total Area:</span>
                         <span>{result.area.toFixed(1)} {estimateData.units === 'sqm' ? 'm²' : estimateData.units === 'linear' ? 'linear ft' : 'sq ft'}</span>
                       </div>
-                      <div className="flex justify-between text-sm">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span>Material Quantity:</span>
                         <span className="text-right text-xs">{result.materialQuantity}</span>
                       </div>
@@ -697,15 +717,15 @@ export function EasyCalcPage() {
                     <Separator />
 
                     <div className="space-y-2">
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span>Material Cost:</span>
                         <span>${result.materialCost.toFixed(2)}</span>
                       </div>
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span>Labor Cost:</span>
                         <span>${result.laborCost.toFixed(2)}</span>
                       </div>
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-xs sm:text-sm">
                         <span>Markup ({estimateData.markupPercentage}%):</span>
                         <span>${result.markup.toFixed(2)}</span>
                       </div>
@@ -713,30 +733,30 @@ export function EasyCalcPage() {
 
                     <Separator />
 
-                    <div className="flex justify-between font-bold text-lg">
+                    <div className="flex justify-between font-bold text-base sm:text-lg">
                       <span>Total:</span>
                       <span>${result.total.toFixed(2)}</span>
                     </div>
 
-                    <div className="flex gap-2 pt-4">
-                      <Button variant="outline" size="sm" onClick={saveEstimate}>
-                        <Save className="h-4 w-4 mr-1" />
-                        Save
-                      </Button>
-                      <Button variant="outline" size="sm" onClick={exportPDF}>
-                        <FileDown className="h-4 w-4 mr-1" />
+                    <div className="grid grid-cols-3 gap-2 pt-4">
+                      <Button variant="outline" size="sm" onClick={exportPDF} className="text-xs">
+                        <FileDown className="h-3 w-3 mr-1" />
                         PDF
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <Share2 className="h-4 w-4 mr-1" />
+                      <Button variant="outline" size="sm" className="text-xs">
+                        <Share2 className="h-3 w-3 mr-1" />
                         Share
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={saveEstimate} className="text-xs">
+                        <Save className="h-3 w-3 mr-1" />
+                        Save
                       </Button>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center text-muted-foreground py-8">
-                    <Calculator className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>Fill in the project details and click "Generate Smart Estimate" to see your calculation results.</p>
+                  <div className="text-center text-muted-foreground py-6 sm:py-8">
+                    <Calculator className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-4 opacity-50" />
+                    <p className="text-xs sm:text-sm px-2">Fill in the project details and click "Generate Smart Estimate" to see your calculation results.</p>
                   </div>
                 )}
               </CardContent>
@@ -744,10 +764,10 @@ export function EasyCalcPage() {
 
             {/* Quick Tips Card */}
             <Card>
-              <CardHeader>
+              <CardHeader className="p-4 sm:p-6">
                 <CardTitle className="text-sm">💡 Smart Tips</CardTitle>
               </CardHeader>
-              <CardContent className="text-xs space-y-2">
+              <CardContent className="text-xs space-y-2 p-4 sm:p-6">
                 <p>• Use the + button to add multiple rooms/areas</p>
                 <p>• Export your project to save and edit later</p>
                 <p>• Always add 10-15% waste factor for materials</p>
