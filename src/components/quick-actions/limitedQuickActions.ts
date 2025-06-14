@@ -6,7 +6,7 @@ import {
   Calendar,
   Briefcase,
   Clock,
-  Timeline
+  GanttChart
 } from "lucide-react"
 import { QuickAction } from "./quickActionsUtils"
 
@@ -73,7 +73,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "project-timeline",
     title: "Project Timeline",
     description: "Track project progress",
-    icon: Timeline,
+    icon: GanttChart,
     color: "bg-cyan-500",
     hoverColor: "hover:bg-cyan-600"
   }
