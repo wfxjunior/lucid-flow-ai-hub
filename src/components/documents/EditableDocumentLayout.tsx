@@ -48,6 +48,15 @@ const documentTerms: Record<string, string> = {
   bid: "This bid is valid for 30 days from the submission date."
 }
 
+// Function name mapping for document types
+const functionNameMapping: Record<string, string> = {
+  invoice: "generate_invoice_number",
+  estimate: "generate_estimate_number",
+  workorder: "generate_work_order_number",
+  meeting: "generate_meeting_number",
+  receipt: "generate_receipt_number"
+}
+
 export function EditableDocumentLayout({
   documentType,
   initialData,
@@ -133,11 +142,20 @@ export function EditableDocumentLayout({
     if (!autoGenerateNumbers || initialData?.number) return
 
     try {
-      const functionName = `generate_${documentType}_number`
-      const { data: numberData } = await supabase.rpc(functionName)
+      // Get the correct function name or use fallback
+      const functionName = functionNameMapping[documentType]
       
-      if (numberData) {
-        setFormData(prev => ({ ...prev, number: numberData }))
+      if (functionName) {
+        const { data: numberData } = await supabase.rpc(functionName as any)
+        
+        if (numberData) {
+          setFormData(prev => ({ ...prev, number: numberData }))
+        }
+      } else {
+        // Fallback to simple number generation for document types without specific functions
+        const timestamp = Date.now().toString().slice(-6)
+        const prefix = documentType.substring(0, 3).toUpperCase()
+        setFormData(prev => ({ ...prev, number: `${prefix}-${timestamp}` }))
       }
     } catch (error) {
       console.error(`Error generating ${documentType} number:`, error)
