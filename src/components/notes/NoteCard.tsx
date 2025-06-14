@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -26,6 +25,15 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
 
   const getPreviewText = (content?: string) => {
     if (!content) return t('notes.noAdditionalContent')
+    
+    // If it's HTML content, strip tags for preview
+    if (/<[^>]*>/.test(content)) {
+      const tempDiv = document.createElement('div')
+      tempDiv.innerHTML = content
+      const plainText = tempDiv.textContent || tempDiv.innerText || ''
+      return plainText.length > 120 ? plainText.substring(0, 120) + "..." : plainText
+    }
+    
     // Remove markdown formatting for preview
     const plainText = content.replace(/[*_`>#\-]/g, '').trim()
     return plainText.length > 120 ? plainText.substring(0, 120) + "..." : plainText
@@ -94,7 +102,7 @@ export const NoteCard = ({ note, onEdit }: NoteCardProps) => {
         <div className="flex-1">
           <div className="text-gray-700 text-sm leading-relaxed line-clamp-5">
             {note.content ? (
-              <FormattedText content={getPreviewText(note.content)} className="text-sm" />
+              <span className="text-sm">{getPreviewText(note.content)}</span>
             ) : (
               <span className="text-gray-400 italic">{t('notes.noAdditionalContent')}</span>
             )}

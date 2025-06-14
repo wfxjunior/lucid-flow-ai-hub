@@ -6,6 +6,24 @@ interface FormattedTextProps {
 }
 
 export function FormattedText({ content, className = '' }: FormattedTextProps) {
+  // Check if content contains HTML tags (from RichTextEditor)
+  const containsHTML = /<[^>]*>/.test(content)
+  
+  if (containsHTML) {
+    // If it's HTML from RichTextEditor, render it directly
+    return (
+      <div 
+        className={`prose prose-sm max-w-none ${className}`}
+        dangerouslySetInnerHTML={{ __html: content }}
+        style={{
+          fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          lineHeight: '1.6'
+        }}
+      />
+    )
+  }
+  
+  // Otherwise, process as markdown-like text
   const formatText = (text: string) => {
     if (!text) return ''
     
