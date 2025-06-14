@@ -53,7 +53,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "appointments",
     title: "Appointments",
     description: "Schedule appointments",
-    icon: "Calendar",
+    icon: Calendar,
     color: "bg-indigo-500",
     hoverColor: "hover:bg-indigo-600"
   },

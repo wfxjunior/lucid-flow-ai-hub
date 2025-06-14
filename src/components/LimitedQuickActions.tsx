@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { QuickActionsSearchBar } from "@/components/QuickActionsSearchBar"
 import { LimitedQuickActionsGrid } from "@/components/LimitedQuickActionsGrid"
@@ -142,29 +143,35 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="space-y-6">
+      {/* Voice Command Section */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
         <div className="flex items-center gap-4">
           <Button
             onClick={handleVoiceCommand}
             variant={isListening ? "default" : "outline"}
             size="sm"
-            className={`flex items-center gap-2 ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`}
+            className={`flex items-center gap-2 ${isListening ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' : 'border-blue-300 hover:bg-blue-50'}`}
           >
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             {isListening ? 'Listening...' : 'Voice Command'}
           </Button>
+          <span className="text-sm text-muted-foreground hidden sm:block">
+            Use voice commands to navigate quickly
+          </span>
         </div>
-        <p className="text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground font-medium">
           {filteredActions.length} actions available
-        </p>
+        </div>
       </div>
       
+      {/* Search Bar */}
       <QuickActionsSearchBar 
         searchTerm={searchTerm} 
         onSearchChange={setSearchTerm} 
       />
       
+      {/* Actions Grid */}
       <LimitedQuickActionsGrid 
         actions={filteredActions}
         onActionClick={handleActionClick}
