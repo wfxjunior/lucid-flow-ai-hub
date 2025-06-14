@@ -14,7 +14,7 @@ interface InvoiceFormProps {
 
 export function InvoiceForm({ invoice, onSuccess, onClose }: InvoiceFormProps) {
   const { allClients } = useBusinessData()
-  const { generateInvoicePDF } = usePDFGeneration()
+  const { generateEstimatePDF } = usePDFGeneration()
 
   const availableClients = (allClients || []).map(client => ({
     id: client.id,
@@ -77,8 +77,15 @@ export function InvoiceForm({ invoice, onSuccess, onClose }: InvoiceFormProps) {
 
       const totalAmount = data.lineItems.reduce((sum: number, item: any) => sum + item.total, 0)
 
+      // Generate invoice number if auto-generation is enabled and no number provided
+      let invoiceNumber = data.number
+      if (!invoiceNumber) {
+        const { data: invoiceNumberData } = await supabase.rpc('generate_invoice_number')
+        invoiceNumber = invoiceNumberData
+      }
+
       const invoiceData = {
-        invoice_number: data.number,
+        invoice_number: invoiceNumber,
         client_id: clientId,
         amount: totalAmount,
         due_date: data.dueDate,
@@ -127,7 +134,7 @@ export function InvoiceForm({ invoice, onSuccess, onClose }: InvoiceFormProps) {
         client: data.clientInfo
       }
       
-      await generateInvoicePDF(invoiceData)
+      await generateEstimatePDF(invoiceData)
     } catch (error) {
       console.error("Error generating PDF:", error)
       toast.error("Failed to generate PDF")

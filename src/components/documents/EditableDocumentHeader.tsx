@@ -4,7 +4,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { Upload, Building2 } from "lucide-react"
+import { Upload, Building2, Settings } from "lucide-react"
+import { DocumentNumberSettings } from "./DocumentNumberSettings"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 interface CompanyInfo {
   name: string
@@ -39,6 +41,7 @@ interface DocumentHeaderProps {
   onStatusChange: (status: string) => void
   onPaymentMethodChange: (method: string) => void
   availableClients?: ClientInfo[]
+  autoGenerateNumbers?: boolean
 }
 
 const statusOptions = {
@@ -82,7 +85,8 @@ export function EditableDocumentHeader({
   onDueDateChange,
   onStatusChange,
   onPaymentMethodChange,
-  availableClients = []
+  availableClients = [],
+  autoGenerateNumbers = true
 }: DocumentHeaderProps) {
   const [isEditingClient, setIsEditingClient] = useState(false)
 
@@ -172,11 +176,28 @@ export function EditableDocumentHeader({
           <div className="space-y-2">
             <div className="flex items-center justify-end gap-2">
               <span className="text-sm text-gray-600">{labels.number}</span>
-              <Input
-                value={documentNumber}
-                onChange={(e) => onDocumentNumberChange(e.target.value)}
-                className="w-32 text-right"
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  value={documentNumber}
+                  onChange={(e) => onDocumentNumberChange(e.target.value)}
+                  className="w-32 text-right"
+                  placeholder={autoGenerateNumbers ? "Auto-generated" : "Enter number"}
+                  disabled={autoGenerateNumbers}
+                />
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      <Settings className="w-4 h-4" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Number Settings</DialogTitle>
+                    </DialogHeader>
+                    <DocumentNumberSettings documentType={documentType} />
+                  </DialogContent>
+                </Dialog>
+              </div>
             </div>
             
             <div className="flex items-center justify-end gap-2">

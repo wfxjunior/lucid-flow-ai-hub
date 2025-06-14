@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CompanySettings } from "./CompanySettings"
+import { DocumentNumberSettings } from "./documents/DocumentNumberSettings"
 import { useState } from "react"
 
 export function SettingsPage() {
@@ -15,6 +16,11 @@ export function SettingsPage() {
     autoBackup: true,
     darkMode: false
   })
+
+  const documentTypes = [
+    'invoice', 'estimate', 'quote', 'contract', 
+    'workorder', 'salesorder', 'proposal', 'bid'
+  ]
 
   return (
     <div className="space-y-6">
@@ -27,9 +33,10 @@ export function SettingsPage() {
 
       <div className="max-w-4xl mx-auto">
         <Tabs defaultValue="general" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="company">Company</TabsTrigger>
+            <TabsTrigger value="documents">Documents</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
@@ -66,6 +73,25 @@ export function SettingsPage() {
 
           <TabsContent value="company">
             <CompanySettings />
+          </TabsContent>
+
+          <TabsContent value="documents">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Document Number Settings</CardTitle>
+                  <CardDescription>
+                    Configure automatic number generation for all document types
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              
+              <div className="grid gap-6 md:grid-cols-2">
+                {documentTypes.map((docType) => (
+                  <DocumentNumberSettings key={docType} documentType={docType} />
+                ))}
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="billing">

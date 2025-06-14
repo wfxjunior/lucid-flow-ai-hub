@@ -7,6 +7,7 @@ import { EditableLineItems } from "./EditableLineItems"
 import { DocumentActions } from "./DocumentActions"
 import { toast } from "sonner"
 import { getDefaultCurrency } from "@/utils/currencyUtils"
+import { supabase } from "@/integrations/supabase/client"
 
 interface EditableDocumentLayoutProps {
   documentType: string
@@ -90,6 +91,11 @@ export function EditableDocumentLayout({
   })
   const [isSaving, setIsSaving] = useState(false)
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+  const [autoGenerateNumbers, setAutoGenerateNumbers] = useState(true)
+
+  useEffect(() => {
+    loadNumberSettings()
+  }, [documentType])
 
   useEffect(() => {
     if (initialData) {
@@ -98,8 +104,49 @@ export function EditableDocumentLayout({
         currency: initialData.currency || getDefaultCurrency().code,
         terms: initialData.terms || documentTerms[documentType] || 'Terms and conditions apply.'
       })
+    } else if (autoGenerateNumbers && !formData.number) {
+      generateDocumentNumber()
     }
-  }, [initialData, documentType])
+  }, [initialData, documentType, autoGenerateNumbers])
+
+  const loadNumberSettings = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data } = await supabase
+        .from('user_settings')
+        .select('*')
+        .eq('user_id', user.id)
+        .single()
+
+      if (data) {
+        const autoGenerate = data[`${documentType}_auto_generate`] !== false
+        setAutoGenerateNumbers(autoGenerate)
+      }
+    } catch (error) {
+      console.error('Error loading number settings:', error)
+    }
+  }
+
+  const generateDocumentNumber = async () => {
+    if (!autoGenerateNumbers || initialData?.number) return
+
+    try {
+      const functionName = `generate_${documentType}_number`
+      const { data: numberData } = await supabase.rpc(functionName)
+      
+      if (numberData) {
+        setFormData(prev => ({ ...prev, number: numberData }))
+      }
+    } catch (error) {
+      console.error(`Error generating ${documentType} number:`, error)
+      // Fallback to simple number generation
+      const timestamp = Date.now().toString().slice(-6)
+      const prefix = documentType.substring(0, 3).toUpperCase()
+      setFormData(prev => ({ ...prev, number: `${prefix}-${timestamp}` }))
+    }
+  }
 
   const handleSave = async () => {
     setIsSaving(true)
@@ -126,6 +173,12 @@ export function EditableDocumentLayout({
   }
 
   const handleDuplicate = () => {
+    // Generate new number for duplicate
+    if (autoGenerateNumbers) {
+      generateDocumentNumber()
+    } else {
+      setFormData(prev => ({ ...prev, number: '' }))
+    }
     onDuplicate(formData)
   }
 
@@ -155,6 +208,7 @@ export function EditableDocumentLayout({
             onStatusChange={(status) => setFormData(prev => ({ ...prev, status }))}
             onPaymentMethodChange={(paymentMethod) => setFormData(prev => ({ ...prev, paymentMethod }))}
             availableClients={availableClients}
+            autoGenerateNumbers={autoGenerateNumbers}
           />
           
           <EditableLineItems
