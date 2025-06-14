@@ -2,7 +2,7 @@
 import { 
   Users, Briefcase, GitBranch, Car, Package, Warehouse, UserCheck, Target,
   Calculator, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt,
-  TrendingUp, Clipboard, DollarSign, PenTool, PiggyBank, Calendar
+  TrendingUp, Clipboard, DollarSign, PenTool, PiggyBank, Calendar, Clock
 } from "lucide-react"
 
 export const businessToolsActions = [
@@ -61,6 +61,14 @@ export const businessToolsActions = [
     icon: Calendar,
     color: "bg-purple-500",
     hoverColor: "hover:bg-purple-600"
+  },
+  {
+    id: "smart-schedule",
+    title: "Smart Schedule",
+    description: "AI-powered job scheduling",
+    icon: Clock,
+    color: "bg-blue-500",
+    hoverColor: "hover:bg-blue-600"
   },
   {
     id: "pipeline",

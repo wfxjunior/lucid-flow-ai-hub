@@ -28,6 +28,11 @@ export const coreBusinessTools: MenuItem[] = [
     title: "Sales Pipeline",
     icon: GitBranch,
     view: "pipeline"
+  },
+  {
+    title: "Smart Schedule",
+    icon: Clock,
+    view: "smart-schedule"
   }
 ]
 
