@@ -18,6 +18,12 @@ export const sidebarMenuData: SidebarMenuItem[] = [
         icon: LayoutDashboard,
         description: "Overview of your business"
       },
+      {
+        title: "Careers",
+        url: "/careers",
+        icon: Users,
+        description: "Join our team"
+      },
     ]
   },
   {

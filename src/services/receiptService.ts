@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client'
 
 export class ReceiptService {
@@ -21,21 +20,20 @@ export class ReceiptService {
     try {
       console.log('Triggering automatic receipt email for:', orderData.orderNumber)
       
-      const receiptData = {
-        customerName: orderData.customerName,
-        customerEmail: orderData.customerEmail,
-        orderNumber: orderData.orderNumber,
-        purchaseDate: new Date().toLocaleDateString(),
-        items: orderData.items,
-        paymentMethod: orderData.paymentMethod,
-        totalAmount: orderData.totalAmount,
-        transactionId: orderData.transactionId,
-        documentType: orderData.type.charAt(0).toUpperCase() + orderData.type.slice(1),
-        pdfUrl: orderData.pdfUrl
-      }
-
-      const { data, error } = await supabase.functions.invoke('send-receipt-email', {
-        body: receiptData
+      // Use the new admin email system for orders
+      const { data, error } = await supabase.functions.invoke('send-admin-emails', {
+        body: {
+          type: 'order',
+          to: orderData.customerEmail,
+          data: {
+            customerName: orderData.customerName,
+            orderNumber: orderData.orderNumber,
+            amount: orderData.totalAmount.toFixed(2),
+            paymentMethod: orderData.paymentMethod,
+            date: new Date().toLocaleDateString('pt-BR'),
+            planName: orderData.type === 'invoice' ? 'FeatherBiz Pro' : 'Produto/Serviço'
+          }
+        }
       })
 
       if (error) {
