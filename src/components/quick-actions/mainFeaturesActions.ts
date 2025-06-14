@@ -1,6 +1,6 @@
 
 import { 
-  Home, FileText, Calendar, CreditCard, Signature, Mic, Heart
+  Home, FileText, Calendar, CreditCard, Signature, Mic, Heart, Clock
 } from "lucide-react"
 
 export const mainFeaturesActions = [
@@ -11,6 +11,14 @@ export const mainFeaturesActions = [
     icon: Home,
     color: "bg-blue-500",
     hoverColor: "hover:bg-blue-600"
+  },
+  {
+    id: "smart-schedule",
+    title: "Smart Schedule",
+    description: "Manage your schedule intelligently",
+    icon: Clock,
+    color: "bg-purple-500",
+    hoverColor: "hover:bg-purple-600"
   },
   {
     id: "ai-voice",
@@ -25,8 +33,8 @@ export const mainFeaturesActions = [
     title: "AfterCare",
     description: "Client feedback & relationships",
     icon: Heart,
-    color: "bg-blue-500",
-    hoverColor: "hover:bg-blue-600"
+    color: "bg-rose-500",
+    hoverColor: "hover:bg-rose-600"
   },
   {
     id: "invoice-creator",
@@ -41,8 +49,8 @@ export const mainFeaturesActions = [
     title: "Appointments",
     description: "Book an appointment",
     icon: Calendar,
-    color: "bg-purple-500",
-    hoverColor: "hover:bg-purple-600"
+    color: "bg-green-500",
+    hoverColor: "hover:bg-green-600"
   },
   {
     id: "payments",

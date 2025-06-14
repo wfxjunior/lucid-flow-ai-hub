@@ -31,6 +31,7 @@ import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { PaymentsPage } from "@/components/PaymentsPage"
 import { ESignaturesPage } from "@/components/ESignaturesPage"
 import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
+import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 
 interface MainContentProps {
   activeView: string
@@ -39,15 +40,18 @@ interface MainContentProps {
 
 export function MainContent({ activeView, onNavigate }: MainContentProps) {
   const handleNavigate = (view: string) => {
+    console.log('MainContent: Navigating to:', view)
     if (onNavigate) {
       onNavigate(view)
     }
   }
 
   const renderView = () => {
+    console.log('MainContent: Rendering view:', activeView)
+    
     switch (activeView) {
       case "dashboard":
-        return <BusinessDashboard onNavigate={handleNavigate} />
+        return <ImprovedDashboard onNavigate={handleNavigate} />
       case "smart-schedule":
         return <SmartSchedulePage />
       case "customer-management":
@@ -109,7 +113,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "ai-voice":
         return <AIVoiceAssistant />
       default:
-        return <BusinessDashboard onNavigate={handleNavigate} />
+        console.log('MainContent: Unknown view, rendering dashboard')
+        return <ImprovedDashboard onNavigate={handleNavigate} />
     }
   }
 

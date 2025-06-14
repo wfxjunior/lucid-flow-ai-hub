@@ -7,6 +7,7 @@ import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from "@/comp
 import { AppSidebar } from "@/components/AppSidebar"
 import { QuickActions } from "@/components/QuickActions"
 import { MainContent } from "@/components/MainContent"
+import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { supabase } from "@/integrations/supabase/client"
 
 export default function Index() {
@@ -60,8 +61,8 @@ export default function Index() {
           </div>
 
           {activeView === "dashboard" ? (
-            <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
-              <QuickActions onActionClick={handleActionClick} />
+            <div className="flex-1 overflow-auto p-4">
+              <ImprovedDashboard onNavigate={setActiveView} />
             </div>
           ) : (
             <MainContent activeView={activeView} onNavigate={setActiveView} />

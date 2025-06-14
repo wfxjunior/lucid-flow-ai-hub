@@ -30,6 +30,9 @@ export function QuickActions({ onActionClick }: QuickActionsProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Quick Actions</h2>
+        <p className="text-sm text-muted-foreground">
+          {filteredActions.length} actions available
+        </p>
       </div>
       
       <QuickActionsSearchBar 
