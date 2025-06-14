@@ -22,49 +22,16 @@ import {
   Zap,
   RefreshCw
 } from "lucide-react"
-import { useLanguage } from "@/contexts/LanguageContext"
 
 interface ImprovedDashboardProps {
   onNavigate: (view: string) => void
 }
 
 export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
-  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState("overview")
   const { stats, loading, error, refreshData } = useDashboardData()
 
-  // Enhanced realistic fictitious data
-  const dashboardStats = {
-    monthlyRevenue: 12345,
-    monthlyRevenueChange: "+12.5%",
-    activeCustomers: 1234,
-    customersChange: "+5.2%",
-    pendingInvoices: 23,
-    invoicesChange: "-8.1%",
-    monthlyGoals: 87,
-    goalsChange: "+15.3%"
-  }
-
-  const recentActivities = [
-    { id: 1, action: "New invoice #INV-0245 created for $2,340", time: "2 hours ago", type: "invoice" },
-    { id: 2, action: "Payment received from John Construction - $4,500", time: "4 hours ago", type: "payment" },
-    { id: 3, action: "New customer 'Smith & Associates' added", time: "1 day ago", type: "customer" },
-    { id: 4, action: "Estimate #EST-0156 sent to MegaBuild Corp", time: "2 days ago", type: "estimate" },
-    { id: 5, action: "Contract signed by ABC Construction", time: "3 days ago", type: "contract" }
-  ]
-
-  const upcomingTasks = [
-    { id: 1, title: "Follow up with Johnson Corp on estimate", due: "Today, 2:00 PM", priority: "high" },
-    { id: 2, title: "Site visit for downtown project", due: "Tomorrow, 10:00 AM", priority: "high" },
-    { id: 3, title: "Send invoice to Metro Buildings", due: "Dec 15", priority: "medium" },
-    { id: 4, title: "Review contract terms with Legal", due: "Dec 18", priority: "medium" },
-    { id: 5, title: "Quarterly review meeting prep", due: "Dec 20", priority: "low" }
-  ]
-
-  // Debug log para verificar se o componente está sendo renderizado
-  useEffect(() => {
-    console.log('ImprovedDashboard mounted with onNavigate:', typeof onNavigate)
-  }, [])
+  console.log('ImprovedDashboard: Rendering with stats:', stats)
 
   // Verificação de segurança para garantir que onNavigate existe
   const handleQuickAction = (actionId: string) => {
@@ -85,43 +52,32 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
     }
   }
 
-  // Fixed navigation function for subscription upgrade
-  const handleSubscriptionUpgrade = () => {
-    console.log('Upgrading subscription - navigating to pricing')
-    if (typeof onNavigate === 'function') {
-      onNavigate('pricing')
-    } else {
-      // Fallback navigation
-      window.location.href = '/#pricing'
-    }
-  }
-
   const statsCards = [
     {
       title: "Monthly Revenue",
-      value: `$${dashboardStats.monthlyRevenue.toLocaleString()}`,
-      change: dashboardStats.monthlyRevenueChange,
+      value: `$${stats.monthlyRevenue.toLocaleString()}`,
+      change: "+12.5%",
       icon: DollarSign,
       trend: "up" as const
     },
     {
       title: "Active Customers",
-      value: dashboardStats.activeCustomers.toString(),
-      change: dashboardStats.customersChange,
+      value: stats.activeCustomers.toString(),
+      change: "+5.2%",
       icon: Users,
       trend: "up" as const
     },
     {
       title: "Pending Invoices",
-      value: dashboardStats.pendingInvoices.toString(),
-      change: dashboardStats.invoicesChange,
+      value: stats.pendingInvoices.toString(),
+      change: "-8.1%",
       icon: FileText,
       trend: "down" as const
     },
     {
-      title: "This Month's Goals",
-      value: `${dashboardStats.monthlyGoals}%`,
-      change: dashboardStats.goalsChange,
+      title: "Monthly Goals",
+      value: `${stats.monthlyGoals}%`,
+      change: "+15.3%",
       icon: Target,
       trend: "up" as const
     }
@@ -192,7 +148,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Header - Improved mobile layout */}
+      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
@@ -207,6 +163,10 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
             <BarChart3 className="mr-2 h-4 w-4" />
             View Analytics
           </Button>
+          <Button onClick={() => handleNavigateInternal('ai-voice')} variant="outline" className="w-full sm:w-auto">
+            <Zap className="mr-2 h-4 w-4" />
+            AI Voice
+          </Button>
           <Button onClick={() => handleNavigateInternal('invoice-creator')} className="w-full sm:w-auto">
             <Zap className="mr-2 h-4 w-4" />
             Create Invoice
@@ -217,7 +177,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         </div>
       </div>
 
-      {/* Stats Cards - Improved responsive grid */}
+      {/* Stats Cards */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {statsCards.map((stat, index) => (
           <StatsCard
@@ -260,8 +220,8 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               </CardContent>
             </Card>
 
-            {/* Subscription Status with fixed navigation */}
-            <SubscriptionStatus onNavigate={handleSubscriptionUpgrade} />
+            {/* Subscription Status */}
+            <SubscriptionStatus onNavigate={handleNavigateInternal} />
           </div>
 
           <div className="grid gap-4 lg:grid-cols-7">
@@ -280,7 +240,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
                   <div className="text-center">
                     <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-2" />
                     <p className="text-sm text-gray-500">
-                      Current Month: ${dashboardStats.monthlyRevenue.toLocaleString()}
+                      Current Month: ${stats.monthlyRevenue.toLocaleString()}
                     </p>
                     <p className="text-xs text-gray-400 mt-1">
                       Revenue trend looking strong this quarter
@@ -302,7 +262,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {recentActivities.slice(0, 5).map((activity) => (
+                  {stats.recentActivities.slice(0, 5).map((activity) => (
                     <div key={activity.id} className="flex items-center space-x-4">
                       <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
                         activity.type === 'payment' ? 'bg-green-500' :
@@ -338,7 +298,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {upcomingTasks.map((task) => (
+                  {stats.upcomingTasks.map((task) => (
                     <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-sm truncate">{task.title}</p>
@@ -396,7 +356,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
         </TabsContent>
       </Tabs>
 
-      {/* Bottom Section - Key Metrics - Improved mobile grid */}
+      {/* Bottom Section - Key Metrics */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

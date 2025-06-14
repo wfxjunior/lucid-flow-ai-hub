@@ -5,7 +5,6 @@ import { useAuthState } from "@/hooks/useAuthState"
 import { AuthContainer } from "@/components/auth/AuthContainer"
 import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
-import { QuickActions } from "@/components/QuickActions"
 import { MainContent } from "@/components/MainContent"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { supabase } from "@/integrations/supabase/client"
@@ -60,13 +59,15 @@ export default function Index() {
             </div>
           </div>
 
-          {activeView === "dashboard" ? (
-            <div className="flex-1 overflow-auto p-4">
-              <ImprovedDashboard onNavigate={setActiveView} />
-            </div>
-          ) : (
-            <MainContent activeView={activeView} onNavigate={setActiveView} />
-          )}
+          <div className="flex-1 overflow-auto">
+            {activeView === "dashboard" ? (
+              <div className="p-4">
+                <ImprovedDashboard onNavigate={setActiveView} />
+              </div>
+            ) : (
+              <MainContent activeView={activeView} onNavigate={setActiveView} />
+            )}
+          </div>
         </main>
       </div>
     </SidebarProvider>

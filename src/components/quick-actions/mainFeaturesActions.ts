@@ -22,8 +22,8 @@ export const mainFeaturesActions = [
   },
   {
     id: "ai-voice",
-    title: "AI Assistant",
-    description: "Voice commands",
+    title: "AI Voice Assistant",
+    description: "Voice commands and assistance",
     icon: Mic,
     color: "bg-cyan-500",
     hoverColor: "hover:bg-cyan-600"
