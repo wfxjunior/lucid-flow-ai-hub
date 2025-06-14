@@ -5,7 +5,7 @@ import { LimitedQuickActionsGrid } from "@/components/LimitedQuickActionsGrid"
 import { limitedQuickActions } from "@/components/quick-actions/limitedQuickActions"
 import { Button } from "@/components/ui/button"
 import { Mic, MicOff } from "lucide-react"
-import { useSidebarMenuData } from "@/components/sidebar/SidebarMenuData"
+import { sidebarMenuData } from "@/components/sidebar/SidebarMenuData"
 import { 
   coreBusinessTools, 
   financialTools, 
@@ -29,7 +29,6 @@ interface LimitedQuickActionsProps {
 export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [isListening, setIsListening] = useState(false)
-  const { mainFeatures, communication, analytics, integrations, systemTools } = useSidebarMenuData()
 
   const filteredActions = limitedQuickActions.filter(action =>
     action.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -43,16 +42,16 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
 
   // Combine all sidebar items for voice recognition
   const allSidebarItems = [
-    ...mainFeatures,
     ...coreBusinessTools,
     ...financialTools,
     ...operationsTools,
     ...documentsTools,
     ...productivityTools,
-    ...communication,
-    ...analytics,
-    ...integrations,
-    ...systemTools
+    // Extract items from sidebarMenuData sections
+    ...(sidebarMenuData.flatMap(section => section.items || []).map(item => ({
+      title: item.title,
+      view: item.url?.replace('/', '') || item.title.toLowerCase().replace(/\s+/g, '-')
+    })))
   ]
 
   const handleVoiceCommand = () => {

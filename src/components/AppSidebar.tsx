@@ -9,7 +9,7 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
 import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
-import { useSidebarMenuData } from "@/components/sidebar/SidebarMenuData"
+import { sidebarMenuData } from "@/components/sidebar/SidebarMenuData"
 import { 
   coreBusinessTools, 
   financialTools, 
@@ -29,13 +29,12 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
   console.log('isMobile state:', isMobile)
   
-  const {
-    mainFeatures,
-    communication,
-    analytics,
-    integrations,
-    systemTools
-  } = useSidebarMenuData()
+  // Extract the categories from sidebarMenuData
+  const generalSection = sidebarMenuData.find(section => section.title === "General")
+  const managementSection = sidebarMenuData.find(section => section.title === "Management")
+  const communicationSection = sidebarMenuData.find(section => section.title === "Communication")
+  const financeSection = sidebarMenuData.find(section => section.title === "Finance")
+  const eSignatureSection = sidebarMenuData.find(section => section.title === "E-Signatures")
   
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
@@ -47,12 +46,58 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarContent className="gap-0">
         <SidebarHeader />
 
-        <SidebarMenuSection 
-          items={mainFeatures} 
-          sectionTitle={t("sidebar.mainFeatures")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
+        {generalSection && (
+          <SidebarMenuSection 
+            items={generalSection.items || []} 
+            sectionTitle={generalSection.title} 
+            activeView={activeView}
+            onMenuClick={handleMenuClick}
+          />
+        )}
+        
+        <SidebarSeparator />
+        
+        {managementSection && (
+          <SidebarMenuSection 
+            items={managementSection.items || []} 
+            sectionTitle={managementSection.title} 
+            activeView={activeView}
+            onMenuClick={handleMenuClick}
+          />
+        )}
+        
+        <SidebarSeparator />
+        
+        {communicationSection && (
+          <SidebarMenuSection 
+            items={communicationSection.items || []} 
+            sectionTitle={communicationSection.title} 
+            activeView={activeView}
+            onMenuClick={handleMenuClick}
+          />
+        )}
+        
+        <SidebarSeparator />
+        
+        {financeSection && (
+          <SidebarMenuSection 
+            items={financeSection.items || []} 
+            sectionTitle={financeSection.title} 
+            activeView={activeView}
+            onMenuClick={handleMenuClick}
+          />
+        )}
+        
+        <SidebarSeparator />
+        
+        {eSignatureSection && (
+          <SidebarMenuSection 
+            items={eSignatureSection.items || []} 
+            sectionTitle={eSignatureSection.title} 
+            activeView={activeView}
+            onMenuClick={handleMenuClick}
+          />
+        )}
         
         <SidebarSeparator />
         
@@ -95,42 +140,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarMenuSection 
           items={productivityTools} 
           sectionTitle={t("sidebar.productivity")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={communication} 
-          sectionTitle={t("sidebar.communication")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={analytics} 
-          sectionTitle={t("sidebar.analytics")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={integrations} 
-          sectionTitle={t("sidebar.integrations")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={systemTools} 
-          sectionTitle={t("sidebar.system")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
