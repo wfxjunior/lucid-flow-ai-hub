@@ -14,13 +14,14 @@ interface QuickActionCardProps {
 export function QuickActionCard({ id, title, icon: Icon, color, onClick }: QuickActionCardProps) {
   return (
     <Card 
-      className="group cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg border-0 bg-card/50 backdrop-blur-sm"
+      className="group cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg border-0 backdrop-blur-sm"
+      style={{ backgroundColor: '#ECEFF3' }}
       onClick={() => onClick(id)}
     >
       <CardContent className="p-4 flex flex-col items-center justify-center text-center h-32 relative">
-        {/* Icon container with cleaner design */}
-        <div className={`p-3 rounded-xl text-white ${color} transition-all duration-200 group-hover:scale-110 group-hover:shadow-md mb-3`}>
-          <Icon className="h-5 w-5" />
+        {/* Icon container with custom color */}
+        <div className="p-3 rounded-xl transition-all duration-200 group-hover:scale-110 group-hover:shadow-md mb-3" style={{ backgroundColor: '#ECEFF3' }}>
+          <Icon className="h-5 w-5" style={{ color: '#0055CC' }} />
         </div>
         
         {/* Title with better typography */}
