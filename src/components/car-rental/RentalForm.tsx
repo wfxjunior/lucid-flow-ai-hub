@@ -1,221 +1,31 @@
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { AddressAutocomplete } from "@/components/ui/address-autocomplete"
-import { useForm } from 'react-hook-form'
-import { supabase } from "@/integrations/supabase/client"
-import { useToast } from "@/hooks/use-toast"
-import { useFastPDFGeneration } from "@/hooks/useFastPDFGeneration"
-
-interface Vehicle {
-  id: string
-  brand: string
-  model: string
-  plate_number: string
-}
-
-interface RentalFormData {
-  vehicle_id: string
-  renter_name: string
-  rental_start_date: string
-  rental_end_date: string
-  pickup_location: string
-  return_location: string
-  pickup_time?: string
-  return_time?: string
-  fuel_level_pickup?: number
-  fuel_level_return?: number
-  initial_mileage?: number
-  final_mileage?: number
-  total_price: number
-  payment_status: string
-  payment_method?: string
-  rental_status: string
-  notes?: string
-}
-
-interface RentalFormProps {
-  rental?: any
-  onSuccess: () => void
-  onCancel: () => void
-}
+import { useRentalForm } from './useRentalForm'
+import { RentalFormProps } from './types'
+import { 
+  VehicleSelect, 
+  PaymentStatusSelect, 
+  PaymentMethodSelect, 
+  RentalStatusSelect,
+  FuelLevelInput,
+  NotesTextarea 
+} from './RentalFormFields'
 
 export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([])
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<RentalFormData>({
-    defaultValues: rental ? {
-      ...rental,
-      rental_start_date: rental.rental_start_date?.split('T')[0],
-      rental_end_date: rental.rental_end_date?.split('T')[0],
-    } : {
-      vehicle_id: '',
-      renter_name: '',
-      rental_start_date: '',
-      rental_end_date: '',
-      pickup_location: '',
-      return_location: '',
-      total_price: 0,
-      payment_status: 'pending',
-      rental_status: 'scheduled'
-    }
-  })
-  const { toast } = useToast()
-  const { generateContractPDF } = useFastPDFGeneration()
-
-  useEffect(() => {
-    fetchVehicles()
-  }, [])
-
-  const fetchVehicles = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('vehicles')
-        .select('id, brand, model, plate_number')
-        .eq('status', 'active')
-
-      if (error) {
-        console.error('Error fetching vehicles:', error)
-        toast({
-          title: "Error",
-          description: "Failed to load vehicles",
-          variant: "destructive"
-        })
-        return
-      }
-      setVehicles(data || [])
-    } catch (error) {
-      console.error('Error fetching vehicles:', error)
-      toast({
-        title: "Error",
-        description: "Failed to load vehicles",
-        variant: "destructive"
-      })
-    }
-  }
-
-  const onSubmit = async (data: RentalFormData) => {
-    if (isSubmitting) return
-    
-    setIsSubmitting(true)
-    try {
-      // Get current user
-      const { data: user } = await supabase.auth.getUser()
-      if (!user.user) {
-        throw new Error('Not authenticated')
-      }
-
-      // Validate fuel levels to prevent database overflow
-      if (data.fuel_level_pickup && data.fuel_level_pickup > 99.9) {
-        data.fuel_level_pickup = 99.9
-      }
-      if (data.fuel_level_return && data.fuel_level_return > 99.9) {
-        data.fuel_level_return = 99.9
-      }
-
-      let savedRental
-      if (rental?.id) {
-        // Update existing rental
-        const { data: updatedRental, error } = await supabase
-          .from('car_rentals')
-          .update({
-            ...data,
-            rental_start_date: new Date(data.rental_start_date).toISOString(),
-            rental_end_date: new Date(data.rental_end_date).toISOString(),
-          })
-          .eq('id', rental.id)
-          .select('*')
-          .single()
-
-        if (error) throw error
-        savedRental = updatedRental
-        
-        toast({
-          title: "Success",
-          description: "Rental updated successfully"
-        })
-      } else {
-        // Create new rental
-        const { data: newRental, error } = await supabase
-          .from('car_rentals')
-          .insert([{ 
-            ...data, 
-            user_id: user.user.id,
-            rental_start_date: new Date(data.rental_start_date).toISOString(),
-            rental_end_date: new Date(data.rental_end_date).toISOString(),
-          }])
-          .select('*')
-          .single()
-
-        if (error) throw error
-        savedRental = newRental
-        
-        toast({
-          title: "Success",
-          description: "Rental created successfully"
-        })
-      }
-
-      // Generate PDF for the rental
-      if (savedRental) {
-        await generateRentalPDF(savedRental)
-      }
-
-      onSuccess()
-    } catch (error) {
-      console.error('Error saving rental:', error)
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to save rental",
-        variant: "destructive"
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const generateRentalPDF = async (rentalData: any) => {
-    try {
-      // Get vehicle details
-      const vehicle = vehicles.find(v => v.id === rentalData.vehicle_id)
-      
-      const contractData = {
-        title: `Car Rental Agreement - ${vehicle?.brand} ${vehicle?.model}`,
-        client: {
-          name: rentalData.renter_name,
-          email: '',
-          phone: '',
-          address: rentalData.pickup_location
-        },
-        items: [
-          {
-            description: `Vehicle Rental - ${vehicle?.brand} ${vehicle?.model} (${vehicle?.plate_number})`,
-            quantity: Math.ceil((new Date(rentalData.rental_end_date) - new Date(rentalData.rental_start_date)) / (1000 * 60 * 60 * 24)),
-            price: rentalData.total_price / Math.ceil((new Date(rentalData.rental_end_date) - new Date(rentalData.rental_start_date)) / (1000 * 60 * 60 * 24)),
-            total: rentalData.total_price
-          }
-        ],
-        subtotal: rentalData.total_price,
-        total: rentalData.total_price,
-        terms: `Rental Period: ${new Date(rentalData.rental_start_date).toLocaleDateString()} to ${new Date(rentalData.rental_end_date).toLocaleDateString()}\n\nPickup Location: ${rentalData.pickup_location}\nReturn Location: ${rentalData.return_location}\n\nPayment Status: ${rentalData.payment_status}\nPayment Method: ${rentalData.payment_method || 'Not specified'}\n\n${rentalData.notes ? `Notes: ${rentalData.notes}` : ''}`,
-        date: new Date().toLocaleDateString()
-      }
-
-      await generateContractPDF(contractData)
-    } catch (error) {
-      console.error('Error generating rental PDF:', error)
-      toast({
-        title: "Warning",
-        description: "Rental saved but PDF generation failed",
-        variant: "destructive"
-      })
-    }
-  }
+  const {
+    vehicles,
+    isSubmitting,
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    errors,
+    onSubmit
+  } = useRentalForm(rental, onSuccess)
 
   return (
     <Card>
@@ -225,25 +35,12 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="vehicle_id">Vehicle *</Label>
-              <Select
-                value={watch('vehicle_id')}
-                onValueChange={(value) => setValue('vehicle_id', value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a vehicle" />
-                </SelectTrigger>
-                <SelectContent>
-                  {vehicles.map((vehicle) => (
-                    <SelectItem key={vehicle.id} value={vehicle.id}>
-                      {vehicle.brand} {vehicle.model} ({vehicle.plate_number})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.vehicle_id && <p className="text-red-500 text-sm mt-1">Vehicle is required</p>}
-            </div>
+            <VehicleSelect
+              vehicles={vehicles}
+              value={watch('vehicle_id')}
+              onValueChange={(value) => setValue('vehicle_id', value)}
+              error={errors.vehicle_id ? 'Vehicle is required' : undefined}
+            />
 
             <div>
               <Label htmlFor="renter_name">Renter Name *</Label>
@@ -335,39 +132,19 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
               />
             </div>
 
-            <div>
-              <Label htmlFor="fuel_level_pickup">Fuel Level Pickup (%)</Label>
-              <Input
-                id="fuel_level_pickup"
-                type="number"
-                min="0"
-                max="99.9"
-                step="0.1"
-                {...register('fuel_level_pickup', { 
-                  valueAsNumber: true,
-                  min: { value: 0, message: 'Fuel level must be at least 0%' },
-                  max: { value: 99.9, message: 'Fuel level cannot exceed 99.9%' }
-                })}
-              />
-              {errors.fuel_level_pickup && <p className="text-red-500 text-sm mt-1">{errors.fuel_level_pickup.message}</p>}
-            </div>
+            <FuelLevelInput
+              id="fuel_level_pickup"
+              label="Fuel Level Pickup (%)"
+              register={register}
+              error={errors.fuel_level_pickup}
+            />
 
-            <div>
-              <Label htmlFor="fuel_level_return">Fuel Level Return (%)</Label>
-              <Input
-                id="fuel_level_return"
-                type="number"
-                min="0"
-                max="99.9"
-                step="0.1"
-                {...register('fuel_level_return', { 
-                  valueAsNumber: true,
-                  min: { value: 0, message: 'Fuel level must be at least 0%' },
-                  max: { value: 99.9, message: 'Fuel level cannot exceed 99.9%' }
-                })}
-              />
-              {errors.fuel_level_return && <p className="text-red-500 text-sm mt-1">{errors.fuel_level_return.message}</p>}
-            </div>
+            <FuelLevelInput
+              id="fuel_level_return"
+              label="Fuel Level Return (%)"
+              register={register}
+              error={errors.fuel_level_return}
+            />
 
             <div>
               <Label htmlFor="total_price">Total Price *</Label>
@@ -384,69 +161,23 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
               {errors.total_price && <p className="text-red-500 text-sm mt-1">{errors.total_price.message}</p>}
             </div>
 
-            <div>
-              <Label htmlFor="payment_status">Payment Status</Label>
-              <Select
-                value={watch('payment_status')}
-                onValueChange={(value) => setValue('payment_status', value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="paid">Paid</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="overdue">Overdue</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <PaymentStatusSelect
+              value={watch('payment_status')}
+              onValueChange={(value) => setValue('payment_status', value)}
+            />
 
-            <div>
-              <Label htmlFor="payment_method">Payment Method</Label>
-              <Select
-                value={watch('payment_method') || ''}
-                onValueChange={(value) => setValue('payment_method', value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select payment method" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cash">Cash</SelectItem>
-                  <SelectItem value="credit-card">Credit Card</SelectItem>
-                  <SelectItem value="debit-card">Debit Card</SelectItem>
-                  <SelectItem value="transfer">Transfer</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <PaymentMethodSelect
+              value={watch('payment_method')}
+              onValueChange={(value) => setValue('payment_method', value)}
+            />
 
-            <div>
-              <Label htmlFor="rental_status">Rental Status</Label>
-              <Select
-                value={watch('rental_status')}
-                onValueChange={(value) => setValue('rental_status', value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="scheduled">Scheduled</SelectItem>
-                  <SelectItem value="ongoing">Ongoing</SelectItem>
-                  <SelectItem value="returned">Returned</SelectItem>
-                  <SelectItem value="cancelled">Cancelled</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="notes">Internal Notes</Label>
-            <Textarea
-              id="notes"
-              {...register('notes')}
-              placeholder="Internal notes for this rental..."
+            <RentalStatusSelect
+              value={watch('rental_status')}
+              onValueChange={(value) => setValue('rental_status', value)}
             />
           </div>
+
+          <NotesTextarea register={register} />
 
           <div className="flex gap-2 pt-4">
             <Button type="submit" disabled={isSubmitting}>
