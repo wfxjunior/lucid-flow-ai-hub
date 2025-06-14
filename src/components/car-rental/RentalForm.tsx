@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -45,6 +46,7 @@ interface RentalFormProps {
 
 export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<RentalFormData>({
     defaultValues: rental ? {
       ...rental,
@@ -75,35 +77,67 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
         .select('id, brand, model, plate_number')
         .eq('status', 'active')
 
-      if (error) throw error
+      if (error) {
+        console.error('Error fetching vehicles:', error)
+        toast({
+          title: "Error",
+          description: "Failed to load vehicles",
+          variant: "destructive"
+        })
+        return
+      }
       setVehicles(data || [])
     } catch (error) {
       console.error('Error fetching vehicles:', error)
+      toast({
+        title: "Error",
+        description: "Failed to load vehicles",
+        variant: "destructive"
+      })
     }
   }
 
   const onSubmit = async (data: RentalFormData) => {
+    if (isSubmitting) return
+    
+    setIsSubmitting(true)
     try {
+      // Get current user
+      const { data: user } = await supabase.auth.getUser()
+      if (!user.user) {
+        throw new Error('Not authenticated')
+      }
+
       if (rental?.id) {
+        // Update existing rental
         const { error } = await supabase
           .from('car_rentals')
-          .update(data)
+          .update({
+            ...data,
+            rental_start_date: new Date(data.rental_start_date).toISOString(),
+            rental_end_date: new Date(data.rental_end_date).toISOString(),
+          })
           .eq('id', rental.id)
 
         if (error) throw error
+        
         toast({
           title: "Success",
           description: "Rental updated successfully"
         })
       } else {
-        const { data: user } = await supabase.auth.getUser()
-        if (!user.user) throw new Error('Not authenticated')
-
+        // Create new rental
         const { error } = await supabase
           .from('car_rentals')
-          .insert([{ ...data, user_id: user.user.id }])
+          .insert([{ 
+            ...data, 
+            user_id: user.user.id,
+            rental_start_date: new Date(data.rental_start_date).toISOString(),
+            rental_end_date: new Date(data.rental_end_date).toISOString(),
+          }])
 
         if (error) throw error
+        
         toast({
           title: "Success",
           description: "Rental created successfully"
@@ -114,9 +148,11 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
       console.error('Error saving rental:', error)
       toast({
         title: "Error",
-        description: "Failed to save rental",
+        description: error instanceof Error ? error.message : "Failed to save rental",
         variant: "destructive"
       })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -145,6 +181,7 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
                   ))}
                 </SelectContent>
               </Select>
+              {errors.vehicle_id && <p className="text-red-500 text-sm mt-1">Vehicle is required</p>}
             </div>
 
             <div>
@@ -181,10 +218,9 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
 
             <div>
               <Label htmlFor="pickup_location">Pickup Location *</Label>
-              <AddressAutocomplete
+              <Input
                 id="pickup_location"
-                value={watch('pickup_location') || ''}
-                onChange={(value) => setValue('pickup_location', value)}
+                {...register('pickup_location', { required: 'Pickup location is required' })}
                 placeholder="Enter pickup address..."
                 className={errors.pickup_location ? 'border-red-500' : ''}
               />
@@ -193,10 +229,9 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
 
             <div>
               <Label htmlFor="return_location">Return Location *</Label>
-              <AddressAutocomplete
+              <Input
                 id="return_location"
-                value={watch('return_location') || ''}
-                onChange={(value) => setValue('return_location', value)}
+                {...register('return_location', { required: 'Return location is required' })}
                 placeholder="Enter return address..."
                 className={errors.return_location ? 'border-red-500' : ''}
               />
@@ -306,6 +341,7 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="cash">Cash</SelectItem>
+                  <SelectItem value="credit-card">Credit Card</SelectItem>
                   <SelectItem value="transfer">Transfer</SelectItem>
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
@@ -341,10 +377,10 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button type="submit">
-              {rental ? 'Update Rental' : 'Create Rental'}
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving...' : (rental ? 'Update Rental' : 'Create Rental')}
             </Button>
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
               Cancel
             </Button>
           </div>

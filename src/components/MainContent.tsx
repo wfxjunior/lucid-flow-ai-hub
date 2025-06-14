@@ -42,6 +42,7 @@ import { PricingPlans } from "@/components/PricingPlans"
 import { ReferralsPage } from "@/components/ReferralsPage"
 import { FeaturesPage } from "@/components/FeaturesPage"
 import { FeedbackPage } from "@/components/FeedbackPage"
+import AdminPage from "@/pages/AdminPage"
 
 interface MainContentProps {
   activeView: string
@@ -62,6 +63,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
     switch (activeView) {
       case "dashboard":
         return <ImprovedDashboard onNavigate={handleNavigate} />
+      case "admin":
+        return <AdminPage />
       case "smart-schedule":
         return <SmartSchedulePage />
       case "customer-management":
