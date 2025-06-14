@@ -1388,6 +1388,84 @@ export type Database = {
           },
         ]
       }
+      user_email_logs: {
+        Row: {
+          created_at: string
+          email_type: string
+          error_message: string | null
+          id: string
+          provider_response: Json | null
+          recipient_email: string
+          recipient_name: string | null
+          sent_at: string
+          status: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_type?: string
+          error_message?: string | null
+          id?: string
+          provider_response?: Json | null
+          recipient_email: string
+          recipient_name?: string | null
+          sent_at?: string
+          status?: string
+          subject: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email_type?: string
+          error_message?: string | null
+          id?: string
+          provider_response?: Json | null
+          recipient_email?: string
+          recipient_name?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_email_settings: {
+        Row: {
+          api_key: string
+          created_at: string
+          from_email: string
+          from_name: string
+          id: string
+          is_active: boolean
+          provider: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          api_key: string
+          created_at?: string
+          from_email: string
+          from_name: string
+          id?: string
+          is_active?: boolean
+          provider?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          api_key?: string
+          created_at?: string
+          from_email?: string
+          from_name?: string
+          id?: string
+          is_active?: boolean
+          provider?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_settings: {
         Row: {
           company_address: string | null

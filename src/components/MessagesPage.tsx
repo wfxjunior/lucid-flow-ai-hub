@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -7,77 +7,135 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, MessageSquare, Send, Inbox, Mail } from 'lucide-react'
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Plus, MessageSquare, Send, Inbox, Mail, Settings } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
-import { toast } from "sonner"
+import { useBusinessData } from "@/hooks/useBusinessData"
+import { useUserEmail } from "@/hooks/useUserEmail"
+import { RichTextEditor } from "./RichTextEditor"
+import { Link } from "react-router-dom"
+
+interface EmailLog {
+  id: string
+  recipient_email: string
+  recipient_name?: string
+  subject: string
+  email_type: string
+  sent_at: string
+  status: string
+  error_message?: string
+}
 
 export function MessagesPage() {
+  const { clients } = useBusinessData()
+  const { sendEmail, isSending, hasEmailSettings, checkEmailSettings } = useUserEmail()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      from: 'ABC Corporation',
-      to: 'team@company.com',
-      subject: 'Project Update Required',
-      content: 'Hi, we need an update on the current project status...',
-      time: '2 hours ago',
-      read: false,
-      type: 'received'
-    },
-    {
-      id: 2,
-      from: 'team@company.com',
-      to: 'XYZ Limited',
-      subject: 'Invoice Payment Confirmation',
-      content: 'Thank you for the invoice. Payment has been processed...',
-      time: '1 day ago',
-      read: true,
-      type: 'sent'
-    }
-  ])
+  const [emailLogs, setEmailLogs] = useState<EmailLog[]>([])
 
   const [formData, setFormData] = useState({
     to: '',
+    toName: '',
     subject: '',
     content: '',
     messageType: 'email'
   })
 
-  const clients = ['ABC Corporation', 'XYZ Limited', 'Tech Solutions', 'Future Corp']
+  useEffect(() => {
+    checkEmailSettings()
+    loadEmailLogs()
+  }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const loadEmailLogs = async () => {
+    try {
+      const { supabase } = await import('@/integrations/supabase/client')
+      const { data, error } = await supabase
+        .from('user_email_logs')
+        .select('*')
+        .order('sent_at', { ascending: false })
+        .limit(20)
+
+      if (error) throw error
+      setEmailLogs(data || [])
+    } catch (error: any) {
+      console.error('Error loading email logs:', error)
+    }
+  }
+
+  const handleClientSelect = (clientId: string) => {
+    const client = clients?.find(c => c.id === clientId)
+    if (client) {
+      setFormData(prev => ({
+        ...prev,
+        to: client.email,
+        toName: client.name
+      }))
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!formData.to || !formData.subject || !formData.content) {
-      toast.error('Please fill in all required fields')
       return
     }
 
-    const newMessage = {
-      id: messages.length + 1,
-      from: 'team@company.com',
-      to: formData.to,
-      subject: formData.subject,
-      content: formData.content,
-      time: 'Just now',
-      read: true,
-      type: 'sent'
-    }
-    
-    setMessages([newMessage, ...messages])
-    setFormData({
-      to: '',
-      subject: '',
-      content: '',
-      messageType: 'email'
-    })
-    setIsDialogOpen(false)
-    
     if (formData.messageType === 'email') {
-      toast.success('Email sent successfully!')
+      const success = await sendEmail({
+        to: formData.to,
+        subject: formData.subject,
+        content: formData.content,
+        emailType: 'client_message',
+        recipientName: formData.toName
+      })
+
+      if (success) {
+        setFormData({
+          to: '',
+          toName: '',
+          subject: '',
+          content: '',
+          messageType: 'email'
+        })
+        setIsDialogOpen(false)
+        loadEmailLogs()
+      }
     } else {
-      toast.success('SMS sent successfully!')
+      // SMS functionality would be implemented here
+      alert('Funcionalidade de SMS será implementada em breve')
     }
+  }
+
+  if (hasEmailSettings === false) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Messages</h1>
+            <p className="text-muted-foreground">
+              Send emails and SMS messages to your clients
+            </p>
+          </div>
+        </div>
+
+        <Card>
+          <CardContent className="p-8">
+            <div className="text-center space-y-4">
+              <Mail className="h-16 w-16 text-muted-foreground mx-auto" />
+              <h3 className="text-xl font-semibold">Configure Email Settings</h3>
+              <p className="text-muted-foreground max-w-md mx-auto">
+                Before you can send emails to your clients, you need to configure your email settings with your own email provider credentials.
+              </p>
+              <Link to="/email-settings">
+                <Button className="mt-4">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Configure Email Settings
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -89,87 +147,101 @@ export function MessagesPage() {
             Send emails and SMS messages to your clients
           </p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              New Message
+        <div className="flex gap-2">
+          <Link to="/email-settings">
+            <Button variant="outline">
+              <Settings className="mr-2 h-4 w-4" />
+              Email Settings
             </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Send New Message</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="to">To (Client) *</Label>
-                  <Select value={formData.to} onValueChange={(value) => setFormData({ ...formData, to: value })}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select client" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {clients.map((client) => (
-                        <SelectItem key={client} value={client}>{client}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+          </Link>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                New Message
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Send New Message</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="client">Select Client</Label>
+                    <Select onValueChange={handleClientSelect}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select client" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {clients?.map((client) => (
+                          <SelectItem key={client.id} value={client.id}>
+                            {client.name} ({client.email})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="messageType">Message Type</Label>
+                    <Select value={formData.messageType} onValueChange={(value) => setFormData({ ...formData, messageType: value })}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="email">Email</SelectItem>
+                        <SelectItem value="sms">SMS (Coming Soon)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="messageType">Message Type</Label>
-                  <Select value={formData.messageType} onValueChange={(value) => setFormData({ ...formData, messageType: value })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="email">Email</SelectItem>
-                      <SelectItem value="sms">SMS</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="to">To (Email Address) *</Label>
+                  <Input
+                    id="to"
+                    type="email"
+                    value={formData.to}
+                    onChange={(e) => setFormData({ ...formData, to: e.target.value })}
+                    placeholder="client@email.com"
+                    required
+                  />
                 </div>
-              </div>
 
-              <div>
-                <Label htmlFor="subject">Subject *</Label>
-                <Input
-                  id="subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  placeholder={formData.messageType === 'sms' ? 'SMS message (optional)' : 'Enter email subject'}
-                  required={formData.messageType === 'email'}
-                />
-              </div>
+                <div>
+                  <Label htmlFor="subject">Subject *</Label>
+                  <Input
+                    id="subject"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    placeholder="Enter email subject"
+                    required
+                  />
+                </div>
 
-              <div>
-                <Label htmlFor="content">Message Content *</Label>
-                <Textarea
-                  id="content"
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  placeholder={`Type your ${formData.messageType} message here...`}
-                  rows={6}
-                  required
-                />
-                {formData.messageType === 'sms' && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    SMS character limit: {formData.content.length}/160
-                  </p>
-                )}
-              </div>
+                <div>
+                  <Label htmlFor="content">Message Content *</Label>
+                  <RichTextEditor
+                    value={formData.content}
+                    onChange={(value) => setFormData({ ...formData, content: value })}
+                    placeholder="Type your message here..."
+                  />
+                </div>
 
-              <div className="flex gap-2 pt-4">
-                <Button type="submit" className="flex-1">
-                  <Send className="mr-2 h-4 w-4" />
-                  Send {formData.messageType === 'email' ? 'Email' : 'SMS'}
-                </Button>
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+                <div className="flex gap-2 pt-4">
+                  <Button type="submit" className="flex-1" disabled={isSending}>
+                    <Send className="mr-2 h-4 w-4" />
+                    {isSending ? 'Sending...' : 'Send Email'}
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Summary Cards */}
@@ -180,7 +252,7 @@ export function MessagesPage() {
               <Inbox className="h-8 w-8 text-blue-500" />
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Total Messages</p>
-                <p className="text-2xl font-bold">{messages.length}</p>
+                <p className="text-2xl font-bold">{emailLogs.length}</p>
               </div>
             </div>
           </CardContent>
@@ -191,8 +263,8 @@ export function MessagesPage() {
             <div className="flex items-center">
               <MessageSquare className="h-8 w-8 text-green-500" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Unread</p>
-                <p className="text-2xl font-bold">{messages.filter(m => !m.read).length}</p>
+                <p className="text-sm font-medium text-gray-600">Sent Successfully</p>
+                <p className="text-2xl font-bold">{emailLogs.filter(m => m.status === 'sent').length}</p>
               </div>
             </div>
           </CardContent>
@@ -201,44 +273,55 @@ export function MessagesPage() {
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center">
-              <Send className="h-8 w-8 text-purple-500" />
+              <Send className="h-8 w-8 text-red-500" />
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Sent</p>
-                <p className="text-2xl font-bold">{messages.filter(m => m.type === 'sent').length}</p>
+                <p className="text-sm font-medium text-gray-600">Failed</p>
+                <p className="text-2xl font-bold">{emailLogs.filter(m => m.status === 'failed').length}</p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Messages List */}
+      {/* Email Logs */}
       <Card>
         <CardHeader>
           <CardTitle>Recent Messages</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {messages.map((message) => (
-              <div key={message.id} className={`p-4 border rounded-lg cursor-pointer hover:bg-gray-50 ${!message.read ? 'bg-blue-50 border-blue-200' : ''}`}>
-                <div className="flex justify-between items-start mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className={`p-1 rounded ${message.type === 'sent' ? 'bg-green-100' : 'bg-blue-100'}`}>
-                      {message.type === 'sent' ? 
-                        <Send className="w-4 h-4 text-green-600" /> : 
-                        <Mail className="w-4 h-4 text-blue-600" />
-                      }
-                    </div>
-                    <h4 className="font-medium">
-                      {message.type === 'sent' ? `To: ${message.to}` : `From: ${message.from}`}
-                    </h4>
-                    {!message.read && <Badge variant="default">New</Badge>}
-                  </div>
-                  <span className="text-xs text-gray-500">{message.time}</span>
-                </div>
-                <h5 className="text-sm font-medium mb-1">{message.subject}</h5>
-                <p className="text-sm text-gray-600 line-clamp-2">{message.content}</p>
+            {emailLogs.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                No messages sent yet
               </div>
-            ))}
+            ) : (
+              emailLogs.map((log) => (
+                <div key={log.id} className="p-4 border rounded-lg">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-blue-600" />
+                      <h4 className="font-medium">{log.subject}</h4>
+                      <Badge variant={log.status === 'sent' ? 'default' : 'destructive'}>
+                        {log.status === 'sent' ? 'Sent' : 'Failed'}
+                      </Badge>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      {new Date(log.sent_at).toLocaleString('pt-BR')}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    To: {log.recipient_name ? `${log.recipient_name} (${log.recipient_email})` : log.recipient_email}
+                  </p>
+                  {log.error_message && (
+                    <Alert className="mt-2">
+                      <AlertDescription className="text-sm text-red-600">
+                        {log.error_message}
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </CardContent>
       </Card>
