@@ -4,18 +4,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react"
-import { useAuthLogic } from "@/hooks/useAuthLogic"
 import { useAdminEmails } from "@/hooks/useAdminEmails"
-import { ErrorAlert } from "./ErrorAlert"
+import { supabase } from "@/integrations/supabase/client"
+import { toast } from "sonner"
 
 export function SignUpForm() {
-  const { signUp, loading } = useAuthLogic()
   const { sendWelcomeEmail } = useAdminEmails()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [name, setName] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,10 +31,19 @@ export function SignUpForm() {
       return
     }
 
+    setLoading(true)
+    
     try {
-      const { user } = await signUp(email, password)
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+      })
       
-      if (user) {
+      if (signUpError) {
+        throw signUpError
+      }
+
+      if (data.user) {
         // Send welcome email after successful signup
         try {
           await sendWelcomeEmail(email, name || email.split('@')[0])
@@ -42,15 +51,23 @@ export function SignUpForm() {
           console.error('Failed to send welcome email:', welcomeError)
           // Don't fail signup if welcome email fails
         }
+        
+        toast.success('Conta criada com sucesso! Verifique seu email.')
       }
     } catch (error: any) {
       setError(error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {error && <ErrorAlert message={error} />}
+      {error && (
+        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
+          <p className="text-sm text-destructive">{error}</p>
+        </div>
+      )}
       
       <div>
         <Label htmlFor="name">Nome (opcional)</Label>

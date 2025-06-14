@@ -1,18 +1,8 @@
+
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
-import { Dashboard } from "@/components/Dashboard"
-import { CustomersPage } from "@/components/CustomersPage"
-import { ProjectsPage } from "@/components/ProjectsPage"
-import { AppointmentsPage } from "@/components/AppointmentsPage"
-import { InvoicesPage } from "@/components/InvoicesPage"
-import { TasksPage } from "@/components/TasksPage"
-import { ProductsPage } from "@/components/ProductsPage"
-import { PaymentsPage } from "@/components/PaymentsPage"
-import { ExpensesPage } from "@/components/ExpensesPage"
-import { ContractsPage } from "@/components/ContractsPage"
-import { EsignaturesPage } from "@/components/EsignaturesPage"
-import { EsignatureTemplatesPage } from "@/components/EsignatureTemplatesPage"
+import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 
 interface MainContentProps {
   activeView: string
@@ -23,29 +13,62 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
   const renderContent = () => {
     switch (activeView) {
       case "dashboard":
-        return <Dashboard />
+        return <ImprovedDashboard onNavigate={onNavigate} />
       case "customers":
-        return <CustomersPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Customers</h1>
+          <p>Customer management coming soon...</p>
+        </div>
       case "projects":
-        return <ProjectsPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Projects</h1>
+          <p>Project management coming soon...</p>
+        </div>
       case "appointments":
-        return <AppointmentsPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Appointments</h1>
+          <p>Appointment scheduling coming soon...</p>
+        </div>
       case "invoices":
-        return <InvoicesPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Invoices</h1>
+          <p>Invoice management coming soon...</p>
+        </div>
       case "tasks":
-        return <TasksPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Tasks</h1>
+          <p>Task management coming soon...</p>
+        </div>
       case "products":
-        return <ProductsPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Products</h1>
+          <p>Product catalog coming soon...</p>
+        </div>
       case "payments":
-        return <PaymentsPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Payments</h1>
+          <p>Payment tracking coming soon...</p>
+        </div>
       case "expenses":
-        return <ExpensesPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Expenses</h1>
+          <p>Expense management coming soon...</p>
+        </div>
       case "contracts":
-        return <ContractsPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Contracts</h1>
+          <p>Contract management coming soon...</p>
+        </div>
       case "esignatures":
-        return <EsignaturesPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">E-Signatures</h1>
+          <p>Document signing coming soon...</p>
+        </div>
       case "esignature-templates":
-        return <EsignatureTemplatesPage />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
+          <p>Document templates coming soon...</p>
+        </div>
       case "messages":
         return <MessagesPage />
       case "email-settings":
