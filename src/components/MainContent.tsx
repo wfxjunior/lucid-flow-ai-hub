@@ -32,6 +32,16 @@ import { PaymentsPage } from "@/components/PaymentsPage"
 import { ESignaturesPage } from "@/components/ESignaturesPage"
 import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
+import { EmailCenterPage } from "@/components/EmailCenterPage"
+import { MessagesPage } from "@/components/MessagesPage"
+import { IntegrationsHub } from "@/components/IntegrationsHub"
+import { FAQPage } from "@/components/FAQPage"
+import { SettingsPage } from "@/components/SettingsPage"
+import { PricingPlans } from "@/components/PricingPlans"
+import { ReferralsPage } from "@/components/ReferralsPage"
+import { FeaturesPage } from "@/components/FeaturesPage"
+import { FeedbackPage } from "@/components/FeedbackPage"
 
 interface MainContentProps {
   activeView: string
@@ -112,6 +122,26 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <ESignaturesPage />
       case "ai-voice":
         return <AIVoiceAssistant />
+      case "analytics":
+        return <AnalyticsDashboard />
+      case "email-center":
+        return <EmailCenterPage />
+      case "messages":
+        return <MessagesPage />
+      case "integrations":
+        return <IntegrationsHub />
+      case "faq-help":
+        return <FAQPage />
+      case "settings":
+        return <SettingsPage />
+      case "pricing":
+        return <PricingPlans />
+      case "referrals":
+        return <ReferralsPage />
+      case "features":
+        return <FeaturesPage />
+      case "feedback":
+        return <FeedbackPage />
       default:
         console.log('MainContent: Unknown view, rendering dashboard')
         return <ImprovedDashboard onNavigate={handleNavigate} />
@@ -119,7 +149,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
   }
 
   return (
-    <div className="flex-1 overflow-auto">
+    <div className="flex-1 overflow-auto p-4">
       {renderView()}
     </div>
   )

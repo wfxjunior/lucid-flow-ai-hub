@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -20,7 +19,8 @@ import {
   BarChart3,
   Target,
   Zap,
-  RefreshCw
+  RefreshCw,
+  Mic
 } from "lucide-react"
 
 interface ImprovedDashboardProps {
@@ -159,15 +159,15 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
+          <Button onClick={() => handleNavigateInternal('ai-voice')} className="w-full sm:w-auto">
+            <Mic className="mr-2 h-4 w-4" />
+            AI Voice Assistant
+          </Button>
           <Button variant="outline" onClick={() => handleNavigateInternal('analytics')} className="w-full sm:w-auto">
             <BarChart3 className="mr-2 h-4 w-4" />
             View Analytics
           </Button>
-          <Button onClick={() => handleNavigateInternal('ai-voice')} variant="outline" className="w-full sm:w-auto">
-            <Zap className="mr-2 h-4 w-4" />
-            AI Voice
-          </Button>
-          <Button onClick={() => handleNavigateInternal('invoice-creator')} className="w-full sm:w-auto">
+          <Button onClick={() => handleNavigateInternal('invoice-creator')} variant="outline" className="w-full sm:w-auto">
             <Zap className="mr-2 h-4 w-4" />
             Create Invoice
           </Button>
@@ -236,15 +236,23 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
-                <div className="h-[200px] flex items-center justify-center bg-gray-50 rounded-lg">
+                <div className="h-[200px] flex items-center justify-center bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border-2 border-dashed border-gray-200">
                   <div className="text-center">
-                    <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-500">
-                      Current Month: ${stats.monthlyRevenue.toLocaleString()}
+                    <BarChart3 className="h-12 w-12 text-blue-500 mx-auto mb-2" />
+                    <p className="text-lg font-semibold text-gray-800">
+                      ${stats.monthlyRevenue.toLocaleString()}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      Revenue trend looking strong this quarter
-                    </p>
+                    <p className="text-sm text-gray-500">Current Month Revenue</p>
+                    <div className="flex items-center justify-center gap-4 mt-2">
+                      <div className="flex items-center gap-1">
+                        <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                        <span className="text-xs">Revenue</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <TrendingUp className="h-3 w-3 text-green-500" />
+                        <span className="text-xs text-green-600">+12.5%</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </CardContent>

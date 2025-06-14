@@ -39,15 +39,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
-    if (view === "admin-panel") {
-      window.location.href = "/admin"
-    } else if (view === "feedback") {
-      window.location.href = "/feedback"
-    } else if (view === "faq-help") {
-      window.location.href = "/faq"
-    } else {
-      setActiveView(view)
-    }
+    setActiveView(view)
   }
 
   return (
