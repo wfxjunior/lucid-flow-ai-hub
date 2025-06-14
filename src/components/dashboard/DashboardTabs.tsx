@@ -16,13 +16,13 @@ interface DashboardTabsProps {
   stats: {
     monthlyRevenue: number
     recentActivities: Array<{
-      id: string
+      id: number
       action: string
       time: string
       type: string
     }>
     upcomingTasks: Array<{
-      id: string
+      id: number
       title: string
       due: string
       priority: string
