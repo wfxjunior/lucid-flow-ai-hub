@@ -1,8 +1,7 @@
 
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Bold, Italic, Underline, List, ListOrdered, Quote } from 'lucide-react'
-import { Textarea } from "@/components/ui/textarea"
 
 interface RichTextEditorProps {
   value: string
@@ -12,109 +11,119 @@ interface RichTextEditorProps {
 }
 
 export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichTextEditorProps) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const editorRef = useRef<HTMLDivElement>(null)
+  const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set())
 
-  const insertFormatting = useCallback((prefix: string, suffix: string = '') => {
-    const textarea = textareaRef.current
-    if (!textarea) return
+  const applyFormat = useCallback((command: string, value?: string) => {
+    document.execCommand(command, false, value)
+    updateActiveFormats()
+    updateContent()
+  }, [])
 
-    const start = textarea.selectionStart
-    const end = textarea.selectionEnd
-    const selectedText = value.substring(start, end)
+  const updateActiveFormats = useCallback(() => {
+    const formats = new Set<string>()
     
-    let newText: string
-    let newCursorPos: number
+    if (document.queryCommandState('bold')) formats.add('bold')
+    if (document.queryCommandState('italic')) formats.add('italic')
+    if (document.queryCommandState('underline')) formats.add('underline')
+    if (document.queryCommandState('insertUnorderedList')) formats.add('bulletList')
+    if (document.queryCommandState('insertOrderedList')) formats.add('numberedList')
+    
+    setActiveFormats(formats)
+  }, [])
 
-    if (selectedText) {
-      // Se há texto selecionado, envolve o texto com a formatação
-      newText = value.substring(0, start) + prefix + selectedText + suffix + value.substring(end)
-      newCursorPos = start + prefix.length + selectedText.length + suffix.length
-    } else {
-      // Se não há texto selecionado, insere a formatação e posiciona o cursor entre as marcações
-      newText = value.substring(0, start) + prefix + suffix + value.substring(end)
-      newCursorPos = start + prefix.length
+  const updateContent = useCallback(() => {
+    if (editorRef.current) {
+      const content = editorRef.current.innerHTML
+      onChange(content)
     }
-    
-    onChange(newText)
+  }, [onChange])
 
-    // Restaura o foco e posição do cursor
-    setTimeout(() => {
-      textarea.focus()
-      textarea.setSelectionRange(newCursorPos, newCursorPos)
-    }, 0)
-  }, [value, onChange])
+  const handleInput = useCallback(() => {
+    updateContent()
+    updateActiveFormats()
+  }, [updateContent, updateActiveFormats])
 
-  const insertListItem = useCallback((listType: 'bullet' | 'numbered') => {
-    const textarea = textareaRef.current
-    if (!textarea) return
-
-    const start = textarea.selectionStart
-    const lineStart = value.lastIndexOf('\n', start - 1) + 1
-    const currentLine = value.substring(lineStart, start)
-    
-    const prefix = listType === 'bullet' ? '• ' : '1. '
-    
-    if (currentLine.trim() === '') {
-      insertFormatting(prefix)
-    } else {
-      insertFormatting('\n' + prefix)
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    // Handle keyboard shortcuts
+    if (e.metaKey || e.ctrlKey) {
+      switch (e.key) {
+        case 'b':
+          e.preventDefault()
+          applyFormat('bold')
+          break
+        case 'i':
+          e.preventDefault()
+          applyFormat('italic')
+          break
+        case 'u':
+          e.preventDefault()
+          applyFormat('underline')
+          break
+      }
     }
-  }, [value, insertFormatting])
+  }, [applyFormat])
+
+  const handleSelectionChange = useCallback(() => {
+    updateActiveFormats()
+  }, [updateActiveFormats])
+
+  React.useEffect(() => {
+    document.addEventListener('selectionchange', handleSelectionChange)
+    return () => {
+      document.removeEventListener('selectionchange', handleSelectionChange)
+    }
+  }, [handleSelectionChange])
+
+  React.useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== value) {
+      editorRef.current.innerHTML = value
+    }
+  }, [value])
 
   const insertQuote = useCallback(() => {
-    const textarea = textareaRef.current
-    if (!textarea) return
-
-    const start = textarea.selectionStart
-    const lineStart = value.lastIndexOf('\n', start - 1) + 1
-    const currentLine = value.substring(lineStart, start)
-    
-    if (currentLine.trim() === '') {
-      insertFormatting('> ')
-    } else {
-      insertFormatting('\n> ')
-    }
-  }, [value, insertFormatting])
+    applyFormat('formatBlock', 'blockquote')
+  }, [applyFormat])
 
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap gap-1 p-2 border rounded-t-md bg-gray-50">
         <Button
           type="button"
-          variant="ghost"
+          variant={activeFormats.has('bold') ? 'default' : 'ghost'}
           size="sm"
-          onClick={() => insertFormatting('**', '**')}
+          onClick={() => applyFormat('bold')}
           className="h-8 px-2"
-          title="Negrito"
+          title="Negrito (Cmd+B)"
         >
           <Bold className="h-4 w-4" />
         </Button>
         <Button
           type="button"
-          variant="ghost"
+          variant={activeFormats.has('italic') ? 'default' : 'ghost'}
           size="sm"
-          onClick={() => insertFormatting('*', '*')}
+          onClick={() => applyFormat('italic')}
           className="h-8 px-2"
-          title="Itálico"
+          title="Itálico (Cmd+I)"
         >
           <Italic className="h-4 w-4" />
         </Button>
         <Button
           type="button"
-          variant="ghost"
+          variant={activeFormats.has('underline') ? 'default' : 'ghost'}
           size="sm"
-          onClick={() => insertFormatting('__', '__')}
+          onClick={() => applyFormat('underline')}
           className="h-8 px-2"
-          title="Sublinhado"
+          title="Sublinhado (Cmd+U)"
         >
           <Underline className="h-4 w-4" />
         </Button>
         <div className="w-px h-6 bg-gray-300 mx-1" />
         <Button
           type="button"
-          variant="ghost"
+          variant={activeFormats.has('bulletList') ? 'default' : 'ghost'}
           size="sm"
-          onClick={() => insertListItem('bullet')}
+          onClick={() => applyFormat('insertUnorderedList')}
           className="h-8 px-2"
           title="Lista com marcadores"
         >
@@ -122,9 +131,9 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
         </Button>
         <Button
           type="button"
-          variant="ghost"
+          variant={activeFormats.has('numberedList') ? 'default' : 'ghost'}
           size="sm"
-          onClick={() => insertListItem('numbered')}
+          onClick={() => applyFormat('insertOrderedList')}
           className="h-8 px-2"
           title="Lista numerada"
         >
@@ -141,18 +150,49 @@ export function RichTextEditor({ value, onChange, placeholder, rows = 6 }: RichT
           <Quote className="h-4 w-4" />
         </Button>
       </div>
-      <Textarea
-        ref={textareaRef}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        rows={rows}
-        className="resize-none rounded-t-none border-t-0 focus:ring-0 focus:border-gray-300"
-        style={{ fontFamily: 'ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco, Consolas, monospace' }}
+      <div
+        ref={editorRef}
+        contentEditable
+        onInput={handleInput}
+        onKeyDown={handleKeyDown}
+        className="min-h-[200px] p-4 border rounded-b-md rounded-t-none border-t-0 focus:ring-0 focus:border-gray-300 focus:outline-none bg-white"
+        style={{ 
+          fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          lineHeight: '1.6'
+        }}
+        data-placeholder={placeholder}
+        suppressContentEditableWarning={true}
       />
       <div className="text-xs text-gray-500 px-2">
-        Use **negrito**, *itálico*, __sublinhado__, • para marcadores, 1. para números, {'>'}  para citações
+        Use Cmd+B para negrito, Cmd+I para itálico, Cmd+U para sublinhado
       </div>
+      <style jsx>{`
+        [contenteditable]:empty:before {
+          content: attr(data-placeholder);
+          color: #9ca3af;
+          pointer-events: none;
+        }
+        [contenteditable] blockquote {
+          border-left: 4px solid #e5e7eb;
+          padding-left: 16px;
+          margin: 8px 0;
+          color: #6b7280;
+          font-style: italic;
+        }
+        [contenteditable] ul {
+          list-style-type: disc;
+          padding-left: 20px;
+          margin: 8px 0;
+        }
+        [contenteditable] ol {
+          list-style-type: decimal;
+          padding-left: 20px;
+          margin: 8px 0;
+        }
+        [contenteditable] li {
+          margin: 4px 0;
+        }
+      `}</style>
     </div>
   )
 }
