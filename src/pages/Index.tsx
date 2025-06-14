@@ -7,6 +7,7 @@ import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from "@/comp
 import { AppSidebar } from "@/components/AppSidebar"
 import { MainContent } from "@/components/MainContent"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
+import { UserGreeting } from "@/components/UserGreeting"
 import { supabase } from "@/integrations/supabase/client"
 
 export default function Index() {
@@ -43,19 +44,7 @@ export default function Index() {
         <main className="flex-1 flex flex-col overflow-hidden">
           <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="flex h-14 items-center px-4">
-              <SidebarTrigger />
-              <div className="ml-auto flex items-center space-x-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={async () => {
-                    await supabase.auth.signOut()
-                    window.location.reload()
-                  }}
-                >
-                  Sign Out
-                </Button>
-              </div>
+              <UserGreeting onNavigate={setActiveView} />
             </div>
           </div>
 

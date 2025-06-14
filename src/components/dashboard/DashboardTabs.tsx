@@ -8,8 +8,7 @@ import { SubscriptionStatus } from "@/components/pricing/SubscriptionStatus"
 import { 
   TrendingUp, 
   Clock,
-  CheckCircle,
-  BarChart3
+  CheckCircle
 } from "lucide-react"
 
 interface DashboardTabsProps {
@@ -58,41 +57,8 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
         </div>
 
         <div className="grid gap-4 lg:grid-cols-7">
-          {/* Revenue Chart */}
-          <Card className="lg:col-span-4">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">
-                Revenue Overview
-              </CardTitle>
-              <CardDescription className="text-sm">
-                Monthly revenue tracking
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pl-2">
-              <div className="h-[200px] flex items-center justify-center bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border-2 border-dashed border-gray-200">
-                <div className="text-center">
-                  <BarChart3 className="h-12 w-12 text-blue-500 mx-auto mb-2" />
-                  <p className="text-lg font-semibold text-gray-800">
-                    ${stats.monthlyRevenue.toLocaleString()}
-                  </p>
-                  <p className="text-sm text-gray-500">Current Month Revenue</p>
-                  <div className="flex items-center justify-center gap-4 mt-2">
-                    <div className="flex items-center gap-1">
-                      <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                      <span className="text-xs">Revenue</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="h-3 w-3 text-green-500" />
-                      <span className="text-xs text-green-600">+12.5%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Recent Activity */}
-          <Card className="lg:col-span-3">
+          <Card className="lg:col-span-7">
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">
                 Recent Activity
