@@ -10,8 +10,12 @@ import { MainContent } from "@/components/MainContent"
 import { supabase } from "@/integrations/supabase/client"
 
 export default function Index() {
-  const { user, loading } = useAuthLogic()
+  const authData = useAuthLogic()
   const [activeView, setActiveView] = useState("dashboard")
+
+  // Extract user from auth data - the hook might return different structure
+  const user = authData?.user || authData?.session?.user
+  const loading = authData?.loading
 
   const handleMenuClick = (view: string) => {
     console.log('Index: Menu clicked, setting view to:', view)
@@ -38,7 +42,7 @@ export default function Index() {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
-        <AppSidebar activeView={activeView} onMenuClick={handleMenuClick} />
+        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         
         <main className="flex-1 flex flex-col overflow-hidden">
           <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -64,7 +68,7 @@ export default function Index() {
               <QuickActions onActionClick={handleActionClick} />
             </div>
           ) : (
-            <MainContent activeView={activeView} />
+            <MainContent activeView={activeView} onNavigate={setActiveView} />
           )}
         </main>
       </div>

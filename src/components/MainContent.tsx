@@ -34,13 +34,20 @@ import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
 
 interface MainContentProps {
   activeView: string
+  onNavigate?: (view: string) => void
 }
 
-export function MainContent({ activeView }: MainContentProps) {
+export function MainContent({ activeView, onNavigate }: MainContentProps) {
+  const handleNavigate = (view: string) => {
+    if (onNavigate) {
+      onNavigate(view)
+    }
+  }
+
   const renderView = () => {
     switch (activeView) {
       case "dashboard":
-        return <BusinessDashboard />
+        return <BusinessDashboard onNavigate={handleNavigate} />
       case "smart-schedule":
         return <SmartSchedulePage />
       case "customer-management":
@@ -102,7 +109,7 @@ export function MainContent({ activeView }: MainContentProps) {
       case "ai-voice":
         return <AIVoiceAssistant />
       default:
-        return <BusinessDashboard />
+        return <BusinessDashboard onNavigate={handleNavigate} />
     }
   }
 

@@ -10,3 +10,6 @@ export const quickActionsData = [
   ...communicationActions,
   ...analyticsActions
 ]
+
+// Export the QuickAction type from utils
+export type { QuickAction } from './quickActionsUtils'
