@@ -1,10 +1,9 @@
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Mic, MicOff, Volume2, VolumeX, Loader2 } from "lucide-react"
 import { toast } from "sonner"
-import { supabase } from '@/integrations/supabase/client'
 
 export function AIVoiceAssistant() {
   const [isListening, setIsListening] = useState(false)
@@ -12,98 +11,105 @@ export function AIVoiceAssistant() {
   const [transcript, setTranscript] = useState('')
   const [response, setResponse] = useState('')
   const [isSpeaking, setIsSpeaking] = useState(false)
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-  const audioChunksRef = useRef<Blob[]>([])
+  const recognitionRef = useRef<any>(null)
 
   const startListening = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      const mediaRecorder = new MediaRecorder(stream)
-      mediaRecorderRef.current = mediaRecorder
-      audioChunksRef.current = []
-
-      mediaRecorder.ondataavailable = (event) => {
-        audioChunksRef.current.push(event.data)
+      // Check if browser supports speech recognition
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      
+      if (!SpeechRecognition) {
+        toast.error('Speech recognition not supported in this browser')
+        return
       }
 
-      mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
-        await processAudio(audioBlob)
+      const recognition = new SpeechRecognition()
+      recognitionRef.current = recognition
+
+      recognition.continuous = false
+      recognition.interimResults = false
+      recognition.lang = 'pt-BR' // Português brasileiro
+
+      recognition.onstart = () => {
+        setIsListening(true)
+        toast.success('Ouvindo... Fale agora!')
       }
 
-      mediaRecorder.start()
-      setIsListening(true)
-      toast.success('Listening... Speak now!')
+      recognition.onresult = (event: any) => {
+        const transcriptText = event.results[0][0].transcript
+        setTranscript(transcriptText)
+        processVoiceCommand(transcriptText)
+      }
+
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error)
+        toast.error('Erro no reconhecimento de voz')
+        setIsListening(false)
+      }
+
+      recognition.onend = () => {
+        setIsListening(false)
+      }
+
+      recognition.start()
     } catch (error) {
-      console.error('Error accessing microphone:', error)
-      toast.error('Could not access microphone')
+      console.error('Error starting speech recognition:', error)
+      toast.error('Erro ao iniciar reconhecimento de voz')
     }
   }
 
   const stopListening = () => {
-    if (mediaRecorderRef.current && isListening) {
-      mediaRecorderRef.current.stop()
+    if (recognitionRef.current) {
+      recognitionRef.current.stop()
       setIsListening(false)
-      setIsProcessing(true)
-      
-      // Stop all tracks
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop())
     }
   }
 
-  const processAudio = async (audioBlob: Blob) => {
+  const processVoiceCommand = async (text: string) => {
+    setIsProcessing(true)
+    
     try {
-      const formData = new FormData()
-      formData.append('audio', audioBlob, 'recording.wav')
-
-      const { data, error } = await supabase.functions.invoke('transcribe-audio', {
-        body: formData
-      })
-
-      if (error) throw error
-
-      const transcribedText = data.transcript || 'No speech detected'
-      setTranscript(transcribedText)
-      
-      // Generate AI response
-      const aiResponse = await generateAIResponse(transcribedText)
+      const aiResponse = await generateAIResponse(text)
       setResponse(aiResponse)
-      
-      // Speak the response
       speakText(aiResponse)
-      
     } catch (error) {
-      console.error('Error processing audio:', error)
-      toast.error('Failed to process audio')
+      console.error('Error processing voice command:', error)
+      toast.error('Erro ao processar comando de voz')
     } finally {
       setIsProcessing(false)
     }
   }
 
   const generateAIResponse = async (text: string): Promise<string> => {
-    // Simple AI response logic - in production, you'd use a proper AI service
+    // Respostas simples baseadas em palavras-chave
+    const lowerText = text.toLowerCase()
+    
     const responses = {
-      'hello': 'Hello! How can I help you with your business today?',
-      'help': 'I can assist you with creating invoices, managing appointments, tracking projects, and more. What would you like to do?',
-      'invoice': 'I can help you create an invoice. Please tell me the client name and amount.',
-      'appointment': 'I can schedule an appointment for you. What date and time would you prefer?',
-      'project': 'I can help you manage your projects. Would you like to create a new project or view existing ones?'
+      'olá': 'Olá! Como posso ajudar você com seus negócios hoje?',
+      'oi': 'Oi! Como posso ajudar você com seus negócios hoje?',
+      'ajuda': 'Posso ajudar você a criar faturas, agendar compromissos, gerenciar projetos e muito mais. O que você gostaria de fazer?',
+      'fatura': 'Posso ajudar você a criar uma fatura. Por favor, me diga o nome do cliente e o valor.',
+      'invoice': 'Posso ajudar você a criar uma fatura. Por favor, me diga o nome do cliente e o valor.',
+      'compromisso': 'Posso agendar um compromisso para você. Que data e horário você prefere?',
+      'projeto': 'Posso ajudar você a gerenciar seus projetos. Gostaria de criar um novo projeto ou ver os existentes?',
+      'clientes': 'Posso mostrar seus clientes ou ajudar a adicionar um novo cliente.',
+      'relatório': 'Posso gerar relatórios sobre suas vendas, projetos ou clientes.'
     }
     
-    const lowerText = text.toLowerCase()
     for (const [key, response] of Object.entries(responses)) {
       if (lowerText.includes(key)) {
         return response
       }
     }
     
-    return `I heard you say: "${text}". I'm here to help with your business needs. You can ask me about invoices, appointments, projects, or other business tasks.`
+    return `Ouvi você dizer: "${text}". Estou aqui para ajudar com suas necessidades de negócios. Você pode me perguntar sobre faturas, compromissos, projetos ou outras tarefas comerciais.`
   }
 
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
       setIsSpeaking(true)
       const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'pt-BR'
       utterance.onend = () => setIsSpeaking(false)
       utterance.onerror = () => setIsSpeaking(false)
       speechSynthesis.speak(utterance)
@@ -120,18 +126,18 @@ export function AIVoiceAssistant() {
   return (
     <div className="container mx-auto py-8 space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold">AI Voice Assistant</h1>
-        <p className="text-muted-foreground mt-2">Speak with your AI business assistant</p>
+        <h1 className="text-3xl font-bold">Assistente de Voz IA</h1>
+        <p className="text-muted-foreground mt-2">Fale com seu assistente de negócios IA</p>
       </div>
 
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Mic className="h-5 w-5" />
-            Voice Controls
+            Controles de Voz
           </CardTitle>
           <CardDescription>
-            Click the microphone to start speaking, then click stop when you're done
+            Clique no microfone para começar a falar, depois clique em parar quando terminar
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -150,7 +156,7 @@ export function AIVoiceAssistant() {
               ) : (
                 <Mic className="h-5 w-5 mr-2" />
               )}
-              {isProcessing ? 'Processing...' : isListening ? 'Stop' : 'Start Listening'}
+              {isProcessing ? 'Processando...' : isListening ? 'Parar' : 'Começar a Ouvir'}
             </Button>
 
             {isSpeaking && (
@@ -160,14 +166,14 @@ export function AIVoiceAssistant() {
                 size="lg"
               >
                 <VolumeX className="h-5 w-5 mr-2" />
-                Stop Speaking
+                Parar de Falar
               </Button>
             )}
           </div>
 
           {transcript && (
             <div className="space-y-2">
-              <h3 className="font-semibold">You said:</h3>
+              <h3 className="font-semibold">Você disse:</h3>
               <p className="p-3 bg-muted rounded-lg">{transcript}</p>
             </div>
           )}
@@ -175,7 +181,7 @@ export function AIVoiceAssistant() {
           {response && (
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold">AI Response:</h3>
+                <h3 className="font-semibold">Resposta da IA:</h3>
                 {isSpeaking && <Volume2 className="h-4 w-4 animate-pulse text-blue-500" />}
               </div>
               <p className="p-3 bg-blue-50 rounded-lg border border-blue-200">{response}</p>
@@ -186,23 +192,23 @@ export function AIVoiceAssistant() {
 
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle>Voice Commands</CardTitle>
+          <CardTitle>Comandos de Voz</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <h4 className="font-medium mb-2">General:</h4>
+              <h4 className="font-medium mb-2">Geral:</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• "Hello" - Greeting</li>
-                <li>• "Help" - Get assistance</li>
+                <li>• "Olá" - Saudação</li>
+                <li>• "Ajuda" - Obter assistência</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-medium mb-2">Business Tasks:</h4>
+              <h4 className="font-medium mb-2">Tarefas de Negócio:</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• "Invoice" - Create invoice</li>
-                <li>• "Appointment" - Schedule meeting</li>
-                <li>• "Project" - Manage projects</li>
+                <li>• "Fatura" - Criar fatura</li>
+                <li>• "Compromisso" - Agendar reunião</li>
+                <li>• "Projeto" - Gerenciar projetos</li>
               </ul>
             </div>
           </div>
