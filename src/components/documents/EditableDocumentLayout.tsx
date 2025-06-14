@@ -88,10 +88,40 @@ export function EditableDocumentLayout({
             dueDate={formData.dueDate || ''}
             status={formData.status || 'draft'}
             paymentMethod={formData.paymentMethod || 'card'}
-            companyInfo={formData.companyInfo || { name: '', logo: '', address: '', phone: '', email: '' }}
-            clientInfo={formData.clientInfo || { id: '', name: '', email: '', address: '', phone: '' }}
-            onCompanyInfoChange={(info) => setFormData(prev => ({ ...prev, companyInfo: info }))}
-            onClientInfoChange={(info) => setFormData(prev => ({ ...prev, clientInfo: info }))}
+            companyInfo={{
+              name: formData.companyInfo.name,
+              logo: formData.companyInfo.logo || '',
+              address: formData.companyInfo.address,
+              phone: formData.companyInfo.phone,
+              email: formData.companyInfo.email
+            }}
+            clientInfo={{
+              id: formData.clientInfo.id || '',
+              name: formData.clientInfo.name,
+              email: formData.clientInfo.email,
+              address: formData.clientInfo.address,
+              phone: formData.clientInfo.phone || ''
+            }}
+            onCompanyInfoChange={(info) => setFormData(prev => ({ 
+              ...prev, 
+              companyInfo: {
+                name: info.name,
+                logo: info.logo || '',
+                address: info.address,
+                phone: info.phone,
+                email: info.email
+              }
+            }))}
+            onClientInfoChange={(info) => setFormData(prev => ({ 
+              ...prev, 
+              clientInfo: {
+                id: info.id || '',
+                name: info.name,
+                email: info.email,
+                address: info.address,
+                phone: info.phone || ''
+              }
+            }))}
             onDocumentNumberChange={(number) => setFormData(prev => ({ ...prev, number }))}
             onDocumentDateChange={(date) => setFormData(prev => ({ ...prev, date }))}
             onDueDateChange={(dueDate) => setFormData(prev => ({ ...prev, dueDate }))}
