@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { useAuthLogic } from "@/hooks/useAuthLogic"
+import { useAuthState } from "@/hooks/useAuthState"
 import { AuthContainer } from "@/components/auth/AuthContainer"
 import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
@@ -10,12 +10,8 @@ import { MainContent } from "@/components/MainContent"
 import { supabase } from "@/integrations/supabase/client"
 
 export default function Index() {
-  const authData = useAuthLogic()
+  const { user, loading } = useAuthState()
   const [activeView, setActiveView] = useState("dashboard")
-
-  // Extract user from auth data - the hook might return different structure
-  const user = authData?.user || authData?.session?.user
-  const loading = authData?.loading
 
   const handleMenuClick = (view: string) => {
     console.log('Index: Menu clicked, setting view to:', view)
