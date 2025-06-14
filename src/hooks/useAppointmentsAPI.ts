@@ -125,8 +125,7 @@ export function useAppointmentsAPI() {
       const response = await supabase.functions.invoke('appointments-api', {
         method: 'PUT',
         headers,
-        body: JSON.stringify(appointmentData),
-        body: `/${id}`
+        body: JSON.stringify({ ...appointmentData, id })
       })
 
       if (response.error) {
