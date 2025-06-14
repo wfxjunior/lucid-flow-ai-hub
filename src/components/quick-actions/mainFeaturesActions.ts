@@ -1,6 +1,6 @@
 
 import { 
-  Home, FileText, Calendar, CreditCard, Signature, Mic, CalendarCheck, Heart
+  Home, FileText, Calendar, CreditCard, Signature, Mic, Heart
 } from "lucide-react"
 
 export const mainFeaturesActions = [
@@ -43,14 +43,6 @@ export const mainFeaturesActions = [
     icon: Calendar,
     color: "bg-purple-500",
     hoverColor: "hover:bg-purple-600"
-  },
-  {
-    id: "smart-schedule",
-    title: "Smart Schedule",
-    description: "Intelligent scheduling",
-    icon: CalendarCheck,
-    color: "bg-indigo-500",
-    hoverColor: "hover:bg-indigo-600"
   },
   {
     id: "payments",

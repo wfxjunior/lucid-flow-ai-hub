@@ -26,11 +26,6 @@ export const mainFeatures: MenuItem[] = [
     view: "appointments"
   },
   {
-    title: "Smart Schedule",
-    icon: CalendarCheck,
-    view: "smart-schedule"
-  },
-  {
     title: "Payments",
     icon: CreditCard,
     view: "payments"
