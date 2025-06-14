@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -50,21 +51,10 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
 
       <TabsContent value="overview" className="space-y-4">
         <div className="grid gap-4 lg:grid-cols-3">
-          {/* Quick Actions Section - Use LimitedQuickActions instead of QuickActions */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">
-                Quick Actions
-              </CardTitle>
-              <CardDescription>Access your most used business tools with voice commands</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <LimitedQuickActions onActionClick={onActionClick} />
-            </CardContent>
-          </Card>
-
-          {/* Subscription Status */}
-          <SubscriptionStatus onNavigate={onNavigate} />
+          {/* Subscription Status - Full width now */}
+          <div className="lg:col-span-3">
+            <SubscriptionStatus onNavigate={onNavigate} />
+          </div>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-7">
