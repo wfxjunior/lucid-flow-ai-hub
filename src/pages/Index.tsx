@@ -1,193 +1,73 @@
-import { useState } from "react"
-import { SidebarProvider } from "@/components/ui/sidebar"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { useAuthLogic } from "@/hooks/useAuthLogic"
+import { AuthContainer } from "@/components/auth/AuthContainer"
+import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { UserGreeting } from "@/components/UserGreeting"
-import { LimitedQuickActions } from "@/components/LimitedQuickActions"
-import { RecentActivity } from "@/components/RecentActivity"
-import { StatsCard } from "@/components/StatsCard"
-import { PieChartGraphic } from "@/components/PieChartGraphic"
-import { useLanguage } from "@/contexts/LanguageContext"
-import { CreateInvoice } from "@/components/CreateInvoice"
-import { CustomerManagement } from "@/components/CustomerManagement"
-import { ProjectsPage } from "@/components/ProjectsPage"
-import { PipelineBoard } from "@/components/PipelineBoard"
-import { WorkOrdersPage } from "@/components/WorkOrdersPage"
-import { EstimatesPage } from "@/components/EstimatesPage"
-import { QuotesPage } from "@/components/QuotesPage"
-import { AccountingPage } from "@/components/AccountingPage"
-import { SalesOrdersPage } from "@/components/SalesOrdersPage"
-import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
-import { BidsPage } from "@/components/BidsPage"
-import { ContractsPage } from "@/components/ContractsPage"
-import { CarRentalPage } from "@/components/CarRentalPage"
-import { MatTrackPage } from "@/components/MatTrackPage"
-import { CrewControlPage } from "@/components/CrewControlPage"
-import { EarnSyncPage } from "@/components/EarnSyncPage"
-import { AfterCarePage } from "@/components/AfterCarePage"
-import { MeetingsPage } from "@/components/MeetingsPage"
-import { TodoListPage } from "@/components/TodoListPage"
-import { NotesPage } from "@/components/NotesPage"
-import { MessagesPage } from "@/components/MessagesPage"
-import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
-import { ResponsiveAppointmentsPage } from "@/components/ResponsiveAppointmentsPage"
-import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
-import { ProjectTimelinePage } from "@/components/ProjectTimelinePage"
-import { Analytics } from "@/components/Analytics"
-import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
-import { IntegrationsHub } from "@/components/IntegrationsHub"
-import { DocumentTracker } from "@/components/DocumentTracker"
-import { FileManager } from "@/components/FileManager"
-import { SettingsPage } from "@/components/SettingsPage"
-import { AIVoice } from "@/components/AIVoice"
-import { ESignaturesPage } from "@/components/ESignaturesPage"
-import { FeatherFormsPage } from "@/components/FeatherFormsPage"
-import { FeatherBudgetPage } from "@/components/feather-budget/FeatherBudgetPage"
-import { FeatherTaxPage } from "@/components/FeatherTaxPage"
-import { EasyCalcPage } from "@/components/EasyCalcPage"
-import { Users, FileText, DollarSign, TrendingUp } from "lucide-react"
+import { QuickActions } from "@/components/QuickActions"
+import { MainContent } from "@/components/MainContent"
+import { supabase } from "@/integrations/supabase/client"
 
-const Index = () => {
+export default function Index() {
+  const { user, loading } = useAuthLogic()
   const [activeView, setActiveView] = useState("dashboard")
-  const { t } = useLanguage()
 
-  console.log('Index component rendering with activeView:', activeView)
+  const handleMenuClick = (view: string) => {
+    console.log('Index: Menu clicked, setting view to:', view)
+    setActiveView(view)
+  }
 
-  const renderActiveView = () => {
-    console.log('Rendering view:', activeView)
-    
-    switch (activeView) {
-      case "ai-voice":
-        return <AIVoice />
-      case "invoice-creator":
-        return <CreateInvoice />
-      case "e-signatures":
-        return <ESignaturesPage />
-      case "feather-forms":
-        return <FeatherFormsPage />
-      case "feather-budget":
-        return <FeatherBudgetPage />
-      case "feather-tax":
-        return <FeatherTaxPage />
-      case "easy-calc":
-        console.log('Rendering EasyCalc component')
-        return <EasyCalcPage />
-      case "customer-management":
-        return <CustomerManagement />
-      case "projects":
-        return <ProjectsPage />
-      case "project-timeline":
-        return <ProjectTimelinePage />
-      case "pipeline":
-        return <PipelineBoard />
-      case "car-rental":
-        return <CarRentalPage />
-      case "work-orders":
-        return <WorkOrdersPage />
-      case "mat-track":
-        return <MatTrackPage />
-      case "crew-control":
-        return <CrewControlPage />
-      case "earnsync":
-        return <EarnSyncPage />
-      case "aftercare":
-        return <AfterCarePage />
-      case "meetings":
-        return <MeetingsPage />
-      case "todo-list":
-        return <TodoListPage />
-      case "notes":
-        return <NotesPage />
-      case "quotes":
-        return <QuotesPage />
-      case "estimates":
-        return <EstimatesPage />
-      case "accounting":
-        return <AccountingPage />
-      case "sales-orders":
-        return <SalesOrdersPage />
-      case "business-proposals":
-        return <BusinessProposalsPage />
-      case "bids":
-        return <BidsPage />
-      case "contracts":
-        return <ContractsPage />
-      case "messages":
-        return <MessagesPage />
-      case "schedule":
-        return <ResponsiveSmartSchedulePage />
-      case "appointments":
-        return <ResponsiveAppointmentsPage />
-      case "payments":
-        return <ResponsivePaymentsPage />
-      case "analytics":
-        return <Analytics />
-      case "analytics-dashboard":
-        return <AnalyticsDashboard />
-      case "integrations":
-        return <IntegrationsHub />
-      case "document-tracker":
-        return <DocumentTracker />
-      case "file-manager":
-        return <FileManager />
-      case "settings":
-        return <SettingsPage />
-      default:
-        return (
-          <div className="flex-1 p-3 sm:p-6 space-y-4 sm:space-y-6">
-            <UserGreeting onNavigate={setActiveView} />
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              <StatsCard
-                title={t("dashboard.totalCustomers")}
-                value="1,234"
-                icon={Users}
-                change={`+12% ${t("dashboard.fromLastMonth")}`}
-                trend="up"
-              />
-              <StatsCard
-                title={t("dashboard.activeProjects")}
-                value="12"
-                icon={FileText}
-                change={`+5% ${t("dashboard.fromLastMonth")}`}
-                trend="up"
-              />
-              <StatsCard
-                title={t("dashboard.monthlyRevenue")}
-                value="$12,345"
-                icon={DollarSign}
-                change={`+19% ${t("dashboard.fromLastMonth")}`}
-                trend="up"
-              />
-              <StatsCard
-                title={t("dashboard.conversionRate")}
-                value="87%"
-                icon={TrendingUp}
-                change={`+3% ${t("dashboard.fromLastMonth")}`}
-                trend="up"
-              />
-            </div>
+  const handleActionClick = (actionId: string) => {
+    console.log('Index: Action clicked:', actionId)
+    setActiveView(actionId)
+  }
 
-            {/* Pie Chart Graphic */}
-            <PieChartGraphic />
-            
-            <LimitedQuickActions onActionClick={setActiveView} />
-            <RecentActivity />
-          </div>
-        )
-    }
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return <AuthContainer />
   }
 
   return (
-    <div className="min-h-screen flex w-full">
-      <SidebarProvider>
-        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-        <main className="flex-1">
-          {renderActiveView()}
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background">
+        <AppSidebar activeView={activeView} onMenuClick={handleMenuClick} />
+        
+        <main className="flex-1 flex flex-col overflow-hidden">
+          <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="flex h-14 items-center px-4">
+              <SidebarTrigger />
+              <div className="ml-auto flex items-center space-x-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={async () => {
+                    await supabase.auth.signOut()
+                    window.location.reload()
+                  }}
+                >
+                  Sign Out
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {activeView === "dashboard" ? (
+            <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
+              <QuickActions onActionClick={handleActionClick} />
+            </div>
+          ) : (
+            <MainContent activeView={activeView} />
+          )}
         </main>
-      </SidebarProvider>
-    </div>
+      </div>
+    </SidebarProvider>
   )
 }
-
-export default Index
