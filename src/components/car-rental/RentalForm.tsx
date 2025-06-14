@@ -10,6 +10,7 @@ import { AddressAutocomplete } from "@/components/ui/address-autocomplete"
 import { useForm } from 'react-hook-form'
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/hooks/use-toast"
+import { useFastPDFGeneration } from "@/hooks/useFastPDFGeneration"
 
 interface Vehicle {
   id: string
@@ -65,6 +66,7 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
     }
   })
   const { toast } = useToast()
+  const { generateContractPDF } = useFastPDFGeneration()
 
   useEffect(() => {
     fetchVehicles()
@@ -108,9 +110,18 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
         throw new Error('Not authenticated')
       }
 
+      // Validate fuel levels to prevent database overflow
+      if (data.fuel_level_pickup && data.fuel_level_pickup > 99.9) {
+        data.fuel_level_pickup = 99.9
+      }
+      if (data.fuel_level_return && data.fuel_level_return > 99.9) {
+        data.fuel_level_return = 99.9
+      }
+
+      let savedRental
       if (rental?.id) {
         // Update existing rental
-        const { error } = await supabase
+        const { data: updatedRental, error } = await supabase
           .from('car_rentals')
           .update({
             ...data,
@@ -118,8 +129,11 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
             rental_end_date: new Date(data.rental_end_date).toISOString(),
           })
           .eq('id', rental.id)
+          .select('*')
+          .single()
 
         if (error) throw error
+        savedRental = updatedRental
         
         toast({
           title: "Success",
@@ -127,7 +141,7 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
         })
       } else {
         // Create new rental
-        const { error } = await supabase
+        const { data: newRental, error } = await supabase
           .from('car_rentals')
           .insert([{ 
             ...data, 
@@ -135,14 +149,23 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
             rental_start_date: new Date(data.rental_start_date).toISOString(),
             rental_end_date: new Date(data.rental_end_date).toISOString(),
           }])
+          .select('*')
+          .single()
 
         if (error) throw error
+        savedRental = newRental
         
         toast({
           title: "Success",
           description: "Rental created successfully"
         })
       }
+
+      // Generate PDF for the rental
+      if (savedRental) {
+        await generateRentalPDF(savedRental)
+      }
+
       onSuccess()
     } catch (error) {
       console.error('Error saving rental:', error)
@@ -153,6 +176,44 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
       })
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const generateRentalPDF = async (rentalData: any) => {
+    try {
+      // Get vehicle details
+      const vehicle = vehicles.find(v => v.id === rentalData.vehicle_id)
+      
+      const contractData = {
+        title: `Car Rental Agreement - ${vehicle?.brand} ${vehicle?.model}`,
+        client: {
+          name: rentalData.renter_name,
+          email: '',
+          phone: '',
+          address: rentalData.pickup_location
+        },
+        items: [
+          {
+            description: `Vehicle Rental - ${vehicle?.brand} ${vehicle?.model} (${vehicle?.plate_number})`,
+            quantity: Math.ceil((new Date(rentalData.rental_end_date) - new Date(rentalData.rental_start_date)) / (1000 * 60 * 60 * 24)),
+            price: rentalData.total_price / Math.ceil((new Date(rentalData.rental_end_date) - new Date(rentalData.rental_start_date)) / (1000 * 60 * 60 * 24)),
+            total: rentalData.total_price
+          }
+        ],
+        subtotal: rentalData.total_price,
+        total: rentalData.total_price,
+        terms: `Rental Period: ${new Date(rentalData.rental_start_date).toLocaleDateString()} to ${new Date(rentalData.rental_end_date).toLocaleDateString()}\n\nPickup Location: ${rentalData.pickup_location}\nReturn Location: ${rentalData.return_location}\n\nPayment Status: ${rentalData.payment_status}\nPayment Method: ${rentalData.payment_method || 'Not specified'}\n\n${rentalData.notes ? `Notes: ${rentalData.notes}` : ''}`,
+        date: new Date().toLocaleDateString()
+      }
+
+      await generateContractPDF(contractData)
+    } catch (error) {
+      console.error('Error generating rental PDF:', error)
+      toast({
+        title: "Warning",
+        description: "Rental saved but PDF generation failed",
+        variant: "destructive"
+      })
     }
   }
 
@@ -280,10 +341,15 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
                 id="fuel_level_pickup"
                 type="number"
                 min="0"
-                max="100"
+                max="99.9"
                 step="0.1"
-                {...register('fuel_level_pickup', { valueAsNumber: true })}
+                {...register('fuel_level_pickup', { 
+                  valueAsNumber: true,
+                  min: { value: 0, message: 'Fuel level must be at least 0%' },
+                  max: { value: 99.9, message: 'Fuel level cannot exceed 99.9%' }
+                })}
               />
+              {errors.fuel_level_pickup && <p className="text-red-500 text-sm mt-1">{errors.fuel_level_pickup.message}</p>}
             </div>
 
             <div>
@@ -292,10 +358,15 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
                 id="fuel_level_return"
                 type="number"
                 min="0"
-                max="100"
+                max="99.9"
                 step="0.1"
-                {...register('fuel_level_return', { valueAsNumber: true })}
+                {...register('fuel_level_return', { 
+                  valueAsNumber: true,
+                  min: { value: 0, message: 'Fuel level must be at least 0%' },
+                  max: { value: 99.9, message: 'Fuel level cannot exceed 99.9%' }
+                })}
               />
+              {errors.fuel_level_return && <p className="text-red-500 text-sm mt-1">{errors.fuel_level_return.message}</p>}
             </div>
 
             <div>
@@ -342,6 +413,7 @@ export function RentalForm({ rental, onSuccess, onCancel }: RentalFormProps) {
                 <SelectContent>
                   <SelectItem value="cash">Cash</SelectItem>
                   <SelectItem value="credit-card">Credit Card</SelectItem>
+                  <SelectItem value="debit-card">Debit Card</SelectItem>
                   <SelectItem value="transfer">Transfer</SelectItem>
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
