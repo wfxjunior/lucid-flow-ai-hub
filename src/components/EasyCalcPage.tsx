@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,11 +5,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Calculator, FileDown, Share2, Save, RotateCcw } from "lucide-react"
+import { Calculator, FileDown, Share2, Save, RotateCcw, Plus, Minus } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
+
+interface DimensionPair {
+  id: string
+  width: string
+  length: string
+}
 
 interface EstimateData {
   width: string
@@ -24,6 +29,7 @@ interface EstimateData {
   laborRate: string
   markupPercentage: string
   notes: string
+  dimensions: DimensionPair[]
 }
 
 interface EstimateResult {
@@ -48,11 +54,13 @@ export function EasyCalcPage() {
     materialType: '',
     laborRate: '50',
     markupPercentage: '20',
-    notes: ''
+    notes: '',
+    dimensions: []
   })
 
   const [result, setResult] = useState<EstimateResult | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
+  const [projectName, setProjectName] = useState('')
 
   const industries = [
     'Flooring',
@@ -93,6 +101,44 @@ export function EasyCalcPage() {
     'Custom'
   ]
 
+  const addDimensionPair = () => {
+    if (estimateData.dimensions.length >= 10) {
+      toast({
+        title: "Maximum Reached",
+        description: "You can add up to 10 dimension pairs maximum.",
+        variant: "destructive"
+      })
+      return
+    }
+
+    const newDimension: DimensionPair = {
+      id: Date.now().toString(),
+      width: '',
+      length: ''
+    }
+
+    setEstimateData(prev => ({
+      ...prev,
+      dimensions: [...prev.dimensions, newDimension]
+    }))
+  }
+
+  const removeDimensionPair = (id: string) => {
+    setEstimateData(prev => ({
+      ...prev,
+      dimensions: prev.dimensions.filter(dim => dim.id !== id)
+    }))
+  }
+
+  const updateDimensionPair = (id: string, field: 'width' | 'length', value: string) => {
+    setEstimateData(prev => ({
+      ...prev,
+      dimensions: prev.dimensions.map(dim => 
+        dim.id === id ? { ...dim, [field]: value } : dim
+      )
+    }))
+  }
+
   const calculateEstimate = async () => {
     setIsCalculating(true)
     
@@ -111,6 +157,17 @@ export function EasyCalcPage() {
         } else {
           area = width * length
         }
+
+        // Add areas from additional dimension pairs
+        estimateData.dimensions.forEach(dim => {
+          const dimWidth = parseFloat(dim.width) || 0
+          const dimLength = parseFloat(dim.length) || 0
+          if (estimateData.surfaceType === 'Wall') {
+            area += (dimWidth * height) + (dimLength * height)
+          } else {
+            area += dimWidth * dimLength
+          }
+        })
       }
 
       // Convert to square meters if needed
@@ -223,9 +280,61 @@ export function EasyCalcPage() {
       materialType: '',
       laborRate: '50',
       markupPercentage: '20',
-      notes: ''
+      notes: '',
+      dimensions: []
     })
     setResult(null)
+    setProjectName('')
+  }
+
+  const exportProject = () => {
+    const projectData = {
+      name: projectName || 'Untitled Project',
+      estimate: estimateData,
+      result: result,
+      timestamp: new Date().toISOString()
+    }
+
+    const dataStr = JSON.stringify(projectData, null, 2)
+    const dataBlob = new Blob([dataStr], { type: 'application/json' })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${projectName || 'easycalc-project'}.json`
+    link.click()
+    URL.revokeObjectURL(url)
+
+    toast({
+      title: "Project Exported",
+      description: "Your project has been exported successfully."
+    })
+  }
+
+  const importProject = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const projectData = JSON.parse(e.target?.result as string)
+        setEstimateData(projectData.estimate)
+        setResult(projectData.result)
+        setProjectName(projectData.name)
+        
+        toast({
+          title: "Project Loaded",
+          description: "Your project has been loaded successfully."
+        })
+      } catch (error) {
+        toast({
+          title: "Import Error",
+          description: "Failed to load project file.",
+          variant: "destructive"
+        })
+      }
+    }
+    reader.readAsText(file)
   }
 
   const exportPDF = () => {
@@ -236,9 +345,18 @@ export function EasyCalcPage() {
   }
 
   const saveEstimate = () => {
+    const projectData = {
+      name: projectName || 'Untitled Project',
+      estimate: estimateData,
+      result: result,
+      timestamp: new Date().toISOString()
+    }
+    
+    localStorage.setItem('easycalc-project', JSON.stringify(projectData))
+    
     toast({
-      title: "Estimate Saved",
-      description: "Your estimate has been saved to your project files."
+      title: "Project Saved",
+      description: "Your project has been saved locally."
     })
   }
 
@@ -257,6 +375,28 @@ export function EasyCalcPage() {
             </div>
           </div>
           <div className="flex gap-2">
+            <Input
+              placeholder="Project name..."
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+              className="w-48"
+            />
+            <Button variant="outline" onClick={exportProject}>
+              <FileDown className="h-4 w-4 mr-2" />
+              Export
+            </Button>
+            <Button variant="outline" asChild>
+              <label htmlFor="import-project">
+                Import
+                <input
+                  id="import-project"
+                  type="file"
+                  accept=".json"
+                  onChange={importProject}
+                  className="hidden"
+                />
+              </label>
+            </Button>
             <Button variant="outline" onClick={resetForm}>
               <RotateCcw className="h-4 w-4 mr-2" />
               Reset
@@ -310,40 +450,109 @@ export function EasyCalcPage() {
                         />
                       </div>
                     ) : (
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="width">Width ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
-                          <Input
-                            id="width"
-                            type="number"
-                            placeholder="Enter width"
-                            value={estimateData.width}
-                            onChange={(e) => setEstimateData(prev => ({ ...prev, width: e.target.value }))}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="length">Length ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
-                          <Input
-                            id="length"
-                            type="number"
-                            placeholder="Enter length"
-                            value={estimateData.length}
-                            onChange={(e) => setEstimateData(prev => ({ ...prev, length: e.target.value }))}
-                          />
-                        </div>
-                        {estimateData.surfaceType === 'Wall' && (
-                          <div className="space-y-2">
-                            <Label htmlFor="height">Height ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
-                            <Input
-                              id="height"
-                              type="number"
-                              placeholder="Enter height"
-                              value={estimateData.height}
-                              onChange={(e) => setEstimateData(prev => ({ ...prev, height: e.target.value }))}
-                            />
+                      <>
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-sm font-medium">Primary Area</h4>
                           </div>
-                        )}
-                      </div>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="width">Width ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                              <Input
+                                id="width"
+                                type="number"
+                                placeholder="Enter width"
+                                value={estimateData.width}
+                                onChange={(e) => setEstimateData(prev => ({ ...prev, width: e.target.value }))}
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="length">Length ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                              <Input
+                                id="length"
+                                type="number"
+                                placeholder="Enter length"
+                                value={estimateData.length}
+                                onChange={(e) => setEstimateData(prev => ({ ...prev, length: e.target.value }))}
+                              />
+                            </div>
+                            {estimateData.surfaceType === 'Wall' && (
+                              <div className="space-y-2">
+                                <Label htmlFor="height">Height ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                                <Input
+                                  id="height"
+                                  type="number"
+                                  placeholder="Enter height"
+                                  value={estimateData.height}
+                                  onChange={(e) => setEstimateData(prev => ({ ...prev, height: e.target.value }))}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <Separator />
+
+                        {/* Additional Dimension Pairs */}
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-sm font-medium">Additional Areas</h4>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={addDimensionPair}
+                              disabled={estimateData.dimensions.length >= 10}
+                            >
+                              <Plus className="h-4 w-4 mr-2" />
+                              Add Area
+                            </Button>
+                          </div>
+
+                          {estimateData.dimensions.map((dimension, index) => (
+                            <div key={dimension.id} className="space-y-2 p-4 border rounded-lg">
+                              <div className="flex items-center justify-between">
+                                <Label className="text-sm font-medium">Area {index + 2}</Label>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => removeDimensionPair(dimension.id)}
+                                >
+                                  <Minus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                  <Label>Width ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                                  <Input
+                                    type="number"
+                                    placeholder="Enter width"
+                                    value={dimension.width}
+                                    onChange={(e) => updateDimensionPair(dimension.id, 'width', e.target.value)}
+                                  />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>Length ({estimateData.units === 'sqm' ? 'm' : 'ft'})</Label>
+                                  <Input
+                                    type="number"
+                                    placeholder="Enter length"
+                                    value={dimension.length}
+                                    onChange={(e) => updateDimensionPair(dimension.id, 'length', e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+
+                          {estimateData.dimensions.length < 10 && (
+                            <div className="text-center text-sm text-muted-foreground">
+                              You can add up to {10 - estimateData.dimensions.length} more areas
+                            </div>
+                          )}
+                        </div>
+                      </>
                     )}
                   </CardContent>
                 </Card>
@@ -476,7 +685,7 @@ export function EasyCalcPage() {
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span>Area:</span>
+                        <span>Total Area:</span>
                         <span>{result.area.toFixed(1)} {estimateData.units === 'sqm' ? 'm²' : estimateData.units === 'linear' ? 'linear ft' : 'sq ft'}</span>
                       </div>
                       <div className="flex justify-between text-sm">
@@ -539,10 +748,11 @@ export function EasyCalcPage() {
                 <CardTitle className="text-sm">💡 Smart Tips</CardTitle>
               </CardHeader>
               <CardContent className="text-xs space-y-2">
+                <p>• Use the + button to add multiple rooms/areas</p>
+                <p>• Export your project to save and edit later</p>
                 <p>• Always add 10-15% waste factor for materials</p>
                 <p>• Consider site access and complexity in labor rates</p>
                 <p>• Check local material prices for accuracy</p>
-                <p>• Save templates for recurring job types</p>
               </CardContent>
             </Card>
           </div>
