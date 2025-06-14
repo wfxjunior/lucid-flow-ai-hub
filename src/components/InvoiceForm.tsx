@@ -1,274 +1,173 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { useReceiptEmail } from '@/hooks/useReceiptEmail';
-import { ReceiptEmailButton } from '@/components/ReceiptEmailButton';
-import { CurrencySelector } from '@/components/ui/currency-selector';
-import { getDefaultCurrency, getCurrencySymbol } from '@/utils/currencyUtils';
 
-interface Client {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  address?: string;
-}
+import { useState } from "react"
+import { EditableDocumentLayout } from "./documents/EditableDocumentLayout"
+import { useBusinessData } from "@/hooks/useBusinessData"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { supabase } from "@/integrations/supabase/client"
+import { toast } from "sonner"
 
 interface InvoiceFormProps {
-  onInvoiceCreated?: (invoice: any) => void;
+  invoice?: any
+  onSuccess?: () => void
+  onClose?: () => void
 }
 
-export function InvoiceForm({ onInvoiceCreated }: InvoiceFormProps) {
-  const [clients, setClients] = useState<Client[]>([]);
-  const [selectedClientId, setSelectedClientId] = useState<string>('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [currency, setCurrency] = useState(getDefaultCurrency().code);
-  const [loading, setLoading] = useState(false);
-  const [lastCreatedInvoice, setLastCreatedInvoice] = useState<any>(null);
-  const { sendInvoiceReceipt } = useReceiptEmail();
+export function InvoiceForm({ invoice, onSuccess, onClose }: InvoiceFormProps) {
+  const { allClients } = useBusinessData()
+  const { generateInvoicePDF } = usePDFGeneration()
 
-  useEffect(() => {
-    fetchClients();
-  }, []);
+  const availableClients = (allClients || []).map(client => ({
+    id: client.id,
+    name: client.name,
+    email: client.email || '',
+    address: client.address || '',
+    phone: client.phone || ''
+  }))
 
-  const fetchClients = async () => {
+  // Transform invoice data if editing
+  const initialData = invoice ? {
+    id: invoice.id,
+    number: invoice.invoice_number || invoice.id?.slice(0, 8),
+    date: invoice.invoice_date ? new Date(invoice.invoice_date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+    dueDate: invoice.due_date ? new Date(invoice.due_date).toISOString().split('T')[0] : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    status: invoice.status || 'draft',
+    paymentMethod: invoice.payment_method || 'card',
+    clientInfo: {
+      id: invoice.client_id,
+      name: invoice.client?.name || '',
+      email: invoice.client?.email || '',
+      address: invoice.client?.address || '',
+      phone: invoice.client?.phone || ''
+    },
+    lineItems: invoice.line_items || [{
+      id: '1',
+      name: '',
+      description: invoice.description || '',
+      quantity: 1,
+      unitPrice: invoice.amount || 0,
+      tax: 0,
+      total: invoice.amount || 0
+    }],
+    notes: invoice.notes || '',
+    terms: invoice.terms || 'Payment is due within 30 days from the date of this invoice.'
+  } : undefined
+
+  const handleSave = async (data: any) => {
     try {
-      const { data, error } = await supabase
-        .from('clients')
-        .select('*')
-        .eq('status', 'active')
-        .order('name');
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('Not authenticated')
 
-      if (error) throw error;
-      setClients(data || []);
-    } catch (error) {
-      console.error('Error fetching clients:', error);
-      toast.error('Failed to load clients');
-    }
-  };
-
-  const generateInvoiceNumber = async () => {
-    try {
-      const { data, error } = await supabase.rpc('generate_invoice_number');
-      if (error) throw error;
-      return data;
-    } catch (error) {
-      console.error('Error generating invoice number:', error);
-      return `INV-${Date.now()}`;
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!selectedClientId || !title || !amount) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const invoiceNumber = await generateInvoiceNumber();
-      const selectedClient = clients.find(c => c.id === selectedClientId);
-
-      const invoiceData = {
-        invoice_number: invoiceNumber,
-        client_id: selectedClientId,
-        title,
-        description,
-        amount: parseFloat(amount),
-        due_date: dueDate || null,
-        status: 'pending',
-        currency: currency,
-        user_id: (await supabase.auth.getUser()).data.user?.id
-      };
-
-      const { data, error } = await supabase
-        .from('invoices')
-        .insert(invoiceData)
-        .select('*')
-        .single();
-
-      if (error) throw error;
-
-      // Create invoice object with client info for email
-      const invoiceWithClient = {
-        ...data,
-        clientInfo: selectedClient,
-        lineItems: [{
-          name: title,
-          description: description,
-          quantity: 1,
-          unitPrice: parseFloat(amount),
-          total: parseFloat(amount)
-        }],
-        totals: {
-          total: parseFloat(amount)
-        },
-        date: new Date().toISOString(),
-        number: invoiceNumber,
-        currency: currency
-      };
-
-      setLastCreatedInvoice(invoiceWithClient);
-      
-      toast.success('Invoice created successfully!');
-      
-      // Reset form
-      setTitle('');
-      setDescription('');
-      setAmount('');
-      setDueDate('');
-      setSelectedClientId('');
-      setCurrency(getDefaultCurrency().code);
-      
-      if (onInvoiceCreated) {
-        onInvoiceCreated(data);
+      let clientId = data.clientInfo.id
+      if (!clientId && data.clientInfo.name && data.clientInfo.email) {
+        // Create new client if needed
+        const { data: newClient } = await supabase
+          .from('clients')
+          .insert({
+            name: data.clientInfo.name,
+            email: data.clientInfo.email,
+            address: data.clientInfo.address,
+            phone: data.clientInfo.phone,
+            user_id: user.id
+          })
+          .select()
+          .single()
+        
+        if (newClient) clientId = newClient.id
       }
 
-    } catch (error) {
-      console.error('Error creating invoice:', error);
-      toast.error('Failed to create invoice');
-    } finally {
-      setLoading(false);
-    }
-  };
+      const totalAmount = data.lineItems.reduce((sum: number, item: any) => sum + item.total, 0)
 
-  const currencySymbol = getCurrencySymbol(currency);
+      const invoiceData = {
+        invoice_number: data.number,
+        client_id: clientId,
+        amount: totalAmount,
+        due_date: data.dueDate,
+        status: data.status,
+        title: data.lineItems[0]?.name || 'Invoice',
+        description: data.notes,
+        line_items: data.lineItems,
+        payment_method: data.paymentMethod,
+        terms: data.terms,
+        user_id: user.id
+      }
+
+      if (invoice?.id) {
+        await supabase
+          .from('invoices')
+          .update(invoiceData)
+          .eq('id', invoice.id)
+        toast.success("Invoice updated successfully!")
+      } else {
+        await supabase
+          .from('invoices')
+          .insert(invoiceData)
+        toast.success("Invoice created successfully!")
+      }
+
+      onSuccess?.()
+    } catch (error) {
+      console.error("Error saving invoice:", error)
+      toast.error("Failed to save invoice")
+      throw error
+    }
+  }
+
+  const handleGeneratePDF = async (data: any) => {
+    try {
+      const invoiceData = {
+        id: data.id || 'temp',
+        invoice_number: data.number,
+        title: data.lineItems[0]?.name || 'Invoice',
+        description: data.notes,
+        amount: data.lineItems.reduce((sum: number, item: any) => sum + item.total, 0),
+        invoice_date: data.date,
+        due_date: data.dueDate,
+        status: data.status,
+        line_items: data.lineItems,
+        client: data.clientInfo
+      }
+      
+      await generateInvoicePDF(invoiceData)
+    } catch (error) {
+      console.error("Error generating PDF:", error)
+      toast.error("Failed to generate PDF")
+      throw error
+    }
+  }
+
+  const handleDuplicate = (data: any) => {
+    toast.success("Invoice duplicated! You can now edit the copy.")
+  }
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Create New Invoice</CardTitle>
-          <CardDescription>
-            Generate a new invoice for your client
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="client">Client *</Label>
-              <Select value={selectedClientId} onValueChange={setSelectedClientId}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a client" />
-                </SelectTrigger>
-                <SelectContent>
-                  {clients.map((client) => (
-                    <SelectItem key={client.id} value={client.id}>
-                      {client.name} ({client.email})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+    <div className="container mx-auto p-4 sm:p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-3xl font-bold">
+            {invoice ? 'Edit Invoice' : 'Create Invoice'}
+          </h1>
+          <p className="text-gray-600 mt-1">
+            Professional invoice with editable line items and instant PDF generation
+          </p>
+        </div>
+        {onClose && (
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 text-lg font-medium"
+          >
+            × Back to List
+          </button>
+        )}
+      </div>
 
-            <div>
-              <Label htmlFor="title">Invoice Title *</Label>
-              <Input
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter invoice title"
-                required
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter invoice description"
-                rows={3}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="currency">Currency</Label>
-                <CurrencySelector
-                  value={currency}
-                  onValueChange={setCurrency}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="amount">Amount *</Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
-                    {currencySymbol}
-                  </span>
-                  <Input
-                    id="amount"
-                    type="number"
-                    step="0.01"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="0.00"
-                    className="pl-8"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="dueDate">Due Date</Label>
-              <Input
-                id="dueDate"
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-              />
-            </div>
-
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? 'Creating...' : 'Create Invoice'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-
-      {lastCreatedInvoice && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Invoice Created Successfully!</CardTitle>
-            <CardDescription>
-              Invoice #{lastCreatedInvoice.number} has been created. You can now send a receipt email to the client.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="flex-1">
-                <p className="text-sm text-muted-foreground">
-                  Client: {lastCreatedInvoice.clientInfo?.name} ({lastCreatedInvoice.clientInfo?.email})
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Amount: {getCurrencySymbol(lastCreatedInvoice.currency)}{lastCreatedInvoice.totals?.total?.toFixed(2)}
-                </p>
-              </div>
-              <ReceiptEmailButton
-                invoice={lastCreatedInvoice}
-                transactionId={lastCreatedInvoice.id || 'pending'}
-                variant="default"
-                size="default"
-              />
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <EditableDocumentLayout
+        documentType="invoice"
+        initialData={initialData}
+        availableClients={availableClients}
+        onSave={handleSave}
+        onGeneratePDF={handleGeneratePDF}
+        onDuplicate={handleDuplicate}
+      />
     </div>
-  );
+  )
 }

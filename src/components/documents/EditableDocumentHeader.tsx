@@ -44,13 +44,27 @@ interface DocumentHeaderProps {
 const statusOptions = {
   invoice: ['Draft', 'Sent', 'Paid', 'Overdue', 'Cancelled'],
   estimate: ['Draft', 'Sent', 'Viewed', 'Accepted', 'Declined', 'Expired'],
+  quote: ['Draft', 'Sent', 'Viewed', 'Accepted', 'Declined', 'Expired'],
   salesorder: ['Draft', 'Confirmed', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
   workorder: ['Open', 'In Progress', 'On Hold', 'Completed', 'Cancelled'],
   proposal: ['Draft', 'Sent', 'Under Review', 'Accepted', 'Rejected'],
-  bid: ['Draft', 'Submitted', 'Under Review', 'Won', 'Lost']
+  bid: ['Draft', 'Submitted', 'Under Review', 'Won', 'Lost'],
+  contract: ['Draft', 'Sent', 'Under Review', 'Signed', 'Active', 'Expired', 'Terminated']
 }
 
 const paymentMethods = ['Cash', 'Card', 'Check', 'Bank Transfer', 'Zelle', 'Stripe', 'PayPal', 'Other']
+
+// Document-specific field labels
+const fieldLabels: Record<string, Record<string, string>> = {
+  invoice: { dueDate: 'Due Date', number: 'Invoice #' },
+  estimate: { dueDate: 'Valid Until', number: 'Estimate #' },
+  quote: { dueDate: 'Valid Until', number: 'Quote #' },
+  proposal: { dueDate: 'Valid Until', number: 'Proposal #' },
+  contract: { dueDate: 'End Date', number: 'Contract #' },
+  workorder: { dueDate: 'Due Date', number: 'Work Order #' },
+  salesorder: { dueDate: 'Delivery Date', number: 'Sales Order #' },
+  bid: { dueDate: 'Submission Date', number: 'Bid #' }
+}
 
 export function EditableDocumentHeader({
   documentType,
@@ -71,6 +85,8 @@ export function EditableDocumentHeader({
   availableClients = []
 }: DocumentHeaderProps) {
   const [isEditingClient, setIsEditingClient] = useState(false)
+
+  const labels = fieldLabels[documentType] || { dueDate: 'Due Date', number: 'Number #' }
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -155,7 +171,7 @@ export function EditableDocumentHeader({
           
           <div className="space-y-2">
             <div className="flex items-center justify-end gap-2">
-              <span className="text-sm text-gray-600">{documentType} #</span>
+              <span className="text-sm text-gray-600">{labels.number}</span>
               <Input
                 value={documentNumber}
                 onChange={(e) => onDocumentNumberChange(e.target.value)}
@@ -174,7 +190,7 @@ export function EditableDocumentHeader({
             </div>
             
             <div className="flex items-center justify-end gap-2">
-              <span className="text-sm text-gray-600">Due Date</span>
+              <span className="text-sm text-gray-600">{labels.dueDate}</span>
               <Input
                 type="date"
                 value={dueDate}

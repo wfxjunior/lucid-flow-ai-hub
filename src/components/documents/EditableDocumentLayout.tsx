@@ -23,6 +23,30 @@ interface EditableDocumentLayoutProps {
   onDuplicate: (data: any) => void
 }
 
+// Document type display names
+const documentDisplayNames: Record<string, string> = {
+  invoice: "Invoice",
+  estimate: "Estimate", 
+  quote: "Quote",
+  proposal: "Business Proposal",
+  contract: "Contract",
+  workorder: "Work Order",
+  salesorder: "Sales Order",
+  bid: "Bid"
+}
+
+// Document-specific terms
+const documentTerms: Record<string, string> = {
+  invoice: "Payment is due within 30 days from the date of this invoice.",
+  estimate: "This estimate is valid for 30 days from the date issued.",
+  quote: "This quote is valid for 30 days from the date issued.",
+  proposal: "This proposal is valid for 30 days from the date issued.",
+  contract: "This contract is subject to the terms and conditions outlined herein.",
+  workorder: "Work to be completed as specified in this order.",
+  salesorder: "Delivery terms and conditions apply as specified.",
+  bid: "This bid is valid for 30 days from the submission date."
+}
+
 export function EditableDocumentLayout({
   documentType,
   initialData,
@@ -62,7 +86,7 @@ export function EditableDocumentLayout({
       total: 0
     }],
     notes: '',
-    terms: 'This document is valid for 30 days from the date issued.'
+    terms: documentTerms[documentType] || 'Terms and conditions apply.'
   })
   const [isSaving, setIsSaving] = useState(false)
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
@@ -71,10 +95,11 @@ export function EditableDocumentLayout({
     if (initialData) {
       setFormData({
         ...initialData,
-        currency: initialData.currency || getDefaultCurrency().code
+        currency: initialData.currency || getDefaultCurrency().code,
+        terms: initialData.terms || documentTerms[documentType] || 'Terms and conditions apply.'
       })
     }
-  }, [initialData])
+  }, [initialData, documentType])
 
   const handleSave = async () => {
     setIsSaving(true)
@@ -109,7 +134,7 @@ export function EditableDocumentLayout({
       <Card>
         <CardHeader>
           <CardTitle className="text-xl sm:text-2xl">
-            {documentType.charAt(0).toUpperCase() + documentType.slice(1)} Details
+            {documentDisplayNames[documentType] || documentType.charAt(0).toUpperCase() + documentType.slice(1)} Details
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
