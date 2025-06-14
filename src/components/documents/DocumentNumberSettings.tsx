@@ -12,6 +12,20 @@ interface DocumentNumberSettingsProps {
   documentType: string
 }
 
+const getDefaultPrefix = (type: string) => {
+  const prefixes: Record<string, string> = {
+    invoice: 'INV-',
+    estimate: 'EST-',
+    quote: 'QUO-',
+    contract: 'CON-',
+    workorder: 'WO-',
+    salesorder: 'SO-',
+    proposal: 'PRO-',
+    bid: 'BID-'
+  }
+  return prefixes[type] || 'DOC-'
+}
+
 export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsProps) {
   const [settings, setSettings] = useState({
     autoGenerate: true,
@@ -59,20 +73,6 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
     } finally {
       setLoading(false)
     }
-  }
-
-  const getDefaultPrefix = (type: string) => {
-    const prefixes: Record<string, string> = {
-      invoice: 'INV-',
-      estimate: 'EST-',
-      quote: 'QUO-',
-      contract: 'CON-',
-      workorder: 'WO-',
-      salesorder: 'SO-',
-      proposal: 'PRO-',
-      bid: 'BID-'
-    }
-    return prefixes[type] || 'DOC-'
   }
 
   const saveSettings = async () => {
