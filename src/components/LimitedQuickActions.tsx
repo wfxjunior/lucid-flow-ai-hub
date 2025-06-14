@@ -1,7 +1,7 @@
 
 import { useState } from "react"
 import { QuickActionsSearchBar } from "@/components/QuickActionsSearchBar"
-import { ActionGrid } from "@/components/ActionGrid"
+import { LimitedQuickActionsGrid } from "@/components/LimitedQuickActionsGrid"
 import { limitedQuickActions } from "@/components/quick-actions/limitedQuickActions"
 import { Button } from "@/components/ui/button"
 import { Mic, MicOff } from "lucide-react"
@@ -95,24 +95,6 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
             return
           }
 
-          // Check for language commands
-          const languageCommands: { [key: string]: string } = {
-            'portuguese': 'pt',
-            'chinese': 'zh',
-            'german': 'de',
-            'french': 'fr',
-            'spanish': 'es'
-          }
-
-          for (const [language, code] of Object.entries(languageCommands)) {
-            if (transcript.includes(`change language to ${language}`) || transcript.includes(language)) {
-              // This would need to integrate with your language context
-              console.log(`Changing language to ${language} (${code})`)
-              setIsListening(false)
-              return
-            }
-          }
-          
           // Match voice command to quick actions first
           const matchedQuickAction = limitedQuickActions.find(action => 
             transcript.includes(action.title.toLowerCase()) ||
@@ -163,16 +145,21 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <h2 className="text-xl font-semibold">Quick Actions</h2>
-        <Button
-          onClick={handleVoiceCommand}
-          variant={isListening ? "default" : "outline"}
-          size="sm"
-          className={`flex items-center gap-2 ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`}
-        >
-          {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-          {isListening ? 'Listening...' : 'Voice Command'}
-        </Button>
+        <div className="flex items-center gap-4">
+          <h2 className="text-xl font-semibold">Quick Actions</h2>
+          <Button
+            onClick={handleVoiceCommand}
+            variant={isListening ? "default" : "outline"}
+            size="sm"
+            className={`flex items-center gap-2 ${isListening ? 'bg-red-500 hover:bg-red-600' : ''}`}
+          >
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            {isListening ? 'Listening...' : 'Voice Command'}
+          </Button>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          {filteredActions.length} actions available
+        </p>
       </div>
       
       <QuickActionsSearchBar 
@@ -180,7 +167,7 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
         onSearchChange={setSearchTerm} 
       />
       
-      <ActionGrid 
+      <LimitedQuickActionsGrid 
         actions={filteredActions}
         onActionClick={handleActionClick}
         searchTerm={searchTerm}
