@@ -1,71 +1,80 @@
-
 import { 
-  Home, Mic, Heart, Signature, Clipboard, Calculator, FileText
+  FileText, 
+  Users, 
+  CreditCard, 
+  Calculator,
+  Calendar,
+  Briefcase,
+  Clock,
+  Timeline
 } from "lucide-react"
+import { QuickAction } from "./quickActionsUtils"
 
-export const limitedQuickActions = [
+export const limitedQuickActions: QuickAction[] = [
+  // Existing actions
   {
-    id: "dashboard",
-    title: "Dashboard",
-    description: "View business overview",
-    icon: Home,
+    id: "create-invoice",
+    title: "Create Invoice",
+    description: "Generate new invoice",
+    icon: FileText,
     color: "bg-blue-500",
     hoverColor: "hover:bg-blue-600"
   },
   {
-    id: "ai-voice",
-    title: "AI Assistant",
-    description: "Voice commands",
-    icon: Mic,
+    id: "customers",
+    title: "Customers",
+    description: "Manage customer data",
+    icon: Users,
     color: "bg-green-500",
     hoverColor: "hover:bg-green-600"
   },
   {
-    id: "aftercare",
-    title: "AfterCare",
-    description: "Client feedback & relationships",
-    icon: Heart,
-    color: "bg-gray-500",
-    hoverColor: "hover:bg-gray-600"
-  },
-  {
-    id: "e-signatures",
-    title: "E-sign",
-    description: "Electronic signatures",
-    icon: Signature,
-    color: "bg-blue-600",
-    hoverColor: "hover:bg-blue-700"
-  },
-  {
-    id: "feather-forms",
-    title: "FeatherForms",
-    description: "Build custom forms",
-    icon: Clipboard,
-    color: "bg-green-600",
-    hoverColor: "hover:bg-green-700"
+    id: "payments",
+    title: "Payments",
+    description: "Track payment status",
+    icon: CreditCard,
+    color: "bg-purple-500",
+    hoverColor: "hover:bg-purple-600"
   },
   {
     id: "estimates",
     title: "Estimates",
-    description: "Generate price quotes",
+    description: "Create cost estimates",
     icon: Calculator,
-    color: "bg-gray-600",
-    hoverColor: "hover:bg-gray-700"
+    color: "bg-orange-500",
+    hoverColor: "hover:bg-orange-600"
+  },
+  // New actions row
+  {
+    id: "appointments",
+    title: "Appointments",
+    description: "Schedule appointments",
+    icon: Calendar,
+    color: "bg-indigo-500",
+    hoverColor: "hover:bg-indigo-600"
   },
   {
-    id: "invoice-creator",
-    title: "Create Invoice",
-    description: "Generate a new invoice",
-    icon: FileText,
-    color: "bg-blue-700",
-    hoverColor: "hover:bg-blue-800"
+    id: "projects",
+    title: "Projects",
+    description: "Manage projects",
+    icon: Briefcase,
+    color: "bg-teal-500",
+    hoverColor: "hover:bg-teal-600"
   },
   {
-    id: "easy-calc",
-    title: "EasyCalc",
-    description: "AI-powered smart estimates",
-    icon: Calculator,
-    color: "bg-green-700",
-    hoverColor: "hover:bg-green-800"
+    id: "smart-schedule",
+    title: "SmartSchedule",
+    description: "AI-powered scheduling",
+    icon: Clock,
+    color: "bg-pink-500",
+    hoverColor: "hover:bg-pink-600"
+  },
+  {
+    id: "project-timeline",
+    title: "Project Timeline",
+    description: "Track project progress",
+    icon: Timeline,
+    color: "bg-cyan-500",
+    hoverColor: "hover:bg-cyan-600"
   }
 ]
