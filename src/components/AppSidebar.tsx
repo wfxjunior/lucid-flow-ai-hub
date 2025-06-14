@@ -29,7 +29,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
   console.log('isMobile state:', isMobile)
   
-  // Extract the categories from sidebarMenuData
+  // Extract the categories from sidebarMenuData and convert them to the expected format
   const generalSection = sidebarMenuData.find(section => section.title === "General")
   const managementSection = sidebarMenuData.find(section => section.title === "Management")
   const communicationSection = sidebarMenuData.find(section => section.title === "Communication")
@@ -41,6 +41,14 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     setActiveView(view)
   }
 
+  // Convert SidebarMenuItem to MenuItem format
+  const convertToMenuItems = (items: any[]) => {
+    return items?.map(item => ({
+      ...item,
+      view: item.url?.replace('/', '') || item.title.toLowerCase().replace(/\s+/g, '-')
+    })) || []
+  }
+
   return (
     <Sidebar className="border-r">
       <SidebarContent className="gap-0">
@@ -48,7 +56,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
         {generalSection && (
           <SidebarMenuSection 
-            items={generalSection.items || []} 
+            items={convertToMenuItems(generalSection.items)} 
             sectionTitle={generalSection.title} 
             activeView={activeView}
             onMenuClick={handleMenuClick}
@@ -59,7 +67,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         {managementSection && (
           <SidebarMenuSection 
-            items={managementSection.items || []} 
+            items={convertToMenuItems(managementSection.items)} 
             sectionTitle={managementSection.title} 
             activeView={activeView}
             onMenuClick={handleMenuClick}
@@ -70,7 +78,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         {communicationSection && (
           <SidebarMenuSection 
-            items={communicationSection.items || []} 
+            items={convertToMenuItems(communicationSection.items)} 
             sectionTitle={communicationSection.title} 
             activeView={activeView}
             onMenuClick={handleMenuClick}
@@ -81,7 +89,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         {financeSection && (
           <SidebarMenuSection 
-            items={financeSection.items || []} 
+            items={convertToMenuItems(financeSection.items)} 
             sectionTitle={financeSection.title} 
             activeView={activeView}
             onMenuClick={handleMenuClick}
@@ -92,7 +100,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         {eSignatureSection && (
           <SidebarMenuSection 
-            items={eSignatureSection.items || []} 
+            items={convertToMenuItems(eSignatureSection.items)} 
             sectionTitle={eSignatureSection.title} 
             activeView={activeView}
             onMenuClick={handleMenuClick}
