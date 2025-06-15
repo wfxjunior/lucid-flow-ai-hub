@@ -15,7 +15,8 @@ import {
   Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
   Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
   DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
-  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap
+  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap,
+  Timeline
 } from "lucide-react"
 
 interface AppSidebarProps {
@@ -48,8 +49,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const coreBusinessItems = [
     { title: t("sidebar.coreBusiness.customers", "Customers"), view: "customers", icon: Users },
     { title: t("sidebar.coreBusiness.projects", "Projects"), view: "projects", icon: Briefcase },
-    // Adicionando Project Timeline
-    { title: t("sidebar.coreBusiness.projectTimeline", "Project Timeline"), view: "project-timeline", icon: "timeline" in require("lucide-react") ? require("lucide-react").Timeline : Calendar }, 
+    // Project Timeline uses the Timeline icon directly now
+    { title: t("sidebar.coreBusiness.projectTimeline", "Project Timeline"), view: "project-timeline", icon: Timeline },
     { title: t("sidebar.coreBusiness.pipeline", "Pipeline"), view: "pipeline", icon: TrendingUp },
     { title: t("sidebar.coreBusiness.smartSchedule", "Smart Schedule"), view: "smart-schedule", icon: Calendar },
   ]
