@@ -372,12 +372,7 @@ export default function LandingPage() {
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className={`bg-background p-6 sm:p-8 rounded-2xl shadow-sm border transition-all duration-1000 ${
-                  index === currentTestimonial ? 'opacity-100 animate-fade-in' : 
-                  index === (currentTestimonial + 1) % testimonials.length ? 'opacity-70' :
-                  index === (currentTestimonial + 2) % testimonials.length ? 'opacity-70' :
-                  'opacity-40'
-                }`}
+                className="bg-background p-6 sm:p-8 rounded-2xl shadow-sm border"
               >
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
