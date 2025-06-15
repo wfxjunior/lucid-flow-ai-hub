@@ -24,7 +24,7 @@ export const FeatureHelpDialog: React.FC<FeatureHelpDialogProps> = ({ open, onOp
       toast({
         title: "Your question was sent!",
         description: "Our team will get back to you soon.",
-        variant: "success"
+        variant: "default" // ← FIXED: Only 'default' or 'destructive' allowed
       })
       setSubmitting(false)
       setEmail("")
