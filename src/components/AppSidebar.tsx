@@ -9,14 +9,6 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
 import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
-import { sidebarMenuData } from "@/components/sidebar/SidebarMenuData"
-import { 
-  coreBusinessTools, 
-  financialTools, 
-  operationsTools, 
-  documentsTools, 
-  productivityTools 
-} from "@/components/sidebar/businessToolsData"
 import { mainFeatures } from "@/components/sidebar/mainFeaturesData"
 import { analytics } from "@/components/sidebar/analyticsData"
 import { systemTools } from "@/components/sidebar/systemToolsData"
@@ -32,25 +24,41 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
   console.log('isMobile state:', isMobile)
   
-  // Extract the categories from sidebarMenuData and convert them to the expected format
-  const generalSection = sidebarMenuData.find(section => section.title === "General")
-  const managementSection = sidebarMenuData.find(section => section.title === "Management")
-  const communicationSection = sidebarMenuData.find(section => section.title === "Communication")
-  const financeSection = sidebarMenuData.find(section => section.title === "Finance")
-  const eSignatureSection = sidebarMenuData.find(section => section.title === "E-Signatures")
-  
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
     setActiveView(view)
   }
 
-  // Convert SidebarMenuItem to MenuItem format
-  const convertToMenuItems = (items: any[]) => {
-    return items?.map(item => ({
-      ...item,
-      view: item.url
-    })) || []
-  }
+  // Dados principais organizados corretamente
+  const generalItems = [
+    { title: "Dashboard", view: "dashboard", icon: mainFeatures[0].icon },
+    { title: "Careers", view: "careers", icon: mainFeatures[1].icon },
+  ]
+
+  const managementItems = [
+    { title: "Customers", view: "customers", icon: mainFeatures[0].icon },
+    { title: "Projects", view: "projects", icon: mainFeatures[0].icon },
+    { title: "Appointments", view: "appointments", icon: mainFeatures[0].icon },
+    { title: "Invoices", view: "invoices", icon: mainFeatures[0].icon },
+    { title: "Tasks", view: "tasks", icon: mainFeatures[0].icon },
+  ]
+
+  const communicationItems = [
+    { title: "Messages", view: "messages", icon: mainFeatures[0].icon },
+    { title: "Email Settings", view: "email-settings", icon: mainFeatures[0].icon },
+  ]
+
+  const financeItems = [
+    { title: "Products", view: "products", icon: mainFeatures[0].icon },
+    { title: "Payments", view: "payments", icon: mainFeatures[0].icon },
+    { title: "Expenses", view: "expenses", icon: mainFeatures[0].icon },
+    { title: "Contracts", view: "contracts", icon: mainFeatures[0].icon },
+  ]
+
+  const eSignatureItems = [
+    { title: "Documents", view: "e-signatures", icon: mainFeatures[0].icon },
+    { title: "Templates", view: "esignature-templates", icon: mainFeatures[0].icon },
+  ]
 
   return (
     <Sidebar className="border-r">
@@ -66,109 +74,54 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         
         <SidebarSeparator />
 
-        {generalSection && (
-          <SidebarMenuSection 
-            items={convertToMenuItems(generalSection.items)} 
-            sectionTitle={generalSection.title} 
-            activeView={activeView}
-            onMenuClick={handleMenuClick}
-          />
-        )}
+        <SidebarMenuSection 
+          items={generalItems} 
+          sectionTitle="General" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {managementSection && (
-          <SidebarMenuSection 
-            items={convertToMenuItems(managementSection.items)} 
-            sectionTitle={managementSection.title} 
-            activeView={activeView}
-            onMenuClick={handleMenuClick}
-          />
-        )}
+        <SidebarMenuSection 
+          items={managementItems} 
+          sectionTitle="Management" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {communicationSection && (
-          <SidebarMenuSection 
-            items={convertToMenuItems(communicationSection.items)} 
-            sectionTitle={communicationSection.title} 
-            activeView={activeView}
-            onMenuClick={handleMenuClick}
-          />
-        )}
+        <SidebarMenuSection 
+          items={communicationItems} 
+          sectionTitle="Communication" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {financeSection && (
-          <SidebarMenuSection 
-            items={convertToMenuItems(financeSection.items)} 
-            sectionTitle={financeSection.title} 
-            activeView={activeView}
-            onMenuClick={handleMenuClick}
-          />
-        )}
+        <SidebarMenuSection 
+          items={financeItems} 
+          sectionTitle="Finance" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
-        {eSignatureSection && (
-          <SidebarMenuSection 
-            items={convertToMenuItems(eSignatureSection.items)} 
-            sectionTitle={eSignatureSection.title} 
-            activeView={activeView}
-            onMenuClick={handleMenuClick}
-          />
-        )}
+        <SidebarMenuSection 
+          items={eSignatureItems} 
+          sectionTitle="E-Signatures" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
         
         <SidebarSeparator />
         
         <SidebarMenuSection 
           items={analytics} 
           sectionTitle="Analytics" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={coreBusinessTools} 
-          sectionTitle={t("sidebar.coreBusiness")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={financialTools} 
-          sectionTitle={t("sidebar.financialTools")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={operationsTools} 
-          sectionTitle={t("sidebar.operations")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={documentsTools} 
-          sectionTitle={t("sidebar.documentsAndForms")} 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={productivityTools} 
-          sectionTitle={t("sidebar.productivity")} 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
