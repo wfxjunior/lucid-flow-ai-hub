@@ -1,10 +1,9 @@
+
 import { Link } from "react-router-dom"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { Card, CardContent } from "@/components/ui/card"
-import { FileText, UserCheck, Package, Car, Calendar, Video, ClipboardList, Calculator, Zap } from "lucide-react"
-import { AllFeaturesDialog } from "@/components/AllFeaturesDialog"
 
-// Importa todas as features do AllFeaturesDialog
+// All features available on the platform
 const allFeatures = [
   { name: "Dashboard", category: "Main", description: "Central hub for business overview" },
   { name: "AI Voice", category: "Main", description: "Voice assistant for automation" },
@@ -58,80 +57,27 @@ const allFeatures = [
   { name: "Settings", category: "General", description: "Platform settings" },
 ];
 
-const featuresList = [
-  {
-    icon: FileText,
-    titleKey: "features.aiInvoice.title",
-    descKey: "features.aiInvoice.description",
-  },
-  {
-    icon: UserCheck,
-    titleKey: "features.crewControl.title",
-    descKey: "features.crewControl.description",
-  },
-  {
-    icon: Package,
-    titleKey: "features.matTrack.title",
-    descKey: "features.matTrack.description",
-  },
-  {
-    icon: Car,
-    titleKey: "features.carRental.title",
-    descKey: "features.carRental.description",
-  },
-  {
-    icon: Calendar,
-    titleKey: "features.smartSchedule.title",
-    descKey: "features.smartSchedule.description",
-  },
-  {
-    icon: Video,
-    titleKey: "features.meetings.title",
-    descKey: "features.meetings.description",
-  },
-  {
-    icon: ClipboardList,
-    titleKey: "features.appointments.title",
-    descKey: "features.appointments.description",
-  },
-  {
-    icon: Calculator,
-    titleKey: "features.estimates.title",
-    descKey: "features.estimates.description",
-  },
-  {
-    icon: Zap,
-    titleKey: "features.more.title",
-    descKey: "features.more.description",
-  },
-];
-
 export default function FeaturesOverview() {
   const { t } = useLanguage();
-
-  // Mostrando apenas algumas features inicialmente (ex. 9 primeiras), mas sinalizando que existem mais.
-  const featured = allFeatures.slice(0, 9);
 
   return (
     <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center mb-12">
         <h1 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
-          {t("featuresOverview.title")}
+          Features Overview
         </h1>
         <p className="text-lg text-muted-foreground mb-2">
-          {t("featuresOverview.subtitle")}
+          Explore all available features in one place.
         </p>
         <p className="text-base text-muted-foreground">
-          {t("featuresOverview.intro")}
+          Centralize, automate, and grow your business with our complete platform toolkit.
         </p>
       </div>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-        {featured.map((f, idx) => (
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+        {allFeatures.map((f) => (
           <Card key={f.name} className="bg-card/90 border hover:shadow-lg transition-shadow p-0">
             <CardContent className="px-7 pt-8 pb-6 flex flex-col items-center">
-              {/* Poderia adicionar ícone estático, por enquanto só nome */}
               <div className="rounded-xl bg-primary/10 p-4 mb-5">
-                {/* Sem ícone específico para todos, apenas as iniciais */}
                 <span className="font-bold text-lg text-primary">{f.name[0]}</span>
               </div>
               <h3 className="font-semibold text-lg text-foreground mb-2">
@@ -146,15 +92,8 @@ export default function FeaturesOverview() {
         ))}
       </div>
       <div className="max-w-2xl mx-auto flex flex-col items-center mt-10 gap-4">
-        <AllFeaturesDialog 
-          trigger={
-            <button className="px-6 py-3 rounded-lg border-2 border-primary bg-white hover:bg-primary hover:text-white text-primary font-bold shadow-md transition">
-              Ver todos os recursos
-            </button>
-          }
-        />
         <Link to="/" className="inline-block px-6 py-2 rounded-lg border bg-muted/80 hover:bg-primary/10 text-foreground font-medium transition mt-2">
-          {t("featuresOverview.backToHome")}
+          Back to Home
         </Link>
       </div>
     </div>
