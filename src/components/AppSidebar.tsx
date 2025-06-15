@@ -41,7 +41,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     setActiveView(view)
   }
 
-  // Convert SidebarMenuItem to MenuItem format
+  // Convert SidebarMenuItem to MenuItem format - ensuring consistency
   const convertToMenuItems = (items: any[]) => {
     return items?.map(item => ({
       ...item,
