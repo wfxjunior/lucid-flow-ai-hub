@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/integrations/supabase/client"
 import { useNavigate } from "react-router-dom"
 import { HelpCenter } from "@/components/HelpCenter"
-import { User, LogOut, Settings } from "lucide-react"
+import { User, LogOut } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import {
   DropdownMenu,
@@ -134,14 +133,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
     }
   }
 
-  const handleSettingsClick = () => {
-    if (onNavigate) {
-      onNavigate('settings')
-    } else {
-      navigate('/')
-    }
-  }
-
   if (isLoading) {
     return (
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
@@ -208,10 +199,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             <DropdownMenuItem onClick={handleProfileClick}>
               <User className="mr-2 h-4 w-4" />
               <span>Perfil</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleSettingsClick}>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Configurações</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
