@@ -5,6 +5,33 @@ import { CareersPage } from "@/components/CareersPage"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { PaymentsPage } from "@/components/PaymentsPage"
 import { ESignaturesPage } from "@/components/ESignaturesPage"
+import { FeatherBudgetPage } from "@/components/FeatherBudgetPage"
+import { SmartSchedulePage } from "@/components/SmartSchedulePage"
+import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
+import { CustomerManagement } from "@/components/CustomerManagement"
+import { ProjectsPage } from "@/components/ProjectsPage"
+import { ProjectTimelinePage } from "@/components/ProjectTimelinePage"
+import { PipelineBoard } from "@/components/PipelineBoard"
+import { FeatherTaxPage } from "@/components/FeatherTaxPage"
+import { EasyCalcPage } from "@/components/EasyCalcPage"
+import { AccountingPage } from "@/components/AccountingPage"
+import { QuotesPage } from "@/components/QuotesPage"
+import { EstimatesPage } from "@/components/EstimatesPage"
+import { CarRentalPage } from "@/components/CarRentalPage"
+import { WorkOrdersPage } from "@/components/WorkOrdersPage"
+import { MatTrackPage } from "@/components/MatTrackPage"
+import { CrewControlPage } from "@/components/CrewControlPage"
+import { EarnSyncPage } from "@/components/EarnSyncPage"
+import { AfterCarePage } from "@/components/AfterCarePage"
+import { FeatherFormsPage } from "@/components/FeatherFormsPage"
+import { SalesOrdersPage } from "@/components/SalesOrdersPage"
+import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
+import { BidsPage } from "@/components/BidsPage"
+import { ContractsPage } from "@/components/ContractsPage"
+import { MeetingsPage } from "@/components/MeetingsPage"
+import { TodoListPage } from "@/components/TodoListPage"
+import { NotesPage } from "@/components/NotesPage"
+import { AppointmentsPage } from "@/components/AppointmentsPage"
 
 interface MainContentProps {
   activeView: string
@@ -28,33 +55,81 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         </div>
       case "e-signatures":
         return <ESignaturesPage />
+      
+      // Core Business Tools
+      case "customer-management":
+        return <CustomerManagement />
+      case "projects":
+        return <ProjectsPage />
+      case "project-timeline":
+        return <ProjectTimelinePage />
+      case "pipeline":
+        return <PipelineBoard />
+      case "smart-schedule":
+        return <SmartSchedulePage />
+      
+      // Financial Tools
+      case "feather-budget":
+        return <FeatherBudgetPage />
+      case "feather-tax":
+        return <FeatherTaxPage />
+      case "easy-calc":
+        return <EasyCalcPage />
+      case "accounting":
+        return <AccountingPage />
+      case "quotes":
+        return <QuotesPage />
+      case "estimates":
+        return <EstimatesPage />
+      
+      // Operations Tools
+      case "car-rental":
+        return <CarRentalPage />
+      case "work-orders":
+        return <WorkOrdersPage />
+      case "mat-track":
+        return <MatTrackPage />
+      case "crew-control":
+        return <CrewControlPage />
+      case "earnsync":
+        return <EarnSyncPage />
+      case "aftercare":
+        return <AfterCarePage />
+      
+      // Documents & Forms
+      case "feather-forms":
+        return <FeatherFormsPage />
+      case "sales-orders":
+        return <SalesOrdersPage />
+      case "business-proposals":
+        return <BusinessProposalsPage />
+      case "bids":
+        return <BidsPage />
+      case "contracts":
+        return <ContractsPage />
+      
+      // Productivity Tools
+      case "meetings":
+        return <MeetingsPage />
+      case "todo-list":
+        return <TodoListPage />
+      case "notes":
+        return <NotesPage />
+      
+      // General Pages
       case "careers":
         return <CareersPage />
       case "customers":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Customers</h1>
-          <p>Customer management coming soon...</p>
-        </div>
-      case "projects":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Projects</h1>
-          <p>Project management coming soon...</p>
-        </div>
+        return <CustomerManagement />
       case "appointments":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Appointments</h1>
-          <p>Appointment scheduling coming soon...</p>
-        </div>
+        return <AppointmentsPage />
       case "invoices":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Invoices</h1>
           <p>Invoice management coming soon...</p>
         </div>
       case "tasks":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Tasks</h1>
-          <p>Task management coming soon...</p>
-        </div>
+        return <TodoListPage />
       case "messages":
         return <MessagesPage />
       case "email-settings":
@@ -70,11 +145,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Expenses</h1>
           <p>Expense management coming soon...</p>
-        </div>
-      case "contracts":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Contracts</h1>
-          <p>Contract management coming soon...</p>
         </div>
       case "esignature-templates":
         return <div className="p-6">

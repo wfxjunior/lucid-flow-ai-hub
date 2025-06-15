@@ -12,6 +12,7 @@ import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
 import { mainFeatures } from "@/components/sidebar/mainFeaturesData"
 import { analytics } from "@/components/sidebar/analyticsData"
 import { systemTools } from "@/components/sidebar/systemToolsData"
+import { coreBusinessTools, financialTools, operationsTools, documentsTools, productivityTools } from "@/components/sidebar/businessToolsData"
 import { 
   Home, Users, Calendar, FileText, ListChecks, MessageSquare, Settings, 
   Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList 
@@ -79,6 +80,24 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
 
         <SidebarMenuSection 
+          items={coreBusinessTools} 
+          sectionTitle="Core Business" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+
+        <SidebarMenuSection 
+          items={financialTools} 
+          sectionTitle="Financial Tools" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+
+        <SidebarMenuSection 
           items={generalItems} 
           sectionTitle="General" 
           activeView={activeView}
@@ -117,6 +136,33 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarMenuSection 
           items={eSignatureItems} 
           sectionTitle="E-Signatures" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+
+        <SidebarMenuSection 
+          items={operationsTools} 
+          sectionTitle="Operations" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+
+        <SidebarMenuSection 
+          items={documentsTools} 
+          sectionTitle="Documents" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+
+        <SidebarMenuSection 
+          items={productivityTools} 
+          sectionTitle="Productivity" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
