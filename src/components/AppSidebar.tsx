@@ -12,6 +12,10 @@ import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
 import { mainFeatures } from "@/components/sidebar/mainFeaturesData"
 import { analytics } from "@/components/sidebar/analyticsData"
 import { systemTools } from "@/components/sidebar/systemToolsData"
+import { 
+  Home, Users, Calendar, FileText, ListChecks, MessageSquare, Settings, 
+  Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList 
+} from "lucide-react"
 
 interface AppSidebarProps {
   activeView: string
@@ -29,35 +33,35 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     setActiveView(view)
   }
 
-  // Dados principais organizados corretamente
+  // Seções organizadas corretamente com ícones
   const generalItems = [
-    { title: "Dashboard", view: "dashboard", icon: mainFeatures[0].icon },
-    { title: "Careers", view: "careers", icon: mainFeatures[1].icon },
+    { title: "Dashboard", view: "dashboard", icon: Home },
+    { title: "Careers", view: "careers", icon: Users },
   ]
 
   const managementItems = [
-    { title: "Customers", view: "customers", icon: mainFeatures[0].icon },
-    { title: "Projects", view: "projects", icon: mainFeatures[0].icon },
-    { title: "Appointments", view: "appointments", icon: mainFeatures[0].icon },
-    { title: "Invoices", view: "invoices", icon: mainFeatures[0].icon },
-    { title: "Tasks", view: "tasks", icon: mainFeatures[0].icon },
+    { title: "Customers", view: "customers", icon: Users },
+    { title: "Projects", view: "projects", icon: Calendar },
+    { title: "Appointments", view: "appointments", icon: Calendar },
+    { title: "Invoices", view: "invoices", icon: FileText },
+    { title: "Tasks", view: "tasks", icon: ListChecks },
   ]
 
   const communicationItems = [
-    { title: "Messages", view: "messages", icon: mainFeatures[0].icon },
-    { title: "Email Settings", view: "email-settings", icon: mainFeatures[0].icon },
+    { title: "Messages", view: "messages", icon: MessageSquare },
+    { title: "Email Settings", view: "email-settings", icon: Settings },
   ]
 
   const financeItems = [
-    { title: "Products", view: "products", icon: mainFeatures[0].icon },
-    { title: "Payments", view: "payments", icon: mainFeatures[0].icon },
-    { title: "Expenses", view: "expenses", icon: mainFeatures[0].icon },
-    { title: "Contracts", view: "contracts", icon: mainFeatures[0].icon },
+    { title: "Products", view: "products", icon: Store },
+    { title: "Payments", view: "payments", icon: PiggyBank },
+    { title: "Expenses", view: "expenses", icon: Wallet },
+    { title: "Contracts", view: "contracts", icon: File },
   ]
 
   const eSignatureItems = [
-    { title: "Documents", view: "e-signatures", icon: mainFeatures[0].icon },
-    { title: "Templates", view: "esignature-templates", icon: mainFeatures[0].icon },
+    { title: "Documents", view: "e-signatures", icon: CheckCircle },
+    { title: "Templates", view: "esignature-templates", icon: ClipboardList },
   ]
 
   return (
