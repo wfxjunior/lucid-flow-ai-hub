@@ -9,6 +9,7 @@ import { LandingCTASection } from "@/components/landing/LandingCTASection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { EssentialSideMenu } from "@/components/EssentialSideMenu";
 import { LandingBusinessMetricsSection } from "@/components/landing/LandingBusinessMetricsSection";
+import { LandingClientsSection } from "@/components/landing/LandingClientsSection";
 
 export default function LandingPage() {
   return (
@@ -20,6 +21,8 @@ export default function LandingPage() {
         <LandingFeaturesSection />
         <LandingTestimonialsSection />
         <LandingBusinessMetricsSection />
+        {/* Bloco de logos de clientes/parceiros */}
+        <LandingClientsSection />
         <LandingPricingSection />
         <LandingCTASection />
       </main>
