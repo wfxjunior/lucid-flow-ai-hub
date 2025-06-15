@@ -1,4 +1,3 @@
-
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -34,6 +33,8 @@ import { NotesPage } from "@/components/NotesPage"
 import { AppointmentsPage } from "@/components/AppointmentsPage"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { AdminDashboard } from "@/components/AdminDashboard"
+import { InvoiceCreator } from "@/components/InvoiceCreator"
+import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
 
 interface MainContentProps {
   activeView: string
@@ -51,10 +52,11 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
           <p>Voice assistant coming soon...</p>
         </div>
       case "invoice-creator":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Create Invoice</h1>
-          <p>Invoice creator coming soon...</p>
-        </div>
+        return <InvoiceCreator />
+      case "estimates":
+        return <EstimatesPage />
+      case "payments":
+        return <ResponsivePaymentsPage />
       case "e-signatures":
         return <ESignaturesPage />
       
@@ -81,8 +83,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <AccountingPage />
       case "quotes":
         return <QuotesPage />
-      case "estimates":
-        return <EstimatesPage />
       
       // Operations Tools
       case "car-rental":
@@ -141,8 +141,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
           <h1 className="text-2xl font-bold mb-4">Products</h1>
           <p>Product catalog coming soon...</p>
         </div>
-      case "payments":
-        return <PaymentsPage />
       case "expenses":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Expenses</h1>

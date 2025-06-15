@@ -9,13 +9,12 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
 import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
-import { mainFeatures } from "@/components/sidebar/mainFeaturesData"
 import { analytics } from "@/components/sidebar/analyticsData"
 import { systemTools } from "@/components/sidebar/systemToolsData"
 import { coreBusinessTools, financialTools, operationsTools, documentsTools, productivityTools } from "@/components/sidebar/businessToolsData"
 import { 
   Home, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
-  Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList 
+  Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, Signature, Calculator
 } from "lucide-react"
 
 interface AppSidebarProps {
@@ -34,11 +33,22 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     setActiveView(view)
   }
 
-  // Seções organizadas corretamente com ícones
+  // Main Features (including Estimates moved here)
+  const mainFeatures = [
+    { title: "Dashboard", view: "dashboard", icon: Home },
+    { title: "AI Voice", view: "ai-voice", icon: Mic },
+    { title: "Create Invoice", view: "invoice-creator", icon: FileText },
+    { title: "Estimates", view: "estimates", icon: Calculator },
+    { title: "Payments", view: "payments", icon: CreditCard },
+    { title: "E-Signatures", view: "e-signatures", icon: Signature },
+  ]
+
+  // General Items
   const generalItems = [
     { title: "Careers", view: "careers", icon: Users },
   ]
 
+  // Management Items (removed duplicate Appointments)
   const managementItems = [
     { title: "Customers", view: "customers", icon: Users },
     { title: "Projects", view: "projects", icon: Calendar },
@@ -47,18 +57,20 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: "Todo List", view: "todo-list", icon: ListTodo },
   ]
 
+  // Communication Items
   const communicationItems = [
     { title: "Messages", view: "messages", icon: MessageSquare },
     { title: "Email Settings", view: "email-settings", icon: Settings },
   ]
 
+  // Finance Items
   const financeItems = [
     { title: "Products", view: "products", icon: Store },
-    { title: "Payments", view: "payments", icon: PiggyBank },
     { title: "Expenses", view: "expenses", icon: Wallet },
     { title: "Contracts", view: "contracts", icon: File },
   ]
 
+  // E-Signature Items
   const eSignatureItems = [
     { title: "Documents", view: "e-signatures", icon: CheckCircle },
     { title: "Templates", view: "esignature-templates", icon: ClipboardList },
