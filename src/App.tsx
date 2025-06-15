@@ -7,6 +7,7 @@ import Auth from '@/pages/Auth'
 import FeaturesOverview from '@/pages/FeaturesOverview'
 import LandingPage from '@/pages/LandingPage'
 import EditionsPage from '@/pages/EditionsPage'
+import { SidebarProvider } from "@/components/ui/sidebar"
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   // For now, we'll just return children since we're using the Index page with its own auth
@@ -24,7 +25,14 @@ function App() {
     <Router>
       <Routes>
         {/* Nova rota para a landing page */}
-        <Route path="/landing" element={<LandingPage />} />
+        <Route
+          path="/landing"
+          element={
+            <SidebarProvider>
+              <LandingPage />
+            </SidebarProvider>
+          }
+        />
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<Auth />} />
         {/* Features Overview Page */}
