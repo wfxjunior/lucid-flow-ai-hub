@@ -1,4 +1,3 @@
-
 import { 
   Sidebar,
   SidebarContent,
@@ -10,6 +9,7 @@ import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
 import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
 import { AllFeaturesDialog } from "@/components/AllFeaturesDialog"
+import { HelpCenter } from "@/components/HelpCenter"
 import { 
   Home, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
   Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
@@ -116,8 +116,17 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarContent className="gap-0">
         <SidebarHeader />
 
-        {/* View All Features */}
+        {/* Help Center Button */}
         <div className="px-4 py-2">
+          <HelpCenter 
+            variant="outline"
+            size="default"
+            className="w-full justify-start mb-1"
+          />
+        </div>
+
+        {/* View All Features */}
+        <div className="px-4 py-2 -mt-2">
           <AllFeaturesDialog 
             trigger={
               <button className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2">
@@ -127,7 +136,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
             }
           />
         </div>
-
         <SidebarSeparator />
 
         <SidebarMenuSection 
