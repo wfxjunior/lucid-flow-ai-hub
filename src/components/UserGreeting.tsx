@@ -21,6 +21,28 @@ interface UserGreetingProps {
   onNavigate?: (view: string) => void
 }
 
+// Auth cleanup utility
+const cleanupAuthState = () => {
+  console.log('Cleaning up auth state on sign out')
+  
+  // Remove standard auth tokens
+  localStorage.removeItem('supabase.auth.token')
+  
+  // Remove all Supabase auth keys from localStorage
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      localStorage.removeItem(key)
+    }
+  })
+  
+  // Remove from sessionStorage if in use
+  Object.keys(sessionStorage || {}).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      sessionStorage.removeItem(key)
+    }
+  })
+}
+
 export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -38,6 +60,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
         
         if (user?.email) {
           setUserEmail(user.email)
+          console.log('User loaded in UserGreeting:', user.email)
         }
       } catch (error) {
         console.error('Error in getUser:', error)
@@ -50,13 +73,14 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event, !!session)
+        console.log('UserGreeting: Auth state changed:', event, !!session)
         if (event === 'SIGNED_OUT' || !session) {
           setUserEmail(null)
-          navigate('/auth')
+          // Don't automatically redirect here, let the main auth handler do it
         } else if (session?.user?.email) {
           setUserEmail(session.user.email)
         }
+        setIsLoading(false)
       }
     )
 
@@ -67,23 +91,28 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
     try {
       setIsLoading(true)
       
-      // Clear any existing auth state
-      localStorage.clear()
-      sessionStorage.clear()
+      console.log('Starting sign out process')
       
+      // Clean up auth state first
+      cleanupAuthState()
+      
+      // Attempt global sign out
       const { error } = await supabase.auth.signOut({ scope: 'global' })
       
       if (error) {
         console.error('Sign out error:', error)
-        toast.error('Error signing out. Please try again.')
+        toast.error('Erro ao sair. Tente novamente.')
       } else {
-        toast.success('Successfully signed out!')
-        // Force redirect to auth page
+        console.log('Sign out successful')
+        toast.success('Logout realizado com sucesso!')
+        // Force redirect to auth page with page reload for clean state
         window.location.href = '/auth'
       }
     } catch (error) {
       console.error('Unexpected sign out error:', error)
-      toast.error('Unexpected error occurred.')
+      toast.error('Erro inesperado ao sair.')
+      // Force redirect even on error
+      window.location.href = '/auth'
     } finally {
       setIsLoading(false)
     }
@@ -133,7 +162,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-10 w-10" />
-          <div className="text-lg sm:text-xl font-semibold">Welcome to FeatherBiz</div>
+          <div className="text-lg sm:text-xl font-semibold">Bem-vindo ao FeatherBiz</div>
         </div>
         <div className="flex items-center gap-2">
           <Button 
@@ -141,7 +170,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             size="sm"
             onClick={() => navigate('/auth')}
           >
-            Sign In
+            Entrar
           </Button>
           <HelpCenter variant="outline" size="sm" />
         </div>
@@ -178,22 +207,22 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleProfileClick}>
               <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+              <span>Perfil</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleSettingsClick}>
               <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+              <span>Configurações</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
               <LogOut className="mr-2 h-4 w-4" />
-              <span>{isLoading ? 'Signing out...' : 'Sign Out'}</span>
+              <span>{isLoading ? 'Saindo...' : 'Sair'}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         
         <span className="text-sm sm:text-base text-muted-foreground">
-          Hello, {getUserDisplayName(userEmail)}!
+          Olá, {getUserDisplayName(userEmail)}!
         </span>
       </div>
       

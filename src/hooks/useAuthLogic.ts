@@ -1,10 +1,31 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 type AuthMode = 'signin' | 'signup' | 'forgot-password'
+
+// Auth cleanup utility to prevent limbo states
+const cleanupAuthState = () => {
+  console.log('Cleaning up auth state')
+  
+  // Remove standard auth tokens
+  localStorage.removeItem('supabase.auth.token')
+  
+  // Remove all Supabase auth keys from localStorage
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      localStorage.removeItem(key)
+    }
+  })
+  
+  // Remove from sessionStorage if in use
+  Object.keys(sessionStorage || {}).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      sessionStorage.removeItem(key)
+    }
+  })
+}
 
 export function useAuthLogic() {
   const [mode, setMode] = useState<AuthMode>('signin')
@@ -19,9 +40,14 @@ export function useAuthLogic() {
   useEffect(() => {
     // Check if user is already authenticated
     const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        navigate('/')
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          console.log('User already authenticated, redirecting to home')
+          navigate('/')
+        }
+      } catch (error) {
+        console.error('Error checking auth:', error)
       }
     }
     checkAuth()
@@ -104,6 +130,16 @@ export function useAuthLogic() {
     try {
       console.log('Attempting sign in with:', email)
       
+      // Clean up existing state before signing in
+      cleanupAuthState()
+      
+      // Attempt global sign out first
+      try {
+        await supabase.auth.signOut({ scope: 'global' })
+      } catch (err) {
+        console.log('Sign out before sign in failed (expected):', err)
+      }
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
@@ -123,7 +159,7 @@ export function useAuthLogic() {
       } else if (data.user) {
         console.log('Sign in successful, user:', data.user)
         toast.success('Login realizado com sucesso!')
-        // Force redirect to home page
+        // Force page reload to ensure clean state
         window.location.href = '/'
       }
     } catch (error: any) {
@@ -229,7 +265,84 @@ export function useAuthLogic() {
     selectedCountry,
     setSelectedCountry,
     handleSignIn,
-    handleSignUp,
-    handleForgotPassword
+    handleSignUp: async (e: React.FormEvent) => {
+      e.preventDefault()
+      clearErrors()
+
+      if (!validateEmail(email)) {
+        addError(getLocalizedMessage('invalid_email'))
+        return
+      }
+
+      if (!validatePassword(password)) {
+        addError(getLocalizedMessage('weak_password'))
+        return
+      }
+
+      if (password !== confirmPassword) {
+        addError(getLocalizedMessage('password_mismatch'))
+        return
+      }
+
+      setLoading(true)
+      
+      try {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: getRedirectUrl()
+          }
+        })
+
+        if (error) {
+          if (error.message.includes('User already registered')) {
+            addError(getLocalizedMessage('user_exists'))
+          } else {
+            addError(error.message)
+          }
+        } else {
+          await sendWelcomeEmail(email)
+          toast.success(getLocalizedMessage('signup_success'))
+          setMode('signin')
+          setPassword('')
+          setConfirmPassword('')
+        }
+      } catch (error) {
+        console.error('Sign up error:', error)
+        addError(getLocalizedMessage('unexpected_error'))
+      } finally {
+        setLoading(false)
+      }
+    },
+    handleForgotPassword: async (e: React.FormEvent) => {
+      e.preventDefault()
+      clearErrors()
+
+      if (!validateEmail(email)) {
+        addError(getLocalizedMessage('invalid_email'))
+        return
+      }
+
+      setLoading(true)
+      
+      try {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: getRedirectUrl()
+        })
+
+        if (error) {
+          addError(error.message)
+        } else {
+          toast.success(getLocalizedMessage('reset_sent'))
+          setMode('signin')
+        }
+      } catch (error) {
+        console.error('Password reset error:', error)
+        addError(getLocalizedMessage('unexpected_error'))
+      } finally {
+        setLoading(false)
+      }
+    }
   }
 }
