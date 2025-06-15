@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 export default function LandingPage() {
   const navigate = useNavigate()
@@ -544,7 +545,15 @@ export default function LandingPage() {
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Platform</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">{/* Features (non-overview) */}Features</a></li>
+                <li>
+                  <Link 
+                    to="/features-overview" 
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {useLanguage().t("featuresOverview.link")}
+                  </Link>
+                </li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Integrations</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">API</a></li>
                 <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Security</a></li>

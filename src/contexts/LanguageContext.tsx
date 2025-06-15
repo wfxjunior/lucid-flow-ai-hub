@@ -165,6 +165,51 @@ const translations = {
       noteUpdated: "Note updated successfully",
       saveError: "Failed to save note",
       noAdditionalContent: "No additional content"
+    },
+    featuresOverview: {
+      title: "Features Overview",
+      subtitle: "Everything included in your FeatherBiz experience",
+      intro: "Get to know each functionality of our platform. With clear explanations, you'll quickly understand how FeatherBiz can help you manage and grow your business.",
+      link: "Features Overview",
+      backToHome: "← Back to Home",
+    },
+    features: {
+      aiInvoice: {
+        title: "AI Invoice",
+        description: "Generate professional invoices automatically with AI-powered smart templates and automated calculations.",
+      },
+      crewControl: {
+        title: "Crew Control",
+        description: "Manage your team effectively with advanced scheduling, payroll, and performance analytics.",
+      },
+      matTrack: {
+        title: "MatTrack",
+        description: "Track your materials and inventory in real-time with smart management and instant alerts.",
+      },
+      carRental: {
+        title: "Car Rental",
+        description: "Booking, tracking, and scheduling for all your car rental needs in one place.",
+      },
+      smartSchedule: {
+        title: "Smart Schedule",
+        description: "AI-powered scheduling to maximize productivity for teams and individuals.",
+      },
+      meetings: {
+        title: "Meetings",
+        description: "Organize, schedule, and run productive meetings with builtin video calls and notes.",
+      },
+      appointments: {
+        title: "Appointments",
+        description: "Streamlined appointment booking, calendar sync, and automatic reminders.",
+      },
+      estimates: {
+        title: "Estimates",
+        description: "Create fast and accurate estimates for your projects with AI help.",
+      },
+      more: {
+        title: "And More...",
+        description: "Dozens of additional features designed to streamline your business workflow.",
+      }
     }
   },
   de: {
@@ -280,6 +325,51 @@ const translations = {
       noteUpdated: "Notiz erfolgreich aktualisiert",
       saveError: "Notiz konnte nicht gespeichert werden",
       noAdditionalContent: "Kein zusätzlicher Inhalt"
+    },
+    featuresOverview: {
+      title: "Funktionsübersicht",
+      subtitle: "Alles, was FeatherBiz bietet",
+      intro: "Lernen Sie alle Funktionen unserer Plattform kennen. Mit klaren Erklärungen verstehen Sie schnell, wie FeatherBiz Ihr Unternehmen unterstützen kann.",
+      link: "Funktionsübersicht",
+      backToHome: "← Zurück zur Startseite",
+    },
+    features: {
+      aiInvoice: {
+        title: "AI-Rechnung",
+        description: "Erstellen Sie professionelle Rechnungen automatisch mit KI-gestützten Vorlagen und Berechnungen.",
+      },
+      crewControl: {
+        title: "Teamsteuerung",
+        description: "Verwalten Sie Ihr Team effektiv mit fortschrittlicher Planung, Lohnabrechnung und Analyse.",
+      },
+      matTrack: {
+        title: "MatTrack",
+        description: "Verfolgen Sie Materialien und Bestände in Echtzeit mit intelligentem Management.",
+      },
+      carRental: {
+        title: "Autovermietung",
+        description: "Buchung, Verfolgung und Planung rund um die Autovermietung an einem Ort.",
+      },
+      smartSchedule: {
+        title: "Smart Schedule",
+        description: "KI-gestützte Planung für maximal produktive Teams und Einzelpersonen.",
+      },
+      meetings: {
+        title: "Meetings",
+        description: "Organisieren, planen und führen Sie produktive Meetings mit Video und Notizen.",
+      },
+      appointments: {
+        title: "Termine",
+        description: "Einfache Terminbuchung, Kalendersynchronisierung und automatische Erinnerungen.",
+      },
+      estimates: {
+        title: "Kostenvoranschläge",
+        description: "Erstellen Sie schnell und genau Kostenvoranschläge für Ihre Projekte mit KI-Unterstützung.",
+      },
+      more: {
+        title: "Und mehr...",
+        description: "Dutzende weitere Funktionen, um Ihren Unternehmensalltag effizienter zu gestalten.",
+      }
     }
   },
   fr: {
@@ -395,6 +485,51 @@ const translations = {
       noteUpdated: "Note mise à jour avec succès",
       saveError: "Échec de l'enregistrement de la note",
       noAdditionalContent: "Aucun contenu supplémentaire"
+    },
+    featuresOverview: {
+      title: "Aperçu des fonctionnalités",
+      subtitle: "Tout ce que propose FeatherBiz",
+      intro: "Découvrez chaque fonctionnalité de notre plateforme. Grâce à des explications claires, comprenez rapidement comment FeatherBiz peut aider votre entreprise.",
+      link: "Aperçu des fonctionnalités",
+      backToHome: "← Retour à l'accueil",
+    },
+    features: {
+      aiInvoice: {
+        title: "Facture IA",
+        description: "Générez des factures professionnelles automatiquement grâce à des modèles IA intelligents.",
+      },
+      crewControl: {
+        title: "Gestion des équipes",
+        description: "Gérez votre équipe avec une planification avancée, la paie et des analyses clés.",
+      },
+      matTrack: {
+        title: "MatTrack",
+        description: "Suivi des matériaux et stock en temps réel grâce à une gestion intelligente.",
+      },
+      carRental: {
+        title: "Location de voiture",
+        description: "Réservation, suivi et programmation de tous vos besoins de location de voiture.",
+      },
+      smartSchedule: {
+        title: "Smart Schedule",
+        description: "Planification par IA pour maximiser la productivité.",
+      },
+      meetings: {
+        title: "Réunions",
+        description: "Organisez, planifiez et animez des réunions productives avec vidéo et notes.",
+      },
+      appointments: {
+        title: "Rendez-vous",
+        description: "Prise de rendez-vous simplifiée, synchronisation du calendrier et rappels.",
+      },
+      estimates: {
+        title: "Devis",
+        description: "Créez des devis rapides et précis grâce à l'IA.",
+      },
+      more: {
+        title: "Et bien plus...",
+        description: "Des dizaines d'autres fonctionnalités pour faciliter votre gestion d'entreprise.",
+      }
     }
   },
   es: {
@@ -462,7 +597,7 @@ const translations = {
         careers: "Carrieras",
         referrals: "Referencias",
         features: "Características",
-        faqHelp: "FAQ & Ayuda",
+        faqHelp: "FAQ & Aide",
         feedback: "Feedback",
         pricing: "Precios",
         settings: "Configuración"
@@ -510,6 +645,51 @@ const translations = {
       noteUpdated: "Nota actualizada exitosamente",
       saveError: "Error al guardar la nota",
       noAdditionalContent: "Sin contenido adicional"
+    },
+    featuresOverview: {
+      title: "Resumen de Funcionalidades",
+      subtitle: "Todo lo que incluye FeatherBiz",
+      intro: "Conoce todas las funcionalidades de la plataforma. Con explicaciones claras, verás cómo FeatherBiz apoya el crecimiento de tu negocio.",
+      link: "Resumen de funcionalidades",
+      backToHome: "← Volver al inicio",
+    },
+    features: {
+      aiInvoice: {
+        title: "Factura IA",
+        description: "Genera facturas profesionales automáticamente con plantillas inteligentes y cálculos autómaticos.",
+      },
+      crewControl: {
+        title: "Control de equipo",
+        description: "Gestione su equipo con planificación avanzada, nómina y métricas de desempeño.",
+      },
+      matTrack: {
+        title: "MatTrack",
+        description: "Monitorea materiales e inventario en tiempo real con gestión inteligente.",
+      },
+      carRental: {
+        title: "Alquiler de coches",
+        description: "Reserva, seguimiento y programación para todas tus necesidades de alquiler.",
+      },
+      smartSchedule: {
+        title: "Smart Schedule",
+        description: "Planificación optimizada por IA para más productividad.",
+      },
+      meetings: {
+        title: "Reuniones",
+        description: "Organiza y dirige reuniones productivas con video y notas integradas.",
+      },
+      appointments: {
+        title: "Citas",
+        description: "Reserva de citas, sincronización con el calendario y recordatorios automáticos.",
+      },
+      estimates: {
+        title: "Estimaciones",
+        description: "Crea presupuestos rápidos y precisos asistidos por IA.",
+      },
+      more: {
+        title: "Y más...",
+        description: "Docenas de funciones adicionales para agilizar tu negocio.",
+      }
     }
   },
   zh: {
@@ -625,6 +805,51 @@ const translations = {
       noteUpdated: "笔记更新成功",
       saveError: "保存笔记失败",
       noAdditionalContent: "无其他内容"
+    },
+    featuresOverview: {
+      title: "功能总览",
+      subtitle: "FeatherBiz 为你提供的一切",
+      intro: "了解平台的所有功能。通过清晰讲解，助你快速掌握如何利用 FeatherBiz 管理和发展企业。",
+      link: "功能总览",
+      backToHome: "← 返回首页",
+    },
+    features: {
+      aiInvoice: {
+        title: "AI发票",
+        description: "借助AI模板和自动计算，智能生成专业发票。",
+      },
+      crewControl: {
+        title: "团队管理",
+        description: "高效排班、工资发放与团队绩效分析，一应俱全。",
+      },
+      matTrack: {
+        title: "MatTrack",
+        description: "实时追踪材料和库存，智能管理、即时提醒。",
+      },
+      carRental: {
+        title: "汽车租赁",
+        description: "集成预订、跟踪与调度的完整租车管理方案。",
+      },
+      smartSchedule: {
+        title: "Smart Schedule",
+        description: "AI驱动排程，提升团队和个人生产力。",
+      },
+      meetings: {
+        title: "会议",
+        description: "组织、安排、召开高效线上会议，自带笔记功能。",
+      },
+      appointments: {
+        title: "预约",
+        description: "流畅的预约流程、日历同步及自动提醒。",
+      },
+      estimates: {
+        title: "估算",
+        description: "借助AI智能协助，快速准确生成项目估算。",
+      },
+      more: {
+        title: "更多功能…",
+        description: "数十项专为企业流程优化而生的进阶功能。",
+      }
     }
   },
   "pt-BR": {
@@ -740,6 +965,51 @@ const translations = {
       noteUpdated: "Nota atualizada com sucesso",
       saveError: "Falha ao salvar nota",
       noAdditionalContent: "Sem conteúdo adicional"
+    },
+    featuresOverview: {
+      title: "Visão Geral das Funcionalidades",
+      subtitle: "Tudo incluso na sua experiência FeatherBiz",
+      intro: "Conheça cada funcionalidade da nossa plataforma. Com explicações claras, você vai entender rapidamente como o FeatherBiz pode ajudar sua empresa a crescer.",
+      link: "Visão Geral das Funcionalidades",
+      backToHome: "← Voltar para o início",
+    },
+    features: {
+      aiInvoice: {
+        title: "Fatura com IA",
+        description: "Gere faturas profissionais automaticamente com modelos inteligentes e cálculos automáticos.",
+      },
+      crewControl: {
+        title: "Controle de Equipe",
+        description: "Gerencie sua equipe com agendamento avançado, folha de pagamento e métricas de desempenho.",
+      },
+      matTrack: {
+        title: "MatTrack",
+        description: "Acompanhe materiais e estoques em tempo real com gestão inteligente.",
+      },
+      carRental: {
+        title: "Aluguel de Veículos",
+        description: "Gestão completa de aluguel, reservas, acompanhamento e agendamento.",
+      },
+      smartSchedule: {
+        title: "Smart Schedule",
+        description: "Agendamento com IA para máxima produtividade de equipes e profissionais.",
+      },
+      meetings: {
+        title: "Reuniões",
+        description: "Organize, agende e realize reuniões produtivas com vídeo e anotações integradas.",
+      },
+      appointments: {
+        title: "Agendamentos",
+        description: "Agendamento facilitado, sincronização de calendário e lembretes automáticos.",
+      },
+      estimates: {
+        title: "Orçamentos",
+        description: "Crie orçamentos rápidos e precisos com ajuda da IA.",
+      },
+      more: {
+        title: "E muito mais...",
+        description: "Diversas funcionalidades extras para impulsionar o seu negócio.",
+      }
     }
   }
 }
