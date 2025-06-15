@@ -463,22 +463,19 @@ export default function LandingPage() {
       <footer className="bg-background border-t py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8 sm:mb-12">
-            <div className="col-span-1 sm:col-span-2 lg:col-span-1">
-              <div className="flex flex-col space-y-2 mb-4">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 flex items-center justify-center">
-                    <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
-                  </div>
-                </div>
+            {/* Fixed: "FeatherBiz" section properly aligned, no extra space above */}
+            <div className="col-span-1 sm:col-span-2 lg:col-span-1 flex flex-col justify-start">
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 The complete business management platform designed for modern entrepreneurs and growing companies.
               </p>
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 mb-2">
                 <LanguageSelector />
               </div>
             </div>
-
+            {/* ... keep existing code (other footer columns: Platform, Support, Resources, Company) the same ... */}
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Platform</h4>
               <ul className="space-y-2 text-sm">
