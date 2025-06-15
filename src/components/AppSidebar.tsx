@@ -14,7 +14,7 @@ import { analytics } from "@/components/sidebar/analyticsData"
 import { systemTools } from "@/components/sidebar/systemToolsData"
 import { coreBusinessTools, financialTools, operationsTools, documentsTools, productivityTools } from "@/components/sidebar/businessToolsData"
 import { 
-  Home, Users, Calendar, FileText, ListChecks, MessageSquare, Settings, 
+  Home, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
   Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList 
 } from "lucide-react"
 
@@ -36,7 +36,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
   // Seções organizadas corretamente com ícones
   const generalItems = [
-    { title: "Dashboard", view: "dashboard", icon: Home },
     { title: "Careers", view: "careers", icon: Users },
   ]
 
@@ -45,7 +44,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: "Projects", view: "projects", icon: Calendar },
     { title: "Appointments", view: "appointments", icon: Calendar },
     { title: "Invoices", view: "invoices", icon: FileText },
-    { title: "Tasks", view: "tasks", icon: ListChecks },
+    { title: "Todo List", view: "todo-list", icon: ListTodo },
   ]
 
   const communicationItems = [

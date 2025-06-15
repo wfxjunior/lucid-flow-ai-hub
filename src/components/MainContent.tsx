@@ -32,6 +32,8 @@ import { MeetingsPage } from "@/components/MeetingsPage"
 import { TodoListPage } from "@/components/TodoListPage"
 import { NotesPage } from "@/components/NotesPage"
 import { AppointmentsPage } from "@/components/AppointmentsPage"
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
+import { AdminDashboard } from "@/components/AdminDashboard"
 
 interface MainContentProps {
   activeView: string
@@ -152,15 +154,9 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
           <p>Document templates coming soon...</p>
         </div>
       case "analytics":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Analytics</h1>
-          <p>Analytics dashboard coming soon...</p>
-        </div>
+        return <AnalyticsDashboard />
       case "admin-panel":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
-          <p>Admin panel coming soon...</p>
-        </div>
+        return <AdminDashboard />
       case "referrals":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Referrals</h1>
