@@ -18,6 +18,7 @@ import { supabase } from "@/integrations/supabase/client"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarProvider, useSidebar, SidebarTrigger } from "@/components/ui/sidebar"
 import { LandingSidebar } from "@/components/LandingSidebar"
+import { HelpCenter } from "@/components/HelpCenter"
 
 export default function LandingPage() {
   const navigate = useNavigate()
