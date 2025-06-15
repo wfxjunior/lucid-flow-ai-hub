@@ -7,11 +7,11 @@ import { useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
-import { 
-  Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare, 
-  Star, ArrowRight, Play, Check, FileText, UserCheck, Package, 
+import {
+  Zap, Shield, Users, Briefcase, BarChart3, Clock, CheckSquare,
+  Star, ArrowRight, Play, Check, FileText, UserCheck, Package,
   Car, Calendar, Video, ClipboardList, Calculator, Instagram,
-  Facebook, Twitter, Linkedin, Youtube, Crown
+  Facebook, Twitter, Linkedin, Youtube, Crown, Feather, HelpCircle
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
@@ -246,121 +246,80 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="bg-background/95 backdrop-blur-sm border-b sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 flex items-center justify-center">
-                  <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</a>
-              <a href="#testimonials" className="text-muted-foreground hover:text-primary transition-colors">Reviews</a>
-              <a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</a>
-              <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
-              <Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <UserGreeting />
-            </div>
+      {/* Header customizado */}
+      <header className="w-full border-b shadow-sm bg-white/90 sticky top-0 z-50">
+        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2">
+            {/* Feather icon logo */}
+            <Feather size={28} className="text-blue-700" strokeWidth={2.1} />
+            <span className="ml-1 text-xl font-bold text-blue-800 tracking-tight">FeatherBiz</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-blue-100 text-blue-800 font-medium px-5"
+              onClick={() => navigate('/auth')}
+            >
+              Sign in
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-blue-100 text-blue-800 font-medium px-5 flex items-center gap-2"
+              onClick={() => {
+                // Você pode implementar rolar para FAQ, abrir modal, etc.
+                const faq = document.getElementById("faq");
+                if (faq) {
+                  faq.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  toast({
+                    title: "Help Center",
+                    description: "FAQ is coming soon.",
+                  })
+                }
+              }}
+            >
+              <HelpCircle className="w-4 h-4 mr-1" />
+              Help Center
+            </Button>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Hero Section - HubSpot Style */}
-      <section className="relative py-8 sm:py-12 lg:py-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Column - Content */}
-            <div className="space-y-4 lg:space-y-6 text-center lg:text-left">
-              <div className="space-y-3 lg:space-y-4">
-                <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-foreground leading-tight">
-                  Grow your business with 
-                  <span className="text-primary"> FeatherBiz</span>
-                </h1>
-                <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                  The all-in-one platform that helps you manage clients, projects, and payments. 
-                  Start your free trial and see results in 24 hours.
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Button 
-                    onClick={handleStartFreeTrial}
-                    size="lg"
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
-                  >
-                    Start Free Trial
-                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
-                  </Button>
-                  <Button 
-                    variant="outline"
-                    size="lg"
-                    onClick={handleTryItFree}
-                    className="px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg border-2"
-                  >
-                    <Play className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
-                    Watch Demo
-                  </Button>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Free 7-day trial • No credit card required • Setup in 2 minutes
-                </p>
-              </div>
-
-              {/* Benefits List */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto lg:max-w-none lg:mx-0">
-                {benefits.slice(0, 4).map((benefit, index) => (
-                  <div key={index} className="flex items-center space-x-2 justify-center lg:justify-start">
-                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
-                    <span className="text-sm text-muted-foreground">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column - Dashboard Preview */}
-            <div className="relative mt-8 lg:mt-0">
-              <div className="relative z-10">
-                <Carousel 
-                  className="w-full"
-                  setApi={setCarouselApi}
-                  opts={{
-                    align: "start",
-                    loop: true,
-                  }}
-                >
-                  <CarouselContent>
-                    {dashboardImages.map((image, index) => (
-                      <CarouselItem key={index}>
-                        <Card className="border-0 shadow-2xl bg-background">
-                          <CardContent className="p-1 sm:p-2">
-                            <div className="relative overflow-hidden rounded-lg">
-                              <img
-                                src={image.src}
-                                alt={image.alt}
-                                className="w-full h-auto object-contain rounded-lg transition-opacity duration-500"
-                              />
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-              </div>
-              
-              {/* Background Elements */}
-              <div className="absolute -top-10 -right-10 w-48 h-48 sm:w-72 sm:h-72 bg-primary/10 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-10 -left-10 w-48 h-48 sm:w-72 sm:h-72 bg-primary/5 rounded-full blur-3xl"></div>
-            </div>
+      {/* Hero no centro, caixa branca */}
+      <section className="flex justify-center items-center py-10 px-3 bg-muted/60 min-h-[45vh]">
+        <div className="w-full max-w-lg mx-auto bg-white rounded-2xl shadow-xl px-6 py-8 flex flex-col items-center">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-4 text-foreground" style={{lineHeight:"1.14"}}>
+            Grow your business<br />
+            with <span className="text-blue-700 font-extrabold">FeatherBiz</span>
+          </h1>
+          <p className="text-lg text-muted-foreground text-center mb-6">
+            The all-in-one platform that helps you manage clients, projects, and payments. Start your free trial and see results in 24 hours.
+          </p>
+          <div className="flex gap-4 w-full justify-center">
+            <Button
+              size="lg"
+              className="rounded-full bg-blue-700 hover:bg-blue-800 text-white font-medium px-8 shadow"
+              onClick={() => navigate('/auth')}
+            >
+              Start Free Trial
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-full border-blue-300 text-blue-800 font-medium px-8"
+              onClick={() => {
+                // Implementar demo/scroll (placeholder)
+                toast({
+                  title: "Demo",
+                  description: "Demo video coming soon.",
+                })
+              }}
+            >
+              <Play className="w-4 h-4 mr-1" />
+              Watch Demo
+            </Button>
           </div>
         </div>
       </section>
