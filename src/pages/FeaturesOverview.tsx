@@ -101,6 +101,21 @@ const allFeatures = [
   { name: "Feedback", category: "General", description: "Share your experience and suggestions—help us keep improving for you!" },
   { name: "Pricing", category: "General", description: "Explore affordable, transparent plans; find the best fit for your business." },
   { name: "Settings", category: "General", description: "Customize your account, preferences, notifications, and workspace details." },
+  {
+    name: "Service Orders",
+    category: "Documents",
+    description: "Easily manage and track all service orders for your business—assign jobs, update progress, store service-related documents, and keep a history of every service performed. Never lose track of tasks or paperwork related to each service job."
+  },
+  {
+    name: "Email Center",
+    category: "Communication",
+    description: "Centralized platform for managing business emails—send, receive, organize, and automate client messages with robust filters and seamless integration into your daily workflow."
+  },
+  {
+    name: "Communication Hub",
+    category: "Communication",
+    description: "Unify all your business communications—including emails, chat, and notifications—into a single intuitive dashboard for easier tracking, quicker responses, and complete conversation history."
+  }
 ];
 
 import React from "react";
