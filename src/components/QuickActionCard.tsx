@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card"
 import { LucideIcon } from "lucide-react"
 
@@ -26,8 +25,8 @@ export function QuickActionCard({ id, title, icon: Icon, color, onClick }: Quick
           <Icon className="h-6 w-6 text-primary group-hover:text-primary transition-colors duration-300" />
         </div>
         
-        {/* Title with improved typography */}
-        <h3 className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors duration-300 leading-tight line-clamp-2">
+        {/* Título sempre forte, sem opacidade */}
+        <h3 className="font-bold text-base text-primary group-hover:text-primary transition-colors duration-300 leading-tight line-clamp-2">
           {title}
         </h3>
         
