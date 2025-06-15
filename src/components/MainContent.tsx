@@ -1,4 +1,5 @@
 
+
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -144,15 +145,9 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "email-settings":
         return <EmailSettingsPage />
       case "products":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Products</h1>
-          <p>Product catalog coming soon...</p>
-        </div>
+        return <AccountingPage />
       case "expenses":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Expenses</h1>
-          <p>Expense management coming soon...</p>
-        </div>
+        return <AccountingPage />
       case "esignature-templates":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
@@ -188,3 +183,4 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
     </div>
   )
 }
+
