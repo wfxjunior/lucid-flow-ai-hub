@@ -1,3 +1,4 @@
+
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -37,6 +38,10 @@ import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
 import { ReferralsPage } from "@/components/ReferralsPage"
 import { FeaturesPage } from "@/components/FeaturesPage"
+import { FAQPage } from "@/components/FAQPage"
+import { FeedbackPage } from "@/components/FeedbackPage"
+import { PricingPlans } from "@/components/PricingPlans"
+import { SettingsPage } from "@/components/SettingsPage"
 
 interface MainContentProps {
   activeView: string
@@ -162,25 +167,13 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "features":
         return <FeaturesPage />
       case "faq-help":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">FAQ & Help</h1>
-          <p>Help center coming soon...</p>
-        </div>
+        return <FAQPage />
       case "feedback":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Feedback</h1>
-          <p>Feedback system coming soon...</p>
-        </div>
+        return <FeedbackPage />
       case "pricing":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Pricing Plans</h1>
-          <p>Pricing plans coming soon...</p>
-        </div>
+        return <PricingPlans />
       case "settings":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Settings</h1>
-          <p>Settings page coming soon...</p>
-        </div>
+        return <SettingsPage />
       default:
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Página não encontrada</h1>
