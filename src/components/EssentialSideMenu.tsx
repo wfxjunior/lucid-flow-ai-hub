@@ -4,18 +4,15 @@ import {
   SidebarProvider,
   Sidebar,
   SidebarContent,
-  SidebarHeader,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
-  Info,
+  Feather,
   Home,
   BookOpen,
   DollarSign,
@@ -25,7 +22,6 @@ import {
   ArrowRight,
   ShieldCheck,
   Clock,
-  Feather,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -86,14 +82,14 @@ export function EssentialSideMenu() {
 
   return (
     <SidebarProvider>
-      {/* Floating Button to Open Sidebar */}
+      {/* Botão flutuante com logo feather */}
       <button
         aria-label="Open Info Menu"
         onClick={() => setOpen(true)}
         className="fixed bottom-7 left-7 z-50 bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all"
         style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.10)" }}
       >
-        <Info className="w-7 h-7" />
+        <Feather className="w-7 h-7" strokeWidth={2.1} />
       </button>
       {/* Overlay Sidebar */}
       {open && (
@@ -107,7 +103,7 @@ export function EssentialSideMenu() {
           {/* Sidebar Container */}
           <Sidebar className="relative max-w-xs w-full shadow-xl z-50">
             <SidebarContent>
-              {/* Custom SidebarHeader with Logo */}
+              {/* Header dentro do sidebar */}
               <div className="bg-blue-700 py-7 px-5 mb-2 rounded-b-2xl flex items-center gap-3 select-none">
                 <Feather className="w-7 h-7 text-white" strokeWidth={2.1} />
                 <span className="text-white text-2xl font-extrabold tracking-tight">
@@ -177,4 +173,3 @@ export function EssentialSideMenu() {
     </SidebarProvider>
   );
 }
-
