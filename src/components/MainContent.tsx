@@ -1,5 +1,4 @@
 
-
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -43,6 +42,7 @@ import { FAQPage } from "@/components/FAQPage"
 import { FeedbackPage } from "@/components/FeedbackPage"
 import { PricingPlans } from "@/components/PricingPlans"
 import { SettingsPage } from "@/components/SettingsPage"
+import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
 
 interface MainContentProps {
   activeView: string
@@ -55,10 +55,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "dashboard":
         return <ImprovedDashboard onNavigate={onNavigate} />
       case "ai-voice":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">AI Voice Assistant</h1>
-          <p>Voice assistant coming soon...</p>
-        </div>
+        return <AIVoiceAssistant />
       case "invoice-creator":
         return <InvoiceCreator />
       case "estimates":
