@@ -253,13 +253,8 @@ export default function LandingPage() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <img 
-                    src="/lovable-uploads/7b2174fb-03a6-4038-9b69-f5fdfd2fcdc4.png" 
-                    alt="FeatherBiz Logo" 
-                    className="w-10 h-10 object-contain"
-                  />
+                  <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
                 </div>
-                <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
               </div>
             </div>
             
@@ -525,13 +520,8 @@ export default function LandingPage() {
               <div className="flex flex-col space-y-2 mb-4">
                 <div className="flex items-center space-x-2">
                   <div className="w-8 h-8 flex items-center justify-center">
-                    <img 
-                      src="/lovable-uploads/7b2174fb-03a6-4038-9b69-f5fdfd2fcdc4.png" 
-                      alt="FeatherBiz Logo" 
-                      className="w-8 h-8 object-contain"
-                    />
+                    <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
                   </div>
-                  <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
                 </div>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
