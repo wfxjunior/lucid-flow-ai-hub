@@ -557,9 +557,7 @@ export default function LandingPage() {
                 <Youtube className="w-5 h-5" />
               </a>
             </div>
-            <div className="mt-4 sm:mt-0">
-              <HelpCenter variant="outline" />
-            </div>
+            
           </div>
         </div>
       </footer>
