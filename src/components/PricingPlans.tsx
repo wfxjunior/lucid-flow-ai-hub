@@ -33,7 +33,7 @@ const plans = {
       id: "professional",
       name: "Professional",
       description: "Everything you need to grow - 7 days free!",
-      price: "$29",
+      price: "$19",
       period: "month",
       icon: Crown,
       features: [
@@ -55,7 +55,7 @@ const plans = {
       popular: true,
       color: "from-green-500 to-emerald-600",
       bgGradient: "from-green-50 to-emerald-50",
-      stripePrice: 2900,
+      stripePrice: 1900,
       recurring: true
     }
   ],
@@ -83,8 +83,8 @@ const plans = {
       id: "professional-annual",
       name: "Professional",
       description: "Everything you need to grow - 7 days free!",
-      price: "$290",
-      originalPrice: "$348",
+      price: "$190",
+      originalPrice: "$228",
       period: "year",
       icon: Crown,
       features: [
@@ -106,7 +106,7 @@ const plans = {
       popular: true,
       color: "from-green-500 to-emerald-600",
       bgGradient: "from-green-50 to-emerald-50",
-      stripePrice: 29000,
+      stripePrice: 19000,
       recurring: true,
       annualBilling: true
     }

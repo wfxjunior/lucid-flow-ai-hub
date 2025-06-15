@@ -69,6 +69,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <ESignaturesPage />
       
       // Core Business Tools
+      case "customers":
       case "customer-management":
         return <CustomerManagement />
       case "projects":
@@ -125,38 +126,24 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <TodoListPage />
       case "notes":
         return <NotesPage />
-      
-      // General Pages
-      case "careers":
-        return <CareersPage />
-      case "customers":
-        return <CustomerManagement />
       case "appointments":
         return <AppointmentsPage />
-      case "invoices":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Invoices</h1>
-          <p>Invoice management coming soon...</p>
-        </div>
-      case "tasks":
-        return <TodoListPage />
+      
+      // Communication
       case "messages":
         return <MessagesPage />
       case "email-settings":
         return <EmailSettingsPage />
-      case "products":
-        return <AccountingPage />
-      case "expenses":
-        return <AccountingPage />
-      case "esignature-templates":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
-          <p>Document templates coming soon...</p>
-        </div>
+      
+      // Analytics
       case "analytics":
         return <AnalyticsDashboard />
       case "admin-panel":
         return <AdminDashboard />
+      
+      // General & Support
+      case "careers":
+        return <CareersPage />
       case "referrals":
         return <ReferralsPage />
       case "features":
@@ -169,6 +156,23 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <PricingPlans />
       case "settings":
         return <SettingsPage />
+      
+      // Legacy routes for compatibility
+      case "invoices":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Invoices</h1>
+          <p>Invoice management coming soon...</p>
+        </div>
+      case "products":
+        return <AccountingPage />
+      case "expenses":
+        return <AccountingPage />
+      case "esignature-templates":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
+          <p>Document templates coming soon...</p>
+        </div>
+        
       default:
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Página não encontrada</h1>
@@ -183,4 +187,3 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
     </div>
   )
 }
-

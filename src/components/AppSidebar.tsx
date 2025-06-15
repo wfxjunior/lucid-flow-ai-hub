@@ -9,12 +9,13 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
 import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
-import { analytics } from "@/components/sidebar/analyticsData"
-import { systemTools } from "@/components/sidebar/systemToolsData"
-import { coreBusinessTools, financialTools, operationsTools, documentsTools, productivityTools } from "@/components/sidebar/businessToolsData"
+import { AllFeaturesDialog } from "@/components/AllFeaturesDialog"
 import { 
   Home, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
-  Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, Signature, Calculator
+  Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
+  Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
+  DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
+  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap
 } from "lucide-react"
 
 interface AppSidebarProps {
@@ -33,7 +34,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     setActiveView(view)
   }
 
-  // Main Features (including Estimates moved here)
+  // Main Features
   const mainFeatures = [
     { title: "Dashboard", view: "dashboard", icon: Home },
     { title: "AI Voice", view: "ai-voice", icon: Mic },
@@ -43,43 +44,91 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: "E-Signatures", view: "e-signatures", icon: Signature },
   ]
 
-  // General Items
-  const generalItems = [
-    { title: "Careers", view: "careers", icon: Users },
-  ]
-
-  // Management Items (removed duplicate Appointments)
-  const managementItems = [
+  // Core Business
+  const coreBusinessItems = [
     { title: "Customers", view: "customers", icon: Users },
-    { title: "Projects", view: "projects", icon: Calendar },
-    { title: "Appointments", view: "appointments", icon: Calendar },
-    { title: "Invoices", view: "invoices", icon: FileText },
-    { title: "Todo List", view: "todo-list", icon: ListTodo },
+    { title: "Projects", view: "projects", icon: Briefcase },
+    { title: "Pipeline", view: "pipeline", icon: TrendingUp },
+    { title: "Smart Schedule", view: "smart-schedule", icon: Calendar },
   ]
 
-  // Communication Items
+  // Financial Tools
+  const financialItems = [
+    { title: "FeatherBudget", view: "feather-budget", icon: PiggyBank },
+    { title: "FeatherTax", view: "feather-tax", icon: FileCheck },
+    { title: "EasyCalc", view: "easy-calc", icon: Calculator },
+    { title: "Accounting", view: "accounting", icon: DollarSign },
+    { title: "Quotes", view: "quotes", icon: FileText },
+  ]
+
+  // Operations
+  const operationsItems = [
+    { title: "Car Rental", view: "car-rental", icon: Truck },
+    { title: "Work Orders", view: "work-orders", icon: Wrench },
+    { title: "MatTrack", view: "mat-track", icon: Package },
+    { title: "Crew Control", view: "crew-control", icon: UserCheck },
+    { title: "EarnSync", view: "earnsync", icon: DollarSign },
+    { title: "AfterCare", view: "aftercare", icon: Heart },
+  ]
+
+  // Documents & Forms
+  const documentsItems = [
+    { title: "FeatherForms", view: "feather-forms", icon: ClipboardList },
+    { title: "Sales Orders", view: "sales-orders", icon: Store },
+    { title: "Business Proposals", view: "business-proposals", icon: Building },
+    { title: "Bids", view: "bids", icon: Zap },
+    { title: "Contracts", view: "contracts", icon: File },
+  ]
+
+  // Productivity
+  const productivityItems = [
+    { title: "Meetings", view: "meetings", icon: Video },
+    { title: "Todo List", view: "todo-list", icon: ListTodo },
+    { title: "Notes", view: "notes", icon: StickyNote },
+    { title: "Appointments", view: "appointments", icon: Calendar },
+  ]
+
+  // Communication
   const communicationItems = [
     { title: "Messages", view: "messages", icon: MessageSquare },
     { title: "Email Settings", view: "email-settings", icon: Settings },
   ]
 
-  // Finance Items
-  const financeItems = [
-    { title: "Products", view: "products", icon: Store },
-    { title: "Expenses", view: "expenses", icon: Wallet },
-    { title: "Contracts", view: "contracts", icon: File },
+  // Analytics
+  const analyticsItems = [
+    { title: "Analytics", view: "analytics", icon: BarChart3 },
+    { title: "Admin Panel", view: "admin-panel", icon: Shield },
   ]
 
-  // E-Signature Items
-  const eSignatureItems = [
-    { title: "Documents", view: "e-signatures", icon: CheckCircle },
-    { title: "Templates", view: "esignature-templates", icon: ClipboardList },
+  // General & Support
+  const generalItems = [
+    { title: "Careers", view: "careers", icon: Users },
+    { title: "Referrals", view: "referrals", icon: Star },
+    { title: "Features", view: "features", icon: Grid },
+    { title: "FAQ & Help", view: "faq-help", icon: HelpCircle },
+    { title: "Feedback", view: "feedback", icon: MessageCircleQuestion },
+    { title: "Pricing", view: "pricing", icon: DollarSign },
+    { title: "Settings", view: "settings", icon: Settings },
   ]
 
   return (
     <Sidebar className="border-r">
       <SidebarContent className="gap-0">
         <SidebarHeader />
+
+        {/* Ver Todas as Features */}
+        <div className="px-4 py-2">
+          <AllFeaturesDialog 
+            trigger={
+              <button className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2">
+                <Grid className="h-4 w-4" />
+                Ver Todas as Features
+              </button>
+            }
+          />
+        </div>
+
+        <SidebarSeparator />
 
         <SidebarMenuSection 
           items={mainFeatures} 
@@ -91,7 +140,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
 
         <SidebarMenuSection 
-          items={coreBusinessTools} 
+          items={coreBusinessItems} 
           sectionTitle="Core Business" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
@@ -100,7 +149,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
 
         <SidebarMenuSection 
-          items={financialTools} 
+          items={financialItems} 
           sectionTitle="Financial Tools" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
@@ -109,17 +158,26 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
 
         <SidebarMenuSection 
-          items={generalItems} 
-          sectionTitle="General" 
+          items={operationsItems} 
+          sectionTitle="Operations" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
         
         <SidebarSeparator />
-        
+
         <SidebarMenuSection 
-          items={managementItems} 
-          sectionTitle="Management" 
+          items={documentsItems} 
+          sectionTitle="Documents & Forms" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+
+        <SidebarMenuSection 
+          items={productivityItems} 
+          sectionTitle="Productivity" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
@@ -136,52 +194,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
         
         <SidebarMenuSection 
-          items={financeItems} 
-          sectionTitle="Finance" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={eSignatureItems} 
-          sectionTitle="E-Signatures" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-
-        <SidebarMenuSection 
-          items={operationsTools} 
-          sectionTitle="Operations" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-
-        <SidebarMenuSection 
-          items={documentsTools} 
-          sectionTitle="Documents" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-
-        <SidebarMenuSection 
-          items={productivityTools} 
-          sectionTitle="Productivity" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarSeparator />
-        
-        <SidebarMenuSection 
-          items={analytics} 
+          items={analyticsItems} 
           sectionTitle="Analytics" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
@@ -190,8 +203,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
         
         <SidebarMenuSection 
-          items={systemTools} 
-          sectionTitle="System Tools" 
+          items={generalItems} 
+          sectionTitle="General & Support" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />

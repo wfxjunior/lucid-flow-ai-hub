@@ -8,6 +8,50 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Configuração para múltiplas moedas baseada na localização
+const getCurrencyByCountry = (country?: string) => {
+  const currencyMap: { [key: string]: string } = {
+    'BR': 'brl',
+    'US': 'usd',
+    'CA': 'cad',
+    'GB': 'gbp',
+    'EU': 'eur',
+    'DE': 'eur',
+    'FR': 'eur',
+    'IT': 'eur',
+    'ES': 'eur',
+    'AU': 'aud',
+    'JP': 'jpy',
+    'MX': 'mxn',
+    'AR': 'ars',
+    'CL': 'clp',
+    'CO': 'cop',
+    'PE': 'pen',
+  };
+  
+  return currencyMap[country?.toUpperCase() || ''] || 'usd';
+};
+
+// Multiplicadores de preço por moeda (baseado no poder de compra)
+const getPriceMultiplier = (currency: string) => {
+  const multipliers: { [key: string]: number } = {
+    'usd': 1,
+    'brl': 5.2,  // Real brasileiro
+    'eur': 0.92, // Euro
+    'gbp': 0.79, // Libra esterlina
+    'cad': 1.36, // Dólar canadense
+    'aud': 1.52, // Dólar australiano
+    'jpy': 149,  // Iene japonês
+    'mxn': 17,   // Peso mexicano
+    'ars': 350,  // Peso argentino
+    'clp': 900,  // Peso chileno
+    'cop': 4000, // Peso colombiano
+    'pen': 3.7,  // Sol peruano
+  };
+  
+  return multipliers[currency] || 1;
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -28,13 +72,20 @@ serve(async (req) => {
       throw new Error("User not authenticated or email not available");
     }
 
-    const { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling } = await req.json();
+    const { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling, country } = await req.json();
     
-    console.log('Checkout request:', { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling });
+    console.log('Checkout request:', { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling, country });
     
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
+
+    // Detectar moeda baseada no país
+    const currency = getCurrencyByCountry(country);
+    const priceMultiplier = getPriceMultiplier(currency);
+    const localizedPrice = Math.round(priceAmount * priceMultiplier);
+
+    console.log('Localized pricing:', { currency, priceMultiplier, localizedPrice });
 
     // Check if customer exists
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
@@ -52,12 +103,12 @@ serve(async (req) => {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: currency,
             product_data: { 
               name: planName,
               description: `FeatherBiz ${planName} - AI Business Automation Platform`
             },
-            unit_amount: priceAmount,
+            unit_amount: localizedPrice,
             ...(recurring && { 
               recurring: { 
                 interval: annualBilling ? 'year' : 'month' 
@@ -74,10 +125,24 @@ serve(async (req) => {
         user_id: user.id,
         plan_id: planId,
         plan_name: planName,
-        billing_period: annualBilling ? 'annual' : 'monthly'
+        billing_period: annualBilling ? 'annual' : 'monthly',
+        currency: currency,
+        original_price_usd: priceAmount
       },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
+      automatic_tax: {
+        enabled: true,
+      },
+      // Configurações para pagamentos internacionais
+      payment_method_types: ['card'],
+      // Aceitar múltiplos métodos de pagamento por região
+      ...(currency === 'brl' && {
+        payment_method_types: ['card', 'boleto'],
+      }),
+      ...(currency === 'eur' && {
+        payment_method_types: ['card', 'sepa_debit', 'ideal', 'bancontact'],
+      }),
     };
 
     // Add trial period for subscriptions
@@ -88,6 +153,7 @@ serve(async (req) => {
           user_id: user.id,
           plan_id: planId,
           plan_name: planName,
+          currency: currency,
         }
       };
       console.log('Added trial period:', trialPeriodDays, 'days');
