@@ -20,6 +20,7 @@ import { SidebarProvider, useSidebar, SidebarTrigger } from "@/components/ui/sid
 import { LandingSidebar } from "@/components/LandingSidebar"
 import { HelpCenter } from "@/components/HelpCenter"
 import { SiteInfoSideMenu } from "@/components/SiteInfoSideMenu"
+import { EssentialSideMenu } from "@/components/EssentialSideMenu"
 
 export default function LandingPage() {
   const navigate = useNavigate()
@@ -461,9 +462,8 @@ export default function LandingPage() {
       <div className="flex-1">
         {MainContent}
       </div>
-      {/* Overlay Side Menu for Info */}
-      {/* This keeps the menu always accessible but never intrusive */}
-      <SiteInfoSideMenu />
+      {/* Overlay Side Menu for Info (now with improved UI/UX) */}
+      <EssentialSideMenu />
       {/* Footer */}
       <footer className="bg-background border-t py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
