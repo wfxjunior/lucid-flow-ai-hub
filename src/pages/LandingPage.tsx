@@ -435,146 +435,129 @@ export default function LandingPage() {
   )
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen w-full flex flex-row bg-background">
-        {/* Sidebar desktop/Large */}
-        <div className="hidden md:block">
-          <LandingSidebar />
+    <div className="min-h-screen w-full flex flex-col bg-background">
+      {/* Header (logo, sign in, helpcenter removido) */}
+      <header className="w-full border-b shadow-sm bg-white/90 sticky top-0 z-30">
+        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2">
+            <Feather size={28} className="text-blue-700" strokeWidth={2.1} />
+            <span className="ml-1 text-xl font-bold text-blue-800 tracking-tight">FeatherBiz</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-blue-100 text-blue-800 font-medium px-5"
+              onClick={() => navigate('/auth')}
+            >
+              Sign in
+            </Button>
+          </div>
         </div>
-        {/* Sidebar trigger on mobile */}
-        <div className="md:hidden fixed top-3 left-3 z-40">
-          <SidebarTrigger />
-        </div>
-        {/* Página central, ocupa o espaço sem sidebar ou ajusta margem lateral */}
-        <main className="flex-1 flex flex-col min-h-screen">
-          {/* Header (logo, sign in, helpcenter removido) */}
-          <header className="w-full border-b shadow-sm bg-white/90 sticky top-0 z-30">
-            <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-              <div className="flex items-center gap-2">
-                <Feather size={28} className="text-blue-700" strokeWidth={2.1} />
-                <span className="ml-1 text-xl font-bold text-blue-800 tracking-tight">FeatherBiz</span>
+      </header>
+      {/* Conteúdo principal */}
+      <div className="flex-1">
+        {MainContent}
+      </div>
+      {/* Footer */}
+      <footer className="bg-background border-t py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8 sm:mb-12">
+            <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+              <div className="flex flex-col space-y-2 mb-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full border-blue-100 text-blue-800 font-medium px-5"
-                  onClick={() => navigate('/auth')}
-                >
-                  Sign in
-                </Button>
-                {/* Removido o botão Help Center */}
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                The complete business management platform designed for modern entrepreneurs and growing companies.
+              </p>
+              <div className="flex items-center space-x-4">
+                <LanguageSelector />
               </div>
             </div>
-          </header>
 
-          {/* Conteúdo principal */}
-          <div className="flex-1">
-            {MainContent}
+            <div>
+              <h4 className="font-semibold mb-4 text-foreground">Platform</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
+                <li>
+                  <Link 
+                    to="/features-overview" 
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {useLanguage().t("featuresOverview.link")}
+                  </Link>
+                </li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Integrations</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">API</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Security</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4 text-foreground">Support</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Help Center</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Documentation</a></li>
+                <li><Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Community</a></li>
+                <li><Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
+                <li><Link to="/feedback" className="text-muted-foreground hover:text-primary transition-colors">Feedback</Link></li>
+                <li><Link to="/referrals" className="text-muted-foreground hover:text-primary transition-colors">Referrals</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4 text-foreground">Resources</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Case Studies</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Guides</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Webinars</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4 text-foreground">Company</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Press</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Partners</a></li>
+              </ul>
+            </div>
           </div>
 
-          {/* Footer */}
-          <footer className="bg-background border-t py-12 sm:py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8 sm:mb-12">
-                <div className="col-span-1 sm:col-span-2 lg:col-span-1">
-                  <div className="flex flex-col space-y-2 mb-4">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 flex items-center justify-center">
-                        <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                    The complete business management platform designed for modern entrepreneurs and growing companies.
-                  </p>
-                  <div className="flex items-center space-x-4">
-                    <LanguageSelector />
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-4 text-foreground">Platform</h4>
-                  <ul className="space-y-2 text-sm">
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
-                    <li>
-                      <Link 
-                        to="/features-overview" 
-                        className="text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        {useLanguage().t("featuresOverview.link")}
-                      </Link>
-                    </li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Integrations</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">API</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Security</a></li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-4 text-foreground">Support</h4>
-                  <ul className="space-y-2 text-sm">
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Help Center</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Documentation</a></li>
-                    <li><Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Community</a></li>
-                    <li><Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
-                    <li><Link to="/feedback" className="text-muted-foreground hover:text-primary transition-colors">Feedback</Link></li>
-                    <li><Link to="/referrals" className="text-muted-foreground hover:text-primary transition-colors">Referrals</Link></li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-4 text-foreground">Resources</h4>
-                  <ul className="space-y-2 text-sm">
-                    <li><Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Case Studies</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Guides</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Webinars</a></li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-4 text-foreground">Company</h4>
-                  <ul className="space-y-2 text-sm">
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Press</a></li>
-                    <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Partners</a></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="border-t pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-                <p className="text-muted-foreground text-sm text-center sm:text-left">
-                  © 2025 FeatherBiz. By FX American Group.
-                </p>
-                <div className="flex items-center space-x-6">
-                  <a href="https://www.instagram.com/featherbiz/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                    <Facebook className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                    <Youtube className="w-5 h-5" />
-                  </a>
-                </div>
-                {/* HelpCenter movido para o footer */}
-                <div className="mt-4 sm:mt-0">
-                  <HelpCenter variant="outline" />
-                </div>
-              </div>
+          <div className="border-t pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <p className="text-muted-foreground text-sm text-center sm:text-left">
+              © 2025 FeatherBiz. By FX American Group.
+            </p>
+            <div className="flex items-center space-x-6">
+              <a href="https://www.instagram.com/featherbiz/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Youtube className="w-5 h-5" />
+              </a>
             </div>
-          </footer>
-        </main>
-      </div>
-    </SidebarProvider>
+            <div className="mt-4 sm:mt-0">
+              <HelpCenter variant="outline" />
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   )
 }
