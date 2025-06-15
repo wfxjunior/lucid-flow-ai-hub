@@ -3,6 +3,7 @@ import { MessagesPage } from "@/components/MessagesPage"
 import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
+import { PaymentsPage } from "@/components/PaymentsPage"
 
 interface MainContentProps {
   activeView: string
@@ -14,6 +15,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
     switch (activeView) {
       case "dashboard":
         return <ImprovedDashboard onNavigate={onNavigate} />
+      case "careers":
+        return <CareersPage />
       case "customers":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Customers</h1>
@@ -23,11 +26,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Projects</h1>
           <p>Project management coming soon...</p>
-        </div>
-      case "project-timeline":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Project Timeline</h1>
-          <p>Project timeline coming soon...</p>
         </div>
       case "appointments":
         return <div className="p-6">
@@ -44,16 +42,17 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
           <h1 className="text-2xl font-bold mb-4">Tasks</h1>
           <p>Task management coming soon...</p>
         </div>
+      case "messages":
+        return <MessagesPage />
+      case "email-settings":
+        return <EmailSettingsPage />
       case "products":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Products</h1>
           <p>Product catalog coming soon...</p>
         </div>
       case "payments":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Payments</h1>
-          <p>Payment tracking coming soon...</p>
-        </div>
+        return <PaymentsPage />
       case "expenses":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Expenses</h1>
@@ -74,16 +73,15 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
           <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
           <p>Document templates coming soon...</p>
         </div>
-      case "messages":
-        return <MessagesPage />
-      case "email-settings":
-        return <EmailSettingsPage />
-      case "careers":
-        return <CareersPage />
       case "customer-management":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Customer Management</h1>
           <p>Customer management coming soon...</p>
+        </div>
+      case "project-timeline":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Project Timeline</h1>
+          <p>Project timeline coming soon...</p>
         </div>
       case "pipeline":
         return <div className="p-6">
