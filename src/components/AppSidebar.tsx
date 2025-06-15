@@ -41,11 +41,11 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     setActiveView(view)
   }
 
-  // Convert SidebarMenuItem to MenuItem format - ensuring consistency
+  // Convert SidebarMenuItem to MenuItem format - using original URLs
   const convertToMenuItems = (items: any[]) => {
     return items?.map(item => ({
       ...item,
-      view: item.url || item.title.toLowerCase().replace(/\s+/g, '-')
+      view: item.url // Use the url directly as the view
     })) || []
   }
 

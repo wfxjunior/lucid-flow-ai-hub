@@ -15,7 +15,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "dashboard":
         return <ImprovedDashboard onNavigate={onNavigate} />
       case "customers":
-      case "customer-management":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Customers</h1>
           <p>Customer management coming soon...</p>
@@ -41,7 +40,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
           <p>Invoice management coming soon...</p>
         </div>
       case "tasks":
-      case "todo-list":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Tasks</h1>
           <p>Task management coming soon...</p>
@@ -82,6 +80,11 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <EmailSettingsPage />
       case "careers":
         return <CareersPage />
+      case "customer-management":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Customer Management</h1>
+          <p>Customer management coming soon...</p>
+        </div>
       case "pipeline":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Sales Pipeline</h1>
@@ -181,6 +184,11 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Notes</h1>
           <p>Notes management coming soon...</p>
+        </div>
+      case "todo-list":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">To-Do List</h1>
+          <p>Task management coming soon...</p>
         </div>
       default:
         return <div className="p-6">
