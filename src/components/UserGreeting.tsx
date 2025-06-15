@@ -198,7 +198,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleProfileClick}>
               <User className="mr-2 h-4 w-4" />
-              <span>Perfil</span>
+              <span>Profile</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
