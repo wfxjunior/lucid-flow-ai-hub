@@ -260,10 +260,11 @@ export default function LandingPage() {
           <p className="text-lg text-muted-foreground text-center mb-6">
             The all-in-one platform that helps you manage clients, projects, and payments. Start your free trial and see results in 24 hours.
           </p>
-          <div className="flex gap-4 w-full justify-center">
+          {/* Botões em coluna, bem espaçados */}
+          <div className="flex flex-col w-full items-center gap-4">
             <Button
               size="lg"
-              className="rounded-full bg-blue-700 hover:bg-blue-800 text-white font-medium px-8 h-12 text-base shadow transition-all duration-200"
+              className="rounded-full bg-blue-700 hover:bg-blue-800 text-white font-medium px-8 h-12 text-base shadow transition-all duration-200 w-full"
               onClick={() => navigate('/auth')}
             >
               Start Free Trial
@@ -271,7 +272,7 @@ export default function LandingPage() {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full border-2 border-blue-400 text-blue-800 font-medium px-8 h-12 text-base transition-all duration-200 flex items-center gap-2"
+              className="rounded-full border-2 border-blue-400 text-blue-800 font-medium px-8 h-12 text-base transition-all duration-200 flex items-center gap-2 w-full"
               onClick={() => {
                 toast({
                   title: "Demo",
