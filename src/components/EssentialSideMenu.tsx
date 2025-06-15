@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   SidebarProvider,
@@ -87,7 +86,7 @@ export function EssentialSideMenu() {
         <button
           aria-label="Abrir menu de informações"
           onClick={() => setOpen(true)}
-          className="fixed bottom-7 left-7 z-50 bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
+          className="fixed bottom-7 right-7 z-50 bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
           type="button"
           style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.10)" }}
         >
@@ -176,4 +175,3 @@ export function EssentialSideMenu() {
     </SidebarProvider>
   );
 }
-
