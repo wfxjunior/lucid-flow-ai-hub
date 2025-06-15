@@ -6,8 +6,8 @@ import { Card, CardContent } from "@/components/ui/card"
 // Import main Lucide icons
 import {
   LayoutDashboard, Bot, FileText, ClipboardCheck, CreditCard, Signature, Users, FolderKanban,
-  GanttChartSquare, Pipeline, CalendarClock, PiggyBank, Calculator, Coins, BookOpen,
-  Quote, Car, ClipboardList, Boxes, UserCog, Sync, HeartHandshake, PenTool, FileText as DocFileText,
+  GanttChartSquare, PenLine, CalendarClock, PiggyBank, Calculator, Coins, BookOpen,
+  Quote, Car, ClipboardList, Boxes, UserCog, RefreshCcw, HeartHandshake, PenTool, FileText as DocFileText,
   ArrowRightLeft, HandCoins, AlarmClock, StickyNote, MessagesSquare, Mail, BarChart3,
   ServerCog, UserPlus, Calendar, Star, SlidersHorizontal, HelpCircle, Settings2
 } from "lucide-react"
@@ -23,7 +23,7 @@ const featureIconMap: Record<string, React.ElementType> = {
   "Customer Management": Users,
   "Projects": FolderKanban,
   "Project Timeline": GanttChartSquare,
-  "Pipeline": Pipeline,
+  "Pipeline": PenLine,          // Replaced Pipeline with PenLine
   "Smart Schedule": CalendarClock,
   "FeatherBudget": PiggyBank,
   "FeatherTax": Coins,
@@ -34,7 +34,7 @@ const featureIconMap: Record<string, React.ElementType> = {
   "Work Orders": ClipboardList,
   "MatTrack": Boxes,
   "Crew Control": UserCog,
-  "EarnSync": Sync,
+  "EarnSync": RefreshCcw,       // Replaced Sync with RefreshCcw
   "AfterCare": HeartHandshake,
   "FeatherForms": PenTool,
   "Sales Orders": DocFileText,
