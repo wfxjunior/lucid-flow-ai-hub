@@ -33,7 +33,7 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
             variant="outline"
             size="sm"
             disabled={loading}
-            className="self-start sm:self-center"
+            className="self-start sm:self-center w-full sm:w-auto"
           >
             <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
             {loading ? 'Updating...' : 'Refresh'}
@@ -46,6 +46,7 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
             <Button
               onClick={() => onNavigate('ai-voice')}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 py-3"
+              size="lg"
             >
               <Mic className="h-5 w-5" />
               AI Voice Assistant
@@ -54,7 +55,8 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
               <Button
                 onClick={() => onNavigate('analytics')}
                 variant="outline"
-                className="flex items-center justify-center gap-2 py-3"
+                className="flex items-center justify-center gap-2 py-3 w-full"
+                size="sm"
               >
                 <BarChart3 className="h-4 w-4" />
                 View Analytics
@@ -62,7 +64,8 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
               <Button
                 onClick={() => onNavigate('invoice-creator')}
                 variant="outline"
-                className="flex items-center justify-center gap-2 py-3"
+                className="flex items-center justify-center gap-2 py-3 w-full"
+                size="sm"
               >
                 <Zap className="h-4 w-4" />
                 Create Invoice

@@ -49,14 +49,14 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
       </TabsList>
 
       <TabsContent value="overview" className="space-y-4">
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
           {/* Subscription Status - Full width now */}
           <div className="lg:col-span-3">
             <SubscriptionStatus onNavigate={onNavigate} />
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-7">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
           {/* Recent Activity */}
           <Card className="lg:col-span-7">
             <CardHeader>
@@ -91,7 +91,7 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
       </TabsContent>
 
       <TabsContent value="tasks" className="space-y-4">
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
           {/* Upcoming Tasks */}
           <Card>
             <CardHeader>
