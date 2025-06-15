@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   SidebarProvider,
@@ -79,33 +80,42 @@ export function EssentialSideMenu() {
     },
   ];
 
+  // Log para depuração
+  console.log("EssentialSideMenu open:", open);
+
   return (
     <SidebarProvider>
-      {/* Botão flutuante com logo feather */}
+      {/* Floating circular button (bottom right) */}
       {!open && (
         <button
           aria-label="Abrir menu de informações"
-          onClick={() => setOpen(true)}
-          className="fixed bottom-7 right-7 z-50 bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
+          onClick={() => {
+            setOpen(true);
+            console.log("Botão circular clicado! setOpen(true) chamado.");
+          }}
+          className="fixed bottom-7 right-7 z-[100] bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
           type="button"
           style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.10)" }}
         >
           <Feather className="w-7 h-7" strokeWidth={2.1} />
         </button>
       )}
-      {/* Overlay Sidebar */}
+      {/* Sidebar overlay e conteúdo */}
       {open && (
-        <div className="fixed inset-0 z-50 flex">
-          {/* Background overlay */}
+        <div className="fixed inset-0 z-[100] flex">
+          {/* Overlay escurecendo o fundo */}
           <div
             className="fixed inset-0 bg-black/30"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              console.log("Overlay clicado, fechando menu.");
+            }}
             aria-label="Fechar menu"
           />
-          {/* Sidebar Container */}
-          <Sidebar className="relative max-w-xs w-full shadow-xl z-50">
+          {/* Sidebar */}
+          <Sidebar className="relative max-w-xs w-full shadow-xl z-[110]">
             <SidebarContent>
-              {/* Header dentro do sidebar */}
+              {/* Header */}
               <div className="bg-blue-700 py-7 px-5 mb-2 rounded-b-2xl flex items-center gap-3 select-none">
                 <Feather className="w-7 h-7 text-white" strokeWidth={2.1} />
                 <span className="text-white text-2xl font-extrabold tracking-tight">
@@ -130,6 +140,7 @@ export function EssentialSideMenu() {
                             onClick={e => {
                               e.preventDefault();
                               link.onClick();
+                              console.log(`Clicou em: ${link.title}`);
                             }}
                             className="flex items-center gap-2 w-full"
                           >
@@ -142,8 +153,7 @@ export function EssentialSideMenu() {
                   </SidebarMenu>
                 </SidebarGroupContent>
               </SidebarGroup>
-
-              {/* Extra Info Section */}
+              {/* Extra Info */}
               <div className="border-t mt-6 pt-5 px-6 pb-8 text-sm">
                 <div className="mb-3">
                   <div className="flex items-center gap-2 font-semibold text-blue-700 mb-1">
@@ -162,6 +172,7 @@ export function EssentialSideMenu() {
                   onClick={() => {
                     setOpen(false);
                     window.open("/auth", "_self");
+                    console.log("Clicou em 'Try it free now'");
                   }}
                 >
                   Try it free now
