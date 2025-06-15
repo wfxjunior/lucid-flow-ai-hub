@@ -243,9 +243,9 @@ export default function LandingPage() {
 
   const handleTryItFree = () => {
     // Scroll to pricing section to show all plan options
-    const pricingSection = document.getElementById('pricing')
+    const pricingSection = document.getElementById("pricing");
     if (pricingSection) {
-      pricingSection.scrollIntoView({ behavior: 'smooth' })
+      pricingSection.scrollIntoView({ behavior: "smooth" })
     }
   }
 
@@ -276,10 +276,10 @@ export default function LandingPage() {
               size="lg"
               className="rounded-full border-2 border-blue-400 text-blue-800 font-medium px-8 h-12 text-base transition-all duration-200 flex items-center gap-2 w-full"
               onClick={() => {
-                toast({
-                  title: "Demo",
-                  description: "Demo video coming soon.",
-                })
+                const pricingSection = document.getElementById("pricing");
+                if (pricingSection) {
+                  pricingSection.scrollIntoView({ behavior: "smooth" });
+                }
               }}
             >
               <Play className="w-5 h-5 mr-1" />
