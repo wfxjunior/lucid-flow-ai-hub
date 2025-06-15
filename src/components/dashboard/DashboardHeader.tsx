@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Mic, BarChart3, Zap } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -52,7 +51,6 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
 
         {/* Action Buttons */}
         <div className="w-full flex flex-col gap-2 items-center">
-          {/* AI Voice Assistant - destaca somente em mobile; desktop mantém max-w e reduz padding */}
           <Button
             onClick={() => onNavigate('ai-voice')}
             className={`
