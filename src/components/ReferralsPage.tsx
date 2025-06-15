@@ -1,16 +1,46 @@
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Copy, Share2, Gift, Users, DollarSign, Trophy } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
+
+function generateReferralCode(email: string | null): string {
+  // Gera código determinístico, único por e-mail. Se quiser randomizar depois, pode adicionar um ID ou similar.
+  if (!email) return "ANON-" + Math.random().toString(36).substring(2, 8).toUpperCase()
+  // Simple: usa prefixo + 6 chars hash do email
+  const cleanMail = email.split("@")[0] || "user"
+  const hash = btoa(email).replace(/[^A-Z0-9]/gi, "").substring(0, 6).toUpperCase()
+  return `${cleanMail}-${hash}`
+}
 
 export function ReferralsPage() {
   const { toast } = useToast()
-  const [referralCode] = useState("FEATHER2025")
-  const [referralLink] = useState("https://featherbiz.com/signup?ref=FEATHER2025")
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [referralCode, setReferralCode] = useState<string>("")
+  const [referralLink, setReferralLink] = useState<string>("")
+
+  useEffect(() => {
+    // Busca usuário atual do Supabase
+    const fetchUserEmail = async () => {
+      const { data, error } = await supabase.auth.getUser()
+      if (error) {
+        setUserEmail(null)
+        setReferralCode("ANON-ERROR")
+        setReferralLink("https://featherbiz.com/signup")
+        return
+      }
+
+      const email = data?.user?.email ?? null
+      setUserEmail(email)
+      const code = generateReferralCode(email)
+      setReferralCode(code)
+      setReferralLink(`https://featherbiz.com/signup?ref=${code}`)
+    }
+    fetchUserEmail()
+  }, [])
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
