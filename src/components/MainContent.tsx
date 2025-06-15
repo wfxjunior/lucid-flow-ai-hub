@@ -1,4 +1,3 @@
-
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -37,6 +36,7 @@ import { AdminDashboard } from "@/components/AdminDashboard"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
 import { ReferralsPage } from "@/components/ReferralsPage"
+import { FeaturesPage } from "@/components/FeaturesPage"
 
 interface MainContentProps {
   activeView: string
@@ -160,10 +160,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "referrals":
         return <ReferralsPage />
       case "features":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Features</h1>
-          <p>Feature requests coming soon...</p>
-        </div>
+        return <FeaturesPage />
       case "faq-help":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">FAQ & Help</h1>
