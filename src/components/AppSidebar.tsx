@@ -116,13 +116,13 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarContent className="gap-0">
         <SidebarHeader />
 
-        {/* Ver Todas as Features */}
+        {/* View All Features */}
         <div className="px-4 py-2">
           <AllFeaturesDialog 
             trigger={
               <button className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2">
                 <Grid className="h-4 w-4" />
-                Ver Todas as Features
+                View All Features
               </button>
             }
           />

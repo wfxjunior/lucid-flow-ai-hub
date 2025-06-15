@@ -99,7 +99,7 @@ export function AllFeaturesDialog({ trigger }: AllFeaturesDialogProps) {
         {trigger || (
           <Button variant="outline" className="gap-2">
             <Grid className="h-4 w-4" />
-            Ver Todas as Features
+            View All Features
           </Button>
         )}
       </DialogTrigger>
@@ -107,10 +107,10 @@ export function AllFeaturesDialog({ trigger }: AllFeaturesDialogProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Grid className="h-5 w-5" />
-            Todas as Features da Plataforma
+            All Platform Features
           </DialogTitle>
           <DialogDescription>
-            Explore todas as funcionalidades disponíveis no FeatherBiz
+            Explore all the features available in FeatherBiz
           </DialogDescription>
         </DialogHeader>
 
@@ -120,7 +120,7 @@ export function AllFeaturesDialog({ trigger }: AllFeaturesDialogProps) {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Buscar features..."
+                placeholder="Search features..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -133,7 +133,7 @@ export function AllFeaturesDialog({ trigger }: AllFeaturesDialogProps) {
             >
               {categories.map(category => (
                 <option key={category} value={category}>
-                  {category === "all" ? "Todas as Categorias" : category}
+                  {category === "all" ? "All Categories" : category}
                 </option>
               ))}
             </select>
@@ -183,7 +183,7 @@ export function AllFeaturesDialog({ trigger }: AllFeaturesDialogProps) {
 
           {/* Summary */}
           <div className="text-center text-sm text-muted-foreground border-t pt-4">
-            <p>Total: {filteredFeatures.length} features encontradas</p>
+            <p>Total: {filteredFeatures.length} features found</p>
           </div>
         </div>
       </DialogContent>
