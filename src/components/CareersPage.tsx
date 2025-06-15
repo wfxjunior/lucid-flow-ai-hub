@@ -1,4 +1,3 @@
-
 import React, { useRef, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -72,40 +71,40 @@ export function CareersPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 px-2 sm:px-4 md:px-0">
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight">Careers at FeatherBiz</h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Careers at FeatherBiz</h1>
+        <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto">
           Join us on our mission to revolutionize business automation with AI.
           We are building the future of business – and we want you on the team!
         </p>
       </div>
 
       {/* Company Values */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <Card>
-          <CardContent className="p-6 text-center">
-            <Rocket className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Innovation</h3>
-            <p className="text-muted-foreground">
+          <CardContent className="p-4 sm:p-6 text-center">
+            <Rocket className="h-10 sm:h-12 w-10 sm:w-12 text-blue-500 mx-auto mb-3 sm:mb-4" />
+            <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Innovation</h3>
+            <p className="text-muted-foreground text-sm sm:text-base">
               We work with the latest technologies and continually seek to innovate
             </p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-6 text-center">
-            <Users className="h-12 w-12 text-green-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Collaboration</h3>
-            <p className="text-muted-foreground">
+          <CardContent className="p-4 sm:p-6 text-center">
+            <Users className="h-10 sm:h-12 w-10 sm:w-12 text-green-500 mx-auto mb-3 sm:mb-4" />
+            <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Collaboration</h3>
+            <p className="text-muted-foreground text-sm sm:text-base">
               We believe in the power of teamwork and mutual growth
             </p>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-6 text-center">
-            <Briefcase className="h-12 w-12 text-purple-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Impact</h3>
-            <p className="text-muted-foreground">
+          <CardContent className="p-4 sm:p-6 text-center">
+            <Briefcase className="h-10 sm:h-12 w-10 sm:w-12 text-purple-500 mx-auto mb-3 sm:mb-4" />
+            <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Impact</h3>
+            <p className="text-muted-foreground text-sm sm:text-base">
               Every line of code we write impacts thousands of businesses
             </p>
           </CardContent>
@@ -113,17 +112,17 @@ export function CareersPage() {
       </div>
 
       {/* Job Positions */}
-      <div className="space-y-6">
-        <h2 className="text-3xl font-bold text-center">Open Positions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="space-y-4 sm:space-y-6">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center">Open Positions</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {jobPositions.map((job) => {
             const IconComponent = job.icon
             return (
               <Card key={job.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <IconComponent className="h-10 w-10 text-blue-500 mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">{job.title}</h3>
-                  <p className="text-muted-foreground mb-4">{job.description}</p>
+                <CardContent className="p-4 sm:p-6">
+                  <IconComponent className="h-8 sm:h-10 w-8 sm:w-10 text-blue-500 mb-3 sm:mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{job.title}</h3>
+                  <p className="text-muted-foreground text-sm sm:text-base mb-3 sm:mb-4">{job.description}</p>
                   <Button
                     variant="outline"
                     className="w-full"
@@ -139,12 +138,12 @@ export function CareersPage() {
       </div>
 
       {/* Application Form */}
-      <Card className="max-w-2xl mx-auto">
+      <Card className="max-w-full sm:max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Application Form</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl text-center">Application Form</CardTitle>
         </CardHeader>
         <CardContent>
-          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="name">Full Name *</Label>
@@ -156,7 +155,6 @@ export function CareersPage() {
                   required
                 />
               </div>
-
               <div>
                 <Label htmlFor="email">Email *</Label>
                 <Input
@@ -230,14 +228,14 @@ export function CareersPage() {
       </Card>
 
       {/* Contact Info */}
-      <div className="text-center space-y-4 bg-muted p-8 rounded-lg">
-        <h3 className="text-2xl font-semibold">Questions?</h3>
-        <p className="text-muted-foreground">
+      <div className="text-center space-y-3 sm:space-y-4 bg-muted p-4 sm:p-8 rounded-lg">
+        <h3 className="text-xl sm:text-2xl font-semibold">Questions?</h3>
+        <p className="text-muted-foreground text-sm sm:text-base">
           Reach out to our HR team for more information
         </p>
         <a
           href="mailto:careers@featherbiz.io"
-          className="text-blue-600 hover:underline font-semibold"
+          className="text-blue-600 hover:underline font-semibold break-all"
         >
           careers@featherbiz.io
         </a>
