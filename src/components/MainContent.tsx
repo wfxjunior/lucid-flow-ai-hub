@@ -4,6 +4,7 @@ import { EmailSettingsPage } from "@/components/EmailSettingsPage"
 import { CareersPage } from "@/components/CareersPage"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { PaymentsPage } from "@/components/PaymentsPage"
+import { ESignaturesPage } from "@/components/ESignaturesPage"
 
 interface MainContentProps {
   activeView: string
@@ -15,6 +16,18 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
     switch (activeView) {
       case "dashboard":
         return <ImprovedDashboard onNavigate={onNavigate} />
+      case "ai-voice":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">AI Voice Assistant</h1>
+          <p>Voice assistant coming soon...</p>
+        </div>
+      case "invoice-creator":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Create Invoice</h1>
+          <p>Invoice creator coming soon...</p>
+        </div>
+      case "e-signatures":
+        return <ESignaturesPage />
       case "careers":
         return <CareersPage />
       case "customers":
@@ -64,14 +77,51 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
           <p>Contract management coming soon...</p>
         </div>
       case "esignatures":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">E-Signatures</h1>
-          <p>Document signing coming soon...</p>
-        </div>
+        return <ESignaturesPage />
       case "esignature-templates":
         return <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
           <p>Document templates coming soon...</p>
+        </div>
+      case "analytics":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Analytics</h1>
+          <p>Analytics dashboard coming soon...</p>
+        </div>
+      case "admin-panel":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
+          <p>Admin panel coming soon...</p>
+        </div>
+      case "referrals":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Referrals</h1>
+          <p>Referral program coming soon...</p>
+        </div>
+      case "features":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Features</h1>
+          <p>Feature requests coming soon...</p>
+        </div>
+      case "faq-help":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">FAQ & Help</h1>
+          <p>Help center coming soon...</p>
+        </div>
+      case "feedback":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Feedback</h1>
+          <p>Feedback system coming soon...</p>
+        </div>
+      case "pricing":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Pricing Plans</h1>
+          <p>Pricing plans coming soon...</p>
+        </div>
+      case "settings":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Settings</h1>
+          <p>Settings page coming soon...</p>
         </div>
       case "customer-management":
         return <div className="p-6">

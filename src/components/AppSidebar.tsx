@@ -17,6 +17,9 @@ import {
   documentsTools, 
   productivityTools 
 } from "@/components/sidebar/businessToolsData"
+import { mainFeatures } from "@/components/sidebar/mainFeaturesData"
+import { analytics } from "@/components/sidebar/analyticsData"
+import { systemTools } from "@/components/sidebar/systemToolsData"
 
 interface AppSidebarProps {
   activeView: string
@@ -53,6 +56,15 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     <Sidebar className="border-r">
       <SidebarContent className="gap-0">
         <SidebarHeader />
+
+        <SidebarMenuSection 
+          items={mainFeatures} 
+          sectionTitle="Main Features" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
 
         {generalSection && (
           <SidebarMenuSection 
@@ -110,6 +122,15 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarSeparator />
         
         <SidebarMenuSection 
+          items={analytics} 
+          sectionTitle="Analytics" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+        
+        <SidebarMenuSection 
           items={coreBusinessTools} 
           sectionTitle={t("sidebar.coreBusiness")} 
           activeView={activeView}
@@ -148,6 +169,15 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarMenuSection 
           items={productivityTools} 
           sectionTitle={t("sidebar.productivity")} 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarSeparator />
+        
+        <SidebarMenuSection 
+          items={systemTools} 
+          sectionTitle="System Tools" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
