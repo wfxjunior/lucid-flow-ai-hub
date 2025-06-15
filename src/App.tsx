@@ -19,6 +19,9 @@ import Careers from '@/pages/Careers'
 import Press from '@/pages/Press'
 import Partners from '@/pages/Partners'
 import { SidebarProvider } from "@/components/ui/sidebar"
+import LandingPage from '@/pages/LandingPage'
+import FeaturesOverview from '@/pages/FeaturesOverview'
+import EditionsPage from '@/pages/EditionsPage'
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   // For now, we'll just return children since we're using the Index page with its own auth
@@ -35,7 +38,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Nova rota para a landing page */}
         <Route
           path="/landing"
           element={
@@ -46,9 +48,7 @@ function App() {
         />
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<Auth />} />
-        {/* Features Overview Page */}
         <Route path="/features-overview" element={<FeaturesOverview />} />
-        {/* Nova rota para edições */}
         <Route path="/edicoes" element={<EditionsPage />} />
         <Route 
           path="/car-rental" 
