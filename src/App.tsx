@@ -5,6 +5,7 @@ import { ResponsiveMatTrackPage } from '@/components/ResponsiveMatTrackPage'
 import Index from '@/pages/Index'
 import Auth from '@/pages/Auth'
 import FeaturesOverview from '@/pages/FeaturesOverview'
+import LandingPage from '@/pages/LandingPage'
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   // For now, we'll just return children since we're using the Index page with its own auth
@@ -21,6 +22,8 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Nova rota para a landing page */}
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<Auth />} />
         {/* Features Overview Page */}
