@@ -263,7 +263,7 @@ export default function LandingPage() {
           <div className="flex gap-4 w-full justify-center">
             <Button
               size="lg"
-              className="rounded-full bg-blue-700 hover:bg-blue-800 text-white font-medium px-8 shadow"
+              className="rounded-full bg-blue-700 hover:bg-blue-800 text-white font-medium px-8 h-12 text-base shadow transition-all duration-200"
               onClick={() => navigate('/auth')}
             >
               Start Free Trial
@@ -271,7 +271,7 @@ export default function LandingPage() {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full border-blue-300 text-blue-800 font-medium px-8"
+              className="rounded-full border-2 border-blue-400 text-blue-800 font-medium px-8 h-12 text-base transition-all duration-200 flex items-center gap-2"
               onClick={() => {
                 toast({
                   title: "Demo",
@@ -279,8 +279,8 @@ export default function LandingPage() {
                 })
               }}
             >
-              <Play className="w-4 h-4 mr-1" />
-              Watch Demo
+              <Play className="w-5 h-5 mr-1" />
+              <span>Watch Demo</span>
             </Button>
           </div>
         </div>
