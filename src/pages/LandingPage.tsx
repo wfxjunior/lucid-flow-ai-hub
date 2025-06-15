@@ -1,4 +1,3 @@
-
 import React from "react";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingHeroSection } from "@/components/landing/LandingHeroSection";
@@ -9,6 +8,7 @@ import { LandingPricingSection } from "@/components/landing/LandingPricingSectio
 import { LandingCTASection } from "@/components/landing/LandingCTASection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { EssentialSideMenu } from "@/components/EssentialSideMenu";
+import { LandingBusinessMetricsSection } from "@/components/landing/LandingBusinessMetricsSection";
 
 export default function LandingPage() {
   return (
@@ -19,6 +19,7 @@ export default function LandingPage() {
         <LandingTrustIndicators />
         <LandingFeaturesSection />
         <LandingTestimonialsSection />
+        <LandingBusinessMetricsSection />
         <LandingPricingSection />
         <LandingCTASection />
       </main>
