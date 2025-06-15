@@ -36,179 +36,158 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
   // Main Features
   const mainFeatures = [
-    { title: "Dashboard", view: "dashboard", icon: Home },
-    { title: "AI Voice", view: "ai-voice", icon: Mic },
-    { title: "Create Invoice", view: "invoice-creator", icon: FileText },
-    { title: "Estimates", view: "estimates", icon: Calculator },
-    { title: "Payments", view: "payments", icon: CreditCard },
-    { title: "E-Signatures", view: "e-signatures", icon: Signature },
+    { title: t("sidebar.mainFeatures.dashboard", "Dashboard"), view: "dashboard", icon: Home },
+    { title: t("sidebar.mainFeatures.aiVoice", "AI Voice"), view: "ai-voice", icon: Mic },
+    { title: t("sidebar.mainFeatures.createInvoice", "Create Invoice"), view: "invoice-creator", icon: FileText },
+    { title: t("sidebar.mainFeatures.estimates", "Estimates"), view: "estimates", icon: Calculator },
+    { title: t("sidebar.mainFeatures.payments", "Payments"), view: "payments", icon: CreditCard },
+    { title: t("sidebar.mainFeatures.esignatures", "E-Signatures"), view: "e-signatures", icon: Signature },
   ]
 
   // Core Business
   const coreBusinessItems = [
-    { title: "Customers", view: "customers", icon: Users },
-    { title: "Projects", view: "projects", icon: Briefcase },
-    { title: "Pipeline", view: "pipeline", icon: TrendingUp },
-    { title: "Smart Schedule", view: "smart-schedule", icon: Calendar },
+    { title: t("sidebar.coreBusiness.customers", "Customers"), view: "customers", icon: Users },
+    { title: t("sidebar.coreBusiness.projects", "Projects"), view: "projects", icon: Briefcase },
+    { title: t("sidebar.coreBusiness.pipeline", "Pipeline"), view: "pipeline", icon: TrendingUp },
+    { title: t("sidebar.coreBusiness.smartSchedule", "Smart Schedule"), view: "smart-schedule", icon: Calendar },
   ]
 
   // Financial Tools
   const financialItems = [
-    { title: "FeatherBudget", view: "feather-budget", icon: PiggyBank },
-    { title: "FeatherTax", view: "feather-tax", icon: FileCheck },
-    { title: "EasyCalc", view: "easy-calc", icon: Calculator },
-    { title: "Accounting", view: "accounting", icon: DollarSign },
-    { title: "Quotes", view: "quotes", icon: FileText },
+    { title: t("sidebar.financialTools.featherBudget", "FeatherBudget"), view: "feather-budget", icon: PiggyBank },
+    { title: t("sidebar.financialTools.featherTax", "FeatherTax"), view: "feather-tax", icon: FileCheck },
+    { title: t("sidebar.financialTools.easyCalc", "EasyCalc"), view: "easy-calc", icon: Calculator },
+    { title: t("sidebar.financialTools.accounting", "Accounting"), view: "accounting", icon: DollarSign },
+    { title: t("sidebar.financialTools.quotes", "Quotes"), view: "quotes", icon: FileText },
   ]
 
   // Operations
   const operationsItems = [
-    { title: "Car Rental", view: "car-rental", icon: Truck },
-    { title: "Work Orders", view: "work-orders", icon: Wrench },
-    { title: "MatTrack", view: "mat-track", icon: Package },
-    { title: "Crew Control", view: "crew-control", icon: UserCheck },
-    { title: "EarnSync", view: "earnsync", icon: DollarSign },
-    { title: "AfterCare", view: "aftercare", icon: Heart },
+    { title: t("sidebar.operations.carRental", "Car Rental"), view: "car-rental", icon: Truck },
+    { title: t("sidebar.operations.workOrders", "Work Orders"), view: "work-orders", icon: Wrench },
+    { title: t("sidebar.operations.matTrack", "MatTrack"), view: "mat-track", icon: Package },
+    { title: t("sidebar.operations.crewControl", "Crew Control"), view: "crew-control", icon: UserCheck },
+    { title: t("sidebar.operations.earnsync", "EarnSync"), view: "earnsync", icon: DollarSign },
+    { title: t("sidebar.operations.aftercare", "AfterCare"), view: "aftercare", icon: Heart },
   ]
 
   // Documents & Forms
   const documentsItems = [
-    { title: "FeatherForms", view: "feather-forms", icon: ClipboardList },
-    { title: "Sales Orders", view: "sales-orders", icon: Store },
-    { title: "Business Proposals", view: "business-proposals", icon: Building },
-    { title: "Bids", view: "bids", icon: Zap },
-    { title: "Contracts", view: "contracts", icon: File },
+    { title: t("sidebar.documents.featherForms", "FeatherForms"), view: "feather-forms", icon: ClipboardList },
+    { title: t("sidebar.documents.salesOrders", "Sales Orders"), view: "sales-orders", icon: Store },
+    { title: t("sidebar.documents.businessProposals", "Business Proposals"), view: "business-proposals", icon: Building },
+    { title: t("sidebar.documents.bids", "Bids"), view: "bids", icon: Zap },
+    { title: t("sidebar.documents.contracts", "Contracts"), view: "contracts", icon: File },
   ]
 
   // Productivity
   const productivityItems = [
-    { title: "Meetings", view: "meetings", icon: Video },
-    { title: "Todo List", view: "todo-list", icon: ListTodo },
-    { title: "Notes", view: "notes", icon: StickyNote },
-    { title: "Appointments", view: "appointments", icon: Calendar },
+    { title: t("sidebar.productivity.meetings", "Meetings"), view: "meetings", icon: Video },
+    { title: t("sidebar.productivity.todoList", "Todo List"), view: "todo-list", icon: ListTodo },
+    { title: t("sidebar.productivity.notes", "Notes"), view: "notes", icon: StickyNote },
+    { title: t("sidebar.productivity.appointments", "Appointments"), view: "appointments", icon: Calendar },
   ]
 
   // Communication
   const communicationItems = [
-    { title: "Messages", view: "messages", icon: MessageSquare },
-    { title: "Email Settings", view: "email-settings", icon: Settings },
+    { title: t("sidebar.communication.messages", "Messages"), view: "messages", icon: MessageSquare },
+    { title: t("sidebar.communication.emailSettings", "Email Settings"), view: "email-settings", icon: Settings },
   ]
 
   // Analytics
   const analyticsItems = [
-    { title: "Analytics", view: "analytics", icon: BarChart3 },
-    { title: "Admin Panel", view: "admin-panel", icon: Shield },
+    { title: t("sidebar.analytics.analytics", "Analytics"), view: "analytics", icon: BarChart3 },
+    { title: t("sidebar.analytics.adminPanel", "Admin Panel"), view: "admin-panel", icon: Shield },
   ]
 
   // General & Support
   const generalItems = [
-    { title: "Careers", view: "careers", icon: Users },
-    { title: "Referrals", view: "referrals", icon: Star },
-    { title: "Features", view: "features", icon: Grid },
-    { title: "FAQ & Help", view: "faq-help", icon: HelpCircle },
-    { title: "Feedback", view: "feedback", icon: MessageCircleQuestion },
-    { title: "Pricing", view: "pricing", icon: DollarSign },
-    { title: "Settings", view: "settings", icon: Settings },
+    { title: t("sidebar.general.careers", "Careers"), view: "careers", icon: Users },
+    { title: t("sidebar.general.referrals", "Referrals"), view: "referrals", icon: Star },
+    { title: t("sidebar.general.features", "Features"), view: "features", icon: Grid },
+    { title: t("sidebar.general.faqHelp", "FAQ & Help"), view: "faq-help", icon: HelpCircle },
+    { title: t("sidebar.general.feedback", "Feedback"), view: "feedback", icon: MessageCircleQuestion },
+    { title: t("sidebar.general.pricing", "Pricing"), view: "pricing", icon: DollarSign },
+    { title: t("sidebar.general.settings", "Settings"), view: "settings", icon: Settings },
   ]
 
   return (
     <Sidebar className="border-r">
       <SidebarContent className="gap-0">
         <SidebarHeader />
-
-        {/* View All Features */}
         <div className="px-4 py-2">
           <AllFeaturesDialog 
             trigger={
               <button className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2">
                 <Grid className="h-4 w-4" />
-                View All Features
+                {t("sidebar.allFeatures", "View All Features")}
               </button>
             }
           />
         </div>
         <SidebarSeparator />
-
         <SidebarMenuSection 
           items={mainFeatures} 
-          sectionTitle="Main Features" 
+          sectionTitle={t("sidebarSections.mainFeatures", "Main Features")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-
         <SidebarMenuSection 
           items={coreBusinessItems} 
-          sectionTitle="Core Business" 
+          sectionTitle={t("sidebarSections.coreBusiness", "Core Business")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-
         <SidebarMenuSection 
           items={financialItems} 
-          sectionTitle="Financial Tools" 
+          sectionTitle={t("sidebarSections.financialTools", "Financial Tools")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-
         <SidebarMenuSection 
           items={operationsItems} 
-          sectionTitle="Operations" 
+          sectionTitle={t("sidebarSections.operations", "Operations")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-
         <SidebarMenuSection 
           items={documentsItems} 
-          sectionTitle="Documents & Forms" 
+          sectionTitle={t("sidebarSections.documentsAndForms", "Documents & Forms")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-
         <SidebarMenuSection 
           items={productivityItems} 
-          sectionTitle="Productivity" 
+          sectionTitle={t("sidebarSections.productivity", "Productivity")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-        
         <SidebarMenuSection 
           items={communicationItems} 
-          sectionTitle="Communication" 
+          sectionTitle={t("sidebarSections.communication", "Communication")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-        
         <SidebarMenuSection 
           items={analyticsItems} 
-          sectionTitle="Analytics" 
+          sectionTitle={t("sidebarSections.analytics", "Analytics")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        
         <SidebarSeparator />
-        
         <SidebarMenuSection 
           items={generalItems} 
-          sectionTitle="General & Support" 
+          sectionTitle={t("sidebarSections.generalSupport", "General & Support")}
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-
-        {/* Mover Help Center para o fim do sidebar, abaixo da última seção */}
         <div className="px-4 pt-3 pb-4">
           <HelpCenter 
             variant="outline"

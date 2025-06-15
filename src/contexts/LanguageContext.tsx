@@ -1,4 +1,3 @@
-
 import React, {
   createContext,
   useContext,
@@ -36,6 +35,68 @@ const translations = {
       fromLastMonth: "from last month"
     },
     sidebar: {
+      mainFeatures: {
+        dashboard: "Dashboard",
+        aiVoice: "AI Voice",
+        createInvoice: "Create Invoice",
+        estimates: "Estimates",
+        payments: "Payments",
+        esignatures: "E-Signatures"
+      },
+      coreBusiness: {
+        customers: "Customers",
+        projects: "Projects",
+        pipeline: "Pipeline",
+        smartSchedule: "Smart Schedule"
+      },
+      financialTools: {
+        featherBudget: "FeatherBudget",
+        featherTax: "FeatherTax",
+        easyCalc: "EasyCalc",
+        accounting: "Accounting",
+        quotes: "Quotes"
+      },
+      operations: {
+        carRental: "Car Rental",
+        workOrders: "Work Orders",
+        matTrack: "MatTrack",
+        crewControl: "Crew Control",
+        earns: "EarnSync",
+        aftercare: "AfterCare"
+      },
+      documents: {
+        featherForms: "FeatherForms",
+        salesOrders: "Sales Orders",
+        businessProposals: "Business Proposals",
+        bids: "Bids",
+        contracts: "Contracts"
+      },
+      productivity: {
+        meetings: "Meetings",
+        todoList: "Todo List",
+        notes: "Notes",
+        appointments: "Appointments"
+      },
+      communication: {
+        messages: "Messages",
+        emailSettings: "Email Settings"
+      },
+      analytics: {
+        analytics: "Analytics",
+        adminPanel: "Admin Panel"
+      },
+      general: {
+        careers: "Careers",
+        referrals: "Referrals",
+        features: "Features",
+        faqHelp: "FAQ & Help",
+        feedback: "Feedback",
+        pricing: "Pricing",
+        settings: "Settings"
+      },
+      allFeatures: "View All Features"
+    },
+    sidebarSections: {
       mainFeatures: "Main Features",
       coreBusiness: "Core Business",
       financialTools: "Financial Tools",
@@ -44,21 +105,24 @@ const translations = {
       productivity: "Productivity",
       communication: "Communication",
       analytics: "Analytics",
-      integrations: "Integrations",
-      system: "System",
-      aiVoice: "AI Voice",
-      createInvoice: "Create Invoice",
-      esignatures: "E-Signatures",
-      customers: "Customers",
-      projects: "Projects",
-      projectTimeline: "Project Timeline",
-      salesPipeline: "Sales Pipeline",
-      featherBudget: "FeatherBudget AI",
-      featherTax: "FeatherTax",
-      easyCalc: "EasyCalc",
-      accounting: "Accounting",
-      quotes: "Quotes",
-      estimates: "Estimates"
+      generalSupport: "General & Support"
+    },
+    userGreeting: {
+      welcome: "Welcome to FeatherBiz",
+      signIn: "Sign in",
+      profile: "Profile",
+      signOut: "Sign out",
+      signingOut: "Signing out...",
+      hello: "Hello, {{name}}!"
+    },
+    dashboardHeader: {
+      title: "Business Dashboard",
+      welcome: "Welcome back! Here's what's happening with your business today.",
+      updating: "Updating...",
+      refresh: "Refresh",
+      aiVoiceAssistant: "AI Voice Assistant",
+      viewAnalytics: "View Analytics",
+      createInvoice: "Create Invoice"
     },
     notes: {
       title: "Notes",
@@ -114,29 +178,66 @@ const translations = {
       fromLastMonth: "vom letzten Monat"
     },
     sidebar: {
-      mainFeatures: "Hauptfunktionen",
-      coreBusiness: "Kerngeschäft",
-      financialTools: "Finanztools",
-      operations: "Betrieb",
-      documentsAndForms: "Dokumente & Formulare",
-      productivity: "Produktivität",
-      communication: "Kommunikation",
-      analytics: "Analytics",
-      integrations: "Integrationen",
-      system: "System",
-      aiVoice: "KI Stimme",
-      createInvoice: "Rechnung erstellen",
-      esignatures: "E-Signaturen",
-      customers: "Kunden",
-      projects: "Projekte",
-      projectTimeline: "Projektzeitplan",
-      salesPipeline: "Verkaufspipeline",
-      featherBudget: "FeatherBudget KI",
-      featherTax: "FeatherTax",
-      easyCalc: "EasyCalc",
-      accounting: "Buchhaltung",
-      quotes: "Angebote",
-      estimates: "Kostenvoranschläge"
+      mainFeatures: {
+        dashboard: "Dashboard",
+        aiVoice: "KI Stimme",
+        createInvoice: "Rechnung erstellen",
+        estimates: "Kostenvoranschläge",
+        payments: "Bezahlungen",
+        esignatures: "E-Signaturen"
+      },
+      coreBusiness: {
+        customers: "Kunden",
+        projects: "Projekte",
+        pipeline: "Verkaufspipeline",
+        smartSchedule: "Smart Schedule"
+      },
+      financialTools: {
+        featherBudget: "FeatherBudget KI",
+        featherTax: "FeatherTax",
+        easyCalc: "EasyCalc",
+        accounting: "Buchhaltung",
+        quotes: "Angebote"
+      },
+      operations: {
+        carRental: "Autovermietung",
+        workOrders: "Aufträge",
+        matTrack: "MatTrack",
+        crewControl: "Crew Control",
+        earns: "EarnSync",
+        aftercare: "Nachhilfe"
+      },
+      documents: {
+        featherForms: "FeatherForms",
+        salesOrders: "Verkaufsbestellungen",
+        businessProposals: "Unternehmensvorschläge",
+        bids: "Angebote",
+        contracts: "Verträge"
+      },
+      productivity: {
+        meetings: "Sitzungen",
+        todoList: "To-Do-Liste",
+        notes: "Notizen",
+        appointments: "Termine"
+      },
+      communication: {
+        messages: "Nachrichten",
+        emailSettings: "E-Mail-Einstellungen"
+      },
+      analytics: {
+        analytics: "Analytics",
+        adminPanel: "Admin-Panel"
+      },
+      general: {
+        careers: "Karrieren",
+        referrals: "Empfehlungen",
+        features: "Funktionen",
+        faqHelp: "FAQ & Hilfe",
+        feedback: "Feedback",
+        pricing: "Preise",
+        settings: "Einstellungen"
+      },
+      allFeatures: "Alle Funktionen anzeigen"
     },
     notes: {
       title: "Notizen",
@@ -192,29 +293,66 @@ const translations = {
       fromLastMonth: "du mois dernier"
     },
     sidebar: {
-      mainFeatures: "Fonctionnalités principales",
-      coreBusiness: "Cœur de métier",
-      financialTools: "Outils financiers",
-      operations: "Opérations",
-      documentsAndForms: "Documents et formulaires",
-      productivity: "Productivité",
-      communication: "Communication",
-      analytics: "Analyses",
-      integrations: "Intégrations",
-      system: "Système",
-      aiVoice: "Voix IA",
-      createInvoice: "Créer une facture",
-      esignatures: "Signatures électroniques",
-      customers: "Clients",
-      projects: "Projets",
-      projectTimeline: "Chronologie du projet",
-      salesPipeline: "Pipeline de vente",
-      featherBudget: "FeatherBudget IA",
-      featherTax: "FeatherTax",
-      easyCalc: "EasyCalc",
-      accounting: "Comptabilité",
-      quotes: "Devis",
-      estimates: "Estimations"
+      mainFeatures: {
+        dashboard: "Tableau de bord",
+        aiVoice: "Voix IA",
+        createInvoice: "Créer une facture",
+        estimates: "Estimations",
+        payments: "Paiements",
+        esignatures: "Signatures électroniques"
+      },
+      coreBusiness: {
+        customers: "Clients",
+        projects: "Projets",
+        pipeline: "Pipeline de vente",
+        smartSchedule: "Smart Schedule"
+      },
+      financialTools: {
+        featherBudget: "FeatherBudget IA",
+        featherTax: "FeatherTax",
+        easyCalc: "EasyCalc",
+        accounting: "Comptabilité",
+        quotes: "Devis"
+      },
+      operations: {
+        carRental: "Location de voiture",
+        workOrders: "Commandes",
+        matTrack: "MatTrack",
+        crewControl: "Contrôle de l'équipe",
+        earns: "EarnSync",
+        aftercare: "Aide après-vente"
+      },
+      documents: {
+        featherForms: "FeatherForms",
+        salesOrders: "Commandes de vente",
+        businessProposals: "Propositions d'entreprise",
+        bids: "Offres",
+        contracts: "Contrats"
+      },
+      productivity: {
+        meetings: "Réunions",
+        todoList: "Liste à faire",
+        notes: "Notes",
+        appointments: "Rendez-vous"
+      },
+      communication: {
+        messages: "Messages",
+        emailSettings: "Paramètres de messagerie"
+      },
+      analytics: {
+        analytics: "Analyses",
+        adminPanel: "Tableau de bord administrateur"
+      },
+      general: {
+        careers: "Carrières",
+        referrals: "Références",
+        features: "Fonctionnalités",
+        faqHelp: "FAQ & Aide",
+        feedback: "Feedback",
+        pricing: "Tarification",
+        settings: "Paramètres"
+      },
+      allFeatures: "Toutes les fonctionnalités"
     },
     notes: {
       title: "Notes",
@@ -270,29 +408,66 @@ const translations = {
       fromLastMonth: "del mes pasado"
     },
     sidebar: {
-      mainFeatures: "Características principales",
-      coreBusiness: "Negocio principal",
-      financialTools: "Herramientas financieras",
-      operations: "Operaciones",
-      documentsAndForms: "Documentos y formularios",
-      productivity: "Productividad",
-      communication: "Comunicación",
-      analytics: "Analíticas",
-      integrations: "Integraciones",
-      system: "Sistema",
-      aiVoice: "Voz IA",
-      createInvoice: "Crear factura",
-      esignatures: "Firmas electrónicas",
-      customers: "Clientes",
-      projects: "Proyectos",
-      projectTimeline: "Cronología del proyecto",
-      salesPipeline: "Pipeline de ventas",
-      featherBudget: "FeatherBudget IA",
-      featherTax: "FeatherTax",
-      easyCalc: "EasyCalc",
-      accounting: "Contabilidad",
-      quotes: "Cotizaciones",
-      estimates: "Estimaciones"
+      mainFeatures: {
+        dashboard: "Panel de control",
+        aiVoice: "Voz IA",
+        createInvoice: "Crear factura",
+        estimates: "Estimaciones",
+        payments: "Pagos",
+        esignatures: "Firmas electrónicas"
+      },
+      coreBusiness: {
+        customers: "Clientes",
+        projects: "Proyectos",
+        pipeline: "Pipeline de ventas",
+        smartSchedule: "Smart Schedule"
+      },
+      financialTools: {
+        featherBudget: "FeatherBudget IA",
+        featherTax: "FeatherTax",
+        easyCalc: "EasyCalc",
+        accounting: "Contabilidad",
+        quotes: "Cotizaciones"
+      },
+      operations: {
+        carRental: "Alquiler de coches",
+        workOrders: "Pedidos",
+        matTrack: "MatTrack",
+        crewControl: "Control de equipo",
+        earns: "EarnSync",
+        aftercare: "Atención al cliente"
+      },
+      documents: {
+        featherForms: "FeatherForms",
+        salesOrders: "Pedidos de venta",
+        businessProposals: "Propuestas de empresa",
+        bids: "Ofertas",
+        contracts: "Contratos"
+      },
+      productivity: {
+        meetings: "Reuniones",
+        todoList: "Lista de tareas",
+        notes: "Notas",
+        appointments: "Citas"
+      },
+      communication: {
+        messages: "Mensajes",
+        emailSettings: "Configuración de correo electrónico"
+      },
+      analytics: {
+        analytics: "Analíticas",
+        adminPanel: "Panel de administración"
+      },
+      general: {
+        careers: "Carrieras",
+        referrals: "Referencias",
+        features: "Características",
+        faqHelp: "FAQ & Ayuda",
+        feedback: "Feedback",
+        pricing: "Precios",
+        settings: "Configuración"
+      },
+      allFeatures: "Ver todas las características"
     },
     notes: {
       title: "Notas",
@@ -348,29 +523,66 @@ const translations = {
       fromLastMonth: "与上月相比"
     },
     sidebar: {
-      mainFeatures: "主要功能",
-      coreBusiness: "核心业务",
-      financialTools: "财务工具",
-      operations: "运营",
-      documentsAndForms: "文档和表单",
-      productivity: "生产力",
-      communication: "沟通",
-      analytics: "分析",
-      integrations: "集成",
-      system: "系统",
-      aiVoice: "AI语音",
-      createInvoice: "创建发票",
-      esignatures: "电子签名",
-      customers: "客户",
-      projects: "项目",
-      projectTimeline: "项目时间表",
-      salesPipeline: "销售管道",
-      featherBudget: "FeatherBudget AI",
-      featherTax: "FeatherTax",
-      easyCalc: "EasyCalc",
-      accounting: "会计",
-      quotes: "报价",
-      estimates: "估算"
+      mainFeatures: {
+        dashboard: "仪表板",
+        aiVoice: "AI语音",
+        createInvoice: "创建发票",
+        estimates: "估算",
+        payments: "支付",
+        esignatures: "电子签名"
+      },
+      coreBusiness: {
+        customers: "客户",
+        projects: "项目",
+        pipeline: "销售管道",
+        smartSchedule: "Smart Schedule"
+      },
+      financialTools: {
+        featherBudget: "FeatherBudget AI",
+        featherTax: "FeatherTax",
+        easyCalc: "EasyCalc",
+        accounting: "会计",
+        quotes: "报价"
+      },
+      operations: {
+        carRental: "汽车租赁",
+        workOrders: "工作订单",
+        matTrack: "MatTrack",
+        crewControl: "团队控制",
+        earns: "EarnSync",
+        aftercare: "客户关怀"
+      },
+      documents: {
+        featherForms: "FeatherForms",
+        salesOrders: "销售订单",
+        businessProposals: "商业提案",
+        bids: "投标",
+        contracts: "合同"
+      },
+      productivity: {
+        meetings: "会议",
+        todoList: "待办事项列表",
+        notes: "笔记",
+        appointments: "预约"
+      },
+      communication: {
+        messages: "消息",
+        emailSettings: "电子邮件设置"
+      },
+      analytics: {
+        analytics: "分析",
+        adminPanel: "管理员面板"
+      },
+      general: {
+        careers: "职业",
+        referrals: "推荐",
+        features: "功能",
+        faqHelp: "常见问题及帮助",
+        feedback: "反馈",
+        pricing: "定价",
+        settings: "设置"
+      },
+      allFeatures: "查看所有功能"
     },
     notes: {
       title: "笔记",
@@ -426,29 +638,66 @@ const translations = {
       fromLastMonth: "do mês passado"
     },
     sidebar: {
-      mainFeatures: "Recursos principais",
-      coreBusiness: "Negócio principal",
-      financialTools: "Ferramentas financeiras",
-      operations: "Operações",
-      documentsAndForms: "Documentos e formulários",
-      productivity: "Produtividade",
-      communication: "Comunicação",
-      analytics: "Análises",
-      integrations: "Integrações",
-      system: "Sistema",
-      aiVoice: "Voz IA",
-      createInvoice: "Criar fatura",
-      esignatures: "Assinaturas eletrônicas",
-      customers: "Clientes",
-      projects: "Projetos",
-      projectTimeline: "Cronograma do projeto",
-      salesPipeline: "Pipeline de vendas",
-      featherBudget: "FeatherBudget IA",
-      featherTax: "FeatherTax",
-      easyCalc: "EasyCalc",
-      accounting: "Contabilidade",
-      quotes: "Cotações",
-      estimates: "Orçamentos"
+      mainFeatures: {
+        dashboard: "Painel",
+        aiVoice: "Voz IA",
+        createInvoice: "Criar fatura",
+        estimates: "Estimativas",
+        payments: "Pagamentos",
+        esignatures: "Assinaturas eletrônicas"
+      },
+      coreBusiness: {
+        customers: "Clientes",
+        projects: "Projetos",
+        pipeline: "Pipeline de vendas",
+        smartSchedule: "Smart Schedule"
+      },
+      financialTools: {
+        featherBudget: "FeatherBudget IA",
+        featherTax: "FeatherTax",
+        easyCalc: "EasyCalc",
+        accounting: "Contabilidade",
+        quotes: "Cotações"
+      },
+      operations: {
+        carRental: "Aluguel de veículos",
+        workOrders: "Pedidos",
+        matTrack: "MatTrack",
+        crewControl: "Controle de equipe",
+        earns: "EarnSync",
+        aftercare: "Atendimento ao cliente"
+      },
+      documents: {
+        featherForms: "FeatherForms",
+        salesOrders: "Pedidos de venda",
+        businessProposals: "Propostas de empresa",
+        bids: "Ofertas",
+        contracts: "Contratos"
+      },
+      productivity: {
+        meetings: "Sessões",
+        todoList: "Lista de tarefas",
+        notes: "Notas",
+        appointments: "Agendamentos"
+      },
+      communication: {
+        messages: "Mensagens",
+        emailSettings: "Configurações de e-mail"
+      },
+      analytics: {
+        analytics: "Análises",
+        adminPanel: "Painel administrativo"
+      },
+      general: {
+        careers: "Carreiras",
+        referrals: "Referências",
+        features: "Funcionalidades",
+        faqHelp: "FAQ & Ajuda",
+        feedback: "Feedback",
+        pricing: "Preços",
+        settings: "Configurações"
+      },
+      allFeatures: "Ver todas as funcionalidades"
     },
     notes: {
       title: "Notas",

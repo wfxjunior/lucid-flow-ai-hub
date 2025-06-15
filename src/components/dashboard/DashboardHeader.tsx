@@ -1,6 +1,8 @@
+
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Mic, BarChart3, Zap } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 interface DashboardHeaderProps {
   onNavigate: (view: string) => void
@@ -11,21 +13,20 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onNavigate, onRefresh, loading, error }: DashboardHeaderProps) {
   const isMobile = useIsMobile()
+  const { t } = useLanguage()
 
   return (
     <div className="space-y-4 w-full max-w-screen-xl mx-auto pt-4">
-      {/* Main Header */}
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-            Business Dashboard
+            {t("dashboardHeader.title", "Business Dashboard")}
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground">
-            Welcome back! Here's what's happening with your business today.
+            {t("dashboardHeader.welcome", "Welcome back! Here's what's happening with your business today.")}
           </p>
         </div>
 
-        {/* Refresh Button */}
         <div className="w-full flex justify-center">
           <Button
             onClick={onRefresh}
@@ -45,11 +46,10 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
             `}
           >
             <RefreshCw className={`h-5 w-5 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            {loading ? 'Updating...' : 'Refresh'}
+            {loading ? t("dashboardHeader.updating", "Updating...") : t("dashboardHeader.refresh", "Refresh")}
           </Button>
         </div>
 
-        {/* Action Buttons */}
         <div className="w-full flex flex-col gap-2 items-center">
           <Button
             onClick={() => onNavigate('ai-voice')}
@@ -67,7 +67,7 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
             size={isMobile ? "lg" : "default"}
           >
             <Mic className="h-5 w-5 mr-2" />
-            AI Voice Assistant
+            {t("dashboardHeader.aiVoiceAssistant", "AI Voice Assistant")}
           </Button>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-2xl">
             <Button
@@ -83,7 +83,7 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
               size={isMobile ? "lg" : "default"}
             >
               <BarChart3 className="h-5 w-5 mr-2" />
-              View Analytics
+              {t("dashboardHeader.viewAnalytics", "View Analytics")}
             </Button>
             <Button
               onClick={() => onNavigate('invoice-creator')}
@@ -98,13 +98,11 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
               size={isMobile ? "lg" : "default"}
             >
               <Zap className="h-5 w-5 mr-2" />
-              Create Invoice
+              {t("dashboardHeader.createInvoice", "Create Invoice")}
             </Button>
           </div>
         </div>
       </div>
-
-      {/* Error Display */}
       {error && (
         <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
           <p className="text-sm text-destructive">{error}</p>

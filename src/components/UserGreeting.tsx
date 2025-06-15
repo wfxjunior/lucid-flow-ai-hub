@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { toast } from "sonner"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 interface UserGreetingProps {
   onNavigate?: (view: string) => void
@@ -46,6 +47,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
+  const { t } = useLanguage()
 
   useEffect(() => {
     const getUser = async () => {
@@ -153,7 +155,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-10 w-10" />
-          <div className="text-lg sm:text-xl font-semibold">Bem-vindo ao FeatherBiz</div>
+          <div className="text-lg sm:text-xl font-semibold">{t("userGreeting.welcome")}</div>
         </div>
         <div className="flex items-center gap-2">
           <Button 
@@ -161,7 +163,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             size="sm"
             onClick={() => navigate('/auth')}
           >
-            Entrar
+            {t("userGreeting.signIn")}
           </Button>
           <HelpCenter variant="outline" size="sm" />
         </div>
@@ -173,7 +175,6 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="h-10 w-10" />
-        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
@@ -198,18 +199,17 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleProfileClick}>
               <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+              <span>{t("userGreeting.profile")}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
               <LogOut className="mr-2 h-4 w-4" />
-              <span>{isLoading ? 'Signing out...' : 'Sign out'}</span>
+              <span>{isLoading ? t("userGreeting.signingOut") : t("userGreeting.signOut")}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        
         <span className="text-sm sm:text-base text-muted-foreground">
-          Olá, {getUserDisplayName(userEmail)}!
+          {t("userGreeting.hello", { name: getUserDisplayName(userEmail) })}
         </span>
       </div>
       
