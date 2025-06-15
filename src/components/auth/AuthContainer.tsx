@@ -30,7 +30,8 @@ export function AuthContainer() {
       case 'signin':
         return {
           title: 'Welcome Back',
-          description: 'Sign in to your FeatherBiz account',
+          // description removido da tela de login
+          description: '',
           form: (
             <SignInForm
               email={email}
@@ -77,3 +78,4 @@ export function AuthContainer() {
     </AuthLayout>
   )
 }
+
