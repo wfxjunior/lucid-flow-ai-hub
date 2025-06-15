@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   SidebarProvider,
@@ -92,7 +93,7 @@ export function EssentialSideMenu() {
             setOpen(true);
             console.log("Botão circular clicado! setOpen(true) chamado.");
           }}
-          className="fixed bottom-7 right-7 z-[100] bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
+          className="fixed bottom-7 right-7 z-[110] bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
           type="button"
           style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.10)" }}
         >
@@ -101,10 +102,10 @@ export function EssentialSideMenu() {
       )}
       {/* Sidebar overlay e conteúdo */}
       {open && (
-        <div className="fixed inset-0 z-[100] flex">
+        <div className="fixed inset-0 z-[110] flex">
           {/* Overlay escurecendo o fundo */}
           <div
-            className="fixed inset-0 bg-black/30"
+            className="fixed inset-0 bg-black/40 z-[111] transition-opacity"
             onClick={() => {
               setOpen(false);
               console.log("Overlay clicado, fechando menu.");
@@ -112,7 +113,7 @@ export function EssentialSideMenu() {
             aria-label="Fechar menu"
           />
           {/* Sidebar */}
-          <Sidebar className="relative max-w-xs w-full shadow-xl z-[110]">
+          <Sidebar className="relative max-w-xs w-full shadow-xl z-[112]">
             <SidebarContent>
               {/* Header */}
               <div className="bg-blue-700 py-7 px-5 mb-2 rounded-b-2xl flex items-center gap-3 select-none">
@@ -185,3 +186,4 @@ export function EssentialSideMenu() {
     </SidebarProvider>
   );
 }
+
