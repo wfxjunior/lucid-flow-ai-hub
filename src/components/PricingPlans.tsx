@@ -1,4 +1,3 @@
-
 import { Crown, Zap, Star, Sparkles } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
@@ -39,16 +38,69 @@ const plans = {
       features: [
         "7-day free trial",
         "Unlimited invoices",
-        "AI voice assistant",
-        "Advanced customer management",
-        "Analytics dashboard",
-        "E-signatures",
+        
+        // Main Features
+        "Dashboard with analytics",
+        "AI Voice Assistant",
+        "Invoice Creator",
+        "Estimates & Quotes",
+        "Payment Processing",
+        "E-Signatures",
+        
+        // Core Business
+        "Customer Management",
+        "Project Management",
+        "Project Timeline View",
+        "Sales Pipeline",
+        "Smart Schedule",
+        
+        // Financial Tools
+        "FeatherBudget AI",
+        "FeatherTax",
+        "EasyCalc",
+        "Accounting Suite",
+        "Quote Generator",
+        
+        // Operations
+        "Car Rental System",
+        "Work Orders",
+        "MatTrack (Material Tracking)",
+        "CrewControl (Team Management)",
+        "EarnSync",
+        "AfterCare",
+        
+        // Documents & Forms
+        "FeatherForms",
+        "Sales Orders",
+        "Business Proposals",
+        "Bids",
+        "Contracts",
+        
+        // Productivity
+        "Meetings",
+        "Todo List",
+        "Notes",
+        "Appointments",
+        
+        // Communication
+        "Messages",
+        "Email Settings",
+        
+        // Analytics
+        "Analytics Dashboard",
+        "Admin Panel",
+        
+        // General & Support
+        "Careers Portal",
+        "Referrals",
+        "Features Request",
+        "FAQ & Help",
+        "Feedback System",
+        "Settings",
+        
         "Priority support",
         "All integrations",
         "Document tracking",
-        "Work orders",
-        "Appointments",
-        "Contracts",
         "File management"
       ],
       buttonText: "Start Free Trial",
@@ -90,16 +142,69 @@ const plans = {
       features: [
         "7-day free trial",
         "Unlimited invoices",
-        "AI voice assistant",
-        "Advanced customer management",
-        "Analytics dashboard",
-        "E-signatures",
+        
+        // Main Features
+        "Dashboard with analytics",
+        "AI Voice Assistant",
+        "Invoice Creator",
+        "Estimates & Quotes",
+        "Payment Processing",
+        "E-Signatures",
+        
+        // Core Business
+        "Customer Management",
+        "Project Management",
+        "Project Timeline View",
+        "Sales Pipeline",
+        "Smart Schedule",
+        
+        // Financial Tools
+        "FeatherBudget AI",
+        "FeatherTax",
+        "EasyCalc",
+        "Accounting Suite",
+        "Quote Generator",
+        
+        // Operations
+        "Car Rental System",
+        "Work Orders",
+        "MatTrack (Material Tracking)",
+        "CrewControl (Team Management)",
+        "EarnSync",
+        "AfterCare",
+        
+        // Documents & Forms
+        "FeatherForms",
+        "Sales Orders",
+        "Business Proposals",
+        "Bids",
+        "Contracts",
+        
+        // Productivity
+        "Meetings",
+        "Todo List",
+        "Notes",
+        "Appointments",
+        
+        // Communication
+        "Messages",
+        "Email Settings",
+        
+        // Analytics
+        "Analytics Dashboard",
+        "Admin Panel",
+        
+        // General & Support
+        "Careers Portal",
+        "Referrals",
+        "Features Request",
+        "FAQ & Help",
+        "Feedback System",
+        "Settings",
+        
         "Priority support",
         "All integrations",
         "Document tracking",
-        "Work orders",
-        "Appointments",
-        "Contracts",
         "File management"
       ],
       buttonText: "Start Free Trial",

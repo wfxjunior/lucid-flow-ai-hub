@@ -2,7 +2,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, LucideIcon } from "lucide-react"
+import { Check, LucideIcon, ChevronDown, ChevronUp } from "lucide-react"
+import { useState } from "react"
 
 interface PricingPlan {
   id: string
@@ -28,6 +29,12 @@ interface PricingCardProps {
 }
 
 export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
+  const [showAllFeatures, setShowAllFeatures] = useState(false)
+  const featuresLimit = 8
+  const shouldShowViewMore = plan.features.length > featuresLimit
+  const displayedFeatures = showAllFeatures ? plan.features : plan.features.slice(0, featuresLimit)
+  const remainingCount = plan.features.length - featuresLimit
+
   return (
     <div 
       className={`relative group transition-all duration-300 hover:scale-105 ${
@@ -86,7 +93,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
               </div>
               {plan.originalPrice && (
                 <div className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs sm:text-sm font-medium">
-                  💰 Save $58/year
+                  💰 Save $38/year
                 </div>
               )}
             </div>
@@ -116,8 +123,8 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
                   What's Included
                 </span>
               </div>
-              <div className="space-y-2 sm:space-y-3">
-                {plan.features.map((feature, featureIndex) => (
+              <div className="space-y-2 sm:space-y-3 max-h-64 overflow-y-auto">
+                {displayedFeatures.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-start gap-2 sm:gap-3">
                     <div className="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
                       <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600 font-bold" />
@@ -126,6 +133,30 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
                   </div>
                 ))}
               </div>
+              
+              {/* View More/Less Button */}
+              {shouldShowViewMore && (
+                <div className="text-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowAllFeatures(!showAllFeatures)}
+                    className="text-blue-600 hover:text-blue-800 text-xs sm:text-sm p-1"
+                  >
+                    {showAllFeatures ? (
+                      <>
+                        <ChevronUp className="h-3 w-3 mr-1" />
+                        View Less
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="h-3 w-3 mr-1" />
+                        View {remainingCount} More Features
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
             </div>
           </CardContent>
         </div>
