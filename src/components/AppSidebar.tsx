@@ -116,17 +116,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       <SidebarContent className="gap-0">
         <SidebarHeader />
 
-        {/* Help Center Button */}
-        <div className="px-4 py-2">
-          <HelpCenter 
-            variant="outline"
-            size="default"
-            className="w-full justify-start mb-1"
-          />
-        </div>
-
         {/* View All Features */}
-        <div className="px-4 py-2 -mt-2">
+        <div className="px-4 py-2">
           <AllFeaturesDialog 
             trigger={
               <button className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2">
@@ -216,6 +207,15 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
+
+        {/* Mover Help Center para o fim do sidebar, abaixo da última seção */}
+        <div className="px-4 pt-3 pb-4">
+          <HelpCenter 
+            variant="outline"
+            size="default"
+            className="w-full justify-start mb-1"
+          />
+        </div>
       </SidebarContent>
       
       <SidebarFooter />
