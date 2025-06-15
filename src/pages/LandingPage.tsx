@@ -463,7 +463,7 @@ export default function LandingPage() {
       <footer className="bg-background border-t py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8 sm:mb-12">
-            {/* Fixed: "FeatherBiz" section properly aligned, no extra space above */}
+            {/* FeatherBiz section */}
             <div className="col-span-1 sm:col-span-2 lg:col-span-1 flex flex-col justify-start">
               <div className="flex items-center space-x-2 mb-2">
                 <span className="text-lg font-bold text-blue-900">FeatherBiz</span>
@@ -475,55 +475,128 @@ export default function LandingPage() {
                 <LanguageSelector />
               </div>
             </div>
-            {/* ... keep existing code (other footer columns: Platform, Support, Resources, Company) the same ... */}
+            {/* Platform */}
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Platform</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
                 <li>
-                  <Link 
-                    to="/features-overview" 
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link to="/features" className="text-muted-foreground hover:text-primary transition-colors">
+                    Features
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/features-overview" className="text-muted-foreground hover:text-primary transition-colors">
                     {useLanguage().t("featuresOverview.link")}
                   </Link>
                 </li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Integrations</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">API</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Security</a></li>
+                <li>
+                  <Link to="/integrations" className="text-muted-foreground hover:text-primary transition-colors">
+                    Integrations
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/api" className="text-muted-foreground hover:text-primary transition-colors">
+                    API
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/security" className="text-muted-foreground hover:text-primary transition-colors">
+                    Security
+                  </Link>
+                </li>
               </ul>
             </div>
-
+            {/* Support */}
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Support</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Help Center</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Documentation</a></li>
-                <li><Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Community</a></li>
-                <li><Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
-                <li><Link to="/feedback" className="text-muted-foreground hover:text-primary transition-colors">Feedback</Link></li>
-                <li><Link to="/referrals" className="text-muted-foreground hover:text-primary transition-colors">Referrals</Link></li>
+                <li>
+                  <Link to="/help-center" className="text-muted-foreground hover:text-primary transition-colors">
+                    Help Center
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/documentation" className="text-muted-foreground hover:text-primary transition-colors">
+                    Documentation
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/community" className="text-muted-foreground hover:text-primary transition-colors">
+                    Community
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">
+                    FAQ
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/feedback" className="text-muted-foreground hover:text-primary transition-colors">
+                    Feedback
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/referrals" className="text-muted-foreground hover:text-primary transition-colors">
+                    Referrals
+                  </Link>
+                </li>
               </ul>
             </div>
-
+            {/* Resources */}
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Case Studies</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Guides</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Webinars</a></li>
+                <li>
+                  <Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/case-studies" className="text-muted-foreground hover:text-primary transition-colors">
+                    Case Studies
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/guides" className="text-muted-foreground hover:text-primary transition-colors">
+                    Guides
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/webinars" className="text-muted-foreground hover:text-primary transition-colors">
+                    Webinars
+                  </Link>
+                </li>
               </ul>
             </div>
-
+            {/* Company */}
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Company</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Press</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Partners</a></li>
+                <li>
+                  <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/careers" className="text-muted-foreground hover:text-primary transition-colors">
+                    Careers
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/press" className="text-muted-foreground hover:text-primary transition-colors">
+                    Press
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/partners" className="text-muted-foreground hover:text-primary transition-colors">
+                    Partners
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
