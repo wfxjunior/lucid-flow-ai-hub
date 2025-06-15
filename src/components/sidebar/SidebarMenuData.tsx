@@ -1,3 +1,4 @@
+
 import { Home, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings, ListChecks, Store, PiggyBank, File, CheckCircle, ClipboardList, Wallet, Landmark } from "lucide-react"
 
 interface SidebarMenuItem {
@@ -14,13 +15,13 @@ export const sidebarMenuData: SidebarMenuItem[] = [
     items: [
       {
         title: "Dashboard",
-        url: "/",
+        url: "dashboard",
         icon: LayoutDashboard,
         description: "Overview of your business"
       },
       {
         title: "Careers",
-        url: "/careers",
+        url: "careers",
         icon: Users,
         description: "Join our team"
       },
@@ -31,31 +32,31 @@ export const sidebarMenuData: SidebarMenuItem[] = [
     items: [
       {
         title: "Customers",
-        url: "/customers",
+        url: "customers",
         icon: Users,
         description: "Manage your clients"
       },
       {
         title: "Projects",
-        url: "/projects",
+        url: "projects",
         icon: Landmark,
         description: "Track ongoing projects"
       },
       {
         title: "Appointments",
-        url: "/appointments",
+        url: "appointments",
         icon: Calendar,
         description: "Schedule and manage appointments"
       },
       {
         title: "Invoices",
-        url: "/invoices",
+        url: "invoices",
         icon: FileText,
         description: "Create and manage invoices"
       },
       {
         title: "Tasks",
-        url: "/tasks",
+        url: "tasks",
         icon: ListChecks,
         description: "Manage your to-do list"
       },
@@ -66,13 +67,13 @@ export const sidebarMenuData: SidebarMenuItem[] = [
     items: [
       {
         title: "Messages",
-        url: "/messages",
+        url: "messages",
         icon: MessageSquare,
         description: "Send emails and SMS to clients"
       },
       {
         title: "Email Settings",
-        url: "/email-settings", 
+        url: "email-settings", 
         icon: Settings,
         description: "Configure your email credentials"
       },
@@ -83,25 +84,25 @@ export const sidebarMenuData: SidebarMenuItem[] = [
     items: [
       {
         title: "Products",
-        url: "/products",
+        url: "products",
         icon: Store,
         description: "Manage your products"
       },
       {
         title: "Payments",
-        url: "/payments",
+        url: "payments",
         icon: PiggyBank,
         description: "Track incoming payments"
       },
       {
         title: "Expenses",
-        url: "/expenses",
+        url: "expenses",
         icon: Wallet,
         description: "Manage business expenses"
       },
       {
         title: "Contracts",
-        url: "/contracts",
+        url: "contracts",
         icon: File,
         description: "Manage legal agreements"
       },
@@ -112,13 +113,13 @@ export const sidebarMenuData: SidebarMenuItem[] = [
     items: [
       {
         title: "Documents",
-        url: "/esignatures",
+        url: "esignatures",
         icon: CheckCircle,
         description: "Manage documents for e-signature"
       },
       {
         title: "Templates",
-        url: "/esignature-templates",
+        url: "esignature-templates",
         icon: ClipboardList,
         description: "Create reusable document templates"
       },

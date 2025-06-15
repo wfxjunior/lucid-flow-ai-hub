@@ -45,7 +45,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const convertToMenuItems = (items: any[]) => {
     return items?.map(item => ({
       ...item,
-      view: item.url?.replace('/', '') || item.title.toLowerCase().replace(/\s+/g, '-')
+      view: item.url || item.title.toLowerCase().replace(/\s+/g, '-')
     })) || []
   }
 
