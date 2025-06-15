@@ -19,6 +19,7 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarProvider, useSidebar, SidebarTrigger } from "@/components/ui/sidebar"
 import { LandingSidebar } from "@/components/LandingSidebar"
 import { HelpCenter } from "@/components/HelpCenter"
+import { SiteInfoSideMenu } from "@/components/SiteInfoSideMenu"
 
 export default function LandingPage() {
   const navigate = useNavigate()
@@ -437,7 +438,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-background">
-      {/* Header (logo, sign in, helpcenter removido) */}
+      {/* Header */}
       <header className="w-full border-b shadow-sm bg-white/90 sticky top-0 z-30">
         <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
@@ -456,10 +457,13 @@ export default function LandingPage() {
           </div>
         </div>
       </header>
-      {/* Conteúdo principal */}
+      {/* Main Content */}
       <div className="flex-1">
         {MainContent}
       </div>
+      {/* Overlay Side Menu for Info */}
+      {/* This keeps the menu always accessible but never intrusive */}
+      <SiteInfoSideMenu />
       {/* Footer */}
       <footer className="bg-background border-t py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
