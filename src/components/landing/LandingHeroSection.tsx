@@ -9,9 +9,9 @@ export const LandingHeroSection = () => {
   return (
     <section className="flex justify-center items-center py-10 px-3 bg-muted/60 min-h-[45vh]">
       <div className="w-full max-w-lg mx-auto bg-white rounded-2xl shadow-xl px-6 py-8 flex flex-col items-center">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-4 text-foreground" style={{lineHeight:"1.14"}}>
-          Grow your business<br />
-          with <span className="text-blue-700 font-extrabold">FeatherBiz</span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-4" style={{lineHeight:"1.14"}}>
+          <span className="text-blue-700 font-extrabold">Send Invoices. Create Estimates. Book Appointments.</span><br />
+          <span className="text-black">Manage your entire service business in one place — for free.</span>
         </h1>
         <p className="text-lg text-muted-foreground text-center mb-6">
           The all-in-one platform that helps you manage clients, projects, and payments. Start your free trial and see results in 24 hours.
