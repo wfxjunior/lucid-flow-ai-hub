@@ -1,88 +1,62 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { ArrowRight, Shield, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const LandingCTASection = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-
-  const handleStartFreeTrial = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate('/auth');
-        return;
-      }
-      const professionalPlan = {
-        id: "professional",
-        name: "Professional",
-        stripePrice: 2900,
-        recurring: true
-      };
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: {
-          priceAmount: professionalPlan.stripePrice,
-          planName: professionalPlan.name,
-          planId: professionalPlan.id,
-          recurring: professionalPlan.recurring,
-          trialPeriodDays: 7,
-          annualBilling: false
-        }
-      });
-      if (error) throw error;
-      if (data?.url) window.open(data.url, '_blank');
-      else throw new Error('No checkout URL received');
-    } catch (error) {
-      console.error('Error starting free trial:', error);
-      toast({
-        title: "Error",
-        description: "There was an error starting your free trial. Please try again.",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const handleTryItFree = () => {
-    const pricingSection = document.getElementById("pricing");
-    if (pricingSection) {
-      pricingSection.scrollIntoView({ behavior: "smooth" })
-    }
-  };
 
   return (
-    <section className="py-16 sm:py-20 lg:py-32 bg-primary text-primary-foreground">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold mb-4 sm:mb-6">
-          Ready to grow your business?
+    <section className="py-20 sm:py-24 lg:py-32 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
+      
+      {/* Background Elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        
+        {/* Main Headline */}
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          Start your smarter business
+          <br />
+          journey today
         </h2>
-        <p className="text-lg sm:text-xl text-primary-foreground/80 mb-8 sm:mb-10 max-w-2xl mx-auto">
-          Join thousands of businesses already using FeatherBiz to streamline operations and boost productivity.
+        
+        <p className="text-xl sm:text-2xl mb-12 text-blue-100 leading-relaxed font-light max-w-3xl mx-auto">
+          Join thousands of businesses that have already transformed their operations with FeatherBiz
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button 
-            onClick={handleStartFreeTrial}
-            size="lg"
-            className="bg-background text-primary hover:bg-background/90 transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
-          >
-            Try it Free
-            <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
-          </Button>
-          <Button 
-            variant="outline"
-            size="lg"
-            onClick={handleTryItFree}
-            className="border-2 border-primary-foreground/20 text-primary-foreground bg-transparent hover:bg-primary-foreground hover:text-primary transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg w-full sm:w-auto"
-          >
-            Get Free Demo
-          </Button>
+        
+        {/* CTA Button */}
+        <Button
+          onClick={() => navigate('/auth')}
+          size="lg"
+          className="h-16 px-10 text-lg font-semibold bg-white text-blue-600 hover:bg-gray-50 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 mb-8"
+        >
+          Try Free – No Card Required
+          <ArrowRight className="ml-3 w-6 h-6" />
+        </Button>
+        
+        {/* Trust Indicators */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-blue-100">
+          <div className="flex items-center gap-3">
+            <Shield className="w-5 h-5" />
+            <span className="text-sm font-medium">Enterprise-grade security</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Zap className="w-5 h-5" />
+            <span className="text-sm font-medium">Setup in under 2 minutes</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center">
+              <div className="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+            <span className="text-sm font-medium">Free forever plan available</span>
+          </div>
         </div>
-        <p className="text-primary-foreground/60 text-sm mt-4 sm:mt-6">
-          No credit card required • 7-day free trial • Cancel anytime
-        </p>
+        
       </div>
     </section>
   );

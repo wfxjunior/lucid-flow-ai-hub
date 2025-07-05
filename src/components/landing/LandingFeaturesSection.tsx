@@ -1,87 +1,115 @@
 
 import React from "react";
-import { FileText, UserCheck, Package, Car, Calendar, Video, ClipboardList, Calculator, Zap } from "lucide-react";
+import { 
+  FileText, 
+  Calendar, 
+  Clock, 
+  Package, 
+  Users, 
+  Car, 
+  Camera, 
+  BarChart3, 
+  Sparkles 
+} from "lucide-react";
 
 const features = [
   {
     icon: FileText,
-    title: "AI Invoice",
-    description: "Generate professional invoices automatically with AI-powered smart templates and automated calculations."
-  },
-  {
-    icon: UserCheck,
-    title: "Crew Control",
-    description: "Manage your team effectively with advanced crew scheduling, payroll, and performance tracking tools."
-  },
-  {
-    icon: Package,
-    title: "MatTrack",
-    description: "Track materials and inventory in real-time with intelligent stock management and automated alerts."
-  },
-  {
-    icon: Car,
-    title: "Car Rental",
-    description: "Complete car rental management system with booking, tracking, and maintenance scheduling."
+    title: "Invoice & Estimate Generator",
+    description: "Send professional documents in seconds"
   },
   {
     icon: Calendar,
-    title: "Smart Schedule",
-    description: "AI-powered scheduling that optimizes your time and resources for maximum productivity."
-  },
-  {
-    icon: Video,
-    title: "Meetings",
-    description: "Schedule, manage, and track meetings with integrated video conferencing and note-taking."
-  },
-  {
-    icon: ClipboardList,
     title: "Appointments",
-    description: "Streamline appointment booking with automated reminders and calendar synchronization."
+    description: "Bookings synced with your calendar"
   },
   {
-    icon: Calculator,
-    title: "Estimates",
-    description: "Create accurate project estimates with AI assistance and automated pricing calculations."
+    icon: Clock,
+    title: "Smart Schedule",
+    description: "Track jobs, assign workers, and visualize workload"
   },
   {
-    icon: Zap,
-    title: "And More...",
-    description: "Discover additional powerful features designed to streamline every aspect of your business operations."
+    icon: Package,
+    title: "Material Tracker",
+    description: "Monitor supply usage and delivery status"
+  },
+  {
+    icon: Users,
+    title: "CRM Lite",
+    description: "Manage leads, customers, and sales stages"
+  },
+  {
+    icon: Car,
+    title: "Car Rental Manager",
+    description: "Fleet, clients, documents, and billing in one place"
+  },
+  {
+    icon: Camera,
+    title: "Photo Timeline",
+    description: "Visual job progress with client-shareable pages"
+  },
+  {
+    icon: BarChart3,
+    title: "Project Dashboard",
+    description: "View everything from costs to tasks at a glance"
+  },
+  {
+    icon: Sparkles,
+    title: "AI Business Tools",
+    description: "Use built-in smart docs for invoices, contracts, and more"
   }
 ];
 
 export const LandingFeaturesSection = () => (
-  <section id="features" className="py-16 sm:py-20 lg:py-32">
+  <section id="features" className="py-20 sm:py-24 lg:py-32 bg-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-12 sm:mb-16">
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-          Features
+      
+      {/* Section Header */}
+      <div className="text-center mb-16 sm:mb-20">
+        <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium mb-6">
+          Everything You Need
         </div>
-        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-          Everything you need to grow
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          Powerful tools that work
+          <br />
+          <span className="text-blue-600">together seamlessly</span>
         </h2>
-        <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-          Powerful tools that work together to help you manage your business more efficiently
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          From invoicing to project management, everything you need to run your business efficiently
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+
+      {/* Features Grid - 3x3 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         {features.map((feature, index) => (
           <div
             key={index}
-            className="group p-6 sm:p-8 bg-card rounded-2xl border hover:shadow-lg transition-all duration-300"
+            className="group p-8 bg-white border border-gray-200 rounded-2xl hover:border-blue-200 hover:shadow-lg transition-all duration-300"
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 transition-colors">
-              <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors">
+              <feature.icon className="w-6 h-6 text-blue-600" />
             </div>
-            <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 sm:mb-3">
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
               {feature.title}
             </h3>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+            <p className="text-gray-600 leading-relaxed">
               {feature.description}
             </p>
           </div>
         ))}
       </div>
+
+      {/* Callout Text */}
+      <div className="text-center">
+        <div className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-100">
+          <p className="text-lg font-medium text-gray-700">
+            And that's just the beginning. FeatherBiz offers{" "}
+            <span className="text-blue-600 font-semibold">over 15 powerful tools</span>{" "}
+            designed to grow your business your way.
+          </p>
+        </div>
+      </div>
+      
     </div>
   </section>
 );

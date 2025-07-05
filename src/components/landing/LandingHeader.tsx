@@ -6,23 +6,49 @@ import { useNavigate } from "react-router-dom";
 
 export const LandingHeader = () => {
   const navigate = useNavigate();
+  
   return (
-    <header className="w-full border-b shadow-sm bg-white/90 sticky top-0 z-30">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-2">
-          <Feather size={28} className="text-blue-700" strokeWidth={2.1} />
-          <span className="ml-1 text-xl font-bold text-blue-800 tracking-tight">FeatherBiz</span>
+    <header className="w-full border-b border-gray-200 bg-white/95 backdrop-blur-lg sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
+        
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <Feather size={20} className="text-white" strokeWidth={2.5} />
+          </div>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">FeatherBiz</span>
         </div>
+        
+        {/* Navigation - Hidden on mobile */}
+        <nav className="hidden md:flex items-center gap-8">
+          <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+            Features
+          </a>
+          <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+            Pricing
+          </a>
+          <a href="#testimonials" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+            Testimonials
+          </a>
+        </nav>
+        
+        {/* Auth Buttons */}
         <div className="flex items-center gap-3">
           <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full border-blue-100 text-blue-800 font-medium px-5"
+            variant="ghost"
             onClick={() => navigate('/auth')}
+            className="text-gray-600 hover:text-gray-900 font-medium"
           >
             Sign in
           </Button>
+          <Button
+            onClick={() => navigate('/auth')}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 rounded-xl"
+          >
+            Get Started
+          </Button>
         </div>
+        
       </div>
     </header>
   );
