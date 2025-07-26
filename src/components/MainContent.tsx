@@ -34,6 +34,7 @@ import { NotesPage } from "@/components/NotesPage"
 import { AppointmentsPage } from "@/components/AppointmentsPage"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { AdminDashboard } from "@/components/AdminDashboard"
+import { useUserRole } from "@/hooks/useUserRole"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
 import { ReferralsPage } from "@/components/ReferralsPage"
@@ -50,6 +51,8 @@ interface MainContentProps {
 }
 
 export function MainContent({ activeView, onNavigate }: MainContentProps) {
+  const { isAdmin, loading } = useUserRole()
+  
   const renderContent = () => {
     switch (activeView) {
       case "dashboard":
@@ -136,6 +139,21 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "analytics":
         return <AnalyticsDashboard />
       case "admin-panel":
+        if (loading) {
+          return <div className="p-6">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="text-center mt-4">Verificando permissões...</p>
+          </div>
+        }
+        if (!isAdmin) {
+          return <div className="p-6">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h2 className="text-lg font-semibold text-red-800 mb-2">Acesso Negado</h2>
+              <p className="text-red-600">Você não tem permissão para acessar o painel administrativo.</p>
+              <p className="text-red-600 text-sm mt-2">Entre em contato com um administrador para obter acesso.</p>
+            </div>
+          </div>
+        }
         return <AdminDashboard />
       
       // General & Support
