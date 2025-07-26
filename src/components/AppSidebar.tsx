@@ -15,7 +15,7 @@ import {
   Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
   Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
   DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
-  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap
+  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt
 } from "lucide-react"
 
 interface AppSidebarProps {
