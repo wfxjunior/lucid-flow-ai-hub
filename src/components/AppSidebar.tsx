@@ -59,6 +59,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: t("sidebar.financialTools.featherBudget", "FeatherBudget"), view: "feather-budget", icon: PiggyBank },
     { title: t("sidebar.financialTools.featherTax", "FeatherTax"), view: "feather-tax", icon: FileCheck },
     { title: t("sidebar.financialTools.easyCalc", "EasyCalc"), view: "easy-calc", icon: Calculator },
+    { title: t("sidebar.financialTools.receipts", "Receipts"), view: "receipts", icon: Receipt },
     { title: t("sidebar.financialTools.accounting", "Accounting"), view: "accounting", icon: DollarSign },
     { title: t("sidebar.financialTools.quotes", "Quotes"), view: "quotes", icon: FileText },
   ]

@@ -83,12 +83,26 @@ export function usePDFGeneration() {
     }
   }
 
+  const generateReceiptPDF = async (receipt: any) => {
+    setIsGenerating(true)
+    try {
+      await PDFService.generateReceiptPDF(receipt, businessData)
+      toast.success('Receipt PDF generated successfully!')
+    } catch (error) {
+      console.error('Receipt PDF generation error:', error)
+      toast.error('Failed to generate receipt PDF')
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
   return {
     isGenerating,
     generatePDF,
     generateContractPDF,
     generateWorkOrderPDF,
     generateEstimatePDF,
+    generateReceiptPDF,
     generateAnalyticsReportPDF,
     businessData
   }

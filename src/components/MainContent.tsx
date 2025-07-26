@@ -35,6 +35,7 @@ import { AppointmentsPage } from "@/components/AppointmentsPage"
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
 import { AdminDashboard } from "@/components/AdminDashboard"
 import { useUserRole } from "@/hooks/useUserRole"
+import { ReceiptsPage } from "@/components/ReceiptsPage"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
 import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
 import { ReferralsPage } from "@/components/ReferralsPage"
@@ -88,6 +89,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <FeatherTaxPage />
       case "easy-calc":
         return <EasyCalcPage />
+      case "receipts":
+        return <ReceiptsPage />
       case "accounting":
         return <AccountingPage />
       case "quotes":
