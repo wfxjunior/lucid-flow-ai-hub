@@ -67,6 +67,11 @@ export const financialTools: MenuItem[] = [
     title: "Estimates",
     icon: Calculator,
     view: "estimates"
+  },
+  {
+    title: "Receipts",
+    icon: Receipt,
+    view: "receipts"
   }
 ]
 
