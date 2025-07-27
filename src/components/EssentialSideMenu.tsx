@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import {
-  Feather,
   Home,
   BookOpen,
   DollarSign,
@@ -92,7 +91,7 @@ export function EssentialSideMenu() {
           className="fixed bottom-7 right-7 z-50 bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
           aria-label="Open menu"
         >
-          <Feather className="w-7 h-7" strokeWidth={2.1} />
+          <span className="text-sm font-bold">FB</span>
         </button>
       )}
 
@@ -111,7 +110,6 @@ export function EssentialSideMenu() {
             {/* Header */}
             <div className="bg-blue-700 py-7 px-5 mb-2 rounded-b-2xl flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Feather className="w-7 h-7 text-white" strokeWidth={2.1} />
                 <span className="text-white text-2xl font-extrabold tracking-tight">
                   FeatherBiz
                 </span>

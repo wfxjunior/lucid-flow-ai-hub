@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Feather } from "lucide-react"
+
 
 interface AuthLayoutProps {
   title: string
@@ -15,7 +15,6 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Feather className="h-8 w-8 text-primary" />
             <h1 className="text-2xl font-bold text-primary">FeatherBiz</h1>
           </div>
           <p className="text-muted-foreground">

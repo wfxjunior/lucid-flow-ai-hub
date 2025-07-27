@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Feather } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const LandingHeader = () => {
@@ -13,9 +12,6 @@ export const LandingHeader = () => {
         
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <Feather size={20} className="text-white" strokeWidth={2.5} />
-          </div>
           <span className="text-xl font-bold text-gray-900 tracking-tight">FeatherBiz</span>
         </div>
         
