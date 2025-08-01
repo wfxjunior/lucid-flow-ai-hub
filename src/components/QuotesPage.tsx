@@ -7,12 +7,15 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, FileText, DollarSign, Calendar, User } from 'lucide-react'
+import { Plus, FileText, DollarSign, Calendar, User, Eye, Send, MoreHorizontal } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { toast } from "sonner"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 
 export function QuotesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const { generateEstimatePDF, isGenerating } = usePDFGeneration()
   const [quotes, setQuotes] = useState([
     {
       id: 1,
@@ -84,6 +87,46 @@ export function QuotesPage() {
       rejected: "bg-red-100 text-red-800"
     }
     return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800"
+  }
+
+  const handleViewPDF = async (quote: any) => {
+    try {
+      const quoteData = {
+        id: quote.id,
+        quote_number: quote.quoteNumber,
+        title: quote.title,
+        description: '',
+        amount: quote.amount,
+        quote_date: quote.createdDate,
+        valid_until: quote.validUntil,
+        status: quote.status,
+        line_items: [
+          {
+            name: quote.title,
+            description: '',
+            quantity: 1,
+            rate: quote.amount,
+            total: quote.amount
+          }
+        ],
+        client: {
+          name: quote.client,
+          email: '',
+          address: '',
+          phone: ''
+        }
+      }
+      
+      await generateEstimatePDF(quoteData)
+    } catch (error) {
+      console.error("Error generating quote PDF:", error)
+      toast.error("Failed to generate quote PDF")
+    }
+  }
+
+  const handleResendQuote = (quote: any) => {
+    // Simulate resending the quote
+    toast.success(`Quote ${quote.quoteNumber} has been resent to ${quote.client}`)
   }
 
   return (
@@ -254,11 +297,33 @@ export function QuotesPage() {
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-xl font-bold">${quote.amount.toFixed(2)}</p>
-                  {quote.validUntil && (
-                    <p className="text-sm text-gray-500">Valid until: {quote.validUntil}</p>
-                  )}
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-xl font-bold">${quote.amount.toFixed(2)}</p>
+                    {quote.validUntil && (
+                      <p className="text-sm text-gray-500">Valid until: {quote.validUntil}</p>
+                    )}
+                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem 
+                        onClick={() => handleViewPDF(quote)}
+                        disabled={isGenerating}
+                      >
+                        <Eye className="mr-2 h-4 w-4" />
+                        {isGenerating ? 'Generating...' : 'View PDF'}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleResendQuote(quote)}>
+                        <Send className="mr-2 h-4 w-4" />
+                        Resend Quote
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
             ))}
