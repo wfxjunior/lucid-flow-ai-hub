@@ -1,4 +1,3 @@
-
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 
@@ -93,12 +92,25 @@ export class PDFService {
   }
 
   static async generateEstimatePDF(estimate: any, businessData: BusinessData): Promise<void> {
-    const element = this.createEstimateElement(estimate, businessData)
+    const element = this.createEstimateElement(estimate, businessData, 'ESTIMATE')
     document.body.appendChild(element)
     
     try {
       await this.generateFromElement(element, {
         filename: `estimate_${estimate.estimate_number || estimate.id}_${Date.now()}.pdf`
+      })
+    } finally {
+      document.body.removeChild(element)
+    }
+  }
+
+  static async generateQuotePDF(quote: any, businessData: BusinessData): Promise<void> {
+    const element = this.createEstimateElement(quote, businessData, 'QUOTE')
+    document.body.appendChild(element)
+    
+    try {
+      await this.generateFromElement(element, {
+        filename: `quote_${quote.quote_number || quote.id}_${Date.now()}.pdf`
       })
     } finally {
       document.body.removeChild(element)
@@ -274,7 +286,7 @@ export class PDFService {
     return element
   }
 
-  private static createEstimateElement(estimate: any, businessData: BusinessData): HTMLElement {
+  private static createEstimateElement(estimate: any, businessData: BusinessData, documentType: string = 'ESTIMATE'): HTMLElement {
     const element = document.createElement('div')
     element.style.cssText = `
       width: 210mm;
@@ -287,6 +299,10 @@ export class PDFService {
       color: #333;
     `
     
+    const documentNumber = documentType === 'QUOTE' 
+      ? (estimate.quote_number || String(estimate.id).slice(0, 8))
+      : (estimate.estimate_number || String(estimate.id).slice(0, 8))
+    
     element.innerHTML = `
       <div style="border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -296,8 +312,8 @@ export class PDFService {
             <p style="margin: 5px 0; color: #666;">${businessData.companyPhone || ''} | ${businessData.companyEmail || ''}</p>
           </div>
           <div style="text-align: right;">
-            <h2 style="margin: 0; font-size: 20pt;">ESTIMATE</h2>
-            <p style="margin: 5px 0; color: #666;">#${estimate.estimate_number || String(estimate.id).slice(0, 8)}</p>
+            <h2 style="margin: 0; font-size: 20pt;">${documentType}</h2>
+            <p style="margin: 5px 0; color: #666;">#${documentNumber}</p>
             <p style="margin: 5px 0; color: #666;">Date: ${estimate.estimate_date ? new Date(estimate.estimate_date).toLocaleDateString() : new Date().toLocaleDateString()}</p>
           </div>
         </div>
@@ -312,7 +328,7 @@ export class PDFService {
       
       <div style="margin-top: 50px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
         <p style="text-align: center; color: #666; font-style: italic;">
-          This estimate is valid for 30 days from the date issued.
+          This ${documentType.toLowerCase()} is valid for 30 days from the date issued.
         </p>
         <div style="margin-top: 30px;">
           <p><strong>Client Acceptance:</strong></p>
