@@ -2,8 +2,6 @@
 import React from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Mail } from "lucide-react"
 import { ErrorAlert } from './ErrorAlert'
 
 interface ForgotPasswordFormProps {
@@ -27,28 +25,23 @@ export function ForgotPasswordForm({
     <>
       <ErrorAlert errors={errors} />
       
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email" className="flex items-center space-x-2">
-            <Mail className="w-4 h-4" />
-            <span>Email</span>
-          </Label>
+      <form onSubmit={onSubmit} className="space-y-6">
+        <div>
           <Input
             id="email"
             type="email"
-            placeholder="your@email.com"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-4"
+            className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg"
             required
           />
         </div>
         
         <Button 
           type="submit" 
-          className="w-full"
+          className="w-full h-12 rounded-lg font-medium transition-all duration-200"
           disabled={loading}
-          size="lg"
         >
           {loading ? 'Sending...' : 'Send Reset Link'}
         </Button>

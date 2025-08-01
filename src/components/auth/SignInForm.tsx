@@ -2,8 +2,7 @@
 import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Eye, EyeOff, Mail, Lock } from "lucide-react"
+import { Eye, EyeOff } from "lucide-react"
 import { ErrorAlert } from './ErrorAlert'
 
 interface SignInFormProps {
@@ -35,55 +34,44 @@ export function SignInForm({
     <>
       <ErrorAlert errors={errors} />
       
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email" className="flex items-center space-x-2">
-            <Mail className="w-4 h-4" />
-            <span>Email</span>
-          </Label>
+      <form onSubmit={onSubmit} className="space-y-6">
+        <div>
           <Input
             id="email"
             type="email"
-            placeholder="your@email.com"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="pl-4"
+            className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg"
             required
           />
         </div>
         
-        <div className="space-y-2">
-          <Label htmlFor="password" className="flex items-center space-x-2">
-            <Lock className="w-4 h-4" />
-            <span>Password</span>
-          </Label>
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="pl-4 pr-10"
-              required
-            />
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </Button>
-          </div>
+        <div className="relative">
+          <Input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg pr-12"
+            required
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-transparent"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <EyeOff className="w-4 h-4 text-muted-foreground" /> : <Eye className="w-4 h-4 text-muted-foreground" />}
+          </Button>
         </div>
         
         <Button 
           type="submit" 
-          className="w-full"
+          className="w-full h-12 rounded-lg font-medium transition-all duration-200"
           disabled={loading}
-          size="lg"
         >
           {loading ? 'Processing...' : 'Sign In'}
         </Button>

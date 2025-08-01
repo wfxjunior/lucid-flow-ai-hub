@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react"
 import { useAdminEmails } from "@/hooks/useAdminEmails"
 import { supabase } from "@/integrations/supabase/client"
@@ -62,7 +61,7 @@ export function SignUpForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
         <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
           <p className="text-sm text-destructive">{error}</p>
@@ -70,55 +69,55 @@ export function SignUpForm() {
       )}
       
       <div>
-        <Label htmlFor="name">Nome (opcional)</Label>
         <Input
           id="name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Seu nome"
+          placeholder="Full Name (optional)"
+          className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg"
         />
       </div>
 
       <div>
-        <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="seu@email.com"
+          placeholder="Email"
+          className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg"
           required
         />
       </div>
 
       <div>
-        <Label htmlFor="password">Senha</Label>
         <Input
           id="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Mínimo 6 caracteres"
+          placeholder="Password (minimum 6 characters)"
+          className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg"
           required
         />
       </div>
 
       <div>
-        <Label htmlFor="confirmPassword">Confirmar Senha</Label>
         <Input
           id="confirmPassword"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Digite a senha novamente"
+          placeholder="Confirm Password"
+          className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg"
           required
         />
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full h-12 rounded-lg font-medium transition-all duration-200" disabled={loading}>
         {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        Criar Conta
+        Create Account
       </Button>
     </form>
   )
