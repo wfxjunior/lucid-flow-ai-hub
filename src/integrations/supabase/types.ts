@@ -1162,6 +1162,7 @@ export type Database = {
           notes: string | null
           payment_method: string | null
           receipt_number: string
+          status: string | null
           user_id: string
         }
         Insert: {
@@ -1173,6 +1174,7 @@ export type Database = {
           notes?: string | null
           payment_method?: string | null
           receipt_number: string
+          status?: string | null
           user_id: string
         }
         Update: {
@@ -1184,6 +1186,7 @@ export type Database = {
           notes?: string | null
           payment_method?: string | null
           receipt_number?: string
+          status?: string | null
           user_id?: string
         }
         Relationships: [
