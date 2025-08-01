@@ -5,18 +5,20 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Search, Edit, Trash2, Download, FileText, DollarSign, TrendingUp, Send, Copy, PenTool, Receipt } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Download, FileText, DollarSign, TrendingUp, Send, Copy, PenTool, Receipt, Mail } from "lucide-react"
 import { EstimateForm } from "@/components/EstimateForm"
 import { InlineEstimateEditor } from "@/components/InlineEstimateEditor"
 import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
 import { ConvertToReceiptDialog } from "@/components/receipts/ConvertToReceiptDialog"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { useDocumentEmail } from "@/hooks/useDocumentEmail"
 import { toast } from "sonner"
 
 export function EstimatesPage() {
   const { estimates, clients, loading } = useBusinessData()
   const { generateEstimatePDF, isGenerating } = usePDFGeneration()
+  const { sendEstimateEmail, isSending } = useDocumentEmail()
   const [showForm, setShowForm] = useState(false)
   const [showInlineEditor, setShowInlineEditor] = useState(false)
   const [editingEstimate, setEditingEstimate] = useState<any>(null)
@@ -63,6 +65,17 @@ export function EstimatesPage() {
     }
     setEditingEstimate(duplicated)
     setShowForm(true)
+  }
+
+  const handleSendEmail = async (estimate: any) => {
+    const client = clientsMap[estimate.client_id]
+    if (!client?.email) {
+      toast.error("Client email not found. Please update the client's email address.")
+      return
+    }
+    
+    const estimateWithClient = { ...estimate, client }
+    await sendEstimateEmail(estimateWithClient)
   }
 
   const handleCloseForm = () => {
@@ -302,6 +315,16 @@ export function EstimatesPage() {
                               title="Download PDF"
                             >
                               <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleSendEmail(estimate)}
+                              disabled={isSending}
+                              className="h-8 w-8 p-0"
+                              title="Send Email"
+                            >
+                              <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                             <Button
                               variant="ghost"
