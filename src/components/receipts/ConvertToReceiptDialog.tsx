@@ -68,9 +68,13 @@ export function ConvertToReceiptDialog({ type, item, onReceiptCreated }: Convert
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="outline">
-          <Copy className="h-4 w-4 mr-1" />
-          Convert
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-8 w-8 p-0 text-green-600 hover:text-green-700 hover:bg-green-50"
+          title="Convert to Receipt"
+        >
+          <Copy className="h-3 w-3 sm:h-4 sm:w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">

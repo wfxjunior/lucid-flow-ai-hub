@@ -37,6 +37,7 @@ import { AdminDashboard } from "@/components/AdminDashboard"
 import { useUserRole } from "@/hooks/useUserRole"
 import { ReceiptsPage } from "@/components/ReceiptsPage"
 import { InvoiceCreator } from "@/components/InvoiceCreator"
+import { InvoicesPage } from "@/components/InvoicesPage"
 import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
 import { ReferralsPage } from "@/components/ReferralsPage"
 import { FeaturesPage } from "@/components/FeaturesPage"
@@ -177,10 +178,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       
       // Legacy routes for compatibility
       case "invoices":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Invoices</h1>
-          <p>Invoice management coming soon...</p>
-        </div>
+        return <InvoicesPage />
       case "products":
         return <AccountingPage />
       case "expenses":

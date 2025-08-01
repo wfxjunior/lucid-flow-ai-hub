@@ -69,6 +69,11 @@ export const financialTools: MenuItem[] = [
     view: "estimates"
   },
   {
+    title: "Invoices",
+    icon: Receipt,
+    view: "invoices"
+  },
+  {
     title: "Receipts",
     icon: Receipt,
     view: "receipts"

@@ -5,24 +5,21 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Search, Edit, Trash2, Download, FileText, DollarSign, TrendingUp, Send, Copy, PenTool, Receipt } from "lucide-react"
-import { EstimateForm } from "@/components/EstimateForm"
-import { InlineEstimateEditor } from "@/components/InlineEstimateEditor"
-import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
+import { Plus, Search, Edit, Download, FileText, DollarSign, TrendingUp, Send, Copy, Mail } from "lucide-react"
+import { InvoiceForm } from "@/components/InvoiceForm"
 import { ConvertToReceiptDialog } from "@/components/receipts/ConvertToReceiptDialog"
+import { ReceiptEmailButton } from "@/components/ReceiptEmailButton"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
 
-export function EstimatesPage() {
-  const { estimates, clients, loading } = useBusinessData()
+export function InvoicesPage() {
+  const { invoices, clients, loading } = useBusinessData()
   const { generateEstimatePDF, isGenerating } = usePDFGeneration()
   const [showForm, setShowForm] = useState(false)
-  const [showInlineEditor, setShowInlineEditor] = useState(false)
-  const [editingEstimate, setEditingEstimate] = useState<any>(null)
+  const [editingInvoice, setEditingInvoice] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
-  const [signatureDialogOpen, setSignatureDialogOpen] = useState<string | null>(null)
 
   // Create a mapping of clients for easy lookup
   const clientsMap = (clients || []).reduce((acc, client) => {
@@ -30,76 +27,62 @@ export function EstimatesPage() {
     return acc
   }, {} as Record<string, any>)
 
-  const filteredEstimates = (estimates || []).filter((estimate) => {
-    const client = clientsMap[estimate.client_id]
+  const filteredInvoices = (invoices || []).filter((invoice) => {
+    const client = clientsMap[invoice.client_id]
     const clientName = client?.name || 'Unknown Client'
     
-    const matchesSearch = estimate.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = invoice.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (estimate.estimate_number || '').toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === "all" || estimate.status === statusFilter
+                         (invoice.invoice_number || '').toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesStatus = statusFilter === "all" || invoice.status === statusFilter
     
     return matchesSearch && matchesStatus
   })
 
-  const handleEdit = (estimate: any) => {
-    setEditingEstimate(estimate)
+  const handleEdit = (invoice: any) => {
+    setEditingInvoice(invoice)
     setShowForm(true)
   }
 
-  const handleGeneratePDF = async (estimate: any) => {
-    const client = clientsMap[estimate.client_id]
-    const estimateWithClient = { ...estimate, client }
-    await generateEstimatePDF(estimateWithClient)
+  const handleGeneratePDF = async (invoice: any) => {
+    const client = clientsMap[invoice.client_id]
+    const invoiceWithClient = { ...invoice, client }
+    await generateEstimatePDF(invoiceWithClient)
   }
 
-  const handleDuplicate = (estimate: any) => {
+  const handleDuplicate = (invoice: any) => {
     const duplicated = {
-      ...estimate,
+      ...invoice,
       id: undefined,
-      estimate_number: `EST-${Date.now().toString().slice(-6)}`,
+      invoice_number: `INV-${Date.now().toString().slice(-6)}`,
       status: 'draft',
-      title: `Copy of ${estimate.title}`
+      title: `Copy of ${invoice.title}`
     }
-    setEditingEstimate(duplicated)
+    setEditingInvoice(duplicated)
     setShowForm(true)
   }
 
   const handleCloseForm = () => {
     setShowForm(false)
-    setShowInlineEditor(false)
-    setEditingEstimate(null)
+    setEditingInvoice(null)
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'draft': return 'bg-gray-100 text-gray-800'
       case 'sent': return 'bg-blue-100 text-blue-800'
-      case 'viewed': return 'bg-purple-100 text-purple-800'
-      case 'accepted': return 'bg-green-100 text-green-800'
-      case 'declined': return 'bg-red-100 text-red-800'
-      case 'expired': return 'bg-orange-100 text-orange-800'
+      case 'pending': return 'bg-yellow-100 text-yellow-800'
+      case 'paid': return 'bg-green-100 text-green-800'
+      case 'overdue': return 'bg-red-100 text-red-800'
+      case 'cancelled': return 'bg-gray-100 text-gray-800'
       default: return 'bg-gray-100 text-gray-800'
     }
   }
 
-  if (showInlineEditor) {
-    return (
-      <div className="container mx-auto p-4 sm:p-6">
-        <InlineEstimateEditor />
-        <div className="mt-6">
-          <Button variant="outline" onClick={handleCloseForm}>
-            Back to Estimates
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
   if (showForm) {
     return (
-      <EstimateForm
-        estimate={editingEstimate}
+      <InvoiceForm
+        invoice={editingInvoice}
         onClose={handleCloseForm}
         onSuccess={handleCloseForm}
       />
@@ -110,19 +93,15 @@ export function EstimatesPage() {
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Estimates</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Invoices</h1>
           <p className="text-sm sm:text-base text-muted-foreground">
-            Create professional estimates with editable line items and instant PDF generation
+            Create and manage professional invoices with payment tracking
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowInlineEditor(true)}>
-            <FileText className="mr-2 h-4 w-4" />
-            Legacy Editor
-          </Button>
           <Button onClick={() => setShowForm(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            New Estimate
+            New Invoice
           </Button>
         </div>
       </div>
@@ -131,11 +110,11 @@ export function EstimatesPage() {
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Estimates</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Invoices</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{estimates?.length || 0}</div>
+            <div className="text-2xl font-bold">{invoices?.length || 0}</div>
           </CardContent>
         </Card>
 
@@ -146,19 +125,19 @@ export function EstimatesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold">
-              ${estimates?.reduce((sum, est) => sum + (est.amount || 0), 0).toFixed(2) || '0.00'}
+              ${invoices?.reduce((sum, inv) => sum + (inv.amount || 0), 0).toFixed(2) || '0.00'}
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Accepted</CardTitle>
+            <CardTitle className="text-sm font-medium">Paid</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {estimates?.filter(est => est.status === 'accepted').length || 0}
+              {invoices?.filter(inv => inv.status === 'paid').length || 0}
             </div>
           </CardContent>
         </Card>
@@ -170,7 +149,7 @@ export function EstimatesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {estimates?.filter(est => est.status === 'sent' || est.status === 'viewed').length || 0}
+              {invoices?.filter(inv => inv.status === 'pending' || inv.status === 'sent').length || 0}
             </div>
           </CardContent>
         </Card>
@@ -187,7 +166,7 @@ export function EstimatesPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search estimates..."
+                  placeholder="Search invoices..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -203,10 +182,10 @@ export function EstimatesPage() {
                   <SelectItem value="all">All Status</SelectItem>
                   <SelectItem value="draft">Draft</SelectItem>
                   <SelectItem value="sent">Sent</SelectItem>
-                  <SelectItem value="viewed">Viewed</SelectItem>
-                  <SelectItem value="accepted">Accepted</SelectItem>
-                  <SelectItem value="declined">Declined</SelectItem>
-                  <SelectItem value="expired">Expired</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="paid">Paid</SelectItem>
+                  <SelectItem value="overdue">Overdue</SelectItem>
+                  <SelectItem value="cancelled">Cancelled</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -214,71 +193,71 @@ export function EstimatesPage() {
         </CardContent>
       </Card>
 
-      {/* Estimates Table */}
+      {/* Invoices Table */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg sm:text-xl">Estimates</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Invoices</CardTitle>
           <CardDescription className="text-sm">
-            Manage your estimates with the new editable interface and digital signatures
+            Manage your invoices and convert them to receipts when paid
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0 sm:p-6">
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <div className="text-sm text-muted-foreground">Loading estimates...</div>
+              <div className="text-sm text-muted-foreground">Loading invoices...</div>
             </div>
-          ) : filteredEstimates.length === 0 ? (
+          ) : filteredInvoices.length === 0 ? (
             <div className="text-center py-8">
-              <div className="text-sm text-muted-foreground">No estimates found</div>
+              <div className="text-sm text-muted-foreground">No invoices found</div>
             </div>
           ) : (
             <div className="w-full overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[120px]">Estimate #</TableHead>
+                    <TableHead className="min-w-[120px]">Invoice #</TableHead>
                     <TableHead className="min-w-[150px]">Title</TableHead>
                     <TableHead className="min-w-[120px] hidden sm:table-cell">Client</TableHead>
                     <TableHead className="min-w-[100px]">Amount</TableHead>
                     <TableHead className="min-w-[100px]">Status</TableHead>
-                    <TableHead className="min-w-[100px] hidden md:table-cell">Date</TableHead>
-                    <TableHead className="min-w-[150px]">Actions</TableHead>
+                    <TableHead className="min-w-[100px] hidden md:table-cell">Due Date</TableHead>
+                    <TableHead className="min-w-[200px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredEstimates.map((estimate) => {
-                    const client = clientsMap[estimate.client_id]
+                  {filteredInvoices.map((invoice) => {
+                    const client = clientsMap[invoice.client_id]
                     const clientName = client?.name || 'Unknown Client'
                     
                     return (
-                      <TableRow key={estimate.id}>
+                      <TableRow key={invoice.id}>
                         <TableCell className="font-medium text-xs sm:text-sm">
-                          {estimate.estimate_number || 'EST-' + estimate.id?.slice(0, 8)}
+                          {invoice.invoice_number || 'INV-' + invoice.id?.slice(0, 8)}
                         </TableCell>
                         <TableCell className="text-xs sm:text-sm">
                           <div>
-                            <div className="font-medium">{estimate.title}</div>
+                            <div className="font-medium">{invoice.title}</div>
                             <div className="text-muted-foreground sm:hidden text-xs">{clientName}</div>
                           </div>
                         </TableCell>
                         <TableCell className="hidden sm:table-cell text-sm">{clientName}</TableCell>
                         <TableCell className="text-xs sm:text-sm font-medium">
-                          ${estimate.amount?.toFixed(2) || '0.00'}
+                          ${invoice.amount?.toFixed(2) || '0.00'}
                         </TableCell>
                         <TableCell>
-                          <Badge className={`${getStatusColor(estimate.status)} text-xs`}>
-                            {estimate.status?.charAt(0).toUpperCase() + estimate.status?.slice(1)}
+                          <Badge className={`${getStatusColor(invoice.status)} text-xs`}>
+                            {invoice.status?.charAt(0).toUpperCase() + invoice.status?.slice(1)}
                           </Badge>
                         </TableCell>
                         <TableCell className="hidden md:table-cell text-xs sm:text-sm">
-                          {estimate.estimate_date ? new Date(estimate.estimate_date).toLocaleDateString() : 'Not set'}
+                          {invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : 'Not set'}
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleEdit(estimate)}
+                              onClick={() => handleEdit(invoice)}
                               className="h-8 w-8 p-0"
                               title="Edit"
                             >
@@ -287,7 +266,7 @@ export function EstimatesPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleDuplicate(estimate)}
+                              onClick={() => handleDuplicate(invoice)}
                               className="h-8 w-8 p-0"
                               title="Duplicate"
                             >
@@ -296,34 +275,25 @@ export function EstimatesPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleGeneratePDF(estimate)}
+                              onClick={() => handleGeneratePDF(invoice)}
                               disabled={isGenerating}
                               className="h-8 w-8 p-0"
                               title="Download PDF"
                             >
                               <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setSignatureDialogOpen(estimate.id)}
-                              className="h-8 w-8 p-0"
-                              title="Send for Signature"
-                            >
-                              <PenTool className="h-3 w-3 sm:h-4 sm:w-4" />
-                            </Button>
                             <ConvertToReceiptDialog
-                              type="estimate"
-                              item={estimate}
+                              type="invoice"
+                              item={invoice}
                               onReceiptCreated={() => {
                                 toast.success("Receipt created successfully!")
                               }}
                             />
-                            <DocumentSignatureDialog
-                              document={estimate}
-                              documentType="estimate"
-                              open={signatureDialogOpen === estimate.id}
-                              onOpenChange={(open) => setSignatureDialogOpen(open ? estimate.id : null)}
+                            <ReceiptEmailButton
+                              invoice={invoice}
+                              variant="ghost"
+                              size="sm"
+                              className="h-8 w-8 p-0"
                             />
                           </div>
                         </TableCell>
