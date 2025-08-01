@@ -7,12 +7,14 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Target, DollarSign, Calendar, User } from 'lucide-react'
+import { Plus, Target, DollarSign, Calendar, User, FileText, Download } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
+import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 
 export function BidsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const { generateBidPDF, isGenerating } = usePDFGeneration()
   const [bids, setBids] = useState([
     {
       id: 1,
@@ -256,11 +258,22 @@ export function BidsPage() {
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-xl font-bold">${bid.bidAmount.toLocaleString()}</p>
-                  {bid.closingDate && (
-                    <p className="text-sm text-gray-500">Closes: {bid.closingDate}</p>
-                  )}
+                <div className="flex items-center gap-2">
+                  <div className="text-right mr-4">
+                    <p className="text-xl font-bold">${bid.bidAmount.toLocaleString()}</p>
+                    {bid.closingDate && (
+                      <p className="text-sm text-gray-500">Closes: {bid.closingDate}</p>
+                    )}
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => generateBidPDF(bid)}
+                    disabled={isGenerating}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    PDF
+                  </Button>
                 </div>
               </div>
             ))}

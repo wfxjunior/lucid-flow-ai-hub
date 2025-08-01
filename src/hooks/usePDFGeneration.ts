@@ -96,12 +96,40 @@ export function usePDFGeneration() {
     }
   }
 
+  const generateQuotePDF = async (quote: any) => {
+    setIsGenerating(true)
+    try {
+      await PDFService.generateQuotePDF(quote, businessData)
+      toast.success('Quote PDF generated successfully!')
+    } catch (error) {
+      console.error('Quote PDF generation error:', error)
+      toast.error('Failed to generate quote PDF')
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const generateBidPDF = async (bid: any) => {
+    setIsGenerating(true)
+    try {
+      await PDFService.generateBidPDF(bid, businessData)
+      toast.success('Bid PDF generated successfully!')
+    } catch (error) {
+      console.error('Bid PDF generation error:', error)
+      toast.error('Failed to generate bid PDF')
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
   return {
     isGenerating,
     generatePDF,
     generateContractPDF,
     generateWorkOrderPDF,
     generateEstimatePDF,
+    generateQuotePDF,
+    generateBidPDF,
     generateReceiptPDF,
     generateAnalyticsReportPDF,
     businessData
