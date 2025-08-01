@@ -214,7 +214,7 @@ export class PDFService {
           </div>
           <div style="text-align: right;">
             <h2 style="margin: 0; font-size: 20pt;">WORK ORDER</h2>
-            <p style="margin: 5px 0; color: #666;">#${workOrder.work_order_number || workOrder.id.slice(0, 8)}</p>
+            <p style="margin: 5px 0; color: #666;">#${workOrder.work_order_number || String(workOrder.id).slice(0, 8)}</p>
             <p style="margin: 5px 0; color: #666;">Date: ${new Date().toLocaleDateString()}</p>
           </div>
         </div>
@@ -297,7 +297,7 @@ export class PDFService {
           </div>
           <div style="text-align: right;">
             <h2 style="margin: 0; font-size: 20pt;">ESTIMATE</h2>
-            <p style="margin: 5px 0; color: #666;">#${estimate.estimate_number || estimate.id.slice(0, 8)}</p>
+            <p style="margin: 5px 0; color: #666;">#${estimate.estimate_number || String(estimate.id).slice(0, 8)}</p>
             <p style="margin: 5px 0; color: #666;">Date: ${estimate.estimate_date ? new Date(estimate.estimate_date).toLocaleDateString() : new Date().toLocaleDateString()}</p>
           </div>
         </div>
