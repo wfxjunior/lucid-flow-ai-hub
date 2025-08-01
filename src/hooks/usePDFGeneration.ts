@@ -2,16 +2,19 @@
 import { useState } from 'react'
 import { PDFService, BusinessData } from '@/services/pdfService'
 import { toast } from 'sonner'
+import { useCompanyData } from './useCompanyData'
 
 export function usePDFGeneration() {
   const [isGenerating, setIsGenerating] = useState(false)
+  const { companyProfile } = useCompanyData()
 
+  // Convert company profile to business data format for PDFs
   const businessData: BusinessData = {
-    companyName: "FeatherBiz",
-    companyAddress: "123 Business St, Suite 100, Business City, BC 12345",
-    companyPhone: "(555) 123-4567",
-    companyEmail: "info@featherbiz.com",
-    companyLogo: "/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png"
+    companyName: companyProfile?.company_name || "Your Company",
+    companyAddress: companyProfile?.address || "",
+    companyPhone: companyProfile?.phone || "",
+    companyEmail: companyProfile?.email || "",
+    companyLogo: companyProfile?.logo_url || "/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png"
   }
 
   const generatePDF = async (
