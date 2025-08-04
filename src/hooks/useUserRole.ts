@@ -16,17 +16,15 @@ export function useUserRole() {
 
     const fetchUserRole = async () => {
       try {
+        // Use security definer function to safely get user role
         const { data, error } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', user.id)
-          .single()
+          .rpc('get_current_user_role')
 
-        if (error && error.code !== 'PGRST116') {
+        if (error) {
           console.error('Error fetching user role:', error)
           setRole('user')
         } else {
-          setRole(data?.role || 'user')
+          setRole(data || 'user')
         }
       } catch (error) {
         console.error('Error fetching user role:', error)
