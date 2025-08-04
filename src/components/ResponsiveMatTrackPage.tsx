@@ -3,14 +3,20 @@ import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { Package, Plus, TrendingDown, Users, BarChart3, AlertTriangle } from "lucide-react"
+import { Package, Plus, TrendingDown, Users, BarChart3, AlertTriangle, ArrowLeft } from "lucide-react"
 import { MaterialList } from "./mat-track/MaterialList"
 import { LowStockAlerts } from "./mat-track/LowStockAlerts"
 import { WorkAllocation } from "./mat-track/WorkAllocation"
 import { MaterialInsights } from "./mat-track/MaterialInsights"
+import { MaterialForm } from "./mat-track/MaterialForm"
 
-export function ResponsiveMatTrackPage() {
+interface ResponsiveMatTrackPageProps {
+  onNavigate?: (view: string) => void
+}
+
+export function ResponsiveMatTrackPage({ onNavigate }: ResponsiveMatTrackPageProps) {
   const [activeTab, setActiveTab] = useState('materials')
+  const [showMaterialForm, setShowMaterialForm] = useState(false)
 
   const stats = [
     {
@@ -45,6 +51,17 @@ export function ResponsiveMatTrackPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-3">
+            {onNavigate && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => onNavigate('dashboard')}
+                className="flex items-center gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span className="hidden sm:inline">Dashboard</span>
+              </Button>
+            )}
             <div className="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
               <Package className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600 dark:text-orange-400" />
             </div>
@@ -53,7 +70,10 @@ export function ResponsiveMatTrackPage() {
               <p className="text-sm sm:text-base text-muted-foreground">Material tracking and inventory management</p>
             </div>
           </div>
-          <Button className="w-full sm:w-auto">
+          <Button 
+            className="w-full sm:w-auto"
+            onClick={() => setShowMaterialForm(true)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">Add Material</span>
             <span className="sm:hidden">Add</span>
@@ -144,6 +164,12 @@ export function ResponsiveMatTrackPage() {
             <MaterialInsights />
           </TabsContent>
         </Tabs>
+
+        {/* Material Form Modal */}
+        <MaterialForm 
+          isOpen={showMaterialForm}
+          onClose={() => setShowMaterialForm(false)}
+        />
       </div>
     </div>
   )

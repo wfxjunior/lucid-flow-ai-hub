@@ -19,7 +19,7 @@ import { QuotesPage } from "@/components/QuotesPage"
 import { EstimatesPage } from "@/components/EstimatesPage"
 import { CarRentalPage } from "@/components/CarRentalPage"
 import { WorkOrdersPage } from "@/components/WorkOrdersPage"
-import { MatTrackPage } from "@/components/MatTrackPage"
+import { ResponsiveMatTrackPage } from "@/components/ResponsiveMatTrackPage"
 import { CrewControlPage } from "@/components/CrewControlPage"
 import { EarnSyncPage } from "@/components/EarnSyncPage"
 import { AfterCarePage } from "@/components/AfterCarePage"
@@ -103,7 +103,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "work-orders":
         return <WorkOrdersPage />
       case "mat-track":
-        return <MatTrackPage />
+        return <ResponsiveMatTrackPage onNavigate={onNavigate} />
       case "crew-control":
         return <CrewControlPage />
       case "earnsync":
