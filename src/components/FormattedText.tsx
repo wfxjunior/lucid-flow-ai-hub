@@ -1,4 +1,5 @@
 import React from 'react'
+import { SafeHtml } from '@/utils/htmlSanitizer'
 
 interface FormattedTextProps {
   content: string
@@ -10,11 +11,11 @@ export function FormattedText({ content, className = '' }: FormattedTextProps) {
   const containsHTML = /<[^>]*>/.test(content)
   
   if (containsHTML) {
-    // If it's HTML from RichTextEditor, render it directly
+    // If it's HTML from RichTextEditor, render it safely with sanitization
     return (
-      <div 
+      <SafeHtml
+        html={content}
         className={`prose prose-sm max-w-none ${className}`}
-        dangerouslySetInnerHTML={{ __html: content }}
         style={{
           fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           lineHeight: '1.6'
