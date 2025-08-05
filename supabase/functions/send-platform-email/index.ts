@@ -119,10 +119,14 @@ const handler = async (req: Request): Promise<Response> => {
     // Generate the email template
     const emailHTML = getEmailTemplate(data);
 
-    // Send email to hello@featherbiz.com
+    // Route emails based on type according to routing policy
+    const recipientEmail = data.type === 'feedback' 
+      ? "hello.featherbees.io"  // User feedback, suggestions, issue reports, testimonials
+      : "hello@featherbiz.io";   // General requests, platform-related inquiries, support, help
+
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz Platform <platform@featherbiz.com>",
-      to: ["hello@featherbiz.com"],
+      to: [recipientEmail],
       subject: `[${data.type.toUpperCase()}] ${data.subject}`,
       html: emailHTML,
       reply_to: data.email, // Allow replying directly to the sender
