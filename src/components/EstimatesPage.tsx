@@ -3,31 +3,42 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { 
-  Plus, Search, Edit, Trash2, Download, FileText, DollarSign, TrendingUp, Send, Copy, PenTool, Receipt, Mail, 
-  MoreHorizontal, Printer, Filter, Eye, Archive, RefreshCw, Calculator, Clock
+  ChevronDown, 
+  Plus, 
+  Filter, 
+  Printer, 
+  Edit, 
+  Eye, 
+  Copy, 
+  Send, 
+  FileText, 
+  DollarSign, 
+  Bell, 
+  Download, 
+  MoreHorizontal,
+  Archive,
+  Trash2
 } from "lucide-react"
 import { EstimateForm } from "@/components/EstimateForm"
-import { InlineEstimateEditor } from "@/components/InlineEstimateEditor"
-import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
 import { ConvertToReceiptDialog } from "@/components/receipts/ConvertToReceiptDialog"
+import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { useDocumentEmail } from "@/hooks/useDocumentEmail"
 import { toast } from "sonner"
+
+type StatusFilter = "all" | "draft" | "sent" | "viewed" | "accepted" | "declined" | "expired" | "archived"
 
 export function EstimatesPage() {
   const { estimates, clients, loading } = useBusinessData()
   const { generateEstimatePDF, isGenerating } = usePDFGeneration()
   const { sendEstimateEmail, isSending } = useDocumentEmail()
   const [showForm, setShowForm] = useState(false)
-  const [showInlineEditor, setShowInlineEditor] = useState(false)
   const [editingEstimate, setEditingEstimate] = useState<any>(null)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
   const [showFilters, setShowFilters] = useState(false)
   const [signatureDialogOpen, setSignatureDialogOpen] = useState<string | null>(null)
 
@@ -38,16 +49,55 @@ export function EstimatesPage() {
   }, {} as Record<string, any>)
 
   const filteredEstimates = (estimates || []).filter((estimate) => {
-    const client = clientsMap[estimate.client_id]
-    const clientName = client?.name || 'Unknown Client'
+    if (statusFilter === "all") return true
     
-    const matchesSearch = estimate.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (estimate.estimate_number || '').toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === "all" || estimate.status === statusFilter
+    // Map our status filter to estimate status
+    const statusMapping: Record<StatusFilter, string[]> = {
+      all: [],
+      draft: ["draft"],
+      sent: ["sent"],
+      viewed: ["viewed"],
+      accepted: ["accepted"],
+      declined: ["declined"],
+      expired: ["expired"],
+      archived: ["archived"]
+    }
     
-    return matchesSearch && matchesStatus
+    return statusMapping[statusFilter]?.includes(estimate.status)
   })
+
+  const calculateDaysFromEstimate = (estimateDate: string | null, status: string) => {
+    if (!estimateDate) return 0
+    const estimate = new Date(estimateDate)
+    const today = new Date()
+    const diffTime = today.getTime() - estimate.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays > 0 ? diffDays : 0
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'draft': return 'bg-gray-100 text-gray-800'
+      case 'sent': return 'bg-blue-100 text-blue-800'
+      case 'viewed': return 'bg-blue-100 text-blue-800'
+      case 'accepted': return 'bg-green-100 text-green-800'
+      case 'declined': return 'bg-red-100 text-red-800'
+      case 'expired': return 'bg-orange-100 text-orange-800'
+      default: return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getStatusDisplay = (status: string) => {
+    switch (status) {
+      case 'sent': return 'Sent'
+      case 'viewed': return 'Viewed'  
+      case 'accepted': return 'Accepted'
+      case 'declined': return 'Declined'
+      case 'draft': return 'Draft'
+      case 'expired': return 'Expired'
+      default: return status?.charAt(0).toUpperCase() + status?.slice(1)
+    }
+  }
 
   const handleEdit = (estimate: any) => {
     setEditingEstimate(estimate)
@@ -55,7 +105,7 @@ export function EstimatesPage() {
   }
 
   const handleView = (estimate: any) => {
-    // Navigate to estimate view
+    // Implement view functionality
     toast.info("View estimate functionality")
   }
 
@@ -71,7 +121,7 @@ export function EstimatesPage() {
     setShowForm(true)
   }
 
-  const handleSendEmail = async (estimate: any) => {
+  const handleSend = async (estimate: any) => {
     const client = clientsMap[estimate.client_id]
     if (!client?.email) {
       toast.error("Client email not found. Please update the client's email address.")
@@ -82,58 +132,54 @@ export function EstimatesPage() {
     await sendEstimateEmail(estimateWithClient)
   }
 
-  const handleGeneratePDF = async (estimate: any) => {
+  const handleConvertToInvoice = (estimate: any) => {
+    toast.info("Convert to invoice functionality")
+  }
+
+  const handleSendForSignature = (estimate: any) => {
+    setSignatureDialogOpen(estimate.id)
+  }
+
+  const handleSendReminder = (estimate: any) => {
+    toast.info("Send reminder functionality")
+  }
+
+  const handleDownloadPDF = async (estimate: any) => {
     const client = clientsMap[estimate.client_id]
     const estimateWithClient = { ...estimate, client }
     await generateEstimatePDF(estimateWithClient)
   }
 
+  const handleChangeStatus = (estimate: any, newStatus: string) => {
+    toast.info(`Change status to ${newStatus}`)
+  }
+
+  const handleArchive = (estimate: any) => {
+    toast.info("Archive estimate functionality")
+  }
+
+  const handleDelete = (estimate: any) => {
+    toast.info("Delete estimate functionality")
+  }
+
   const handleCloseForm = () => {
     setShowForm(false)
-    setShowInlineEditor(false)
     setEditingEstimate(null)
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'draft': return 'bg-gray-100 text-gray-800'
-      case 'sent': return 'bg-blue-100 text-blue-800'
-      case 'viewed': return 'bg-purple-100 text-purple-800'
-      case 'accepted': return 'bg-green-100 text-green-800'
-      case 'declined': return 'bg-red-100 text-red-800'
-      case 'expired': return 'bg-orange-100 text-orange-800'
-      case 'archived': return 'bg-gray-100 text-gray-600'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
-
-  const getStatusDisplay = (status: string) => {
-    return status.charAt(0).toUpperCase() + status.slice(1)
-  }
-
-  const StatusFilterButton = ({ status, label }: { status: string; label: string }) => (
-    <Button
-      variant={statusFilter === status ? "default" : "outline"}
-      size="sm"
-      onClick={() => setStatusFilter(status)}
-      className="h-8"
+  const StatusFilterButton = ({ status, label, isActive, onClick }: { 
+    status: StatusFilter, 
+    label: string, 
+    isActive: boolean, 
+    onClick: () => void 
+  }) => (
+    <button
+      onClick={onClick}
+      className={`text-sm ${isActive ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-blue-600'}`}
     >
       {label}
-    </Button>
+    </button>
   )
-
-  if (showInlineEditor) {
-    return (
-      <div className="container mx-auto p-4 sm:p-6">
-        <InlineEstimateEditor />
-        <div className="mt-6">
-          <Button variant="outline" onClick={handleCloseForm}>
-            Back to Estimates
-          </Button>
-        </div>
-      </div>
-    )
-  }
 
   if (showForm) {
     return (
@@ -146,177 +192,272 @@ export function EstimatesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Estimates</h1>
-          <p className="text-muted-foreground">
-            Track and manage all your estimates
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowInlineEditor(true)}>
-            <Calculator className="mr-2 h-4 w-4" />
-            Create Estimate
-          </Button>
-          <Button onClick={() => setShowForm(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            New Estimate
-          </Button>
-        </div>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">List of Estimates</h1>
+        <Button onClick={() => setShowForm(true)} variant="outline">
+          New Estimate
+        </Button>
       </div>
 
-      {/* Control Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <Filter className="mr-2 h-4 w-4" />
-            {showFilters ? 'Hide Filters' : 'Show Filters'}
-          </Button>
-          <Button variant="outline" size="sm">
-            <Printer className="mr-2 h-4 w-4" />
-            Print Table
-          </Button>
-        </div>
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"
+        >
+          {showFilters ? 'Hide Filter' : 'Show Filter'}
+        </button>
+        <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1">
+          <Printer className="h-4 w-4" />
+          Print Table
+        </button>
       </div>
 
       {/* Status Filters */}
-      {showFilters && (
-        <div className="flex flex-wrap gap-2">
-          <StatusFilterButton status="all" label="All" />
-          <StatusFilterButton status="draft" label="Draft" />
-          <StatusFilterButton status="sent" label="Sent" />
-          <StatusFilterButton status="viewed" label="Viewed" />
-          <StatusFilterButton status="accepted" label="Accepted" />
-          <StatusFilterButton status="declined" label="Declined" />
-          <StatusFilterButton status="expired" label="Expired" />
-          <StatusFilterButton status="archived" label="Archived" />
-        </div>
-      )}
+      <div className="flex items-center gap-4 text-sm">
+        <span className="font-medium">Status:</span>
+        <StatusFilterButton 
+          status="all" 
+          label="All" 
+          isActive={statusFilter === "all"} 
+          onClick={() => setStatusFilter("all")} 
+        />
+        <span>|</span>
+        <StatusFilterButton 
+          status="draft" 
+          label="Draft" 
+          isActive={statusFilter === "draft"} 
+          onClick={() => setStatusFilter("draft")} 
+        />
+        <span>|</span>
+        <StatusFilterButton 
+          status="sent" 
+          label="Sent" 
+          isActive={statusFilter === "sent"} 
+          onClick={() => setStatusFilter("sent")} 
+        />
+        <span>|</span>
+        <StatusFilterButton 
+          status="viewed" 
+          label="Viewed" 
+          isActive={statusFilter === "viewed"} 
+          onClick={() => setStatusFilter("viewed")} 
+        />
+        <span>|</span>
+        <StatusFilterButton 
+          status="accepted" 
+          label="Accepted" 
+          isActive={statusFilter === "accepted"} 
+          onClick={() => setStatusFilter("accepted")} 
+        />
+        <span>|</span>
+        <StatusFilterButton 
+          status="declined" 
+          label="Declined" 
+          isActive={statusFilter === "declined"} 
+          onClick={() => setStatusFilter("declined")} 
+        />
+        <span>|</span>
+        <StatusFilterButton 
+          status="expired" 
+          label="Expired" 
+          isActive={statusFilter === "expired"} 
+          onClick={() => setStatusFilter("expired")} 
+        />
+        <span>|</span>
+        <StatusFilterButton 
+          status="archived" 
+          label="Archived" 
+          isActive={statusFilter === "archived"} 
+          onClick={() => setStatusFilter("archived")} 
+        />
+      </div>
 
-      {/* Estimates Table */}
-      <Card>
-        <CardContent className="p-0">
-          {loading ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="text-sm text-muted-foreground">Loading estimates...</div>
-            </div>
-          ) : filteredEstimates.length === 0 ? (
-            <div className="text-center py-8">
-              <div className="text-sm text-muted-foreground">No estimates found</div>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Estimate Number</TableHead>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Days</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredEstimates.map((estimate) => {
-                  const client = clientsMap[estimate.client_id]
-                  const clientName = client?.name || 'Unknown Client'
-                  
-                  return (
-                    <TableRow key={estimate.id}>
-                      <TableCell className="font-medium">
-                        {estimate.estimate_number || 'EST-' + estimate.id?.slice(0, 8)}
-                      </TableCell>
-                      <TableCell>{clientName}</TableCell>
-                      <TableCell>
-                        {estimate.estimate_date ? new Date(estimate.estimate_date).toLocaleDateString() : 'Not set'}
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-gray-600">-</span>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        ${estimate.amount?.toFixed(2) || '0.00'}
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={getStatusColor(estimate.status)}>
-                          {getStatusDisplay(estimate.status)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
+      {/* Table */}
+      <div className="border rounded-lg overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-blue-500 hover:bg-blue-500">
+              <TableHead className="text-white font-medium">Estimate</TableHead>
+              <TableHead className="text-white font-medium">Customer</TableHead>
+              <TableHead className="text-white font-medium">Date ▲</TableHead>
+              <TableHead className="text-white font-medium">Days</TableHead>
+              <TableHead className="text-white font-medium">Total</TableHead>
+              <TableHead className="text-white font-medium">Balance</TableHead>
+              <TableHead className="text-white font-medium">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-8">
+                  Loading estimates...
+                </TableCell>
+              </TableRow>
+            ) : filteredEstimates.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-8">
+                  No estimates found
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredEstimates.map((estimate) => {
+                const client = clientsMap[estimate.client_id]
+                const clientName = client?.name || 'Unknown Client'
+                const daysFromEstimate = calculateDaysFromEstimate(estimate.estimate_date, estimate.status)
+                const balance = estimate.status === 'accepted' ? 0 : (estimate.amount || 0)
+                
+                return (
+                  <TableRow key={estimate.id} className="border-b">
+                    <TableCell className="py-2">
+                      <div className="flex items-center gap-2">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                              <MoreHorizontal className="h-4 w-4" />
+                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                              <ChevronDown className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuItem onClick={() => handleEdit(estimate)}>
-                              <Edit className="mr-2 h-4 w-4" />
+                          <DropdownMenuContent align="start" className="w-56 bg-white shadow-lg border z-50">
+                            <DropdownMenuItem onClick={() => handleEdit(estimate)} className="flex items-center gap-2">
+                              <Edit className="h-4 w-4" />
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleView(estimate)}>
-                              <Eye className="mr-2 h-4 w-4" />
+                            <DropdownMenuItem onClick={() => handleView(estimate)} className="flex items-center gap-2">
+                              <Eye className="h-4 w-4" />
                               View
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDuplicate(estimate)}>
-                              <Copy className="mr-2 h-4 w-4" />
+                            <DropdownMenuItem onClick={() => handleDuplicate(estimate)} className="flex items-center gap-2">
+                              <Copy className="h-4 w-4" />
                               Duplicate
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleSendEmail(estimate)}>
-                              <Send className="mr-2 h-4 w-4" />
+                            <DropdownMenuItem onClick={() => handleSend(estimate)} className="flex items-center gap-2">
+                              <Send className="h-4 w-4" />
                               Send
                             </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => setSignatureDialogOpen(estimate.id)}>
-                              <PenTool className="mr-2 h-4 w-4" />
+                            <DropdownMenuItem onClick={() => handleConvertToInvoice(estimate)} className="flex items-center gap-2">
+                              <FileText className="h-4 w-4" />
+                              Convert to Invoice
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleSendForSignature(estimate)} className="flex items-center gap-2">
+                              <FileText className="h-4 w-4" />
                               Send for Signature
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleGeneratePDF(estimate)}>
-                              <Download className="mr-2 h-4 w-4" />
+                            <DropdownMenuItem onClick={() => handleSendReminder(estimate)} className="flex items-center gap-2">
+                              <Bell className="h-4 w-4" />
+                              Send Reminder
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDownloadPDF(estimate)} className="flex items-center gap-2">
+                              <Download className="h-4 w-4" />
                               Download/Print PDF
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                              <Archive className="mr-2 h-4 w-4" />
+                            <DropdownMenuItem onClick={() => handleChangeStatus(estimate, 'draft')} className="flex items-center gap-2">
+                              <MoreHorizontal className="h-4 w-4" />
+                              Change Status to:
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => handleArchive(estimate)} className="flex items-center gap-2">
+                              <Archive className="h-4 w-4" />
                               Archive
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              <Trash2 className="mr-2 h-4 w-4" />
+                            <DropdownMenuItem onClick={() => handleDelete(estimate)} className="flex items-center gap-2 text-red-600">
+                              <Trash2 className="h-4 w-4" />
                               Delete
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                        <DocumentSignatureDialog
-                          document={estimate}
-                          documentType="estimate"
-                          open={signatureDialogOpen === estimate.id}
-                          onOpenChange={(open) => setSignatureDialogOpen(open ? estimate.id : null)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                        <span className="text-blue-600 hover:text-blue-800 cursor-pointer">
+                          {estimate.estimate_number || `EST-${estimate.id?.slice(0, 6)}`}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-2">
+                      <span className="text-blue-600 hover:text-blue-800 cursor-pointer">
+                        {clientName}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-2">
+                      {estimate.estimate_date ? new Date(estimate.estimate_date).toLocaleDateString('en-US', {
+                        month: '2-digit',
+                        day: '2-digit', 
+                        year: 'numeric'
+                      }) : '-'}
+                    </TableCell>
+                    <TableCell className="py-2">
+                      <span className={daysFromEstimate > 0 ? 'text-gray-600' : ''}>
+                        {daysFromEstimate > 0 ? daysFromEstimate : '-'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-2 font-medium">
+                      {(estimate.amount || 0).toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                        minimumFractionDigits: 2
+                      })}
+                    </TableCell>
+                    <TableCell className="py-2 font-medium">
+                      {balance.toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                        minimumFractionDigits: 2
+                      })}
+                    </TableCell>
+                    <TableCell className="py-2">
+                      <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
+                        estimate.status === 'accepted' ? 'text-green-700' :
+                        estimate.status === 'sent' ? 'text-blue-700' :
+                        estimate.status === 'viewed' ? 'text-blue-700' :
+                        estimate.status === 'declined' ? 'text-red-700' :
+                        'text-gray-700'
+                      }`}>
+                        {getStatusDisplay(estimate.status)}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
-      {/* Footer Stats */}
-      <div className="flex justify-between items-center text-sm text-muted-foreground">
-        <div>
-          {filteredEstimates.length} estimate{filteredEstimates.length !== 1 ? 's' : ''} found
+      {/* Pagination */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm">First</Button>
+          <Button variant="outline" size="sm">&lt;</Button>
+          <Button variant="default" size="sm">1</Button>
+          <Button variant="outline" size="sm">&gt;</Button>
+          <Button variant="outline" size="sm">Last</Button>
+          <Button variant="outline" size="sm">All Pages</Button>
         </div>
-        <div className="flex gap-4">
-          <span>Total: ${filteredEstimates.reduce((sum, est) => sum + (est.amount || 0), 0).toFixed(2)}</span>
+        <div className="text-sm text-gray-600">
+          {filteredEstimates.length} | 
+          {filteredEstimates.reduce((sum, est) => sum + (est.amount || 0), 0).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+          })} | 
+          {filteredEstimates.reduce((sum, est) => {
+            const balance = est.status === 'accepted' ? 0 : (est.amount || 0)
+            return sum + balance
+          }, 0).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+          })}
         </div>
       </div>
+
+      {/* Signature Dialog */}
+      {signatureDialogOpen && (
+        <DocumentSignatureDialog
+          document={filteredEstimates.find(est => est.id === signatureDialogOpen)}
+          documentType="estimate"
+          open={!!signatureDialogOpen}
+          onOpenChange={(open) => setSignatureDialogOpen(open ? signatureDialogOpen : null)}
+        />
+      )}
     </div>
   )
 }
