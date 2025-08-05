@@ -148,18 +148,18 @@ export function PDFGenerator() {
         heightLeft -= pageHeight
       }
 
-      const fileName = `${documentData.type}_${companyData.name || 'documento'}_${Date.now()}.pdf`
+      const fileName = `${documentData.type}_${companyData.name || 'document'}_${Date.now()}.pdf`
       pdf.save(fileName)
       
       toast({
-        title: "Sucesso",
-        description: "PDF gerado e baixado com sucesso!"
+        title: "Success",
+        description: "PDF generated and downloaded successfully!"
       })
     } catch (error) {
-      console.error('Erro ao gerar PDF:', error)
+      console.error('Error generating PDF:', error)
       toast({
-        title: "Erro",
-        description: "Não foi possível gerar o PDF.",
+        title: "Error",
+        description: "Could not generate PDF.",
         variant: "destructive"
       })
     } finally {
@@ -170,17 +170,17 @@ export function PDFGenerator() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Formulário de Configuração */}
+        {/* Configuration Form */}
         <div className="space-y-6">
-          {/* Dados da Empresa */}
+          {/* Company Data */}
           <Card>
             <CardHeader>
-              <CardTitle>Dados da Empresa</CardTitle>
-              <CardDescription>Informações que aparecerão no cabeçalho do documento</CardDescription>
+              <CardTitle>Company Data</CardTitle>
+              <CardDescription>Information that will appear in the document header</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="company-logo">Logo da Empresa</Label>
+                <Label htmlFor="company-logo">Company Logo</Label>
                 <Input
                   id="company-logo"
                   type="file"
@@ -192,26 +192,26 @@ export function PDFGenerator() {
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="company-name">Nome da Empresa</Label>
+                <Label htmlFor="company-name">Company Name</Label>
                 <Input
                   id="company-name"
                   value={companyData.name}
                   onChange={(e) => setCompanyData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Sua Empresa Ltda"
+                  placeholder="Your Company Ltd"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="company-address">Endereço</Label>
+                <Label htmlFor="company-address">Address</Label>
                 <Textarea
                   id="company-address"
                   value={companyData.address}
                   onChange={(e) => setCompanyData(prev => ({ ...prev, address: e.target.value }))}
-                  placeholder="Rua, número, bairro, cidade, CEP"
+                  placeholder="Street, number, district, city, ZIP"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="company-phone">Telefone</Label>
+                  <Label htmlFor="company-phone">Phone</Label>
                   <Input
                     id="company-phone"
                     value={companyData.phone}
@@ -226,41 +226,41 @@ export function PDFGenerator() {
                     type="email"
                     value={companyData.email}
                     onChange={(e) => setCompanyData(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="contato@empresa.com"
+                    placeholder="contact@company.com"
                   />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Dados do Cliente */}
+          {/* Client Data */}
           <Card>
             <CardHeader>
-              <CardTitle>Dados do Cliente</CardTitle>
-              <CardDescription>Informações do cliente que receberá o documento</CardDescription>
+              <CardTitle>Client Data</CardTitle>
+              <CardDescription>Information of the client who will receive the document</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="client-name">Nome do Cliente</Label>
+                <Label htmlFor="client-name">Client Name</Label>
                 <Input
                   id="client-name"
                   value={clientData.name}
                   onChange={(e) => setClientData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Nome ou Empresa do Cliente"
+                  placeholder="Client Name or Company"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="client-address">Endereço</Label>
+                <Label htmlFor="client-address">Address</Label>
                 <Textarea
                   id="client-address"
                   value={clientData.address}
                   onChange={(e) => setClientData(prev => ({ ...prev, address: e.target.value }))}
-                  placeholder="Endereço completo do cliente"
+                  placeholder="Client's complete address"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="client-phone">Telefone</Label>
+                  <Label htmlFor="client-phone">Phone</Label>
                   <Input
                     id="client-phone"
                     value={clientData.phone}
@@ -275,36 +275,36 @@ export function PDFGenerator() {
                     type="email"
                     value={clientData.email}
                     onChange={(e) => setClientData(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="cliente@email.com"
+                    placeholder="client@email.com"
                   />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Informações do Documento */}
+          {/* Document Information */}
           <Card>
             <CardHeader>
-              <CardTitle>Informações do Documento</CardTitle>
-              <CardDescription>Configure o tipo e conteúdo do documento</CardDescription>
+              <CardTitle>Document Information</CardTitle>
+              <CardDescription>Configure document type and content</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="doc-type">Tipo de Documento</Label>
+                <Label htmlFor="doc-type">Document Type</Label>
                 <Select value={documentData.type} onValueChange={(value) => setDocumentData(prev => ({ ...prev, type: value }))}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione o tipo" />
+                    <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="invoice">Fatura</SelectItem>
-                    <SelectItem value="quote">Orçamento</SelectItem>
-                    <SelectItem value="receipt">Recibo</SelectItem>
-                    <SelectItem value="contract">Contrato</SelectItem>
+                    <SelectItem value="invoice">Invoice</SelectItem>
+                    <SelectItem value="quote">Quote</SelectItem>
+                    <SelectItem value="receipt">Receipt</SelectItem>
+                    <SelectItem value="contract">Contract</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="doc-title">Título do Documento</Label>
+                <Label htmlFor="doc-title">Document Title</Label>
                 <Input
                   id="doc-title"
                   value={documentData.title}
@@ -314,7 +314,7 @@ export function PDFGenerator() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="doc-date">Data</Label>
+                  <Label htmlFor="doc-date">Date</Label>
                   <Input
                     id="doc-date"
                     type="date"
@@ -323,7 +323,7 @@ export function PDFGenerator() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="doc-due-date">Data de Vencimento</Label>
+                  <Label htmlFor="doc-due-date">Due Date</Label>
                   <Input
                     id="doc-due-date"
                     type="date"
@@ -333,12 +333,12 @@ export function PDFGenerator() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="doc-description">Descrição</Label>
+                <Label htmlFor="doc-description">Description</Label>
                 <Textarea
                   id="doc-description"
                   value={documentData.description}
                   onChange={(e) => setDocumentData(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="Descrição adicional do documento"
+                  placeholder="Additional document description"
                 />
               </div>
             </CardContent>
@@ -347,18 +347,18 @@ export function PDFGenerator() {
           {/* Itens do Documento */}
           <Card>
             <CardHeader>
-              <CardTitle>Itens</CardTitle>
-              <CardDescription>Adicione os itens/serviços do documento</CardDescription>
+              <CardTitle>Items</CardTitle>
+              <CardDescription>Add document items/services</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {documentData.items.map((item, index) => (
                 <div key={index} className="grid grid-cols-6 gap-2 items-end">
                   <div className="col-span-3">
-                    <Label>Descrição</Label>
+                    <Label>Description</Label>
                     <Input
                       value={item.description}
                       onChange={(e) => updateItem(index, 'description', e.target.value)}
-                      placeholder="Descrição do item"
+                      placeholder="Item description"
                     />
                   </div>
                   <div>
@@ -400,7 +400,7 @@ export function PDFGenerator() {
 
           <Button onClick={generatePDF} disabled={isGenerating} className="w-full">
             <Download className="h-4 w-4 mr-2" />
-            {isGenerating ? "Gerando PDF..." : "Gerar e Baixar PDF"}
+            {isGenerating ? "Generating PDF..." : "Generate and Download PDF"}
           </Button>
         </div>
 

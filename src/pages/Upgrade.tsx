@@ -17,12 +17,12 @@ export default function Upgrade({ onNavigate }: UpgradeProps) {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {isSubscribed ? "Gerenciar Assinatura" : "Fazer Upgrade"}
+            {isSubscribed ? "Manage Subscription" : "Upgrade Plan"}
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             {isSubscribed 
-              ? "Gerencie sua assinatura e aproveite todos os recursos premium do FeatherBiz"
-              : "Desbloqueie todo o potencial do FeatherBiz com nossos planos premium"
+              ? "Manage your subscription and enjoy all premium FeatherBiz features"
+              : "Unlock the full potential of FeatherBiz with our premium plans"
             }
           </p>
         </div>
@@ -39,10 +39,10 @@ export default function Upgrade({ onNavigate }: UpgradeProps) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Crown className="h-6 w-6 text-yellow-500" />
-                  Por que fazer upgrade para Professional?
+                  Why upgrade to Professional?
                 </CardTitle>
                 <CardDescription>
-                  Veja tudo que você ganha com o plano Professional
+                  See everything you get with the Professional plan
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -51,27 +51,27 @@ export default function Upgrade({ onNavigate }: UpgradeProps) {
                     <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                       <Zap className="h-6 w-6 text-blue-600" />
                     </div>
-                    <h3 className="font-semibold mb-2">Recursos Ilimitados</h3>
+                    <h3 className="font-semibold mb-2">Unlimited Resources</h3>
                     <p className="text-sm text-muted-foreground">
-                      Faturas, orçamentos, contratos e projetos sem limite
+                      Invoices, estimates, contracts and projects without limits
                     </p>
                   </div>
                   <div className="text-center">
                     <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                       <Star className="h-6 w-6 text-green-600" />
                     </div>
-                    <h3 className="font-semibold mb-2">IA Assistente</h3>
+                    <h3 className="font-semibold mb-2">AI Assistant</h3>
                     <p className="text-sm text-muted-foreground">
-                      Assistente de voz com IA para automatizar tarefas
+                      Voice AI assistant to automate tasks
                     </p>
                   </div>
                   <div className="text-center">
                     <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                       <Crown className="h-6 w-6 text-purple-600" />
                     </div>
-                    <h3 className="font-semibold mb-2">Suporte Premium</h3>
+                    <h3 className="font-semibold mb-2">Premium Support</h3>
                     <p className="text-sm text-muted-foreground">
-                      Suporte prioritário e todas as integrações
+                      Priority support and all integrations
                     </p>
                   </div>
                 </div>

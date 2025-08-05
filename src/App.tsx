@@ -49,7 +49,7 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/features-overview" element={<FeaturesOverview />} />
-        <Route path="/edicoes" element={<EditionsPage />} />
+        <Route path="/editions" element={<EditionsPage />} />
         <Route 
           path="/car-rental" 
           element={

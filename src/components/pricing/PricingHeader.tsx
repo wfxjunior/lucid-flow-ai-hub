@@ -9,7 +9,7 @@ export function PricingHeader() {
         Choose Your Perfect Plan
       </div>
       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-4 sm:mb-6 px-4">
-        Pricing Plans for Every Contractor
+        Pricing Plans for Every Business
       </h2>
       <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
         Start free and scale as you grow. All plans include our powerful AI tools to streamline your business operations.

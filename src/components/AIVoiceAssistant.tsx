@@ -160,16 +160,6 @@ export function AIVoiceAssistant() {
         '客户': '我可以显示您的客户或帮助添加新客户。',
         '报告': '我可以生成关于您的销售、项目或客户的报告。'
       },
-      'pt-BR': {
-        'olá': 'Olá! Como posso ajudar você com seus negócios hoje?',
-        'oi': 'Oi! Como posso ajudar você com seus negócios hoje?',
-        'ajuda': 'Posso ajudar você a criar faturas, agendar compromissos, gerenciar projetos e muito mais. O que você gostaria de fazer?',
-        'fatura': 'Posso ajudar você a criar uma fatura. Por favor, me diga o nome do cliente e o valor.',
-        'compromisso': 'Posso agendar um compromisso para você. Que data e horário você prefere?',
-        'projeto': 'Posso ajudar você a gerenciar seus projetos. Gostaria de criar um novo projeto ou ver os existentes?',
-        'clientes': 'Posso mostrar seus clientes ou ajudar a adicionar um novo cliente.',
-        'relatório': 'Posso gerar relatórios sobre suas vendas, projetos ou clientes.'
-      }
     }
     
     return responses[currentLanguage] || responses['en-US']
@@ -212,13 +202,6 @@ export function AIVoiceAssistant() {
         processError: '处理语音命令时出错',
         defaultResponse: `我听到您说："${params?.text}"。我在这里帮助您处理业务需求。您可以询问我有关发票、约会、项目或其他业务任务的信息。`
       },
-      'pt-BR': {
-        listening: 'Ouvindo... Fale agora!',
-        error: 'Erro no reconhecimento de voz',
-        startError: 'Erro ao iniciar reconhecimento de voz',
-        processError: 'Erro ao processar comando de voz',
-        defaultResponse: `Ouvi você dizer: "${params?.text}". Estou aqui para ajudar com suas necessidades de negócios. Você pode me perguntar sobre faturas, compromissos, projetos ou outras tarefas comerciais.`
-      }
     }
     
     return messages[currentLanguage]?.[key] || messages['en-US'][key] || key
@@ -324,22 +307,6 @@ export function AIVoiceAssistant() {
         general: '常规:',
         businessTasks: '业务任务:'
       },
-      'pt-BR': {
-        title: 'Assistente de Voz IA',
-        subtitle: 'Fale com seu assistente de negócios IA',
-        voiceControls: 'Controles de Voz',
-        description: 'Clique no microfone para começar a falar, depois clique em parar quando terminar',
-        processing: 'Processando...',
-        listening: 'Ouvindo',
-        start: 'Começar a Ouvir',
-        stop: 'Parar',
-        stopSpeaking: 'Parar de Falar',
-        youSaid: 'Você disse:',
-        aiResponse: 'Resposta da IA:',
-        voiceCommands: 'Comandos de Voz',
-        general: 'Geral:',
-        businessTasks: 'Tarefas de Negócio:'
-      }
     }
     
     return labels[currentLanguage] || labels['en-US']
@@ -423,15 +390,15 @@ export function AIVoiceAssistant() {
             <div>
               <h4 className="font-medium mb-2">{labels.general}</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• "Hello/Hola/Bonjour/Hallo/你好/Olá"</li>
+                <li>• "Hello/Hi/Hey"</li>
                 <li>• "Help/Ayuda/Aide/Hilfe/帮助/Ajuda"</li>
               </ul>
             </div>
             <div>
               <h4 className="font-medium mb-2">{labels.businessTasks}</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• "Invoice/Factura/Facture/Rechnung/发票/Fatura"</li>
-                <li>• "Appointment/Cita/Rendez-vous/Termin/约会/Compromisso"</li>
+                <li>• "Invoice/Bill/Billing"</li>
+                <li>• "Appointment/Schedule/Meeting"</li>
                 <li>• "Project/Proyecto/Projet/Projekt/项目/Projeto"</li>
               </ul>
             </div>

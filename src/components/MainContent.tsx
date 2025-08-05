@@ -148,15 +148,15 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         if (loading) {
           return <div className="p-6">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="text-center mt-4">Verificando permissões...</p>
+            <p className="text-center mt-4">Checking permissions...</p>
           </div>
         }
         if (!isAdmin) {
           return <div className="p-6">
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <h2 className="text-lg font-semibold text-red-800 mb-2">Acesso Negado</h2>
-              <p className="text-red-600">Você não tem permissão para acessar o painel administrativo.</p>
-              <p className="text-red-600 text-sm mt-2">Entre em contato com um administrador para obter acesso.</p>
+              <h2 className="text-lg font-semibold text-red-800 mb-2">Access Denied</h2>
+              <p className="text-red-600">You don't have permission to access the administrative panel.</p>
+              <p className="text-red-600 text-sm mt-2">Contact an administrator to obtain access.</p>
             </div>
           </div>
         }
@@ -196,8 +196,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         
       default:
         return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Página não encontrada</h1>
-          <p>A página "{activeView}" não foi encontrada.</p>
+          <h1 className="text-2xl font-bold mb-4">Page not found</h1>
+          <p>The page "{activeView}" was not found.</p>
         </div>
     }
   }
