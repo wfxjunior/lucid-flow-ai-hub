@@ -193,6 +193,7 @@ export type Database = {
           id: string
           status: string
           title: string
+          tracking_token: string | null
           updated_at: string
           user_id: string
         }
@@ -207,6 +208,7 @@ export type Database = {
           id?: string
           status?: string
           title: string
+          tracking_token?: string | null
           updated_at?: string
           user_id: string
         }
@@ -221,6 +223,7 @@ export type Database = {
           id?: string
           status?: string
           title?: string
+          tracking_token?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -237,6 +240,7 @@ export type Database = {
           proposal_number: string | null
           status: string
           title: string
+          tracking_token: string | null
           updated_at: string
           user_id: string
         }
@@ -250,6 +254,7 @@ export type Database = {
           proposal_number?: string | null
           status?: string
           title: string
+          tracking_token?: string | null
           updated_at?: string
           user_id: string
         }
@@ -263,6 +268,7 @@ export type Database = {
           proposal_number?: string | null
           status?: string
           title?: string
+          tracking_token?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -434,6 +440,7 @@ export type Database = {
           status: string | null
           tags: string[] | null
           title: string
+          tracking_token: string | null
           updated_at: string
           user_id: string
         }
@@ -447,6 +454,7 @@ export type Database = {
           status?: string | null
           tags?: string[] | null
           title: string
+          tracking_token?: string | null
           updated_at?: string
           user_id: string
         }
@@ -460,7 +468,68 @@ export type Database = {
           status?: string | null
           tags?: string[] | null
           title?: string
+          tracking_token?: string | null
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      document_events: {
+        Row: {
+          amount: number | null
+          client_email: string
+          client_ip: string | null
+          client_name: string | null
+          created_at: string
+          document_id: string
+          document_number: string
+          document_type: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          payment_method: string | null
+          payment_reference: string | null
+          tracking_token: string
+          updated_at: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number | null
+          client_email: string
+          client_ip?: string | null
+          client_name?: string | null
+          created_at?: string
+          document_id: string
+          document_number: string
+          document_type: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          payment_method?: string | null
+          payment_reference?: string | null
+          tracking_token: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number | null
+          client_email?: string
+          client_ip?: string | null
+          client_name?: string | null
+          created_at?: string
+          document_id?: string
+          document_number?: string
+          document_type?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          payment_method?: string | null
+          payment_reference?: string | null
+          tracking_token?: string
+          updated_at?: string
+          user_agent?: string | null
           user_id?: string
         }
         Relationships: []
@@ -703,6 +772,7 @@ export type Database = {
           signed_at: string | null
           status: string
           title: string
+          tracking_token: string | null
           updated_at: string
           user_id: string
           viewed_at: string | null
@@ -721,6 +791,7 @@ export type Database = {
           signed_at?: string | null
           status?: string
           title: string
+          tracking_token?: string | null
           updated_at?: string
           user_id: string
           viewed_at?: string | null
@@ -739,6 +810,7 @@ export type Database = {
           signed_at?: string | null
           status?: string
           title?: string
+          tracking_token?: string | null
           updated_at?: string
           user_id?: string
           viewed_at?: string | null
@@ -1039,6 +1111,7 @@ export type Database = {
           invoice_number: string
           status: string
           title: string
+          tracking_token: string | null
           updated_at: string
           user_id: string
         }
@@ -1053,6 +1126,7 @@ export type Database = {
           invoice_number: string
           status?: string
           title: string
+          tracking_token?: string | null
           updated_at?: string
           user_id: string
         }
@@ -1067,6 +1141,7 @@ export type Database = {
           invoice_number?: string
           status?: string
           title?: string
+          tracking_token?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -1361,6 +1436,7 @@ export type Database = {
           quote_number: string | null
           status: string
           title: string
+          tracking_token: string | null
           updated_at: string
           user_id: string
           valid_until: string | null
@@ -1375,6 +1451,7 @@ export type Database = {
           quote_number?: string | null
           status?: string
           title: string
+          tracking_token?: string | null
           updated_at?: string
           user_id: string
           valid_until?: string | null
@@ -1389,6 +1466,7 @@ export type Database = {
           quote_number?: string | null
           status?: string
           title?: string
+          tracking_token?: string | null
           updated_at?: string
           user_id?: string
           valid_until?: string | null
@@ -2127,6 +2205,7 @@ export type Database = {
           status: string | null
           title: string
           total_cost: number | null
+          tracking_token: string | null
           updated_at: string
           user_id: string
           work_order_number: string | null
@@ -2150,6 +2229,7 @@ export type Database = {
           status?: string | null
           title: string
           total_cost?: number | null
+          tracking_token?: string | null
           updated_at?: string
           user_id: string
           work_order_number?: string | null
@@ -2173,6 +2253,7 @@ export type Database = {
           status?: string | null
           title?: string
           total_cost?: number | null
+          tracking_token?: string | null
           updated_at?: string
           user_id?: string
           work_order_number?: string | null
@@ -2222,6 +2303,10 @@ export type Database = {
       }
       generate_salesorder_number: {
         Args: { starting_number?: number }
+        Returns: string
+      }
+      generate_tracking_token: {
+        Args: Record<PropertyKey, never>
         Returns: string
       }
       generate_work_order_number: {
