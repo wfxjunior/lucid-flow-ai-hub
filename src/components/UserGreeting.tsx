@@ -144,7 +144,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           <div className="h-3 w-16 sm:h-4 sm:w-24 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-          <HelpCenter variant="outline" size="sm" className="h-8 w-20 sm:h-auto sm:w-auto text-xs sm:text-sm px-2 sm:px-3" />
+          <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
         </div>
       </div>
     )
@@ -166,7 +166,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
           >
             {t("userGreeting.signIn")}
           </Button>
-          <HelpCenter variant="outline" size="sm" className="h-8 w-20 sm:h-auto sm:w-auto text-xs sm:text-sm px-2 sm:px-3" />
+          <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
         </div>
       </div>
     )
@@ -215,7 +215,7 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
       </div>
       
       <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-        <HelpCenter variant="outline" size="sm" className="h-8 w-20 sm:h-auto sm:w-auto text-xs sm:text-sm px-2 sm:px-3" />
+        <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
       </div>
     </div>
   )
