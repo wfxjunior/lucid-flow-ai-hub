@@ -11,6 +11,7 @@ import { LandingFAQSection } from "@/components/landing/LandingFAQSection";
 import { LandingCTASection } from "@/components/landing/LandingCTASection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { EssentialSideMenu } from "@/components/EssentialSideMenu";
+import { CookieConsent } from "@/components/landing/CookieConsent";
 
 export default function LandingPage() {
   return (
@@ -28,6 +29,7 @@ export default function LandingPage() {
       </main>
       <EssentialSideMenu />
       <LandingFooter />
+      <CookieConsent />
     </div>
   );
 }
