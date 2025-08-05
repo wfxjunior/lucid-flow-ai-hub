@@ -51,7 +51,7 @@ export function SignUpForm() {
           // Don't fail signup if welcome email fails
         }
         
-        toast.success('Conta criada com sucesso! Verifique seu email.')
+        toast.success('Conta criada com sucesso! Você já pode fazer login.')
       }
     } catch (error: any) {
       setError(error.message)
