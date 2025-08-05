@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { MessageCircle, Send, X, Bot, User } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { useAuthState } from "@/hooks/useAuthState"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { toast } from "sonner"
 
 interface Message {
@@ -25,6 +26,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
   const [inputMessage, setInputMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuthState()
+  const { currentLanguage } = useLanguage()
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Auto scroll to bottom when new messages arrive
@@ -92,7 +94,10 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
 
     try {
       const { data, error } = await supabase.functions.invoke('featherbot-assistant', {
-        body: { message: userMessage.content }
+        body: { 
+          message: userMessage.content,
+          language: currentLanguage 
+        }
       })
 
       if (error) throw error
