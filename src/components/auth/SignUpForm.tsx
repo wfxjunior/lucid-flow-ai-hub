@@ -122,7 +122,7 @@ export function SignUpForm() {
       {referralCode && (
         <div className="bg-green-50 border border-green-200 rounded-lg p-3">
           <p className="text-sm text-green-700">
-            🎉 You've been referred! You'll get 20% off your first month.
+            You've been referred! You'll get 20% off your first month.
           </p>
           <p className="text-xs text-green-600 mt-1">Referral code: {referralCode}</p>
         </div>

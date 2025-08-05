@@ -765,7 +765,7 @@ export function EasyCalcPage() {
             {/* Quick Tips Card */}
             <Card>
               <CardHeader className="p-4 sm:p-6">
-                <CardTitle className="text-sm">💡 Smart Tips</CardTitle>
+                <CardTitle className="text-sm">Smart Tips</CardTitle>
               </CardHeader>
               <CardContent className="text-xs space-y-2 p-4 sm:p-6">
                 <p>• Use the + button to add multiple rooms/areas</p>

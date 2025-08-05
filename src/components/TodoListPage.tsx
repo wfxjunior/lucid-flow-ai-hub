@@ -166,14 +166,14 @@ export function TodoListPage() {
 
   const generateShareableContent = () => {
     const tasksToShare = filteredTodos.length > 0 ? filteredTodos : todos
-    let content = "📋 My To-Do List:\n\n"
+    let content = "My To-Do List:\n\n"
     
     tasksToShare.forEach((todo, index) => {
       const status = todo.completed ? "✅" : "⭕"
       content += `${index + 1}. ${status} ${todo.title}\n`
       if (todo.description) content += `   📝 ${todo.description}\n`
-      if (todo.dueDate) content += `   📅 Due: ${new Date(todo.dueDate).toLocaleDateString()}\n`
-      content += `   🏷️ ${todo.category} | 🚩 ${todo.priority}\n\n`
+      if (todo.dueDate) content += `   Due: ${new Date(todo.dueDate).toLocaleDateString()}\n`
+      content += `   ${todo.category} | ${todo.priority}\n\n`
     })
     
     content += `\nShared from FeatherBiz - ${new Date().toLocaleDateString()}`
@@ -191,7 +191,7 @@ export function TodoListPage() {
     }
 
     const content = generateShareableContent()
-    const subject = "📋 Shared To-Do List from FeatherBiz"
+    const subject = "Shared To-Do List from FeatherBiz"
     const body = shareMessage ? `${shareMessage}\n\n${content}` : content
     
     const mailtoLink = `mailto:${shareEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`

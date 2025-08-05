@@ -93,7 +93,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
               </div>
               {plan.originalPrice && (
                 <div className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs sm:text-sm font-medium">
-                  💰 Save $38/year
+                  Save $38/year
                 </div>
               )}
             </div>

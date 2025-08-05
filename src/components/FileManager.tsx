@@ -274,11 +274,11 @@ export function FileManager() {
   }
 
   const getFileIcon = (fileType: string) => {
-    if (fileType.includes('pdf')) return '📄'
-    if (fileType.includes('image')) return '🖼️'
-    if (fileType.includes('text')) return '📝'
-    if (fileType.includes('spreadsheet') || fileType.includes('excel')) return '📊'
-    return '📎'
+    if (fileType.includes('pdf')) return 'PDF'
+    if (fileType.includes('image')) return 'IMG'
+    if (fileType.includes('text')) return 'TXT'
+    if (fileType.includes('spreadsheet') || fileType.includes('excel')) return 'XLS'
+    return 'FILE'
   }
 
   return (

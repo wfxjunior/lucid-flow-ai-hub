@@ -245,7 +245,7 @@ export function FeaturesPage() {
           
           <div className="space-y-4">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              🚀 Feature Requests
+              Feature Requests
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Shape the future of FeatherBiz! Your ideas drive our development. 

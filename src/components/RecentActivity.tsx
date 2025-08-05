@@ -61,9 +61,9 @@ const getTypeIcon = (type: string) => {
   switch (type) {
     case "task": return "✓"
     case "email": return "📧"
-    case "client": return "👤"
-    case "invoice": return "💰"
-    default: return "📝"
+    case "client": return "Client"
+    case "invoice": return "Invoice"
+    default: return "Activity"
   }
 }
 

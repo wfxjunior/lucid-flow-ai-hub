@@ -70,12 +70,7 @@ export default function PaymentSuccess() {
       {/* Party Balloons Animation */}
       {showCelebration && (
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-10">
-          <div className="absolute top-10 left-10 text-6xl animate-bounce" style={{ animationDelay: '0s' }}>🎈</div>
-          <div className="absolute top-20 right-20 text-5xl animate-bounce" style={{ animationDelay: '0.5s' }}>🎉</div>
-          <div className="absolute top-32 left-1/4 text-4xl animate-bounce" style={{ animationDelay: '1s' }}>🎊</div>
-          <div className="absolute top-16 right-1/3 text-5xl animate-bounce" style={{ animationDelay: '1.5s' }}>🎈</div>
-          <div className="absolute top-40 right-10 text-4xl animate-bounce" style={{ animationDelay: '2s' }}>🎉</div>
-          <div className="absolute top-24 left-1/2 text-6xl animate-bounce" style={{ animationDelay: '0.8s' }}>🎊</div>
+          {/* Celebration animation removed for cleaner UI */}
         </div>
       )}
 
@@ -93,7 +88,7 @@ export default function PaymentSuccess() {
           {showCelebration && !isVerifying && (
             <div className="mb-4 p-4 bg-gradient-to-r from-purple-100 to-pink-100 border border-purple-200 rounded-lg">
               <div className="text-2xl font-bold text-purple-800 mb-2">
-                🎉 Parabéns! 🎉
+                Parabéns!
               </div>
               <div className="text-lg text-purple-700 font-semibold">
                 Algo grande está começando agora!
