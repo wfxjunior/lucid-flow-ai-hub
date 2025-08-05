@@ -8,10 +8,13 @@ import { AppSidebar } from "@/components/AppSidebar"
 import { MainContent } from "@/components/MainContent"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { UserGreeting } from "@/components/UserGreeting"
+import { FeatherBot } from "@/components/FeatherBot"
+import { useFeatherBotAccess } from "@/hooks/useFeatherBotAccess"
 import { supabase } from "@/integrations/supabase/client"
 
 export default function Index() {
   const { user, loading } = useAuthState()
+  const { hasAccess } = useFeatherBotAccess()
   const [activeView, setActiveView] = useState("dashboard")
 
   // Handle URL parameters for navigation (e.g., from Stripe redirects)
@@ -70,6 +73,9 @@ export default function Index() {
             )}
           </div>
         </main>
+
+        {/* FeatherBot - Only visible for Pro users or users with featherGoldAccess */}
+        <FeatherBot isVisible={hasAccess} />
       </div>
     </SidebarProvider>
   )
