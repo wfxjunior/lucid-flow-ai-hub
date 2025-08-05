@@ -146,45 +146,33 @@ export function SmartSchedulePage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <Card>
           <CardContent className="p-3 sm:p-4">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
-              <div>
-                <p className="text-xl sm:text-2xl font-bold">8</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">This Week</p>
-              </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold">8</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">This Week</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-3 sm:p-4">
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
-              <div>
-                <p className="text-xl sm:text-2xl font-bold">3</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">Today</p>
-              </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold">3</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">Today</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-3 sm:p-4">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
-              <div>
-                <p className="text-xl sm:text-2xl font-bold">2</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">Site Visits</p>
-              </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold">2</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">Site Visits</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-3 sm:p-4">
-            <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
-              <div>
-                <p className="text-xl sm:text-2xl font-bold">95%</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">Success Rate</p>
-              </div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold">95%</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">Success Rate</p>
             </div>
           </CardContent>
         </Card>
