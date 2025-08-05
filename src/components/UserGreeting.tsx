@@ -137,14 +137,14 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
-        <div className="flex items-center gap-4">
-          <SidebarTrigger className="h-10 w-10" />
-          <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
-          <div className="h-4 w-24 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
+      <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
+          <div className="h-6 w-6 sm:h-8 sm:w-8 bg-gray-200 rounded-full animate-pulse"></div>
+          <div className="h-3 w-16 sm:h-4 sm:w-24 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
         </div>
-        <div className="flex items-center gap-2">
-          <HelpCenter variant="outline" size="sm" />
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          <HelpCenter variant="outline" size="sm" className="h-8 w-8 sm:h-auto sm:w-auto" />
         </div>
       </div>
     )
@@ -152,33 +152,34 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
 
   if (!userEmail) {
     return (
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
-        <div className="flex items-center gap-4">
-          <SidebarTrigger className="h-10 w-10" />
-          <div className="text-lg sm:text-xl font-semibold">{t("userGreeting.welcome")}</div>
+      <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
+          <div className="text-sm sm:text-lg lg:text-xl font-semibold truncate">{t("userGreeting.welcome")}</div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <Button 
             variant="outline" 
             size="sm"
             onClick={() => navigate('/auth')}
+            className="h-8 text-xs sm:h-auto sm:text-sm px-2 sm:px-3"
           >
             {t("userGreeting.signIn")}
           </Button>
-          <HelpCenter variant="outline" size="sm" />
+          <HelpCenter variant="outline" size="sm" className="h-8 w-8 sm:h-auto sm:w-auto" />
         </div>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4">
-      <div className="flex items-center gap-4">
-        <SidebarTrigger className="h-10 w-10" />
+    <div className="flex items-center justify-between w-full gap-2 sm:gap-4 min-w-0">
+      <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+        <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-              <Avatar className="h-8 w-8">
+            <Button variant="ghost" className="relative h-6 w-6 sm:h-8 sm:w-8 rounded-full p-0 flex-shrink-0">
+              <Avatar className="h-6 w-6 sm:h-8 sm:w-8">
                 <AvatarFallback className="bg-blue-500 text-white text-xs">
                   {getUserInitials(userEmail)}
                 </AvatarFallback>
@@ -208,13 +209,13 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <span className="text-sm sm:text-base text-muted-foreground">
+        <span className="text-xs sm:text-sm lg:text-base text-muted-foreground truncate min-w-0">
           {t("userGreeting.hello", { name: getUserDisplayName(userEmail) })}
         </span>
       </div>
       
-      <div className="flex items-center gap-2">
-        <HelpCenter variant="outline" size="sm" />
+      <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+        <HelpCenter variant="outline" size="sm" className="h-8 w-8 sm:h-auto sm:w-auto" />
       </div>
     </div>
   )

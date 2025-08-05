@@ -34,7 +34,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-3 sm:space-y-4 lg:space-y-6 max-w-screen-xl mx-auto">
       {/* Header */}
       <DashboardHeader 
         onNavigate={handleNavigateInternal} 
@@ -44,17 +44,23 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
       />
 
       {/* Stats Cards */}
-      <DashboardStats stats={stats} loading={loading} />
+      <div className="px-1 sm:px-0">
+        <DashboardStats stats={stats} loading={loading} />
+      </div>
 
       {/* Main Content Tabs */}
-      <DashboardTabs 
-        stats={stats}
-        onActionClick={handleQuickAction}
-        onNavigate={handleNavigateInternal}
-      />
+      <div className="px-1 sm:px-0">
+        <DashboardTabs 
+          stats={stats}
+          onActionClick={handleQuickAction}
+          onNavigate={handleNavigateInternal}
+        />
+      </div>
 
       {/* Bottom Section - Key Metrics */}
-      <DashboardMetrics />
+      <div className="px-1 sm:px-0">
+        <DashboardMetrics />
+      </div>
     </div>
   )
 }

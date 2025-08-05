@@ -54,22 +54,22 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
   const changeColor = trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-gray-600"
 
   return (
-    <Card className={`transition-all duration-500 hover:shadow-lg hover:scale-105 ${
+    <Card className={`transition-all duration-500 hover:shadow-md ${
       isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'
     }`}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm sm:text-base md:text-lg font-medium text-muted-foreground">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">
+        <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-muted-foreground leading-tight">
           {title}
         </CardTitle>
-        <Icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-muted-foreground" />
+        <Icon className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-muted-foreground flex-shrink-0" />
       </CardHeader>
-      <CardContent>
-        <div className={`text-2xl sm:text-3xl md:text-4xl font-bold transition-all duration-700 ${
+      <CardContent className="pt-0 sm:pt-1">
+        <div className={`text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold transition-all duration-700 ${
           isVisible ? 'animate-scale-in' : 'scale-95 opacity-0'
         }`}>
           {displayValue}
         </div>
-        <p className={`text-sm sm:text-base ${changeColor} transition-all duration-500 ${
+        <p className={`text-xs sm:text-sm ${changeColor} transition-all duration-500 ${
           isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-2'
         }`}>
           {change === "--" ? `+12% ${t("dashboard.fromLastMonth")}` : change}

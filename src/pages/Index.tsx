@@ -56,20 +56,24 @@ export default function Index() {
       <div className="min-h-screen flex w-full bg-background">
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         
-        <main className="flex-1 flex flex-col overflow-hidden">
-          <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="flex h-14 items-center px-4">
+        <main className="flex-1 flex flex-col overflow-hidden min-w-0">
+          {/* Header - Always visible */}
+          <div className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="flex h-14 sm:h-16 items-center px-2 sm:px-4">
               <UserGreeting onNavigate={setActiveView} />
             </div>
           </div>
 
+          {/* Main content area */}
           <div className="flex-1 overflow-auto">
             {activeView === "dashboard" ? (
-              <div className="p-4">
+              <div className="p-2 sm:p-4 lg:p-6">
                 <ImprovedDashboard onNavigate={setActiveView} />
               </div>
             ) : (
-              <MainContent activeView={activeView} onNavigate={setActiveView} />
+              <div className="min-h-full">
+                <MainContent activeView={activeView} onNavigate={setActiveView} />
+              </div>
             )}
           </div>
         </main>
