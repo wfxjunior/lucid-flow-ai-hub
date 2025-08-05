@@ -343,8 +343,8 @@ export function PricingPlans() {
         <PricingHeader />
         
         {/* Billing Period Toggle */}
-        <div className="flex justify-center mb-8 sm:mb-12">
-          <div className="bg-white rounded-xl p-1 shadow-sm border">
+        <div className="flex justify-center mb-6 sm:mb-8 lg:mb-12 px-4">
+          <div className="bg-white rounded-xl p-1 shadow-sm border w-full max-w-xs">
             <ToggleGroup
               type="single"
               value={billingPeriod}
@@ -353,16 +353,16 @@ export function PricingPlans() {
             >
               <ToggleGroupItem
                 value="monthly"
-                className="px-6 py-3 text-sm font-medium rounded-lg data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                className="px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
               >
                 Monthly
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="annual"
-                className="px-6 py-3 text-sm font-medium rounded-lg data-[state=on]:bg-primary data-[state=on]:text-primary-foreground relative"
+                className="px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=on]:bg-primary data-[state=on]:text-primary-foreground relative"
               >
                 Annual
-                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                <span className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 bg-green-500 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full font-bold text-xs">
                   Save 17%
                 </span>
               </ToggleGroupItem>
@@ -371,7 +371,7 @@ export function PricingPlans() {
         </div>
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto px-4">
           {currentPlans.map((plan) => (
             <PricingCard 
               key={plan.id} 
