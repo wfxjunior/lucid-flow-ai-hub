@@ -138,30 +138,32 @@ export function InvoiceCreator() {
   }
 
   return (
-    <div className="container mx-auto p-4 sm:p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Create Invoice</h1>
-          <p className="text-gray-600 mt-1">
+    <div className="container mx-auto p-2 sm:p-4 lg:p-6 max-w-6xl">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-2xl sm:text-3xl font-bold">Create Invoice</h1>
+          <p className="text-sm sm:text-base text-muted-foreground mt-1">
             Professional invoice with editable line items and instant PDF generation
           </p>
         </div>
         <button 
           onClick={() => setShowList(true)}
-          className="text-blue-600 hover:text-blue-700 font-medium"
+          className="text-primary hover:text-primary/80 font-medium text-sm sm:text-base whitespace-nowrap"
         >
           View All Invoices
         </button>
       </div>
 
-      <EditableDocumentLayout
-        documentType="invoice"
-        availableClients={availableClients}
-        onSave={handleSave}
-        onGeneratePDF={handleGeneratePDF}
-        onDuplicate={handleDuplicate}
-        businessData={businessData}
-      />
+      <div className="w-full overflow-hidden">
+        <EditableDocumentLayout
+          documentType="invoice"
+          availableClients={availableClients}
+          onSave={handleSave}
+          onGeneratePDF={handleGeneratePDF}
+          onDuplicate={handleDuplicate}
+          businessData={businessData}
+        />
+      </div>
     </div>
   )
 }

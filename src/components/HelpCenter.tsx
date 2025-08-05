@@ -93,10 +93,10 @@ export const HelpCenter = ({ variant = "outline", size = "default", className }:
         <Button 
           variant={variant} 
           size={size} 
-          className={`${className} flex items-center justify-center transition-all duration-200 hover:bg-primary/5 hover:border-primary`}
+          className={`${className} inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all duration-200 hover:bg-primary/5 hover:border-primary h-9 px-3`}
         >
-          <HelpCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-          <span className="text-xs sm:text-sm font-medium">Help Center</span>
+          <HelpCircle className="w-4 h-4 mr-2 flex-shrink-0" />
+          <span className="text-sm font-medium">Help Center</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
