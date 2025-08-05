@@ -367,9 +367,6 @@ export function EasyCalcPage() {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 sm:p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                <Calculator className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 dark:text-blue-400" />
-              </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-foreground">EasyCalc</h1>
                 <p className="text-sm sm:text-base text-muted-foreground">AI-powered smart estimates for any industry</p>

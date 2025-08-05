@@ -36,8 +36,7 @@ export function FeatherTaxPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Calculator className="h-8 w-8 text-blue-600" />
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
             FeatherTax
           </h1>
           <p className="text-muted-foreground mt-1">

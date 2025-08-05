@@ -17,9 +17,6 @@ export function FeatherBudgetPage() {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
-          <div className="p-3 bg-emerald-100 dark:bg-emerald-900/20 rounded-lg">
-            <PiggyBank className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
-          </div>
           <div>
             <h1 className="text-3xl font-bold text-foreground">FeatherBudget AI</h1>
             <p className="text-muted-foreground">Smart personal finance tracking with AI insights</p>
