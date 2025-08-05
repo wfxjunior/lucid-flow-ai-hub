@@ -1200,6 +1200,39 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          created_at: string
+          first_name: string | null
+          id: string
+          language: string | null
+          last_name: string | null
+          phone: string | null
+          timezone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          first_name?: string | null
+          id: string
+          language?: string | null
+          last_name?: string | null
+          phone?: string | null
+          timezone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          language?: string | null
+          last_name?: string | null
+          phone?: string | null
+          timezone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
           amount: number
@@ -1519,6 +1552,45 @@ export type Database = {
           provider?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_notification_settings: {
+        Row: {
+          created_at: string
+          email_notifications: boolean | null
+          id: string
+          invoice_reminders: boolean | null
+          marketing_emails: boolean | null
+          payment_confirmations: boolean | null
+          push_notifications: boolean | null
+          security_alerts: boolean | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email_notifications?: boolean | null
+          id?: string
+          invoice_reminders?: boolean | null
+          marketing_emails?: boolean | null
+          payment_confirmations?: boolean | null
+          push_notifications?: boolean | null
+          security_alerts?: boolean | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email_notifications?: boolean | null
+          id?: string
+          invoice_reminders?: boolean | null
+          marketing_emails?: boolean | null
+          payment_confirmations?: boolean | null
+          push_notifications?: boolean | null
+          security_alerts?: boolean | null
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
