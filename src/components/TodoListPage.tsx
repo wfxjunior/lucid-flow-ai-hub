@@ -169,9 +169,9 @@ export function TodoListPage() {
     let content = "My To-Do List:\n\n"
     
     tasksToShare.forEach((todo, index) => {
-      const status = todo.completed ? "✅" : "⭕"
+      const status = todo.completed ? "[DONE]" : "[TODO]"
       content += `${index + 1}. ${status} ${todo.title}\n`
-      if (todo.description) content += `   📝 ${todo.description}\n`
+      if (todo.description) content += `   Description: ${todo.description}\n`
       if (todo.dueDate) content += `   Due: ${new Date(todo.dueDate).toLocaleDateString()}\n`
       content += `   ${todo.category} | ${todo.priority}\n\n`
     })

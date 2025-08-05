@@ -41,11 +41,11 @@ export function MeetingCard({ meeting }: MeetingCardProps) {
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
-      case 'zoom': return '📹'
-      case 'teams': return '🎥'
-      case 'meet': return '📺'
-      case 'in-person': return '🏢'
-      default: return '💻'
+      case 'zoom': return <Video className="w-4 h-4" />
+      case 'teams': return <Video className="w-4 h-4" />
+      case 'meet': return <Video className="w-4 h-4" />
+      case 'in-person': return <MapPin className="w-4 h-4" />
+      default: return <Video className="w-4 h-4" />
     }
   }
 
@@ -105,7 +105,7 @@ export function MeetingCard({ meeting }: MeetingCardProps) {
                 {format(meetingDate, 'HH:mm')} ({meeting.duration_minutes}min)
               </div>
               <div className="flex items-center gap-1">
-                <span className="text-lg">{getPlatformIcon(meeting.meeting_platform)}</span>
+                {getPlatformIcon(meeting.meeting_platform)}
                 {meeting.meeting_platform}
               </div>
               {meeting.location && (

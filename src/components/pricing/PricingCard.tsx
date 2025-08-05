@@ -44,7 +44,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
       {plan.popular && (
         <div className="absolute -top-4 sm:-top-6 left-1/2 transform -translate-x-1/2 z-20">
           <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 sm:px-6 py-1 sm:py-2 text-xs sm:text-sm font-semibold shadow-lg">
-            ⭐ Most Popular
+            Most Popular
           </Badge>
         </div>
       )}

@@ -109,11 +109,11 @@ export function FeedbackPage() {
                   <SelectValue placeholder="Rate your experience" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="5">⭐⭐⭐⭐⭐ Excellent</SelectItem>
-                  <SelectItem value="4">⭐⭐⭐⭐ Good</SelectItem>
-                  <SelectItem value="3">⭐⭐⭐ Average</SelectItem>
-                  <SelectItem value="2">⭐⭐ Poor</SelectItem>
-                  <SelectItem value="1">⭐ Very Poor</SelectItem>
+                  <SelectItem value="5">Excellent</SelectItem>
+                  <SelectItem value="4">Good</SelectItem>
+                  <SelectItem value="3">Average</SelectItem>
+                  <SelectItem value="2">Poor</SelectItem>
+                  <SelectItem value="1">Very Poor</SelectItem>
                 </SelectContent>
               </Select>
             </div>
