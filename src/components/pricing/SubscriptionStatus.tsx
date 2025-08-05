@@ -131,29 +131,29 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
 
         {!isSubscribed && (
           <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-              <div className="flex-1 text-center">
-                <p className="font-medium text-blue-900 mb-1">Free Plan Active</p>
-                <p className="text-blue-700 text-sm mb-3">
-                  You're currently using the free plan with limited features. Upgrade to Professional to unlock:
-                </p>
-                <ul className="text-blue-700 text-sm space-y-1 mb-4 text-left">
-                  <li>• Unlimited invoices and estimates</li>
-                  <li>• AI voice assistant</li>
-                  <li>• Advanced analytics</li>
-                  <li>• Priority support</li>
-                </ul>
-                <div className="flex justify-center">
-                  <Button
-                    onClick={handleUpgrade}
-                    className="w-full max-w-xs mx-auto"
-                    size="sm"
-                  >
-                    <Crown className="mr-2 h-4 w-4" />
-                    Upgrade to Professional
-                  </Button>
-                </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <AlertCircle className="h-5 w-5 text-blue-600" />
+                <p className="font-medium text-blue-900">Free Plan Active</p>
+              </div>
+              <p className="text-blue-700 text-sm mb-3">
+                You're currently using the free plan with limited features. Upgrade to Professional to unlock:
+              </p>
+              <ul className="text-blue-700 text-sm space-y-1 mb-4 inline-block text-left">
+                <li>• Unlimited invoices and estimates</li>
+                <li>• AI voice assistant</li>
+                <li>• Advanced analytics</li>
+                <li>• Priority support</li>
+              </ul>
+              <div className="flex justify-center">
+                <Button
+                  onClick={handleUpgrade}
+                  className="px-6 py-2"
+                  size="sm"
+                >
+                  <Crown className="mr-2 h-4 w-4" />
+                  Upgrade to Professional
+                </Button>
               </div>
             </div>
           </div>
