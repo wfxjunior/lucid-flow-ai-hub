@@ -193,9 +193,9 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
               </CardTitle>
             </CardHeader>
 
-            <CardContent className="p-0 flex flex-col h-full">
+            <CardContent className="p-0 flex flex-col h-[calc(100%-60px)]">
               {/* Messages Area */}
-              <ScrollArea className="flex-1 p-4">
+              <ScrollArea className="flex-1 p-4 max-h-[300px]">
                 {messages.length === 0 && (
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
                     <div className="text-4xl mb-4">🤖</div>
