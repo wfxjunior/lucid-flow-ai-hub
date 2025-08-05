@@ -103,6 +103,11 @@ export function ContractForm({ onClose, contract }: ContractFormProps) {
 
     setIsGenerating(true)
     try {
+      console.log("Starting AI contract generation...", {
+        title: formData.title,
+        contractType: formData.contract_type
+      })
+
       const { data, error } = await supabase.functions.invoke('generate-contract-ai', {
         body: {
           prompt: `Create a ${formData.contract_type} contract titled "${formData.title}"`,
@@ -111,13 +116,28 @@ export function ContractForm({ onClose, contract }: ContractFormProps) {
         }
       })
 
-      if (error) throw error
+      if (error) {
+        console.error("Supabase function error:", error)
+        throw error
+      }
+
+      if (!data || !data.contract) {
+        console.error("Invalid response data:", data)
+        throw new Error("Invalid response from AI service")
+      }
       
+      console.log("AI contract generated successfully")
       setFormData(prev => ({ ...prev, content: data.contract }))
       toast.success("Contract generated successfully!")
     } catch (error) {
       console.error("Error generating contract:", error)
-      toast.error("Failed to generate contract. Using template instead.")
+      
+      // Show specific error message if available
+      if (error.message) {
+        toast.error(`Failed to generate contract: ${error.message}`)
+      } else {
+        toast.error("Failed to generate contract. Please try again.")
+      }
       
       // Fallback template
       const template = `# ${formData.title}
@@ -151,6 +171,7 @@ By signing below, both parties agree to the terms outlined in this contract.
 **Client Representative**: _________________________ Date: _________`
 
       setFormData(prev => ({ ...prev, content: template }))
+      toast.info("Using fallback template instead")
     } finally {
       setIsGenerating(false)
     }

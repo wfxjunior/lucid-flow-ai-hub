@@ -17,13 +17,40 @@ interface ContractRequest {
 }
 
 serve(async (req) => {
+  console.log('Generate contract AI function called');
+  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { prompt, contractType, businessType, parties }: ContractRequest = await req.json();
+    console.log('Checking OpenAI API key...');
+    if (!openAIApiKey) {
+      console.error('OpenAI API key not found');
+      return new Response(JSON.stringify({ 
+        error: 'OpenAI API key not configured' 
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log('Parsing request body...');
+    const requestBody = await req.json();
+    console.log('Request body:', requestBody);
+    
+    const { prompt, contractType, businessType, parties }: ContractRequest = requestBody;
+
+    if (!prompt || !contractType) {
+      console.error('Missing required fields:', { prompt: !!prompt, contractType: !!contractType });
+      return new Response(JSON.stringify({ 
+        error: 'Missing required fields: prompt and contractType' 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
     const systemPrompt = `You are a legal expert specializing in business contracts. Generate a comprehensive, professional contract based on the user's requirements. 
 
@@ -40,6 +67,7 @@ Contract Type: ${contractType}
 Business Context: ${businessType || 'General business'}
 `;
 
+    console.log('Making OpenAI API call...');
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -57,9 +85,25 @@ Business Context: ${businessType || 'General business'}
       }),
     });
 
+    console.log('OpenAI response status:', response.status);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('OpenAI API error:', errorText);
+      throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
+    }
+
     const data = await response.json();
+    console.log('OpenAI response received successfully');
+    
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      console.error('Invalid OpenAI response structure:', data);
+      throw new Error('Invalid response from OpenAI API');
+    }
+
     const generatedContract = data.choices[0].message.content;
 
+    console.log('Contract generated successfully');
     return new Response(JSON.stringify({ 
       contract: generatedContract,
       metadata: {
@@ -72,7 +116,10 @@ Business Context: ${businessType || 'General business'}
     });
   } catch (error) {
     console.error('Error in generate-contract-ai function:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      error: error.message || 'Internal server error',
+      details: error.toString()
+    }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
