@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { HelpCircle, Send } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
 
 interface HelpCenterProps {
   variant?: "default" | "outline" | "ghost"
@@ -45,9 +46,21 @@ export const HelpCenter = ({ variant = "outline", size = "default", className }:
     setIsSubmitting(true)
 
     try {
-      // Here you would typically send the email to your backend
-      // For now, we'll simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Send email via edge function
+      const { error } = await supabase.functions.invoke('send-platform-email', {
+        body: {
+          type: 'help',
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        }
+      })
+
+      if (error) {
+        console.error('Error sending help request:', error)
+        throw error
+      }
       
       toast({
         title: "Message sent successfully!",
@@ -63,6 +76,7 @@ export const HelpCenter = ({ variant = "outline", size = "default", className }:
       })
       setOpen(false)
     } catch (error) {
+      console.error('Error sending help request:', error)
       toast({
         title: "Error sending message",
         description: "Please try again later.",

@@ -22,6 +22,7 @@ import {
 import { useToast } from "@/hooks/use-toast"
 import { IntegrationsContactForm } from "./IntegrationsContactForm"
 import { useNavigate } from 'react-router-dom'
+import { supabase } from "@/integrations/supabase/client"
 
 export function ContactPage() {
   const { toast } = useToast()
@@ -72,27 +73,50 @@ export function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    try {
+      // Send email via edge function
+      const { error } = await supabase.functions.invoke('send-platform-email', {
+        body: {
+          type: activeTab === 'support' ? 'support' : 'contact',
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          category: formData.category,
+          priority: formData.priority
+        }
+      })
 
-    console.log('Contact form submitted:', { ...formData, type: activeTab })
-    
-    toast({
-      title: "Message Sent Successfully!",
-      description: "We'll get back to you within 24 hours.",
-    })
+      if (error) {
+        console.error('Error sending contact form:', error)
+        throw error
+      }
+      
+      toast({
+        title: "Message Sent Successfully!",
+        description: "We'll get back to you within 24 hours.",
+      })
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-      category: '',
-      priority: ''
-    })
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        category: '',
+        priority: ''
+      })
 
-    setIsSubmitting(false)
+    } catch (error) {
+      console.error('Error submitting contact form:', error)
+      toast({
+        title: "Error Sending Message",
+        description: "Please try again later.",
+        variant: "destructive"
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const renderGeneralForm = () => (

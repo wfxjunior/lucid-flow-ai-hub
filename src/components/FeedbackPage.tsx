@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MessageSquare, Star, Send } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
 
 export function FeedbackPage() {
   const [feedback, setFeedback] = useState({
@@ -32,8 +33,23 @@ export function FeedbackPage() {
 
     setIsLoading(true)
     try {
-      // Simulate feedback submission
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // Send email via edge function
+      const { error } = await supabase.functions.invoke('send-platform-email', {
+        body: {
+          type: 'feedback',
+          name: feedback.email || 'Anonymous User',
+          email: feedback.email || 'anonymous@featherbiz.com',
+          subject: feedback.subject,
+          message: feedback.message,
+          feedbackType: feedback.type,
+          rating: feedback.rating
+        }
+      })
+
+      if (error) {
+        console.error('Error sending feedback:', error)
+        throw error
+      }
       
       toast({
         title: "Feedback Submitted",
@@ -42,6 +58,7 @@ export function FeedbackPage() {
       
       setFeedback({ type: "", rating: "", subject: "", message: "", email: "" })
     } catch (error) {
+      console.error('Error submitting feedback:', error)
       toast({
         title: "Error",
         description: "Failed to submit feedback. Please try again.",
