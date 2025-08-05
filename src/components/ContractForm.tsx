@@ -256,7 +256,7 @@ By signing below, both parties agree to the terms outlined in this contract.
           value={formData.content}
           onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
           placeholder="Enter contract content or generate with AI..."
-          className="min-h-[300px] font-mono text-sm"
+          className="min-h-[300px] text-sm"
           required
         />
       </div>
