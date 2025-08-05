@@ -119,8 +119,8 @@ export function CareersPage() {
             const IconComponent = job.icon
             return (
               <Card key={job.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-4 sm:p-6">
-                  <IconComponent className="h-8 sm:h-10 w-8 sm:w-10 text-blue-500 mb-3 sm:mb-4" />
+                <CardContent className="p-4 sm:p-6 text-center">
+                  <IconComponent className="h-8 sm:h-10 w-8 sm:w-10 text-blue-500 mx-auto mb-3 sm:mb-4" />
                   <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{job.title}</h3>
                   <p className="text-muted-foreground text-sm sm:text-base mb-3 sm:mb-4">{job.description}</p>
                   <Button
