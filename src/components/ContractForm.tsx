@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { Upload, FileText, Sparkles, Tag, X } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
+import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 
 interface ContractFormProps {
@@ -76,19 +77,16 @@ export function ContractForm({ onClose, contract }: ContractFormProps) {
 
     setIsGenerating(true)
     try {
-      const response = await fetch('/api/generate-contract-ai', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('generate-contract-ai', {
+        body: {
           prompt: `Create a ${formData.contract_type} contract titled "${formData.title}"`,
           contractType: formData.contract_type,
           businessType: 'General business'
-        })
+        }
       })
 
-      if (!response.ok) throw new Error('Failed to generate contract')
+      if (error) throw error
       
-      const data = await response.json()
       setFormData(prev => ({ ...prev, content: data.contract }))
       toast.success("Contract generated successfully!")
     } catch (error) {
