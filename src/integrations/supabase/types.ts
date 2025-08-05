@@ -426,6 +426,7 @@ export type Database = {
       contracts: {
         Row: {
           content: string
+          contract_number: string | null
           contract_type: string | null
           created_at: string
           id: string
@@ -438,6 +439,7 @@ export type Database = {
         }
         Insert: {
           content: string
+          contract_number?: string | null
           contract_type?: string | null
           created_at?: string
           id?: string
@@ -450,6 +452,7 @@ export type Database = {
         }
         Update: {
           content?: string
+          contract_number?: string | null
           contract_type?: string | null
           created_at?: string
           id?: string
@@ -2158,6 +2161,10 @@ export type Database = {
     }
     Functions: {
       generate_bid_number: {
+        Args: { starting_number?: number }
+        Returns: string
+      }
+      generate_contract_number: {
         Args: { starting_number?: number }
         Returns: string
       }
