@@ -38,7 +38,7 @@ const translations = {
       mainFeatures: {
         dashboard: "Dashboard",
         aiVoice: "AI Voice",
-        createInvoice: "Create Invoice",
+        invoices: "Invoices",
         estimates: "Estimates",
         payments: "Payments",
         esignatures: "E-Signatures"
@@ -122,7 +122,7 @@ const translations = {
       refresh: "Refresh",
       aiVoiceAssistant: "AI Voice Assistant",
       viewAnalytics: "View Analytics",
-      createInvoice: "Create Invoice"
+      invoices: "Invoices"
     },
     notes: {
       title: "Notes",

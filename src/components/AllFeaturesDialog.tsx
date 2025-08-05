@@ -12,7 +12,7 @@ const allFeatures = [
   // Main Features
   { name: "Dashboard", category: "Main", description: "Central hub for business overview" },
   { name: "AI Voice", category: "Main", description: "Voice assistant for automation" },
-  { name: "Create Invoice", category: "Main", description: "Generate professional invoices" },
+  { name: "Invoices", category: "Main", description: "Generate professional invoices" },
   { name: "Estimates", category: "Main", description: "Create project estimates" },
   { name: "Payments", category: "Main", description: "Track and manage payments" },
   { name: "E-Signatures", category: "Main", description: "Digital signature solution" },

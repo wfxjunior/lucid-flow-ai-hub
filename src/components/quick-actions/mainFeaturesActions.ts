@@ -38,7 +38,7 @@ export const mainFeaturesActions = [
   },
   {
     id: "invoice-creator",
-    title: "Create Invoice",
+    title: "Invoices",
     description: "Generate a new invoice",
     icon: FileText,
     color: "bg-blue-500",

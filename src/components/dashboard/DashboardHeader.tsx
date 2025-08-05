@@ -98,7 +98,7 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
               size={isMobile ? "lg" : "default"}
             >
               <Zap className="h-5 w-5 mr-2" />
-              {t("dashboardHeader.createInvoice", "Create Invoice")}
+              {t("dashboardHeader.invoices", "Invoices")}
             </Button>
           </div>
         </div>

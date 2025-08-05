@@ -15,7 +15,7 @@ import {
 const featureIconMap: Record<string, React.ElementType> = {
   "Dashboard": LayoutDashboard,
   "AI Voice": Bot,
-  "Create Invoice": FileText,
+  "Invoices": FileText,
   "Estimates": ClipboardCheck,
   "Payments": CreditCard,
   "E-Signatures": Signature,
@@ -61,7 +61,7 @@ const featureIconMap: Record<string, React.ElementType> = {
 const allFeatures = [
   { name: "Dashboard", category: "Main", description: "Get a bird’s-eye view of your whole business—track activities, see key stats, and access core apps all in one place." },
   { name: "AI Voice", category: "Main", description: "Ask, command, or automate tasks with your own AI voice assistant, saving time on repetitive actions." },
-  { name: "Create Invoice", category: "Main", description: "Generate and customize professional invoices instantly with templates, branding, and automated calculations." },
+  { name: "Invoices", category: "Main", description: "Generate and customize professional invoices instantly with templates, branding, and automated calculations." },
   { name: "Estimates", category: "Main", description: "Quickly create detailed project estimates and quotes to impress clients and win jobs faster." },
   { name: "Payments", category: "Main", description: "Track payments, get paid faster with integrated online payment solutions, and enjoy automated reminders." },
   { name: "E-Signatures", category: "Main", description: "Sign documents securely online—no more printing or scanning, with legally binding digital signatures." },

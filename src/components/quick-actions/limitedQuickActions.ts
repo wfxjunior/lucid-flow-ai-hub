@@ -18,7 +18,7 @@ export const limitedQuickActions: QuickAction[] = [
   // First row - existing actions
   {
     id: "create-invoice",
-    title: "Create Invoice",
+    title: "Invoices",
     description: "Generate new invoice",
     icon: FileText,
     color: "bg-blue-500",
