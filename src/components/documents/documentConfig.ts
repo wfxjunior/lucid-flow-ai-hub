@@ -27,7 +27,12 @@ export const documentTerms: Record<string, string> = {
 export const functionNameMapping: Record<string, string> = {
   invoice: "generate_invoice_number",
   estimate: "generate_estimate_number",
+  quote: "generate_quote_number",
+  proposal: "generate_proposal_number",
+  contract: "generate_contract_number",
   workorder: "generate_work_order_number",
+  salesorder: "generate_salesorder_number",
+  bid: "generate_bid_number",
   meeting: "generate_meeting_number",
   receipt: "generate_receipt_number"
 }

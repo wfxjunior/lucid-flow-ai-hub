@@ -181,6 +181,93 @@ export type Database = {
           },
         ]
       }
+      bids: {
+        Row: {
+          amount: number
+          bid_date: string | null
+          bid_number: string | null
+          client_id: string
+          created_at: string
+          deadline: string | null
+          description: string | null
+          id: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          bid_date?: string | null
+          bid_number?: string | null
+          client_id: string
+          created_at?: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          bid_date?: string | null
+          bid_number?: string | null
+          client_id?: string
+          created_at?: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      business_proposals: {
+        Row: {
+          amount: number
+          client_id: string
+          created_at: string
+          description: string | null
+          id: string
+          proposal_date: string | null
+          proposal_number: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          client_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          proposal_date?: string | null
+          proposal_number?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          proposal_date?: string | null
+          proposal_number?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       car_rentals: {
         Row: {
           created_at: string
@@ -1233,6 +1320,51 @@ export type Database = {
         }
         Relationships: []
       }
+      quotes: {
+        Row: {
+          amount: number
+          client_id: string
+          created_at: string
+          description: string | null
+          id: string
+          quote_date: string | null
+          quote_number: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          valid_until: string | null
+        }
+        Insert: {
+          amount?: number
+          client_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          quote_date?: string | null
+          quote_number?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+          valid_until?: string | null
+        }
+        Update: {
+          amount?: number
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          quote_date?: string | null
+          quote_number?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
           amount: number
@@ -1375,6 +1507,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sales_orders: {
+        Row: {
+          amount: number
+          client_id: string
+          created_at: string
+          delivery_date: string | null
+          description: string | null
+          id: string
+          order_date: string | null
+          salesorder_number: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          client_id: string
+          created_at?: string
+          delivery_date?: string | null
+          description?: string | null
+          id?: string
+          order_date?: string | null
+          salesorder_number?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          client_id?: string
+          created_at?: string
+          delivery_date?: string | null
+          description?: string | null
+          id?: string
+          order_date?: string | null
+          salesorder_number?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       signatures: {
         Row: {
@@ -1980,6 +2157,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_bid_number: {
+        Args: { starting_number?: number }
+        Returns: string
+      }
       generate_estimate_number: {
         Args: { starting_number?: number }
         Returns: string
@@ -1992,12 +2173,24 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      generate_proposal_number: {
+        Args: { starting_number?: number }
+        Returns: string
+      }
+      generate_quote_number: {
+        Args: { starting_number?: number }
+        Returns: string
+      }
       generate_receipt_number: {
         Args: Record<PropertyKey, never>
         Returns: string
       }
       generate_referral_code: {
         Args: { user_email: string }
+        Returns: string
+      }
+      generate_salesorder_number: {
+        Args: { starting_number?: number }
         Returns: string
       }
       generate_work_order_number: {
