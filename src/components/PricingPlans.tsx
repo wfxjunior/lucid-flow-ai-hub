@@ -384,13 +384,13 @@ export function PricingPlans() {
         <PricingHeader />
         
         {/* Billing Period Toggle */}
-        <div className="flex justify-center mb-6 sm:mb-8 lg:mb-12 px-4">
-          <div className="bg-gray-100 rounded-full p-1 shadow-sm border w-full max-w-sm">
+        <div className="flex justify-center mb-6 sm:mb-8 lg:mb-12">
+          <div className="bg-gray-100 rounded-full p-1 shadow-sm border max-w-sm mx-auto">
             <ToggleGroup
               type="single"
               value={billingPeriod}
               onValueChange={(value) => value && setBillingPeriod(value as "monthly" | "annual")}
-              className="grid grid-cols-2 gap-1"
+              className="grid grid-cols-2 gap-1 w-full"
             >
               <ToggleGroupItem
                 value="monthly"
