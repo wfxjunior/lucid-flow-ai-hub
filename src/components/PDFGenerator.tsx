@@ -188,7 +188,7 @@ export function PDFGenerator() {
                   onChange={handleLogoUpload}
                 />
                 {logoPreview && (
-                  <img src={logoPreview} alt="Logo preview" className="h-16 w-auto" />
+                  <img src={logoPreview} alt="Logo preview" className="h-24 w-auto" />
                 )}
               </div>
               <div className="space-y-2">
@@ -420,7 +420,7 @@ export function PDFGenerator() {
                 <div className="flex justify-between items-start mb-8">
                   <div className="flex items-center gap-4">
                     {logoPreview && (
-                      <img src={logoPreview} alt="Logo" className="h-16 w-auto" />
+                      <img src={logoPreview} alt="Logo" className="h-24 w-auto" />
                     )}
                     <div>
                       <h1 className="text-2xl font-bold text-gray-800">{companyData.name || "Nome da Empresa"}</h1>
