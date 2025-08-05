@@ -1287,6 +1287,54 @@ export type Database = {
           },
         ]
       }
+      referrals: {
+        Row: {
+          clicked_at: string | null
+          created_at: string
+          id: string
+          paid_at: string | null
+          referral_code: string
+          referred_email: string
+          referred_user_id: string | null
+          referrer_id: string
+          reward_amount: number | null
+          reward_paid: boolean | null
+          signed_up_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          clicked_at?: string | null
+          created_at?: string
+          id?: string
+          paid_at?: string | null
+          referral_code: string
+          referred_email: string
+          referred_user_id?: string | null
+          referrer_id: string
+          reward_amount?: number | null
+          reward_paid?: boolean | null
+          signed_up_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          clicked_at?: string | null
+          created_at?: string
+          id?: string
+          paid_at?: string | null
+          referral_code?: string
+          referred_email?: string
+          referred_user_id?: string | null
+          referrer_id?: string
+          reward_amount?: number | null
+          reward_paid?: boolean | null
+          signed_up_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       rental_documents: {
         Row: {
           created_at: string
@@ -1591,6 +1639,42 @@ export type Database = {
           security_alerts?: boolean | null
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_referral_stats: {
+        Row: {
+          created_at: string
+          id: string
+          pending_rewards: number | null
+          referral_code: string
+          successful_signups: number | null
+          total_earnings: number | null
+          total_referrals: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pending_rewards?: number | null
+          referral_code: string
+          successful_signups?: number | null
+          total_earnings?: number | null
+          total_referrals?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pending_rewards?: number | null
+          referral_code?: string
+          successful_signups?: number | null
+          total_earnings?: number | null
+          total_referrals?: number | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -1912,6 +1996,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      generate_referral_code: {
+        Args: { user_email: string }
+        Returns: string
+      }
       generate_work_order_number: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -1922,6 +2010,10 @@ export type Database = {
       }
       has_role: {
         Args: { _user_id: string; _role: string }
+        Returns: boolean
+      }
+      track_referral_signup: {
+        Args: { referral_code_param: string; new_user_email: string }
         Returns: boolean
       }
     }
