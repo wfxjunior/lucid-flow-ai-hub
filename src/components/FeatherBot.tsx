@@ -195,11 +195,27 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                 {/* Glow effect on hover */}
                 <div className="absolute inset-0 rounded-full bg-blue-400 opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300" />
                 
-                {/* Blue and white blinking face */}
+                {/* Custom blue and white blinking face */}
                 <div className="relative flex items-center justify-center h-full w-full">
-                  <div className="text-white text-2xl font-bold" style={{ animation: 'blink 7s infinite' }}>
-                    😊
-                  </div>
+                  <svg width="24" height="24" viewBox="0 0 24 24" className="text-white">
+                    {/* Face outline */}
+                    <circle cx="12" cy="12" r="10" fill="currentColor" stroke="white" strokeWidth="1"/>
+                    
+                    {/* Eyes with blinking animation */}
+                    <g className="animate-[blink_3s_infinite]">
+                      <circle cx="8.5" cy="9" r="1.5" fill="white"/>
+                      <circle cx="15.5" cy="9" r="1.5" fill="white"/>
+                    </g>
+                    
+                    {/* Smile */}
+                    <path 
+                      d="M8 14c1 2 3 3 4 3s3-1 4-3" 
+                      stroke="white" 
+                      strokeWidth="1.5" 
+                      strokeLinecap="round" 
+                      fill="none"
+                    />
+                  </svg>
                 </div>
               </button>
             </TooltipTrigger>
@@ -217,7 +233,12 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
             <CardHeader className="pb-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg">
               <CardTitle className="flex items-center justify-between text-lg">
                 <div className="flex items-center gap-2">
-                  <div className="text-lg">🤖</div>
+                  <svg width="20" height="20" viewBox="0 0 24 24" className="text-white">
+                    <circle cx="12" cy="12" r="10" fill="currentColor" stroke="white" strokeWidth="1"/>
+                    <circle cx="8.5" cy="9" r="1.5" fill="white"/>
+                    <circle cx="15.5" cy="9" r="1.5" fill="white"/>
+                    <path d="M8 14c1 2 3 3 4 3s3-1 4-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                  </svg>
                   FeatherBot
                 </div>
                 <Button
@@ -237,7 +258,14 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
               <ScrollArea className="flex-1 p-4 max-h-[300px]">
                 {messages.length === 0 && (
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
-                    <div className="text-4xl mb-4">🤖</div>
+                    <div className="mb-4 flex justify-center">
+                      <svg width="48" height="48" viewBox="0 0 24 24" className="text-blue-500">
+                        <circle cx="12" cy="12" r="10" fill="currentColor" stroke="white" strokeWidth="1"/>
+                        <circle cx="8.5" cy="9" r="1.5" fill="white"/>
+                        <circle cx="15.5" cy="9" r="1.5" fill="white"/>
+                        <path d="M8 14c1 2 3 3 4 3s3-1 4-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                      </svg>
+                    </div>
                     <p className="text-sm">Hello, I'm FeatherBot. How can I help you?</p>
                     <p className="text-xs mt-2 text-gray-400">Ask me about invoices, clients, earnings, or any platform features!</p>
                   </div>
@@ -257,7 +285,12 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     >
                       <div className="flex items-start gap-2">
                         {message.type === 'bot' && (
-                          <div className="text-sm mt-0.5 flex-shrink-0">🤖</div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" className="text-blue-500 mt-0.5 flex-shrink-0">
+                            <circle cx="12" cy="12" r="10" fill="currentColor" stroke="white" strokeWidth="1"/>
+                            <circle cx="8.5" cy="9" r="1.5" fill="white"/>
+                            <circle cx="15.5" cy="9" r="1.5" fill="white"/>
+                            <path d="M8 14c1 2 3 3 4 3s3-1 4-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                          </svg>
                         )}
                         {message.type === 'user' && (
                           <User className="h-4 w-4 mt-0.5 flex-shrink-0" />
@@ -282,7 +315,12 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   <div className="flex justify-start mb-4 animate-fade-in">
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-600">
                       <div className="flex items-center gap-2">
-                        <div className="text-sm">🤖</div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" className="text-blue-500">
+                          <circle cx="12" cy="12" r="10" fill="currentColor" stroke="white" strokeWidth="1"/>
+                          <circle cx="8.5" cy="9" r="1.5" fill="white"/>
+                          <circle cx="15.5" cy="9" r="1.5" fill="white"/>
+                          <path d="M8 14c1 2 3 3 4 3s3-1 4-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                        </svg>
                         <div className="flex items-center gap-1">
                           <span className="text-sm text-gray-500">Thinking</span>
                           <div className="flex gap-1">
@@ -301,7 +339,12 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   <div className="flex justify-start mb-4 animate-fade-in">
                     <div className="max-w-[80%] bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
                       <div className="flex items-start gap-2">
-                        <div className="text-sm mt-0.5 flex-shrink-0">🤖</div>
+                        <svg width="16" height="16" viewBox="0 0 24 24" className="text-blue-500 mt-0.5 flex-shrink-0">
+                          <circle cx="12" cy="12" r="10" fill="currentColor" stroke="white" strokeWidth="1"/>
+                          <circle cx="8.5" cy="9" r="1.5" fill="white"/>
+                          <circle cx="15.5" cy="9" r="1.5" fill="white"/>
+                          <path d="M8 14c1 2 3 3 4 3s3-1 4-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                        </svg>
                         <div className="flex-1">
                           <p className="text-sm whitespace-pre-wrap leading-relaxed">
                             {typingText}
