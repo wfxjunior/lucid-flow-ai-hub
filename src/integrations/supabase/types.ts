@@ -1620,52 +1620,115 @@ export type Database = {
       }
       user_settings: {
         Row: {
+          bid_auto_generate: boolean | null
+          bid_number_prefix: string | null
+          bid_number_start: number | null
           company_address: string | null
           company_email: string | null
           company_logo: string | null
           company_name: string | null
           company_phone: string | null
+          contract_auto_generate: boolean | null
+          contract_number_prefix: string | null
+          contract_number_start: number | null
           created_at: string
           default_notes: string | null
           default_payment_terms: string | null
+          estimate_auto_generate: boolean | null
           estimate_number_prefix: string | null
           estimate_number_start: number | null
           id: string
+          invoice_auto_generate: boolean | null
+          invoice_number_prefix: string | null
           invoice_number_start: number | null
+          proposal_auto_generate: boolean | null
+          proposal_number_prefix: string | null
+          proposal_number_start: number | null
+          quote_auto_generate: boolean | null
+          quote_number_prefix: string | null
+          quote_number_start: number | null
+          salesorder_auto_generate: boolean | null
+          salesorder_number_prefix: string | null
+          salesorder_number_start: number | null
           updated_at: string
           user_id: string
+          workorder_auto_generate: boolean | null
+          workorder_number_prefix: string | null
+          workorder_number_start: number | null
         }
         Insert: {
+          bid_auto_generate?: boolean | null
+          bid_number_prefix?: string | null
+          bid_number_start?: number | null
           company_address?: string | null
           company_email?: string | null
           company_logo?: string | null
           company_name?: string | null
           company_phone?: string | null
+          contract_auto_generate?: boolean | null
+          contract_number_prefix?: string | null
+          contract_number_start?: number | null
           created_at?: string
           default_notes?: string | null
           default_payment_terms?: string | null
+          estimate_auto_generate?: boolean | null
           estimate_number_prefix?: string | null
           estimate_number_start?: number | null
           id?: string
+          invoice_auto_generate?: boolean | null
+          invoice_number_prefix?: string | null
           invoice_number_start?: number | null
+          proposal_auto_generate?: boolean | null
+          proposal_number_prefix?: string | null
+          proposal_number_start?: number | null
+          quote_auto_generate?: boolean | null
+          quote_number_prefix?: string | null
+          quote_number_start?: number | null
+          salesorder_auto_generate?: boolean | null
+          salesorder_number_prefix?: string | null
+          salesorder_number_start?: number | null
           updated_at?: string
           user_id: string
+          workorder_auto_generate?: boolean | null
+          workorder_number_prefix?: string | null
+          workorder_number_start?: number | null
         }
         Update: {
+          bid_auto_generate?: boolean | null
+          bid_number_prefix?: string | null
+          bid_number_start?: number | null
           company_address?: string | null
           company_email?: string | null
           company_logo?: string | null
           company_name?: string | null
           company_phone?: string | null
+          contract_auto_generate?: boolean | null
+          contract_number_prefix?: string | null
+          contract_number_start?: number | null
           created_at?: string
           default_notes?: string | null
           default_payment_terms?: string | null
+          estimate_auto_generate?: boolean | null
           estimate_number_prefix?: string | null
           estimate_number_start?: number | null
           id?: string
+          invoice_auto_generate?: boolean | null
+          invoice_number_prefix?: string | null
           invoice_number_start?: number | null
+          proposal_auto_generate?: boolean | null
+          proposal_number_prefix?: string | null
+          proposal_number_start?: number | null
+          quote_auto_generate?: boolean | null
+          quote_number_prefix?: string | null
+          quote_number_start?: number | null
+          salesorder_auto_generate?: boolean | null
+          salesorder_number_prefix?: string | null
+          salesorder_number_start?: number | null
           updated_at?: string
           user_id?: string
+          workorder_auto_generate?: boolean | null
+          workorder_number_prefix?: string | null
+          workorder_number_start?: number | null
         }
         Relationships: []
       }
