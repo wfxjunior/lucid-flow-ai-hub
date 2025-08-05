@@ -51,12 +51,39 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
     }
   }, [])
 
-  // Load conversation history
+  // Common greeting messages
+  const greetingMessages = [
+    "Hi there! 👋 I'm FeatherBot, your business assistant. How can I help you today?",
+    "Welcome back! 🌟 I'm here to help with your business management needs.",
+    "Hello! 💼 Need help with invoices, clients, or business insights? I'm here for you!",
+    "Hi! ✨ I can assist with everything from document tracking to financial insights.",
+    "Greetings! 🚀 Ready to streamline your business? Let's get started!"
+  ]
+
+  // Load conversation history and show greeting
   useEffect(() => {
     if (isOpen && user) {
       loadConversationHistory()
+      showGreetingMessage()
     }
   }, [isOpen, user])
+
+  const showGreetingMessage = () => {
+    if (messages.length === 0) {
+      const randomGreeting = greetingMessages[Math.floor(Math.random() * greetingMessages.length)]
+      setTimeout(() => {
+        typeMessage(randomGreeting, () => {
+          const greetingMessage: Message = {
+            id: `greeting-${Date.now()}`,
+            type: 'bot',
+            content: randomGreeting,
+            timestamp: new Date()
+          }
+          setMessages(prev => [...prev, greetingMessage])
+        })
+      }, 500)
+    }
+  }
 
   const loadConversationHistory = async () => {
     try {
@@ -256,23 +283,49 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
             <CardContent className="p-0 flex flex-col h-[calc(100%-60px)]">
               {/* Messages Area */}
               <ScrollArea className="flex-1 p-4 max-h-[300px]">
-                {messages.length === 0 && (
+                {messages.length === 0 && !isTyping && (
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
-                    <div className="mb-4 flex justify-center">
+                    <div className="mb-6 flex justify-center">
                       <div className="relative">
-                        <div className="w-12 h-12 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center shadow-md">
-                          <div className="absolute top-3 left-3 flex gap-2">
-                            <div className="w-2 h-2 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                            <div className="w-2 h-2 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
+                          <div className="absolute top-4 left-4 flex gap-2">
+                            <div className="w-2.5 h-2.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                            <div className="w-2.5 h-2.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                           </div>
-                          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
-                            <div className="w-4 h-2 border-b-2 border-white rounded-b-full"></div>
+                          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2">
+                            <div className="w-5 h-2.5 border-b-2 border-white rounded-b-full"></div>
+                          </div>
+                        </div>
+                        <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full border-2 border-white flex items-center justify-center">
+                          <span className="text-xs">✨</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">FeatherBot Assistant</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Your intelligent business companion</p>
+                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mx-4">
+                        <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-2">I can help you with:</p>
+                        <div className="grid grid-cols-2 gap-2 text-xs text-blue-700 dark:text-blue-300">
+                          <div className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Invoice tracking
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Client management
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Financial insights
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Business analytics
                           </div>
                         </div>
                       </div>
                     </div>
-                    <p className="text-sm">Hello, I'm FeatherBot. How can I help you?</p>
-                    <p className="text-xs mt-2 text-gray-400">Ask me about invoices, clients, earnings, or any platform features!</p>
                   </div>
                 )}
                 
@@ -282,11 +335,11 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     className={`mb-4 flex animate-fade-in ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                      className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
                         message.type === 'user'
-                          ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600'
-                      } transition-all duration-200 hover:shadow-md`}
+                          ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
+                          : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 shadow-gray-100 dark:shadow-gray-800/50'
+                      } transition-all duration-200 hover:shadow-md hover:scale-[1.02]`}
                     >
                       <div className="flex items-start gap-2">
                         {message.type === 'bot' && (
@@ -380,20 +433,27 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
               </ScrollArea>
 
               {/* Input Area */}
-              <div className="p-4 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800/50">
-                <div className="flex gap-2">
-                  <Input
-                    value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Ask me anything..."
-                    disabled={isLoading}
-                    className="flex-1 border-gray-200 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
-                  />
+              <div className="p-4 border-t border-gray-200 dark:border-gray-600 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
+                <div className="flex gap-3">
+                  <div className="relative flex-1">
+                    <Input
+                      value={inputMessage}
+                      onChange={(e) => setInputMessage(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder="Ask me anything about your business..."
+                      disabled={isLoading || isTyping}
+                      className="pr-12 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                    />
+                    {inputMessage.trim() && (
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      </div>
+                    )}
+                  </div>
                   <Button
                     onClick={sendMessage}
-                    disabled={isLoading || !inputMessage.trim()}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105"
+                    disabled={isLoading || isTyping || !inputMessage.trim()}
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-blue-200 dark:shadow-blue-900/50"
                     size="sm"
                   >
                     <Send className="h-4 w-4" />
