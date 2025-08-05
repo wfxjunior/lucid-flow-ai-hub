@@ -21,12 +21,12 @@ export function SignUpForm() {
     setError('')
 
     if (password !== confirmPassword) {
-      setError('As senhas não coincidem')
+      setError('Passwords do not match')
       return
     }
 
     if (password.length < 6) {
-      setError('A senha deve ter pelo menos 6 caracteres')
+      setError('Password must be at least 6 characters')
       return
     }
 
@@ -51,7 +51,7 @@ export function SignUpForm() {
           // Don't fail signup if welcome email fails
         }
         
-        toast.success('Conta criada com sucesso! Você já pode fazer login.')
+        toast.success('Account created successfully! You can now log in.')
       }
     } catch (error: any) {
       setError(error.message)
