@@ -14,7 +14,7 @@ export const LandingTrustIndicators = () => (
           <img
             src="/lovable-uploads/9213baaa-a963-4cd9-974c-b7ebfdd1f554.png"
             alt="Trusted by companies like Google, Oracle, Amazon, IBM, PayPal, eBay, Shopify, Stripe, SAP, Microsoft, Salesforce, Adobe"
-            className="h-12 sm:h-16 w-auto mx-auto opacity-70 hover:opacity-100 transition-opacity duration-300"
+            className="h-16 sm:h-20 lg:h-24 w-auto mx-auto opacity-70 hover:opacity-100 transition-opacity duration-300"
           />
         </div>
       </div>
