@@ -17,7 +17,7 @@ import { QuickAction } from "./quickActionsUtils"
 export const limitedQuickActions: QuickAction[] = [
   // First row - existing actions
   {
-    id: "create-invoice",
+    id: "invoice-creator",
     title: "Invoices",
     description: "Generate new invoice",
     icon: FileText,
@@ -83,9 +83,9 @@ export const limitedQuickActions: QuickAction[] = [
   },
   // Third row - new actions
   {
-    id: "add-invoice",
-    title: "Add Invoice",
-    description: "Quick invoice creation",
+    id: "invoices",
+    title: "Invoice List",
+    description: "View all invoices",
     icon: FilePlus,
     color: "bg-emerald-500",
     hoverColor: "hover:bg-emerald-600"
@@ -99,7 +99,7 @@ export const limitedQuickActions: QuickAction[] = [
     hoverColor: "hover:bg-amber-600"
   },
   {
-    id: "earn-sync",
+    id: "earnsync",
     title: "EarnSync",
     description: "Sync earnings data",
     icon: DollarSign,
@@ -107,8 +107,8 @@ export const limitedQuickActions: QuickAction[] = [
     hoverColor: "hover:bg-lime-600"
   },
   {
-    id: "after-care",
-    title: "After Care",
+    id: "aftercare",
+    title: "AfterCare",
     description: "Customer follow-up",
     icon: HeartHandshake,
     color: "bg-rose-500",

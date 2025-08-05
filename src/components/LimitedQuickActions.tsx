@@ -37,7 +37,13 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
 
   const handleActionClick = (actionId: string) => {
     console.log('LimitedQuickActions: Action clicked:', actionId)
-    onActionClick(actionId)
+    console.log('Available actions:', limitedQuickActions.map(a => a.id))
+    
+    if (typeof onActionClick === 'function') {
+      onActionClick(actionId)
+    } else {
+      console.error('onActionClick is not a function:', onActionClick)
+    }
   }
 
   // Combine all sidebar items for voice recognition
@@ -101,6 +107,7 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
           )
           
           if (matchedQuickAction) {
+            console.log('Voice matched quick action:', matchedQuickAction.id)
             handleActionClick(matchedQuickAction.id)
             setIsListening(false)
             return
@@ -113,6 +120,7 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
           )
           
           if (matchedSidebarItem) {
+            console.log('Voice matched sidebar item:', matchedSidebarItem.view)
             handleActionClick(matchedSidebarItem.view)
             setIsListening(false)
             return
@@ -123,8 +131,12 @@ export function LimitedQuickActions({ onActionClick }: LimitedQuickActionsProps)
           setIsListening(false)
         }
         
-        recognition.onerror = () => {
+        recognition.onerror = (event: any) => {
+          console.error('Speech recognition error:', event.error)
           setIsListening(false)
+          if (event.error === 'not-allowed') {
+            alert('Microphone access denied. Please allow microphone access and try again.')
+          }
         }
         
         recognition.onend = () => {
