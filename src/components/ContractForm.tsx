@@ -7,9 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
-import { Upload, FileText, Sparkles, Tag, X } from "lucide-react"
+import { Upload, FileText, Sparkles, Tag, X, Send } from "lucide-react"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { supabase } from "@/integrations/supabase/client"
+import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
 import { toast } from "sonner"
 
 interface ContractFormProps {
@@ -29,6 +30,7 @@ export function ContractForm({ onClose, contract }: ContractFormProps) {
   })
   const [newTag, setNewTag] = useState("")
   const [isGenerating, setIsGenerating] = useState(false)
+  const [savedContract, setSavedContract] = useState<any>(null)
 
   useEffect(() => {
     if (contract) {
@@ -51,18 +53,42 @@ export function ContractForm({ onClose, contract }: ContractFormProps) {
     }
 
     try {
+      let result
       if (contract) {
-        await updateContract({ id: contract.id, ...formData })
+        result = await updateContract({ id: contract.id, ...formData })
         toast.success("Contract updated successfully!")
       } else {
         if (formData.is_template) {
-          await createContract({ ...formData, status: "active" as const })
+          result = await createContract({ ...formData, status: "active" as const })
         } else {
-          await createContract(formData)
+          result = await createContract(formData)
         }
         toast.success("Contract created successfully!")
       }
+      setSavedContract(result || contract)
       onClose()
+    } catch (error) {
+      console.error("Error saving contract:", error)
+      toast.error("Failed to save contract")
+    }
+  }
+
+  const handleSaveAndSign = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.title || !formData.content) {
+      toast.error("Please fill in all required fields")
+      return
+    }
+
+    try {
+      let result
+      if (contract) {
+        result = await updateContract({ id: contract.id, ...formData })
+      } else {
+        result = await createContract({ ...formData, status: "pending_signature" as const })
+      }
+      setSavedContract(result || contract)
+      toast.success("Contract saved successfully!")
     } catch (error) {
       console.error("Error saving contract:", error)
       toast.error("Failed to save contract")
@@ -297,7 +323,24 @@ By signing below, both parties agree to the terms outlined in this contract.
           <FileText className="h-4 w-4 mr-2" />
           {contract ? "Update Contract" : "Create Contract"}
         </Button>
+        <Button 
+          type="button" 
+          onClick={handleSaveAndSign}
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
+        >
+          <Send className="h-4 w-4 mr-2" />
+          Save & Send for Signature
+        </Button>
       </div>
+
+      {savedContract && (
+        <DocumentSignatureDialog
+          open={!!savedContract}
+          onOpenChange={(open) => !open && setSavedContract(null)}
+          document={savedContract}
+          documentType="contract"
+        />
+      )}
     </form>
   )
 }
