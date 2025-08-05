@@ -26,9 +26,12 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
   const [messages, setMessages] = useState<Message[]>([])
   const [inputMessage, setInputMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
+  const [typingText, setTypingText] = useState("")
   const { user } = useAuthState()
   const { currentLanguage } = useLanguage()
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const typingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   // Auto scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -37,7 +40,16 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages])
+  }, [messages, typingText])
+
+  // Cleanup typing interval on unmount
+  useEffect(() => {
+    return () => {
+      if (typingIntervalRef.current) {
+        clearInterval(typingIntervalRef.current)
+      }
+    }
+  }, [])
 
   // Load conversation history
   useEffect(() => {
@@ -79,8 +91,27 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
     }
   }
 
+  // Typing effect function
+  const typeMessage = (text: string, callback: () => void) => {
+    setIsTyping(true)
+    setTypingText("")
+    let currentIndex = 0
+    
+    typingIntervalRef.current = setInterval(() => {
+      if (currentIndex < text.length) {
+        setTypingText(text.slice(0, currentIndex + 1))
+        currentIndex++
+      } else {
+        clearInterval(typingIntervalRef.current!)
+        setIsTyping(false)
+        setTypingText("")
+        callback()
+      }
+    }, 30) // Adjust speed here (lower = faster)
+  }
+
   const sendMessage = async () => {
-    if (!inputMessage.trim() || isLoading || !user) return
+    if (!inputMessage.trim() || isLoading || isTyping || !user) return
 
     const userMessage: Message = {
       id: `user-${Date.now()}`,
@@ -103,27 +134,35 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
 
       if (error) throw error
 
-      const botMessage: Message = {
-        id: `bot-${Date.now()}`,
-        type: 'bot',
-        content: data.response,
-        timestamp: new Date()
-      }
+      setIsLoading(false)
 
-      setMessages(prev => [...prev, botMessage])
+      // Start typing effect for bot response
+      typeMessage(data.response, () => {
+        const botMessage: Message = {
+          id: `bot-${Date.now()}`,
+          type: 'bot',
+          content: data.response,
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, botMessage])
+      })
+
     } catch (error) {
       console.error('Error sending message:', error)
       toast.error('Failed to send message. Please try again.')
       
-      const errorMessage: Message = {
-        id: `bot-error-${Date.now()}`,
-        type: 'bot',
-        content: "I'm sorry, I encountered an error. Please try again.",
-        timestamp: new Date()
-      }
-      setMessages(prev => [...prev, errorMessage])
-    } finally {
       setIsLoading(false)
+      
+      const errorResponseText = "I'm sorry, I encountered an error. Please try again."
+      typeMessage(errorResponseText, () => {
+        const errorMessage: Message = {
+          id: `bot-error-${Date.now()}`,
+          type: 'bot',
+          content: errorResponseText,
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, errorMessage])
+      })
     }
   }
 
@@ -238,20 +277,42 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   </div>
                 ))}
                 
+                {/* Loading indicator */}
                 {isLoading && (
                   <div className="flex justify-start mb-4 animate-fade-in">
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-600">
                       <div className="flex items-center gap-2">
                         <div className="text-sm">🤖</div>
-                        <div className="flex gap-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-sm text-gray-500">Thinking</span>
+                          <div className="flex gap-1">
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 )}
+
+                {/* Typing indicator */}
+                {isTyping && (
+                  <div className="flex justify-start mb-4 animate-fade-in">
+                    <div className="max-w-[80%] bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
+                      <div className="flex items-start gap-2">
+                        <div className="text-sm mt-0.5 flex-shrink-0">🤖</div>
+                        <div className="flex-1">
+                          <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                            {typingText}
+                            <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
                 <div ref={messagesEndRef} />
               </ScrollArea>
 
