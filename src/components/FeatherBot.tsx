@@ -198,16 +198,16 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                 {/* Custom blue and white blinking face */}
                 <div className="relative flex items-center justify-center h-full w-full">
                   <div className="relative">
-                    {/* Face circle */}
-                    <div className="w-8 h-8 bg-white rounded-full border-2 border-blue-100 flex items-center justify-center">
-                      {/* Eyes with blinking animation */}
+                    {/* Face circle - BLUE */}
+                    <div className="w-8 h-8 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
+                      {/* Eyes with blinking animation - WHITE */}
                       <div className="absolute top-2 left-2 flex gap-2">
-                        <div className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
-                        <div className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
+                        <div className="w-1.5 h-1.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                        <div className="w-1.5 h-1.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                       </div>
-                      {/* Smile */}
+                      {/* Smile - WHITE */}
                       <div className="absolute bottom-1.5 left-1/2 transform -translate-x-1/2">
-                        <div className="w-3 h-1.5 border-b-2 border-blue-600 rounded-b-full"></div>
+                        <div className="w-3 h-1.5 border-b-2 border-white rounded-b-full"></div>
                       </div>
                     </div>
                   </div>
@@ -229,13 +229,13 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
               <CardTitle className="flex items-center justify-between text-lg">
                 <div className="flex items-center gap-2">
                   <div className="relative">
-                    <div className="w-5 h-5 bg-white rounded-full border border-blue-200 flex items-center justify-center">
+                    <div className="w-5 h-5 bg-blue-500 rounded-full border border-white flex items-center justify-center">
                       <div className="absolute top-1 left-1 flex gap-1">
-                        <div className="w-1 h-1 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
-                        <div className="w-1 h-1 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
+                        <div className="w-1 h-1 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                        <div className="w-1 h-1 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                       </div>
                       <div className="absolute bottom-0.5 left-1/2 transform -translate-x-1/2">
-                        <div className="w-2 h-1 border-b border-blue-600 rounded-b-full"></div>
+                        <div className="w-2 h-1 border-b border-white rounded-b-full"></div>
                       </div>
                     </div>
                   </div>
@@ -260,13 +260,13 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
                     <div className="mb-4 flex justify-center">
                       <div className="relative">
-                        <div className="w-12 h-12 bg-white rounded-full border-2 border-blue-200 flex items-center justify-center shadow-md">
+                        <div className="w-12 h-12 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center shadow-md">
                           <div className="absolute top-3 left-3 flex gap-2">
-                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
-                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
+                            <div className="w-2 h-2 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                            <div className="w-2 h-2 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                           </div>
                           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
-                            <div className="w-4 h-2 border-b-2 border-blue-600 rounded-b-full"></div>
+                            <div className="w-4 h-2 border-b-2 border-white rounded-b-full"></div>
                           </div>
                         </div>
                       </div>
@@ -291,13 +291,13 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                       <div className="flex items-start gap-2">
                         {message.type === 'bot' && (
                           <div className="relative mt-0.5 flex-shrink-0">
-                            <div className="w-4 h-4 bg-white rounded-full border border-blue-200 flex items-center justify-center">
+                            <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
                               <div className="absolute top-0.5 left-0.5 flex gap-0.5">
-                                <div className="w-0.5 h-0.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
-                                <div className="w-0.5 h-0.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
+                                <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                                <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                               </div>
                               <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                                <div className="w-1.5 h-0.5 border-b border-blue-600 rounded-b-full"></div>
+                                <div className="w-1.5 h-0.5 border-b border-white rounded-b-full"></div>
                               </div>
                             </div>
                           </div>
@@ -326,13 +326,13 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-600">
                       <div className="flex items-center gap-2">
                         <div className="relative">
-                          <div className="w-4 h-4 bg-white rounded-full border border-blue-200 flex items-center justify-center">
+                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
                             <div className="absolute top-0.5 left-0.5 flex gap-0.5">
-                              <div className="w-0.5 h-0.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
-                              <div className="w-0.5 h-0.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
+                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                             </div>
                             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                              <div className="w-1.5 h-0.5 border-b border-blue-600 rounded-b-full"></div>
+                              <div className="w-1.5 h-0.5 border-b border-white rounded-b-full"></div>
                             </div>
                           </div>
                         </div>
@@ -355,13 +355,13 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     <div className="max-w-[80%] bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
                       <div className="flex items-start gap-2">
                         <div className="relative mt-0.5 flex-shrink-0">
-                          <div className="w-4 h-4 bg-white rounded-full border border-blue-200 flex items-center justify-center">
+                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
                             <div className="absolute top-0.5 left-0.5 flex gap-0.5">
-                              <div className="w-0.5 h-0.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
-                              <div className="w-0.5 h-0.5 bg-blue-600 rounded-full animate-[blink_3s_infinite]"></div>
+                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                             </div>
                             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                              <div className="w-1.5 h-0.5 border-b border-blue-600 rounded-b-full"></div>
+                              <div className="w-1.5 h-0.5 border-b border-white rounded-b-full"></div>
                             </div>
                           </div>
                         </div>
