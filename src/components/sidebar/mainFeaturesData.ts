@@ -16,9 +16,9 @@ export const mainFeatures: MenuItem[] = [
     view: "ai-voice"
   },
   {
-    title: "Create Invoice",
+    title: "Invoices",
     icon: FileText,
-    view: "invoice-creator"
+    view: "invoices"
   },
   {
     title: "Appointments",
