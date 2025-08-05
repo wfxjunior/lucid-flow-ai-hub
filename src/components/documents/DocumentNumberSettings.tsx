@@ -48,19 +48,32 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
         .from('user_settings')
         .select('*')
         .eq('user_id', user.id)
-        .single()
+        .maybeSingle()
 
       if (data) {
         const prefixKey = `${documentType}_number_prefix`
         const startKey = `${documentType}_number_start`
+        const autoGenerateKey = `${documentType}_auto_generate`
+        
+        // Get current highest number for this document type
+        const { data: highestDoc } = await getHighestDocumentNumber(documentType, user.id)
+        const currentMax = highestDoc || 0
+        const nextNumber = Math.max(currentMax + 1, data[startKey] || 1)
         
         setSettings({
-          autoGenerate: data[`${documentType}_auto_generate`] !== false,
+          autoGenerate: data[autoGenerateKey] !== false,
           prefix: data[prefixKey] || getDefaultPrefix(documentType),
           startNumber: data[startKey] || 1,
-          currentNumber: data[startKey] || 1
+          currentNumber: nextNumber
         })
       } else {
+        // Create initial settings for new user
+        await supabase
+          .from('user_settings')
+          .insert({ user_id: user.id })
+          .select()
+          .single()
+
         setSettings({
           autoGenerate: true,
           prefix: getDefaultPrefix(documentType),
@@ -75,6 +88,42 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
     }
   }
 
+  const getHighestDocumentNumber = async (docType: string, userId: string) => {
+    const tableMap: Record<string, string> = {
+      invoice: 'invoices',
+      estimate: 'estimates',
+      quote: 'quotes',
+      contract: 'contracts',
+      workorder: 'work_orders',
+      salesorder: 'sales_orders',
+      proposal: 'business_proposals',
+      bid: 'bids'
+    }
+
+    const tableName = tableMap[docType]
+    if (!tableName) return { data: 0 }
+
+    try {
+      const numberColumn = `${docType}_number`
+      const { data } = await supabase
+        .from(tableName)
+        .select(numberColumn)
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+
+      if (data && data[numberColumn]) {
+        const numberMatch = data[numberColumn].match(/\d+/)
+        return { data: numberMatch ? parseInt(numberMatch[0]) : 0 }
+      }
+      return { data: 0 }
+    } catch (error) {
+      console.error(`Error getting highest ${docType} number:`, error)
+      return { data: 0 }
+    }
+  }
+
   const saveSettings = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
@@ -84,6 +133,7 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
         [`${documentType}_auto_generate`]: settings.autoGenerate,
         [`${documentType}_number_prefix`]: settings.prefix,
         [`${documentType}_number_start`]: settings.startNumber,
+        updated_at: new Date().toISOString()
       }
 
       const { error } = await supabase
@@ -91,9 +141,14 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
         .upsert({
           user_id: user.id,
           ...updateData
+        }, {
+          onConflict: 'user_id'
         })
 
       if (error) throw error
+      
+      // Recalculate current number after saving
+      await loadSettings()
       
       toast.success("Settings saved successfully!")
     } catch (error) {
@@ -150,11 +205,16 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
                 type="number"
                 min="1"
                 value={settings.startNumber}
-                onChange={(e) => 
-                  setSettings(prev => ({ ...prev, startNumber: parseInt(e.target.value) || 1 }))
-                }
+                onChange={(e) => {
+                  const newStartNumber = parseInt(e.target.value) || 1
+                  setSettings(prev => ({ 
+                    ...prev, 
+                    startNumber: newStartNumber,
+                    currentNumber: Math.max(newStartNumber, prev.currentNumber)
+                  }))
+                }}
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Next {documentType} will be: {settings.prefix}{String(settings.currentNumber).padStart(4, '0')}
               </p>
             </div>
