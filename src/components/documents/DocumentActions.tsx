@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Copy, Download, Save, PenTool, Eye } from "lucide-react"
 import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
+import { SignNowEmbedDialog } from "@/components/e-signatures/SignNowEmbedDialog"
 import { DocumentPreviewDialog } from "./DocumentPreviewDialog"
 import { useState } from "react"
 
@@ -27,7 +28,12 @@ export function DocumentActions({
   businessData
 }: DocumentActionsProps) {
   const [signatureDialogOpen, setSignatureDialogOpen] = useState(false)
+  const [signNowEmbedDialogOpen, setSignNowEmbedDialogOpen] = useState(false)
   const [previewDialogOpen, setPreviewDialogOpen] = useState(false)
+
+  // Check if document is pending signature
+  const isPendingSignature = document?.status === 'pending' || document?.status === 'pending_signature'
+  const isSignedDocument = document?.status === 'signed'
 
   // Map extended document types to supported signature types
   const getSignatureDocumentType = (type: string): 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder' => {
@@ -79,6 +85,29 @@ export function DocumentActions({
         Duplicate
       </Button>
 
+      {/* Sign Receipt/Contract Button - Show when document status is pending */}
+      {isPendingSignature && (
+        <Button 
+          onClick={() => setSignNowEmbedDialogOpen(true)}
+          className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+        >
+          <PenTool className="mr-2 h-4 w-4" />
+          Sign {documentType === 'invoice' ? 'Receipt' : 'Contract'}
+        </Button>
+      )}
+
+      {/* Show signature status for signed documents */}
+      {isSignedDocument && (
+        <Button 
+          variant="outline"
+          disabled
+          className="w-full sm:w-auto border-green-200 text-green-700"
+        >
+          <Eye className="mr-2 h-4 w-4" />
+          Document Signed
+        </Button>
+      )}
+
       {document && (
         <>
           <DocumentPreviewDialog
@@ -96,6 +125,17 @@ export function DocumentActions({
             documentType={getSignatureDocumentType(documentType)}
             open={signatureDialogOpen}
             onOpenChange={setSignatureDialogOpen}
+          />
+          
+          <SignNowEmbedDialog
+            open={signNowEmbedDialogOpen}
+            onOpenChange={setSignNowEmbedDialogOpen}
+            document={document}
+            documentType={getSignatureDocumentType(documentType)}
+            onSignatureComplete={(documentId, signedDocumentUrl) => {
+              console.log('Signature completed:', { documentId, signedDocumentUrl })
+              // Optionally refresh the document or trigger parent refresh
+            }}
           />
         </>
       )}

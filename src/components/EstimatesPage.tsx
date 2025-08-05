@@ -25,6 +25,7 @@ import {
 import { EstimateForm } from "@/components/EstimateForm"
 import { ConvertToReceiptDialog } from "@/components/receipts/ConvertToReceiptDialog"
 import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
+import { SignNowEmbedDialog } from "@/components/e-signatures/SignNowEmbedDialog"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { useDocumentEmail } from "@/hooks/useDocumentEmail"
@@ -353,6 +354,12 @@ export function EstimatesPage() {
                               <FileText className="h-4 w-4" />
                               Send for Signature
                             </DropdownMenuItem>
+                            {estimate.status === 'pending' && (
+                              <DropdownMenuItem onClick={() => setSignatureDialogOpen(estimate.id)} className="flex items-center gap-2 text-green-700">
+                                <FileText className="h-4 w-4" />
+                                Sign Document
+                              </DropdownMenuItem>
+                            )}
                             <DropdownMenuItem onClick={() => handleSendReminder(estimate)} className="flex items-center gap-2">
                               <Bell className="h-4 w-4" />
                               Send Reminder
@@ -467,12 +474,25 @@ export function EstimatesPage() {
 
       {/* Signature Dialog */}
       {signatureDialogOpen && (
-        <DocumentSignatureDialog
-          document={filteredEstimates.find(est => est.id === signatureDialogOpen)}
-          documentType="estimate"
-          open={!!signatureDialogOpen}
-          onOpenChange={(open) => setSignatureDialogOpen(open ? signatureDialogOpen : null)}
-        />
+        <>
+          <DocumentSignatureDialog
+            document={filteredEstimates.find(est => est.id === signatureDialogOpen)}
+            documentType="estimate"
+            open={!!signatureDialogOpen}
+            onOpenChange={(open) => setSignatureDialogOpen(open ? signatureDialogOpen : null)}
+          />
+          <SignNowEmbedDialog
+            open={!!signatureDialogOpen}
+            onOpenChange={(open) => setSignatureDialogOpen(open ? signatureDialogOpen : null)}
+            document={filteredEstimates.find(est => est.id === signatureDialogOpen)}
+            documentType="estimate"
+            onSignatureComplete={(documentId, signedDocumentUrl) => {
+              toast.success('Estimate signed successfully!')
+              setSignatureDialogOpen(null)
+              // Refresh estimates data if needed
+            }}
+          />
+        </>
       )}
     </div>
   )
