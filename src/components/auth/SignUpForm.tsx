@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Loader2 } from "lucide-react"
@@ -13,8 +13,18 @@ export function SignUpForm() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [name, setName] = useState('')
+  const [referralCode, setReferralCode] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    // Check if there's a referral code in the URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const refCode = urlParams.get('ref')
+    if (refCode) {
+      setReferralCode(refCode)
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,6 +53,24 @@ export function SignUpForm() {
       }
 
       if (data.user) {
+        // Track referral if there's a referral code
+        if (referralCode) {
+          try {
+            const { error: referralError } = await supabase.functions.invoke('track-referral', {
+              body: {
+                referralCode,
+                userEmail: email
+              }
+            })
+            
+            if (referralError) {
+              console.error('Failed to track referral:', referralError)
+            }
+          } catch (referralError) {
+            console.error('Failed to track referral:', referralError)
+          }
+        }
+
         // Send welcome email after successful signup
         try {
           await sendWelcomeEmail(email, name || email.split('@')[0])
@@ -90,6 +118,15 @@ export function SignUpForm() {
           required
         />
       </div>
+      
+      {referralCode && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+          <p className="text-sm text-green-700">
+            🎉 You've been referred! You'll get 20% off your first month.
+          </p>
+          <p className="text-xs text-green-600 mt-1">Referral code: {referralCode}</p>
+        </div>
+      )}
 
       <div>
         <Input
