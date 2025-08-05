@@ -14,6 +14,8 @@ interface UserEmailRequest {
   content: string;
   emailType?: string;
   recipientName?: string;
+  fromName?: string;
+  replyTo?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -45,70 +47,54 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error('User not authenticated');
     }
 
-    // Get user's email settings
-    const { data: emailSettings, error: settingsError } = await supabaseClient
-      .from('user_email_settings')
-      .select('*')
-      .eq('user_id', user.id)
-      .eq('is_active', true)
+    const { to, subject, content, emailType = 'custom', recipientName, fromName, replyTo }: UserEmailRequest = await req.json();
+
+    // Get user profile for default sender name
+    const { data: profile } = await supabaseClient
+      .from('profiles')
+      .select('first_name, last_name')
+      .eq('id', user.id)
       .maybeSingle();
 
-    if (settingsError || !emailSettings) {
-      throw new Error('Email settings not configured. Please configure your email settings first.');
-    }
+    // Get company profile for branding
+    const { data: company } = await supabaseClient
+      .from('company_profiles')
+      .select('company_name, email')
+      .eq('user_id', user.id)
+      .maybeSingle();
 
-    const { to, subject, content, emailType = 'custom', recipientName }: UserEmailRequest = await req.json();
+    // Determine sender name
+    const senderName = fromName || 
+      (company?.company_name) || 
+      (profile ? `${profile.first_name} ${profile.last_name}`.trim() : 'FeatherBiz User');
+
+    // Use company email or default
+    const fromEmail = company?.email || 'noreply@featherbiz.com';
+    const replyToEmail = replyTo || company?.email || user.email;
 
     let emailResponse;
     let errorMessage = null;
 
     try {
-      // Initialize the appropriate email service based on provider
-      if (emailSettings.provider === 'resend') {
-        const resend = new Resend(emailSettings.api_key);
-        
-        emailResponse = await resend.emails.send({
-          from: `${emailSettings.from_name} <${emailSettings.from_email}>`,
-          to: [to],
-          subject: subject,
-          html: content,
-        });
-      } else if (emailSettings.provider === 'sendgrid') {
-        // SendGrid API implementation
-        const sendGridResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${emailSettings.api_key}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            personalizations: [{
-              to: [{ email: to, name: recipientName }],
-              subject: subject,
-            }],
-            from: {
-              email: emailSettings.from_email,
-              name: emailSettings.from_name,
-            },
-            content: [{
-              type: 'text/html',
-              value: content,
-            }],
-          }),
-        });
-
-        if (!sendGridResponse.ok) {
-          const errorData = await sendGridResponse.text();
-          throw new Error(`SendGrid API error: ${errorData}`);
-        }
-
-        emailResponse = {
-          id: sendGridResponse.headers.get('X-Message-Id') || 'sendgrid-success',
-          status: 'sent'
-        };
-      } else {
-        throw new Error(`Unsupported email provider: ${emailSettings.provider}`);
+      // Use centralized Resend API key from environment
+      const resendApiKey = Deno.env.get("RESEND_API_KEY");
+      if (!resendApiKey) {
+        throw new Error('Email service not configured. Please contact support.');
       }
+
+      const resend = new Resend(resendApiKey);
+      
+      emailResponse = await resend.emails.send({
+        from: `${senderName} <${fromEmail}>`,
+        to: [to],
+        subject: subject,
+        html: content,
+        reply_to: replyToEmail,
+        headers: {
+          'X-Sent-Via': 'FeatherBiz Platform',
+          'X-User-ID': user.id,
+        },
+      });
 
       console.log("Email sent successfully:", emailResponse);
 

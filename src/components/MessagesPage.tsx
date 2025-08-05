@@ -28,7 +28,7 @@ interface EmailLog {
 
 export function MessagesPage() {
   const { clients } = useBusinessData()
-  const { sendEmail, isSending, hasEmailSettings, checkEmailSettings } = useUserEmail()
+  const { sendEmail, isSending } = useUserEmail()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [emailLogs, setEmailLogs] = useState<EmailLog[]>([])
 
@@ -41,7 +41,6 @@ export function MessagesPage() {
   })
 
   useEffect(() => {
-    checkEmailSettings()
     loadEmailLogs()
   }, [])
 
@@ -105,39 +104,6 @@ export function MessagesPage() {
     }
   }
 
-  if (hasEmailSettings === false) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Messages</h1>
-            <p className="text-muted-foreground">
-              Send emails and SMS messages to your clients
-            </p>
-          </div>
-        </div>
-
-        <Card>
-          <CardContent className="p-8">
-            <div className="text-center space-y-4">
-              <Mail className="h-16 w-16 text-muted-foreground mx-auto" />
-              <h3 className="text-xl font-semibold">Configure Email Settings</h3>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                Before you can send emails to your clients, you need to configure your email settings with your own email provider credentials.
-              </p>
-              <Link to="/email-settings">
-                <Button className="mt-4">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Configure Email Settings
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -148,12 +114,6 @@ export function MessagesPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Link to="/email-settings">
-            <Button variant="outline">
-              <Settings className="mr-2 h-4 w-4" />
-              Email Settings
-            </Button>
-          </Link>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button>

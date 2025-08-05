@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { toast } from 'sonner'
@@ -13,40 +12,10 @@ interface SendEmailParams {
 
 export function useUserEmail() {
   const [isSending, setIsSending] = useState(false)
-  const [hasEmailSettings, setHasEmailSettings] = useState<boolean | null>(null)
-
-  const checkEmailSettings = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('user_email_settings')
-        .select('id')
-        .eq('is_active', true)
-        .single()
-
-      if (error && error.code !== 'PGRST116') {
-        throw error
-      }
-
-      const hasSettings = !!data
-      setHasEmailSettings(hasSettings)
-      return hasSettings
-    } catch (error: any) {
-      console.error('Error checking email settings:', error)
-      setHasEmailSettings(false)
-      return false
-    }
-  }
 
   const sendEmail = async ({ to, subject, content, emailType = 'custom', recipientName }: SendEmailParams) => {
     setIsSending(true)
     try {
-      // Check if user has email settings configured
-      const hasSettings = await checkEmailSettings()
-      if (!hasSettings) {
-        toast.error('Configure suas credenciais de email primeiro nas Configurações de Email')
-        return false
-      }
-
       const { data, error } = await supabase.functions.invoke('send-user-email', {
         body: {
           to,
@@ -78,8 +47,6 @@ export function useUserEmail() {
 
   return {
     sendEmail,
-    isSending,
-    hasEmailSettings,
-    checkEmailSettings
+    isSending
   }
 }

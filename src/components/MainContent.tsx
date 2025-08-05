@@ -48,6 +48,7 @@ import { SettingsPage } from "@/components/SettingsPage"
 import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
 import Upgrade from "@/pages/Upgrade"
 import PaymentSuccess from "@/pages/PaymentSuccess"
+import { EmailCenterPage } from "@/components/EmailCenterPage"
 
 interface MainContentProps {
   activeView: string
@@ -138,8 +139,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       // Communication
       case "messages":
         return <MessagesPage />
-      case "email-settings":
-        return <EmailSettingsPage />
+      case "email-center":
+        return <EmailCenterPage />
       
       // Analytics
       case "analytics":
