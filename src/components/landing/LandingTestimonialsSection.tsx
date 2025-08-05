@@ -129,23 +129,6 @@ export const LandingTestimonialsSection = () => {
           </div>
         </div>
 
-        {/* Partner Logos */}
-        <div className="text-center">
-          <p className="text-sm text-gray-500 mb-8 uppercase tracking-wide font-medium">
-            Trusted by innovative companies
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 items-center justify-items-center">
-            {partnerLogos.map((logo, index) => (
-              <div key={index} className="grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100">
-                <img
-                  src={logo.img}
-                  alt={logo.name}
-                  className="h-8 w-auto object-contain"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
         
       </div>
     </section>
