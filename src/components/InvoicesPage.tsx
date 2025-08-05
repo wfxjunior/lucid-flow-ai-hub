@@ -430,6 +430,35 @@ export function InvoicesPage() {
           })}
         </div>
       </div>
+
+      {/* Terminology Legend */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Terminology Legend</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <h4 className="font-medium mb-2">The Days Column:</h4>
+            <ul className="space-y-1 text-sm text-muted-foreground">
+              <li>• If the number is <span className="text-red-600 font-medium">red</span>: The number of days this invoice is late / past due.</li>
+              <li>• If the number is <span className="text-green-600 font-medium">green</span>: The number of days till this invoice is due.</li>
+              <li>• If the number is <span className="text-foreground font-medium">black</span>: The number of days it took your customer to pay this invoice.</li>
+              <li>• The bottom number: The average number of days before your invoices were paid (only includes paid invoices).</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-medium mb-2">The Status Column:</h4>
+            <ul className="space-y-1 text-sm text-muted-foreground">
+              <li>• <span className="font-medium">Draft</span>: This is a regular invoice that has just been created.</li>
+              <li>• <span className="font-medium">Sent</span>: This invoice has either been sent here on the platform, or you have marked it as sent yourself.</li>
+              <li>• <span className="font-medium">Viewed</span>: This invoice has been viewed by one or more of the people you sent it to.</li>
+              <li>• <span className="font-medium">Bounced</span>: This invoice could not be delivered. This is usually because the e-mail address was misspelled or because the recipient's inbox was full.</li>
+              <li>• <span className="font-medium">Paid</span>: This invoice has either been paid online or you have entered full payment for it.</li>
+              <li>• <span className="font-medium">Partial</span>: This invoice has either been paid partially online or you have entered a partial payment for it.</li>
+            </ul>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { 
   Plus, FileText, DollarSign, Search, Filter, Mail, CheckCircle, 
-  Clock, Download, Copy, AlertTriangle 
+  Clock, Download, Copy, MoreHorizontal, Printer, Eye, Archive, Trash2, Receipt
 } from 'lucide-react'
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -71,10 +72,8 @@ export function ReceiptsPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [showFilters, setShowFilters] = useState(false)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
-  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null)
-  const [selectedEstimate, setSelectedEstimate] = useState<Estimate | null>(null)
-  const [selectedReceipt, setSelectedReceipt] = useState<Receipt | null>(null)
   const { generateReceiptPDF } = usePDFGeneration()
 
   useEffect(() => {
@@ -194,20 +193,29 @@ export function ReceiptsPage() {
     return matchesSearch && matchesStatus
   })
 
-  const totalAmount = filteredReceipts.reduce((sum, receipt) => sum + receipt.amount, 0)
-  const paidReceipts = filteredReceipts.filter(r => r.status === 'paid').length
-  const pendingReceipts = filteredReceipts.filter(r => r.status === 'pending').length
-
-  const getStatusBadge = (status: string) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
-      case 'paid':
-        return 'bg-green-100 text-green-800'
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
+      case 'paid': return 'bg-green-100 text-green-800'
+      case 'pending': return 'bg-yellow-100 text-yellow-800'
+      case 'archived': return 'bg-gray-100 text-gray-600'
+      default: return 'bg-gray-100 text-gray-800'
     }
   }
+
+  const getStatusDisplay = (status: string) => {
+    return status.charAt(0).toUpperCase() + status.slice(1)
+  }
+
+  const StatusFilterButton = ({ status, label }: { status: string; label: string }) => (
+    <Button
+      variant={statusFilter === status ? "default" : "outline"}
+      size="sm"
+      onClick={() => setStatusFilter(status)}
+      className="h-8"
+    >
+      {label}
+    </Button>
+  )
 
   if (loading) {
     return (
@@ -220,11 +228,11 @@ export function ReceiptsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Receipts</h1>
           <p className="text-muted-foreground">
-            Manage receipts, convert invoices and estimates, and track payments
+            Track and manage all your receipts
           </p>
         </div>
         <div className="flex gap-2">
@@ -236,218 +244,132 @@ export function ReceiptsPage() {
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Receipts</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{filteredReceipts.length}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Paid</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">{paidReceipts}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending</CardTitle>
-            <Clock className="h-4 w-4 text-yellow-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">{pendingReceipts}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Amount</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${totalAmount.toFixed(2)}</div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Conversion Section */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {/* Convert Invoices */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Copy className="h-5 w-5" />
-              Convert Invoices to Receipts
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 max-h-48 overflow-y-auto">
-              {invoices.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No invoices available for conversion</p>
-              ) : (
-                invoices.slice(0, 5).map((invoice) => (
-                  <div key={invoice.id} className="flex items-center justify-between p-2 border rounded">
-                    <div>
-                      <p className="font-medium text-sm">{invoice.invoice_number}</p>
-                      <p className="text-xs text-muted-foreground">{invoice.clients?.name}</p>
-                      <p className="text-xs font-medium">${invoice.amount.toFixed(2)}</p>
-                    </div>
-                    <ConvertToReceiptDialog
-                      type="invoice"
-                      item={invoice}
-                      onReceiptCreated={fetchData}
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Convert Estimates */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Copy className="h-5 w-5" />
-              Convert Estimates to Receipts
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 max-h-48 overflow-y-auto">
-              {estimates.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No estimates available for conversion</p>
-              ) : (
-                estimates.slice(0, 5).map((estimate) => (
-                  <div key={estimate.id} className="flex items-center justify-between p-2 border rounded">
-                    <div>
-                      <p className="font-medium text-sm">{estimate.estimate_number}</p>
-                      <p className="text-xs text-muted-foreground">{estimate.clients?.name}</p>
-                      <p className="text-xs font-medium">${estimate.amount.toFixed(2)}</p>
-                    </div>
-                    <ConvertToReceiptDialog
-                      type="estimate"
-                      item={estimate}
-                      onReceiptCreated={fetchData}
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            placeholder="Search receipts..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
+      {/* Control Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <Filter className="mr-2 h-4 w-4" />
+            {showFilters ? 'Hide Filters' : 'Show Filters'}
+          </Button>
+          <Button variant="outline" size="sm">
+            <Printer className="mr-2 h-4 w-4" />
+            Print Table
+          </Button>
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full sm:w-[200px]">
-            <Filter className="h-4 w-4 mr-2" />
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="paid">Paid</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
 
-      {/* Receipts List */}
+      {/* Status Filters */}
+      {showFilters && (
+        <div className="flex flex-wrap gap-2">
+          <StatusFilterButton status="all" label="All" />
+          <StatusFilterButton status="paid" label="Paid" />
+          <StatusFilterButton status="pending" label="Pending" />
+          <StatusFilterButton status="archived" label="Archived" />
+        </div>
+      )}
+
+      {/* Receipts Table */}
       <Card>
-        <CardHeader>
-          <CardTitle>All Receipts</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {filteredReceipts.length === 0 ? (
-              <div className="text-center py-8">
-                <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No receipts found</p>
-                <p className="text-sm text-muted-foreground">Create a new receipt or convert from invoices/estimates</p>
-              </div>
-            ) : (
-              filteredReceipts.map((receipt) => (
-                <div key={receipt.id} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <FileText className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium">{receipt.receipt_number}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {receipt.clients?.name} • {receipt.payment_method}
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Badge className={getStatusBadge(receipt.status || 'pending')}>
-                          {receipt.status || 'pending'}
-                        </Badge>
-                        <span className="text-xs text-muted-foreground">
-                          {new Date(receipt.created_at).toLocaleDateString()}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-right mr-4">
-                      <p className="text-xl font-bold">${receipt.amount.toFixed(2)}</p>
-                    </div>
-                    <div className="flex gap-1">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleGeneratePDF(receipt)}
-                      >
-                        <Download className="h-4 w-4" />
-                      </Button>
-                      <ReceiptEmailDialog receipt={receipt} />
-                      <Select
-                        value={receipt.status || 'pending'}
-                        onValueChange={(value: 'paid' | 'pending') => handleStatusChange(receipt.id, value)}
-                      >
-                        <SelectTrigger className="w-[100px]">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="paid">
-                            <div className="flex items-center gap-2">
-                              <CheckCircle className="h-4 w-4 text-green-600" />
-                              Paid
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="pending">
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-yellow-600" />
-                              Pending
-                            </div>
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+        <CardContent className="p-0">
+          {filteredReceipts.length === 0 ? (
+            <div className="text-center py-8">
+              <div className="text-sm text-muted-foreground">No receipts found</div>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Receipt Number</TableHead>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Payment Method</TableHead>
+                  <TableHead>Total</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="w-[50px]"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredReceipts.map((receipt) => (
+                  <TableRow key={receipt.id}>
+                    <TableCell className="font-medium">
+                      {receipt.receipt_number}
+                    </TableCell>
+                    <TableCell>{receipt.clients?.name || 'Unknown'}</TableCell>
+                    <TableCell>
+                      {new Date(receipt.created_at).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{receipt.payment_method}</TableCell>
+                    <TableCell className="font-medium">
+                      ${receipt.amount.toFixed(2)}
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(receipt.status || 'pending')}>
+                        {getStatusDisplay(receipt.status || 'pending')}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                          <DropdownMenuItem>
+                            <Eye className="mr-2 h-4 w-4" />
+                            View
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleGeneratePDF(receipt)}>
+                            <Download className="mr-2 h-4 w-4" />
+                            Download/Print PDF
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem onClick={() => handleStatusChange(receipt.id, receipt.status === 'paid' ? 'pending' : 'paid')}>
+                            {receipt.status === 'paid' ? (
+                              <>
+                                <Clock className="mr-2 h-4 w-4" />
+                                Mark as Pending
+                              </>
+                            ) : (
+                              <>
+                                <CheckCircle className="mr-2 h-4 w-4" />
+                                Mark as Paid
+                              </>
+                            )}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>
+                            <Archive className="mr-2 h-4 w-4" />
+                            Archive
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
+
+      {/* Footer Stats */}
+      <div className="flex justify-between items-center text-sm text-muted-foreground">
+        <div>
+          {filteredReceipts.length} receipt{filteredReceipts.length !== 1 ? 's' : ''} found
+        </div>
+        <div className="flex gap-4">
+          <span>Total: ${filteredReceipts.reduce((sum, receipt) => sum + receipt.amount, 0).toFixed(2)}</span>
+        </div>
+      </div>
     </div>
   )
 }
