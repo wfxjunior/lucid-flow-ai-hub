@@ -1,5 +1,5 @@
 
-import { Home, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings, ListChecks, Store, PiggyBank, File, CheckCircle, ClipboardList, Wallet, Landmark } from "lucide-react"
+import { Home, LayoutDashboard, Users, Calendar, FileText, MessageSquare, Settings, ListChecks, Store, PiggyBank, File, CheckCircle, ClipboardList, Wallet, Landmark, Mail } from "lucide-react"
 
 interface SidebarMenuItem {
   title: string
@@ -72,10 +72,10 @@ export const sidebarMenuData: SidebarMenuItem[] = [
         description: "Send emails and SMS to clients"
       },
       {
-        title: "Email Settings",
-        url: "email-settings", 
-        icon: Settings,
-        description: "Configure your email credentials"
+        title: "Email Center",
+        url: "email-center", 
+        icon: Mail,
+        description: "Send emails to clients and manage communications"
       },
     ]
   },

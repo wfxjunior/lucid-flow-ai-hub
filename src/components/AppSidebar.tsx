@@ -15,7 +15,7 @@ import {
   Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
   Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
   DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
-  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt
+  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt, Mail
 } from "lucide-react"
 
 interface AppSidebarProps {
@@ -94,7 +94,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   // Communication
   const communicationItems = [
     { title: t("sidebar.communication.messages", "Messages"), view: "messages", icon: MessageSquare },
-    { title: t("sidebar.communication.emailSettings", "Email Settings"), view: "email-settings", icon: Settings },
+    { title: t("sidebar.communication.emailCenter", "Email Center"), view: "email-center", icon: Mail },
   ]
 
   // Analytics

@@ -1,6 +1,6 @@
 
 import { MessagesPage } from "@/components/MessagesPage"
-import { EmailSettingsPage } from "@/components/EmailSettingsPage"
+import { EmailCenterPage } from "@/components/EmailCenterPage"
 import { CareersPage } from "@/components/CareersPage"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
 import { PaymentsPage } from "@/components/PaymentsPage"
@@ -48,7 +48,6 @@ import { SettingsPage } from "@/components/SettingsPage"
 import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
 import Upgrade from "@/pages/Upgrade"
 import PaymentSuccess from "@/pages/PaymentSuccess"
-import { EmailCenterPage } from "@/components/EmailCenterPage"
 
 interface MainContentProps {
   activeView: string
