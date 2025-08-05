@@ -97,43 +97,43 @@ export function DocumentPreviewDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-[95vw] sm:max-w-4xl max-h-[90vh] overflow-auto p-2 sm:p-6">
+        <DialogHeader className="px-2 sm:px-0">
           <DialogTitle className="flex items-center gap-2">
             <Eye className="h-5 w-5" />
             Document Preview - {getDocumentTitle()}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-4 px-2 sm:px-0">
           {/* Preview Content */}
           <div 
             ref={previewRef}
-            className="bg-white p-8 border rounded-lg shadow-sm"
+            className="bg-white p-2 sm:p-8 border rounded-lg shadow-sm text-xs sm:text-sm"
             style={{
               fontFamily: 'Arial, sans-serif',
-              fontSize: '12pt',
-              lineHeight: '1.6',
+              fontSize: '10pt',
+              lineHeight: '1.4',
               color: '#333'
             }}
           >
             {/* Header */}
-            <div style={{ borderBottom: '2px solid #333', paddingBottom: '20px', marginBottom: '30px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <h1 style={{ margin: '0', fontSize: '24pt', color: '#2563eb' }}>
+            <div className="border-b-2 border-gray-800 pb-4 mb-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="flex-1">
+                  <h1 className="text-lg sm:text-2xl font-bold text-blue-600 mb-2">
                     {businessData?.companyName || document.companyInfo?.name || 'Your Company'}
                   </h1>
-                  <p style={{ margin: '5px 0', color: '#666' }}>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-1">
                     {businessData?.companyAddress || document.companyInfo?.address || ''}
                   </p>
-                  <p style={{ margin: '5px 0', color: '#666' }}>
+                  <p className="text-xs sm:text-sm text-gray-600">
                     {businessData?.companyPhone || document.companyInfo?.phone || ''} | {businessData?.companyEmail || document.companyInfo?.email || ''}
                   </p>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <h2 style={{ margin: '0', fontSize: '20pt' }}>{getDocumentTitle()}</h2>
-                  <p style={{ margin: '5px 0', color: '#666' }}>#{getDocumentNumber()}</p>
+                <div className="text-right">
+                  <h2 className="text-base sm:text-xl font-bold mb-1">{getDocumentTitle()}</h2>
+                  <p className="text-xs sm:text-sm text-gray-600">#{getDocumentNumber()}</p>
                   <p style={{ margin: '5px 0', color: '#666' }}>Date: {formatDate(document.date)}</p>
                   {document.dueDate && (
                     <p style={{ margin: '5px 0', color: '#666' }}>Due: {formatDate(document.dueDate)}</p>
