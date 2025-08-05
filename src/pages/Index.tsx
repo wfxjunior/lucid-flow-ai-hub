@@ -14,6 +14,18 @@ export default function Index() {
   const { user, loading } = useAuthState()
   const [activeView, setActiveView] = useState("dashboard")
 
+  // Handle URL parameters for navigation (e.g., from Stripe redirects)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const view = urlParams.get('view')
+    if (view) {
+      console.log('Index: URL parameter detected, setting view to:', view)
+      setActiveView(view)
+      // Clean up the URL
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [])
+
   const handleMenuClick = (view: string) => {
     console.log('Index: Menu clicked, setting view to:', view)
     setActiveView(view)

@@ -46,6 +46,8 @@ import { FeedbackPage } from "@/components/FeedbackPage"
 import { PricingPlans } from "@/components/PricingPlans"
 import { SettingsPage } from "@/components/SettingsPage"
 import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
+import Upgrade from "@/pages/Upgrade"
+import PaymentSuccess from "@/pages/PaymentSuccess"
 
 interface MainContentProps {
   activeView: string
@@ -172,9 +174,12 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "feedback":
         return <FeedbackPage />
       case "pricing":
-        return <PricingPlans />
+      case "upgrade":
+        return <Upgrade onNavigate={onNavigate} />
       case "settings":
         return <SettingsPage />
+      case "payment-success":
+        return <PaymentSuccess />
       
       // Legacy routes for compatibility
       case "invoices":

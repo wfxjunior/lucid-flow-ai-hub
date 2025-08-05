@@ -50,19 +50,24 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
   const handleUpgrade = () => {
     console.log('Upgrade button clicked - navigating to pricing');
     
-    // Try to navigate to the landing page pricing section
-    navigate('/#pricing');
-    
-    // If we're already on a single page, try to scroll to pricing
-    setTimeout(() => {
-      const pricingSection = document.getElementById('pricing');
-      if (pricingSection) {
-        pricingSection.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        // If no pricing section found, navigate to the landing page
-        window.location.href = '/#pricing';
-      }
-    }, 100);
+    // Use the onNavigate prop if available (for internal routing)
+    if (onNavigate) {
+      onNavigate('pricing');
+    } else {
+      // Fallback to external navigation
+      navigate('/#pricing');
+      
+      // If we're already on a single page, try to scroll to pricing
+      setTimeout(() => {
+        const pricingSection = document.getElementById('pricing');
+        if (pricingSection) {
+          pricingSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          // If no pricing section found, navigate to the landing page
+          window.location.href = '/#pricing';
+        }
+      }, 100);
+    }
   };
 
   const getStatusIcon = () => {

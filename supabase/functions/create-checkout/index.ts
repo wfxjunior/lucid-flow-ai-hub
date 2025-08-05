@@ -119,8 +119,8 @@ serve(async (req) => {
         },
       ],
       mode: recurring ? "subscription" : "payment",
-      success_url: `${req.headers.get("origin")}/payment-success?plan=${planId}&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/pricing?canceled=true`,
+      success_url: `${req.headers.get("origin")}/?view=payment-success&plan=${planId}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.get("origin")}/?view=pricing&canceled=true`,
       metadata: {
         user_id: user.id,
         plan_id: planId,
