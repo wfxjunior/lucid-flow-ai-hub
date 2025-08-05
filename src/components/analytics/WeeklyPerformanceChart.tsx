@@ -4,13 +4,13 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 const weeklyData = [
-  { day: 'Mon', tasks: 12, color: '#10b981' },
-  { day: 'Tue', tasks: 19, color: '#10b981' },
-  { day: 'Wed', tasks: 15, color: '#10b981' },
-  { day: 'Thu', tasks: 22, color: '#10b981' },
-  { day: 'Fri', tasks: 28, color: '#10b981' },
-  { day: 'Sat', tasks: 18, color: '#10b981' },
-  { day: 'Sun', tasks: 14, color: '#10b981' },
+  { day: 'Mon', tasks: 0, color: '#10b981' },
+  { day: 'Tue', tasks: 0, color: '#10b981' },
+  { day: 'Wed', tasks: 0, color: '#10b981' },
+  { day: 'Thu', tasks: 0, color: '#10b981' },
+  { day: 'Fri', tasks: 0, color: '#10b981' },
+  { day: 'Sat', tasks: 0, color: '#10b981' },
+  { day: 'Sun', tasks: 0, color: '#10b981' },
 ]
 
 const chartConfig = {

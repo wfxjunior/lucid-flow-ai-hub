@@ -3,14 +3,14 @@ import React from 'react'
 import { BarChart3, TrendingUp, Users, DollarSign } from 'lucide-react'
 
 export function PieChartGraphic() {
-  // Sample data for the line chart
+  // Empty data - will show placeholder chart
   const monthlyData = [
-    { month: 'Jan', value: 12000 },
-    { month: 'Feb', value: 15000 },
-    { month: 'Mar', value: 18500 },
-    { month: 'Apr', value: 22000 },
-    { month: 'May', value: 28000 },
-    { month: 'Jun', value: 32000 },
+    { month: 'Jan', value: 0 },
+    { month: 'Feb', value: 0 },
+    { month: 'Mar', value: 0 },
+    { month: 'Apr', value: 0 },
+    { month: 'May', value: 0 },
+    { month: 'Jun', value: 0 },
   ]
 
   const maxValue = Math.max(...monthlyData.map(d => d.value))
@@ -116,7 +116,7 @@ export function PieChartGraphic() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Active Users</p>
-                <p className="text-lg font-semibold text-gray-800">1,234</p>
+                <p className="text-lg font-semibold text-gray-800">-</p>
               </div>
             </div>
             
@@ -126,7 +126,7 @@ export function PieChartGraphic() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Revenue</p>
-                <p className="text-lg font-semibold text-gray-800">$32,000</p>
+                <p className="text-lg font-semibold text-gray-800">$0</p>
               </div>
             </div>
             
@@ -136,7 +136,7 @@ export function PieChartGraphic() {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Growth</p>
-                <p className="text-lg font-semibold text-gray-800">+35%</p>
+                <p className="text-lg font-semibold text-gray-800">-</p>
               </div>
             </div>
           </div>

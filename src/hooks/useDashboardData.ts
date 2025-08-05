@@ -23,24 +23,12 @@ interface DashboardStats {
 
 export function useDashboardData() {
   const [stats, setStats] = useState<DashboardStats>({
-    monthlyRevenue: 12345,
-    activeCustomers: 1234,
-    pendingInvoices: 23,
-    monthlyGoals: 87,
-    recentActivities: [
-      { id: 1, action: "New invoice #INV-0245 created for $2,340", time: "2 hours ago", type: "invoice" },
-      { id: 2, action: "Payment received from John Construction - $4,500", time: "4 hours ago", type: "payment" },
-      { id: 3, action: "New customer 'Smith & Associates' added", time: "1 day ago", type: "customer" },
-      { id: 4, action: "Estimate #EST-0156 sent to MegaBuild Corp", time: "2 days ago", type: "estimate" },
-      { id: 5, action: "Contract signed by ABC Construction", time: "3 days ago", type: "contract" }
-    ],
-    upcomingTasks: [
-      { id: 1, title: "Follow up with Johnson Corp on estimate", due: "Today, 2:00 PM", priority: "high" },
-      { id: 2, title: "Site visit for downtown project", due: "Tomorrow, 10:00 AM", priority: "high" },
-      { id: 3, title: "Send invoice to Metro Buildings", due: "Dec 15", priority: "medium" },
-      { id: 4, title: "Review contract terms with Legal", due: "Dec 18", priority: "medium" },
-      { id: 5, title: "Quarterly review meeting prep", due: "Dec 20", priority: "low" }
-    ]
+    monthlyRevenue: 0,
+    activeCustomers: 0,
+    pendingInvoices: 0,
+    monthlyGoals: 0,
+    recentActivities: [],
+    upcomingTasks: []
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -52,26 +40,14 @@ export function useDashboardData() {
         const { data: { user } } = await supabase.auth.getUser()
         
         if (!user) {
-          // Provide realistic starter data for non-authenticated users
+          // Show empty state for non-authenticated users
           setStats({
-            monthlyRevenue: 12345,
-            activeCustomers: 1234,
-            pendingInvoices: 23,
-            monthlyGoals: 87,
-            recentActivities: [
-              { id: 1, action: "New invoice #INV-0245 created for $2,340", time: "2 hours ago", type: "invoice" },
-              { id: 2, action: "Payment received from John Construction - $4,500", time: "4 hours ago", type: "payment" },
-              { id: 3, action: "New customer 'Smith & Associates' added", time: "1 day ago", type: "customer" },
-              { id: 4, action: "Estimate #EST-0156 sent to MegaBuild Corp", time: "2 days ago", type: "estimate" },
-              { id: 5, action: "Contract signed by ABC Construction", time: "3 days ago", type: "contract" }
-            ],
-            upcomingTasks: [
-              { id: 1, title: "Follow up with Johnson Corp on estimate", due: "Today, 2:00 PM", priority: "high" },
-              { id: 2, title: "Site visit for downtown project", due: "Tomorrow, 10:00 AM", priority: "high" },
-              { id: 3, title: "Send invoice to Metro Buildings", due: "Dec 15", priority: "medium" },
-              { id: 4, title: "Review contract terms with Legal", due: "Dec 18", priority: "medium" },
-              { id: 5, title: "Quarterly review meeting prep", due: "Dec 20", priority: "low" }
-            ]
+            monthlyRevenue: 0,
+            activeCustomers: 0,
+            pendingInvoices: 0,
+            monthlyGoals: 0,
+            recentActivities: [],
+            upcomingTasks: []
           })
           setLoading(false)
           return
@@ -106,7 +82,7 @@ export function useDashboardData() {
 
         if (appointmentsError) throw appointmentsError
 
-        // Calculate monthly revenue (current month) or use realistic default
+        // Calculate monthly revenue (current month)
         const currentMonth = new Date().getMonth()
         const currentYear = new Date().getFullYear()
         const monthlyRevenue = invoices
@@ -116,12 +92,12 @@ export function useDashboardData() {
                    invoiceDate.getFullYear() === currentYear &&
                    invoice.status === 'paid'
           })
-          .reduce((sum, invoice) => sum + Number(invoice.amount), 0) || 12345
+          .reduce((sum, invoice) => sum + Number(invoice.amount), 0) || 0
 
-        // Count pending invoices or use realistic default
-        const pendingInvoices = invoices?.filter(invoice => invoice.status === 'pending').length || 23
+        // Count pending invoices
+        const pendingInvoices = invoices?.filter(invoice => invoice.status === 'pending').length || 0
 
-        // Recent activities from invoices and appointments or use realistic defaults
+        // Recent activities from invoices and appointments
         const recentInvoices = invoices
           ?.filter(invoice => invoice.status === 'paid')
           .slice(0, 2)
@@ -141,41 +117,23 @@ export function useDashboardData() {
             type: 'appointment'
           })) || []
 
-        // Combine with realistic default activities if needed
-        const defaultActivities = [
-          { id: 1, action: "New invoice #INV-0245 created for $2,340", time: "2 hours ago", type: "invoice" },
-          { id: 2, action: "Payment received from John Construction - $4,500", time: "4 hours ago", type: "payment" },
-          { id: 3, action: "New customer 'Smith & Associates' added", time: "1 day ago", type: "customer" },
-          { id: 4, action: "Estimate #EST-0156 sent to MegaBuild Corp", time: "2 days ago", type: "estimate" },
-          { id: 5, action: "Contract signed by ABC Construction", time: "3 days ago", type: "contract" }
-        ]
-
         const finalActivities = [...recentInvoices, ...recentAppointments]
-        if (finalActivities.length === 0) {
-          finalActivities.push(...defaultActivities)
-        }
 
-        // Upcoming tasks from appointments or use realistic defaults
-        const upcomingTasks = appointments?.length > 0 ? appointments.map((appointment, index) => ({
+        // Upcoming tasks from appointments
+        const upcomingTasks = appointments?.map((appointment, index) => ({
           id: index + 1,
           title: appointment.title,
           due: new Date(appointment.appointment_date).toLocaleDateString(),
           priority: 'medium'
-        })) : [
-          { id: 1, title: "Follow up with Johnson Corp on estimate", due: "Today, 2:00 PM", priority: "high" },
-          { id: 2, title: "Site visit for downtown project", due: "Tomorrow, 10:00 AM", priority: "high" },
-          { id: 3, title: "Send invoice to Metro Buildings", due: "Dec 15", priority: "medium" },
-          { id: 4, title: "Review contract terms with Legal", due: "Dec 18", priority: "medium" },
-          { id: 5, title: "Quarterly review meeting prep", due: "Dec 20", priority: "low" }
-        ]
+        })) || []
 
-        // Calculate monthly goals progress or use realistic default
+        // Calculate monthly goals progress
         const monthlyGoalTarget = 15000 // $15,000 monthly target
-        const goalProgress = monthlyRevenue > 0 ? Math.min(100, Math.round((monthlyRevenue / monthlyGoalTarget) * 100)) : 87
+        const goalProgress = monthlyRevenue > 0 ? Math.min(100, Math.round((monthlyRevenue / monthlyGoalTarget) * 100)) : 0
 
         setStats({
           monthlyRevenue,
-          activeCustomers: clients?.length || 1234,
+          activeCustomers: clients?.length || 0,
           pendingInvoices,
           monthlyGoals: goalProgress,
           recentActivities: finalActivities,
@@ -187,19 +145,12 @@ export function useDashboardData() {
         setError('Failed to load dashboard data')
         // Set realistic defaults even on error
         setStats({
-          monthlyRevenue: 12345,
-          activeCustomers: 1234,
-          pendingInvoices: 23,
-          monthlyGoals: 87,
-          recentActivities: [
-            { id: 1, action: "New invoice #INV-0245 created for $2,340", time: "2 hours ago", type: "invoice" },
-            { id: 2, action: "Payment received from John Construction - $4,500", time: "4 hours ago", type: "payment" },
-            { id: 3, action: "New customer 'Smith & Associates' added", time: "1 day ago", type: "customer" }
-          ],
-          upcomingTasks: [
-            { id: 1, title: "Follow up with Johnson Corp on estimate", due: "Today, 2:00 PM", priority: "high" },
-            { id: 2, title: "Site visit for downtown project", due: "Tomorrow, 10:00 AM", priority: "high" }
-          ]
+          monthlyRevenue: 0,
+          activeCustomers: 0,
+          pendingInvoices: 0,
+          monthlyGoals: 0,
+          recentActivities: [],
+          upcomingTasks: []
         })
       } finally {
         setLoading(false)

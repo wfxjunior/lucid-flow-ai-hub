@@ -4,12 +4,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } fro
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 const monthlyData = [
-  { month: 'Jan', revenue: 12000, color: '#3b82f6' },
-  { month: 'Feb', revenue: 15000, color: '#3b82f6' },
-  { month: 'Mar', revenue: 18500, color: '#3b82f6' },
-  { month: 'Apr', revenue: 22000, color: '#3b82f6' },
-  { month: 'May', revenue: 28000, color: '#3b82f6' },
-  { month: 'Jun', revenue: 32000, color: '#3b82f6' },
+  { month: 'Jan', revenue: 0, color: '#3b82f6' },
+  { month: 'Feb', revenue: 0, color: '#3b82f6' },
+  { month: 'Mar', revenue: 0, color: '#3b82f6' },
+  { month: 'Apr', revenue: 0, color: '#3b82f6' },
+  { month: 'May', revenue: 0, color: '#3b82f6' },
+  { month: 'Jun', revenue: 0, color: '#3b82f6' },
 ]
 
 const chartConfig = {

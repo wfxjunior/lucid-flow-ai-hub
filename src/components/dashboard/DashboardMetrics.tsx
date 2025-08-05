@@ -17,9 +17,9 @@ export function DashboardMetrics() {
           <AlertCircle className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">8</div>
+          <div className="text-2xl font-bold">0</div>
           <p className="text-xs text-muted-foreground">
-            2 due this week
+            No active projects
           </p>
         </CardContent>
       </Card>
@@ -32,9 +32,9 @@ export function DashboardMetrics() {
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">68%</div>
+          <div className="text-2xl font-bold">-</div>
           <p className="text-xs text-muted-foreground">
-            +12% from last month
+            No data available
           </p>
         </CardContent>
       </Card>
@@ -47,9 +47,9 @@ export function DashboardMetrics() {
           <DollarSign className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">$3,420</div>
+          <div className="text-2xl font-bold">$0</div>
           <p className="text-xs text-muted-foreground">
-            +8% from last month
+            No deals completed
           </p>
         </CardContent>
       </Card>

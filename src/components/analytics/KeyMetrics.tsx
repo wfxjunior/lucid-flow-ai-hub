@@ -19,7 +19,7 @@ export function KeyMetrics({ totalRevenue, activeClients, completedWorkOrders }:
         <CardContent>
           <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
           <p className="text-xs text-muted-foreground">
-            <span className="text-green-600">+20.1%</span> from last month
+            {totalRevenue > 0 ? <span className="text-green-600">+20.1%</span> : "No data"} from last month
           </p>
         </CardContent>
       </Card>
@@ -32,7 +32,7 @@ export function KeyMetrics({ totalRevenue, activeClients, completedWorkOrders }:
         <CardContent>
           <div className="text-2xl font-bold">{activeClients}</div>
           <p className="text-xs text-muted-foreground">
-            <span className="text-green-600">+12%</span> from last month
+            {activeClients > 0 ? <span className="text-green-600">+12%</span> : "No data"} from last month
           </p>
         </CardContent>
       </Card>
@@ -45,7 +45,7 @@ export function KeyMetrics({ totalRevenue, activeClients, completedWorkOrders }:
         <CardContent>
           <div className="text-2xl font-bold">{completedWorkOrders}</div>
           <p className="text-xs text-muted-foreground">
-            <span className="text-green-600">+8%</span> from last month
+            {completedWorkOrders > 0 ? <span className="text-green-600">+8%</span> : "No data"} from last month
           </p>
         </CardContent>
       </Card>
@@ -56,9 +56,9 @@ export function KeyMetrics({ totalRevenue, activeClients, completedWorkOrders }:
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">24.5%</div>
+          <div className="text-2xl font-bold">-</div>
           <p className="text-xs text-muted-foreground">
-            <span className="text-green-600">+4.2%</span> from last month
+            No data available
           </p>
         </CardContent>
       </Card>
