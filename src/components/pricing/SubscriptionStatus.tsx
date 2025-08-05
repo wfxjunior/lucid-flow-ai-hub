@@ -144,14 +144,16 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
                   <li>• Advanced analytics</li>
                   <li>• Priority support</li>
                 </ul>
-                <Button
-                  onClick={handleUpgrade}
-                  className="w-full"
-                  size="sm"
-                >
-                  <Crown className="mr-2 h-4 w-4" />
-                  Upgrade to Professional
-                </Button>
+                <div className="flex justify-center">
+                  <Button
+                    onClick={handleUpgrade}
+                    className="w-full"
+                    size="sm"
+                  >
+                    <Crown className="mr-2 h-4 w-4" />
+                    Upgrade to Professional
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
