@@ -20,7 +20,7 @@ export function AnalyticsDashboard() {
   } = useBusinessData()
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-2 sm:p-4 lg:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto">
       <DashboardHeader />
 
       {/* Key Metrics */}
@@ -31,9 +31,13 @@ export function AnalyticsDashboard() {
       />
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RevenueChart />
-        <WeeklyPerformanceChart />
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+        <div className="w-full">
+          <RevenueChart />
+        </div>
+        <div className="w-full">
+          <WeeklyPerformanceChart />
+        </div>
       </div>
 
       {/* Business Tools Analytics */}

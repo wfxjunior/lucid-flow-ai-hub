@@ -22,30 +22,32 @@ const chartConfig = {
 
 export function WeeklyPerformanceChart() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Weekly Performance</CardTitle>
-        <CardDescription>Tasks completed this week</CardDescription>
+    <Card className="w-full">
+      <CardHeader className="p-3 sm:p-6">
+        <CardTitle className="text-base sm:text-lg">Weekly Performance</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">Tasks completed this week</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+      <CardContent className="p-3 sm:p-6 pt-0">
+        <ChartContainer config={chartConfig} className="h-[250px] sm:h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={weeklyData}>
+            <BarChart data={weeklyData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis 
                 dataKey="day" 
-                tick={{ fontSize: 12, fill: '#6b7280' }}
+                tick={{ fontSize: 10, fill: '#6b7280' }}
                 axisLine={{ stroke: '#6b7280' }}
+                interval={0}
               />
               <YAxis 
-                tick={{ fontSize: 12, fill: '#6b7280' }}
+                tick={{ fontSize: 10, fill: '#6b7280' }}
                 axisLine={{ stroke: '#6b7280' }}
+                width={40}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Bar 
                 dataKey="tasks" 
                 fill="#10b981"
-                radius={[4, 4, 0, 0]}
+                radius={[2, 2, 0, 0]}
               />
             </BarChart>
           </ResponsiveContainer>

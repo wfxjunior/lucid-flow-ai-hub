@@ -21,32 +21,34 @@ const chartConfig = {
 
 export function RevenueChart() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Monthly Revenue</CardTitle>
-        <CardDescription>Revenue trends over the last 6 months</CardDescription>
+    <Card className="w-full">
+      <CardHeader className="p-3 sm:p-6">
+        <CardTitle className="text-base sm:text-lg">Monthly Revenue</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">Revenue trends over the last 6 months</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+      <CardContent className="p-3 sm:p-6 pt-0">
+        <ChartContainer config={chartConfig} className="h-[250px] sm:h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={monthlyData}>
+            <LineChart data={monthlyData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis 
                 dataKey="month" 
-                tick={{ fontSize: 12, fill: '#6b7280' }}
+                tick={{ fontSize: 10, fill: '#6b7280' }}
                 axisLine={{ stroke: '#6b7280' }}
+                interval={0}
               />
               <YAxis 
-                tick={{ fontSize: 12, fill: '#6b7280' }}
+                tick={{ fontSize: 10, fill: '#6b7280' }}
                 axisLine={{ stroke: '#6b7280' }}
+                width={40}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Line 
                 type="monotone" 
                 dataKey="revenue" 
                 stroke="#3b82f6" 
-                strokeWidth={3}
-                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                strokeWidth={2}
+                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
               />
             </LineChart>
           </ResponsiveContainer>
