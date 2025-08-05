@@ -14,7 +14,7 @@ export function SidebarHeader() {
         className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
         onClick={handleLogoClick}
       >
-        <h2 className="text-xl font-bold text-blue-600">FeatherBiz</h2>
+        <h2 className="text-xl font-bold text-primary">FeatherBiz</h2>
       </div>
     </div>
   )

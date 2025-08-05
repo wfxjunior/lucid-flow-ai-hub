@@ -36,7 +36,7 @@ export function LandingSidebar({ onNavigate }: { onNavigate?: () => void }) {
     <Sidebar className="border-r bg-white">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 h-10">
-          <span className="text-blue-700 font-extrabold text-xl">FeatherBiz</span>
+          <span className="text-primary font-extrabold text-xl">FeatherBiz</span>
         </div>
       </SidebarHeader>
       <SidebarContent>

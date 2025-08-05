@@ -12,7 +12,7 @@ export const LandingHeader = () => {
         
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-gray-900 tracking-tight">FeatherBiz</span>
+          <span className="text-xl font-bold text-primary tracking-tight">FeatherBiz</span>
         </div>
         
         {/* Navigation - Hidden on mobile */}
