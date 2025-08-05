@@ -149,17 +149,17 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
             <TooltipTrigger asChild>
               <button
                 onClick={() => setIsOpen(true)}
-                className="group relative h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50"
+                className="group relative h-12 w-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white hover:from-blue-500 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50"
                 aria-label="FeatherBot – Virtual Assistant"
                 tabIndex={0}
               >
                 {/* Glow effect on hover */}
                 <div className="absolute inset-0 rounded-full bg-blue-400 opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300" />
                 
-                {/* Smiling face emoji with blinking animation */}
+                {/* Blue and white blinking face */}
                 <div className="relative flex items-center justify-center h-full w-full">
-                  <div className="text-2xl transition-transform duration-75" style={{ animation: 'blink 7s infinite' }}>
-                    🙂
+                  <div className="text-white text-2xl font-bold" style={{ animation: 'blink 7s infinite' }}>
+                    😊
                   </div>
                 </div>
               </button>
