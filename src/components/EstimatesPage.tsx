@@ -192,89 +192,100 @@ export function EstimatesPage() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">List of Estimates</h1>
-        <Button onClick={() => setShowForm(true)} variant="outline">
+    <div className="space-y-6">
+      {/* Header - Mobile Responsive */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">List of Estimates</h1>
+        <Button 
+          onClick={() => setShowForm(true)} 
+          variant="outline"
+          className="w-full sm:w-auto"
+        >
+          <Plus className="h-4 w-4 mr-2" />
           New Estimate
         </Button>
       </div>
 
-      <div className="flex items-center justify-between">
+      {/* Control Bar - Mobile Responsive */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"
+          className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 justify-center sm:justify-start"
         >
+          <Filter className="h-4 w-4" />
           {showFilters ? 'Hide Filter' : 'Show Filter'}
         </button>
-        <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1">
+        <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 justify-center sm:justify-start">
           <Printer className="h-4 w-4" />
           Print Table
         </button>
       </div>
 
-      {/* Status Filters */}
-      <div className="flex items-center gap-4 text-sm">
-        <span className="font-medium">Status:</span>
-        <StatusFilterButton 
-          status="all" 
-          label="All" 
-          isActive={statusFilter === "all"} 
-          onClick={() => setStatusFilter("all")} 
-        />
-        <span>|</span>
-        <StatusFilterButton 
-          status="draft" 
-          label="Draft" 
-          isActive={statusFilter === "draft"} 
-          onClick={() => setStatusFilter("draft")} 
-        />
-        <span>|</span>
-        <StatusFilterButton 
-          status="sent" 
-          label="Sent" 
-          isActive={statusFilter === "sent"} 
-          onClick={() => setStatusFilter("sent")} 
-        />
-        <span>|</span>
-        <StatusFilterButton 
-          status="viewed" 
-          label="Viewed" 
-          isActive={statusFilter === "viewed"} 
-          onClick={() => setStatusFilter("viewed")} 
-        />
-        <span>|</span>
-        <StatusFilterButton 
-          status="accepted" 
-          label="Accepted" 
-          isActive={statusFilter === "accepted"} 
-          onClick={() => setStatusFilter("accepted")} 
-        />
-        <span>|</span>
-        <StatusFilterButton 
-          status="declined" 
-          label="Declined" 
-          isActive={statusFilter === "declined"} 
-          onClick={() => setStatusFilter("declined")} 
-        />
-        <span>|</span>
-        <StatusFilterButton 
-          status="expired" 
-          label="Expired" 
-          isActive={statusFilter === "expired"} 
-          onClick={() => setStatusFilter("expired")} 
-        />
-        <span>|</span>
-        <StatusFilterButton 
-          status="archived" 
-          label="Archived" 
-          isActive={statusFilter === "archived"} 
-          onClick={() => setStatusFilter("archived")} 
-        />
+      {/* Status Filters - Mobile Responsive */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
+        <span className="font-medium text-center sm:text-left">Status:</span>
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-4">
+          <StatusFilterButton 
+            status="all" 
+            label="All" 
+            isActive={statusFilter === "all"} 
+            onClick={() => setStatusFilter("all")} 
+          />
+          <span className="hidden sm:inline">|</span>
+          <StatusFilterButton 
+            status="draft" 
+            label="Draft" 
+            isActive={statusFilter === "draft"} 
+            onClick={() => setStatusFilter("draft")} 
+          />
+          <span className="hidden sm:inline">|</span>
+          <StatusFilterButton 
+            status="sent" 
+            label="Sent" 
+            isActive={statusFilter === "sent"} 
+            onClick={() => setStatusFilter("sent")} 
+          />
+          <span className="hidden sm:inline">|</span>
+          <StatusFilterButton 
+            status="viewed" 
+            label="Viewed" 
+            isActive={statusFilter === "viewed"} 
+            onClick={() => setStatusFilter("viewed")} 
+          />
+          <span className="hidden sm:inline">|</span>
+          <StatusFilterButton 
+            status="accepted" 
+            label="Accepted" 
+            isActive={statusFilter === "accepted"} 
+            onClick={() => setStatusFilter("accepted")} 
+          />
+          <span className="hidden sm:inline">|</span>
+          <StatusFilterButton 
+            status="declined" 
+            label="Declined" 
+            isActive={statusFilter === "declined"} 
+            onClick={() => setStatusFilter("declined")} 
+          />
+          <span className="hidden sm:inline">|</span>
+          <StatusFilterButton 
+            status="expired" 
+            label="Expired" 
+            isActive={statusFilter === "expired"} 
+            onClick={() => setStatusFilter("expired")} 
+          />
+          <span className="hidden sm:inline">|</span>
+          <StatusFilterButton 
+            status="archived" 
+            label="Archived" 
+            isActive={statusFilter === "archived"} 
+            onClick={() => setStatusFilter("archived")} 
+          />
+        </div>
       </div>
 
-      {/* Table */}
+      {/* Table - Mobile Scrollable */}
       <div className="border rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow className="bg-blue-500 hover:bg-blue-500">
@@ -419,33 +430,38 @@ export function EstimatesPage() {
             )}
           </TableBody>
         </Table>
+        </div>
       </div>
 
-      {/* Pagination */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">First</Button>
-          <Button variant="outline" size="sm">&lt;</Button>
-          <Button variant="default" size="sm">1</Button>
-          <Button variant="outline" size="sm">&gt;</Button>
-          <Button variant="outline" size="sm">Last</Button>
-          <Button variant="outline" size="sm">All Pages</Button>
+      {/* Pagination - Mobile Responsive */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+          <Button variant="outline" size="sm" className="text-xs px-2">First</Button>
+          <Button variant="outline" size="sm" className="text-xs px-2">&lt;</Button>
+          <Button variant="default" size="sm" className="text-xs px-2">1</Button>
+          <Button variant="outline" size="sm" className="text-xs px-2">&gt;</Button>
+          <Button variant="outline" size="sm" className="text-xs px-2">Last</Button>
+          <Button variant="outline" size="sm" className="text-xs px-2">All Pages</Button>
         </div>
-        <div className="text-sm text-gray-600">
-          {filteredEstimates.length} | 
-          {filteredEstimates.reduce((sum, est) => sum + (est.amount || 0), 0).toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
-          })} | 
-          {filteredEstimates.reduce((sum, est) => {
-            const balance = est.status === 'accepted' ? 0 : (est.amount || 0)
-            return sum + balance
-          }, 0).toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
-          })}
+        <div className="text-xs sm:text-sm text-gray-600 text-center sm:text-right">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+            <span>{filteredEstimates.length} estimates</span>
+            <span className="hidden sm:inline">|</span>
+            <span>Total: {filteredEstimates.reduce((sum, est) => sum + (est.amount || 0), 0).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 2
+            })}</span>
+            <span className="hidden sm:inline">|</span>
+            <span>Balance: {filteredEstimates.reduce((sum, est) => {
+              const balance = est.status === 'accepted' ? 0 : (est.amount || 0)
+              return sum + balance
+            }, 0).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: 2
+            })}</span>
+          </div>
         </div>
       </div>
 
