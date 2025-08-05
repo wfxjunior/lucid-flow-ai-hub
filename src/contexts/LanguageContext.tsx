@@ -1014,20 +1014,16 @@ const translations = {
   }
 }
 
-// Initialize i18next
+// Initialize i18next - Force English only
 i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
       "en-US": { translation: translations["en-US"] },
-      de: { translation: translations["de"] },
-      fr: { translation: translations["fr"] },
-      es: { translation: translations["es"] },
-      zh: { translation: translations["zh"] },
-      "pt-BR": { translation: translations["pt-BR"] },
     },
     fallbackLng: "en-US",
+    lng: "en-US", // Force English
     detection: {
       order: ["localStorage", "navigator"],
       lookupLocalStorage: "i18nextLng",
@@ -1042,12 +1038,16 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   children,
 }) => {
   const [currentLanguage, setCurrentLanguage] = useState(() => {
-    return i18next.language || "en-US"
+    return "en-US" // Always return English
   })
 
   useEffect(() => {
+    // Force English language on mount and clear any stored languages
+    localStorage.setItem('i18nextLng', 'en-US')
+    i18next.changeLanguage("en-US")
+    
     const handleLanguageChange = (lng: string) => {
-      setCurrentLanguage(lng)
+      setCurrentLanguage("en-US") // Always set to English
     }
 
     i18next.on("languageChanged", handleLanguageChange)
@@ -1058,7 +1058,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   }, [])
 
   const setLanguage = (lang: string) => {
-    i18next.changeLanguage(lang)
+    // Always force English, ignore language changes and clear localStorage
+    localStorage.setItem('i18nextLng', 'en-US')
+    i18next.changeLanguage("en-US")
   }
 
   const t = (key: string, options?: any): string => {

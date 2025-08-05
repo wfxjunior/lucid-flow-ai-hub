@@ -139,19 +139,19 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Tasks Completed</span>
-                <span className="font-bold">7/12</span>
+                <span className="font-bold">0/0</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Invoices Created</span>
-                <span className="font-bold">3</span>
+                <span className="font-bold">0</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Customer Calls</span>
-                <span className="font-bold">5</span>
+                <span className="font-bold">0</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Revenue Generated</span>
-                <span className="font-bold">$8,450</span>
+                <span className="font-bold">$0</span>
               </div>
             </CardContent>
           </Card>
