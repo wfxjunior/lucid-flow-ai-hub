@@ -1152,6 +1152,54 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_confirmations: {
+        Row: {
+          amount: string
+          billing_period: string | null
+          created_at: string
+          currency: string
+          customer_email: string
+          customer_name: string | null
+          email_sent: boolean | null
+          email_sent_at: string | null
+          id: string
+          plan_name: string
+          stripe_session_id: string | null
+          trial_days: number | null
+          user_id: string | null
+        }
+        Insert: {
+          amount: string
+          billing_period?: string | null
+          created_at?: string
+          currency?: string
+          customer_email: string
+          customer_name?: string | null
+          email_sent?: boolean | null
+          email_sent_at?: string | null
+          id?: string
+          plan_name: string
+          stripe_session_id?: string | null
+          trial_days?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: string
+          billing_period?: string | null
+          created_at?: string
+          currency?: string
+          customer_email?: string
+          customer_name?: string | null
+          email_sent?: boolean | null
+          email_sent_at?: string | null
+          id?: string
+          plan_name?: string
+          stripe_session_id?: string | null
+          trial_days?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
           amount: number
