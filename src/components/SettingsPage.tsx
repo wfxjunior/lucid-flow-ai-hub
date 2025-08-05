@@ -87,10 +87,22 @@ export function SettingsPage() {
         .from('user_notification_settings')
         .select('*')
         .eq('user_id', user.id)
-        .single()
+        .maybeSingle()
+      
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading notification settings:', error)
+        return
+      }
       
       if (data) {
-        setNotifications(data)
+        setNotifications({
+          email_notifications: data.email_notifications ?? true,
+          push_notifications: data.push_notifications ?? false,
+          marketing_emails: data.marketing_emails ?? false,
+          security_alerts: data.security_alerts ?? true,
+          invoice_reminders: data.invoice_reminders ?? true,
+          payment_confirmations: data.payment_confirmations ?? true
+        })
       }
     } catch (error) {
       console.error('Error loading notification settings:', error)
