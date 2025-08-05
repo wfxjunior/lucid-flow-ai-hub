@@ -21,6 +21,7 @@ interface EditableDocumentLayoutProps {
   onSave: (data: any) => Promise<void>
   onGeneratePDF: (data: any) => Promise<void>
   onDuplicate: (data: any) => void
+  businessData?: any
 }
 
 export function EditableDocumentLayout({
@@ -29,7 +30,8 @@ export function EditableDocumentLayout({
   availableClients,
   onSave,
   onGeneratePDF,
-  onDuplicate
+  onDuplicate,
+  businessData
 }: EditableDocumentLayoutProps) {
   const { formData, setFormData, autoGenerateNumbers, generateDocumentNumber } = useDocumentForm(documentType, initialData)
   const [isSaving, setIsSaving] = useState(false)
@@ -147,6 +149,7 @@ export function EditableDocumentLayout({
               isGeneratingPDF={isGeneratingPDF}
               document={formData}
               documentType={documentType as 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder' | 'bid' | 'proposal'}
+              businessData={businessData}
             />
           </div>
         </CardContent>

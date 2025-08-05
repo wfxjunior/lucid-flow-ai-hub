@@ -1,14 +1,15 @@
-
 import { useState } from 'react'
 import { EditableDocumentLayout } from "./EditableDocumentLayout"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { useCompanyData } from "@/hooks/useCompanyData"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 
 export function WorkOrderCreator() {
   const { allClients } = useBusinessData()
-  const { generateWorkOrderPDF } = usePDFGeneration()
+  const { generateWorkOrderPDF, businessData } = usePDFGeneration()
+  const { companyProfile } = useCompanyData()
 
   const availableClients = (allClients || []).map(client => ({
     id: client.id,
@@ -25,24 +26,45 @@ export function WorkOrderCreator() {
 
       let clientId = data.clientInfo.id
       if (!clientId && data.clientInfo.name && data.clientInfo.email) {
-        // Handle client creation
+        const { data: existingClient } = await supabase
+          .from('clients')
+          .select('id')
+          .eq('name', data.clientInfo.name.trim())
+          .eq('user_id', user.id)
+          .single()
+
+        if (existingClient) {
+          clientId = existingClient.id
+        } else {
+          const { data: newClient, error: clientError } = await supabase
+            .from('clients')
+            .insert([{
+              name: data.clientInfo.name.trim(),
+              email: data.clientInfo.email.trim(),
+              phone: data.clientInfo.phone || null,
+              address: data.clientInfo.address || null,
+              user_id: user.id
+            }])
+            .select()
+            .single()
+
+          if (clientError) throw clientError
+          clientId = newClient.id
+        }
       }
 
-      const totalAmount = data.lineItems.reduce((sum: number, item: any) => sum + item.total, 0)
+      const totalCost = data.lineItems.reduce((sum: number, item: any) => sum + item.total, 0)
 
       const workOrderData = {
         work_order_number: data.number,
         client_id: clientId,
-        total_cost: totalAmount,
-        scheduled_date: data.dueDate,
+        total_cost: totalCost,
+        scheduled_date: data.date,
         status: data.status,
         title: data.lineItems[0]?.name || 'Work Order',
         description: data.notes,
-        line_items: data.lineItems,
-        payment_method: data.paymentMethod,
-        terms: data.terms,
-        user_id: user.id,
-        priority: 'medium'
+        priority: 'medium',
+        user_id: user.id
       }
 
       const { error } = await supabase
@@ -50,8 +72,7 @@ export function WorkOrderCreator() {
         .insert([workOrderData])
 
       if (error) throw error
-
-      toast.success("Work Order created successfully!")
+      toast.success("Work order created successfully!")
     } catch (error) {
       console.error("Error saving work order:", error)
       toast.error("Failed to save work order")
@@ -67,11 +88,9 @@ export function WorkOrderCreator() {
         title: data.lineItems[0]?.name || 'Work Order',
         description: data.notes,
         total_cost: data.lineItems.reduce((sum: number, item: any) => sum + item.total, 0),
-        scheduled_date: data.dueDate,
+        scheduled_date: data.date,
         status: data.status,
-        line_items: data.lineItems,
-        client: data.clientInfo,
-        priority: 'medium'
+        client: data.clientInfo
       }
       
       await generateWorkOrderPDF(workOrderData)
@@ -83,7 +102,7 @@ export function WorkOrderCreator() {
   }
 
   const handleDuplicate = (data: any) => {
-    toast.success("Work Order duplicated! You can now edit the copy.")
+    toast.success("Work order duplicated! You can now edit the copy.")
   }
 
   return (
@@ -92,7 +111,7 @@ export function WorkOrderCreator() {
         <div>
           <h1 className="text-3xl font-bold">Create Work Order</h1>
           <p className="text-gray-600 mt-1">
-            Professional work order with editable line items and instant PDF generation
+            Professional work order with scheduling and task management
           </p>
         </div>
       </div>
@@ -103,6 +122,7 @@ export function WorkOrderCreator() {
         onSave={handleSave}
         onGeneratePDF={handleGeneratePDF}
         onDuplicate={handleDuplicate}
+        businessData={businessData}
       />
     </div>
   )

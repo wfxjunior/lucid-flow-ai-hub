@@ -3,12 +3,14 @@ import { useState } from 'react'
 import { EditableDocumentLayout } from "./EditableDocumentLayout"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { useCompanyData } from "@/hooks/useCompanyData"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 
 export function ContractCreator() {
   const { allClients } = useBusinessData()
-  const { generateEstimatePDF } = usePDFGeneration()
+  const { generateEstimatePDF, businessData } = usePDFGeneration()
+  const { companyProfile } = useCompanyData()
 
   const availableClients = (allClients || []).map(client => ({
     id: client.id,
@@ -98,6 +100,7 @@ export function ContractCreator() {
         onSave={handleSave}
         onGeneratePDF={handleGeneratePDF}
         onDuplicate={handleDuplicate}
+        businessData={businessData}
       />
     </div>
   )

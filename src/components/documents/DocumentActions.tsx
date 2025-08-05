@@ -1,17 +1,19 @@
 
 import { Button } from "@/components/ui/button"
-import { Copy, Download, Save, PenTool } from "lucide-react"
+import { Copy, Download, Save, PenTool, Eye } from "lucide-react"
 import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
+import { DocumentPreviewDialog } from "./DocumentPreviewDialog"
 import { useState } from "react"
 
 interface DocumentActionsProps {
-  onSave: () => void
-  onGeneratePDF: () => void
+  onSave: () => Promise<void>
+  onGeneratePDF: () => Promise<void>
   onDuplicate: () => void
   isSaving?: boolean
   isGeneratingPDF?: boolean
   document?: any
   documentType: 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder' | 'bid' | 'proposal'
+  businessData?: any
 }
 
 export function DocumentActions({
@@ -21,9 +23,11 @@ export function DocumentActions({
   isSaving = false,
   isGeneratingPDF = false,
   document,
-  documentType
+  documentType,
+  businessData
 }: DocumentActionsProps) {
   const [signatureDialogOpen, setSignatureDialogOpen] = useState(false)
+  const [previewDialogOpen, setPreviewDialogOpen] = useState(false)
 
   // Map extended document types to supported signature types
   const getSignatureDocumentType = (type: string): 'invoice' | 'estimate' | 'quote' | 'contract' | 'workorder' => {
@@ -38,6 +42,15 @@ export function DocumentActions({
 
   return (
     <div className="flex flex-col sm:flex-row gap-2">
+      <Button 
+        variant="outline"
+        onClick={() => setPreviewDialogOpen(true)}
+        className="w-full sm:w-auto"
+      >
+        <Eye className="mr-2 h-4 w-4" />
+        Preview
+      </Button>
+
       <Button 
         onClick={onSave}
         disabled={isSaving}
@@ -67,12 +80,24 @@ export function DocumentActions({
       </Button>
 
       {document && (
-        <DocumentSignatureDialog
-          document={document}
-          documentType={getSignatureDocumentType(documentType)}
-          open={signatureDialogOpen}
-          onOpenChange={setSignatureDialogOpen}
-        />
+        <>
+          <DocumentPreviewDialog
+            open={previewDialogOpen}
+            onOpenChange={setPreviewDialogOpen}
+            document={document}
+            documentType={documentType}
+            onSave={onSave}
+            onGeneratePDF={onGeneratePDF}
+            businessData={businessData}
+          />
+          
+          <DocumentSignatureDialog
+            document={document}
+            documentType={getSignatureDocumentType(documentType)}
+            open={signatureDialogOpen}
+            onOpenChange={setSignatureDialogOpen}
+          />
+        </>
       )}
     </div>
   )
