@@ -66,15 +66,17 @@ export function BusinessToolsAnalytics({
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>Business Tools Analytics</CardTitle>
-            <CardDescription>Performance metrics for your business tools</CardDescription>
+      <CardHeader className="pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="space-y-1">
+            <CardTitle className="text-xl sm:text-2xl">Business Tools Analytics</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
+              Performance metrics for your business tools
+            </CardDescription>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center justify-center sm:justify-end">
             <Select value={selectedBusinessTool} onValueChange={setSelectedBusinessTool}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px]">
                 <SelectValue placeholder="Select tool" />
               </SelectTrigger>
               <SelectContent>
@@ -88,7 +90,7 @@ export function BusinessToolsAnalytics({
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Pie Chart */}
           <div className="h-[300px]">
