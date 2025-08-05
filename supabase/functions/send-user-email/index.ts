@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { Resend } from "npm:resend@2.0.0";
+import sgMail from "npm:@sendgrid/mail@8.1.3";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -76,26 +76,30 @@ const handler = async (req: Request): Promise<Response> => {
     let errorMessage = null;
 
     try {
-      // Use centralized Resend API key from environment
-      const resendApiKey = Deno.env.get("RESEND_API_KEY");
-      if (!resendApiKey) {
+      // Use centralized SendGrid API key from environment
+      const sendGridApiKey = Deno.env.get("SENDGRID_API_KEY");
+      if (!sendGridApiKey) {
         throw new Error('Email service not configured. Please contact support.');
       }
 
-      const resend = new Resend(resendApiKey);
+      sgMail.setApiKey(sendGridApiKey);
       
-      emailResponse = await resend.emails.send({
-        from: `${senderName} <${fromEmail}>`,
-        to: [to],
+      const msg = {
+        to: to,
+        from: {
+          email: fromEmail,
+          name: senderName
+        },
         subject: subject,
         html: content,
-        reply_to: replyToEmail,
-        headers: {
+        replyTo: replyToEmail,
+        customArgs: {
           'X-Sent-Via': 'FeatherBiz Platform',
           'X-User-ID': user.id,
         },
-      });
+      };
 
+      emailResponse = await sgMail.send(msg);
       console.log("Email sent successfully:", emailResponse);
 
     } catch (emailError: any) {
