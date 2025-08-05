@@ -84,6 +84,28 @@ export function AIVoiceAssistant() {
     setIsProcessing(true)
     
     try {
+      console.log('Processing voice command:', text)
+      
+      // First check for navigation commands
+      const navigationResult = processNavigationCommand(text)
+      if (navigationResult) {
+        setResponse(navigationResult.response)
+        speakText(navigationResult.response)
+        
+        // Navigate after a short delay to allow user to hear the response
+        setTimeout(() => {
+          if (navigationResult.action && window.location.pathname === '/') {
+            // Trigger navigation in the main app
+            const event = new CustomEvent('voice-navigation', { 
+              detail: { view: navigationResult.action } 
+            })
+            window.dispatchEvent(event)
+          }
+        }, 2000)
+        return
+      }
+      
+      // Then try AI-powered response
       const aiResponse = await generateAIResponse(text)
       setResponse(aiResponse)
       speakText(aiResponse)
@@ -93,6 +115,99 @@ export function AIVoiceAssistant() {
     } finally {
       setIsProcessing(false)
     }
+  }
+
+  const processNavigationCommand = (text: string) => {
+    const lowerText = text.toLowerCase()
+    
+    // Enhanced command patterns
+    const commands = {
+      // Invoice related
+      invoice: {
+        patterns: ['invoice', 'invoices', 'bill', 'billing', 'factura', 'facturas', 'facture', 'rechnung', '发票', 'fatura'],
+        action: 'invoices',
+        responses: {
+          'en-US': 'Opening your invoices section. You can create and manage invoices here.',
+          'es': 'Abriendo la sección de facturas. Puedes crear y gestionar facturas aquí.',
+          'fr': 'Ouverture de votre section factures. Vous pouvez créer et gérer des factures ici.',
+          'de': 'Öffne den Rechnungsbereich. Hier können Sie Rechnungen erstellen und verwalten.',
+          'zh': '正在打开发票部分。您可以在这里创建和管理发票。'
+        }
+      },
+      // Customer/Client related
+      customer: {
+        patterns: ['customer', 'customers', 'client', 'clients', 'cliente', 'clientes', 'kunde', 'kunden', '客户', '顾客'],
+        action: 'customers',
+        responses: {
+          'en-US': 'Opening your customers section. You can manage client information here.',
+          'es': 'Abriendo la sección de clientes. Puedes gestionar la información de clientes aquí.',
+          'fr': 'Ouverture de votre section clients. Vous pouvez gérer les informations clients ici.',
+          'de': 'Öffne den Kundenbereich. Hier können Sie Kundeninformationen verwalten.',
+          'zh': '正在打开客户部分。您可以在这里管理客户信息。'
+        }
+      },
+      // Project related
+      project: {
+        patterns: ['project', 'projects', 'proyecto', 'proyectos', 'projet', 'projets', 'projekt', 'projekte', '项目', '工程'],
+        action: 'projects',
+        responses: {
+          'en-US': 'Opening your projects section. You can manage all your projects here.',
+          'es': 'Abriendo la sección de proyectos. Puedes gestionar todos tus proyectos aquí.',
+          'fr': 'Ouverture de votre section projets. Vous pouvez gérer tous vos projets ici.',
+          'de': 'Öffne den Projektbereich. Hier können Sie alle Ihre Projekte verwalten.',
+          'zh': '正在打开项目部分。您可以在这里管理所有项目。'
+        }
+      },
+      // Appointment/Meeting related
+      appointment: {
+        patterns: ['appointment', 'appointments', 'meeting', 'meetings', 'schedule', 'cita', 'citas', 'reunión', 'reuniones', 'rendez-vous', 'réunion', 'termin', 'termine', 'besprechung', '预约', '会议', '约会'],
+        action: 'appointments',
+        responses: {
+          'en-US': 'Opening your appointments section. You can schedule and manage meetings here.',
+          'es': 'Abriendo la sección de citas. Puedes programar y gestionar reuniones aquí.',
+          'fr': 'Ouverture de votre section rendez-vous. Vous pouvez programmer et gérer des réunions ici.',
+          'de': 'Öffne den Terminbereich. Hier können Sie Besprechungen planen und verwalten.',
+          'zh': '正在打开预约部分。您可以在这里安排和管理会议。'
+        }
+      },
+      // Analytics/Dashboard related
+      analytics: {
+        patterns: ['analytics', 'dashboard', 'reports', 'report', 'stats', 'statistics', 'analíticas', 'análisis', 'informe', 'informes', 'analytique', 'rapport', 'analytik', 'berichte', 'statistik', '分析', '报告', '统计'],
+        action: 'analytics',
+        responses: {
+          'en-US': 'Opening your analytics dashboard. You can view business insights and reports here.',
+          'es': 'Abriendo tu panel de análisis. Puedes ver información empresarial e informes aquí.',
+          'fr': 'Ouverture de votre tableau de bord analytique. Vous pouvez voir les informations commerciales et les rapports ici.',
+          'de': 'Öffne das Analytics-Dashboard. Hier können Sie Geschäftseinblicke und Berichte anzeigen.',
+          'zh': '正在打开分析仪表板。您可以在这里查看业务洞察和报告。'
+        }
+      },
+      // Estimates related
+      estimate: {
+        patterns: ['estimate', 'estimates', 'quote', 'quotes', 'presupuesto', 'presupuestos', 'cotización', 'devis', 'kostenvoranschlag', 'angebot', '估算', '报价'],
+        action: 'estimates',
+        responses: {
+          'en-US': 'Opening your estimates section. You can create and manage quotes here.',
+          'es': 'Abriendo la sección de presupuestos. Puedes crear y gestionar cotizaciones aquí.',
+          'fr': 'Ouverture de votre section devis. Vous pouvez créer et gérer des devis ici.',
+          'de': 'Öffne den Kostenvoranschläge-Bereich. Hier können Sie Angebote erstellen und verwalten.',
+          'zh': '正在打开估算部分。您可以在这里创建和管理报价。'
+        }
+      }
+    }
+
+    // Check each command
+    for (const [commandKey, command] of Object.entries(commands)) {
+      if (command.patterns.some(pattern => lowerText.includes(pattern))) {
+        const response = command.responses[currentLanguage] || command.responses['en-US']
+        return {
+          action: command.action,
+          response: response
+        }
+      }
+    }
+
+    return null
   }
 
   const generateAIResponse = async (text: string): Promise<string> => {
@@ -105,6 +220,11 @@ export function AIVoiceAssistant() {
       if (lowerText.includes(key)) {
         return response
       }
+    }
+    
+    // If no predefined response, try to be helpful
+    if (lowerText.includes('help') || lowerText.includes('ajuda') || lowerText.includes('aide') || lowerText.includes('hilfe') || lowerText.includes('帮助')) {
+      return getLocalizedMessage('helpResponse')
     }
     
     return getLocalizedMessage('defaultResponse', { text })
@@ -172,35 +292,40 @@ export function AIVoiceAssistant() {
         error: 'Speech recognition error',
         startError: 'Error starting speech recognition',
         processError: 'Error processing voice command',
-        defaultResponse: `I heard you say: "${params?.text}". I'm here to help with your business needs. You can ask me about invoices, appointments, projects or other business tasks.`
+        helpResponse: 'I can help you navigate to different sections of your business platform. Try saying commands like "show invoices", "open customers", "view projects", "schedule appointment", or "open analytics". You can also ask me questions about your business operations.',
+        defaultResponse: `I heard you say: "${params?.text}". I'm here to help with your business needs. Try saying commands like "invoices", "customers", "projects", "appointments", or "analytics" to navigate to different sections.`
       },
       'de': {
         listening: 'Ich höre zu... Sprechen Sie jetzt!',
         error: 'Spracherkennungsfehler',
         startError: 'Fehler beim Starten der Spracherkennung',
         processError: 'Fehler beim Verarbeiten des Sprachbefehls',
-        defaultResponse: `Ich habe gehört, dass Sie sagten: "${params?.text}". Ich bin hier, um bei Ihren Geschäftsanforderungen zu helfen. Sie können mich nach Rechnungen, Terminen, Projekten oder anderen Geschäftsaufgaben fragen.`
+        helpResponse: 'Ich kann Ihnen helfen, zu verschiedenen Bereichen Ihrer Geschäftsplattform zu navigieren. Versuchen Sie Befehle wie "Rechnungen zeigen", "Kunden öffnen", "Projekte anzeigen", "Termin planen" oder "Analytics öffnen". Sie können mir auch Fragen zu Ihren Geschäftsabläufen stellen.',
+        defaultResponse: `Ich habe gehört, dass Sie sagten: "${params?.text}". Ich bin hier, um bei Ihren Geschäftsanforderungen zu helfen. Versuchen Sie Befehle wie "Rechnungen", "Kunden", "Projekte", "Termine" oder "Analytics", um zu verschiedenen Bereichen zu navigieren.`
       },
       'fr': {
         listening: 'J\'écoute... Parlez maintenant!',
         error: 'Erreur de reconnaissance vocale',
         startError: 'Erreur lors du démarrage de la reconnaissance vocale',
         processError: 'Erreur lors du traitement de la commande vocale',
-        defaultResponse: `J'ai entendu que vous avez dit: "${params?.text}". Je suis ici pour vous aider avec vos besoins commerciaux. Vous pouvez me demander des factures, des rendez-vous, des projets ou d'autres tâches commerciales.`
+        helpResponse: 'Je peux vous aider à naviguer vers différentes sections de votre plateforme commerciale. Essayez des commandes comme "montrer factures", "ouvrir clients", "voir projets", "programmer rendez-vous", ou "ouvrir analytique". Vous pouvez aussi me poser des questions sur vos opérations commerciales.',
+        defaultResponse: `J'ai entendu que vous avez dit: "${params?.text}". Je suis ici pour vous aider avec vos besoins commerciaux. Essayez des commandes comme "factures", "clients", "projets", "rendez-vous", ou "analytique" pour naviguer vers différentes sections.`
       },
       'es': {
         listening: '¡Escuchando... Habla ahora!',
         error: 'Error de reconocimiento de voz',
         startError: 'Error al iniciar reconocimiento de voz',
         processError: 'Error al procesar comando de voz',
-        defaultResponse: `Te escuché decir: "${params?.text}". Estoy aquí para ayudar con tus necesidades de negocio. Puedes preguntarme sobre facturas, citas, proyectos u otras tareas comerciales.`
+        helpResponse: 'Puedo ayudarte a navegar a diferentes secciones de tu plataforma de negocios. Prueba comandos como "mostrar facturas", "abrir clientes", "ver proyectos", "programar cita", o "abrir análisis". También puedes hacerme preguntas sobre tus operaciones comerciales.',
+        defaultResponse: `Te escuché decir: "${params?.text}". Estoy aquí para ayudar con tus necesidades de negocio. Prueba comandos como "facturas", "clientes", "proyectos", "citas", o "análisis" para navegar a diferentes secciones.`
       },
       'zh': {
         listening: '正在听... 现在说话！',
         error: '语音识别错误',
         startError: '启动语音识别时出错',
         processError: '处理语音命令时出错',
-        defaultResponse: `我听到您说："${params?.text}"。我在这里帮助您处理业务需求。您可以询问我有关发票、约会、项目或其他业务任务的信息。`
+        helpResponse: '我可以帮助您导航到业务平台的不同部分。尝试说"显示发票"、"打开客户"、"查看项目"、"安排预约"或"打开分析"等命令。您也可以询问我有关业务运营的问题。',
+        defaultResponse: `我听到您说："${params?.text}"。我在这里帮助您处理业务需求。尝试说"发票"、"客户"、"项目"、"预约"或"分析"等命令来导航到不同部分。`
       },
     }
     
@@ -390,16 +515,19 @@ export function AIVoiceAssistant() {
             <div>
               <h4 className="font-medium mb-2">{labels.general}</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• "Hello/Hi/Hey"</li>
-                <li>• "Help/Ayuda/Aide/Hilfe/帮助/Ajuda"</li>
+                <li>• "Hello/Hi/Hey/Hola/Bonjour/Hallo/你好"</li>
+                <li>• "Help/Ayuda/Aide/Hilfe/帮助"</li>
+                <li>• "Show dashboard/analytics"</li>
               </ul>
             </div>
             <div>
               <h4 className="font-medium mb-2">{labels.businessTasks}</h4>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• "Invoice/Bill/Billing"</li>
-                <li>• "Appointment/Schedule/Meeting"</li>
-                <li>• "Project/Proyecto/Projet/Projekt/项目/Projeto"</li>
+                <li>• "Open invoices/Show bills/Facturas"</li>
+                <li>• "View customers/Show clients/Clientes"</li>
+                <li>• "Open projects/Show proyectos/項目"</li>
+                <li>• "Schedule appointment/Meeting/Cita"</li>
+                <li>• "Show estimates/Quotes/Presupuestos"</li>
               </ul>
             </div>
           </div>

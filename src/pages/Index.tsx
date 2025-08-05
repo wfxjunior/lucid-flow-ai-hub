@@ -29,6 +29,21 @@ export default function Index() {
     }
   }, [])
 
+  // Handle voice navigation events
+  useEffect(() => {
+    const handleVoiceNavigation = (event: CustomEvent) => {
+      const { view } = event.detail
+      console.log('Index: Voice navigation detected, setting view to:', view)
+      setActiveView(view)
+    }
+
+    window.addEventListener('voice-navigation', handleVoiceNavigation as EventListener)
+    
+    return () => {
+      window.removeEventListener('voice-navigation', handleVoiceNavigation as EventListener)
+    }
+  }, [])
+
   const handleMenuClick = (view: string) => {
     console.log('Index: Menu clicked, setting view to:', view)
     setActiveView(view)

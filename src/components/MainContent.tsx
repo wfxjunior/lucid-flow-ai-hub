@@ -46,6 +46,7 @@ import { FeedbackPage } from "@/components/FeedbackPage"
 import { PricingPlans } from "@/components/PricingPlans"
 import { SettingsPage } from "@/components/SettingsPage"
 import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
+import { EnhancedAIVoice } from "@/components/EnhancedAIVoice"
 import Upgrade from "@/pages/Upgrade"
 import PaymentSuccess from "@/pages/PaymentSuccess"
 
@@ -62,7 +63,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "dashboard":
         return <ImprovedDashboard onNavigate={onNavigate} />
       case "ai-voice":
-        return <AIVoiceAssistant />
+        return <EnhancedAIVoice />
       case "invoice-creator":
         return <InvoiceCreator />
       case "estimates":
