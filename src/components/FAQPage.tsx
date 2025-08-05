@@ -26,7 +26,7 @@ const faqData = [
   {
     id: 4,
     question: "What payment methods do you support?",
-    answer: "FeatherBiz integrates with popular payment processors including Stripe, PayPal, and Square. Clients can pay invoices online using credit cards, bank transfers, or digital wallets."
+    answer: "FeatherBiz integrates with popular payment processors including Stripe and PayPal. Clients can pay invoices online using credit cards, bank transfers, or digital wallets."
   },
   {
     id: 5,

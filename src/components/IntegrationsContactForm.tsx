@@ -93,7 +93,7 @@ export function IntegrationsContactForm() {
     {
       category: 'Payment Processing',
       description: 'Online payment and billing platforms',
-      examples: ['Stripe', 'PayPal', 'Square', 'Paddle'],
+      examples: ['Stripe', 'PayPal', 'Paddle'],
       icon: CreditCard,
       compatibility: 'Excellent'
     },

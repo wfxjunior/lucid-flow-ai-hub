@@ -23,7 +23,7 @@ export function ResponsivePaymentsPage() {
 
   const handleAddPayment = () => {
     setShowPaymentForm(true)
-    toast.info("Payment form will be integrated with Square API")
+    toast.info("Payment form will be available for recording payments")
   }
 
   const getStatusColor = (status: string) => {
@@ -45,7 +45,7 @@ export function ResponsivePaymentsPage() {
             Payments
           </h1>
           <p className="text-muted-foreground mt-1">
-            Track and manage client payments (Square API integration pending)
+            Track and manage client payments
           </p>
         </div>
         <Button onClick={handleAddPayment} className="w-full sm:w-auto">
@@ -101,23 +101,6 @@ export function ResponsivePaymentsPage() {
         </Card>
       </div>
 
-      {/* Payment Integration Notice */}
-      <Card className="border-blue-200 bg-blue-50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-blue-800">
-            <CreditCard className="h-5 w-5" />
-            Square API Integration
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-blue-700 mb-3">
-            Payment processing will be integrated with Square API for secure transactions.
-          </p>
-          <Button variant="outline" className="text-blue-700 border-blue-300">
-            Configure Square Integration
-          </Button>
-        </CardContent>
-      </Card>
 
       {/* Payments List */}
       <Card>
