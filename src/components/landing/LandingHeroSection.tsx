@@ -3,6 +3,14 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export const LandingHeroSection = () => {
   const navigate = useNavigate();
@@ -86,10 +94,10 @@ export const LandingHeroSection = () => {
               </div>
             </div>
             
-            {/* Right Column - Dashboard Mockup */}
+            {/* Right Column - Dashboard Carousel */}
             <div className="lg:col-span-6 mt-16 lg:mt-0">
               <div className="relative">
-                {/* Dashboard mockup placeholder */}
+                {/* Dashboard carousel */}
                 <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
                   <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
                     <div className="flex gap-2">
@@ -100,45 +108,55 @@ export const LandingHeroSection = () => {
                     <div className="ml-4 text-sm text-gray-500">FeatherBiz Dashboard</div>
                   </div>
                   
-                  <div className="p-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="h-6 bg-gray-200 rounded w-32"></div>
-                        <div className="h-8 bg-blue-100 rounded-lg w-24"></div>
-                      </div>
-                      
-                      <div className="grid grid-cols-3 gap-4">
-                        <div className="bg-blue-50 p-4 rounded-lg">
-                          <div className="h-4 bg-blue-200 rounded w-16 mb-2"></div>
-                          <div className="h-8 bg-blue-300 rounded w-12"></div>
-                        </div>
-                        <div className="bg-green-50 p-4 rounded-lg">
-                          <div className="h-4 bg-green-200 rounded w-16 mb-2"></div>
-                          <div className="h-8 bg-green-300 rounded w-12"></div>
-                        </div>
-                        <div className="bg-purple-50 p-4 rounded-lg">
-                          <div className="h-4 bg-purple-200 rounded w-16 mb-2"></div>
-                          <div className="h-8 bg-purple-300 rounded w-12"></div>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gray-200 rounded"></div>
-                          <div className="flex-1">
-                            <div className="h-4 bg-gray-200 rounded w-3/4 mb-1"></div>
-                            <div className="h-3 bg-gray-100 rounded w-1/2"></div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gray-200 rounded"></div>
-                          <div className="flex-1">
-                            <div className="h-4 bg-gray-200 rounded w-2/3 mb-1"></div>
-                            <div className="h-3 bg-gray-100 rounded w-1/3"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="p-0">
+                    <Carousel
+                      plugins={[
+                        Autoplay({
+                          delay: 4000,
+                        }),
+                      ]}
+                      className="w-full"
+                    >
+                      <CarouselContent>
+                        <CarouselItem>
+                          <img
+                            src="/lovable-uploads/d2be4c9e-3be5-4c4a-9024-0684a9c097c9.png"
+                            alt="Dashboard Overview - Quick Actions Grid"
+                            className="w-full h-auto object-cover"
+                          />
+                        </CarouselItem>
+                        <CarouselItem>
+                          <img
+                            src="/lovable-uploads/fdbb83e9-5346-40f8-aaca-92a742f58384.png"
+                            alt="Client Projects Management"
+                            className="w-full h-auto object-cover"
+                          />
+                        </CarouselItem>
+                        <CarouselItem>
+                          <img
+                            src="/lovable-uploads/eac2b331-42fb-4a74-aae1-148fca28691a.png"
+                            alt="Sales Pipeline Overview"
+                            className="w-full h-auto object-cover"
+                          />
+                        </CarouselItem>
+                        <CarouselItem>
+                          <img
+                            src="/lovable-uploads/2e975bb9-3a42-496b-8c01-507136c52a4c.png"
+                            alt="Smart Schedule System"
+                            className="w-full h-auto object-cover"
+                          />
+                        </CarouselItem>
+                        <CarouselItem>
+                          <img
+                            src="/lovable-uploads/921ec0de-4f91-49eb-9f68-bdfefce23f2b.png"
+                            alt="Export to Tax Software"
+                            className="w-full h-auto object-cover"
+                          />
+                        </CarouselItem>
+                      </CarouselContent>
+                      <CarouselPrevious className="left-2" />
+                      <CarouselNext className="right-2" />
+                    </Carousel>
                   </div>
                 </div>
                 
