@@ -174,14 +174,8 @@ export function MeetingsPage() {
               <Video className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No meetings found</h3>
               <p className="text-gray-500 mb-4">
-                {meetings?.length === 0 ? "Schedule your first meeting to get started." : "Try adjusting your filters."}
+              {meetings?.length === 0 ? "Schedule your first meeting to get started." : "Try adjusting your filters."}
               </p>
-              {meetings?.length === 0 && (
-                <Button onClick={() => setShowForm(true)} className="flex items-center gap-2">
-                  <Plus className="w-4 h-4" />
-                  Schedule Meeting
-                </Button>
-              )}
             </div>
           ) : (
             <div className="space-y-4">

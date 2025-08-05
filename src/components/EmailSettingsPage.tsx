@@ -72,7 +72,7 @@ export function EmailSettingsPage() {
       }
     } catch (error: any) {
       console.error('Error loading email settings:', error)
-      toast.error('Erro ao carregar configurações de email')
+      toast.error('Error loading email settings')
     }
   }
 
@@ -119,11 +119,11 @@ export function EmailSettingsPage() {
 
       if (error) throw error
 
-      toast.success('Configurações de email salvas com sucesso!')
+      toast.success('Email settings saved successfully!')
       loadEmailSettings()
     } catch (error: any) {
       console.error('Error saving email settings:', error)
-      toast.error('Erro ao salvar configurações de email')
+      toast.error('Error saving email settings')
     } finally {
       setLoading(false)
     }
@@ -131,7 +131,7 @@ export function EmailSettingsPage() {
 
   const handleTestEmail = async () => {
     if (!testEmail || !settings.from_email) {
-      toast.error('Por favor, configure o email e digite um email para teste')
+      toast.error('Please configure the email and enter a test email')
       return
     }
 
@@ -140,13 +140,13 @@ export function EmailSettingsPage() {
       const { data, error } = await supabase.functions.invoke('send-user-email', {
         body: {
           to: testEmail,
-          subject: 'Email de Teste - FeatherBiz',
+          subject: 'Test Email - FeatherBiz',
           content: `
-            <h2>Email de Teste</h2>
-            <p>Este é um email de teste enviado através das suas configurações personalizadas.</p>
-            <p><strong>Remetente:</strong> ${settings.from_name} (${settings.from_email})</p>
-            <p><strong>Provedor:</strong> ${settings.provider}</p>
-            <p>Se você recebeu este email, suas configurações estão funcionando corretamente!</p>
+            <h2>Test Email</h2>
+            <p>This is a test email sent through your custom settings.</p>
+            <p><strong>Sender:</strong> ${settings.from_name} (${settings.from_email})</p>
+            <p><strong>Provider:</strong> ${settings.provider}</p>
+            <p>If you received this email, your settings are working correctly!</p>
           `,
           emailType: 'test'
         }
@@ -154,12 +154,12 @@ export function EmailSettingsPage() {
 
       if (error) throw error
 
-      toast.success('Email de teste enviado com sucesso!')
+      toast.success('Test email sent successfully!')
       setTestEmail('')
       loadEmailLogs()
     } catch (error: any) {
       console.error('Error sending test email:', error)
-      toast.error('Erro ao enviar email de teste: ' + error.message)
+      toast.error('Error sending test email: ' + error.message)
     } finally {
       setTestLoading(false)
     }
@@ -168,7 +168,7 @@ export function EmailSettingsPage() {
   const handleDelete = async () => {
     if (!settings.id) return
 
-    if (!confirm('Tem certeza que deseja deletar suas configurações de email?')) return
+    if (!confirm('Are you sure you want to delete your email settings?')) return
 
     try {
       const { error } = await supabase
@@ -186,10 +186,10 @@ export function EmailSettingsPage() {
         is_active: true
       })
 
-      toast.success('Configurações deletadas com sucesso!')
+      toast.success('Settings deleted successfully!')
     } catch (error: any) {
       console.error('Error deleting email settings:', error)
-      toast.error('Erro ao deletar configurações')
+      toast.error('Error deleting settings')
     }
   }
 
@@ -197,9 +197,9 @@ export function EmailSettingsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Configurações de Email</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Email Settings</h1>
           <p className="text-muted-foreground">
-            Configure suas credenciais de email para enviar mensagens aos seus clientes
+            Configure your email credentials to send messages to your clients
           </p>
         </div>
       </div>
@@ -208,15 +208,15 @@ export function EmailSettingsPage() {
         <TabsList>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings className="h-4 w-4" />
-            Configurações
+            Settings
           </TabsTrigger>
           <TabsTrigger value="test" className="flex items-center gap-2">
             <TestTube className="h-4 w-4" />
-            Teste
+            Test
           </TabsTrigger>
           <TabsTrigger value="logs" className="flex items-center gap-2">
             <History className="h-4 w-4" />
-            Histórico
+            History
           </TabsTrigger>
         </TabsList>
 
@@ -225,20 +225,20 @@ export function EmailSettingsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
-                Configurações do Provedor de Email
+                Email Provider Settings
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <Alert>
                 <AlertDescription>
-                  Configure suas credenciais de email para enviar mensagens personalizadas aos seus clientes.
-                  Recomendamos usar Resend para facilidade de uso.
+                  Configure your email credentials to send personalized messages to your clients.
+                  We recommend using Resend for ease of use.
                 </AlertDescription>
               </Alert>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="provider">Provedor de Email</Label>
+                  <Label htmlFor="provider">Email Provider</Label>
                   <Select value={settings.provider} onValueChange={(value) => setSettings({ ...settings, provider: value })}>
                     <SelectTrigger>
                       <SelectValue />
@@ -251,34 +251,34 @@ export function EmailSettingsPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="from_name">Nome do Remetente</Label>
+                  <Label htmlFor="from_name">Sender Name</Label>
                   <Input
                     id="from_name"
                     value={settings.from_name}
                     onChange={(e) => setSettings({ ...settings, from_name: e.target.value })}
-                    placeholder="Seu Nome ou Empresa"
+                    placeholder="Your Name or Company"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="from_email">Email do Remetente</Label>
+                  <Label htmlFor="from_email">Sender Email</Label>
                   <Input
                     id="from_email"
                     type="email"
                     value={settings.from_email}
                     onChange={(e) => setSettings({ ...settings, from_email: e.target.value })}
-                    placeholder="seu@email.com"
+                    placeholder="your@email.com"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="api_key">API Key do Provedor</Label>
+                  <Label htmlFor="api_key">Provider API Key</Label>
                   <Input
                     id="api_key"
                     type="password"
                     value={settings.api_key}
                     onChange={(e) => setSettings({ ...settings, api_key: e.target.value })}
-                    placeholder="Sua chave de API"
+                    placeholder="Your API key"
                   />
                 </div>
               </div>
@@ -289,13 +289,13 @@ export function EmailSettingsPage() {
                   checked={settings.is_active}
                   onCheckedChange={(checked) => setSettings({ ...settings, is_active: checked })}
                 />
-                <Label htmlFor="is_active">Configuração ativa</Label>
+                <Label htmlFor="is_active">Active configuration</Label>
               </div>
 
               <div className="flex gap-2 pt-4">
                 <Button onClick={handleSave} disabled={loading} className="flex-1">
                   <Save className="mr-2 h-4 w-4" />
-                  {loading ? 'Salvando...' : 'Salvar Configurações'}
+                  {loading ? 'Saving...' : 'Save Settings'}
                 </Button>
                 {settings.id && (
                   <Button variant="destructive" onClick={handleDelete}>
@@ -310,23 +310,23 @@ export function EmailSettingsPage() {
         <TabsContent value="test" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Testar Configurações de Email</CardTitle>
+              <CardTitle>Test Email Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <Alert>
                 <AlertDescription>
-                  Envie um email de teste para verificar se suas configurações estão funcionando corretamente.
+                  Send a test email to verify that your settings are working correctly.
                 </AlertDescription>
               </Alert>
 
               <div>
-                <Label htmlFor="test_email">Email para Teste</Label>
+                <Label htmlFor="test_email">Test Email</Label>
                 <Input
                   id="test_email"
                   type="email"
                   value={testEmail}
                   onChange={(e) => setTestEmail(e.target.value)}
-                  placeholder="email@teste.com"
+                  placeholder="test@email.com"
                 />
               </div>
 
@@ -336,7 +336,7 @@ export function EmailSettingsPage() {
                 className="w-full"
               >
                 <TestTube className="mr-2 h-4 w-4" />
-                {testLoading ? 'Enviando...' : 'Enviar Email de Teste'}
+                {testLoading ? 'Sending...' : 'Send Test Email'}
               </Button>
             </CardContent>
           </Card>
@@ -345,12 +345,12 @@ export function EmailSettingsPage() {
         <TabsContent value="logs" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Histórico de Emails Enviados</CardTitle>
+              <CardTitle>Sent Emails History</CardTitle>
             </CardHeader>
             <CardContent>
               {emailLogs.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  Nenhum email foi enviado ainda
+                  No emails sent yet
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -360,17 +360,17 @@ export function EmailSettingsPage() {
                         <div>
                           <h4 className="font-medium">{log.subject}</h4>
                           <p className="text-sm text-muted-foreground">
-                            Para: {log.recipient_name ? `${log.recipient_name} (${log.recipient_email})` : log.recipient_email}
+                            To: {log.recipient_name ? `${log.recipient_name} (${log.recipient_email})` : log.recipient_email}
                           </p>
                         </div>
                         <div className="text-right">
                           <span className={`px-2 py-1 rounded text-xs ${
                             log.status === 'sent' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                           }`}>
-                            {log.status === 'sent' ? 'Enviado' : 'Erro'}
+                            {log.status === 'sent' ? 'Sent' : 'Error'}
                           </span>
                           <p className="text-xs text-muted-foreground mt-1">
-                            {new Date(log.sent_at).toLocaleString('pt-BR')}
+                            {new Date(log.sent_at).toLocaleString('en-US')}
                           </p>
                         </div>
                       </div>

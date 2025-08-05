@@ -73,10 +73,6 @@ export function AppointmentsPage() {
               <p className="text-muted-foreground mb-4">
                 Start by scheduling your first appointment with a client.
               </p>
-              <Button onClick={() => setShowCreateForm(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Schedule Appointment
-              </Button>
             </CardContent>
           </Card>
         ) : (
