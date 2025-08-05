@@ -27,15 +27,15 @@ const handler = async (req: Request): Promise<Response> => {
     const displayName = name || email.split('@')[0];
 
     const emailResponse = await resend.emails.send({
-      from: "FeatherBiz <hello@featherbiz.com>",
+      from: "FeatherBiz <success@featherbiz.com>",
       to: [email],
-      subject: "Welcome to FeatherBiz! 🚀",
+      subject: "Welcome to FeatherBiz! Something Big is Starting 🚀",
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px;">
           <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <div style="text-align: center; margin-bottom: 30px;">
               <h1 style="color: #1e40af; margin: 0; font-size: 28px;">Welcome to FeatherBiz!</h1>
-              <p style="color: #64748b; margin: 10px 0 0 0; font-size: 16px;">Your business journey starts here</p>
+              <p style="color: #64748b; margin: 10px 0 0 0; font-size: 18px; font-weight: 600;">Something big is starting... 🌟</p>
             </div>
             
             <div style="margin-bottom: 30px;">
@@ -43,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
                 Hello <strong>${displayName}</strong>,
               </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-                Congratulations on joining FeatherBiz! We're excited to have you with us.
+                Congratulations on joining FeatherBiz! You've just taken the first step towards transforming your business operations. Something big is starting, and we're thrilled to be part of your journey.
               </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
                 With FeatherBiz, you can:
