@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
@@ -75,8 +74,38 @@ const handler = async (req: Request): Promise<Response> => {
           html: content,
         });
       } else if (emailSettings.provider === 'sendgrid') {
-        // SendGrid implementation would go here
-        throw new Error('SendGrid provider not yet implemented');
+        // SendGrid API implementation
+        const sendGridResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${emailSettings.api_key}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            personalizations: [{
+              to: [{ email: to, name: recipientName }],
+              subject: subject,
+            }],
+            from: {
+              email: emailSettings.from_email,
+              name: emailSettings.from_name,
+            },
+            content: [{
+              type: 'text/html',
+              value: content,
+            }],
+          }),
+        });
+
+        if (!sendGridResponse.ok) {
+          const errorData = await sendGridResponse.text();
+          throw new Error(`SendGrid API error: ${errorData}`);
+        }
+
+        emailResponse = {
+          id: sendGridResponse.headers.get('X-Message-Id') || 'sendgrid-success',
+          status: 'sent'
+        };
       } else {
         throw new Error(`Unsupported email provider: ${emailSettings.provider}`);
       }

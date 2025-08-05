@@ -236,9 +236,9 @@ export function EmailSettingsPage() {
                 <AlertDescription>
                   🚀 <strong>Quick Setup:</strong> Configure your email credentials to send personalized messages to your clients.
                   <br/>
-                  📧 <strong>Recommended:</strong> Use <a href="https://resend.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Resend</a> for ease of use (free tier available).
+                  📧 <strong>Providers:</strong> Choose <a href="https://resend.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Resend</a> (free tier) or <a href="https://sendgrid.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SendGrid</a> (robust delivery).
                   <br/>
-                  🔑 <strong>API Key:</strong> Get your API key from <a href="https://resend.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Resend API Keys</a>.
+                  🔑 <strong>API Keys:</strong> <a href="https://resend.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Resend API Keys</a> | <a href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SendGrid API Keys</a>
                 </AlertDescription>
               </Alert>
 
@@ -278,14 +278,23 @@ export function EmailSettingsPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="api_key">Provider API Key</Label>
+                  <Label htmlFor="api_key">
+                    {settings.provider === 'sendgrid' ? 'SendGrid API Key' : 'Resend API Key'}
+                  </Label>
                   <Input
                     id="api_key"
                     type="password"
                     value={settings.api_key}
                     onChange={(e) => setSettings({ ...settings, api_key: e.target.value })}
-                    placeholder="Your API key"
+                    placeholder={settings.provider === 'sendgrid' ? 'SG.xxxxxxxxxxxxx' : 're_xxxxxxxxxxxxx'}
                   />
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {settings.provider === 'sendgrid' ? (
+                      <>Get your API key from <a href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SendGrid Settings</a></>
+                    ) : (
+                      <>Get your API key from <a href="https://resend.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Resend Dashboard</a></>
+                    )}
+                  </div>
                 </div>
               </div>
 
