@@ -59,11 +59,11 @@ const getStatusColor = (status: string) => {
 
 const getTypeIcon = (type: string) => {
   switch (type) {
-    case "task": return "✓"
-    case "email": return "📧"
-    case "client": return "Client"
-    case "invoice": return "Invoice"
-    default: return "Activity"
+    case "task": return "T"
+    case "email": return "E"
+    case "client": return "C"
+    case "invoice": return "I"
+    default: return "A"
   }
 }
 
