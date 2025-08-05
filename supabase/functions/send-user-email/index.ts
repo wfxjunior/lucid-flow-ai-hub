@@ -52,7 +52,7 @@ const handler = async (req: Request): Promise<Response> => {
       .select('*')
       .eq('user_id', user.id)
       .eq('is_active', true)
-      .single();
+      .maybeSingle();
 
     if (settingsError || !emailSettings) {
       throw new Error('Email settings not configured. Please configure your email settings first.');

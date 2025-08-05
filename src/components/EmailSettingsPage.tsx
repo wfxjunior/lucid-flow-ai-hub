@@ -61,9 +61,9 @@ export function EmailSettingsPage() {
         .select('*')
         .eq('user_id', user?.id)
         .eq('is_active', true)
-        .single()
+        .maybeSingle()
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         throw error
       }
 
@@ -199,8 +199,11 @@ export function EmailSettingsPage() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Email Settings</h1>
           <p className="text-muted-foreground">
-            Configure your email credentials to send messages to your clients
+            Configure your email credentials to send personalized messages to your clients
           </p>
+          <div className="mt-2 text-sm text-muted-foreground">
+            💡 <strong>Tip:</strong> Each user configures their own email settings for maximum deliverability and professionalism
+          </div>
         </div>
       </div>
 
@@ -231,8 +234,11 @@ export function EmailSettingsPage() {
             <CardContent className="space-y-4">
               <Alert>
                 <AlertDescription>
-                  Configure your email credentials to send personalized messages to your clients.
-                  We recommend using Resend for ease of use.
+                  🚀 <strong>Quick Setup:</strong> Configure your email credentials to send personalized messages to your clients.
+                  <br/>
+                  📧 <strong>Recommended:</strong> Use <a href="https://resend.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Resend</a> for ease of use (free tier available).
+                  <br/>
+                  🔑 <strong>API Key:</strong> Get your API key from <a href="https://resend.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Resend API Keys</a>.
                 </AlertDescription>
               </Alert>
 
@@ -313,11 +319,19 @@ export function EmailSettingsPage() {
               <CardTitle>Test Email Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Alert>
-                <AlertDescription>
-                  Send a test email to verify that your settings are working correctly.
-                </AlertDescription>
-              </Alert>
+              {!settings.from_email ? (
+                <Alert>
+                  <AlertDescription>
+                    ⚠️ Please configure your email settings in the "Settings" tab first before sending test emails.
+                  </AlertDescription>
+                </Alert>
+              ) : (
+                <Alert>
+                  <AlertDescription>
+                    Send a test email to verify that your settings are working correctly.
+                  </AlertDescription>
+                </Alert>
+              )}
 
               <div>
                 <Label htmlFor="test_email">Test Email</Label>
