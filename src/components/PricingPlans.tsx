@@ -385,7 +385,7 @@ export function PricingPlans() {
         
         {/* Billing Period Toggle */}
         <div className="flex justify-center mb-6 sm:mb-8 lg:mb-12 px-4">
-          <div className="bg-white rounded-xl p-1 shadow-sm border w-full max-w-xs">
+          <div className="bg-gray-100 rounded-full p-1 shadow-sm border w-full max-w-sm">
             <ToggleGroup
               type="single"
               value={billingPeriod}
@@ -394,16 +394,16 @@ export function PricingPlans() {
             >
               <ToggleGroupItem
                 value="monthly"
-                className="px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                className="px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-blue-600 data-[state=on]:text-white data-[state=off]:text-gray-600 data-[state=off]:bg-transparent transition-all"
               >
                 Monthly
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="annual"
-                className="px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium rounded-lg data-[state=on]:bg-primary data-[state=on]:text-primary-foreground relative"
+                className="px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-blue-600 data-[state=on]:text-white data-[state=off]:text-gray-600 data-[state=off]:bg-transparent relative transition-all"
               >
                 Annual
-                <span className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 bg-green-500 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full font-bold text-xs">
+                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm">
                   Save 17%
                 </span>
               </ToggleGroupItem>
