@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button"
 import { Upload, Building2, Settings } from "lucide-react"
 import { DocumentNumberSettings } from "./DocumentNumberSettings"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 interface CompanyInfo {
   name: string
@@ -193,6 +193,9 @@ export function EditableDocumentHeader({
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>Number Settings</DialogTitle>
+                      <DialogDescription>
+                        Configure automatic number generation settings for your documents
+                      </DialogDescription>
                     </DialogHeader>
                     <DocumentNumberSettings documentType={documentType} />
                   </DialogContent>

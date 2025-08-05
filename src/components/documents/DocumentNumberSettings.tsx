@@ -127,7 +127,20 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
   const saveSettings = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) {
+        toast.error("User not authenticated")
+        return
+      }
+
+      console.log('Saving settings for user:', user.id, 'document type:', documentType)
+      console.log('Settings to save:', settings)
+
+      // Check if settings already exist
+      const { data: existingSettings } = await supabase
+        .from('user_settings')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle()
 
       const updateData = {
         [`${documentType}_auto_generate`]: settings.autoGenerate,
@@ -136,16 +149,31 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
         updated_at: new Date().toISOString()
       }
 
-      const { error } = await supabase
-        .from('user_settings')
-        .upsert({
-          user_id: user.id,
-          ...updateData
-        }, {
-          onConflict: 'user_id'
-        })
+      console.log('Update data:', updateData)
 
-      if (error) throw error
+      let result
+      if (existingSettings) {
+        // Update existing record
+        result = await supabase
+          .from('user_settings')
+          .update(updateData)
+          .eq('user_id', user.id)
+      } else {
+        // Insert new record
+        result = await supabase
+          .from('user_settings')
+          .insert({
+            user_id: user.id,
+            ...updateData
+          })
+      }
+
+      console.log('Save result:', result)
+
+      if (result.error) {
+        console.error('Supabase error:', result.error)
+        throw result.error
+      }
       
       // Recalculate current number after saving
       await loadSettings()
@@ -153,7 +181,7 @@ export function DocumentNumberSettings({ documentType }: DocumentNumberSettingsP
       toast.success("Settings saved successfully!")
     } catch (error) {
       console.error('Error saving settings:', error)
-      toast.error("Failed to save settings")
+      toast.error("Failed to save settings. Please try again.")
     }
   }
 
