@@ -287,6 +287,40 @@ Guidelines:
 - When users ask about actions (like creating invoices), guide them to the appropriate section of the platform
 - Use the knowledge base to answer common questions accurately`;
 
+    // Check for simple data queries that don't need AI
+    const simpleResponses = {
+      'how many invoices': `You currently have ${context.business_summary.total_invoices} invoices in your account.`,
+      'invoices i have': `You have ${context.business_summary.total_invoices} invoices in total, with ${context.business_summary.pending_invoices} pending invoices.`,
+      'how many clients': `You have ${context.business_summary.total_clients} clients in your system.`,
+      'total revenue': `Your total revenue is $${context.business_summary.total_revenue}.`,
+      'monthly earnings': `Your monthly earnings are $${context.business_summary.monthly_earnings}.`,
+      'pending invoices': `You have ${context.business_summary.pending_invoices} pending invoices.`
+    };
+
+    // Check if the message matches a simple query
+    const messageKey = Object.keys(simpleResponses).find(key => 
+      message.toLowerCase().includes(key)
+    );
+
+    if (messageKey) {
+      const simpleResponse = simpleResponses[messageKey];
+      
+      // Save conversation to database
+      try {
+        await supabase.from('featherbot_conversations').insert({
+          user_id: user.id,
+          message: message,
+          response: simpleResponse
+        });
+      } catch (dbError) {
+        console.error('Database save error:', dbError);
+      }
+
+      return new Response(JSON.stringify({ response: simpleResponse }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     console.log('Sending request to OpenAI...');
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -311,6 +345,27 @@ Guidelines:
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI API error:', errorText);
+      
+      // Provide a helpful fallback message for quota exceeded
+      if (errorText.includes('insufficient_quota') || errorText.includes('exceeded your current quota')) {
+        const fallbackResponse = `I'm currently experiencing some technical difficulties with my AI processing. However, I can see that you have ${context.business_summary.total_invoices} invoices, ${context.business_summary.total_clients} clients, and your monthly earnings are $${context.business_summary.monthly_earnings}. Please try asking me about specific business data, or contact support if you need help with platform features.`;
+        
+        // Save conversation to database
+        try {
+          await supabase.from('featherbot_conversations').insert({
+            user_id: user.id,
+            message: message,
+            response: fallbackResponse
+          });
+        } catch (dbError) {
+          console.error('Database save error:', dbError);
+        }
+
+        return new Response(JSON.stringify({ response: fallbackResponse }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
       throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
     }
 
