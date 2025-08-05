@@ -244,7 +244,17 @@ export function PricingPlans() {
       console.log('Checking user authentication...')
       
       // Get current user session
-      const { data: { session } } = await supabase.auth.getSession()
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      
+      if (sessionError) {
+        console.error('Session error:', sessionError)
+        toast({
+          title: "Authentication Error", 
+          description: "There was an issue with your session. Please log in again.",
+          variant: "destructive"
+        })
+        return
+      }
       
       if (!session) {
         console.log('No user session found')
@@ -271,13 +281,19 @@ export function PricingPlans() {
 
       console.log('Checkout data:', checkoutData)
 
-      // Create checkout session
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
+      // Create checkout session with timeout
+      const checkoutPromise = supabase.functions.invoke('create-checkout', {
         body: checkoutData,
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         }
       })
+
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Checkout request timed out')), 30000)
+      })
+
+      const { data, error } = await Promise.race([checkoutPromise, timeoutPromise]) as any
 
       console.log('Checkout response received')
       console.log('Data:', data)
@@ -285,7 +301,27 @@ export function PricingPlans() {
 
       if (error) {
         console.error('Checkout error details:', error)
-        throw error
+        
+        // Provide user-friendly error messages
+        let errorMessage = "There was an error processing your request. Please try again."
+        if (error.message) {
+          if (error.message.includes('STRIPE_SECRET_KEY')) {
+            errorMessage = "Payment system configuration error. Please contact support."
+          } else if (error.message.includes('timeout')) {
+            errorMessage = "Request timed out. Please check your connection and try again."
+          } else if (error.message.includes('Customer not found')) {
+            errorMessage = "Account verification required. Please contact support."
+          } else {
+            errorMessage = `Payment error: ${error.message}`
+          }
+        }
+        
+        toast({
+          title: "Checkout Error",
+          description: errorMessage,
+          variant: "destructive"
+        })
+        return
       }
 
       if (data?.url) {
@@ -298,7 +334,12 @@ export function PricingPlans() {
           description: "Opening Stripe checkout in a new tab...",
         })
       } else {
-        throw new Error('No checkout URL received from server')
+        console.error('No checkout URL received')
+        toast({
+          title: "Checkout Error",
+          description: "No checkout URL received from server. Please try again.",
+          variant: "destructive"
+        })
       }
 
     } catch (error) {
@@ -371,13 +412,14 @@ export function PricingPlans() {
         </div>
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto px-4">
           {currentPlans.map((plan) => (
-            <PricingCard 
-              key={plan.id} 
-              plan={plan} 
-              onPlanSelect={handlePlanSelection} 
-            />
+            <div key={plan.id} className="flex">
+              <PricingCard 
+                plan={plan} 
+                onPlanSelect={handlePlanSelection} 
+              />
+            </div>
           ))}
         </div>
 

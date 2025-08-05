@@ -37,7 +37,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
 
   return (
     <div 
-      className={`relative group transition-all duration-300 hover:scale-105 ${
+      className={`relative group transition-all duration-300 hover:scale-105 w-full h-full ${
         plan.popular ? 'sm:scale-105 xl:scale-110 xl:z-10' : ''
       }`}
     >
@@ -54,6 +54,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
         bg-gradient-to-br ${plan.bgGradient}
         ${plan.popular ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}
         group-hover:shadow-2xl transition-all duration-300
+        flex flex-col
       `}>
         {/* Background Pattern - Removed circles */}
         <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
@@ -99,7 +100,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
             </div>
           </CardHeader>
           
-          <CardContent className="space-y-3 sm:space-y-4 lg:space-y-6 px-3 sm:px-4 lg:px-6 pb-4 sm:pb-6 lg:pb-8">
+          <CardContent className="space-y-3 sm:space-y-4 lg:space-y-6 px-3 sm:px-4 lg:px-6 pb-4 sm:pb-6 lg:pb-8 flex-1 flex flex-col">
             {/* CTA Button */}
             <Button 
               className={`
@@ -112,6 +113,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
                 }
               `}
               onClick={() => onPlanSelect(plan)}
+              disabled={false}
             >
               {plan.buttonText}
             </Button>
