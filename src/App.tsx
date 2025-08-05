@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { ResponsiveCarRentalPage } from '@/components/ResponsiveCarRentalPage'
 import { ResponsiveMatTrackPage } from '@/components/ResponsiveMatTrackPage'
+import { DocumentTrackingProvider } from '@/components/DocumentTrackingProvider'
 import Index from '@/pages/Index'
 import Auth from '@/pages/Auth'
 import Features from '@/pages/Features'
@@ -36,8 +37,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
 
 function App() {
   return (
-    <Router>
-      <Routes>
+    <DocumentTrackingProvider>
+      <Router>
+        <Routes>
         <Route
           path="/landing"
           element={
@@ -84,8 +86,9 @@ function App() {
         <Route path="/careers" element={<Careers />} />
         <Route path="/press" element={<Press />} />
         <Route path="/partners" element={<Partners />} />
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </DocumentTrackingProvider>
   )
 }
 

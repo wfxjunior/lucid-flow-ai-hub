@@ -25,6 +25,8 @@ import {
 import { InvoiceForm } from "@/components/InvoiceForm"
 import { ConvertToReceiptDialog } from "@/components/receipts/ConvertToReceiptDialog"
 import { ReceiptEmailButton } from "@/components/ReceiptEmailButton"
+import { DocumentEventsBadge } from "@/components/DocumentEventsBadge"
+import { DocumentEventTimeline } from "@/components/DocumentEventTimeline"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
@@ -38,6 +40,7 @@ export function InvoicesPage() {
   const [editingInvoice, setEditingInvoice] = useState<any>(null)
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all")
   const [showFilters, setShowFilters] = useState(false)
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null)
 
   // Create a mapping of clients for easy lookup
   const clientsMap = (clients || []).reduce((acc, client) => {
@@ -101,8 +104,7 @@ export function InvoicesPage() {
   }
 
   const handleView = (invoice: any) => {
-    // Implement view functionality
-    toast.info("View invoice functionality")
+    setSelectedInvoiceId(invoice.id)
   }
 
   const handleDuplicate = (invoice: any) => {
@@ -395,17 +397,20 @@ export function InvoicesPage() {
                         minimumFractionDigits: 2
                       })}
                     </TableCell>
-                    <TableCell className="py-2">
-                      <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
-                        invoice.status === 'paid' ? 'text-green-700' :
-                        invoice.status === 'sent' ? 'text-blue-700' :
-                        invoice.status === 'viewed' ? 'text-blue-700' :
-                        invoice.status === 'partial' ? 'text-yellow-700' :
-                        'text-gray-700'
-                      }`}>
-                        {getStatusDisplay(invoice.status)}
-                      </span>
-                    </TableCell>
+                     <TableCell className="py-2">
+                       <div className="flex flex-col gap-1">
+                         <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
+                           invoice.status === 'paid' ? 'text-green-700' :
+                           invoice.status === 'sent' ? 'text-blue-700' :
+                           invoice.status === 'viewed' ? 'text-blue-700' :
+                           invoice.status === 'partial' ? 'text-yellow-700' :
+                           'text-gray-700'
+                         }`}>
+                           {getStatusDisplay(invoice.status)}
+                         </span>
+                         <DocumentEventsBadge documentId={invoice.id} compact />
+                       </div>
+                     </TableCell>
                   </TableRow>
                 )
               })
@@ -475,6 +480,30 @@ export function InvoicesPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Document Event Timeline Modal */}
+      {selectedInvoiceId && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-background rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold">Invoice Activity Timeline</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedInvoiceId(null)}
+                >
+                  ✕
+                </Button>
+              </div>
+              <DocumentEventTimeline 
+                documentId={selectedInvoiceId} 
+                documentType="invoice" 
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
