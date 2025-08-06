@@ -13,6 +13,7 @@ interface SignInFormProps {
   loading: boolean
   errors: string[]
   onSubmit: (e: React.FormEvent) => void
+  onGoogleSignIn: () => void
   onForgotPassword: () => void
   onSwitchToSignUp: () => void
 }
@@ -25,6 +26,7 @@ export function SignInForm({
   loading,
   errors,
   onSubmit,
+  onGoogleSignIn,
   onForgotPassword,
   onSwitchToSignUp
 }: SignInFormProps) {
@@ -38,6 +40,8 @@ export function SignInForm({
         <Button
           type="button"
           variant="outline"
+          onClick={onGoogleSignIn}
+          disabled={loading}
           className="w-full h-12 rounded-lg font-normal text-sm border-border hover:bg-accent"
         >
           <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">

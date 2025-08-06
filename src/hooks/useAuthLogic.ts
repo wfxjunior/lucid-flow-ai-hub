@@ -251,6 +251,33 @@ export function useAuthLogic() {
     }
   }
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true)
+    clearErrors()
+    
+    try {
+      console.log('Attempting Google sign in')
+      
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: getRedirectUrl()
+        }
+      })
+
+      if (error) {
+        console.error('Google sign in error:', error)
+        addError(`Erro no login com Google: ${error.message}`)
+      }
+      // Note: For OAuth, the user will be redirected and we won't reach this point
+    } catch (error: any) {
+      console.error('Unexpected Google sign in error:', error)
+      addError('Erro inesperado no login com Google. Tente novamente.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return {
     mode,
     setMode,
@@ -265,84 +292,8 @@ export function useAuthLogic() {
     selectedCountry,
     setSelectedCountry,
     handleSignIn,
-    handleSignUp: async (e: React.FormEvent) => {
-      e.preventDefault()
-      clearErrors()
-
-      if (!validateEmail(email)) {
-        addError(getLocalizedMessage('invalid_email'))
-        return
-      }
-
-      if (!validatePassword(password)) {
-        addError(getLocalizedMessage('weak_password'))
-        return
-      }
-
-      if (password !== confirmPassword) {
-        addError(getLocalizedMessage('password_mismatch'))
-        return
-      }
-
-      setLoading(true)
-      
-      try {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: getRedirectUrl()
-          }
-        })
-
-        if (error) {
-          if (error.message.includes('User already registered')) {
-            addError(getLocalizedMessage('user_exists'))
-          } else {
-            addError(error.message)
-          }
-        } else {
-          await sendWelcomeEmail(email)
-          toast.success(getLocalizedMessage('signup_success'))
-          setMode('signin')
-          setPassword('')
-          setConfirmPassword('')
-        }
-      } catch (error) {
-        console.error('Sign up error:', error)
-        addError(getLocalizedMessage('unexpected_error'))
-      } finally {
-        setLoading(false)
-      }
-    },
-    handleForgotPassword: async (e: React.FormEvent) => {
-      e.preventDefault()
-      clearErrors()
-
-      if (!validateEmail(email)) {
-        addError(getLocalizedMessage('invalid_email'))
-        return
-      }
-
-      setLoading(true)
-      
-      try {
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: getRedirectUrl()
-        })
-
-        if (error) {
-          addError(error.message)
-        } else {
-          toast.success(getLocalizedMessage('reset_sent'))
-          setMode('signin')
-        }
-      } catch (error) {
-        console.error('Password reset error:', error)
-        addError(getLocalizedMessage('unexpected_error'))
-      } finally {
-        setLoading(false)
-      }
-    }
+    handleGoogleSignIn,
+    handleSignUp,
+    handleForgotPassword
   }
 }

@@ -22,7 +22,8 @@ export function AuthContainer() {
     setSelectedCountry,
     handleSignIn,
     handleSignUp,
-    handleForgotPassword
+    handleForgotPassword,
+    handleGoogleSignIn
   } = useAuthLogic()
 
   const getAuthContent = () => {
@@ -41,6 +42,7 @@ export function AuthContainer() {
               loading={loading}
               errors={errors}
               onSubmit={handleSignIn}
+              onGoogleSignIn={handleGoogleSignIn}
               onForgotPassword={() => setMode('forgot-password')}
               onSwitchToSignUp={() => setMode('signup')}
             />
