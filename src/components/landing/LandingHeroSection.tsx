@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -14,18 +14,40 @@ import Autoplay from "embla-carousel-autoplay";
 
 export const LandingHeroSection = () => {
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+  
   
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section ref={sectionRef} className="relative overflow-hidden bg-white">
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="pt-20 pb-16 sm:pt-24 sm:pb-20 lg:pt-32 lg:pb-28">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+        <div className="pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
             
             {/* Left Column - Content */}
-            <div className="lg:col-span-6">
+            <div className={`lg:col-span-6 transition-all duration-1000 ${
+              isVisible ? 'animate-fade-in opacity-100' : 'opacity-0 translate-y-8'
+            }`}>
               <div className="max-w-2xl mx-auto lg:mx-0">
                 
                 {/* Badge */}
@@ -35,29 +57,26 @@ export const LandingHeroSection = () => {
                 </div>
                 
                 {/* Main Headline */}
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-6">
-                  Build Smarter.
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-6">
+                  The business platform behind
                   <br />
-                  <span className="text-blue-600">Run Faster.</span>
-                  <br />
-                  Grow Stronger.
+                  <span className="text-blue-600">thousands of companies.</span>
                 </h1>
                 
                 {/* Subheadline */}
-                <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed mb-10 font-light">
-                  An all-in-one AI-powered platform to manage quotes, appointments, 
+                <p className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-8 font-light">
+                  FeatherBiz is the AI-powered platform to manage quotes, appointments, 
                   smart schedules, and full project workflows.
                 </p>
                 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   <Button
                     size="lg"
                     onClick={() => navigate('/auth')}
-                    className="h-14 px-8 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="h-12 px-6 text-base font-semibold bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-all duration-200"
                   >
-                    Start Free Trial
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                    Start for free
                   </Button>
                   
                   <Button
@@ -69,10 +88,9 @@ export const LandingHeroSection = () => {
                         pricingSection.scrollIntoView({ behavior: "smooth" });
                       }
                     }}
-                    className="h-14 px-8 text-base font-semibold border-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl transition-all duration-200"
+                    className="h-12 px-6 text-base font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg transition-all duration-200"
                   >
-                    <Play className="mr-2 w-5 h-5" />
-                    View Pricing
+                    Talk to sales
                   </Button>
                 </div>
                 
@@ -95,7 +113,9 @@ export const LandingHeroSection = () => {
             </div>
             
             {/* Right Column - Dashboard Carousel */}
-            <div className="lg:col-span-6 mt-16 lg:mt-0">
+            <div className={`lg:col-span-6 mt-12 lg:mt-0 transition-all duration-1000 delay-300 ${
+              isVisible ? 'animate-fade-in opacity-100' : 'opacity-0 translate-y-8'
+            }`}>
               <div className="relative">
                 {/* Dashboard carousel */}
                 <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
