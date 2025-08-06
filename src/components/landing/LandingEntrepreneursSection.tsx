@@ -61,12 +61,19 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
 
 export const LandingEntrepreneursSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [animationStopped, setAnimationStopped] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting && !animationStopped) {
+          // Stop animations after 5 seconds
+          setTimeout(() => {
+            setAnimationStopped(true);
+          }, 5000);
+        }
       },
       {
         threshold: 0.2,
@@ -84,7 +91,7 @@ export const LandingEntrepreneursSection = () => {
         observer.unobserve(section);
       }
     };
-  }, []);
+  }, [animationStopped]);
 
   return (
     <section 
@@ -98,17 +105,17 @@ export const LandingEntrepreneursSection = () => {
           {entrepreneurs.map((entrepreneur, index) => (
             <div
               key={entrepreneur.id}
-              className={`absolute transition-all duration-700 animate-float ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+              className={`absolute transition-all duration-700 ${!animationStopped ? 'animate-float' : ''} ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
               style={{
                 left: `${entrepreneur.left}%`,
                 top: `${entrepreneur.top}%`,
                 transform: 'translate(-50%, -50%)',
                 transitionDelay: isVisible ? `${index * 8}ms` : '0ms',
-                animationDelay: `${entrepreneur.floatDelay}s`,
-                animationDuration: `${entrepreneur.duration}s`
+                animationDelay: !animationStopped ? `${entrepreneur.floatDelay}s` : '0s',
+                animationDuration: !animationStopped ? `${entrepreneur.duration}s` : '0s'
               }}
             >
-              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-125 hover:rotate-3 border border-border/20 shadow-lg hover:shadow-xl animate-pulse-subtle`}>
+              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-125 hover:rotate-3 border border-border/20 shadow-lg hover:shadow-xl ${!animationStopped ? 'animate-pulse-subtle' : ''}`}>
                 <AvatarImage
                   src={entrepreneur.avatar}
                   alt={`Entrepreneur ${entrepreneur.initials}`}
