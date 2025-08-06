@@ -1,138 +1,151 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
   {
     name: "Sarah Johnson",
-    role: "CEO, TechStart Inc.",
-    content: "FeatherBiz transformed our operations. We've increased efficiency by 40% and our team loves the intuitive interface.",
+    role: "CEO, Johnson & Associates",
+    content: "When I first opened FeatherBiz, I instantly got the feeling this was the next generation of business management. The AI features and seamless workflow have transformed how we operate.",
     rating: 5,
-    avatar: "/lovable-uploads/9213baaa-a963-4cd9-974c-b7ebfdd1f554.png"
+    avatar: "/lovable-uploads/733fa02a-f5d0-4471-9c97-7531308e03fe.png"
   },
   {
     name: "Michael Chen",
-    role: "Freelance Designer",
-    content: "As a solo entrepreneur, FeatherBiz gives me enterprise-level tools without the complexity. Perfect for growing businesses.",
+    role: "Founder, TechStart Solutions",
+    content: "FeatherBiz has completely revolutionized our business operations. The automation features save us hours every day, and the analytics provide insights we never had before.",
     rating: 5,
-    avatar: "/lovable-uploads/921ec0de-4f91-49eb-9f68-bdfefce23f2b.png"
+    avatar: "/lovable-uploads/7a102a7a-627f-4e37-8289-eb773ea34d55.png"
   },
   {
-    name: "Emily Rodriguez",
-    role: "Operations Manager",
-    content: "The automation features save us hours every week. It's like having an extra team member that never sleeps.",
+    name: "Elena Rodriguez",
+    role: "Operations Manager, GrowthCorp",
+    content: "The most intuitive business platform I've ever used. Everything just works seamlessly together - from project management to financial tracking.",
     rating: 5,
-    avatar: "/lovable-uploads/94a8f69c-f543-4b11-9bf7-8a3bb6f92f0f.png"
-  },
-  {
-    name: "David Thompson",
-    role: "Small Business Owner",
-    content: "I was skeptical about switching platforms, but FeatherBiz made the transition seamless. Our productivity has never been higher.",
-    rating: 5,
-    avatar: "/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png"
+    avatar: "/lovable-uploads/8ce55bd9-24d8-4ad9-9f66-9dee70c7954c.png"
   }
-];
-
-const partnerLogos = [
-  { name: "TechNova", img: "/lovable-uploads/photo-1488590528505-98d2b5aba04b.png" },
-  { name: "Graystone", img: "/lovable-uploads/photo-1527576539890-dfa815648363.png" },
-  { name: "EcoDeer", img: "/lovable-uploads/photo-1485833077593-4278bba3f11f.png" },
-  { name: "SheepCloud", img: "/lovable-uploads/photo-1452960962994-acf4fd70b632.png" },
 ];
 
 export const LandingTestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const section = document.getElementById('testimonials-section');
+    if (section) {
+      observer.observe(section);
+    }
+
+    return () => {
+      if (section) {
+        observer.unobserve(section);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    }, 6000);
+
     return () => clearInterval(timer);
   }, []);
 
   const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
   };
 
   const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
   };
 
-  return (
-    <section id="testimonials" className="py-20 sm:py-24 lg:py-32 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-50 border border-green-100 text-green-700 text-sm font-medium mb-6">
-            Customer Stories
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-            Loved by businesses
-            <br />
-            <span className="text-blue-600">everywhere</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
-            Trusted by <span className="font-semibold text-blue-600">100+ entrepreneurs</span> who've transformed their business operations
-          </p>
-        </div>
+  const currentTestimonial = testimonials[currentIndex];
 
-        {/* Testimonials Slider */}
-        <div className="relative max-w-4xl mx-auto mb-20">
-          <div className="bg-white rounded-3xl shadow-lg border border-gray-200 p-8 sm:p-12">
-            <div className="flex items-center mb-6">
-              {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+  return (
+    <section id="testimonials" className="py-24 lg:py-32 bg-muted/20">
+      <div id="testimonials-section" className="max-w-4xl mx-auto px-6 text-center">
+        
+        {/* Featured Testimonial */}
+        <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="mb-8">
+            <div className="flex justify-center mb-6">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 fill-foreground text-foreground" />
               ))}
             </div>
             
-            <blockquote className="text-xl sm:text-2xl text-gray-700 leading-relaxed mb-8 font-light">
-              &ldquo;{testimonials[currentIndex].content}&rdquo;
+            <blockquote className="text-2xl lg:text-3xl font-medium text-foreground mb-8 leading-relaxed">
+              "{currentTestimonial.content}"
             </blockquote>
             
-            <div className="flex items-center">
+            <div className="flex items-center justify-center gap-4">
               <img
-                src={testimonials[currentIndex].avatar}
-                alt={testimonials[currentIndex].name}
-                className="w-12 h-12 rounded-full object-cover mr-4"
+                src={currentTestimonial.avatar}
+                alt={currentTestimonial.name}
+                className="w-12 h-12 rounded-full object-cover border-2 border-border/20"
               />
-              <div>
-                <div className="font-semibold text-gray-900">{testimonials[currentIndex].name}</div>
-                <div className="text-gray-600">{testimonials[currentIndex].role}</div>
+              <div className="text-left">
+                <div className="font-semibold text-foreground">{currentTestimonial.name}</div>
+                <div className="text-muted-foreground text-sm">{currentTestimonial.role}</div>
               </div>
             </div>
           </div>
           
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevTestimonial}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors shadow-lg"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
-          </button>
-          
-          <button
-            onClick={nextTestimonial}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors shadow-lg"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
-          </button>
-          
-          {/* Dots Indicator */}
-          <div className="flex justify-center mt-8 gap-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'
-                }`}
-              />
-            ))}
+          {/* Navigation */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <button
+              onClick={prevTestimonial}
+              className="p-2 rounded-full border border-border/50 hover:border-border hover:bg-muted/50 transition-colors"
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            
+            <div className="flex gap-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    index === currentIndex ? 'bg-foreground' : 'bg-muted-foreground/30'
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            <button
+              onClick={nextTestimonial}
+              className="p-2 rounded-full border border-border/50 hover:border-border hover:bg-muted/50 transition-colors"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
-        
+        {/* Trusted by section */}
+        <div className={`mt-16 pt-16 border-t border-border/20 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className="text-sm text-muted-foreground mb-8 font-medium">
+            Trusted by thousands of businesses worldwide
+          </p>
+          <div className="flex justify-center items-center gap-8 opacity-60">
+            <div className="text-lg font-bold text-muted-foreground">TechCorp</div>
+            <div className="text-lg font-bold text-muted-foreground">GrowthCo</div>
+            <div className="text-lg font-bold text-muted-foreground">InnovateLab</div>
+            <div className="text-lg font-bold text-muted-foreground">ScaleUp</div>
+          </div>
+        </div>
       </div>
     </section>
   );

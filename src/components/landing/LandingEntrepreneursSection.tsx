@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 // Import entrepreneur photos
 import entrepreneur01 from "@/assets/entrepreneurs/entrepreneur-01.jpg";
@@ -18,9 +20,9 @@ const basePhotos = [
 ];
 
 // Generate fewer entrepreneurs for a cleaner look like Attio
-const entrepreneurs = Array.from({ length: 60 }, (_, i) => {
+const entrepreneurs = Array.from({ length: 40 }, (_, i) => {
   const sizes = ['w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
-  const sizeWeights = [0.3, 0.5, 0.2]; // Mostly small to medium sizes
+  const sizeWeights = [0.4, 0.4, 0.2]; // Mostly small to medium sizes
   
   let randomSize = Math.random();
   let cumulativeWeight = 0;
@@ -39,14 +41,15 @@ const entrepreneurs = Array.from({ length: 60 }, (_, i) => {
     initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
     avatar: basePhotos[i % basePhotos.length],
     size: selectedSize,
-    left: Math.random() * 85 + 7.5, // More centered distribution
-    top: Math.random() * 70 + 15, // More centered distribution
+    left: Math.random() * 80 + 10, // More centered distribution
+    top: Math.random() * 60 + 20, // More centered distribution
     delay: Math.random() * 1.5, // Faster animations
   };
 });
 
 export const LandingEntrepreneursSection = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,12 +77,12 @@ export const LandingEntrepreneursSection = () => {
   return (
     <section 
       id="entrepreneurs-wall" 
-      className="py-20 sm:py-24 lg:py-32 bg-white relative overflow-hidden"
+      className="py-24 lg:py-32 bg-background relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-6">
         
         {/* Entrepreneurs Cloud - positioned above text like Attio */}
-        <div className={`relative h-80 sm:h-96 lg:h-[420px] max-w-5xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`relative h-72 lg:h-96 max-w-4xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {entrepreneurs.map((entrepreneur, index) => (
             <div
               key={entrepreneur.id}
@@ -88,17 +91,17 @@ export const LandingEntrepreneursSection = () => {
                 left: `${entrepreneur.left}%`,
                 top: `${entrepreneur.top}%`,
                 transform: 'translate(-50%, -50%)',
-                transitionDelay: isVisible ? `${index * 20}ms` : '0ms'
+                transitionDelay: isVisible ? `${index * 25}ms` : '0ms'
               }}
             >
-              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-110 border-2 border-white shadow-sm grayscale-[0.3] hover:grayscale-0`}>
+              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-110 border border-border/20 shadow-sm`}>
                 <AvatarImage
                   src={entrepreneur.avatar}
                   alt={`Entrepreneur ${entrepreneur.initials}`}
-                  className="object-cover"
+                  className="object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-300"
                   loading="lazy"
                 />
-                <AvatarFallback className="bg-gray-100 text-gray-600 text-xs font-medium">
+                <AvatarFallback className="bg-muted text-muted-foreground text-xs font-medium">
                   {entrepreneur.initials}
                 </AvatarFallback>
               </Avatar>
@@ -108,18 +111,23 @@ export const LandingEntrepreneursSection = () => {
 
         {/* Section Header - positioned below like Attio */}
         <div className={`text-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            The platform behind
-            <br />
-            <span className="text-gray-600">thousands of businesses.</span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-[1.1]">
+            The platform behind{" "}
+            <span className="text-muted-foreground">thousands of businesses.</span>
           </h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+            <Button
+              onClick={() => navigate('/auth')}
+              className="bg-foreground text-background hover:bg-foreground/90 px-8 py-3 rounded-lg font-medium"
+            >
               Start for free
-            </button>
-            <button className="text-gray-600 px-6 py-3 font-medium hover:text-gray-900 transition-colors">
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-muted-foreground hover:text-foreground px-8 py-3 font-medium"
+            >
               Talk to sales
-            </button>
+            </Button>
           </div>
         </div>
         

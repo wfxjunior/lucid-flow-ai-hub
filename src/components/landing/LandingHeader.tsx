@@ -2,29 +2,35 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 
 export const LandingHeader = () => {
   const navigate = useNavigate();
   
   return (
-    <header className="w-full border-b border-gray-200 bg-white/95 backdrop-blur-lg sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-2 sm:px-4 lg:px-6 py-4">
+    <header className="w-full border-b border-border/20 bg-background/80 backdrop-blur-md sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-primary tracking-tight">FeatherBiz</span>
+        <div className="flex items-center">
+          <span className="text-2xl font-bold text-foreground tracking-tight">FeatherBiz</span>
         </div>
         
         {/* Navigation - Hidden on mobile */}
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-            Features
+        <nav className="hidden lg:flex items-center gap-8">
+          <div className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+            <span className="font-medium">Platform</span>
+            <ChevronDown className="h-4 w-4" />
+          </div>
+          <div className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+            <span className="font-medium">Resources</span>
+            <ChevronDown className="h-4 w-4" />
+          </div>
+          <a href="#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
+            Customers
           </a>
-          <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+          <a href="#pricing" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
             Pricing
-          </a>
-          <a href="#testimonials" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-            Testimonials
           </a>
         </nav>
         
@@ -33,15 +39,15 @@ export const LandingHeader = () => {
           <Button
             variant="ghost"
             onClick={() => navigate('/auth')}
-            className="text-gray-600 hover:text-gray-900 font-medium"
+            className="text-muted-foreground hover:text-foreground font-medium px-4"
           >
             Sign in
           </Button>
           <Button
             onClick={() => navigate('/auth')}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 rounded-xl"
+            className="bg-foreground text-background hover:bg-foreground/90 font-medium px-6 rounded-lg"
           >
-            Get Started
+            Start for free
           </Button>
         </div>
         

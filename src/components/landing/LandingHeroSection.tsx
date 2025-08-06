@@ -1,8 +1,8 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { ArrowRight, Play } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -14,158 +14,102 @@ import Autoplay from "embla-carousel-autoplay";
 
 export const LandingHeroSection = () => {
   const navigate = useNavigate();
-  
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const dashboardImages = [
+    "/lovable-uploads/0e5059d6-0019-4810-aa5e-28488bd3ebfe.png",
+    "/lovable-uploads/2e975bb9-3a42-496b-8c01-507136c52a4c.png",
+    "/lovable-uploads/36da8739-abc7-467e-b8f4-e09735240256.png",
+    "/lovable-uploads/5aec6b5d-82e3-44ec-ae90-7c0ac72ba3b4.png",
+  ];
+
   return (
-    <section className="relative overflow-hidden bg-white">
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30"></div>
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="pt-20 pb-16 sm:pt-24 sm:pb-20 lg:pt-32 lg:pb-28">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
-            
-            {/* Left Column - Content */}
-            <div className="lg:col-span-6">
-              <div className="max-w-2xl mx-auto lg:mx-0">
-                
-                {/* Badge */}
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium mb-8">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                  All-in-One Business Platform
+    <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 bg-gradient-to-b from-background to-muted/20">
+      {/* Announcement Banner */}
+      <div className={`text-center mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full border border-border/50 text-sm text-muted-foreground hover:bg-muted/70 transition-colors cursor-pointer">
+          <span>FeatherBiz for desktop is here</span>
+          <ArrowRight className="h-3 w-3" />
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Main Headline */}
+          <h1 className={`text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-[1.1] transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            Business management{" "}
+            <span className="text-muted-foreground">magic.</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className={`text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <Button
+              onClick={() => navigate('/auth')}
+              className="bg-foreground text-background hover:bg-foreground/90 font-medium px-8 py-3 rounded-lg text-base"
+            >
+              Start for free
+            </Button>
+            <Button
+              variant="outline"
+              className="font-medium px-8 py-3 rounded-lg text-base border-border/50 hover:border-border hover:bg-muted/50"
+            >
+              <Play className="h-4 w-4 mr-2" />
+              Talk to sales
+            </Button>
+          </div>
+
+          {/* Feature Tags */}
+          <div className={`flex flex-wrap justify-center gap-6 mb-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {["Data", "Automations", "Pipeline", "Productivity", "Reporting"].map((feature, index) => (
+              <div key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="w-4 h-4 rounded border border-border/50 flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
                 </div>
-                
-                {/* Main Headline */}
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-6">
-                  Build Smarter.
-                  <br />
-                  <span className="text-blue-600">Run Faster.</span>
-                  <br />
-                  Grow Stronger.
-                </h1>
-                
-                {/* Subheadline */}
-                <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed mb-10 font-light">
-                  An all-in-one AI-powered platform to manage quotes, appointments, 
-                  smart schedules, and full project workflows.
-                </p>
-                
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                  <Button
-                    size="lg"
-                    onClick={() => navigate('/auth')}
-                    className="h-14 px-8 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-                  >
-                    Start Free Trial
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => {
-                      const pricingSection = document.getElementById("pricing");
-                      if (pricingSection) {
-                        pricingSection.scrollIntoView({ behavior: "smooth" });
-                      }
-                    }}
-                    className="h-14 px-8 text-base font-semibold border-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl transition-all duration-200"
-                  >
-                    <Play className="mr-2 w-5 h-5" />
-                    View Pricing
-                  </Button>
-                </div>
-                
-                {/* Trust Indicators */}
-                <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    No credit card required
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    Free forever plan
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    2-minute setup
-                  </div>
-                </div>
+                <span className="font-medium">{feature}</span>
               </div>
+            ))}
+          </div>
+
+          {/* Dashboard Preview */}
+          <div className={`relative max-w-5xl mx-auto transition-all duration-1000 delay-900 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+            <div className="relative rounded-xl overflow-hidden border border-border/20 shadow-2xl bg-background">
+              <Carousel
+                plugins={[
+                  Autoplay({
+                    delay: 4000,
+                    stopOnInteraction: false,
+                  }),
+                ]}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {dashboardImages.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <div className="relative aspect-[16/10] w-full">
+                        <img
+                          src={image}
+                          alt={`Dashboard Preview ${index + 1}`}
+                          className="w-full h-full object-cover"
+                          loading={index === 0 ? "eager" : "lazy"}
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
             </div>
             
-            {/* Right Column - Dashboard Carousel */}
-            <div className="lg:col-span-6 mt-16 lg:mt-0">
-              <div className="relative">
-                {/* Dashboard carousel */}
-                <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
-                  <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center gap-2">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                    </div>
-                    <div className="ml-4 text-sm text-gray-500">FeatherBiz Dashboard</div>
-                  </div>
-                  
-                  <div className="p-0">
-                    <Carousel
-                      plugins={[
-                        Autoplay({
-                          delay: 4000,
-                        }),
-                      ]}
-                      className="w-full"
-                    >
-                      <CarouselContent>
-                        <CarouselItem>
-                          <img
-                            src="/lovable-uploads/d2be4c9e-3be5-4c4a-9024-0684a9c097c9.png"
-                            alt="Dashboard Overview - Quick Actions Grid"
-                            className="w-full h-auto object-cover"
-                          />
-                        </CarouselItem>
-                        <CarouselItem>
-                          <img
-                            src="/lovable-uploads/fdbb83e9-5346-40f8-aaca-92a742f58384.png"
-                            alt="Client Projects Management"
-                            className="w-full h-auto object-cover"
-                          />
-                        </CarouselItem>
-                        <CarouselItem>
-                          <img
-                            src="/lovable-uploads/eac2b331-42fb-4a74-aae1-148fca28691a.png"
-                            alt="Sales Pipeline Overview"
-                            className="w-full h-auto object-cover"
-                          />
-                        </CarouselItem>
-                        <CarouselItem>
-                          <img
-                            src="/lovable-uploads/2e975bb9-3a42-496b-8c01-507136c52a4c.png"
-                            alt="Smart Schedule System"
-                            className="w-full h-auto object-cover"
-                          />
-                        </CarouselItem>
-                        <CarouselItem>
-                          <img
-                            src="/lovable-uploads/921ec0de-4f91-49eb-9f68-bdfefce23f2b.png"
-                            alt="Export to Tax Software"
-                            className="w-full h-auto object-cover"
-                          />
-                        </CarouselItem>
-                      </CarouselContent>
-                      <CarouselPrevious className="left-2" />
-                      <CarouselNext className="right-2" />
-                    </Carousel>
-                  </div>
-                </div>
-                
-                {/* Floating elements */}
-                <div className="absolute -top-4 -left-4 w-16 h-16 bg-blue-500 rounded-xl opacity-20 blur-xl"></div>
-                <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-purple-500 rounded-xl opacity-20 blur-xl"></div>
-              </div>
-            </div>
-            
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-background/10 to-transparent pointer-events-none" />
           </div>
         </div>
       </div>

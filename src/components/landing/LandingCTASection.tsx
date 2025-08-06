@@ -1,62 +1,83 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Shield, Clock, Star } from "lucide-react";
 
 export const LandingCTASection = () => {
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const section = document.getElementById('cta-section');
+    if (section) {
+      observer.observe(section);
+    }
+
+    return () => {
+      if (section) {
+        observer.unobserve(section);
+      }
+    };
+  }, []);
 
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 relative overflow-hidden">
-      
+    <section id="cta-section" className="py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-      </div>
+      <div className="absolute inset-0 bg-grid-black/[0.02] bg-grid-pattern" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-        
-        {/* Main Headline */}
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-          Start your smarter business
-          <br />
-          journey today
-        </h2>
-        
-        <p className="text-xl sm:text-2xl mb-12 text-blue-100 leading-relaxed font-light max-w-3xl mx-auto">
-          Join thousands of businesses that have already transformed their operations with FeatherBiz
-        </p>
-        
-        {/* CTA Button */}
-        <Button
-          onClick={() => navigate('/auth')}
-          size="lg"
-          className="h-16 px-10 text-lg font-semibold bg-white text-blue-600 hover:bg-gray-50 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 mb-8"
-        >
-          Try Free – No Card Required
-          <ArrowRight className="ml-3 w-6 h-6" />
-        </Button>
-        
-        {/* Trust Indicators */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-blue-100">
-          <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5" />
-            <span className="text-sm font-medium">Enterprise-grade security</span>
+      <div className="max-w-4xl mx-auto px-6 text-center relative">
+        <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          
+          {/* Main Headline */}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-[1.1]">
+            Ready to transform{" "}
+            <span className="text-muted-foreground">your business?</span>
+          </h2>
+          
+          {/* Subtitle */}
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            Join thousands of businesses already using FeatherBiz to streamline operations, boost productivity, and drive growth.
+          </p>
+          
+          {/* CTA Button */}
+          <div className="mb-8">
+            <Button
+              onClick={() => navigate('/auth')}
+              className="bg-foreground text-background hover:bg-foreground/90 px-12 py-4 rounded-lg font-medium text-lg"
+            >
+              Start your free trial
+            </Button>
           </div>
-          <div className="flex items-center gap-3">
-            <Zap className="w-5 h-5" />
-            <span className="text-sm font-medium">Setup in under 2 minutes</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
+          
+          {/* Trust Indicators */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              <span>Enterprise-grade security</span>
             </div>
-            <span className="text-sm font-medium">Free forever plan available</span>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>5-minute setup</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Star className="h-4 w-4" />
+              <span>Free forever plan available</span>
+            </div>
           </div>
+          
         </div>
-        
       </div>
     </section>
   );

@@ -1,115 +1,160 @@
 
-import React from "react";
-import { 
-  FileText, 
-  Calendar, 
-  Clock, 
-  Package, 
-  Users, 
-  Car, 
-  Camera, 
-  BarChart3, 
-  Sparkles 
+import React, { useState, useEffect } from "react";
+import {
+  FileText,
+  Users,
+  Calendar,
+  BarChart3,
+  MessageSquare,
+  DollarSign,
+  Settings,
+  Truck,
+  CreditCard,
+  Building2,
+  Clock,
+  Target
 } from "lucide-react";
 
 const features = [
   {
     icon: FileText,
-    title: "Invoice & Estimate Generator",
-    description: "Send professional documents in seconds"
-  },
-  {
-    icon: Calendar,
-    title: "Appointments",
-    description: "Bookings synced with your calendar"
-  },
-  {
-    icon: Clock,
-    title: "Smart Schedule",
-    description: "Track jobs, assign workers, and visualize workload"
-  },
-  {
-    icon: Package,
-    title: "Material Tracker",
-    description: "Monitor supply usage and delivery status"
+    title: "Document Management",
+    description: "Create, manage, and track all your business documents from estimates to invoices."
   },
   {
     icon: Users,
-    title: "CRM Lite",
-    description: "Manage leads, customers, and sales stages"
+    title: "Customer Relations",
+    description: "Comprehensive CRM to manage your customers and build lasting relationships."
   },
   {
-    icon: Car,
-    title: "Car Rental Manager",
-    description: "Fleet, clients, documents, and billing in one place"
-  },
-  {
-    icon: Camera,
-    title: "Photo Timeline",
-    description: "Visual job progress with client-shareable pages"
+    icon: Calendar,
+    title: "Smart Scheduling",
+    description: "AI-powered scheduling and appointment management system."
   },
   {
     icon: BarChart3,
-    title: "Project Dashboard",
-    description: "View everything from costs to tasks at a glance"
+    title: "Business Analytics",
+    description: "Real-time insights and analytics to drive your business decisions."
   },
   {
-    icon: Sparkles,
-    title: "AI Business Tools",
-    description: "Use built-in smart docs for invoices, contracts, and more"
+    icon: MessageSquare,
+    title: "Communication Hub",
+    description: "Centralized messaging and communication tools for your team."
+  },
+  {
+    icon: DollarSign,
+    title: "Financial Tracking",
+    description: "Complete financial management from payments to accounting."
+  },
+  {
+    icon: Settings,
+    title: "Workflow Automation",
+    description: "Automate repetitive tasks and streamline your business processes."
+  },
+  {
+    icon: Truck,
+    title: "Project Management",
+    description: "End-to-end project tracking and management capabilities."
+  },
+  {
+    icon: CreditCard,
+    title: "Payment Processing",
+    description: "Secure payment processing and invoice management."
+  },
+  {
+    icon: Building2,
+    title: "Multi-Business Support",
+    description: "Manage multiple business entities from a single platform."
+  },
+  {
+    icon: Clock,
+    title: "Time Tracking",
+    description: "Track time, productivity, and team performance."
+  },
+  {
+    icon: Target,
+    title: "Goal Management",
+    description: "Set, track, and achieve your business goals and targets."
   }
 ];
 
-export const LandingFeaturesSection = () => (
-  <section id="features" className="py-20 sm:py-24 lg:py-32 bg-white">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      {/* Section Header */}
-      <div className="text-center mb-16 sm:mb-20">
-        <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm font-medium mb-6">
-          Everything You Need
+export const LandingFeaturesSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const section = document.getElementById('features-section');
+    if (section) {
+      observer.observe(section);
+    }
+
+    return () => {
+      if (section) {
+        observer.unobserve(section);
+      }
+    };
+  }, []);
+
+  return (
+    <section id="features" className="py-24 lg:py-32 bg-background">
+      <div id="features-section" className="max-w-7xl mx-auto px-6">
+        
+        {/* Section Header */}
+        <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
+            Everything your business needs,{" "}
+            <span className="text-muted-foreground">in one place.</span>
+          </h2>
+          <p className="text-xl text-muted-foreground leading-relaxed">
+            From customer management to financial tracking, FeatherBiz provides all the tools you need to run and grow your business efficiently.
+          </p>
         </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-          Powerful tools that work
-          <br />
-          <span className="text-blue-600">together seamlessly</span>
-        </h2>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          From invoicing to project management, everything you need to run your business efficiently
-        </p>
-      </div>
 
-      {/* Features Grid - 3x3 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        {features.map((feature, index) => (
-          <div
-            key={index}
-            className="group p-8 bg-white border border-gray-200 rounded-2xl hover:border-blue-200 hover:shadow-lg transition-all duration-300 text-center"
-          >
-            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors mx-auto">
-              <feature.icon className="w-6 h-6 text-blue-600" />
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <div
+              key={feature.title}
+              className={`group p-6 rounded-xl border border-border/50 hover:border-border transition-all duration-500 hover:shadow-lg bg-card/50 backdrop-blur-sm ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{
+                transitionDelay: isVisible ? `${index * 50}ms` : '0ms'
+              }}
+            >
+              <div className="flex items-start gap-4">
+                <div className="p-2 rounded-lg bg-muted/50 border border-border/50 group-hover:bg-muted transition-colors">
+                  <feature.icon className="h-5 w-5 text-foreground" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground mb-2 text-lg">
+                    {feature.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              {feature.title}
-            </h3>
-            <p className="text-gray-600 leading-relaxed">
-              {feature.description}
-            </p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Callout Text */}
-      <div className="text-center">
-        <div className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-100">
-          <p className="text-lg font-medium text-gray-700">
-            And that's just the beginning. FeatherBiz offers{" "}
-            <span className="text-blue-600 font-semibold">over 15 powerful tools</span>{" "}
-            designed to grow your business your way.
+        {/* Bottom CTA */}
+        <div className={`text-center mt-16 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <strong className="text-foreground">50+ integrated business tools</strong> designed to work together seamlessly, giving you the complete business management experience you've been looking for.
           </p>
         </div>
       </div>
-      
-    </div>
-  </section>
-);
+    </section>
+  );
+};
