@@ -12,15 +12,25 @@ import entrepreneur05 from "@/assets/entrepreneurs/entrepreneur-05.jpg";
 import entrepreneur06 from "@/assets/entrepreneurs/entrepreneur-06.jpg";
 import entrepreneur07 from "@/assets/entrepreneurs/entrepreneur-07.jpg";
 import entrepreneur08 from "@/assets/entrepreneurs/entrepreneur-08.jpg";
+import entrepreneur09 from "@/assets/entrepreneurs/entrepreneur-09.jpg";
+import entrepreneur10 from "@/assets/entrepreneurs/entrepreneur-10.jpg";
+import entrepreneur11 from "@/assets/entrepreneurs/entrepreneur-11.jpg";
+import entrepreneur12 from "@/assets/entrepreneurs/entrepreneur-12.jpg";
+import entrepreneur13 from "@/assets/entrepreneurs/entrepreneur-13.jpg";
+import entrepreneur14 from "@/assets/entrepreneurs/entrepreneur-14.jpg";
+import entrepreneur15 from "@/assets/entrepreneurs/entrepreneur-15.jpg";
+import entrepreneur16 from "@/assets/entrepreneurs/entrepreneur-16.jpg";
 
 // Base entrepreneur photos to cycle through
 const basePhotos = [
   entrepreneur01, entrepreneur02, entrepreneur03, entrepreneur04,
-  entrepreneur05, entrepreneur06, entrepreneur07, entrepreneur08
+  entrepreneur05, entrepreneur06, entrepreneur07, entrepreneur08,
+  entrepreneur09, entrepreneur10, entrepreneur11, entrepreneur12,
+  entrepreneur13, entrepreneur14, entrepreneur15, entrepreneur16
 ];
 
-// Generate fewer entrepreneurs for a cleaner look like Attio
-const entrepreneurs = Array.from({ length: 40 }, (_, i) => {
+// Generate more entrepreneurs like Attio's dense cloud
+const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
   const sizes = ['w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
   const sizeWeights = [0.4, 0.4, 0.2]; // Mostly small to medium sizes
   
