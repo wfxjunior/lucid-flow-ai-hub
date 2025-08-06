@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { MessageCircle, Send, X, Bot, User } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { MessageCircle, Send, X, Bot, User, Smile, Mail, Languages, ExternalLink } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { useAuthState } from "@/hooks/useAuthState"
 import { useLanguage } from "@/contexts/LanguageContext"
@@ -12,9 +14,14 @@ import { toast } from "sonner"
 
 interface Message {
   id: string
-  type: 'user' | 'bot'
+  type: 'user' | 'bot' | 'system'
   content: string
   timestamp: Date
+}
+
+interface LeadCapture {
+  name: string
+  email: string
 }
 
 interface FeatherBotProps {
@@ -28,10 +35,87 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [typingText, setTypingText] = useState("")
+  const [showLeadCapture, setShowLeadCapture] = useState(false)
+  const [leadData, setLeadData] = useState<LeadCapture>({ name: "", email: "" })
+  const [chatLanguage, setChatLanguage] = useState("en")
+  const [isBlinking, setIsBlinking] = useState(false)
+  const [idleTimer, setIdleTimer] = useState<NodeJS.Timeout | null>(null)
   const { user } = useAuthState()
   const { currentLanguage } = useLanguage()
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Languages support
+  const languages = {
+    en: "English",
+    es: "Español", 
+    pt: "Português",
+    fr: "Français",
+    de: "Deutsch",
+    zh: "中文"
+  }
+
+  // Suggested starter prompts by language
+  const starterPrompts = {
+    en: [
+      "What are the available plans?",
+      "How much does it cost monthly?", 
+      "Is there a free trial?",
+      "Can I cancel anytime?",
+      "Do you offer yearly billing?",
+      "What's the difference between each plan?"
+    ],
+    es: [
+      "¿Cuáles son los planes disponibles?",
+      "¿Cuánto cuesta mensualmente?",
+      "¿Hay una prueba gratuita?", 
+      "¿Puedo cancelar en cualquier momento?",
+      "¿Ofrecen facturación anual?",
+      "¿Cuál es la diferencia entre cada plan?"
+    ],
+    pt: [
+      "Quais são os planos disponíveis?",
+      "Quanto custa mensalmente?",
+      "Existe um teste gratuito?",
+      "Posso cancelar a qualquer momento?",
+      "Vocês oferecem cobrança anual?",
+      "Qual é a diferença entre cada plano?"
+    ],
+    fr: [
+      "Quels sont les plans disponibles?",
+      "Combien ça coûte par mois?",
+      "Y a-t-il un essai gratuit?",
+      "Puis-je annuler à tout moment?",
+      "Proposez-vous une facturation annuelle?",
+      "Quelle est la différence entre chaque plan?"
+    ],
+    de: [
+      "Welche Pläne sind verfügbar?",
+      "Wie viel kostet es monatlich?",
+      "Gibt es eine kostenlose Testversion?",
+      "Kann ich jederzeit kündigen?",
+      "Bieten Sie jährliche Abrechnung an?",
+      "Was ist der Unterschied zwischen den Plänen?"
+    ],
+    zh: [
+      "有哪些可用的计划？",
+      "每月费用是多少？",
+      "有免费试用吗？",
+      "我可以随时取消吗？",
+      "你们提供年度计费吗？",
+      "每个计划之间有什么区别？"
+    ]
+  }
+
+  // Greeting messages by language
+  const greetingMessages = {
+    en: "👋 Hi! Have questions about FeatherBiz plans or pricing? I can help!",
+    es: "👋 ¡Hola! ¿Tienes preguntas sobre los planes o precios de FeatherBiz? ¡Puedo ayudarte!",
+    pt: "👋 Olá! Tem dúvidas sobre os planos ou preços do FeatherBiz? Posso ajudar!",
+    fr: "👋 Salut! Des questions sur les plans ou tarifs de FeatherBiz? Je peux vous aider!",
+    de: "👋 Hallo! Fragen zu FeatherBiz-Plänen oder Preisen? Ich kann helfen!",
+    zh: "👋 你好！对FeatherBiz计划或定价有疑问？我可以帮助您！"
+  }
 
   // Auto scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -48,41 +132,98 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
       if (typingIntervalRef.current) {
         clearInterval(typingIntervalRef.current)
       }
+      if (idleTimer) {
+        clearTimeout(idleTimer)
+      }
     }
   }, [])
 
-  // Common greeting messages
-  const greetingMessages = [
-    "Hi there! 👋 I'm FeatherBot, your business assistant. How can I help you today?",
-    "Welcome back! 🌟 I'm here to help with your business management needs.",
-    "Hello! 💼 Need help with invoices, clients, or business insights? I'm here for you!",
-    "Hi! ✨ I can assist with everything from document tracking to financial insights.",
-    "Greetings! 🚀 Ready to streamline your business? Let's get started!"
-  ]
+  // Blinking animation effect
+  useEffect(() => {
+    const blinkInterval = setInterval(() => {
+      setIsBlinking(true)
+      setTimeout(() => setIsBlinking(false), 150)
+    }, 3000)
+
+    return () => clearInterval(blinkInterval)
+  }, [])
 
   // Load conversation history and show greeting
   useEffect(() => {
-    if (isOpen && user) {
-      loadConversationHistory()
+    if (isOpen) {
+      if (user) {
+        loadConversationHistory()
+      }
       showGreetingMessage()
+      resetIdleTimer()
     }
-  }, [isOpen, user])
+  }, [isOpen, chatLanguage])
+
+  // Reset idle timer on user activity
+  const resetIdleTimer = () => {
+    if (idleTimer) {
+      clearTimeout(idleTimer)
+    }
+    
+    const timer = setTimeout(() => {
+      if (isOpen && !showLeadCapture) {
+        const idleMessage: Message = {
+          id: `idle-${Date.now()}`,
+          type: 'bot',
+          content: getIdleMessage(),
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, idleMessage])
+        setShowLeadCapture(true)
+      }
+    }, 20000) // 20 seconds
+    
+    setIdleTimer(timer)
+  }
+
+  const getIdleMessage = () => {
+    const messages = {
+      en: "Would you like to leave your email so we can follow up with you?",
+      es: "¿Te gustaría dejar tu email para que podamos contactarte?",
+      pt: "Gostaria de deixar seu email para que possamos entrar em contato?",
+      fr: "Aimeriez-vous laisser votre email pour qu'on puisse vous recontacter?",
+      de: "Möchten Sie Ihre E-Mail hinterlassen, damit wir Sie kontaktieren können?",
+      zh: "您愿意留下您的邮箱以便我们跟进吗？"
+    }
+    return messages[chatLanguage as keyof typeof messages] || messages.en
+  }
 
   const showGreetingMessage = () => {
     if (messages.length === 0) {
-      const randomGreeting = greetingMessages[Math.floor(Math.random() * greetingMessages.length)]
+      const greeting = greetingMessages[chatLanguage as keyof typeof greetingMessages] || greetingMessages.en
       setTimeout(() => {
-        typeMessage(randomGreeting, () => {
+        typeMessage(greeting, () => {
           const greetingMessage: Message = {
             id: `greeting-${Date.now()}`,
             type: 'bot',
-            content: randomGreeting,
+            content: greeting,
             timestamp: new Date()
           }
           setMessages(prev => [...prev, greetingMessage])
+          
+          // Show starter prompts after greeting
+          setTimeout(() => {
+            showStarterPrompts()
+          }, 1000)
         })
       }, 500)
     }
+  }
+
+  const showStarterPrompts = () => {
+    const prompts = starterPrompts[chatLanguage as keyof typeof starterPrompts] || starterPrompts.en
+    const promptsMessage: Message = {
+      id: `prompts-${Date.now()}`,
+      type: 'system',
+      content: JSON.stringify(prompts.slice(0, 3)), // Show first 3 prompts
+      timestamp: new Date()
+    }
+    setMessages(prev => [...prev, promptsMessage])
   }
 
   const loadConversationHistory = async () => {
@@ -118,6 +259,61 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
     }
   }
 
+  // Handle starter prompt click
+  const handleStarterPrompt = (prompt: string) => {
+    setInputMessage(prompt)
+    sendMessage(prompt)
+  }
+
+  // Handle lead capture
+  const handleLeadCapture = async () => {
+    if (!leadData.name || !leadData.email) {
+      toast.error("Please fill in both name and email")
+      return
+    }
+
+    try {
+      // Store lead in database and send email
+      const { error } = await supabase.functions.invoke('featherbot-lead-capture', {
+        body: {
+          name: leadData.name,
+          email: leadData.email,
+          language: chatLanguage,
+          timestamp: new Date().toISOString()
+        }
+      })
+
+      if (error) throw error
+
+      const thankYouMessage: Message = {
+        id: `thanks-${Date.now()}`,
+        type: 'bot',
+        content: getThankYouMessage(),
+        timestamp: new Date()
+      }
+      setMessages(prev => [...prev, thankYouMessage])
+      setShowLeadCapture(false)
+      setLeadData({ name: "", email: "" })
+      
+      toast.success("Thank you! We'll be in touch soon.")
+    } catch (error) {
+      console.error('Error capturing lead:', error)
+      toast.error("Failed to submit. Please try again.")
+    }
+  }
+
+  const getThankYouMessage = () => {
+    const messages = {
+      en: "Thank you! We'll send you a summary and follow up soon. Feel free to ask more questions!",
+      es: "¡Gracias! Te enviaremos un resumen y te contactaremos pronto. ¡Siéntete libre de hacer más preguntas!",
+      pt: "Obrigado! Enviaremos um resumo e entraremos em contato em breve. Fique à vontade para fazer mais perguntas!",
+      fr: "Merci! Nous vous enverrons un résumé et vous recontacterons bientôt. N'hésitez pas à poser plus de questions!",
+      de: "Danke! Wir senden Ihnen eine Zusammenfassung und melden uns bald. Stellen Sie gerne weitere Fragen!",
+      zh: "谢谢！我们会发送摘要并很快跟进。请随时提出更多问题！"
+    }
+    return messages[chatLanguage as keyof typeof messages] || messages.en
+  }
+
   // Typing effect function
   const typeMessage = (text: string, callback: () => void) => {
     setIsTyping(true)
@@ -137,25 +333,28 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
     }, 30) // Adjust speed here (lower = faster)
   }
 
-  const sendMessage = async () => {
-    if (!inputMessage.trim() || isLoading || isTyping || !user) return
+  const sendMessage = async (message?: string) => {
+    const messageText = message || inputMessage.trim()
+    if (!messageText || isLoading || isTyping) return
 
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       type: 'user',
-      content: inputMessage.trim(),
+      content: messageText,
       timestamp: new Date()
     }
 
     setMessages(prev => [...prev, userMessage])
     setInputMessage("")
     setIsLoading(true)
+    resetIdleTimer()
 
     try {
       const { data, error } = await supabase.functions.invoke('featherbot-assistant', {
         body: { 
           message: userMessage.content,
-          language: currentLanguage 
+          language: chatLanguage,
+          context: 'pricing_plans'
         }
       })
 
@@ -206,9 +405,9 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
 
   if (!isVisible) return null
 
-  // ✅ ACTIVE CHATBOT: Black FeatherBot - Modern AI Assistant
+  // ✅ ACTIVE CHATBOT: Blue FeatherBiz Pricing Bot - Modern AI Assistant
   return (
-    <div className="fixed bottom-4 right-4 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0)', paddingRight: 'env(safe-area-inset-right, 0)' }}>
+    <div className="fixed bottom-4 right-4 z-50 featherbiz-chatbot" id="pricingChatbot" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0)', paddingRight: 'env(safe-area-inset-right, 0)' }}>
       {/* Floating Animated Icon */}
       {!isOpen && (
         <TooltipProvider>
@@ -216,32 +415,21 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
             <TooltipTrigger asChild>
               <button
                 onClick={() => setIsOpen(true)}
-                className="group relative h-14 w-14 rounded-full bg-gray-800 hover:bg-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300 focus:ring-opacity-50"
-                aria-label="FeatherBot – Virtual Assistant"
+                className="group relative h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50"
+                aria-label="FeatherBot – Pricing Assistant"
                 tabIndex={0}
               >
                 {/* Subtle glow effect on hover */}
-                <div className="absolute inset-0 rounded-full bg-gray-600 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-full bg-blue-400 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300" />
                 
-                {/* Chat bubble icon */}
+                {/* Smiling face icon */}
                 <div className="relative flex items-center justify-center h-full w-full">
-                  <div className="w-6 h-6 bg-white rounded-lg relative flex items-center justify-center">
-                    {/* Chat bubble shape */}
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-gray-800">
-                      <path 
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
-                        stroke="currentColor" 
-                        strokeWidth="1.5" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
+                  <Smile className={`w-7 h-7 text-white transition-transform duration-200 ${isBlinking ? 'scale-110' : 'scale-100'}`} />
                 </div>
               </button>
             </TooltipTrigger>
-            <TooltipContent side="left" className="bg-gray-900 text-white">
-              <p>Need help? Talk to FeatherBot</p>
+            <TooltipContent side="left" className="bg-blue-900 text-white">
+              <p>Questions about plans & pricing? Ask me!</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -251,31 +439,42 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
       {isOpen && (
         <div className="animate-fade-in animate-scale-in">
           <Card className="w-80 sm:w-96 h-96 sm:h-[500px] shadow-xl border-0 bg-white dark:bg-gray-800">
-            <CardHeader className="pb-3 bg-gray-800 text-white rounded-t-lg">
+            <CardHeader className="pb-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg">
               <CardTitle className="flex items-center justify-between text-lg">
                 <div className="flex items-center gap-2">
                   <div className="relative">
-                    <div className="w-5 h-5 bg-gray-600 rounded-full border border-white flex items-center justify-center">
-                      <div className="absolute top-1 left-1 flex gap-1">
-                        <div className="w-1 h-1 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                        <div className="w-1 h-1 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                      </div>
-                      <div className="absolute bottom-0.5 left-1/2 transform -translate-x-1/2">
-                        <div className="w-2 h-1 border-b border-white rounded-b-full"></div>
-                      </div>
+                    <div className="w-5 h-5 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                      <Smile className="w-3 h-3 text-white" />
                     </div>
                   </div>
-                  FeatherBot
+                  <div className="flex flex-col">
+                    <span>FeatherBot</span>
+                    <span className="text-xs text-blue-100">Pricing Assistant</span>
+                  </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsOpen(false)}
-                  className="text-white hover:bg-gray-700/50 h-8 w-8 p-0 rounded-full transition-colors"
-                  aria-label="Close FeatherBot"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Select value={chatLanguage} onValueChange={setChatLanguage}>
+                    <SelectTrigger className="w-12 h-8 p-0 border-0 bg-transparent text-white hover:bg-blue-600">
+                      <Languages className="h-4 w-4" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(languages).map(([code, name]) => (
+                        <SelectItem key={code} value={code}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsOpen(false)}
+                    className="text-white hover:bg-blue-600/50 h-8 w-8 p-0 rounded-full transition-colors"
+                    aria-label="Close FeatherBot"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
               </CardTitle>
             </CardHeader>
 
@@ -286,41 +485,35 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
                     <div className="mb-6 flex justify-center">
                       <div className="relative">
-                        <div className="w-16 h-16 bg-gray-700 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
-                          <div className="absolute top-4 left-4 flex gap-2">
-                            <div className="w-2.5 h-2.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                            <div className="w-2.5 h-2.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                          </div>
-                          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2">
-                            <div className="w-5 h-2.5 border-b-2 border-white rounded-b-full"></div>
-                          </div>
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
+                          <Smile className="w-8 h-8 text-white" />
                         </div>
                         <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full border-2 border-white flex items-center justify-center">
-                          <span className="text-xs">✨</span>
+                          <span className="text-xs">💰</span>
                         </div>
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">FeatherBot Assistant</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Your intelligent business companion</p>
-                      <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mx-4">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2">I can help you with:</p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-gray-700 dark:text-gray-300">
+                      <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">FeatherBiz Pricing Assistant</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Ask me about plans, pricing, and features!</p>
+                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mx-4">
+                        <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-2">I can help you with:</p>
+                        <div className="grid grid-cols-2 gap-2 text-xs text-blue-700 dark:text-blue-300">
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
-                            Invoice tracking
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Plan comparisons
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
-                            Client management
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Pricing details
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
-                            Financial insights
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Free trials
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
-                            Business analytics
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            Feature benefits
                           </div>
                         </div>
                       </div>
@@ -329,71 +522,125 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                 )}
                 
                 {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`mb-4 flex animate-fade-in ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
-                        message.type === 'user'
-                          ? 'bg-gray-700 text-white shadow-gray-300 dark:shadow-gray-600/50'
-                          : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 shadow-gray-100 dark:shadow-gray-800/50'
-                      } transition-all duration-200 hover:shadow-md hover:scale-[1.02]`}
-                    >
-                      <div className="flex items-start gap-2">
-                        {message.type === 'bot' && (
-                          <div className="relative mt-0.5 flex-shrink-0">
-                            <div className="w-4 h-4 bg-gray-600 rounded-full border border-white flex items-center justify-center">
-                              <div className="absolute top-0.5 left-0.5 flex gap-0.5">
-                                <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                                <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
+                  <div key={message.id}>
+                    {message.type === 'system' ? (
+                      // Starter prompts
+                      <div className="mb-4">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Quick suggestions:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {JSON.parse(message.content).map((prompt: string, index: number) => (
+                            <Button
+                              key={index}
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleStarterPrompt(prompt)}
+                              className="text-xs bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 rounded-full"
+                            >
+                              {prompt}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      // Regular messages
+                      <div
+                        className={`mb-4 flex animate-fade-in ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
+                            message.type === 'user'
+                              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
+                              : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 shadow-gray-100 dark:shadow-gray-800/50'
+                          } transition-all duration-200 hover:shadow-md hover:scale-[1.02]`}
+                        >
+                          <div className="flex items-start gap-2">
+                            {message.type === 'bot' && (
+                              <div className="relative mt-0.5 flex-shrink-0">
+                                <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                                  <Smile className="w-2 h-2 text-white" />
+                                </div>
                               </div>
-                              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                                <div className="w-1.5 h-0.5 border-b border-white rounded-b-full"></div>
-                              </div>
+                            )}
+                            {message.type === 'user' && (
+                              <User className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                            )}
+                            <div className="flex-1">
+                              <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                              <p
+                                className={`text-xs mt-2 ${
+                                  message.type === 'user' ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'
+                                }`}
+                              >
+                                {formatTime(message.timestamp)}
+                              </p>
                             </div>
                           </div>
-                        )}
-                        {message.type === 'user' && (
-                          <User className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                        )}
-                        <div className="flex-1">
-                          <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
-                          <p
-                            className={`text-xs mt-2 ${
-                              message.type === 'user' ? 'text-gray-200' : 'text-gray-500 dark:text-gray-400'
-                            }`}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                
+                {/* Lead Capture Form */}
+                {showLeadCapture && (
+                  <div className="mb-4 animate-fade-in">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Mail className="h-4 w-4 text-blue-600" />
+                        <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">Stay in touch!</h4>
+                      </div>
+                      <div className="space-y-3">
+                        <Input
+                          placeholder="Your name"
+                          value={leadData.name}
+                          onChange={(e) => setLeadData(prev => ({ ...prev, name: e.target.value }))}
+                          className="text-sm"
+                        />
+                        <Input
+                          type="email"
+                          placeholder="Your email"
+                          value={leadData.email}
+                          onChange={(e) => setLeadData(prev => ({ ...prev, email: e.target.value }))}
+                          className="text-sm"
+                        />
+                        <div className="flex gap-2">
+                          <Button
+                            onClick={handleLeadCapture}
+                            size="sm"
+                            className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
                           >
-                            {formatTime(message.timestamp)}
-                          </p>
+                            Send Summary
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowLeadCapture(false)}
+                            className="text-blue-600 border-blue-300"
+                          >
+                            Skip
+                          </Button>
                         </div>
                       </div>
                     </div>
                   </div>
-                ))}
-                
+                )}
+
                 {/* Loading indicator */}
                 {isLoading && (
                   <div className="flex justify-start mb-4 animate-fade-in">
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-600">
                       <div className="flex items-center gap-2">
                         <div className="relative">
-                          <div className="w-4 h-4 bg-gray-600 rounded-full border border-white flex items-center justify-center">
-                            <div className="absolute top-0.5 left-0.5 flex gap-0.5">
-                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                            </div>
-                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                              <div className="w-1.5 h-0.5 border-b border-white rounded-b-full"></div>
-                            </div>
+                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                            <Smile className="w-2 h-2 text-white" />
                           </div>
                         </div>
                         <div className="flex items-center gap-1">
                           <span className="text-sm text-gray-500">Thinking</span>
                           <div className="flex gap-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
                         </div>
                       </div>
@@ -404,23 +651,17 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                 {/* Typing indicator */}
                 {isTyping && (
                   <div className="flex justify-start mb-4 animate-fade-in">
-                    <div className="max-w-[80%] bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
+                    <div className="max-w-[80%] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
                       <div className="flex items-start gap-2">
                         <div className="relative mt-0.5 flex-shrink-0">
-                          <div className="w-4 h-4 bg-gray-600 rounded-full border border-white flex items-center justify-center">
-                            <div className="absolute top-0.5 left-0.5 flex gap-0.5">
-                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                              <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                            </div>
-                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                              <div className="w-1.5 h-0.5 border-b border-white rounded-b-full"></div>
-                            </div>
+                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                            <Smile className="w-2 h-2 text-white" />
                           </div>
                         </div>
                         <div className="flex-1">
                           <p className="text-sm whitespace-pre-wrap leading-relaxed">
                             {typingText}
-                            <span className="inline-block w-2 h-4 bg-gray-500 ml-1 animate-pulse"></span>
+                            <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
                           </p>
                         </div>
                       </div>
@@ -432,16 +673,37 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
               </ScrollArea>
 
               {/* Input Area */}
-              <div className="p-4 border-t border-gray-200 dark:border-gray-600 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
+              <div className="p-4 border-t border-gray-200 dark:border-gray-600 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700">
+                {/* CTA Buttons */}
+                <div className="flex gap-2 mb-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open('/pricing', '_blank')}
+                    className="text-xs bg-white border-blue-200 text-blue-700 hover:bg-blue-50 flex-1"
+                  >
+                    <ExternalLink className="h-3 w-3 mr-1" />
+                    View All Plans
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open('/auth', '_blank')}
+                    className="text-xs bg-blue-600 text-white border-blue-600 hover:bg-blue-700 flex-1"
+                  >
+                    Start Free Trial
+                  </Button>
+                </div>
+                
                 <div className="flex gap-3">
                   <div className="relative flex-1">
                     <Input
                       value={inputMessage}
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder="Ask me anything about your business..."
+                      placeholder="Ask about plans, pricing, features..."
                       disabled={isLoading || isTyping}
-                      className="pr-12 border-gray-300 dark:border-gray-600 focus:border-gray-500 dark:focus:border-gray-400 transition-all duration-200 focus:ring-2 focus:ring-gray-500/20 shadow-sm"
+                      className="pr-12 border-blue-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 focus:ring-2 focus:ring-blue-500/20 shadow-sm"
                     />
                     {inputMessage.trim() && (
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -450,9 +712,9 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     )}
                   </div>
                   <Button
-                    onClick={sendMessage}
+                    onClick={() => sendMessage()}
                     disabled={isLoading || isTyping || !inputMessage.trim()}
-                    className="bg-gray-700 hover:bg-gray-600 transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-gray-300 dark:shadow-gray-600/50"
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-blue-200 dark:shadow-blue-900/50"
                     size="sm"
                   >
                     <Send className="h-4 w-4" />
