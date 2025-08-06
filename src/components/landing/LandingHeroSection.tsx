@@ -37,16 +37,16 @@ export const LandingHeroSection = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-4xl mx-auto">
           {/* Main Headline */}
-          <h1 className={`text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-[1.1] transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 leading-[1.1] transition-all duration-1000 delay-200 px-4 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             Business management{" "}
             <span className="text-muted-foreground">magic.</span>
           </h1>
 
           {/* Subtitle */}
-          <p className={`text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className={`text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 px-4 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
@@ -68,11 +68,11 @@ export const LandingHeroSection = () => {
           </div>
 
           {/* Feature Tags */}
-          <div className={`flex flex-wrap justify-center gap-6 mb-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`flex flex-wrap justify-center gap-3 sm:gap-6 mb-16 px-4 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             {["Data", "Automations", "Pipeline", "Productivity", "Reporting"].map((feature, index) => (
-              <div key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-4 h-4 rounded border border-border/50 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground" />
+              <div key={feature} className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded border border-border/50 flex items-center justify-center">
+                  <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-muted-foreground" />
                 </div>
                 <span className="font-medium">{feature}</span>
               </div>

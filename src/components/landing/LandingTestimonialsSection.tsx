@@ -77,8 +77,8 @@ export const LandingTestimonialsSection = () => {
   const currentTestimonial = testimonials[currentIndex];
 
   return (
-    <section id="testimonials" className="py-24 lg:py-32 bg-muted/20">
-      <div id="testimonials-section" className="max-w-4xl mx-auto px-6 text-center">
+    <section id="testimonials" className="py-16 sm:py-24 lg:py-32 bg-muted/20">
+      <div id="testimonials-section" className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
         
         {/* Featured Testimonial */}
         <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -89,17 +89,17 @@ export const LandingTestimonialsSection = () => {
               ))}
             </div>
             
-            <blockquote className="text-2xl lg:text-3xl font-medium text-foreground mb-8 leading-relaxed">
+            <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-foreground mb-8 leading-relaxed px-4">
               "{currentTestimonial.content}"
             </blockquote>
             
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <img
                 src={currentTestimonial.avatar}
                 alt={currentTestimonial.name}
                 className="w-12 h-12 rounded-full object-cover border-2 border-border/20"
               />
-              <div className="text-left">
+              <div className="text-center sm:text-left">
                 <div className="font-semibold text-foreground">{currentTestimonial.name}</div>
                 <div className="text-muted-foreground text-sm">{currentTestimonial.role}</div>
               </div>
@@ -144,11 +144,11 @@ export const LandingTestimonialsSection = () => {
           <p className="text-sm text-muted-foreground mb-8 font-medium">
             Trusted by thousands of businesses worldwide
           </p>
-          <div className="flex justify-center items-center gap-8 opacity-60">
-            <div className="text-lg font-bold text-muted-foreground">TechCorp</div>
-            <div className="text-lg font-bold text-muted-foreground">GrowthCo</div>
-            <div className="text-lg font-bold text-muted-foreground">InnovateLab</div>
-            <div className="text-lg font-bold text-muted-foreground">ScaleUp</div>
+          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 opacity-60">
+            <div className="text-base sm:text-lg font-bold text-muted-foreground">TechCorp</div>
+            <div className="text-base sm:text-lg font-bold text-muted-foreground">GrowthCo</div>
+            <div className="text-base sm:text-lg font-bold text-muted-foreground">InnovateLab</div>
+            <div className="text-base sm:text-lg font-bold text-muted-foreground">ScaleUp</div>
           </div>
         </div>
       </div>

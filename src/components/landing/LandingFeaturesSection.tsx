@@ -105,22 +105,22 @@ export const LandingFeaturesSection = () => {
   }, []);
 
   return (
-    <section id="features" className="py-24 lg:py-32 bg-background">
-      <div id="features-section" className="max-w-7xl mx-auto px-6">
+    <section id="features" className="py-16 sm:py-24 lg:py-32 bg-background">
+      <div id="features-section" className="max-w-7xl mx-auto px-4 sm:px-6">
         
         {/* Section Header */}
-        <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
+        <div className={`text-center max-w-3xl mx-auto mb-12 sm:mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-4">
             Everything your business needs,{" "}
             <span className="text-muted-foreground">in one place.</span>
           </h2>
-          <p className="text-xl text-muted-foreground leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed px-4">
             From customer management to financial tracking, FeatherBiz provides all the tools you need to run and grow your business efficiently.
           </p>
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-4">
           {features.map((feature, index) => (
             <div
               key={feature.title}
