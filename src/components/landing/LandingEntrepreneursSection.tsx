@@ -31,8 +31,8 @@ const basePhotos = [
 
 // Generate more entrepreneurs like Attio's dense cloud
 const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
-  const sizes = ['w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
-  const sizeWeights = [0.4, 0.4, 0.2]; // Mostly small to medium sizes
+  const sizes = ['w-6 h-6', 'w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
+  const sizeWeights = [0.3, 0.3, 0.25, 0.15]; // More small sizes for density
   
   let randomSize = Math.random();
   let cumulativeWeight = 0;
@@ -51,9 +51,11 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
     initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
     avatar: basePhotos[i % basePhotos.length],
     size: selectedSize,
-    left: Math.random() * 80 + 10, // More centered distribution
-    top: Math.random() * 60 + 20, // More centered distribution
-    delay: Math.random() * 1.5, // Faster animations
+    left: Math.random() * 85 + 7.5, // Better distribution
+    top: Math.random() * 70 + 15, // Better distribution
+    delay: Math.random() * 2, // Staggered animations
+    floatDelay: Math.random() * 4, // Floating animation delay
+    duration: 3 + Math.random() * 2, // Variable animation duration
   };
 });
 
@@ -96,19 +98,21 @@ export const LandingEntrepreneursSection = () => {
           {entrepreneurs.map((entrepreneur, index) => (
             <div
               key={entrepreneur.id}
-              className={`absolute transition-all duration-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+              className={`absolute transition-all duration-700 animate-float ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
               style={{
                 left: `${entrepreneur.left}%`,
                 top: `${entrepreneur.top}%`,
                 transform: 'translate(-50%, -50%)',
-                transitionDelay: isVisible ? `${index * 25}ms` : '0ms'
+                transitionDelay: isVisible ? `${index * 15}ms` : '0ms',
+                animationDelay: `${entrepreneur.floatDelay}s`,
+                animationDuration: `${entrepreneur.duration}s`
               }}
             >
-              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-110 border border-border/20 shadow-sm`}>
+              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-125 hover:rotate-3 border border-border/20 shadow-lg hover:shadow-xl animate-pulse-subtle`}>
                 <AvatarImage
                   src={entrepreneur.avatar}
                   alt={`Entrepreneur ${entrepreneur.initials}`}
-                  className="object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-300"
+                  className="object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
                   loading="lazy"
                 />
                 <AvatarFallback className="bg-muted text-muted-foreground text-xs font-medium">
