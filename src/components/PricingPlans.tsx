@@ -379,12 +379,12 @@ export function PricingPlans() {
   const currentPlans = plans[billingPeriod]
 
   return (
-    <div className="py-8 sm:py-12 lg:py-16 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="py-6 sm:py-8 lg:py-10 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <div className="max-w-7xl mx-auto">
         <PricingHeader />
         
         {/* Billing Period Toggle */}
-        <div className="flex justify-center mb-6 sm:mb-8 lg:mb-12">
+        <div className="flex justify-center mb-4 sm:mb-6 lg:mb-8">
           <div className="bg-gray-100 rounded-full p-1 shadow-sm border max-w-sm mx-auto">
             <ToggleGroup
               type="single"
@@ -412,7 +412,7 @@ export function PricingPlans() {
         </div>
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-4">
           {currentPlans.map((plan) => (
             <div key={plan.id} className="flex">
               <PricingCard 
