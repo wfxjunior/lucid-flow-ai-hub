@@ -84,9 +84,9 @@ export const LandingFeaturesSection = () => (
         {features.map((feature, index) => (
           <div
             key={index}
-            className="group p-8 bg-white border border-gray-200 rounded-2xl hover:border-blue-200 hover:shadow-lg transition-all duration-300"
+            className="group p-8 bg-white border border-gray-200 rounded-2xl hover:border-blue-200 hover:shadow-lg transition-all duration-300 text-center"
           >
-            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors">
+            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors mx-auto">
               <feature.icon className="w-6 h-6 text-blue-600" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">
