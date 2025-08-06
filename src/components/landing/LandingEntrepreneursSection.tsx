@@ -53,9 +53,9 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
     size: selectedSize,
     left: Math.random() * 85 + 7.5, // Better distribution
     top: Math.random() * 70 + 15, // Better distribution
-    delay: Math.random() * 2, // Staggered animations
-    floatDelay: Math.random() * 4, // Floating animation delay
-    duration: 3 + Math.random() * 2, // Variable animation duration
+    delay: Math.random() * 1, // Faster staggered animations
+    floatDelay: Math.random() * 2, // Faster floating animation delay  
+    duration: 2 + Math.random() * 1, // Shorter animation duration
   };
 });
 
@@ -103,7 +103,7 @@ export const LandingEntrepreneursSection = () => {
                 left: `${entrepreneur.left}%`,
                 top: `${entrepreneur.top}%`,
                 transform: 'translate(-50%, -50%)',
-                transitionDelay: isVisible ? `${index * 15}ms` : '0ms',
+                transitionDelay: isVisible ? `${index * 8}ms` : '0ms',
                 animationDelay: `${entrepreneur.floatDelay}s`,
                 animationDuration: `${entrepreneur.duration}s`
               }}
