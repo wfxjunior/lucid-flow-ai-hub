@@ -1,12 +1,33 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// Generate diverse entrepreneur data for social proof
-const entrepreneurs = Array.from({ length: 72 }, (_, i) => ({
-  id: i + 1,
-  initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
-  avatar: `https://images.unsplash.com/photo-${1500000000000 + i * 1000000}?w=100&h=100&fit=crop&crop=face&auto=format&q=60`,
-}));
+// Generate diverse entrepreneur data with organic positioning
+const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
+  const sizes = ['w-8 h-8', 'w-10 h-10', 'w-12 h-12', 'w-14 h-14', 'w-16 h-16'];
+  const sizeWeights = [0.15, 0.25, 0.35, 0.2, 0.05]; // Mostly medium sizes
+  
+  let randomSize = Math.random();
+  let cumulativeWeight = 0;
+  let selectedSize = sizes[0];
+  
+  for (let j = 0; j < sizes.length; j++) {
+    cumulativeWeight += sizeWeights[j];
+    if (randomSize <= cumulativeWeight) {
+      selectedSize = sizes[j];
+      break;
+    }
+  }
+  
+  return {
+    id: i + 1,
+    initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
+    avatar: `https://images.unsplash.com/photo-${1500000000000 + i * 1000000}?w=100&h=100&fit=crop&crop=face&auto=format&q=60`,
+    size: selectedSize,
+    left: Math.random() * 90 + 5, // 5% to 95% from left
+    top: Math.random() * 80 + 10, // 10% to 90% from top
+    delay: Math.random() * 2, // Animation delay
+  };
+});
 
 export const LandingEntrepreneursSection = () => {
   return (
@@ -27,26 +48,35 @@ export const LandingEntrepreneursSection = () => {
           </p>
         </div>
 
-        {/* Entrepreneurs Grid */}
-        <div className="grid grid-cols-8 sm:grid-cols-10 md:grid-cols-12 lg:grid-cols-14 xl:grid-cols-16 gap-2 sm:gap-3 md:gap-4 max-w-6xl mx-auto">
+        {/* Entrepreneurs Cloud */}
+        <div className="relative h-96 sm:h-[500px] lg:h-[600px] max-w-6xl mx-auto overflow-hidden">
           {entrepreneurs.map((entrepreneur) => (
             <div
               key={entrepreneur.id}
-              className="group"
+              className="absolute group animate-fade-in"
+              style={{
+                left: `${entrepreneur.left}%`,
+                top: `${entrepreneur.top}%`,
+                animationDelay: `${entrepreneur.delay}s`,
+                transform: 'translate(-50%, -50%)'
+              }}
             >
-              <Avatar className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 transition-transform duration-200 hover:scale-105 grayscale hover:grayscale-0">
+              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-110 hover:z-10 relative grayscale hover:grayscale-0 opacity-70 hover:opacity-100`}>
                 <AvatarImage
                   src={entrepreneur.avatar}
                   alt={`Entrepreneur ${entrepreneur.initials}`}
                   className="object-cover"
                   loading="lazy"
                 />
-                <AvatarFallback className="bg-blue-100 text-blue-600 text-xs sm:text-sm font-medium">
+                <AvatarFallback className="bg-blue-100 text-blue-600 text-xs font-medium">
                   {entrepreneur.initials}
                 </AvatarFallback>
               </Avatar>
             </div>
           ))}
+          
+          {/* Subtle gradient overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-50/30 via-transparent to-gray-50/30 pointer-events-none" />
         </div>
 
         {/* Bottom Text */}
