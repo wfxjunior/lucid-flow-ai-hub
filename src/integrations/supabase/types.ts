@@ -888,6 +888,36 @@ export type Database = {
         }
         Relationships: []
       }
+      featherbot_leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          language: string | null
+          name: string
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          language?: string | null
+          name: string
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          language?: string | null
+          name?: string
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       files: {
         Row: {
           created_at: string
