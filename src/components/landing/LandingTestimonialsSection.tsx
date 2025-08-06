@@ -87,7 +87,7 @@ export const LandingTestimonialsSection = () => {
             </div>
             
             <blockquote className="text-xl sm:text-2xl text-gray-700 leading-relaxed mb-8 font-light">
-              "{testimonials[currentIndex].content}"
+              &ldquo;{testimonials[currentIndex].content}&rdquo;
             </blockquote>
             
             <div className="flex items-center">
