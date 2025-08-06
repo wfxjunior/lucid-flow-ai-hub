@@ -84,11 +84,11 @@ export function EssentialSideMenu() {
 
   return (
     <>
-      {/* Floating circular button */}
+      {/* Navigation Menu Button - NOT a chatbot */}
       {!isOpen && (
         <button
           onClick={handleOpenMenu}
-          className="fixed bottom-7 right-7 z-50 bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
+          className="fixed bottom-20 right-4 z-40 bg-blue-700 text-white rounded-full shadow-xl hover:bg-blue-800 w-14 h-14 flex items-center justify-center transition-all focus:outline-none"
           aria-label="Open menu"
         >
           <span className="text-sm font-bold">FB</span>

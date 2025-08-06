@@ -31,6 +31,7 @@ export default function LandingPage() {
       <EssentialSideMenu />
       <LandingFooter />
       <CookieConsent />
+      {/* ✅ ACTIVE CHATBOT: Black FeatherBot - Always visible on landing page */}
       <FeatherBot isVisible={true} />
     </div>
   );

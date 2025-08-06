@@ -206,6 +206,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
 
   if (!isVisible) return null
 
+  // ✅ ACTIVE CHATBOT: Black FeatherBot - Modern AI Assistant
   return (
     <div className="fixed bottom-4 right-4 z-50" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0)', paddingRight: 'env(safe-area-inset-right, 0)' }}>
       {/* Floating Animated Icon */}

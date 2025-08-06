@@ -93,7 +93,7 @@ export default function Index() {
           </div>
         </main>
 
-        {/* FeatherBot - Only visible for Pro users or users with featherGoldAccess */}
+        {/* ✅ ACTIVE CHATBOT: Black FeatherBot - Only visible for Pro users or users with featherGoldAccess */}
         <FeatherBot isVisible={hasAccess} />
       </div>
     </SidebarProvider>
