@@ -72,6 +72,9 @@ export const LandingTestimonialsSection = () => {
             <br />
             <span className="text-blue-600">everywhere</span>
           </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+            Trusted by <span className="font-semibold text-blue-600">100+ entrepreneurs</span> who've transformed their business operations
+          </p>
         </div>
 
         {/* Testimonials Slider */}
