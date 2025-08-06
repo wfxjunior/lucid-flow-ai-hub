@@ -31,10 +31,18 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
         
         <div className="mt-12 text-center space-y-2">
           <p className="text-xs text-muted-foreground">
-            By proceeding you acknowledge that you have read, understood and agree to our Terms and Conditions.
+            By proceeding you acknowledge that you have read, understood and agree to our{' '}
+            <a href="/terms-of-service" className="text-foreground underline hover:no-underline">
+              Terms and Conditions
+            </a>
+            {' '}and{' '}
+            <a href="/privacy-policy" className="text-foreground underline hover:no-underline">
+              Privacy Policy
+            </a>
+            .
           </p>
           <p className="text-xs text-muted-foreground">
-            © 2025 FeatherBiz Limited
+            © 2025 XSenSys Platforms
           </p>
         </div>
       </div>
