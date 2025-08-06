@@ -27,63 +27,21 @@ const handler = async (req: Request): Promise<Response> => {
     const displayName = name || email.split('@')[0];
 
     const emailResponse = await resend.emails.send({
-      from: "FeatherBiz Welcome <welcome@featherbiz.io>",
+      from: "FeatherBiz <welcome@featherbiz.io>",
       to: [email],
-      subject: "Welcome to FeatherBiz! Something Big is Starting 🚀",
-      html: `
-        <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px;">
-          <div style="background-color: white; border-radius: 8px; padding: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <div style="text-align: center; margin-bottom: 30px;">
-              <h1 style="color: #1e40af; margin: 0; font-size: 28px;">Welcome to FeatherBiz!</h1>
-              <p style="color: #64748b; margin: 10px 0 0 0; font-size: 18px; font-weight: 600;">Something big is starting... 🌟</p>
-            </div>
-            
-            <div style="margin-bottom: 30px;">
-              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-                Hello <strong>${displayName}</strong>,
-              </p>
-              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-                Congratulations on joining FeatherBiz! You've just taken the first step towards transforming your business operations. Something big is starting, and we're thrilled to be part of your journey.
-              </p>
-              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                With FeatherBiz, you can:
-              </p>
-            </div>
+      subject: "Welcome to FeatherBiz – A Great Journey Begins",
+      text: `Hello ${displayName},
 
-            <div style="background-color: #f1f5f9; border-radius: 6px; padding: 20px; margin-bottom: 30px;">
-              <ul style="margin: 0; padding-left: 20px; color: #334155;">
-                <li style="margin-bottom: 8px;">📋 Manage projects and clients</li>
-                <li style="margin-bottom: 8px;">💰 Create quotes and invoices</li>
-                <li style="margin-bottom: 8px;">📅 Schedule appointments</li>
-                <li style="margin-bottom: 8px;">📄 Generate contracts and documents</li>
-                <li style="margin-bottom: 8px;">📊 Track business metrics</li>
-              </ul>
-            </div>
+Thank you for signing up for FeatherBiz.
 
-            <div style="text-align: center; margin-bottom: 30px;">
-              <a href="https://featherbiz.com/app" 
-                 style="background-color: #1e40af; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; font-size: 16px;">
-                Get Started
-              </a>
-            </div>
+This is the beginning of something meaningful. You are now part of a community of forward-thinking entrepreneurs focused on growth, clarity, and building efficient businesses.
 
-            <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: center;">
-              <p style="color: #64748b; font-size: 14px; margin: 0 0 10px 0;">
-                Need help? We're here for you!
-              </p>
-              <p style="color: #64748b; font-size: 14px; margin: 0;">
-                📧 <a href="mailto:support@featherbiz.com" style="color: #1e40af;">support@featherbiz.com</a>
-              </p>
-            </div>
-          </div>
-          
-          <div style="text-align: center; margin-top: 20px;">
-            <p style="color: #94a3b8; font-size: 12px; margin: 0;">
-              © 2024 FeatherBiz. All rights reserved.
-            </p>
-          </div>
-        </div>
-      `,
+Get ready to access powerful tools that will simplify your operations and accelerate your success. We're here to support you every step of the way.
+
+Welcome aboard. The best is yet to come.
+
+Sincerely,
+FeatherBiz Team`,
     });
 
     console.log("Welcome email sent successfully:", emailResponse);
