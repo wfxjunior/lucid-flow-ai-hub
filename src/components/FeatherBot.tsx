@@ -215,28 +215,26 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
             <TooltipTrigger asChild>
               <button
                 onClick={() => setIsOpen(true)}
-                className="group relative h-12 w-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white hover:from-blue-500 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50"
+                className="group relative h-14 w-14 rounded-full bg-gray-800 hover:bg-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300 focus:ring-opacity-50"
                 aria-label="FeatherBot – Virtual Assistant"
                 tabIndex={0}
               >
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 rounded-full bg-blue-400 opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300" />
+                {/* Subtle glow effect on hover */}
+                <div className="absolute inset-0 rounded-full bg-gray-600 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300" />
                 
-                {/* Custom blue and white blinking face */}
+                {/* Chat bubble icon */}
                 <div className="relative flex items-center justify-center h-full w-full">
-                  <div className="relative">
-                    {/* Face circle - BLUE */}
-                    <div className="w-8 h-8 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
-                      {/* Eyes with blinking animation - WHITE */}
-                      <div className="absolute top-2 left-2 flex gap-2">
-                        <div className="w-1.5 h-1.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                        <div className="w-1.5 h-1.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
-                      </div>
-                      {/* Smile - WHITE */}
-                      <div className="absolute bottom-1.5 left-1/2 transform -translate-x-1/2">
-                        <div className="w-3 h-1.5 border-b-2 border-white rounded-b-full"></div>
-                      </div>
-                    </div>
+                  <div className="w-6 h-6 bg-white rounded-lg relative flex items-center justify-center">
+                    {/* Chat bubble shape */}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-gray-800">
+                      <path 
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
+                        stroke="currentColor" 
+                        strokeWidth="1.5" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </div>
                 </div>
               </button>
