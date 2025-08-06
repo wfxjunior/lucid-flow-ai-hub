@@ -107,6 +107,51 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
     ]
   }
 
+  // Comprehensive FeatherBiz Knowledge Base
+  const featherBizKnowledge = `
+PLANS & PRICING
+- Starter: $9.99/month - Basic client management, invoicing
+- Growth: $24.99/month - More automations, email tracking, integrations  
+- Premium: $49.99/month - Team collaboration, advanced reporting, priority support
+- Free trial: 7 days with full Growth plan features, no credit card required
+- Yearly billing: 20% discount available
+- Cancellation: Anytime without penalty
+
+USAGE & BENEFITS
+- Manage clients, send invoices, automate tasks, collect payments, track activity
+- Perfect for freelancers, solopreneurs, and service-based businesses
+- Custom invoice branding and layouts
+- Payment integrations: Stripe and Square included
+- Mobile-friendly for iOS and Android
+- SSL encryption and secure cloud infrastructure
+- Team collaboration (Premium plan only)
+
+BILLING & POLICIES  
+- Refunds: Case-by-case within 14 days
+- Payment methods: All major credit cards, Stripe, Square
+- Plan switching: Upgrade/downgrade anytime
+- Data retention: 60 days after cancellation
+- Multiple businesses: Growth and Premium plans
+- Tax settings: Customizable per country
+- Updates: Every two weeks
+
+SUPPORT & FEATURES
+- Live chat: Premium and FeatherGold tiers
+- Onboarding: Growth and Premium users
+- Multi-language: English, Spanish, Portuguese, French, German, Chinese
+- E-signatures: SignNow integration (Premium)
+- Calendar sync: Coming soon
+- Data export: CSV and PDF available
+- FeatherGold: VIP early-access program for exclusive features
+
+CONTACT & DEMOS
+- Sales team: Book discovery call
+- Demo requests: Available via chatbot
+- Non-profit/student discounts: hello@featherbiz.io
+- Support: hello@featherbiz.io
+- Reviews: featherbiz.io/testimonials
+`
+
   // Greeting messages by language
   const greetingMessages = {
     en: "👋 Hi! Have questions about FeatherBiz plans or pricing? I can help!",
@@ -354,7 +399,8 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
         body: { 
           message: userMessage.content,
           language: chatLanguage,
-          context: 'pricing_plans'
+          context: 'pricing_plans',
+          knowledge: featherBizKnowledge
         }
       })
 
