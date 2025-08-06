@@ -12,208 +12,162 @@ const plans = {
     {
       id: "free",
       name: "Free",
-      description: "Perfect for getting started",
+      description: "For very small teams",
       price: "$0",
-      period: "forever",
+      period: "Per user/month, billed annually",
       icon: Zap,
       features: [
-        "5 invoices per month",
-        "Basic templates",
-        "Standard support",
-        "Basic customer management"
+        "Real-time contact syncing",
+        "Automatic data enrichment",
+        "Up to 3 seats",
       ],
-      buttonText: "Start Free",
+      buttonText: "Start for free",
       popular: false,
       color: "from-gray-400 to-gray-600",
       bgGradient: "from-gray-50 to-gray-100",
       stripePrice: null
     },
     {
-      id: "professional",
-      name: "Professional",
-      description: "Everything you need to grow - 7 days free!",
-      price: "$19",
-      period: "month",
+      id: "plus",
+      name: "Plus",
+      description: "For growing teams",
+      price: "$29",
+      originalPrice: "$36",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
       icon: Crown,
       features: [
-        "7-day free trial",
-        "Unlimited invoices",
-        
-        // Main Features
-        "Dashboard with analytics",
-        "AI Voice Assistant",
-        "Invoice Creator",
-        "Estimates & Quotes",
-        "Payment Processing",
-        "E-Signatures",
-        
-        // Core Business
-        "Customer Management",
-        "Project Management",
-        "Project Timeline View",
-        "Sales Pipeline",
-        "Smart Schedule",
-        
-        // Financial Tools
-        "FeatherBudget AI",
-        "FeatherTax",
-        "EasyCalc",
-        "Accounting Suite",
-        "Quote Generator",
-        
-        // Operations
-        "Car Rental System",
-        "Work Orders",
-        "MatTrack (Material Tracking)",
-        "CrewControl (Team Management)",
-        "EarnSync",
-        "AfterCare",
-        
-        // Documents & Forms
-        "FeatherForms",
-        "Sales Orders",
-        "Business Proposals",
-        "Bids",
-        "Contracts",
-        
-        // Productivity
-        "Meetings",
-        "Todo List",
-        "Notes",
-        "Appointments",
-        
-        // Communication
-        "Messages",
-        "Email Settings",
-        
-        // Analytics
-        "Analytics Dashboard",
-        "Admin Panel",
-        
-        // General & Support
-        "Careers Portal",
-        "Referrals",
-        "Features Request",
-        "FAQ & Help",
-        "Feedback System",
-        "Settings",
-        
-        "Priority support",
-        "All integrations",
-        "Document tracking",
-        "File management"
+        "Private lists",
+        "Enhanced email sending",
+        "No seat limits",
       ],
-      buttonText: "Start Free Trial",
+      buttonText: "Continue with Plus",
+      popular: false,
+      color: "from-blue-400 to-blue-600",
+      bgGradient: "from-blue-50 to-blue-100",
+      stripePrice: 2900,
+      recurring: true
+    },
+    {
+      id: "pro",
+      name: "Pro",
+      description: "For scaling businesses",
+      price: "$69",
+      originalPrice: "$86",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
+      icon: Star,
+      features: [
+        "Call Intelligence",
+        "Advanced data enrichment",
+        "Priority support",
+      ],
+      buttonText: "Continue with Pro",
       popular: true,
       color: "from-green-500 to-emerald-600",
       bgGradient: "from-green-50 to-emerald-50",
-      stripePrice: 1900,
+      stripePrice: 6900,
       recurring: true
+    },
+    {
+      id: "enterprise",
+      name: "Enterprise",
+      description: "For large organizations",
+      price: "Custom",
+      period: "Billed annually",
+      icon: Sparkles,
+      features: [
+        "Unlimited objects",
+        "SAML and SSO",
+        "Flexible invoicing",
+      ],
+      buttonText: "Talk to sales",
+      popular: false,
+      color: "from-purple-500 to-purple-600",
+      bgGradient: "from-purple-50 to-purple-100",
+      stripePrice: null
     }
   ],
   annual: [
     {
       id: "free",
       name: "Free",
-      description: "Perfect for getting started",
+      description: "For very small teams",
       price: "$0",
-      period: "forever",
+      period: "Per user/month, billed annually",
       icon: Zap,
       features: [
-        "5 invoices per month",
-        "Basic templates",
-        "Standard support",
-        "Basic customer management"
+        "Real-time contact syncing",
+        "Automatic data enrichment",
+        "Up to 3 seats",
       ],
-      buttonText: "Start Free",
+      buttonText: "Start for free",
       popular: false,
       color: "from-gray-400 to-gray-600",
       bgGradient: "from-gray-50 to-gray-100",
       stripePrice: null
     },
     {
-      id: "professional-annual",
-      name: "Professional",
-      description: "Everything you need to grow - 7 days free!",
-      price: "$190",
-      originalPrice: "$228",
-      period: "year",
+      id: "plus-annual",
+      name: "Plus",
+      description: "For growing teams",
+      price: "$29",
+      originalPrice: "$36",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
       icon: Crown,
       features: [
-        "7-day free trial",
-        "Unlimited invoices",
-        
-        // Main Features
-        "Dashboard with analytics",
-        "AI Voice Assistant",
-        "Invoice Creator",
-        "Estimates & Quotes",
-        "Payment Processing",
-        "E-Signatures",
-        
-        // Core Business
-        "Customer Management",
-        "Project Management",
-        "Project Timeline View",
-        "Sales Pipeline",
-        "Smart Schedule",
-        
-        // Financial Tools
-        "FeatherBudget AI",
-        "FeatherTax",
-        "EasyCalc",
-        "Accounting Suite",
-        "Quote Generator",
-        
-        // Operations
-        "Car Rental System",
-        "Work Orders",
-        "MatTrack (Material Tracking)",
-        "CrewControl (Team Management)",
-        "EarnSync",
-        "AfterCare",
-        
-        // Documents & Forms
-        "FeatherForms",
-        "Sales Orders",
-        "Business Proposals",
-        "Bids",
-        "Contracts",
-        
-        // Productivity
-        "Meetings",
-        "Todo List",
-        "Notes",
-        "Appointments",
-        
-        // Communication
-        "Messages",
-        "Email Settings",
-        
-        // Analytics
-        "Analytics Dashboard",
-        "Admin Panel",
-        
-        // General & Support
-        "Careers Portal",
-        "Referrals",
-        "Features Request",
-        "FAQ & Help",
-        "Feedback System",
-        "Settings",
-        
-        "Priority support",
-        "All integrations",
-        "Document tracking",
-        "File management"
+        "Private lists",
+        "Enhanced email sending",
+        "No seat limits",
       ],
-      buttonText: "Start Free Trial",
+      buttonText: "Continue with Plus",
+      popular: false,
+      color: "from-blue-400 to-blue-600",
+      bgGradient: "from-blue-50 to-blue-100",
+      stripePrice: 29000,
+      recurring: true,
+      annualBilling: true
+    },
+    {
+      id: "pro-annual",
+      name: "Pro",
+      description: "For scaling businesses",
+      price: "$69",
+      originalPrice: "$86",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
+      icon: Star,
+      features: [
+        "Call Intelligence",
+        "Advanced data enrichment",
+        "Priority support",
+      ],
+      buttonText: "Continue with Pro",
       popular: true,
       color: "from-green-500 to-emerald-600",
       bgGradient: "from-green-50 to-emerald-50",
-      stripePrice: 19000,
+      stripePrice: 69000,
       recurring: true,
       annualBilling: true
+    },
+    {
+      id: "enterprise-annual",
+      name: "Enterprise",
+      description: "For large organizations",
+      price: "Custom",
+      period: "Billed annually",
+      icon: Sparkles,
+      features: [
+        "Unlimited objects",
+        "SAML and SSO",
+        "Flexible invoicing",
+      ],
+      buttonText: "Talk to sales",
+      popular: false,
+      color: "from-purple-500 to-purple-600",
+      bgGradient: "from-purple-50 to-purple-100",
+      stripePrice: null
     }
   ]
 }
@@ -230,6 +184,15 @@ export function PricingPlans() {
       recurring: plan.recurring,
       annualBilling: (plan as any).annualBilling 
     })
+
+    // Handle Enterprise plan
+    if (plan.id === 'enterprise' || plan.id === 'enterprise-annual') {
+      toast({
+        title: "Contact Sales",
+        description: "Our sales team will contact you shortly to discuss your enterprise needs.",
+      })
+      return
+    }
 
     if (plan.stripePrice === null) {
       console.log('Free plan selected - no payment needed')
@@ -384,8 +347,8 @@ export function PricingPlans() {
         <PricingHeader />
         
         {/* Billing Period Toggle */}
-        <div className="flex justify-center mb-4 sm:mb-6 lg:mb-8">
-          <div className="bg-gray-100 rounded-full p-1 shadow-sm border max-w-sm mx-auto">
+        <div className="flex justify-center mb-8 sm:mb-12">
+          <div className="bg-muted/50 rounded-full p-1 shadow-sm border max-w-sm mx-auto">
             <ToggleGroup
               type="single"
               value={billingPeriod}
@@ -394,25 +357,22 @@ export function PricingPlans() {
             >
               <ToggleGroupItem
                 value="monthly"
-                className="px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-blue-600 data-[state=on]:text-white data-[state=off]:text-gray-600 data-[state=off]:bg-transparent transition-all"
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-sm data-[state=off]:text-muted-foreground data-[state=off]:bg-transparent transition-all"
               >
                 Monthly
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="annual"
-                className="px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-blue-600 data-[state=on]:text-white data-[state=off]:text-gray-600 data-[state=off]:bg-transparent relative transition-all"
+                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-sm data-[state=off]:text-muted-foreground data-[state=off]:bg-transparent transition-all"
               >
                 Annual
-                <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-sm">
-                  Save 17%
-                </span>
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
         </div>
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 max-w-4xl mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto px-4">
           {currentPlans.map((plan) => (
             <div key={plan.id} className="flex">
               <PricingCard 
