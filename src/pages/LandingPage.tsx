@@ -12,6 +12,7 @@ import { LandingCTASection } from "@/components/landing/LandingCTASection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { EssentialSideMenu } from "@/components/EssentialSideMenu";
 import { CookieConsent } from "@/components/landing/CookieConsent";
+import { FeatherBot } from "@/components/FeatherBot";
 
 export default function LandingPage() {
   return (
@@ -30,6 +31,7 @@ export default function LandingPage() {
       <EssentialSideMenu />
       <LandingFooter />
       <CookieConsent />
+      <FeatherBot isVisible={true} />
     </div>
   );
 }
