@@ -10,7 +10,7 @@ import { LandingPricingSection } from "@/components/landing/LandingPricingSectio
 import { LandingFAQSection } from "@/components/landing/LandingFAQSection";
 import { LandingCTASection } from "@/components/landing/LandingCTASection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
-import { EssentialSideMenu } from "@/components/EssentialSideMenu";
+
 import { CookieConsent } from "@/components/landing/CookieConsent";
 import { FeatherBot } from "@/components/FeatherBot";
 
@@ -28,7 +28,7 @@ export default function LandingPage() {
         <LandingFAQSection />
         <LandingCTASection />
       </main>
-      <EssentialSideMenu />
+      
       <LandingFooter />
       <CookieConsent />
       {/* ✅ ACTIVE CHATBOT: Black FeatherBot - Always visible on landing page */}
