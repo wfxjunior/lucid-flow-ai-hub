@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useNavigate } from "react-router-dom";
 
 // Import entrepreneur photos
@@ -29,6 +30,26 @@ const basePhotos = [
   entrepreneur13, entrepreneur14, entrepreneur15, entrepreneur16
 ];
 
+// Fictional names and job titles
+const entrepreneurData = [
+  { name: "Ana Silva", role: "CEO & Founder" },
+  { name: "Carlos Mendes", role: "Tech Entrepreneur" },
+  { name: "Maria Santos", role: "Creative Director" },
+  { name: "João Pereira", role: "Business Consultant" },
+  { name: "Sofia Costa", role: "Marketing Strategist" },
+  { name: "Pedro Alves", role: "Product Manager" },
+  { name: "Lucia Ferreira", role: "Innovation Lead" },
+  { name: "Miguel Torres", role: "Sales Director" },
+  { name: "Rita Oliveira", role: "Operations Manager" },
+  { name: "Bruno Cardoso", role: "Growth Hacker" },
+  { name: "Carla Rodrigues", role: "Brand Specialist" },
+  { name: "Tiago Sousa", role: "Digital Nomad" },
+  { name: "Helena Castro", role: "UX Designer" },
+  { name: "André Martins", role: "Data Analyst" },
+  { name: "Beatriz Lima", role: "Content Creator" },
+  { name: "Nuno Dias", role: "Startup Advisor" }
+];
+
 // Generate more entrepreneurs like Attio's dense cloud
 const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
   const sizes = ['w-6 h-6', 'w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
@@ -46,10 +67,13 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
     }
   }
   
+  const dataIndex = i % entrepreneurData.length;
   return {
     id: i + 1,
     initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
     avatar: basePhotos[i % basePhotos.length],
+    name: entrepreneurData[dataIndex].name,
+    role: entrepreneurData[dataIndex].role,
     size: selectedSize,
     left: Math.random() * 85 + 7.5, // Better distribution
     top: Math.random() * 70 + 15, // Better distribution
@@ -102,32 +126,44 @@ export const LandingEntrepreneursSection = () => {
         
         {/* Entrepreneurs Cloud - positioned above text like Attio */}
         <div className={`relative h-72 lg:h-96 max-w-4xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          {entrepreneurs.map((entrepreneur, index) => (
-            <div
-              key={entrepreneur.id}
-              className={`absolute transition-all duration-700 ${!animationStopped ? 'animate-float' : ''} ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-              style={{
-                left: `${entrepreneur.left}%`,
-                top: `${entrepreneur.top}%`,
-                transform: 'translate(-50%, -50%)',
-                transitionDelay: isVisible ? `${index * 8}ms` : '0ms',
-                animationDelay: !animationStopped ? `${entrepreneur.floatDelay}s` : '0s',
-                animationDuration: !animationStopped ? `${entrepreneur.duration}s` : '0s'
-              }}
-            >
-              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-125 hover:rotate-3 border border-border/20 shadow-lg hover:shadow-xl ${!animationStopped ? 'animate-pulse-subtle' : ''}`}>
-                <AvatarImage
-                  src={entrepreneur.avatar}
-                  alt={`Entrepreneur ${entrepreneur.initials}`}
-                  className="object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
-                  loading="lazy"
-                />
-                <AvatarFallback className="bg-muted text-muted-foreground text-xs font-medium">
-                  {entrepreneur.initials}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          ))}
+          <TooltipProvider>
+            {entrepreneurs.map((entrepreneur, index) => (
+              <div
+                key={entrepreneur.id}
+                className={`absolute transition-all duration-700 ${!animationStopped ? 'animate-float' : ''} ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                style={{
+                  left: `${entrepreneur.left}%`,
+                  top: `${entrepreneur.top}%`,
+                  transform: 'translate(-50%, -50%)',
+                  transitionDelay: isVisible ? `${index * 8}ms` : '0ms',
+                  animationDelay: !animationStopped ? `${entrepreneur.floatDelay}s` : '0s',
+                  animationDuration: !animationStopped ? `${entrepreneur.duration}s` : '0s'
+                }}
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-125 hover:rotate-3 border border-border/20 shadow-lg hover:shadow-xl ${!animationStopped ? 'animate-pulse-subtle' : ''} cursor-pointer`}>
+                      <AvatarImage
+                        src={entrepreneur.avatar}
+                        alt={`${entrepreneur.name} - ${entrepreneur.role}`}
+                        className="object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
+                        loading="lazy"
+                      />
+                      <AvatarFallback className="bg-muted text-muted-foreground text-xs font-medium">
+                        {entrepreneur.initials}
+                      </AvatarFallback>
+                    </Avatar>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div className="text-center">
+                      <p className="font-medium text-sm">{entrepreneur.name}</p>
+                      <p className="text-xs text-muted-foreground">{entrepreneur.role}</p>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            ))}
+          </TooltipProvider>
         </div>
 
         {/* Section Header - positioned below like Attio */}
