@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Import entrepreneur photos
@@ -17,10 +17,10 @@ const basePhotos = [
   entrepreneur05, entrepreneur06, entrepreneur07, entrepreneur08
 ];
 
-// Generate diverse entrepreneur data with organic positioning
-const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
-  const sizes = ['w-8 h-8', 'w-10 h-10', 'w-12 h-12', 'w-14 h-14', 'w-16 h-16'];
-  const sizeWeights = [0.15, 0.25, 0.35, 0.2, 0.05]; // Mostly medium sizes
+// Generate fewer entrepreneurs for a cleaner look like Attio
+const entrepreneurs = Array.from({ length: 60 }, (_, i) => {
+  const sizes = ['w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
+  const sizeWeights = [0.3, 0.5, 0.2]; // Mostly small to medium sizes
   
   let randomSize = Math.random();
   let cumulativeWeight = 0;
@@ -39,67 +39,88 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
     initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
     avatar: basePhotos[i % basePhotos.length],
     size: selectedSize,
-    left: Math.random() * 90 + 5, // 5% to 95% from left
-    top: Math.random() * 80 + 10, // 10% to 90% from top
-    delay: Math.random() * 2, // Animation delay
+    left: Math.random() * 85 + 7.5, // More centered distribution
+    top: Math.random() * 70 + 15, // More centered distribution
+    delay: Math.random() * 1.5, // Faster animations
   };
 });
 
 export const LandingEntrepreneursSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px'
+      }
+    );
+
+    const section = document.getElementById('entrepreneurs-wall');
+    if (section) {
+      observer.observe(section);
+    }
+
+    return () => {
+      if (section) {
+        observer.unobserve(section);
+      }
+    };
+  }, []);
+
   return (
     <section 
       id="entrepreneurs-wall" 
-      className="featherbiz-entrepreneurs-wall py-16 sm:py-20 lg:py-24 bg-gray-50"
+      className="py-20 sm:py-24 lg:py-32 bg-white relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-            Trusted by Entrepreneurs in Over{" "}
-            <span className="text-blue-600">100 Countries</span>
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Join the global movement of small business owners and entrepreneurs growing with FeatherBiz
-          </p>
-        </div>
-
-        {/* Entrepreneurs Cloud */}
-        <div className="relative h-96 sm:h-[500px] lg:h-[600px] max-w-6xl mx-auto overflow-hidden">
-          {entrepreneurs.map((entrepreneur) => (
+        {/* Entrepreneurs Cloud - positioned above text like Attio */}
+        <div className={`relative h-80 sm:h-96 lg:h-[420px] max-w-5xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {entrepreneurs.map((entrepreneur, index) => (
             <div
               key={entrepreneur.id}
-              className="absolute group animate-fade-in"
+              className={`absolute transition-all duration-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
               style={{
                 left: `${entrepreneur.left}%`,
                 top: `${entrepreneur.top}%`,
-                animationDelay: `${entrepreneur.delay}s`,
-                transform: 'translate(-50%, -50%)'
+                transform: 'translate(-50%, -50%)',
+                transitionDelay: isVisible ? `${index * 20}ms` : '0ms'
               }}
             >
-              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-110 hover:z-10 relative grayscale hover:grayscale-0 opacity-70 hover:opacity-100`}>
+              <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-110 border-2 border-white shadow-sm grayscale-[0.3] hover:grayscale-0`}>
                 <AvatarImage
                   src={entrepreneur.avatar}
                   alt={`Entrepreneur ${entrepreneur.initials}`}
                   className="object-cover"
                   loading="lazy"
                 />
-                <AvatarFallback className="bg-blue-100 text-blue-600 text-xs font-medium">
+                <AvatarFallback className="bg-gray-100 text-gray-600 text-xs font-medium">
                   {entrepreneur.initials}
                 </AvatarFallback>
               </Avatar>
             </div>
           ))}
-          
-          {/* Subtle gradient overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-50/30 via-transparent to-gray-50/30 pointer-events-none" />
         </div>
 
-        {/* Bottom Text */}
-        <div className="text-center mt-12 sm:mt-16">
-          <p className="text-sm sm:text-base text-gray-500 max-w-2xl mx-auto">
-            Thousands of entrepreneurs worldwide trust FeatherBiz to streamline their business operations and drive growth
-          </p>
+        {/* Section Header - positioned below like Attio */}
+        <div className={`text-center transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            The platform behind
+            <br />
+            <span className="text-gray-600">thousands of businesses.</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button className="bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+              Start for free
+            </button>
+            <button className="text-gray-600 px-6 py-3 font-medium hover:text-gray-900 transition-colors">
+              Talk to sales
+            </button>
+          </div>
         </div>
         
       </div>
