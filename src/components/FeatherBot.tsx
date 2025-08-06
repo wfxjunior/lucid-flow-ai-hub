@@ -250,11 +250,11 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
       {isOpen && (
         <div className="animate-fade-in animate-scale-in">
           <Card className="w-80 sm:w-96 h-96 sm:h-[500px] shadow-xl border-0 bg-white dark:bg-gray-800">
-            <CardHeader className="pb-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg">
+            <CardHeader className="pb-3 bg-gray-800 text-white rounded-t-lg">
               <CardTitle className="flex items-center justify-between text-lg">
                 <div className="flex items-center gap-2">
                   <div className="relative">
-                    <div className="w-5 h-5 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                    <div className="w-5 h-5 bg-gray-600 rounded-full border border-white flex items-center justify-center">
                       <div className="absolute top-1 left-1 flex gap-1">
                         <div className="w-1 h-1 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                         <div className="w-1 h-1 bg-white rounded-full animate-[blink_3s_infinite]"></div>
@@ -270,7 +270,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(false)}
-                  className="text-white hover:bg-blue-700/50 h-8 w-8 p-0 rounded-full transition-colors"
+                  className="text-white hover:bg-gray-700/50 h-8 w-8 p-0 rounded-full transition-colors"
                   aria-label="Close FeatherBot"
                 >
                   <X className="h-4 w-4" />
@@ -285,7 +285,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
                     <div className="mb-6 flex justify-center">
                       <div className="relative">
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
+                        <div className="w-16 h-16 bg-gray-700 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
                           <div className="absolute top-4 left-4 flex gap-2">
                             <div className="w-2.5 h-2.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                             <div className="w-2.5 h-2.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
@@ -302,23 +302,23 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     <div className="space-y-3">
                       <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">FeatherBot Assistant</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">Your intelligent business companion</p>
-                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mx-4">
-                        <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-2">I can help you with:</p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-blue-700 dark:text-blue-300">
+                      <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mx-4">
+                        <p className="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2">I can help you with:</p>
+                        <div className="grid grid-cols-2 gap-2 text-xs text-gray-700 dark:text-gray-300">
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
                             Invoice tracking
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
                             Client management
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
                             Financial insights
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
                             Business analytics
                           </div>
                         </div>
@@ -335,14 +335,14 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     <div
                       className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
                         message.type === 'user'
-                          ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
+                          ? 'bg-gray-700 text-white shadow-gray-300 dark:shadow-gray-600/50'
                           : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 shadow-gray-100 dark:shadow-gray-800/50'
                       } transition-all duration-200 hover:shadow-md hover:scale-[1.02]`}
                     >
                       <div className="flex items-start gap-2">
                         {message.type === 'bot' && (
                           <div className="relative mt-0.5 flex-shrink-0">
-                            <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                            <div className="w-4 h-4 bg-gray-600 rounded-full border border-white flex items-center justify-center">
                               <div className="absolute top-0.5 left-0.5 flex gap-0.5">
                                 <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                                 <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
@@ -360,7 +360,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                           <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
                           <p
                             className={`text-xs mt-2 ${
-                              message.type === 'user' ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'
+                              message.type === 'user' ? 'text-gray-200' : 'text-gray-500 dark:text-gray-400'
                             }`}
                           >
                             {formatTime(message.timestamp)}
@@ -377,7 +377,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-600">
                       <div className="flex items-center gap-2">
                         <div className="relative">
-                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                          <div className="w-4 h-4 bg-gray-600 rounded-full border border-white flex items-center justify-center">
                             <div className="absolute top-0.5 left-0.5 flex gap-0.5">
                               <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                               <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
@@ -406,7 +406,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                     <div className="max-w-[80%] bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
                       <div className="flex items-start gap-2">
                         <div className="relative mt-0.5 flex-shrink-0">
-                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                          <div className="w-4 h-4 bg-gray-600 rounded-full border border-white flex items-center justify-center">
                             <div className="absolute top-0.5 left-0.5 flex gap-0.5">
                               <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
                               <div className="w-0.5 h-0.5 bg-white rounded-full animate-[blink_3s_infinite]"></div>
@@ -419,7 +419,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                         <div className="flex-1">
                           <p className="text-sm whitespace-pre-wrap leading-relaxed">
                             {typingText}
-                            <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
+                            <span className="inline-block w-2 h-4 bg-gray-500 ml-1 animate-pulse"></span>
                           </p>
                         </div>
                       </div>
@@ -440,7 +440,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                       onKeyPress={handleKeyPress}
                       placeholder="Ask me anything about your business..."
                       disabled={isLoading || isTyping}
-                      className="pr-12 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                      className="pr-12 border-gray-300 dark:border-gray-600 focus:border-gray-500 dark:focus:border-gray-400 transition-all duration-200 focus:ring-2 focus:ring-gray-500/20 shadow-sm"
                     />
                     {inputMessage.trim() && (
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -451,7 +451,7 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
                   <Button
                     onClick={sendMessage}
                     disabled={isLoading || isTyping || !inputMessage.trim()}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-blue-200 dark:shadow-blue-900/50"
+                    className="bg-gray-700 hover:bg-gray-600 transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-gray-300 dark:shadow-gray-600/50"
                     size="sm"
                   >
                     <Send className="h-4 w-4" />
