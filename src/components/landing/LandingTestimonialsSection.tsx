@@ -2,27 +2,32 @@
 import React, { useState, useEffect } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
+// Import testimonial photos
+import sarahJohnsonPhoto from "@/assets/testimonials/sarah-johnson.jpg";
+import michaelChenPhoto from "@/assets/testimonials/michael-chen.jpg";
+import elenaRodriguezPhoto from "@/assets/testimonials/elena-rodriguez.jpg";
+
 const testimonials = [
   {
     name: "Sarah Johnson",
     role: "CEO, Johnson & Associates",
     content: "When I first opened FeatherBiz, I instantly got the feeling this was the next generation of business management. The AI features and seamless workflow have transformed how we operate.",
     rating: 5,
-    avatar: "/lovable-uploads/733fa02a-f5d0-4471-9c97-7531308e03fe.png"
+    avatar: sarahJohnsonPhoto
   },
   {
     name: "Michael Chen",
     role: "Founder, TechStart Solutions",
     content: "FeatherBiz has completely revolutionized our business operations. The automation features save us hours every day, and the analytics provide insights we never had before.",
     rating: 5,
-    avatar: "/lovable-uploads/7a102a7a-627f-4e37-8289-eb773ea34d55.png"
+    avatar: michaelChenPhoto
   },
   {
     name: "Elena Rodriguez",
     role: "Operations Manager, GrowthCorp",
     content: "The most intuitive business platform I've ever used. Everything just works seamlessly together - from project management to financial tracking.",
     rating: 5,
-    avatar: "/lovable-uploads/8ce55bd9-24d8-4ad9-9f66-9dee70c7954c.png"
+    avatar: elenaRodriguezPhoto
   }
 ];
 
