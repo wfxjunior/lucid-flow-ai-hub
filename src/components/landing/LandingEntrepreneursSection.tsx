@@ -1,6 +1,22 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+// Import entrepreneur photos
+import entrepreneur01 from "@/assets/entrepreneurs/entrepreneur-01.jpg";
+import entrepreneur02 from "@/assets/entrepreneurs/entrepreneur-02.jpg";
+import entrepreneur03 from "@/assets/entrepreneurs/entrepreneur-03.jpg";
+import entrepreneur04 from "@/assets/entrepreneurs/entrepreneur-04.jpg";
+import entrepreneur05 from "@/assets/entrepreneurs/entrepreneur-05.jpg";
+import entrepreneur06 from "@/assets/entrepreneurs/entrepreneur-06.jpg";
+import entrepreneur07 from "@/assets/entrepreneurs/entrepreneur-07.jpg";
+import entrepreneur08 from "@/assets/entrepreneurs/entrepreneur-08.jpg";
+
+// Base entrepreneur photos to cycle through
+const basePhotos = [
+  entrepreneur01, entrepreneur02, entrepreneur03, entrepreneur04,
+  entrepreneur05, entrepreneur06, entrepreneur07, entrepreneur08
+];
+
 // Generate diverse entrepreneur data with organic positioning
 const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
   const sizes = ['w-8 h-8', 'w-10 h-10', 'w-12 h-12', 'w-14 h-14', 'w-16 h-16'];
@@ -21,7 +37,7 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
   return {
     id: i + 1,
     initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
-    avatar: `https://images.unsplash.com/photo-${1500000000000 + i * 1000000}?w=100&h=100&fit=crop&crop=face&auto=format&q=60`,
+    avatar: basePhotos[i % basePhotos.length],
     size: selectedSize,
     left: Math.random() * 90 + 5, // 5% to 95% from left
     top: Math.random() * 80 + 10, // 10% to 90% from top
