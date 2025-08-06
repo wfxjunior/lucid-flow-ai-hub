@@ -11,26 +11,32 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ title, description, children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <h1 className="text-2xl font-bold text-primary">FeatherBiz</h1>
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-sm mx-auto">
+        <div className="text-center mb-12">
+          <div className="mb-8">
+            <h1 className="text-2xl font-semibold text-foreground">FeatherBiz</h1>
           </div>
-          <p className="text-muted-foreground">
-            Organize. Send. Grow. All-in-one business platform.
-          </p>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-medium text-foreground">{title}</h2>
+            {description && (
+              <p className="text-sm text-muted-foreground">{description}</p>
+            )}
+          </div>
         </div>
         
-        <Card className="shadow-lg">
-          <CardHeader className="text-center">
-            <CardTitle className="text-xl">{title}</CardTitle>
-            <CardDescription>{description}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {children}
-          </CardContent>
-        </Card>
+        <div className="space-y-6">
+          {children}
+        </div>
+        
+        <div className="mt-12 text-center space-y-2">
+          <p className="text-xs text-muted-foreground">
+            By proceeding you acknowledge that you have read, understood and agree to our Terms and Conditions.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            © 2025 FeatherBiz Limited
+          </p>
+        </div>
       </div>
     </div>
   )

@@ -22,28 +22,28 @@ export function ForgotPasswordForm({
   onBackToSignIn
 }: ForgotPasswordFormProps) {
   return (
-    <>
+    <div className="space-y-6">
       <ErrorAlert errors={errors} />
       
-      <form onSubmit={onSubmit} className="space-y-6">
+      <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <Input
             id="email"
             type="email"
-            placeholder="Email"
+            placeholder="Enter your work email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="h-12 border-border/50 focus:border-primary transition-colors duration-200 rounded-lg"
+            className="h-12 border-border rounded-lg text-sm"
             required
           />
         </div>
         
         <Button 
           type="submit" 
-          className="w-full h-12 rounded-lg font-medium transition-all duration-200"
+          className="w-full h-12 rounded-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground"
           disabled={loading}
         >
-          {loading ? 'Sending...' : 'Send Reset Link'}
+          {loading ? 'Sending...' : 'Continue'}
         </Button>
       </form>
       
@@ -51,11 +51,11 @@ export function ForgotPasswordForm({
         <Button
           variant="link"
           onClick={onBackToSignIn}
-          className="text-primary font-medium"
+          className="text-sm text-muted-foreground hover:text-foreground p-0"
         >
           Back to Sign In
         </Button>
       </div>
-    </>
+    </div>
   )
 }
