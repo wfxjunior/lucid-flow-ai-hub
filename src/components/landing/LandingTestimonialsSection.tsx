@@ -8,28 +8,28 @@ const testimonials = [
     role: "CEO, TechStart Inc.",
     content: "FeatherBiz transformed our operations. We've increased efficiency by 40% and our team loves the intuitive interface.",
     rating: 5,
-    avatar: "/lovable-uploads/photo-1488590528505-98d2b5aba04b.png"
+    avatar: "/lovable-uploads/9213baaa-a963-4cd9-974c-b7ebfdd1f554.png"
   },
   {
     name: "Michael Chen",
     role: "Freelance Designer",
     content: "As a solo entrepreneur, FeatherBiz gives me enterprise-level tools without the complexity. Perfect for growing businesses.",
     rating: 5,
-    avatar: "/lovable-uploads/photo-1527576539890-dfa815648363.png"
+    avatar: "/lovable-uploads/921ec0de-4f91-49eb-9f68-bdfefce23f2b.png"
   },
   {
     name: "Emily Rodriguez",
     role: "Operations Manager",
     content: "The automation features save us hours every week. It's like having an extra team member that never sleeps.",
     rating: 5,
-    avatar: "/lovable-uploads/photo-1485833077593-4278bba3f11f.png"
+    avatar: "/lovable-uploads/94a8f69c-f543-4b11-9bf7-8a3bb6f92f0f.png"
   },
   {
     name: "David Thompson",
     role: "Small Business Owner",
     content: "I was skeptical about switching platforms, but FeatherBiz made the transition seamless. Our productivity has never been higher.",
     rating: 5,
-    avatar: "/lovable-uploads/photo-1452960962994-acf4fd70b632.png"
+    avatar: "/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png"
   }
 ];
 
