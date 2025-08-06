@@ -1,9 +1,7 @@
 
-import React, { useState } from "react";
-import { Play, X } from "lucide-react";
+import React from "react";
 
 export const LandingDashboardPreview = () => {
-  const [showVideo, setShowVideo] = useState(false);
 
   return (
     <section className="py-20 sm:py-24 lg:py-32 bg-white">
@@ -182,35 +180,6 @@ export const LandingDashboardPreview = () => {
               </div>
             </div>
           </div>
-          
-          {/* Play Button Overlay */}
-          {!showVideo && (
-            <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-              <button
-                onClick={() => setShowVideo(true)}
-                className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-200"
-              >
-                <Play className="w-8 h-8 text-blue-600 ml-1" />
-              </button>
-            </div>
-          )}
-          
-          {/* Video Modal */}
-          {showVideo && (
-            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-              <div className="relative bg-white rounded-2xl p-6 w-full max-w-4xl">
-                <button
-                  onClick={() => setShowVideo(false)}
-                  className="absolute top-4 right-4 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-                <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-                  <p className="text-gray-500">Demo video would play here</p>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
         
       </div>
