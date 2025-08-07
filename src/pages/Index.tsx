@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { useAuthState } from "@/hooks/useAuthState"
 import { AuthContainer } from "@/components/auth/AuthContainer"
-import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { MainContent } from "@/components/MainContent"
 import { ImprovedDashboard } from "@/components/ImprovedDashboard"
@@ -101,39 +101,27 @@ export default function Index() {
   return (
     <SidebarProvider>
       <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-      <main className="flex-1 w-full">
+      <SidebarInset>
         {/* Header - Always visible */}
-        <div className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex h-12 sm:h-14 lg:h-16 items-center px-2 sm:px-4 gap-2">
-            <SidebarTrigger />
-            {isMobile && (
-              <h1 className="text-base sm:text-lg font-semibold text-foreground truncate">
-                {activeView === 'dashboard' ? 'Dashboard' : 
-                 activeView.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-              </h1>
-            )}
-            <div className="flex-1">
-              <UserGreeting onNavigate={setActiveView} />
-            </div>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <div className="ml-auto flex items-center gap-2">
+            <UserGreeting onNavigate={setActiveView} />
           </div>
-        </div>
+        </header>
 
         {/* Main content area */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex flex-1 flex-col gap-4 p-4">
           {activeView === "dashboard" ? (
-            <div className="p-2 sm:p-4 lg:p-6">
-              <ImprovedDashboard onNavigate={setActiveView} />
-            </div>
+            <ImprovedDashboard onNavigate={setActiveView} />
           ) : (
-            <div className="min-h-full">
-              <MainContent activeView={activeView} onNavigate={setActiveView} />
-            </div>
+            <MainContent activeView={activeView} onNavigate={setActiveView} />
           )}
         </div>
 
         {/* ✅ ACTIVE CHATBOT: Black FeatherBot - Only visible for Pro users or users with featherGoldAccess */}
         <FeatherBot isVisible={hasAccess} />
-      </main>
+      </SidebarInset>
     </SidebarProvider>
   )
 }
