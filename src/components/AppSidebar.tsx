@@ -117,8 +117,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   return (
     <Sidebar 
       className="border-r"
-      collapsible="icon"
-      variant={isMobile ? "floating" : "sidebar"}
+      collapsible={isMobile ? "offcanvas" : "icon"}
+      variant={isMobile ? "sidebar" : "sidebar"}
       side="left"
     >
       <SidebarContent className="gap-0">
