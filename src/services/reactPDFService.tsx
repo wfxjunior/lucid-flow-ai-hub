@@ -1,5 +1,5 @@
 import React from 'react'
-import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, pdf, Image } from '@react-pdf/renderer'
 import { BusinessData } from './pdfService'
 import { InvoicePDFTemplate, generateInvoicePDF } from '../components/InvoicePDFTemplate'
 
@@ -118,6 +118,9 @@ const ContractPDF = ({ contract, businessData }: { contract: any, businessData: 
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
         <View style={styles.companyInfo}>
+          {businessData.companyLogo && (
+            <Image src={businessData.companyLogo} style={{ width: 60, height: 60, marginBottom: 10 }} />
+          )}
           <Text style={styles.companyName}>{businessData.companyName || 'Company Name'}</Text>
           <Text style={styles.companyDetails}>{businessData.companyAddress}</Text>
           <Text style={styles.companyDetails}>{businessData.companyPhone} | {businessData.companyEmail}</Text>
@@ -162,6 +165,9 @@ const EstimatePDF = ({ estimate, businessData }: { estimate: any, businessData: 
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
         <View style={styles.companyInfo}>
+          {businessData.companyLogo && (
+            <Image src={businessData.companyLogo} style={{ width: 60, height: 60, marginBottom: 10 }} />
+          )}
           <Text style={styles.companyName}>{businessData.companyName || 'Company Name'}</Text>
           <Text style={styles.companyDetails}>{businessData.companyAddress}</Text>
           <Text style={styles.companyDetails}>{businessData.companyPhone} | {businessData.companyEmail}</Text>
@@ -204,6 +210,9 @@ const WorkOrderPDF = ({ workOrder, businessData }: { workOrder: any, businessDat
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
         <View style={styles.companyInfo}>
+          {businessData.companyLogo && (
+            <Image src={businessData.companyLogo} style={{ width: 60, height: 60, marginBottom: 10 }} />
+          )}
           <Text style={styles.companyName}>{businessData.companyName || 'Company Name'}</Text>
           <Text style={styles.companyDetails}>{businessData.companyAddress}</Text>
           <Text style={styles.companyDetails}>{businessData.companyPhone} | {businessData.companyEmail}</Text>
@@ -373,12 +382,13 @@ export class ReactPDFService {
       invoiceDate: invoice.invoice_date ? new Date(invoice.invoice_date).toLocaleDateString() : new Date().toLocaleDateString(),
       dueDate: invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : undefined,
       title: invoice.title || 'Professional Services Invoice',
-      companyInfo: {
-        name: this.businessData.companyName,
-        address: this.businessData.companyAddress,
-        phone: this.businessData.companyPhone,
-        email: this.businessData.companyEmail
-      },
+    companyInfo: {
+      name: this.businessData.companyName,
+      address: this.businessData.companyAddress,
+      phone: this.businessData.companyPhone,
+      email: this.businessData.companyEmail,
+      logo: this.businessData.companyLogo
+    },
       clientInfo: {
         name: invoice.client?.name || 'Client Name',
         email: invoice.client?.email || 'client@email.com',

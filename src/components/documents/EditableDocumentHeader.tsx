@@ -14,6 +14,7 @@ interface CompanyInfo {
   address: string
   phone: string
   email: string
+  customDocumentTitles?: Record<string, string>
 }
 
 interface ClientInfo {
@@ -89,6 +90,9 @@ export function EditableDocumentHeader({
   autoGenerateNumbers = true
 }: DocumentHeaderProps) {
   const [isEditingClient, setIsEditingClient] = useState(false)
+  const [customTitle, setCustomTitle] = useState(
+    companyInfo.customDocumentTitles?.[documentType] || documentType.toUpperCase()
+  )
 
   const labels = fieldLabels[documentType] || { dueDate: 'Due Date', number: 'Number #' }
 
@@ -114,10 +118,10 @@ export function EditableDocumentHeader({
         <div className="flex-1 max-w-md">
           <div className="flex items-center gap-4 mb-4">
             {companyInfo.logo ? (
-              <img src={companyInfo.logo} alt="Company Logo" className="w-16 h-16 object-contain" />
+              <img src={companyInfo.logo} alt="Company Logo" className="w-32 h-32 object-contain" />
             ) : (
-              <div className="w-16 h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-gray-400" />
+              <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+                <Building2 className="w-12 h-12 text-gray-400" />
               </div>
             )}
             <div>
@@ -171,7 +175,22 @@ export function EditableDocumentHeader({
 
         {/* Document Title and Info */}
         <div className="text-right">
-          <h1 className="text-4xl font-bold text-gray-700 mb-4 uppercase">{documentType}</h1>
+          <Input
+            value={customTitle}
+            onChange={(e) => {
+              setCustomTitle(e.target.value)
+              const updatedTitles = { 
+                ...companyInfo.customDocumentTitles, 
+                [documentType]: e.target.value 
+              }
+              onCompanyInfoChange({ 
+                ...companyInfo, 
+                customDocumentTitles: updatedTitles 
+              })
+            }}
+            className="text-4xl font-bold text-gray-700 mb-4 uppercase text-right border-none p-0 bg-transparent"
+            placeholder={documentType.toUpperCase()}
+          />
           
           <div className="space-y-2">
             <div className="flex items-center justify-end gap-2">

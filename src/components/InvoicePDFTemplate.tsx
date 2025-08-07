@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer'
+import { Document, Page, Text, View, StyleSheet, pdf, Image } from '@react-pdf/renderer'
 
 // Professional invoice template styles
 const styles = StyleSheet.create({
@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
   companySection: {
     flexDirection: 'column',
     maxWidth: '50%'
+  },
+  companyLogo: {
+    width: 80,
+    height: 80,
+    marginBottom: 8
   },
   companyName: {
     fontSize: 28,
@@ -224,11 +229,13 @@ interface InvoiceData {
   invoiceDate: string
   dueDate?: string
   title: string
+  documentTitle?: string
   companyInfo: {
     name: string
     address: string
     phone: string
     email: string
+    logo?: string
   }
   clientInfo: {
     name: string
@@ -258,13 +265,16 @@ export const InvoicePDFTemplate = ({ invoiceData }: { invoiceData: InvoiceData }
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.companySection}>
+          {invoiceData.companyInfo.logo && (
+            <Image src={invoiceData.companyInfo.logo} style={styles.companyLogo} />
+          )}
           <Text style={styles.companyName}>{invoiceData.companyInfo.name}</Text>
           <Text style={styles.companyDetails}>{invoiceData.companyInfo.address}</Text>
           <Text style={styles.companyDetails}>{invoiceData.companyInfo.phone}</Text>
           <Text style={styles.companyDetails}>{invoiceData.companyInfo.email}</Text>
         </View>
         <View style={styles.invoiceSection}>
-          <Text style={styles.invoiceTitle}>INVOICE</Text>
+          <Text style={styles.invoiceTitle}>{invoiceData.documentTitle || 'INVOICE'}</Text>
           <Text style={styles.invoiceNumber}>#{invoiceData.invoiceNumber}</Text>
           <Text style={styles.invoiceDate}>Date: {invoiceData.invoiceDate}</Text>
           {invoiceData.dueDate && (

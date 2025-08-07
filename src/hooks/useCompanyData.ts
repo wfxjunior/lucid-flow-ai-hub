@@ -12,6 +12,7 @@ export interface CompanyProfile {
   email?: string
   logo_url?: string
   website?: string
+  custom_document_titles?: Record<string, string>
   created_at: string
   updated_at: string
 }
