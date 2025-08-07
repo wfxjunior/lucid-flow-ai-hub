@@ -111,20 +111,20 @@ export function EditableDocumentHeader({
   }
 
   return (
-    <div className="bg-white border rounded-lg p-6 mb-6">
+    <div className="bg-white border rounded-lg p-3 sm:p-6 mb-4 sm:mb-6">
       {/* Company and Document Header Row */}
-      <div className="flex justify-between items-start mb-8">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-6 sm:mb-8 space-y-6 lg:space-y-0">
         {/* Company Info */}
-        <div className="flex-1 max-w-md">
-          <div className="flex items-center gap-4 mb-4">
+        <div className="flex-1 lg:max-w-md">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
             {companyInfo.logo ? (
-              <img src={companyInfo.logo} alt="Company Logo" className="w-32 h-32 object-contain" />
+              <img src={companyInfo.logo} alt="Company Logo" className="w-24 h-24 sm:w-32 sm:h-32 object-contain mx-auto sm:mx-0" />
             ) : (
-              <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
-                <Building2 className="w-12 h-12 text-gray-400" />
+              <div className="w-24 h-24 sm:w-32 sm:h-32 border-2 border-dashed border-gray-300 rounded flex items-center justify-center mx-auto sm:mx-0">
+                <Building2 className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
               </div>
             )}
-            <div>
+            <div className="text-center sm:text-left">
               <input
                 type="file"
                 accept="image/*"
@@ -136,6 +136,7 @@ export function EditableDocumentHeader({
                 variant="outline"
                 size="sm"
                 onClick={() => document.getElementById('logo-upload')?.click()}
+                className="w-full sm:w-auto"
               >
                 <Upload className="w-4 h-4 mr-2" />
                 {companyInfo.logo ? 'Change Logo' : 'Add Logo'}
@@ -146,14 +147,14 @@ export function EditableDocumentHeader({
           <Input
             value={companyInfo.name}
             onChange={(e) => onCompanyInfoChange({ ...companyInfo, name: e.target.value })}
-            className="text-xl font-bold text-blue-600 border-none p-0 mb-2"
+            className="text-lg sm:text-xl font-bold text-blue-600 border-none p-0 mb-2 text-center sm:text-left"
             placeholder="Company Name"
           />
           
           <Textarea
             value={companyInfo.address}
             onChange={(e) => onCompanyInfoChange({ ...companyInfo, address: e.target.value })}
-            className="text-sm text-gray-600 border-none p-0 mb-1 resize-none"
+            className="text-sm text-gray-600 border-none p-0 mb-1 resize-none text-center sm:text-left"
             placeholder="Company Address"
             rows={3}
           />
@@ -161,20 +162,20 @@ export function EditableDocumentHeader({
           <Input
             value={companyInfo.phone}
             onChange={(e) => onCompanyInfoChange({ ...companyInfo, phone: e.target.value })}
-            className="text-sm text-gray-600 border-none p-0 mb-1"
+            className="text-sm text-gray-600 border-none p-0 mb-1 text-center sm:text-left"
             placeholder="Phone Number"
           />
           
           <Input
             value={companyInfo.email}
             onChange={(e) => onCompanyInfoChange({ ...companyInfo, email: e.target.value })}
-            className="text-sm text-gray-600 border-none p-0"
+            className="text-sm text-gray-600 border-none p-0 text-center sm:text-left"
             placeholder="Email Address"
           />
         </div>
 
         {/* Document Title and Info */}
-        <div className="text-right">
+        <div className="lg:text-right">
           <Input
             value={customTitle}
             onChange={(e) => {
@@ -188,18 +189,18 @@ export function EditableDocumentHeader({
                 customDocumentTitles: updatedTitles 
               })
             }}
-            className="text-4xl font-bold text-gray-700 mb-4 uppercase text-right border-none p-0 bg-transparent"
+            className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-700 mb-4 uppercase text-center lg:text-right border-none p-0 bg-transparent"
             placeholder={documentType.toUpperCase()}
           />
           
-          <div className="space-y-2">
-            <div className="flex items-center justify-end gap-2">
-              <span className="text-sm text-gray-600">{labels.number}</span>
+          <div className="space-y-3 sm:space-y-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+              <span className="text-sm text-gray-600 sm:text-right">{labels.number}</span>
               <div className="flex items-center gap-2">
                 <Input
                   value={documentNumber}
                   onChange={(e) => onDocumentNumberChange(e.target.value)}
-                  className="w-32 text-right"
+                  className="w-full sm:w-32 text-center sm:text-right"
                   placeholder={autoGenerateNumbers ? "Auto-generated" : "Enter number"}
                   disabled={autoGenerateNumbers}
                 />
@@ -209,7 +210,7 @@ export function EditableDocumentHeader({
                       <Settings className="w-4 h-4" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="w-[95vw] max-w-md">
                     <DialogHeader>
                       <DialogTitle>Number Settings</DialogTitle>
                       <DialogDescription>
@@ -222,30 +223,30 @@ export function EditableDocumentHeader({
               </div>
             </div>
             
-            <div className="flex items-center justify-end gap-2">
-              <span className="text-sm text-gray-600">Date</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+              <span className="text-sm text-gray-600 sm:text-right">Date</span>
               <Input
                 type="date"
                 value={documentDate}
                 onChange={(e) => onDocumentDateChange(e.target.value)}
-                className="w-32"
+                className="w-full sm:w-32"
               />
             </div>
             
-            <div className="flex items-center justify-end gap-2">
-              <span className="text-sm text-gray-600">{labels.dueDate}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+              <span className="text-sm text-gray-600 sm:text-right">{labels.dueDate}</span>
               <Input
                 type="date"
                 value={dueDate}
                 onChange={(e) => onDueDateChange(e.target.value)}
-                className="w-32"
+                className="w-full sm:w-32"
               />
             </div>
             
-            <div className="flex items-center justify-end gap-2">
-              <span className="text-sm text-gray-600">Status</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+              <span className="text-sm text-gray-600 sm:text-right">Status</span>
               <Select value={status} onValueChange={onStatusChange}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-full sm:w-32">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -256,10 +257,10 @@ export function EditableDocumentHeader({
               </Select>
             </div>
             
-            <div className="flex items-center justify-end gap-2">
-              <span className="text-sm text-gray-600">Payment</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+              <span className="text-sm text-gray-600 sm:text-right">Payment</span>
               <Select value={paymentMethod} onValueChange={onPaymentMethodChange}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-full sm:w-32">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -274,14 +275,15 @@ export function EditableDocumentHeader({
       </div>
 
       {/* Client Information */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
+      <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
           <h3 className="text-sm font-medium text-gray-700">Bill To:</h3>
           {availableClients.length > 0 && (
             <Button
               variant="outline"
               size="sm"
               onClick={() => setIsEditingClient(!isEditingClient)}
+              className="w-full sm:w-auto"
             >
               {isEditingClient ? 'Select Existing' : 'Enter New'}
             </Button>
@@ -304,35 +306,40 @@ export function EditableDocumentHeader({
             <SelectContent>
               {availableClients.map((client) => (
                 <SelectItem key={client.id} value={client.id!}>
-                  {client.name} - {client.email}
+                  <div className="truncate">
+                    {client.name} - {client.email}
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         ) : (
-          <div className="space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Input
               value={clientInfo.name}
               onChange={(e) => onClientInfoChange({ ...clientInfo, name: e.target.value })}
               placeholder="Client Name"
-              className="font-medium"
+              className="font-medium sm:col-span-1"
             />
             <Input
               value={clientInfo.email}
               onChange={(e) => onClientInfoChange({ ...clientInfo, email: e.target.value })}
               placeholder="Client Email"
               type="email"
+              className="sm:col-span-1"
             />
             <Textarea
               value={clientInfo.address}
               onChange={(e) => onClientInfoChange({ ...clientInfo, address: e.target.value })}
               placeholder="Client Address"
               rows={3}
+              className="sm:col-span-2"
             />
             <Input
               value={clientInfo.phone || ''}
               onChange={(e) => onClientInfoChange({ ...clientInfo, phone: e.target.value })}
               placeholder="Client Phone"
+              className="sm:col-span-1"
             />
           </div>
         )}
