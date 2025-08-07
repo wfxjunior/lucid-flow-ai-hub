@@ -116,12 +116,12 @@ export function useAuthLogic() {
     clearErrors()
     
     if (!email.trim()) {
-      addError('Email é obrigatório')
+      addError('Email is required')
       return
     }
 
     if (!password.trim()) {
-      addError('Senha é obrigatória')
+      addError('Password is required')
       return
     }
 
@@ -150,21 +150,21 @@ export function useAuthLogic() {
       if (error) {
         console.error('Sign in error:', error)
         if (error.message.includes('Invalid login credentials')) {
-          addError('Email ou senha incorretos. Verifique suas credenciais.')
+          addError('Invalid email or password. Please check your credentials.')
         } else if (error.message.includes('Email not confirmed')) {
-          addError('Verifique seu email e clique no link de confirmação.')
+          addError('Please check your email and click the confirmation link.')
         } else {
-          addError(`Erro: ${error.message}`)
+          addError(`Error: ${error.message}`)
         }
       } else if (data.user) {
         console.log('Sign in successful, user:', data.user)
-        toast.success('Login realizado com sucesso!')
+        toast.success('Successfully signed in!')
         // Force page reload to ensure clean state
         window.location.href = '/'
       }
     } catch (error: any) {
       console.error('Unexpected sign in error:', error)
-      addError('Erro inesperado. Tente novamente.')
+      addError('Unexpected error. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -267,12 +267,12 @@ export function useAuthLogic() {
 
       if (error) {
         console.error('Google sign in error:', error)
-        addError(`Erro no login com Google: ${error.message}`)
+        addError(`Google sign in error: ${error.message}`)
       }
       // Note: For OAuth, the user will be redirected and we won't reach this point
     } catch (error: any) {
       console.error('Unexpected Google sign in error:', error)
-      addError('Erro inesperado no login com Google. Tente novamente.')
+      addError('Unexpected Google sign in error. Please try again.')
     } finally {
       setLoading(false)
     }
