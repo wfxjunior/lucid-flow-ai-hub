@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { PenTool, FileText } from "lucide-react"
-import { useFeatherSignIntegration } from "@/hooks/useFeatherSignIntegration"
+import { useSignNowIntegration } from "@/hooks/useSignNowIntegration"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
 import { SignatureForm } from "./SignatureForm"
@@ -22,7 +22,7 @@ export function DocumentSignatureDialog({
   open, 
   onOpenChange 
 }: DocumentSignatureDialogProps) {
-  const { uploadAndSendForSignature, isLoading: featherSignLoading } = useFeatherSignIntegration()
+  const { uploadAndSendForSignature, isLoading: signNowLoading } = useSignNowIntegration()
   const { generatePDF, isGenerating } = usePDFGeneration()
 
   const handleSendForSignature = async (formData: { signerEmail: string; signerName: string }) => {
@@ -37,7 +37,7 @@ export function DocumentSignatureDialog({
       
       const fileName = `${getDocumentTitle(document, documentType)}.pdf`
       
-      // Send for signature using FeatherSign
+      // Send for signature using SignNow
       const result = await uploadAndSendForSignature(
         pdfContent,
         fileName,
@@ -77,7 +77,7 @@ export function DocumentSignatureDialog({
         <SignatureForm
           onSubmit={handleSendForSignature}
           onCancel={() => onOpenChange(false)}
-          isLoading={featherSignLoading || isGenerating}
+          isLoading={signNowLoading || isGenerating}
         />
       </DialogContent>
     </Dialog>
