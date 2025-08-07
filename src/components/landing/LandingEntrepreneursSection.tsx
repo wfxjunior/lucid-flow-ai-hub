@@ -50,10 +50,35 @@ const entrepreneurData = [
   { name: "Nuno Dias", role: "Startup Advisor" }
 ];
 
-// Generate more entrepreneurs like Attio's dense cloud
-const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
-  const sizes = ['w-6 h-6', 'w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
-  const sizeWeights = [0.3, 0.3, 0.25, 0.15]; // More small sizes for density
+// Generate entrepreneurs in strategic organic clusters like the reference
+const createCluster = (centerX, centerY, count, radius) => {
+  const cluster = [];
+  for (let i = 0; i < count; i++) {
+    const angle = (i / count) * 2 * Math.PI + Math.random() * 0.5;
+    const distance = Math.random() * radius;
+    const x = centerX + Math.cos(angle) * distance;
+    const y = centerY + Math.sin(angle) * distance;
+    cluster.push({ x: Math.max(5, Math.min(95, x)), y: Math.max(10, Math.min(90, y)) });
+  }
+  return cluster;
+};
+
+// Create multiple organic clusters
+const cluster1 = createCluster(25, 35, 25, 20); // Left cluster
+const cluster2 = createCluster(75, 25, 30, 25); // Top right cluster  
+const cluster3 = createCluster(45, 65, 20, 18); // Bottom center cluster
+const cluster4 = createCluster(65, 55, 25, 22); // Right cluster
+const cluster5 = createCluster(30, 70, 15, 15); // Bottom left cluster
+const scattered = Array.from({ length: 15 }, () => ({ 
+  x: Math.random() * 90 + 5, 
+  y: Math.random() * 80 + 10 
+})); // Scattered individuals
+
+const allPositions = [...cluster1, ...cluster2, ...cluster3, ...cluster4, ...cluster5, ...scattered];
+
+const entrepreneurs = Array.from({ length: 130 }, (_, i) => {
+  const sizes = ['w-6 h-6', 'w-7 h-7', 'w-8 h-8', 'w-10 h-10', 'w-12 h-12'];
+  const sizeWeights = [0.25, 0.25, 0.25, 0.15, 0.1]; // Varied sizes for depth
   
   let randomSize = Math.random();
   let cumulativeWeight = 0;
@@ -67,7 +92,9 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
     }
   }
   
+  const position = allPositions[i % allPositions.length];
   const dataIndex = i % entrepreneurData.length;
+  
   return {
     id: i + 1,
     initials: String.fromCharCode(65 + (i % 26)) + String.fromCharCode(65 + ((i + 1) % 26)),
@@ -75,11 +102,11 @@ const entrepreneurs = Array.from({ length: 120 }, (_, i) => {
     name: entrepreneurData[dataIndex].name,
     role: entrepreneurData[dataIndex].role,
     size: selectedSize,
-    left: Math.random() * 85 + 7.5, // Better distribution
-    top: Math.random() * 70 + 15, // Better distribution
-    delay: Math.random() * 1, // Faster staggered animations
-    floatDelay: Math.random() * 2, // Faster floating animation delay  
-    duration: 2 + Math.random() * 1, // Shorter animation duration
+    left: position.x + (Math.random() - 0.5) * 3, // Small random offset for organic feel
+    top: position.y + (Math.random() - 0.5) * 3,
+    delay: Math.random() * 1.2,
+    floatDelay: Math.random() * 3,
+    duration: 2.5 + Math.random() * 1.5,
   };
 });
 
@@ -124,8 +151,8 @@ export const LandingEntrepreneursSection = () => {
     >
       <div className="max-w-6xl mx-auto px-6">
         
-        {/* Entrepreneurs Cloud - positioned above text like Attio */}
-        <div className={`relative h-72 lg:h-96 max-w-4xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        {/* Entrepreneurs Cloud - organic clustered arrangement */}
+        <div className={`relative h-80 lg:h-[500px] max-w-5xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TooltipProvider>
             {entrepreneurs.map((entrepreneur, index) => (
               <div
@@ -135,18 +162,19 @@ export const LandingEntrepreneursSection = () => {
                   left: `${entrepreneur.left}%`,
                   top: `${entrepreneur.top}%`,
                   transform: 'translate(-50%, -50%)',
-                  transitionDelay: isVisible ? `${index * 8}ms` : '0ms',
+                  transitionDelay: isVisible ? `${index * 6}ms` : '0ms',
                   animationDelay: !animationStopped ? `${entrepreneur.floatDelay}s` : '0s',
-                  animationDuration: !animationStopped ? `${entrepreneur.duration}s` : '0s'
+                  animationDuration: !animationStopped ? `${entrepreneur.duration}s` : '0s',
+                  zIndex: index % 3 === 0 ? 20 : 10, // Layered depth effect
                 }}
               >
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-125 hover:rotate-3 border border-border/20 shadow-lg hover:shadow-xl ${!animationStopped ? 'animate-pulse-subtle' : ''} cursor-pointer`}>
+                    <Avatar className={`${entrepreneur.size} transition-all duration-300 hover:scale-110 hover:rotate-2 border-2 border-background shadow-lg hover:shadow-2xl hover:border-primary/20 ${!animationStopped ? 'animate-pulse-subtle' : ''} cursor-pointer`}>
                       <AvatarImage
                         src={entrepreneur.avatar}
                         alt={`${entrepreneur.name} - ${entrepreneur.role}`}
-                        className="object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-500"
+                        className="object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-500"
                         loading="lazy"
                       />
                       <AvatarFallback className="bg-muted text-muted-foreground text-xs font-medium">
