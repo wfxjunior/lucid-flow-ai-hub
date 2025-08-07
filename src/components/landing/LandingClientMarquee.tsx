@@ -26,12 +26,12 @@ export const LandingClientMarquee: React.FC = () => {
 
   return (
     <section
-      aria-label="Empresas que confiam na FeatherBiz"
+      aria-label="Trusted by thousands of businesses worldwide"
       className="py-12 sm:py-16 bg-background border-t"
     >
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-center text-sm sm:text-base font-medium text-muted-foreground tracking-wide uppercase">
-          Empresas que confiam na FeatherBiz
+          Trusted by thousands of businesses worldwide
         </h2>
 
         <div className="mt-8 space-y-6">

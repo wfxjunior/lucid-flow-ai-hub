@@ -139,18 +139,6 @@ export const LandingTestimonialsSection = () => {
           </div>
         </div>
 
-        {/* Trusted by section */}
-        <div className={`mt-16 pt-16 border-t border-border/20 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <p className="text-sm text-muted-foreground mb-8 font-medium">
-            Trusted by thousands of businesses worldwide
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 opacity-60">
-            <div className="text-base sm:text-lg font-bold text-muted-foreground">TechCorp</div>
-            <div className="text-base sm:text-lg font-bold text-muted-foreground">GrowthCo</div>
-            <div className="text-base sm:text-lg font-bold text-muted-foreground">InnovateLab</div>
-            <div className="text-base sm:text-lg font-bold text-muted-foreground">ScaleUp</div>
-          </div>
-        </div>
       </div>
     </section>
   );
