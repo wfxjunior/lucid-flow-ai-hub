@@ -23,10 +23,8 @@ import {
   Trash2
 } from "lucide-react"
 import { InvoiceForm } from "@/components/InvoiceForm"
-import { ConvertToReceiptDialog } from "@/components/receipts/ConvertToReceiptDialog"
-import { ReceiptEmailButton } from "@/components/ReceiptEmailButton"
+import { DocumentActionsDropdown } from "@/components/documents/DocumentActionsDropdown"
 import { DocumentEventsBadge } from "@/components/DocumentEventsBadge"
-import { DocumentEventTimeline } from "@/components/DocumentEventTimeline"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
@@ -304,68 +302,29 @@ export function InvoicesPage() {
                 
                 return (
                   <TableRow key={invoice.id} className="border-b">
-                    <TableCell className="py-2">
-                      <div className="flex items-center gap-2">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                              <ChevronDown className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="start" className="w-56 bg-white shadow-lg border z-50">
-                            <DropdownMenuItem onClick={() => handleEdit(invoice)} className="flex items-center gap-2">
-                              <Edit className="h-4 w-4" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleView(invoice)} className="flex items-center gap-2">
-                              <Eye className="h-4 w-4" />
-                              View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDuplicate(invoice)} className="flex items-center gap-2">
-                              <Copy className="h-4 w-4" />
-                              Duplicate
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleSend(invoice)} className="flex items-center gap-2">
-                              <Send className="h-4 w-4" />
-                              Send
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleConvertToEstimate(invoice)} className="flex items-center gap-2">
-                              <FileText className="h-4 w-4" />
-                              Convert to Estimate
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleRecordPayment(invoice)} className="flex items-center gap-2">
-                              <DollarSign className="h-4 w-4" />
-                              Record Payment
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleSendReminder(invoice)} className="flex items-center gap-2">
-                              <Bell className="h-4 w-4" />
-                              Send Reminder
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDownloadPDF(invoice)} className="flex items-center gap-2">
-                              <Download className="h-4 w-4" />
-                              Download/Print PDF
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => handleChangeStatus(invoice, 'draft')} className="flex items-center gap-2">
-                              <MoreHorizontal className="h-4 w-4" />
-                              Change Status to:
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => handleArchive(invoice)} className="flex items-center gap-2">
-                              <Archive className="h-4 w-4" />
-                              Archive
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(invoice)} className="flex items-center gap-2 text-red-600">
-                              <Trash2 className="h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                        <span className="text-blue-600 hover:text-blue-800 cursor-pointer">
-                          {invoice.invoice_number || `INV-${invoice.id?.slice(0, 6)}`}
-                        </span>
-                      </div>
-                    </TableCell>
+                     <TableCell className="py-2">
+                       <div className="flex items-center gap-2">
+                         <DocumentActionsDropdown
+                           documentType="invoice"
+                           document={invoice}
+                           actions={{
+                             edit: () => handleEdit(invoice),
+                             view: () => handleView(invoice),
+                             duplicate: () => handleDuplicate(invoice),
+                             send: () => handleSend(invoice),
+                             convertTo: (type) => type === 'estimate' && handleConvertToEstimate(invoice),
+                             recordPayment: () => handleRecordPayment(invoice),
+                             sendReminder: () => handleSendReminder(invoice),
+                             downloadPDF: () => handleDownloadPDF(invoice),
+                             archive: () => handleArchive(invoice),
+                             delete: () => handleDelete(invoice)
+                           }}
+                         />
+                         <span className="text-blue-600 hover:text-blue-800 cursor-pointer">
+                           {invoice.invoice_number || `INV-${invoice.id?.slice(0, 6)}`}
+                         </span>
+                       </div>
+                     </TableCell>
                     <TableCell className="py-2">
                       <span className="text-blue-600 hover:text-blue-800 cursor-pointer">
                         {clientName}
@@ -481,29 +440,6 @@ export function InvoicesPage() {
         </CardContent>
       </Card>
 
-      {/* Document Event Timeline Modal */}
-      {selectedInvoiceId && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-background rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">Invoice Activity Timeline</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedInvoiceId(null)}
-                >
-                  ✕
-                </Button>
-              </div>
-              <DocumentEventTimeline 
-                documentId={selectedInvoiceId} 
-                documentType="invoice" 
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

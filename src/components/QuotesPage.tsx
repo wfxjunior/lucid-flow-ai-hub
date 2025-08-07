@@ -13,6 +13,7 @@ import {
   Printer, Filter, Edit, Copy, Download, Archive, Trash2, Calculator
 } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
+import { DocumentActionsDropdown } from "@/components/documents/DocumentActionsDropdown"
 import { toast } from "sonner"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 
@@ -318,48 +319,20 @@ export function QuotesPage() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                          <DropdownMenuItem>
-                            <Edit className="mr-2 h-4 w-4" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Eye className="mr-2 h-4 w-4" />
-                            View
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Copy className="mr-2 h-4 w-4" />
-                            Duplicate
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleResendQuote(quote)}>
-                            <Send className="mr-2 h-4 w-4" />
-                            Send
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem 
-                            onClick={() => handleViewPDF(quote)}
-                            disabled={isGenerating}
-                          >
-                            <Download className="mr-2 h-4 w-4" />
-                            Download/Print PDF
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem>
-                            <Archive className="mr-2 h-4 w-4" />
-                            Archive
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <DocumentActionsDropdown
+                        documentType="quote"
+                        document={quote}
+                        actions={{
+                          edit: () => toast.info("Edit quote functionality"),
+                          view: () => toast.info("View quote functionality"),
+                          duplicate: () => toast.info("Duplicate quote functionality"),
+                          send: () => handleResendQuote(quote),
+                          convertTo: (type) => type === 'invoice' && toast.info("Convert to invoice functionality"),
+                          downloadPDF: () => handleViewPDF(quote),
+                          archive: () => toast.info("Archive quote functionality"),
+                          delete: () => toast.info("Delete quote functionality")
+                        }}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

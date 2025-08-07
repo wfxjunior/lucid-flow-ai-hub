@@ -23,9 +23,7 @@ import {
   Trash2
 } from "lucide-react"
 import { EstimateForm } from "@/components/EstimateForm"
-import { ConvertToReceiptDialog } from "@/components/receipts/ConvertToReceiptDialog"
-import { DocumentSignatureDialog } from "@/components/e-signatures/DocumentSignatureDialog"
-import { SignNowEmbedDialog } from "@/components/e-signatures/SignNowEmbedDialog"
+import { DocumentActionsDropdown } from "@/components/documents/DocumentActionsDropdown"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { useDocumentEmail } from "@/hooks/useDocumentEmail"
@@ -323,67 +321,22 @@ export function EstimatesPage() {
                   <TableRow key={estimate.id} className="border-b">
                     <TableCell className="py-2">
                       <div className="flex items-center gap-2">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                              <ChevronDown className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="start" className="w-56 bg-white shadow-lg border z-50">
-                            <DropdownMenuItem onClick={() => handleEdit(estimate)} className="flex items-center gap-2">
-                              <Edit className="h-4 w-4" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleView(estimate)} className="flex items-center gap-2">
-                              <Eye className="h-4 w-4" />
-                              View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDuplicate(estimate)} className="flex items-center gap-2">
-                              <Copy className="h-4 w-4" />
-                              Duplicate
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleSend(estimate)} className="flex items-center gap-2">
-                              <Send className="h-4 w-4" />
-                              Send
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleConvertToInvoice(estimate)} className="flex items-center gap-2">
-                              <FileText className="h-4 w-4" />
-                              Convert to Invoice
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleSendForSignature(estimate)} className="flex items-center gap-2">
-                              <FileText className="h-4 w-4" />
-                              Send for Signature
-                            </DropdownMenuItem>
-                            {estimate.status === 'pending' && (
-                              <DropdownMenuItem onClick={() => setSignatureDialogOpen(estimate.id)} className="flex items-center gap-2 text-green-700">
-                                <FileText className="h-4 w-4" />
-                                Sign Document
-                              </DropdownMenuItem>
-                            )}
-                            <DropdownMenuItem onClick={() => handleSendReminder(estimate)} className="flex items-center gap-2">
-                              <Bell className="h-4 w-4" />
-                              Send Reminder
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDownloadPDF(estimate)} className="flex items-center gap-2">
-                              <Download className="h-4 w-4" />
-                              Download/Print PDF
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => handleChangeStatus(estimate, 'draft')} className="flex items-center gap-2">
-                              <MoreHorizontal className="h-4 w-4" />
-                              Change Status to:
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => handleArchive(estimate)} className="flex items-center gap-2">
-                              <Archive className="h-4 w-4" />
-                              Archive
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(estimate)} className="flex items-center gap-2 text-red-600">
-                              <Trash2 className="h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <DocumentActionsDropdown
+                          documentType="estimate"
+                          document={estimate}
+                          actions={{
+                            edit: () => handleEdit(estimate),
+                            view: () => handleView(estimate),
+                            duplicate: () => handleDuplicate(estimate),
+                            send: () => handleSend(estimate),
+                            convertTo: (type) => type === 'invoice' && handleConvertToInvoice(estimate),
+                            sendReminder: () => handleSendReminder(estimate),
+                            downloadPDF: () => handleDownloadPDF(estimate),
+                            archive: () => handleArchive(estimate),
+                            delete: () => handleDelete(estimate),
+                            sendForSignature: () => handleSendForSignature(estimate)
+                          }}
+                        />
                         <span className="text-blue-600 hover:text-blue-800 cursor-pointer">
                           {estimate.estimate_number || `EST-${estimate.id?.slice(0, 6)}`}
                         </span>
@@ -472,28 +425,6 @@ export function EstimatesPage() {
         </div>
       </div>
 
-      {/* Signature Dialog */}
-      {signatureDialogOpen && (
-        <>
-          <DocumentSignatureDialog
-            document={filteredEstimates.find(est => est.id === signatureDialogOpen)}
-            documentType="estimate"
-            open={!!signatureDialogOpen}
-            onOpenChange={(open) => setSignatureDialogOpen(open ? signatureDialogOpen : null)}
-          />
-          <SignNowEmbedDialog
-            open={!!signatureDialogOpen}
-            onOpenChange={(open) => setSignatureDialogOpen(open ? signatureDialogOpen : null)}
-            document={filteredEstimates.find(est => est.id === signatureDialogOpen)}
-            documentType="estimate"
-            onSignatureComplete={(documentId, signedDocumentUrl) => {
-              toast.success('Estimate signed successfully!')
-              setSignatureDialogOpen(null)
-              // Refresh estimates data if needed
-            }}
-          />
-        </>
-      )}
     </div>
   )
 }
