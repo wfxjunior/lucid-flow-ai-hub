@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { Building, Mail, Phone, User, Users } from "lucide-react"
+import { supabase } from "@/integrations/supabase/client"
 
 interface SalesContactModalProps {
   open: boolean
@@ -37,12 +38,19 @@ export function SalesContactModal({ open, onOpenChange }: SalesContactModalProps
     setIsSubmitting(true)
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const { data, error } = await supabase.functions.invoke('send-sales-contact', {
+        body: formData
+      })
+
+      if (error) throw error
+
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to send message')
+      }
       
       toast({
         title: "Message sent successfully!",
-        description: "Our sales team will contact you within 24 hours.",
+        description: "Thank you for your interest! Our sales team will contact you within 24 hours. Check your email for confirmation.",
       })
       
       // Reset form
@@ -59,10 +67,11 @@ export function SalesContactModal({ open, onOpenChange }: SalesContactModalProps
       })
       
       onOpenChange(false)
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Sales contact error:', error)
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again.",
+        description: error.message || "Failed to send message. Please try again.",
         variant: "destructive"
       })
     } finally {
