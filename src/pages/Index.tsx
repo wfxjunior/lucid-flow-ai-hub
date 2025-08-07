@@ -98,13 +98,14 @@ export default function Index() {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
+        {/* Sidebar - Hidden on mobile, only shown when triggered */}
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         
         <main className="flex-1 flex flex-col overflow-hidden min-w-0">
           {/* Header - Always visible */}
           <div className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="flex h-12 sm:h-14 lg:h-16 items-center px-2 sm:px-4 gap-2">
-              <SidebarTrigger className="md:hidden" />
+              <SidebarTrigger />
               {isMobile && (
                 <h1 className="text-base sm:text-lg font-semibold text-foreground truncate">
                   {activeView === 'dashboard' ? 'Dashboard' : 
