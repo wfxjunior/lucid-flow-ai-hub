@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { useAuthState } from "@/hooks/useAuthState"
 import { AuthContainer } from "@/components/auth/AuthContainer"
@@ -19,42 +19,69 @@ export default function Index() {
   const isMobile = useIsMobile()
   const [activeView, setActiveView] = useState("dashboard")
 
-  // Handle URL parameters for navigation (e.g., from Stripe redirects)
+  // Handle URL parameters for navigation (e.g., from Stripe redirects) with debouncing
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const view = urlParams.get('view')
-    if (view) {
-      console.log('Index: URL parameter detected, setting view to:', view)
-      setActiveView(view)
-      // Clean up the URL
-      window.history.replaceState({}, '', window.location.pathname)
-    }
-  }, [])
+    let timeoutId: NodeJS.Timeout;
+    
+    const handleUrlNavigation = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const view = urlParams.get('view');
+      if (view) {
+        console.log('Index: URL parameter detected, setting view to:', view);
+        
+        // Debounce to prevent rapid navigation changes
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          setActiveView(view);
+          // Clean up the URL
+          window.history.replaceState({}, '', window.location.pathname);
+        }, 200);
+      }
+    };
 
-  // Handle voice navigation events
-  useEffect(() => {
-    const handleVoiceNavigation = (event: CustomEvent) => {
-      const { view } = event.detail
-      console.log('Index: Voice navigation detected, setting view to:', view)
-      setActiveView(view)
-    }
-
-    window.addEventListener('voice-navigation', handleVoiceNavigation as EventListener)
+    handleUrlNavigation();
     
     return () => {
-      window.removeEventListener('voice-navigation', handleVoiceNavigation as EventListener)
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
+  // Handle voice navigation events with debouncing
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
+    const handleVoiceNavigation = (event: CustomEvent) => {
+      const { view } = event.detail;
+      console.log('Index: Voice navigation detected, setting view to:', view);
+      
+      // Debounce navigation to prevent rapid changes
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setActiveView(view);
+      }, 100);
+    };
+
+    window.addEventListener('voice-navigation', handleVoiceNavigation as EventListener);
+    
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      window.removeEventListener('voice-navigation', handleVoiceNavigation as EventListener);
+    };
+  }, []);
+
+  const handleMenuClick = useCallback((view: string) => {
+    console.log('Index: Menu clicked, setting view to:', view);
+    if (view !== activeView) {
+      setActiveView(view);
     }
-  }, [])
+  }, [activeView]);
 
-  const handleMenuClick = (view: string) => {
-    console.log('Index: Menu clicked, setting view to:', view)
-    setActiveView(view)
-  }
-
-  const handleActionClick = (actionId: string) => {
-    console.log('Index: Action clicked:', actionId)
-    setActiveView(actionId)
-  }
+  const handleActionClick = useCallback((actionId: string) => {
+    console.log('Index: Action clicked:', actionId);
+    if (actionId !== activeView) {
+      setActiveView(actionId);
+    }
+  }, [activeView]);
 
   if (loading) {
     return (

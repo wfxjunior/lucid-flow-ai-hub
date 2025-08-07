@@ -32,10 +32,10 @@ export const useSubscription = () => {
       }
 
       console.log('useSubscription: Session found, calling check-subscription function...');
-      console.log('User email:', session.user.email);
-
+      
+      // Reduced timeout and better error handling
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Timeout: Subscription check took too long')), 15000);
+        setTimeout(() => reject(new Error('Timeout: Subscription check took too long')), 8000);
       });
 
       const subscriptionPromise = supabase.functions.invoke('check-subscription', {
@@ -44,37 +44,47 @@ export const useSubscription = () => {
         },
       });
 
-      const { data, error } = await Promise.race([subscriptionPromise, timeoutPromise]) as any;
+      try {
+        const { data, error } = await Promise.race([subscriptionPromise, timeoutPromise]) as any;
 
-      console.log('useSubscription: Function response received');
-      console.log('Response data:', data);
-      console.log('Response error:', error);
+        console.log('useSubscription: Function response received');
+        console.log('Response data:', data);
+        console.log('Response error:', error);
 
-      if (error) {
-        console.error('useSubscription: Error from check-subscription function:', error);
-        // Set default free plan on error but don't show error to user for seamless UX
-        setSubscription({
-          subscribed: false,
-          plan_id: 'free',
-          plan_name: 'Free',
-          current_period_end: null
-        });
-        return;
-      }
+        if (error) {
+          console.error('useSubscription: Error from check-subscription function:', error);
+          // Set default free plan on error but don't show error to user for seamless UX
+          setSubscription({
+            subscribed: false,
+            plan_id: 'free',
+            plan_name: 'Free',
+            current_period_end: null
+          });
+          return;
+        }
 
-      // Validate the response data
-      if (data && typeof data === 'object') {
-        const validatedData = {
-          subscribed: Boolean(data.subscribed),
-          plan_id: data.plan_id || 'free',
-          plan_name: data.plan_name || 'Free',
-          current_period_end: data.current_period_end || null
-        };
-        
-        console.log('useSubscription: Setting validated subscription data:', validatedData);
-        setSubscription(validatedData);
-      } else {
-        console.warn('useSubscription: Invalid response data, setting free plan');
+        // Validate the response data
+        if (data && typeof data === 'object') {
+          const validatedData = {
+            subscribed: Boolean(data.subscribed),
+            plan_id: data.plan_id || 'free',
+            plan_name: data.plan_name || 'Free',
+            current_period_end: data.current_period_end || null
+          };
+          
+          console.log('useSubscription: Setting validated subscription data:', validatedData);
+          setSubscription(validatedData);
+        } else {
+          console.warn('useSubscription: Invalid response data, setting free plan');
+          setSubscription({
+            subscribed: false,
+            plan_id: 'free',
+            plan_name: 'Free',
+            current_period_end: null
+          });
+        }
+      } catch (timeoutError) {
+        console.warn('useSubscription: Timeout or network error, setting free plan:', timeoutError);
         setSubscription({
           subscribed: false,
           plan_id: 'free',
@@ -144,20 +154,38 @@ export const useSubscription = () => {
 
   useEffect(() => {
     console.log('useSubscription: Hook initialized, starting initial check');
-    checkSubscription();
+    let isInitialized = false;
+    
+    const initializeSubscription = () => {
+      if (!isInitialized) {
+        isInitialized = true;
+        checkSubscription();
+      }
+    };
 
-    // Listen for auth changes
+    // Initial check with delay to avoid race conditions
+    setTimeout(initializeSubscription, 500);
+
+    // Listen for auth changes with debouncing
+    let timeoutId: NodeJS.Timeout;
     const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange((event) => {
       console.log('useSubscription: Auth state changed:', event);
+      
+      // Clear existing timeout
+      if (timeoutId) clearTimeout(timeoutId);
+      
       if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-        // Add a small delay to ensure the session is properly set
-        setTimeout(() => {
+        // Debounce the subscription check to prevent multiple calls
+        timeoutId = setTimeout(() => {
           checkSubscription();
-        }, 100);
+        }, 1000);
       }
     });
 
-    return () => authSubscription.unsubscribe();
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      authSubscription.unsubscribe();
+    };
   }, []);
 
   return {
