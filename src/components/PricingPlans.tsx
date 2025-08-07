@@ -372,13 +372,15 @@ export function PricingPlans() {
         </div>
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto px-4">
           {currentPlans.map((plan) => (
-            <div key={plan.id} className="flex">
-              <PricingCard 
-                plan={plan} 
-                onPlanSelect={handlePlanSelection} 
-              />
+            <div key={plan.id} className="flex justify-center">
+              <div className="w-full max-w-sm">
+                <PricingCard 
+                  plan={plan} 
+                  onPlanSelect={handlePlanSelection} 
+                />
+              </div>
             </div>
           ))}
         </div>
