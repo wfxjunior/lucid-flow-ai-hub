@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useNavigate } from "react-router-dom";
+import { SalesContactModal } from "@/components/SalesContactModal";
 
 // Import entrepreneur photos
 import entrepreneur01 from "@/assets/entrepreneurs/entrepreneur-01.jpg";
@@ -113,6 +114,7 @@ const entrepreneurs = Array.from({ length: 130 }, (_, i) => {
 export const LandingEntrepreneursSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [animationStopped, setAnimationStopped] = useState(false);
+  const [showSalesModal, setShowSalesModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -209,6 +211,7 @@ export const LandingEntrepreneursSection = () => {
             </Button>
             <Button
               variant="ghost"
+              onClick={() => setShowSalesModal(true)}
               className="text-muted-foreground hover:text-foreground px-8 py-3 font-medium"
             >
               Talk to sales
@@ -217,6 +220,11 @@ export const LandingEntrepreneursSection = () => {
         </div>
         
       </div>
+      
+      <SalesContactModal 
+        open={showSalesModal} 
+        onOpenChange={setShowSalesModal} 
+      />
     </section>
   );
 };

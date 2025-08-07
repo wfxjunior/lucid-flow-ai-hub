@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
+import { SalesContactModal } from "@/components/SalesContactModal";
 import {
   Carousel,
   CarouselContent,
@@ -15,6 +16,7 @@ import Autoplay from "embla-carousel-autoplay";
 export const LandingHeroSection = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const [showSalesModal, setShowSalesModal] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -60,6 +62,7 @@ export const LandingHeroSection = () => {
             </Button>
             <Button
               variant="outline"
+              onClick={() => setShowSalesModal(true)}
               className="font-medium px-8 py-3 rounded-lg text-base border-border/50 hover:border-border hover:bg-muted/50"
             >
               <Play className="h-4 w-4 mr-2" />
@@ -113,6 +116,11 @@ export const LandingHeroSection = () => {
           </div>
         </div>
       </div>
+
+      <SalesContactModal 
+        open={showSalesModal} 
+        onOpenChange={setShowSalesModal} 
+      />
     </section>
   );
 };
