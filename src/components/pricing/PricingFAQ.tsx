@@ -17,9 +17,29 @@ const faqs: FAQItem[] = [
       "Yes. The Free plan is forever free and includes core tools to get started. You can upgrade anytime and your data stays intact.",
   },
   {
-    question: "Do you offer discounts?",
+    question: "Do you offer a free trial?",
     answer:
-      "Annual billing offers built‑in savings on Starter and Pro. We also provide startup and nonprofit discounts on request.",
+      "Yes. Starter and Pro include a 7‑day free trial. You won’t be charged until the trial ends and you can cancel anytime.",
+  },
+  {
+    question: "How is pricing billed?",
+    answer:
+      "You can choose monthly or annual billing. Annual billing provides savings on Starter and Pro. Enterprise is billed annually.",
+  },
+  {
+    question: "Can I switch plans or change billing period?",
+    answer:
+      "Yes. You can upgrade, downgrade, or switch between monthly and annual at any time. Changes take effect immediately and are prorated when applicable.",
+  },
+  {
+    question: "How are seats counted?",
+    answer:
+      "Seats are counted by active users in your workspace. Free supports 1 user, Starter up to 5, Pro up to 25, and Enterprise is unlimited.",
+  },
+  {
+    question: "What are storage limits?",
+    answer:
+      "File Manager storage: Free 100MB, Starter 5GB, Pro 50GB, Enterprise Unlimited.",
   },
   {
     question: "What are my payment options?",
@@ -42,14 +62,49 @@ const faqs: FAQItem[] = [
       "Yes. Import customers, documents, and more via CSV or integrations. Our team can help on Enterprise onboardings.",
   },
   {
-    question: "Can I cancel anytime?",
+    question: "Can I export my data?",
     answer:
-      "Yes. You can cancel recurring plans anytime. Your subscription remains active until the end of the billing period.",
+      "Yes. You can export reports and records anytime. Enterprise can request custom exports during onboarding or offboarding.",
+  },
+  {
+    question: "Do you have an API?",
+    answer:
+      "Yes. Pro includes limited API access and Enterprise includes full API access. Webhooks and custom integrations are available on Enterprise.",
+  },
+  {
+    question: "Which integrations are available?",
+    answer:
+      "Core integrations are available on Pro and Enterprise via the Integrations Hub. Let us know if you need a specific connector.",
   },
   {
     question: "Is my data secure?",
     answer:
-      "We use secure authentication, role‑based access, and follow best practices. Enterprise options include SSO and advanced controls.",
+      "We use secure authentication, role‑based access, and follow best practices. Enterprise options include SSO, advanced security controls, and SLA.",
+  },
+  {
+    question: "What support do you provide?",
+    answer:
+      "Free includes email support. Starter has priority support, Pro has 24/7 support, and Enterprise has dedicated support and onboarding.",
+  },
+  {
+    question: "What is your uptime/SLA?",
+    answer:
+      "We strive for high availability. Enterprise plans include SLA guarantees and incident response commitments.",
+  },
+  {
+    question: "What is your refund policy?",
+    answer:
+      "Subscriptions renew automatically. You can cancel anytime to stop future charges. For billing issues, contact support and we’ll help promptly.",
+  },
+  {
+    question: "Do you charge taxes?",
+    answer:
+      "Taxes may be applied based on your location and local regulations. The final amount is always shown at checkout.",
+  },
+  {
+    question: "Where can I request features or report issues?",
+    answer:
+      "Use the Feedback page to submit ideas or issues. Enterprise customers can work with our team on roadmap priorities during onboarding.",
   },
 ]
 
