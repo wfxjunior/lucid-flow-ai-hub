@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client"
 import { PricingHeader } from "./pricing/PricingHeader"
 import { PricingCard } from "./pricing/PricingCard"
 import { TrustIndicators } from "./pricing/TrustIndicators"
+import { PricingFeaturesDetails } from "./pricing/PricingFeaturesDetails"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Badge } from "@/components/ui/badge"
 import { Check, X } from "lucide-react"
@@ -479,7 +480,30 @@ export function PricingPlans() {
     return <span className="text-sm text-foreground font-medium">{value}</span>
   }
 
-  const currentPlans = plans[billingPeriod]
+const getCategoryDescription = (title: string) => {
+  switch (title) {
+    case "Core Business Management":
+      return "Core tools to run your business day-to-day: customers, projects, quotes, invoices, and more.";
+    case "Financial Tools":
+      return "Track money in and out with payments, receipts, accounting, taxes, and budgeting.";
+    case "Operations & Specialized Tools":
+      return "Operational systems for materials, teams, scheduling, appointments, and pipeline.";
+    case "Documents & Forms":
+      return "Create, sign, track, and store all your documents with powerful generation tools.";
+    case "Productivity & Communication":
+      return "Stay organized and in sync with notes, tasks, messaging, email, and AI assistants.";
+    case "Analytics & Reporting":
+      return "Understand performance with dashboards, revenue charts, KPIs, and exportable reports.";
+    case "Integration & API":
+      return "Connect your stack with integrations, API access, webhooks, and custom workflows.";
+    case "Support & Security":
+      return "Access levels, support, and enterprise-grade security & compliance options.";
+    default:
+      return "";
+  }
+};
+
+const currentPlans = plans[billingPeriod]
 
   return (
     <div className="py-6 sm:py-8 lg:py-10 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -538,7 +562,7 @@ export function PricingPlans() {
 
           <div className="bg-background rounded-lg border shadow-sm overflow-hidden">
             {/* Table Header */}
-            <div className="grid grid-cols-5 gap-4 p-6 bg-muted/30 border-b">
+            <div className="grid grid-cols-5 gap-4 p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10">
               <div className="font-semibold text-foreground">Features</div>
               <div className="text-center font-semibold text-foreground">Free</div>
               <div className="text-center font-semibold text-foreground">Starter</div>
@@ -552,11 +576,12 @@ export function PricingPlans() {
                 {/* Category Header */}
                 <div className="p-4 bg-muted/20 border-b">
                   <h4 className="font-semibold text-foreground">{category.title}</h4>
+                  <p className="text-sm text-muted-foreground mt-1">{getCategoryDescription(category.title)}</p>
                 </div>
                 
                 {/* Category Features */}
                 {category.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="grid grid-cols-5 gap-4 p-4 border-b last:border-b-0 hover:bg-muted/20 transition-colors">
+                  <div key={featureIndex} className="grid grid-cols-5 gap-4 p-4 border-b last:border-b-0 hover:bg-muted/20 transition-colors odd:bg-background even:bg-muted/10">
                     <div className="text-sm text-foreground">{feature.name}</div>
                     <div className="flex justify-center">{renderFeatureValue(feature.free)}</div>
                     <div className="flex justify-center">{renderFeatureValue(feature.starter)}</div>
@@ -568,6 +593,8 @@ export function PricingPlans() {
             ))}
           </div>
         </div>
+
+        <PricingFeaturesDetails />
 
         <TrustIndicators />
       </div>
