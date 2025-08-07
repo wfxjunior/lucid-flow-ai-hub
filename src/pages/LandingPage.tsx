@@ -5,6 +5,7 @@ import { LandingHeroSection } from "@/components/landing/LandingHeroSection";
 
 import { LandingFeaturesSection } from "@/components/landing/LandingFeaturesSection";
 import { LandingTestimonialsSection } from "@/components/landing/LandingTestimonialsSection";
+import { LandingClientMarquee } from "@/components/landing/LandingClientMarquee";
 import { LandingEntrepreneursSection } from "@/components/landing/LandingEntrepreneursSection";
 import { LandingDashboardPreview } from "@/components/landing/LandingDashboardPreview";
 import { LandingPricingSection } from "@/components/landing/LandingPricingSection";
@@ -24,6 +25,7 @@ export default function LandingPage() {
         
         <LandingFeaturesSection />
         <LandingTestimonialsSection />
+        <LandingClientMarquee />
         <LandingEntrepreneursSection />
         <LandingDashboardPreview />
         <LandingPricingSection />
