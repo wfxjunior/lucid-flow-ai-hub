@@ -5,6 +5,7 @@ import { PricingHeader } from "./pricing/PricingHeader"
 import { PricingCard } from "./pricing/PricingCard"
 import { TrustIndicators } from "./pricing/TrustIndicators"
 import { PricingFeaturesDetails } from "./pricing/PricingFeaturesDetails"
+import { PricingFAQ } from "./pricing/PricingFAQ"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Badge } from "@/components/ui/badge"
 import { Check, X } from "lucide-react"
@@ -597,6 +598,8 @@ const currentPlans = plans[billingPeriod]
         <PricingFeaturesDetails />
 
         <TrustIndicators />
+
+        <PricingFAQ />
       </div>
     </div>
   )
