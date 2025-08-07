@@ -183,12 +183,12 @@ CONTACT & DEMOS
     }
   }, [])
 
-  // Blinking animation effect
+  // Optimized blinking animation effect - reduce frequency
   useEffect(() => {
     const blinkInterval = setInterval(() => {
       setIsBlinking(true)
       setTimeout(() => setIsBlinking(false), 150)
-    }, 3000)
+    }, 8000) // Reduced from 3000ms to 8000ms
 
     return () => clearInterval(blinkInterval)
   }, [])

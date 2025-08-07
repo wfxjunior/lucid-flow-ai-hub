@@ -101,8 +101,8 @@ export const LandingHeroSection = () => {
               <Carousel
                 plugins={[
                   Autoplay({
-                    delay: 4000,
-                    stopOnInteraction: false,
+                    delay: 6000, // Increased from 4000ms to 6000ms
+                    stopOnInteraction: true, // Allow users to stop autoplay by interacting
                   }),
                 ]}
                 className="w-full"

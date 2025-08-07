@@ -61,7 +61,7 @@ export const LandingTestimonialsSection = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 6000);
+    }, 10000); // Increased from 6000ms to 10000ms
 
     return () => clearInterval(timer);
   }, []);
