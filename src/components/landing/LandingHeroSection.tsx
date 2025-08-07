@@ -23,10 +23,23 @@ export const LandingHeroSection = () => {
   }, []);
 
   const dashboardImages = [
-    "/lovable-uploads/0e5059d6-0019-4810-aa5e-28488bd3ebfe.png",
-    "/lovable-uploads/2e975bb9-3a42-496b-8c01-507136c52a4c.png",
-    "/lovable-uploads/36da8739-abc7-467e-b8f4-e09735240256.png",
-    "/lovable-uploads/5aec6b5d-82e3-44ec-ae90-7c0ac72ba3b4.png",
+    "/lovable-uploads/e99838ec-ccfb-4e35-881a-86c898faf65b.png",
+    "/lovable-uploads/d4fe3261-db25-46d8-8ddc-65f654585d30.png",
+    "/lovable-uploads/107901a4-fe2a-44c9-b543-d18a93075a75.png",
+    "/lovable-uploads/b3a030e5-fbb8-40da-ad09-2de0e49120d2.png",
+    "/lovable-uploads/db3e1a21-e27b-450a-bdd8-d5b170ce8df2.png",
+    "/lovable-uploads/06db7b63-b271-42b8-8ae1-a4fd67d0e5b7.png",
+    "/lovable-uploads/99434eed-2f9a-4eea-bee4-ddd3ac703ca2.png",
+  ];
+
+  const imageAltTexts = [
+    "Payments Dashboard - Track and manage client payments",
+    "E-Signatures - List of signed documents",
+    "Client Projects - Manage current projects and schedule upcoming jobs",
+    "Next Projects - Schedule new jobs and calendar view",
+    "Project Timeline - Track project milestones and progress",
+    "Smart Schedule - AI-powered intelligent scheduling system",
+    "FeatherBudget AI - Smart personal finance tracking with AI insights",
   ];
 
   return (
@@ -98,12 +111,12 @@ export const LandingHeroSection = () => {
                   {dashboardImages.map((image, index) => (
                     <CarouselItem key={index}>
                       <div className="relative aspect-[16/10] w-full">
-                        <img
-                          src={image}
-                          alt={`Dashboard Preview ${index + 1}`}
-                          className="w-full h-full object-cover"
-                          loading={index === 0 ? "eager" : "lazy"}
-                        />
+                         <img
+                           src={image}
+                           alt={imageAltTexts[index]}
+                           className="w-full h-full object-cover"
+                           loading={index === 0 ? "eager" : "lazy"}
+                         />
                       </div>
                     </CarouselItem>
                   ))}
