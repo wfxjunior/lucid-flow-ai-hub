@@ -61,7 +61,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
   const renderContent = () => {
     switch (activeView) {
       case "dashboard":
-        return <ImprovedDashboard onNavigate={onNavigate} />
+        return <div className="p-6">Dashboard is handled by Index.tsx</div>
       case "ai-voice":
         return <EnhancedAIVoice />
       case "invoice-creator":
