@@ -27,7 +27,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   console.log('AppSidebar rendering with activeView:', activeView)
   const isMobile = useIsMobile()
   const { t } = useLanguage()
-  console.log('isMobile state:', isMobile)
+  console.log('isMobile state in AppSidebar:', isMobile)
+  console.log('window.innerWidth:', typeof window !== 'undefined' ? window.innerWidth : 'undefined')
   
   const handleMenuClick = (view: string) => {
     console.log('Clicked on:', view)
