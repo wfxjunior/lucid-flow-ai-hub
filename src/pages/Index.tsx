@@ -96,28 +96,30 @@ export default function Index() {
 
   return (
     <SidebarProvider>
-      <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-      <SidebarInset>
-        {/* Header - Always visible */}
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
-          <div className="ml-auto flex items-center gap-2">
-            <UserGreeting onNavigate={setActiveView} />
+      <div className="min-h-screen flex w-full">
+        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
+        <SidebarInset className="flex-1">
+          {/* Header - Mobile responsive */}
+          <header className="flex h-12 sm:h-16 shrink-0 items-center gap-2 border-b px-2 sm:px-4">
+            <SidebarTrigger className="-ml-1" />
+            <div className="ml-auto flex items-center gap-1 sm:gap-2">
+              <UserGreeting onNavigate={setActiveView} />
+            </div>
+          </header>
+
+          {/* Main content area - Mobile responsive */}
+          <div className="flex flex-1 flex-col gap-2 sm:gap-4 p-2 sm:p-4">
+            {activeView === "dashboard" ? (
+              <ImprovedDashboard onNavigate={setActiveView} />
+            ) : (
+              <MainContent activeView={activeView} onNavigate={setActiveView} />
+            )}
           </div>
-        </header>
 
-        {/* Main content area */}
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          {activeView === "dashboard" ? (
-            <ImprovedDashboard onNavigate={setActiveView} />
-          ) : (
-            <MainContent activeView={activeView} onNavigate={setActiveView} />
-          )}
-        </div>
-
-        {/* ✅ ACTIVE CHATBOT: Black FeatherBot - Only visible for Pro users or users with featherGoldAccess */}
-        <FeatherBot isVisible={hasAccess} />
-      </SidebarInset>
+          {/* ✅ ACTIVE CHATBOT: Mobile responsive positioning */}
+          <FeatherBot isVisible={hasAccess} />
+        </SidebarInset>
+      </div>
     </SidebarProvider>
   )
 }
