@@ -16,11 +16,7 @@ import { supabase } from "@/integrations/supabase/client"
 export default function Index() {
   const { user, loading } = useAuthState()
   const { hasAccess } = useFeatherBotAccess()
-  const isMobile = useIsMobile()
   const [activeView, setActiveView] = useState("dashboard")
-  
-  console.log('Index.tsx - isMobile:', isMobile)
-  console.log('Index.tsx - window.innerWidth:', typeof window !== 'undefined' ? window.innerWidth : 'undefined')
 
   // Handle URL parameters for navigation (e.g., from Stripe redirects) with debouncing
   useEffect(() => {

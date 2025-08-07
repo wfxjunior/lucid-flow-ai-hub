@@ -24,14 +24,9 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
-  console.log('AppSidebar rendering with activeView:', activeView)
-  const isMobile = useIsMobile()
   const { t } = useLanguage()
-  console.log('isMobile state in AppSidebar:', isMobile)
-  console.log('window.innerWidth:', typeof window !== 'undefined' ? window.innerWidth : 'undefined')
   
   const handleMenuClick = (view: string) => {
-    console.log('Clicked on:', view)
     setActiveView(view)
   }
 
@@ -116,12 +111,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   ]
 
   return (
-    <Sidebar 
-      className="border-r"
-      collapsible="offcanvas"
-      variant="sidebar"
-      side="left"
-    >
+    <Sidebar className="border-r">
       <SidebarContent className="gap-0">
         <SidebarHeader />
         <div className="px-4 py-2">
