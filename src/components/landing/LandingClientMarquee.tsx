@@ -1,6 +1,6 @@
 
 import React from "react";
-import Autoplay from "embla-carousel-autoplay";
+import AutoScroll from "embla-carousel-auto-scroll";
 import {
   Carousel,
   CarouselContent,
@@ -38,7 +38,7 @@ export const LandingClientMarquee: React.FC = () => {
           {/* Row 1 */}
           <Carousel
             opts={{ align: "start", loop: true, dragFree: true }}
-            plugins={[Autoplay({ delay: 2200 })]}
+            plugins={[AutoScroll({ playOnInit: true, speed: 0.6, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: false })]}
             className="w-full"
           >
             <CarouselContent className="-ml-3">
@@ -54,7 +54,7 @@ export const LandingClientMarquee: React.FC = () => {
                       title={logo.name}
                       loading="lazy"
                       draggable={false}
-                      className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                      className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity hover-scale"
                     />
                   </div>
                 </CarouselItem>
@@ -66,7 +66,7 @@ export const LandingClientMarquee: React.FC = () => {
           <div dir="rtl">
             <Carousel
               opts={{ align: "start", loop: true, dragFree: true }}
-              plugins={[Autoplay({ delay: 2600 })]}
+              plugins={[AutoScroll({ playOnInit: true, speed: 0.5, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: false })]}
               className="w-full"
             >
               <CarouselContent className="-ml-3">
@@ -82,7 +82,7 @@ export const LandingClientMarquee: React.FC = () => {
                         title={logo.name}
                         loading="lazy"
                         draggable={false}
-                        className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                        className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity hover-scale"
                       />
                     </div>
                   </CarouselItem>
