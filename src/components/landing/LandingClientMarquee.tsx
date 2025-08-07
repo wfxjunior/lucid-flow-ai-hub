@@ -34,63 +34,69 @@ export const LandingClientMarquee: React.FC = () => {
           Trusted by thousands of businesses worldwide
         </h2>
 
-        <div className="mt-8 space-y-6">
-          {/* Row 1 */}
-          <Carousel
-            opts={{ align: "start", loop: true, dragFree: true }}
-            plugins={[AutoScroll({ playOnInit: true, speed: 0.6, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: false })]}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-3">
-              {row1.concat(row1).map((logo, idx) => (
-                <CarouselItem
-                  key={`${logo.name}-${idx}`}
-                  className="pl-3 basis-1/3 sm:basis-1/6"
-                >
-                  <div className="h-14 sm:h-16 flex items-center justify-center">
-                    <img
-                      src={logo.img}
-                      alt={`${logo.name} logo`}
-                      title={logo.name}
-                      loading="lazy"
-                      draggable={false}
-                      className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity hover-scale"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+          <div className="mt-8 relative rounded-2xl border bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/60 shadow-md p-4 sm:p-6">
+            {/* Edge fade masks */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background/90 to-transparent z-10" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background/90 to-transparent z-10" />
 
-          {/* Row 2 (reverse direction by RTL trick) */}
-          <div dir="rtl">
-            <Carousel
-              opts={{ align: "start", loop: true, dragFree: true }}
-              plugins={[AutoScroll({ playOnInit: true, speed: 0.5, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: false })]}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-3">
-                {row2.concat(row2).map((logo, idx) => (
-                  <CarouselItem
-                    key={`${logo.name}-r-${idx}`}
-                    className="pl-3 basis-1/3 sm:basis-1/6"
-                  >
-                    <div className="h-14 sm:h-16 flex items-center justify-center">
-                      <img
-                        src={logo.img}
-                        alt={`${logo.name} logo`}
-                        title={logo.name}
-                        loading="lazy"
-                        draggable={false}
-                        className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity hover-scale"
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+            <div className="space-y-6">
+              {/* Row 1 */}
+              <Carousel
+                opts={{ align: "start", loop: true, dragFree: true }}
+                plugins={[AutoScroll({ playOnInit: true, speed: 0.35, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: false })]}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-3">
+                  {row1.concat(row1).map((logo, idx) => (
+                    <CarouselItem
+                      key={`${logo.name}-${idx}`}
+                      className="pl-3 basis-1/3 sm:basis-1/6"
+                    >
+                      <div className="h-14 sm:h-16 flex items-center justify-center">
+                        <img
+                          src={logo.img}
+                          alt={`${logo.name} logo`}
+                          title={logo.name}
+                          loading="lazy"
+                          draggable={false}
+                          className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity hover-scale grayscale hover:grayscale-0"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+
+              {/* Row 2 (reverse direction by RTL trick) */}
+              <div dir="rtl">
+                <Carousel
+                  opts={{ align: "start", loop: true, dragFree: true }}
+                  plugins={[AutoScroll({ playOnInit: true, speed: 0.32, stopOnMouseEnter: true, stopOnFocusIn: true, stopOnInteraction: false })]}
+                  className="w-full"
+                >
+                  <CarouselContent className="-ml-3">
+                    {row2.concat(row2).map((logo, idx) => (
+                      <CarouselItem
+                        key={`${logo.name}-r-${idx}`}
+                        className="pl-3 basis-1/3 sm:basis-1/6"
+                      >
+                        <div className="h-14 sm:h-16 flex items-center justify-center">
+                          <img
+                            src={logo.img}
+                            alt={`${logo.name} logo`}
+                            title={logo.name}
+                            loading="lazy"
+                            draggable={false}
+                            className="max-h-10 sm:max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity hover-scale grayscale hover:grayscale-0"
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
+              </div>
+            </div>
           </div>
-        </div>
       </div>
     </section>
   );
