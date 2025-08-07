@@ -1,4 +1,4 @@
-import { Crown, Zap, Star, Sparkles } from "lucide-react"
+import { Crown, Zap, Star, Sparkles, Building2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { PricingHeader } from "./pricing/PricingHeader"
@@ -12,20 +12,16 @@ const plans = {
     {
       id: "free",
       name: "Free",
-      description: "Perfect for getting started",
+      description: "For very small teams",
       price: "$0",
-      period: "Forever",
+      period: "Per user/month, billed annually",
       icon: Zap,
       features: [
-        "Basic dashboard",
-        "Up to 5 invoices/month",
-        "Customer management (up to 50)",
-        "Basic estimates",
-        "Standard email support",
-        "FeatherBot assistant",
-        "Basic reporting"
+        "Real-time contact syncing",
+        "Automatic data enrichment",
+        "Up to 3 seats"
       ],
-      buttonText: "Get started for free",
+      buttonText: "Start for free",
       popular: false,
       color: "from-gray-400 to-gray-600",
       bgGradient: "from-gray-50 to-gray-100",
@@ -34,78 +30,76 @@ const plans = {
     {
       id: "plus",
       name: "Plus",
-      description: "For growing businesses",
-      price: "$19",
-      originalPrice: "$23",
-      period: "Per month",
-      savings: "Save 17%",
+      description: "For growing teams",
+      price: "$29",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
       icon: Crown,
       features: [
-        "Everything in Free",
-        "Unlimited invoices & estimates",
-        "Unlimited customers",
-        "E-Signatures",
-        "Payment processing",
-        "Project management",
-        "Appointment scheduling",
-        "Email automation",
-        "Advanced reporting",
-        "Priority support"
+        "Private lists",
+        "Enhanced email sending",
+        "No seat limits"
       ],
-      buttonText: "Start Plus plan",
-      popular: true,
+      buttonText: "Continue with Plus",
+      popular: false,
       color: "from-blue-400 to-blue-600",
       bgGradient: "from-blue-50 to-blue-100",
-      stripePrice: 1900,
+      stripePrice: 2900,
       recurring: true
     },
     {
       id: "pro",
       name: "Pro",
-      description: "For established businesses",
-      price: "$29",
-      originalPrice: "$35",
-      period: "Per month",
-      savings: "Save 17%",
+      description: "For scaling businesses",
+      price: "$69",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
       icon: Star,
       features: [
-        "Everything in Plus",
-        "AI Voice Assistant",
-        "Advanced analytics",
-        "Custom integrations",
-        "White-label options",
-        "API access",
-        "Multi-user teams",
-        "Advanced workflow automation",
-        "Custom fields & forms",
-        "24/7 premium support"
+        "Call Intelligence",
+        "Advanced data enrichment",
+        "Priority support"
       ],
-      buttonText: "Start Pro plan",
-      popular: false,
+      buttonText: "Continue with Pro",
+      popular: true,
       color: "from-green-500 to-emerald-600",
       bgGradient: "from-green-50 to-emerald-50",
-      stripePrice: 2900,
+      stripePrice: 6900,
       recurring: true
+    },
+    {
+      id: "enterprise",
+      name: "Enterprise",
+      description: "For large organizations",
+      price: "Custom",
+      period: "Billed annually",
+      icon: Building2,
+      features: [
+        "Unlimited objects",
+        "SAML and SSO",
+        "Flexible invoicing"
+      ],
+      buttonText: "Talk to sales",
+      popular: false,
+      color: "from-purple-500 to-purple-600",
+      bgGradient: "from-purple-50 to-purple-100",
+      stripePrice: null
     }
   ],
   annual: [
     {
       id: "free",
       name: "Free",
-      description: "Perfect for getting started",
+      description: "For very small teams",
       price: "$0",
-      period: "Forever",
+      period: "Per user/month, billed annually",
       icon: Zap,
       features: [
-        "Basic dashboard",
-        "Up to 5 invoices/month",
-        "Customer management (up to 50)",
-        "Basic estimates",
-        "Standard email support",
-        "FeatherBot assistant",
-        "Basic reporting"
+        "Real-time contact syncing",
+        "Automatic data enrichment",
+        "Up to 3 seats"
       ],
-      buttonText: "Get started for free",
+      buttonText: "Start for free",
       popular: false,
       color: "from-gray-400 to-gray-600",
       bgGradient: "from-gray-50 to-gray-100",
@@ -114,60 +108,64 @@ const plans = {
     {
       id: "plus-annual",
       name: "Plus",
-      description: "For growing businesses",
-      price: "$15",
-      originalPrice: "$19",
-      period: "Per month, billed annually",
-      savings: "Save 21%",
+      description: "For growing teams",
+      price: "$23",
+      originalPrice: "$29",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
       icon: Crown,
       features: [
-        "Everything in Free",
-        "Unlimited invoices & estimates",
-        "Unlimited customers",
-        "E-Signatures",
-        "Payment processing",
-        "Project management",
-        "Appointment scheduling",
-        "Email automation",
-        "Advanced reporting",
-        "Priority support"
+        "Private lists",
+        "Enhanced email sending",
+        "No seat limits"
       ],
-      buttonText: "Start Plus plan",
-      popular: true,
+      buttonText: "Continue with Plus",
+      popular: false,
       color: "from-blue-400 to-blue-600",
       bgGradient: "from-blue-50 to-blue-100",
-      stripePrice: 18000,
+      stripePrice: 2300,
       recurring: true,
       annualBilling: true
     },
     {
       id: "pro-annual",
       name: "Pro",
-      description: "For established businesses",
-      price: "$23",
-      originalPrice: "$29",
-      period: "Per month, billed annually",
-      savings: "Save 21%",
+      description: "For scaling businesses",
+      price: "$55",
+      originalPrice: "$69",
+      period: "Per user/month, billed annually",
+      savings: "Save 20%",
       icon: Star,
       features: [
-        "Everything in Plus",
-        "AI Voice Assistant",
-        "Advanced analytics",
-        "Custom integrations",
-        "White-label options",
-        "API access",
-        "Multi-user teams",
-        "Advanced workflow automation",
-        "Custom fields & forms",
-        "24/7 premium support"
+        "Call Intelligence",
+        "Advanced data enrichment",
+        "Priority support"
       ],
-      buttonText: "Start Pro plan",
-      popular: false,
+      buttonText: "Continue with Pro",
+      popular: true,
       color: "from-green-500 to-emerald-600",
       bgGradient: "from-green-50 to-emerald-50",
-      stripePrice: 27600,
+      stripePrice: 5500,
       recurring: true,
       annualBilling: true
+    },
+    {
+      id: "enterprise-annual",
+      name: "Enterprise",
+      description: "For large organizations",
+      price: "Custom",
+      period: "Billed annually",
+      icon: Building2,
+      features: [
+        "Unlimited objects",
+        "SAML and SSO",
+        "Flexible invoicing"
+      ],
+      buttonText: "Talk to sales",
+      popular: false,
+      color: "from-purple-500 to-purple-600",
+      bgGradient: "from-purple-50 to-purple-100",
+      stripePrice: null
     }
   ]
 }
@@ -372,10 +370,10 @@ export function PricingPlans() {
         </div>
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
           {currentPlans.map((plan) => (
             <div key={plan.id} className="flex justify-center">
-              <div className="w-full max-w-sm">
+              <div className="w-full">
                 <PricingCard 
                   plan={plan} 
                   onPlanSelect={handlePlanSelection} 

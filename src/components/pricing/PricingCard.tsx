@@ -1,9 +1,7 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Check, LucideIcon, ChevronDown, ChevronUp } from "lucide-react"
-import { useState } from "react"
+import { Check, LucideIcon } from "lucide-react"
 
 interface PricingPlan {
   id: string
@@ -31,79 +29,66 @@ interface PricingCardProps {
 
 export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
   return (
-    <div className={`relative w-full ${
-      plan.popular ? 'scale-105 z-10' : ''
-    }`}>
+    <div className={`relative w-full ${plan.popular ? 'scale-105 z-10' : ''}`}>
       {plan.popular && (
         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-          <div className="bg-primary/20 border border-primary/30 text-primary px-3 py-1 rounded-full text-xs font-medium">
+          <Badge className="bg-blue-600 text-white border-0 px-3 py-1">
             Most Popular
-          </div>
+          </Badge>
         </div>
       )}
       
       <Card className={`
-        relative aspect-square overflow-hidden
-        ${plan.popular ? 'border-2 border-primary shadow-lg' : 'border border-border'}
-        hover:shadow-lg transition-all duration-300
+        h-full border rounded-lg transition-all duration-300 hover:shadow-lg
+        ${plan.popular ? 'border-blue-500 shadow-lg' : 'border-border'}
         bg-background
       `}>
-        <CardHeader className="text-center pb-4 pt-6 px-4">
-          {/* Plan Icon */}
-          <div className="flex justify-center mb-3">
-            <plan.icon className="h-8 w-8 text-primary" />
-          </div>
-          
+        <CardHeader className="text-left pb-6 pt-8 px-6">
           {/* Plan Name */}
-          <CardTitle className="text-lg font-semibold text-foreground mb-2">
+          <CardTitle className="text-xl font-semibold text-foreground mb-2">
             {plan.name}
           </CardTitle>
           
           {/* Pricing */}
-          <div className="mb-3">
-            <div className="flex items-center justify-center gap-1 mb-1">
-              <span className="text-2xl font-bold text-foreground">{plan.price}</span>
+          <div className="mb-4">
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-3xl font-bold text-foreground">{plan.price}</span>
               {plan.savings && plan.price !== "Custom" && plan.price !== "$0" && (
-                <span className="text-primary text-xs font-medium bg-primary/10 px-1 py-0.5 rounded">
+                <Badge variant="secondary" className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5">
                   {plan.savings}
-                </span>
+                </Badge>
               )}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               {plan.period}
             </p>
           </div>
-        </CardHeader>
-        
-        <CardContent className="px-4 pb-4 flex flex-col h-full">
+          
           {/* Description */}
-          <CardDescription className="text-xs text-muted-foreground mb-4 text-center">
+          <CardDescription className="text-sm text-muted-foreground mb-6">
             {plan.description}
           </CardDescription>
-          
-          {/* Features List - Scrollable */}
-          <div className="flex-1 overflow-y-auto mb-4">
-            <div className="space-y-2">
-              {plan.features.slice(0, 6).map((feature, featureIndex) => (
-                <div key={featureIndex} className="flex items-start gap-2">
-                  <div className="flex-shrink-0 w-3 h-3 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                    <Check className="h-1.5 w-1.5 text-green-600 font-bold" />
+        </CardHeader>
+        
+        <CardContent className="px-6 pb-8 flex flex-col h-full">
+          {/* Features List */}
+          <div className="flex-1 mb-6">
+            <div className="space-y-3">
+              {plan.features.map((feature, featureIndex) => (
+                <div key={featureIndex} className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-4 h-4 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                    <Check className="h-2.5 w-2.5 text-green-600" />
                   </div>
-                  <span className="text-muted-foreground text-xs leading-relaxed">{feature}</span>
+                  <span className="text-muted-foreground text-sm leading-relaxed">{feature}</span>
                 </div>
               ))}
-              {plan.features.length > 6 && (
-                <div className="text-center text-xs text-muted-foreground">
-                  +{plan.features.length - 6} more features
-                </div>
-              )}
             </div>
           </div>
           
           {/* CTA Button */}
           <Button 
             className={`
-              w-full py-2 text-xs font-medium rounded-lg transition-all duration-300
+              w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
               ${plan.popular 
                 ? 'bg-foreground text-background hover:bg-foreground/90' 
                 : 'bg-transparent border border-border text-foreground hover:bg-muted'
