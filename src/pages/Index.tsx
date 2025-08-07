@@ -97,11 +97,10 @@ export default function Index() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        {/* Sidebar - Hidden on mobile, only shown when triggered */}
+      <div className="min-h-screen w-full bg-background">
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         
-        <main className="flex-1 flex flex-col overflow-hidden min-w-0">
+        <main className="flex-1 flex flex-col min-h-screen">
           {/* Header - Always visible */}
           <div className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="flex h-12 sm:h-14 lg:h-16 items-center px-2 sm:px-4 gap-2">
