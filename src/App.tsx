@@ -19,7 +19,7 @@ import About from '@/pages/About'
 import Careers from '@/pages/Careers'
 import Press from '@/pages/Press'
 import Partners from '@/pages/Partners'
-import { SidebarProvider } from "@/components/ui/sidebar"
+
 import LandingPage from '@/pages/LandingPage'
 import FeaturesOverview from '@/pages/FeaturesOverview'
 import EditionsPage from '@/pages/EditionsPage'
@@ -42,11 +42,7 @@ function App() {
         <Routes>
         <Route
           path="/landing"
-          element={
-            <SidebarProvider>
-              <LandingPage />
-            </SidebarProvider>
-          }
+          element={<LandingPage />}
         />
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<Auth />} />
