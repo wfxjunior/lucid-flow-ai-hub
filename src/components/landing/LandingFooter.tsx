@@ -61,6 +61,7 @@ export const LandingFooter = () => {
               <li><Link to="/careers" className="hover:text-foreground transition-colors">Careers</Link></li>
               <li><Link to="/press" className="hover:text-foreground transition-colors">Press</Link></li>
               <li><Link to="/partners" className="hover:text-foreground transition-colors">Partners</Link></li>
+              <li><Link to="/investors" className="hover:text-foreground transition-colors">Investors</Link></li>
             </ul>
           </div>
         </div>

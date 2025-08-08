@@ -19,6 +19,7 @@ import About from '@/pages/About'
 import Careers from '@/pages/Careers'
 import Press from '@/pages/Press'
 import Partners from '@/pages/Partners'
+import Investors from '@/pages/Investors'
 import PrivacyPolicy from '@/pages/PrivacyPolicy'
 import TermsOfService from '@/pages/TermsOfService'
 import Feedback from '@/pages/Feedback'
@@ -87,6 +88,7 @@ function App() {
         <Route path="/careers" element={<Careers />} />
         <Route path="/press" element={<Press />} />
         <Route path="/partners" element={<Partners />} />
+        <Route path="/investors" element={<Investors />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/feedback" element={<Feedback />} />
