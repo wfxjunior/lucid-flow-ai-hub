@@ -1,10 +1,10 @@
 
 import React from "react";
+import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 export default function Press() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold">Press</h1>
-      <p className="text-muted-foreground mt-4">Press information and resources.</p>
-    </div>
+    <MarketingPageLayout title="Press" description="Press information and resources." canonical="/press">
+      <p className="text-muted-foreground">Press information and resources.</p>
+    </MarketingPageLayout>
   );
 }

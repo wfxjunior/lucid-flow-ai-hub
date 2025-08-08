@@ -1,10 +1,10 @@
 
 import React from "react";
+import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 export default function Features() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold">Features</h1>
-      <p className="text-muted-foreground mt-4">Explore our platform's core features.</p>
-    </div>
+    <MarketingPageLayout title="Features" description="Explore our platform's core features." canonical="/features">
+      <p className="text-muted-foreground">Explore our platform's core features.</p>
+    </MarketingPageLayout>
   );
 }

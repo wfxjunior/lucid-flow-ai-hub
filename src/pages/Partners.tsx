@@ -1,10 +1,10 @@
 
 import React from "react";
+import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 export default function Partners() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold">Partners</h1>
-      <p className="text-muted-foreground mt-4">Our partners and collaborators.</p>
-    </div>
+    <MarketingPageLayout title="Partners" description="Our partners and collaborators." canonical="/partners">
+      <p className="text-muted-foreground">Our partners and collaborators.</p>
+    </MarketingPageLayout>
   );
 }

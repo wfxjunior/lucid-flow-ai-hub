@@ -1,10 +1,10 @@
 
 import React from "react";
+import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 export default function Integrations() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold">Integrations</h1>
-      <p className="text-muted-foreground mt-4">See all integrations available.</p>
-    </div>
+    <MarketingPageLayout title="Integrations" description="See all integrations available." canonical="/integrations">
+      <p className="text-muted-foreground">See all integrations available.</p>
+    </MarketingPageLayout>
   );
 }

@@ -1,10 +1,10 @@
 
 import React from "react";
+import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 export default function API() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold">API</h1>
-      <p className="text-muted-foreground mt-4">API documentation and integration details.</p>
-    </div>
+    <MarketingPageLayout title="API" description="API documentation and integration details." canonical="/api">
+      <p className="text-muted-foreground">API documentation and integration details.</p>
+    </MarketingPageLayout>
   );
 }
