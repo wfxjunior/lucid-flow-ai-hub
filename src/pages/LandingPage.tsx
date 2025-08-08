@@ -1,5 +1,6 @@
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingHeroSection } from "@/components/landing/LandingHeroSection";
 
@@ -18,6 +19,16 @@ import { CookieConsent } from "@/components/landing/CookieConsent";
 import { FeatherBot } from "@/components/FeatherBot";
 
 export default function LandingPage() {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
+      }
+    }
+  }, [location]);
   return (
     <div className="min-h-screen w-full flex flex-col bg-background">
       <LandingHeader />
