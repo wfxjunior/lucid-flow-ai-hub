@@ -46,7 +46,7 @@ serve(async (req) => {
     `;
 
     const res = await resend.emails.send({
-      from: "FeatherBiz <notifications@resend.dev>",
+      from: "FeatherBiz <investors@featherbiz.io>",
       to: [to],
       subject,
       html,

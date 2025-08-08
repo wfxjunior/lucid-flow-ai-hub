@@ -102,7 +102,7 @@ END:VCALENDAR`;
       `;
 
       return resend.emails.send({
-        from: "FeatherBiz <noreply@featherbiz.com>",
+        from: "FeatherBiz <noreply@featherbiz.io>",
         to: [attendee.email],
         subject: `Meeting Invitation: ${meeting.title}`,
         html: emailContent,
