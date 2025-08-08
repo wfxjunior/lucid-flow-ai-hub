@@ -1,10 +1,19 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Instagram, Facebook, Twitter, Linkedin, Youtube } from "lucide-react";
 
 export const LandingFooter = () => {
+  const location = useLocation();
+  const handlePricingClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (location.pathname === '/landing' || location.pathname === '/') {
+      e.preventDefault();
+      const el = document.getElementById('pricing');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="bg-background border-t border-border/20">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -25,6 +34,7 @@ export const LandingFooter = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Platform</h4>
             <ul className="space-y-3 text-muted-foreground">
+              <li><Link to={location.pathname === '/landing' || location.pathname === '/' ? '#pricing' : '/landing#pricing'} onClick={handlePricingClick} className="hover:text-foreground transition-colors">Pricing</Link></li>
               <li><Link to="/features" className="hover:text-foreground transition-colors">Features</Link></li>
               <li><Link to="/integrations" className="hover:text-foreground transition-colors">Integrations</Link></li>
               <li><Link to="/api" className="hover:text-foreground transition-colors">API</Link></li>
