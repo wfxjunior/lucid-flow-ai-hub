@@ -161,7 +161,7 @@ const generateDocumentHTML = (data: DocumentEmailRequest) => {
         <div style="padding: 30px; background-color: #f1f5f9; text-align: center;">
           <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 16px;">Need Help?</h3>
           <p style="color: #6b7280; margin: 0 0 15px 0;">If you have any questions, please don't hesitate to contact us:</p>
-          <a href="mailto:support@featherbiz.com" style="color: #3b82f6; text-decoration: none; font-weight: 600;">support@featherbiz.com</a>
+          <a href="mailto:support@featherbiz.io" style="color: #3b82f6; text-decoration: none; font-weight: 600;">support@featherbiz.io</a>
         </div>
 
         <!-- Footer -->
@@ -200,7 +200,7 @@ const handler = async (req: Request): Promise<Response> => {
     const subjectLine = `${documentEmoji} Your ${documentTitle} from FeatherBiz – ${documentData.documentNumber}`;
 
     const emailResponse = await resend.emails.send({
-      from: "FeatherBiz Documents <documents@featherbiz.com>",
+      from: "FeatherBiz Documents <documents@featherbiz.io>",
       to: [documentData.customerEmail],
       subject: subjectLine,
       html: generateDocumentHTML(documentData),

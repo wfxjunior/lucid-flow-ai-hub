@@ -123,7 +123,7 @@ const generateReceiptHTML = (data: ReceiptEmailRequest) => {
         <div style="padding: 30px; background-color: #f1f5f9; text-align: center;">
           <h3 style="color: #374151; margin: 0 0 15px 0; font-size: 16px;">Need Help?</h3>
           <p style="color: #6b7280; margin: 0 0 15px 0;">If you have any questions about your order, please don't hesitate to contact us:</p>
-          <a href="mailto:support@featherbiz.com" style="color: #3b82f6; text-decoration: none; font-weight: 600;">support@featherbiz.com</a>
+          <a href="mailto:support@featherbiz.io" style="color: #3b82f6; text-decoration: none; font-weight: 600;">support@featherbiz.io</a>
         </div>
 
         <!-- Footer -->
@@ -152,7 +152,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending receipt email to:", receiptData.customerEmail);
 
     const emailResponse = await resend.emails.send({
-      from: "FeatherBiz Receipts <receipts@featherbiz.com>",
+      from: "FeatherBiz Receipts <receipts@featherbiz.io>",
       to: [receiptData.customerEmail],
       subject: "🧾 Your Receipt from FeatherBiz – Thank You!",
       html: generateReceiptHTML(receiptData),

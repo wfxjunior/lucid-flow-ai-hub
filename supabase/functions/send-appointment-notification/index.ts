@@ -40,7 +40,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email notification
     const emailResponse = await resend.emails.send({
-      from: "Appointments <appointments@yourdomain.com>",
+      from: "FeatherBiz Appointments <appointments@featherbiz.io>",
       to: [clientEmail],
       subject: `Appointment Confirmation: ${appointmentTitle}`,
       html: `

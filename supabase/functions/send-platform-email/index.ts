@@ -121,7 +121,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to hello@featherbiz.io
     const emailResponse = await resend.emails.send({
-      from: "FeatherBiz Platform <platform@featherbiz.com>",
+      from: "FeatherBiz Platform <platform@featherbiz.io>",
       to: ["hello@featherbiz.io"],
       subject: `[${data.type.toUpperCase()}] ${data.subject}`,
       html: emailHTML,
