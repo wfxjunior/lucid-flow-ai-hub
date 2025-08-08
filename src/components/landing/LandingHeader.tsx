@@ -3,6 +3,14 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 
 export const LandingHeader = () => {
   const navigate = useNavigate();
@@ -27,22 +35,71 @@ export const LandingHeader = () => {
         </div>
         
         {/* Navigation - Hidden on mobile */}
-        <nav className="hidden lg:flex items-center gap-8">
-          <div className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-            <span className="font-medium">Platform</span>
-            <ChevronDown className="h-4 w-4" />
-          </div>
-          <div className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-            <span className="font-medium">Resources</span>
-            <ChevronDown className="h-4 w-4" />
-          </div>
-          <a href="#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
-            Customers
-          </a>
-          <a href="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">
-            Pricing
-          </a>
+        <nav className="hidden lg:flex items-center gap-6">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-medium">Platform</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[520px] gap-2 p-4 md:w-[640px] md:grid-cols-2">
+                    <li>
+                      <a href="/landing#features" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                        <span className="block text-sm font-medium">Features overview</span>
+                        <span className="block text-xs text-muted-foreground">CRM, projects, billing, and more</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/landing#automation" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                        <span className="block text-sm font-medium">Automation & AI</span>
+                        <span className="block text-xs text-muted-foreground">Workflows, assistants, and voice</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/landing#integrations" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                        <span className="block text-sm font-medium">Integrations</span>
+                        <span className="block text-xs text-muted-foreground">Connect your favorite tools</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/landing#security" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                        <span className="block text-sm font-medium">Security & permissions</span>
+                        <span className="block text-xs text-muted-foreground">Best‑practice controls for teams</span>
+                      </a>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-medium">Resources</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="w-[280px] p-2">
+                    <li>
+                      <a href="/landing#guides" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Guides & tutorials</a>
+                    </li>
+                    <li>
+                      <a href="/landing#templates" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Templates</a>
+                    </li>
+                    <li>
+                      <a href="/landing#help" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Help center</a>
+                    </li>
+                    <li>
+                      <a href="/landing#api" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">API docs</a>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <a href="#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Customers</a>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <a href="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">Pricing</a>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </nav>
+
         
         {/* Auth Buttons */}
         <div className="flex items-center gap-3">
