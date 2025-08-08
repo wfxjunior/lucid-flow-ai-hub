@@ -24,6 +24,14 @@ export default function About() {
         </Card>
       </section>
       <section className="mt-8">
+        <h3 className="font-semibold">Company history</h3>
+        <ul className="mt-3 text-sm text-muted-foreground space-y-2">
+          <li><span className="text-foreground font-medium">2022</span> — FeatherBiz founded, first prototype launched.</li>
+          <li><span className="text-foreground font-medium">2023</span> — Public beta, payments and documents released.</li>
+          <li><span className="text-foreground font-medium">2024</span> — SOC 2 journey started, analytics module shipped.</li>
+        </ul>
+      </section>
+      <section className="mt-8">
         <h3 className="font-semibold">Founding team</h3>
         <div className="grid sm:grid-cols-2 gap-6 mt-3">
           <Card className="p-4 flex items-center gap-4"><img src={t1} alt="Founder 1" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Alex Rivera</p><p className="text-sm text-muted-foreground">Founder & CEO</p></div></Card>
