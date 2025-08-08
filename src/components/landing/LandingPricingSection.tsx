@@ -5,13 +5,20 @@ export const LandingPricingSection = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) {
+      // Ensure the pricing section is always visible on mobile
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.0,
+        rootMargin: '0px'
       }
     );
 
