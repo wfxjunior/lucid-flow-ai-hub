@@ -58,7 +58,7 @@ export const LandingFooter = () => {
         {/* Bottom Section */}
         <div className="border-t border-border/20 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="text-sm text-muted-foreground">
-            © 2024 FeatherBiz. All rights reserved.
+            © 2025 FeatherBiz. By XSenSys Platforms.
           </div>
           
           {/* Social Links */}
