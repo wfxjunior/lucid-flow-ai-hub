@@ -1,11 +1,21 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
 export const LandingHeader = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const onPricingClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const isLanding = location.pathname === '/landing' || location.pathname === '/';
+    if (isLanding) {
+      e.preventDefault();
+      const el = document.getElementById('pricing');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
   
   return (
     <header className="w-full border-b border-border/20 bg-background/80 backdrop-blur-md sticky top-0 z-50">
@@ -29,9 +39,9 @@ export const LandingHeader = () => {
           <a href="#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
             Customers
           </a>
-          <Link to="/pricing" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
+          <a href="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">
             Pricing
-          </Link>
+          </a>
         </nav>
         
         {/* Auth Buttons */}
