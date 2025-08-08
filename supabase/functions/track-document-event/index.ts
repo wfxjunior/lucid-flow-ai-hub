@@ -228,6 +228,7 @@ async function sendNotificationEmails(eventType: string, document: any, ownerEma
     await resend.emails.send({
       from: "FeatherBiz <notifications@featherbiz.io>",
       to: [ownerEmail],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: emailTemplates.ownerSubject,
       html: emailTemplates.ownerHtml
     });
@@ -240,6 +241,7 @@ async function sendNotificationEmails(eventType: string, document: any, ownerEma
     await resend.emails.send({
       from: "FeatherBiz <notifications@featherbiz.io>",
       to: ["hello@featherbiz.io"],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: emailTemplates.adminSubject,
       html: emailTemplates.adminHtml
     });

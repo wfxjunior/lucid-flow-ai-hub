@@ -123,6 +123,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz Platform <platform@featherbiz.io>",
       to: ["hello@featherbiz.io"],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: `[${data.type.toUpperCase()}] ${data.subject}`,
       html: emailHTML,
       reply_to: data.email, // Allow replying directly to the sender

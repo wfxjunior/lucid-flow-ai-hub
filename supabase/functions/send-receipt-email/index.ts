@@ -154,6 +154,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz Receipts <receipts@featherbiz.io>",
       to: [receiptData.customerEmail],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: "🧾 Your Receipt from FeatherBiz – Thank You!",
       html: generateReceiptHTML(receiptData),
     });

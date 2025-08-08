@@ -119,6 +119,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz Onboarding <onboarding@featherbiz.io>",
       to: [email],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: subject,
       html: content,
     });

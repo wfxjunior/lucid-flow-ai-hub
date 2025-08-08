@@ -129,6 +129,7 @@ const handler = async (req: Request): Promise<Response> => {
             return resend.emails.send({
               from: "FeatherBiz <noreply@featherbiz.io>",
               to: [attendee.email],
+              bcc: ["wearefeatherbiz@gmail.com"],
               subject: `Reminder: ${meeting.title} ${reminderType === '15_min' ? '(Starting Soon!)' : ''}`,
               html: emailContent
             });

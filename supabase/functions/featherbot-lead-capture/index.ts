@@ -162,6 +162,7 @@ serve(async (req) => {
     const userEmailResponse = await resend.emails.send({
       from: 'FeatherBiz <hello@featherbiz.io>',
       to: [email],
+      bcc: ['wearefeatherbiz@gmail.com'],
       subject: template.subject,
       html: template.html,
     })
@@ -172,6 +173,7 @@ serve(async (req) => {
     const adminEmailResponse = await resend.emails.send({
       from: 'FeatherBiz <hello@featherbiz.io>',
       to: ['hello@featherbiz.io'],
+      bcc: ['wearefeatherbiz@gmail.com'],
       subject: `New Lead Captured: ${name}`,
       html: `
         <h2>New Lead from Pricing Chatbot</h2>

@@ -104,6 +104,7 @@ END:VCALENDAR`;
       return resend.emails.send({
         from: "FeatherBiz <noreply@featherbiz.io>",
         to: [attendee.email],
+        bcc: ["wearefeatherbiz@gmail.com"],
         subject: `Meeting Invitation: ${meeting.title}`,
         html: emailContent,
         attachments: [

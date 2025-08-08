@@ -34,6 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
     const salesEmailResponse = await resend.emails.send({
       from: "FeatherBiz Sales <sales@featherbiz.io>",
       to: ["sales@featherbiz.io", "juniorxavierusa@gmail.com"],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: `New Sales Inquiry from ${contactData.firstName} ${contactData.lastName} - ${contactData.company}`,
       html: `
         <h2>New Sales Contact Request</h2>
@@ -63,6 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
     const confirmationEmailResponse = await resend.emails.send({
       from: "FeatherBiz <hello@featherbiz.io>",
       to: [contactData.email],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: "Thank you for your interest in FeatherBiz",
       html: `
         <h2>Thank you for contacting FeatherBiz!</h2>

@@ -42,6 +42,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz Appointments <appointments@featherbiz.io>",
       to: [clientEmail],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: `Appointment Confirmation: ${appointmentTitle}`,
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">

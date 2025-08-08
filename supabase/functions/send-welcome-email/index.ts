@@ -29,6 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz <welcome@featherbiz.io>",
       to: [email],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: "Welcome to FeatherBiz – A Great Journey Begins",
       text: `Hello ${displayName},
 

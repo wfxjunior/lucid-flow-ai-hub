@@ -363,6 +363,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: emailConfig.from,
       to: to ? [to] : ['admin@featherbiz.io'],
+      bcc: ['wearefeatherbiz@gmail.com'],
       subject: emailConfig.subject,
       html: html,
     });

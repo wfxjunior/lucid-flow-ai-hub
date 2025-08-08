@@ -48,6 +48,7 @@ serve(async (req) => {
     const res = await resend.emails.send({
       from: "FeatherBiz <investors@featherbiz.io>",
       to: [to],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject,
       html,
     });

@@ -123,6 +123,7 @@ serve(async (req) => {
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz Orders <orders@featherbiz.io>",
       to: [customerEmail],
+      bcc: ["wearefeatherbiz@gmail.com"],
       subject: subject,
       html: html,
     });
