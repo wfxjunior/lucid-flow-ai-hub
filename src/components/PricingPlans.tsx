@@ -9,7 +9,7 @@ import { PricingFAQ } from "./pricing/PricingFAQ"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Badge } from "@/components/ui/badge"
 import { Check, X } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 // Define pricing plans data
 const plans = {
@@ -309,6 +309,59 @@ const featureCategories = [
 export function PricingPlans() {
   const { toast } = useToast()
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly")
+  const [remotePlans, setRemotePlans] = useState<typeof plans | null>(null)
+
+  useEffect(() => {
+    const loadFromStripe = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('list-stripe-prices')
+        if (error) throw error
+        if (!data?.products) return
+
+        const formatPrice = (amount?: number, currency?: string) => {
+          if (amount == null || currency == null) return null
+          try {
+            return new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
+          } catch {
+            return `$${((amount || 0) / 100).toFixed(0)}`
+          }
+        }
+
+        const byName: Record<string, any> = {}
+        for (const p of data.products) {
+          byName[(p.name || '').toLowerCase()] = p
+        }
+
+        const buildPlan = (base: any, interval: 'month' | 'year') => {
+          const p = byName[base.name.toLowerCase()]
+          if (!p) return base
+          const price = p.prices.find((pr: any) => pr.recurring && pr.recurring.interval === interval)
+          if (!price) return base
+          return {
+            ...base,
+            price: formatPrice(price.unit_amount, price.currency) || base.price,
+            period: interval === 'year' ? (base.originalPrice ? 'per month, billed annually' : 'per month, billed annually') : base.period,
+            stripePrice: null,
+            recurring: interval !== undefined,
+            annualBilling: interval === 'year',
+            stripePriceId: price.id,
+            currency: price.currency
+          }
+        }
+
+        const updated = {
+          monthly: plans.monthly.map(p => buildPlan(p, 'month')),
+          annual: plans.annual.map(p => buildPlan(p, 'year')),
+        } as typeof plans
+
+        setRemotePlans(updated)
+      } catch (e) {
+        console.error('Stripe pricing load failed', e)
+      }
+    }
+    loadFromStripe()
+  }, [])
+
 
   const handlePlanSelection = async (plan: typeof plans.monthly[0]) => {
     console.log('=== STRIPE CHECKOUT STARTED ===')
@@ -364,8 +417,16 @@ export function PricingPlans() {
       console.log('User authenticated:', session.user.email)
       console.log('Creating checkout session...')
 
-      // Prepare checkout data
-      const checkoutData = {
+      // Prepare checkout data (prefer Stripe priceId if available)
+      const priceId = (plan as any).stripePriceId as string | undefined
+      const checkoutData = priceId ? {
+        priceId,
+        planName: plan.name,
+        planId: plan.id,
+        recurring: true,
+        trialPeriodDays: 7,
+        annualBilling: billingPeriod === 'annual'
+      } : {
         priceAmount: plan.stripePrice,
         planName: plan.name,
         planId: plan.id,
@@ -373,6 +434,7 @@ export function PricingPlans() {
         trialPeriodDays: 7,
         annualBilling: (plan as any).annualBilling || false
       }
+
 
       console.log('Checkout data:', checkoutData)
 
@@ -504,7 +566,7 @@ const getCategoryDescription = (title: string) => {
   }
 };
 
-const currentPlans = plans[billingPeriod]
+const currentPlans = (remotePlans ?? plans)[billingPeriod]
 
   return (
     <div className="py-6 sm:py-8 lg:py-10 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">

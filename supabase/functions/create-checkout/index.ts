@@ -72,18 +72,18 @@ serve(async (req) => {
       throw new Error("User not authenticated or email not available");
     }
 
-    const { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling, country } = await req.json();
+    const { priceAmount, priceId, planName, planId, recurring, trialPeriodDays, annualBilling, country } = await req.json();
     
-    console.log('Checkout request:', { priceAmount, planName, planId, recurring, trialPeriodDays, annualBilling, country });
+    console.log('Checkout request:', { priceAmount, priceId, planName, planId, recurring, trialPeriodDays, annualBilling, country });
     
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
 
-    // Detectar moeda baseada no país
+    // Detect currency based on country (still used for metadata and some payment methods)
     const currency = getCurrencyByCountry(country);
     const priceMultiplier = getPriceMultiplier(currency);
-    const localizedPrice = Math.round(priceAmount * priceMultiplier);
+    const localizedPrice = Math.round((priceAmount || 0) * priceMultiplier);
 
     console.log('Localized pricing:', { currency, priceMultiplier, localizedPrice });
 
@@ -100,7 +100,40 @@ serve(async (req) => {
     const sessionConfig: any = {
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
-      line_items: [
+      mode: recurring ? "subscription" : "payment",
+      success_url: `${req.headers.get("origin")}/?view=payment-success&plan=${planId}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.get("origin")}/?view=pricing&canceled=true`,
+      metadata: {
+        user_id: user.id,
+        plan_id: planId,
+        plan_name: planName,
+        billing_period: annualBilling ? 'annual' : 'monthly',
+        currency: currency,
+        original_price_usd: priceAmount || null
+      },
+      allow_promotion_codes: true,
+      billing_address_collection: 'auto',
+      automatic_tax: {
+        enabled: true,
+      },
+      payment_method_types: ['card'],
+      ...(currency === 'brl' && {
+        payment_method_types: ['card', 'boleto'],
+      }),
+      ...(currency === 'eur' && {
+        payment_method_types: ['card', 'sepa_debit', 'ideal', 'bancontact'],
+      }),
+    };
+
+    if (priceId) {
+      sessionConfig.line_items = [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ];
+    } else {
+      sessionConfig.line_items = [
         {
           price_data: {
             currency: currency,
@@ -117,33 +150,8 @@ serve(async (req) => {
           },
           quantity: 1,
         },
-      ],
-      mode: recurring ? "subscription" : "payment",
-      success_url: `${req.headers.get("origin")}/?view=payment-success&plan=${planId}&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/?view=pricing&canceled=true`,
-      metadata: {
-        user_id: user.id,
-        plan_id: planId,
-        plan_name: planName,
-        billing_period: annualBilling ? 'annual' : 'monthly',
-        currency: currency,
-        original_price_usd: priceAmount
-      },
-      allow_promotion_codes: true,
-      billing_address_collection: 'auto',
-      automatic_tax: {
-        enabled: true,
-      },
-      // Configurações para pagamentos internacionais
-      payment_method_types: ['card'],
-      // Aceitar múltiplos métodos de pagamento por região
-      ...(currency === 'brl' && {
-        payment_method_types: ['card', 'boleto'],
-      }),
-      ...(currency === 'eur' && {
-        payment_method_types: ['card', 'sepa_debit', 'ideal', 'bancontact'],
-      }),
-    };
+      ];
+    }
 
     // Add trial period for subscriptions
     if (recurring && trialPeriodDays && trialPeriodDays > 0) {

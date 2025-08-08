@@ -20,6 +20,8 @@ interface PricingPlan {
   stripePrice: number | null
   recurring?: boolean
   annualBilling?: boolean
+  stripePriceId?: string | null
+  currency?: string
 }
 
 interface PricingCardProps {
