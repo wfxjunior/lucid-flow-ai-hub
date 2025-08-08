@@ -301,30 +301,39 @@ export const LandingNumbersSection = forwardRef<HTMLDivElement, LandingNumbersSe
   const baseDurationRange: [number, number] = [1200, 1600];
   const staggerMs = 120;
 
-  // HSL variables (converted from provided palette)
-  const bgHsl = "220 49% 8%"; // #0B1220
-  const textHsl = "219 52% 94%"; // #E6ECF7
-  const accentHsl = "211 100% 65%"; // #4DA3FF
-  const accent2Hsl = "148 54% 66%"; // #7BD8A6
-  const gridHsl = "219 52% 94% / 0.12"; // rgba(..., .12)
+  // Theme HSL variables from design system (landing palette)
+  const { accentHsl, accent2Hsl, gridHsl } = useMemo(() => {
+    if (typeof document === 'undefined') {
+      return {
+        accentHsl: '222 100% 60%',
+        accent2Hsl: '200 94% 55%',
+        gridHsl: '220 9% 46% / 0.12',
+      };
+    }
+    const root = getComputedStyle(document.documentElement);
+    const primary = root.getPropertyValue('--primary').trim();
+    const accent = (root.getPropertyValue('--accent') || primary).trim();
+    const mutedFg = (root.getPropertyValue('--muted-foreground') || root.getPropertyValue('--foreground')).trim();
+    return {
+      accentHsl: primary || '222 100% 60%',
+      accent2Hsl: accent || primary || '222 100% 60%',
+      gridHsl: `${mutedFg || '220 9% 46%'} / 0.12`,
+    };
+  }, []);
 
   return (
     <section
       id="fbz-metrics"
       ref={sectionRef}
       aria-labelledby="fbz-metrics-title"
-      className="w-full"
-      style={{
-        background: `hsl(${bgHsl})`,
-        color: `hsl(${textHsl})`,
-      }}
+      className="w-full bg-background text-foreground"
     >
       <div ref={containerRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <header className="mb-10 sm:mb-12">
           <h2 id="fbz-metrics-title" className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
             FeatherBiz by the numbers
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-muted-foreground" style={{ color: `hsl(${textHsl} / 0.8)` }}>
+          <p className="mt-3 text-sm sm:text-base text-muted-foreground">
             Proof we’re built for growing small businesses.
           </p>
         </header>
@@ -358,7 +367,7 @@ export const LandingNumbersSection = forwardRef<HTMLDivElement, LandingNumbersSe
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-xs sm:text-sm" style={{ color: `hsl(${textHsl} / 0.7)` }}>
+                  <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
                     {m.label}
                   </p>
                 </article>
