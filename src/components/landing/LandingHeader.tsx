@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
 export const LandingHeader = () => {
@@ -29,9 +29,9 @@ export const LandingHeader = () => {
           <a href="#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
             Customers
           </a>
-          <a href="#pricing" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
+          <Link to="/pricing" className="text-muted-foreground hover:text-foreground font-medium transition-colors">
             Pricing
-          </a>
+          </Link>
         </nav>
         
         {/* Auth Buttons */}

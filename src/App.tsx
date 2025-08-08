@@ -23,6 +23,7 @@ import Partners from '@/pages/Partners'
 import LandingPage from '@/pages/LandingPage'
 import FeaturesOverview from '@/pages/FeaturesOverview'
 import EditionsPage from '@/pages/EditionsPage'
+import Pricing from '@/pages/Pricing'
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   // For now, we'll just return children since we're using the Index page with its own auth
@@ -48,6 +49,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/features-overview" element={<FeaturesOverview />} />
         <Route path="/editions" element={<EditionsPage />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route 
           path="/car-rental" 
           element={
