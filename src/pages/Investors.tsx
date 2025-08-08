@@ -1,4 +1,4 @@
-
+ 
 import React from "react";
 import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 import { Card } from "@/components/ui/card";
@@ -27,11 +27,23 @@ const fundsColors = [
 export default function Investors() {
   const { toast } = useToast();
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast({ title: "Request received", description: "We'll email you the investor kit shortly." });
+    const fd = new FormData(e.currentTarget);
+    const payload = Object.fromEntries(fd.entries()) as Record<string, string>;
+    try {
+      const res = await fetch("https://tvdromfazjzargvesruq.functions.supabase.co/send-investor-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind: "investor", data: payload }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      toast({ title: "Request received", description: "We'll email you the investor kit shortly." });
+      e.currentTarget.reset();
+    } catch (err: any) {
+      toast({ title: "Could not send", description: err.message || "Please try again later.", variant: "destructive" as any });
+    }
   };
-
   return (
     <MarketingPageLayout
       title="Invest in the Future of Business Tech"
