@@ -10,7 +10,7 @@ import { LandingClientMarquee } from "@/components/landing/LandingClientMarquee"
 import { LandingEntrepreneursSection } from "@/components/landing/LandingEntrepreneursSection";
 import { LandingDashboardPreview } from "@/components/landing/LandingDashboardPreview";
 import { LandingPricingSection } from "@/components/landing/LandingPricingSection";
-import { LandingFAQSection } from "@/components/landing/LandingFAQSection";
+
 import { LandingCTASection } from "@/components/landing/LandingCTASection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 
@@ -31,7 +31,7 @@ export default function LandingPage() {
         <LandingEntrepreneursSection />
         <LandingDashboardPreview />
         <LandingPricingSection />
-        <LandingFAQSection />
+        
         <LandingCTASection />
       </main>
       
