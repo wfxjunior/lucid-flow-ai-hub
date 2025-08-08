@@ -1,144 +1,160 @@
 
-import React, { useState, useEffect } from "react";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { LucideIcon, Users, Workflow, KanbanSquare, CreditCard, Mic, Plug, Shield, BarChart3, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-// Import testimonial photos
-import sarahJohnsonPhoto from "@/assets/testimonials/sarah-johnson.jpg";
-import michaelChenPhoto from "@/assets/testimonials/michael-chen.jpg";
-import elenaRodriguezPhoto from "@/assets/testimonials/elena-rodriguez.jpg";
+// High‑engagement visual mosaic to replace testimonials
+// Keeps the same export/name and anchor id to avoid breaking existing links
 
-const testimonials = [
+type Feature = {
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  col?: string; // responsive col span classes
+  row?: string; // responsive row span classes
+};
+
+const features: Feature[] = [
   {
-    name: "Sarah Johnson",
-    role: "CEO, Johnson & Associates",
-    content: "When I first opened FeatherBiz, I instantly got the feeling this was the next generation of business management. The AI features and seamless workflow have transformed how we operate.",
-    rating: 5,
-    avatar: sarahJohnsonPhoto
+    id: "crm",
+    title: "CRM inteligente",
+    description: "Pipeline visual, segmentação e 360º do cliente.",
+    icon: Users,
+    col: "lg:col-span-2",
+    row: "lg:row-span-2",
   },
   {
-    name: "Michael Chen",
-    role: "Founder, TechStart Solutions",
-    content: "FeatherBiz has completely revolutionized our business operations. The automation features save us hours every day, and the analytics provide insights we never had before.",
-    rating: 5,
-    avatar: michaelChenPhoto
+    id: "automations",
+    title: "Automations",
+    description: "Fluxos no‑code, gatilhos e ações multi‑canal.",
+    icon: Workflow,
   },
   {
-    name: "Elena Rodriguez",
-    role: "Operations Manager, GrowthCorp",
-    content: "The most intuitive business platform I've ever used. Everything just works seamlessly together - from project management to financial tracking.",
-    rating: 5,
-    avatar: elenaRodriguezPhoto
-  }
+    id: "projects",
+    title: "Projetos",
+    description: "Boards Kanban, sprints e dependências claras.",
+    icon: KanbanSquare,
+  },
+  {
+    id: "billing",
+    title: "Faturamento",
+    description: "Cobranças, notas e reconciliação simplificada.",
+    icon: CreditCard,
+    col: "lg:col-span-2",
+  },
+  {
+    id: "ai-voice",
+    title: "AI Voice",
+    description: "Chamadas assistidas e roteiros gerados por IA.",
+    icon: Mic,
+  },
+  {
+    id: "integrations",
+    title: "Integrações",
+    description: "Conecte suas ferramentas favoritas em minutos.",
+    icon: Plug,
+  },
+  {
+    id: "security",
+    title: "Segurança",
+    description: "Criptografia, RBAC e auditorias em tempo real.",
+    icon: Shield,
+  },
+  {
+    id: "reports",
+    title: "Relatórios",
+    description: "KPIs e análises com profundidade executiva.",
+    icon: BarChart3,
+    row: "lg:row-span-2",
+  },
 ];
 
 export const LandingTestimonialsSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.2,
-        rootMargin: '0px 0px -50px 0px'
-      }
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.15 }
     );
 
-    const section = document.getElementById('testimonials-section');
-    if (section) {
-      observer.observe(section);
-    }
-
+    const el = document.getElementById("testimonials-section");
+    if (el) observer.observe(el);
     return () => {
-      if (section) {
-        observer.unobserve(section);
-      }
+      if (el) observer.unobserve(el);
     };
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 10000); // Increased from 6000ms to 10000ms
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const currentTestimonial = testimonials[currentIndex];
-
   return (
-    <section id="testimonials" className="py-16 sm:py-24 lg:py-32 bg-muted/20">
-      <div id="testimonials-section" className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        
-        {/* Featured Testimonial */}
-        <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-8">
-            <div className="flex justify-center mb-6">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-foreground text-foreground" />
-              ))}
-            </div>
-            
-            <blockquote className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-foreground mb-8 leading-relaxed px-4">
-              "{currentTestimonial.content}"
-            </blockquote>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <img
-                src={currentTestimonial.avatar}
-                alt={currentTestimonial.name}
-                className="w-12 h-12 rounded-full object-cover border-2 border-border/20"
-              />
-              <div className="text-center sm:text-left">
-                <div className="font-semibold text-foreground">{currentTestimonial.name}</div>
-                <div className="text-muted-foreground text-sm">{currentTestimonial.role}</div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <button
-              onClick={prevTestimonial}
-              className="p-2 rounded-full border border-border/50 hover:border-border hover:bg-muted/50 transition-colors"
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            
-            <div className="flex gap-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentIndex ? 'bg-foreground' : 'bg-muted-foreground/30'
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
-            </div>
-            
-            <button
-              onClick={nextTestimonial}
-              className="p-2 rounded-full border border-border/50 hover:border-border hover:bg-muted/50 transition-colors"
-              aria-label="Next testimonial"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+    <section id="testimonials" aria-label="Destaques do produto" className="py-16 sm:py-24 lg:py-32 bg-muted/20">
+      <div id="testimonials-section" className="max-w-6xl mx-auto px-4 sm:px-6">
+        <header className={cn(
+          "mb-10 sm:mb-14 text-center transition-all duration-700",
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        )}>
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+            Recursos que chamam atenção
+          </h2>
+          <p className="mt-3 text-base sm:text-lg text-muted-foreground">
+            Um mosaico visual para explorar o que o FeatherBiz pode fazer pelo seu negócio.
+          </p>
+        </header>
 
+        {/* Mosaic grid */}
+        <div
+          className={cn(
+            "grid auto-rows-[160px] sm:auto-rows-[180px] lg:auto-rows-[200px] gap-4",
+            "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
+            "transition-opacity duration-700",
+            isVisible ? "opacity-100" : "opacity-0"
+          )}
+        >
+          {features.map((f, idx) => (
+            <article
+              key={f.id}
+              className={cn(
+                "group relative overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm",
+                "focus-within:ring-2 focus-within:ring-primary/40",
+                "transition-all duration-300 hover:shadow-md hover:-translate-y-0.5",
+                f.col,
+                f.row,
+                // staggered reveal
+                isVisible ? "animate-in fade-in slide-in-from-bottom-2 duration-700" : "opacity-0",
+              )}
+              style={{ animationDelay: `${idx * 50}ms` as React.CSSProperties["animationDelay"] }}
+            >
+              {/* subtle background glow */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent" />
+
+              <div className="relative z-10 h-full p-6 flex flex-col">
+                <div className="flex items-center gap-3">
+                  <div className="grid h-10 w-10 place-items-center rounded-xl border bg-background/60 backdrop-blur-sm">
+                    <f.icon className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+                  </div>
+                  <h3 className="text-lg font-medium leading-none tracking-tight">{f.title}</h3>
+                </div>
+
+                <p className="mt-3 text-sm text-muted-foreground max-w-[48ch]">
+                  {f.description}
+                </p>
+
+                <div className="mt-auto pt-4">
+                  <button
+                    className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                    aria-label={`Explorar ${f.title}`}
+                  >
+                    Explorar
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* decorative corner */}
+              <div className="pointer-events-none absolute -right-8 -bottom-8 h-28 w-28 rounded-full bg-primary/10 blur-2xl" />
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
