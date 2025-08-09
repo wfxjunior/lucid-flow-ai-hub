@@ -82,25 +82,27 @@ export const LandingFeaturesSection = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const section = document.getElementById('features-section');
+    if (!section) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          // Reveal only once to prevent flicker/instability
+          observer.unobserve(entry.target);
+        }
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -10% 0px'
       }
     );
 
-    const section = document.getElementById('features-section');
-    if (section) {
-      observer.observe(section);
-    }
+    observer.observe(section);
 
     return () => {
-      if (section) {
-        observer.unobserve(section);
-      }
+      observer.disconnect();
     };
   }, []);
 
