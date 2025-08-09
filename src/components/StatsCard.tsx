@@ -51,10 +51,10 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
     return () => clearTimeout(timer)
   }, [delay, value, title, t])
 
-  const changeColor = trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-gray-600"
+  const changeColor = trend === "up" ? "text-primary" : trend === "down" ? "text-destructive" : "text-muted-foreground"
 
   return (
-    <Card className={`transition-all duration-500 hover:shadow-md ${
+    <Card className={`rounded-2xl border-border/60 bg-card/80 backdrop-blur-sm transition-all duration-500 hover:shadow-md ${
       isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'
     }`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2">

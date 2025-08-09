@@ -9,7 +9,7 @@ import {
 export function DashboardMetrics() {
   return (
     <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-      <Card>
+      <Card className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/60 hover:shadow-md transition">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-xs sm:text-sm font-medium">
             Active Projects
@@ -24,7 +24,7 @@ export function DashboardMetrics() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/60 hover:shadow-md transition">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-xs sm:text-sm font-medium">
             Conversion Rate
@@ -39,7 +39,7 @@ export function DashboardMetrics() {
         </CardContent>
       </Card>
 
-      <Card className="md:col-span-2 xl:col-span-1">
+      <Card className="md:col-span-2 xl:col-span-1 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/60 hover:shadow-md transition">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-xs sm:text-sm font-medium">
             Average Deal Size
