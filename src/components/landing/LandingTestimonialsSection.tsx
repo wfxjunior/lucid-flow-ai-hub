@@ -1,11 +1,13 @@
 
 import React, { useEffect, useState } from "react";
-import { LucideIcon, Users, Workflow, KanbanSquare, CreditCard, Mic, Plug, Shield, BarChart3, ArrowRight } from "lucide-react";
+import { LucideIcon, Users, Workflow, KanbanSquare, CreditCard, Mic, Plug, Shield, BarChart3, ArrowRight, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { FeatureStories } from "@/components/landing/FeatureStories";
-
-
-
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import alexImg from "@/assets/testimonials/alex.jpg";
+import priyaImg from "@/assets/testimonials/priya.jpg";
+import diegoImg from "@/assets/testimonials/diego.jpg";
 
 // High‑engagement visual mosaic to replace testimonials
 // Keeps the same export/name and anchor id to avoid breaking existing links
@@ -74,7 +76,14 @@ const features: Feature[] = [
   },
 ];
 
-// (section updated to Attio-style stories; testimonials data removed)
+// Testimonials data (English)
+ type Testimonial = { id: string; name: string; role: string; quote: string; rating?: number; image: string };
+ 
+ const testimonials: Testimonial[] = [
+   { id: "t1", name: "Alex Johnson", role: "COO, BrightPath", quote: "FeatherBiz helped us centralize operations and speed up our sales cycle.", rating: 5, image: alexImg },
+   { id: "t2", name: "Priya Sharma", role: "Head of Growth, NexaCloud", quote: "Automations saved countless hours. Our team loves the simplicity.", rating: 5, image: priyaImg },
+   { id: "t3", name: "Diego Martins", role: "Founder, NovaLabs", quote: "From CRM to billing, everything just works together seamlessly.", rating: 5, image: diegoImg },
+ ];
 
 export const LandingTestimonialsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -103,8 +112,69 @@ export const LandingTestimonialsSection = () => {
 
   return (
     <>
-      {/* Feature Stories (Attio-style) */}
-      <FeatureStories />
+      {/* Testimonials Section */}
+      <section id="testimonials" aria-label="Testimonials" className="py-16 sm:py-24 lg:py-28 bg-background">
+        <div id="testimonials-section" className="max-w-6xl mx-auto px-4 sm:px-6">
+          <header className={cn(
+            "mb-10 sm:mb-14 text-center transition-all duration-700",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          )}>
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+              What our customers say
+            </h2>
+            <p className="mt-3 text-base sm:text-lg text-muted-foreground">
+              Real stories from teams growing faster with FeatherBiz.
+            </p>
+          </header>
+
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            plugins={[Autoplay({ delay: 4000, stopOnInteraction: true })]}
+            className="relative w-full"
+            aria-label="Customer reviews carousel"
+          >
+            <CarouselContent>
+              {testimonials.map((t) => (
+                <CarouselItem key={t.id} className="md:basis-1/2 lg:basis-1/3">
+                  <article
+                    className={cn(
+                      "group relative h-full overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm p-6",
+                      "transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+                    )}
+                  >
+                    <div className="flex items-start gap-4">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={t.image} alt={`${t.name} portrait`} loading="lazy" />
+                        <AvatarFallback>
+                          {t.name.split(' ').map(n => n[0]).join('').slice(0,2)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">“{t.quote}”</p>
+                        <div className="mt-4 flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-medium">{t.name}</p>
+                            <p className="text-xs text-muted-foreground">{t.role}</p>
+                          </div>
+                          {t.rating ? (
+                            <div className="flex items-center gap-0.5 text-primary" aria-label={`${t.rating} out of 5 stars`}>
+                              {Array.from({ length: t.rating }).map((_, i) => (
+                                <Star key={i} className="h-4 w-4 fill-current" />
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious aria-label="Previous testimonial" />
+            <CarouselNext aria-label="Next testimonial" />
+          </Carousel>
+        </div>
+      </section>
 
       {/* Features Mosaic */}
       <section aria-label="Product highlights" className="py-16 sm:py-24 lg:py-32 bg-muted/20">
