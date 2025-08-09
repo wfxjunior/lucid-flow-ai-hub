@@ -56,7 +56,7 @@ export function LimitedQuickActionsGrid({ actions, onActionClick, searchTerm }: 
       </div>
 
       {/* Grid */}
-      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {visibleActions.map((action) => (
           <QuickActionCard
             key={action.id}
