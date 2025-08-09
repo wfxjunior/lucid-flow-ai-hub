@@ -26,6 +26,7 @@ const fundsColors = [
 
 export default function Investors() {
   const { toast } = useToast();
+  console.log('[Investors] page render');
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
