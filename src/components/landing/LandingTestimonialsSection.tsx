@@ -194,8 +194,10 @@ export const LandingTestimonialsSection = () => {
           {/* Mosaic grid */}
           <div
             className={cn(
-              "grid auto-rows-[160px] sm:auto-rows-[180px] lg:auto-rows-[200px] gap-4",
+              "grid gap-4",
               "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
+              // Only use fixed auto-rows on larger screens; let mobile be auto-height
+              "sm:auto-rows-[180px] lg:auto-rows-[200px]",
               "transition-opacity duration-700",
               isVisible ? "opacity-100" : "opacity-0"
             )}
