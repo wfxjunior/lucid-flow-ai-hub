@@ -89,15 +89,24 @@ export const LandingTestimonialsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const el = document.getElementById("testimonials-section");
+    if (!el) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.15 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          // Reveal only once to avoid flicker caused by internal carousel transforms
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
     );
 
-    const el = document.getElementById("testimonials-section");
-    if (el) observer.observe(el);
+    observer.observe(el);
+
     return () => {
-      if (el) observer.unobserve(el);
+      observer.disconnect();
     };
   }, []);
 
