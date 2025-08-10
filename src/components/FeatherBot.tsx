@@ -461,20 +461,20 @@ CONTACT & DEMOS
             <TooltipTrigger asChild>
               <button
                 onClick={() => setIsOpen(true)}
-                className="group relative h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50"
+                className="group relative h-14 w-14 rounded-full bg-muted hover:bg-muted/90 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-ring"
                 aria-label="FeatherBot – Pricing Assistant"
                 tabIndex={0}
               >
                 {/* Subtle glow effect on hover */}
-                <div className="absolute inset-0 rounded-full bg-blue-400 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-full bg-foreground/10 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300" />
                 
                 {/* Smiling face icon */}
                 <div className="relative flex items-center justify-center h-full w-full">
-                  <Smile className={`w-7 h-7 text-white transition-transform duration-200 ${isBlinking ? 'scale-110' : 'scale-100'}`} />
+                  <MessageCircle className={`w-7 h-7 text-foreground transition-transform duration-200 ${isBlinking ? 'scale-110' : 'scale-100'}`} />
                 </div>
               </button>
             </TooltipTrigger>
-            <TooltipContent side="left" className="bg-blue-900 text-white">
+            <TooltipContent side="left">
               <p>Questions about plans & pricing? Ask me!</p>
             </TooltipContent>
           </Tooltip>
