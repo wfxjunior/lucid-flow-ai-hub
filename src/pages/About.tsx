@@ -46,6 +46,7 @@ export default function About() {
           <Card className="p-4 flex items-center gap-4"><img src={t4} alt="Ethan Clarke - CFO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Ethan Clarke</p><p className="text-sm text-muted-foreground">CFO</p></div></Card>
           <Card className="p-4 flex items-center gap-4"><img src={t5} alt="Sofia Andersson - CPO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Sofia Andersson</p><p className="text-sm text-muted-foreground">CPO</p></div></Card>
           <Card className="p-4 flex items-center gap-4"><img src={marcoImg} alt="Marco Rossi - COO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Marco Rossi</p><p className="text-sm text-muted-foreground">COO</p></div></Card>
+          <Card className="p-4 flex items-center gap-4"><img src={t6} alt="Matheus Ribeiro - CSO (Chief Strategy Officer)" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Matheus Ribeiro</p><p className="text-sm text-muted-foreground">CSO</p></div></Card>
         </div>
       </section>
     </MarketingPageLayout>
