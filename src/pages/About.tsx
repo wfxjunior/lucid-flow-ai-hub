@@ -5,6 +5,9 @@ import { Card } from "@/components/ui/card";
 import t1 from "@/assets/entrepreneurs/entrepreneur-04.jpg";
 import t2 from "@/assets/entrepreneurs/entrepreneur-05.jpg";
 import t3 from "@/assets/entrepreneurs/entrepreneur-06.jpg";
+import t4 from "@/assets/entrepreneurs/entrepreneur-07.jpg";
+import t5 from "@/assets/entrepreneurs/entrepreneur-08.jpg";
+import t6 from "@/assets/entrepreneurs/entrepreneur-09.jpg";
 
 export default function About() {
   return (
@@ -38,6 +41,9 @@ export default function About() {
           <Card className="p-4 flex items-center gap-4"><img src={t1} alt="Wilson Junior - Founder and CEO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Wilson Junior</p><p className="text-sm text-muted-foreground">Founder & CEO</p></div></Card>
           <Card className="p-4 flex items-center gap-4"><img src={t2} alt="Laura Monteiro - CTO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Laura Monteiro</p><p className="text-sm text-muted-foreground">CTO</p></div></Card>
           <Card className="p-4 flex items-center gap-4"><img src={t3} alt="Rebekah Muller - Head of Marketing" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Rebekah Muller</p><p className="text-sm text-muted-foreground">Head of Marketing</p></div></Card>
+          <Card className="p-4 flex items-center gap-4"><img src={t4} alt="Ethan Clarke - CFO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Ethan Clarke</p><p className="text-sm text-muted-foreground">CFO</p></div></Card>
+          <Card className="p-4 flex items-center gap-4"><img src={t5} alt="Sofia Andersson - CPO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Sofia Andersson</p><p className="text-sm text-muted-foreground">CPO</p></div></Card>
+          <Card className="p-4 flex items-center gap-4"><img src={t6} alt="Marco Rossi - COO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Marco Rossi</p><p className="text-sm text-muted-foreground">COO</p></div></Card>
         </div>
       </section>
     </MarketingPageLayout>
