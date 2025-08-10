@@ -549,13 +549,12 @@ CONTACT & DEMOS
               <CardTitle className="flex items-center justify-between text-lg">
                 <div className="flex items-center gap-2">
                   <div className="relative">
-                    <div className="w-5 h-5 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                    <div className={`w-5 h-5 ${isGray ? "bg-muted-foreground" : "bg-blue-500"} rounded-full border border-white flex items-center justify-center`}>
                       <Smile className="w-3 h-3 text-white" />
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <span>FeatherBot</span>
-                    <span className="text-xs text-blue-100">Assistant</span>
+                     <span className={`text-xs ${isGray ? 'text-muted-foreground' : 'text-blue-100'}`}>Assistant</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -603,22 +602,22 @@ CONTACT & DEMOS
                       <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">FeatherBiz Pricing Assistant</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">Ask me about plans, pricing, and features!</p>
                       <div className={`${isGray ? 'bg-muted' : 'bg-blue-50 dark:bg-blue-900/20'} rounded-lg p-4 mx-4`}>
-                        <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-2">I can help you with:</p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-blue-700 dark:text-blue-300">
+                        <p className={`text-xs font-medium mb-2 ${isGray ? 'text-foreground' : 'text-blue-600 dark:text-blue-400'}`}>I can help you with:</p>
+                        <div className={`grid grid-cols-2 gap-2 text-xs ${isGray ? 'text-foreground' : 'text-blue-700 dark:text-blue-300'}`}>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
                             Plan comparisons
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
                             Pricing details
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
                             Free trials
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
                             Feature benefits
                           </div>
                         </div>
@@ -662,7 +661,7 @@ CONTACT & DEMOS
                           <div className="flex items-start gap-2">
                             {message.type === 'bot' && (
                               <div className="relative mt-0.5 flex-shrink-0">
-                                <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                                <div className={`w-4 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} rounded-full border border-white flex items-center justify-center`}>
                                   <Smile className="w-2 h-2 text-white" />
                                 </div>
                               </div>
@@ -690,10 +689,10 @@ CONTACT & DEMOS
                 {/* Lead Capture Form */}
                 {showLeadCapture && (
                   <div className="mb-4 animate-fade-in">
-                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                    <div className={`${isGray ? 'bg-muted border-border' : 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'} rounded-lg p-4 border`}>
                       <div className="flex items-center gap-2 mb-3">
-                        <Mail className="h-4 w-4 text-blue-600" />
-                        <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">Stay in touch!</h4>
+                        <Mail className={`h-4 w-4 ${isGray ? 'text-foreground' : 'text-blue-600'}`} />
+                        <h4 className={`text-sm font-medium ${isGray ? 'text-foreground' : 'text-blue-900 dark:text-blue-100'}`}>Stay in touch!</h4>
                       </div>
                       <div className="space-y-3">
                         <Input
@@ -713,7 +712,7 @@ CONTACT & DEMOS
                           <Button
                             onClick={handleLeadCapture}
                             size="sm"
-                            className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                            className={`${isGray ? 'bg-muted-foreground text-background hover:bg-muted-foreground/90' : 'bg-blue-600 hover:bg-blue-700 text-white'} flex-1`}
                           >
                             Send Summary
                           </Button>
@@ -721,7 +720,7 @@ CONTACT & DEMOS
                             variant="outline"
                             size="sm"
                             onClick={() => setShowLeadCapture(false)}
-                            className="text-blue-600 border-blue-300"
+                            className={`${isGray ? 'text-foreground border-border' : 'text-blue-600 border-blue-300'}`}
                           >
                             Skip
                           </Button>
@@ -737,16 +736,16 @@ CONTACT & DEMOS
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-600">
                       <div className="flex items-center gap-2">
                         <div className="relative">
-                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                          <div className={`w-4 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} rounded-full border border-white flex items-center justify-center`}>
                             <Smile className="w-2 h-2 text-white" />
                           </div>
                         </div>
                         <div className="flex items-center gap-1">
                           <span className="text-sm text-gray-500">Thinking</span>
                           <div className="flex gap-1">
-                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                             <div className={`w-2 h-2 ${isGray ? 'bg-muted-foreground' : 'bg-blue-400'} rounded-full animate-bounce`}></div>
+                             <div className={`w-2 h-2 ${isGray ? 'bg-muted-foreground' : 'bg-blue-400'} rounded-full animate-bounce`} style={{ animationDelay: '0.1s' }}></div>
+                             <div className={`w-2 h-2 ${isGray ? 'bg-muted-foreground' : 'bg-blue-400'} rounded-full animate-bounce`} style={{ animationDelay: '0.2s' }}></div>
                           </div>
                         </div>
                       </div>
@@ -760,14 +759,14 @@ CONTACT & DEMOS
                     <div className="max-w-[80%] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
                       <div className="flex items-start gap-2">
                         <div className="relative mt-0.5 flex-shrink-0">
-                          <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                           <div className={`w-4 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} rounded-full border border-white flex items-center justify-center`}>
                             <Smile className="w-2 h-2 text-white" />
                           </div>
                         </div>
                         <div className="flex-1">
                           <p className="text-sm whitespace-pre-wrap leading-relaxed">
                             {typingText}
-                            <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
+                            <span className={`inline-block w-2 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} ml-1 animate-pulse`}></span>
                           </p>
                         </div>
                       </div>
