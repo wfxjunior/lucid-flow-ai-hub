@@ -9,7 +9,7 @@ import t4 from "@/assets/entrepreneurs/entrepreneur-07.jpg";
 import t5 from "@/assets/entrepreneurs/entrepreneur-08.jpg";
 import t6 from "@/assets/entrepreneurs/entrepreneur-09.jpg";
 import lauraImg from "@/assets/leaders/laura-monteiro.jpg";
-import marcoImg from "@/assets/leaders/marco-rossi-exec.jpg";
+import marcoImg from "@/assets/leaders/marco-rossi-male.jpg";
 
 export default function About() {
   return (
