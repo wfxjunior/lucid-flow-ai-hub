@@ -162,7 +162,7 @@ export function SettingsPage() {
     
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
-        redirectTo: `${window.location.origin}/auth?action=reset-password`
+        redirectTo: `https://featherbiz.io/auth?action=reset-password`
       })
       
       if (error) throw error

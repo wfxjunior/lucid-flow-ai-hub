@@ -66,7 +66,7 @@ export function useAuthLogic() {
   }
 
   const getRedirectUrl = () => {
-    return `${window.location.origin}/`
+    return `https://featherbiz.io/`
   }
 
   const sendWelcomeEmail = async (email: string) => {

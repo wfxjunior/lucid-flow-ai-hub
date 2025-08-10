@@ -47,7 +47,7 @@ export function DocumentTrackingProvider({ children }: { children: ReactNode }) 
   };
 
   const generateTrackingUrl = (params: GenerateTrackingUrlParams): string => {
-    const baseUrl = window.location.origin;
+    const baseUrl = 'https://featherbiz.io';
     const trackingUrl = `${baseUrl}/api/track/${params.token}/${params.eventType}`;
     
     // Create a URL that tracks the click and then redirects
@@ -55,7 +55,7 @@ export function DocumentTrackingProvider({ children }: { children: ReactNode }) 
   };
 
   const addTrackingPixel = (token: string, eventType: 'viewed' | 'receipt_viewed'): string => {
-    const baseUrl = window.location.origin;
+    const baseUrl = 'https://featherbiz.io';
     return `${baseUrl}/api/track/${token}/${eventType}`;
   };
 
@@ -91,7 +91,7 @@ export function generateEmailTrackingUrls(document: any, documentType: string) {
     };
   }
 
-  const baseUrl = window.location.origin;
+  const baseUrl = 'https://featherbiz.io';
   const token = document.tracking_token;
 
   return {
@@ -108,6 +108,6 @@ export function generateEmailTrackingUrls(document: any, documentType: string) {
 
 function getPaymentUrl(document: any, documentType: string): string {
   // Generate the actual payment URL based on document type and payment provider
-  const baseUrl = window.location.origin;
+  const baseUrl = 'https://featherbiz.io';
   return `${baseUrl}/payment/${documentType}/${document.id}`;
 }

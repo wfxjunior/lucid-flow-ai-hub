@@ -99,7 +99,7 @@ export function initFeatherBotClientAPI() {
       window.location.assign(base)
       return
     }
-    const url = new URL(window.location.origin + base)
+    const url = new URL('https://featherbiz.io' + base)
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
     window.location.assign(url.toString())
   }

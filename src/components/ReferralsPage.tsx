@@ -62,7 +62,7 @@ export function ReferralsPage() {
 
       if (statsData) {
         setReferralStats(statsData)
-        setReferralLink(`${window.location.origin}/auth?ref=${statsData.referral_code}`)
+        setReferralLink(`https://featherbiz.io/auth?ref=${statsData.referral_code}`)
       } else {
         // Create initial stats for user
         const { data: newStats, error: createError } = await supabase
@@ -78,12 +78,12 @@ export function ReferralsPage() {
           .select()
           .single()
 
-        if (createError) {
-          console.error('Error creating referral stats:', createError)
-        } else if (newStats) {
-          setReferralStats(newStats)
-          setReferralLink(`${window.location.origin}/auth?ref=${newStats.referral_code}`)
-        }
+      if (createError) {
+        console.error('Error creating referral stats:', createError)
+      } else if (newStats) {
+        setReferralStats(newStats)
+        setReferralLink(`https://featherbiz.io/auth?ref=${newStats.referral_code}`)
+      }
       }
 
       // Fetch user's referrals

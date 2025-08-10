@@ -34,9 +34,10 @@ export const MarketingPageLayout: React.FC<MarketingPageLayoutProps> = ({
       link.setAttribute('rel', 'canonical');
       document.head.appendChild(link);
     }
+    const preferredOrigin = 'https://featherbiz.io'
     link.href = canonical
-      ? `${window.location.origin}${canonical}`
-      : window.location.href;
+      ? `${preferredOrigin}${canonical}`
+      : preferredOrigin + (canonical || '/')
   }, [title, description, canonical]);
 
   return (
