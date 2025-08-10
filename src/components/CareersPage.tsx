@@ -73,7 +73,7 @@ export function CareersPage() {
   return (
     <div className="space-y-8 px-2 sm:px-4 md:px-0">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Careers at FeatherBiz</h1>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Careers at FeatherBiz</h2>
         <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto">
           Join us on our mission to revolutionize business automation with AI.
           We are building the future of business – and we want you on the team!
@@ -84,7 +84,7 @@ export function CareersPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <Card>
           <CardContent className="p-4 sm:p-6 text-center">
-            <Rocket className="h-10 sm:h-12 w-10 sm:w-12 text-blue-500 mx-auto mb-3 sm:mb-4" />
+            <Rocket className="h-10 sm:h-12 w-10 sm:w-12 text-[hsl(var(--brand-blue))] mx-auto mb-3 sm:mb-4" />
             <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Innovation</h3>
             <p className="text-muted-foreground text-sm sm:text-base">
               We work with the latest technologies and continually seek to innovate
@@ -93,7 +93,7 @@ export function CareersPage() {
         </Card>
         <Card>
           <CardContent className="p-4 sm:p-6 text-center">
-            <Users className="h-10 sm:h-12 w-10 sm:w-12 text-green-500 mx-auto mb-3 sm:mb-4" />
+            <Users className="h-10 sm:h-12 w-10 sm:w-12 text-[hsl(var(--brand-green))] mx-auto mb-3 sm:mb-4" />
             <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Collaboration</h3>
             <p className="text-muted-foreground text-sm sm:text-base">
               We believe in the power of teamwork and mutual growth
@@ -102,7 +102,7 @@ export function CareersPage() {
         </Card>
         <Card>
           <CardContent className="p-4 sm:p-6 text-center">
-            <Briefcase className="h-10 sm:h-12 w-10 sm:w-12 text-purple-500 mx-auto mb-3 sm:mb-4" />
+            <Briefcase className="h-10 sm:h-12 w-10 sm:w-12 text-[hsl(var(--brand-purple))] mx-auto mb-3 sm:mb-4" />
             <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Impact</h3>
             <p className="text-muted-foreground text-sm sm:text-base">
               Every line of code we write impacts thousands of businesses
@@ -120,7 +120,7 @@ export function CareersPage() {
             return (
               <Card key={job.id} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-4 sm:p-6 text-center">
-                  <IconComponent className="h-8 sm:h-10 w-8 sm:w-10 text-blue-500 mx-auto mb-3 sm:mb-4" />
+                  <IconComponent className="h-8 sm:h-10 w-8 sm:w-10 text-[hsl(var(--brand-blue))] mx-auto mb-3 sm:mb-4" />
                   <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{job.title}</h3>
                   <p className="text-muted-foreground text-sm sm:text-base mb-3 sm:mb-4">{job.description}</p>
                   <Button
@@ -235,7 +235,7 @@ export function CareersPage() {
         </p>
         <a
           href="mailto:careers@featherbiz.io"
-          className="text-blue-600 hover:underline font-semibold break-all"
+          className="text-primary hover:underline font-semibold break-all"
         >
           careers@featherbiz.io
         </a>

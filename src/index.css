@@ -54,6 +54,11 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 210 80% 50%;
+
+    /* Brand palette */
+    --brand-blue: var(--primary);
+    --brand-green: 142 71% 45%;
+    --brand-purple: 262 83% 67%;
   }
 
   .dark {
@@ -92,6 +97,11 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 210 80% 50%;
+
+    /* Brand palette (dark) */
+    --brand-blue: var(--primary);
+    --brand-green: 142 71% 45%;
+    --brand-purple: 262 83% 67%;
   }
 }
 
