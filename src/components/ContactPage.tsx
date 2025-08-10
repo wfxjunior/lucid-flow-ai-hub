@@ -21,7 +21,7 @@ import {
 } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import { IntegrationsContactForm } from "./IntegrationsContactForm"
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from "@/integrations/supabase/client"
 
 export function ContactPage() {
@@ -348,7 +348,7 @@ export function ContactPage() {
                   <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                     <h4 className="font-medium text-blue-900 mb-2">Before submitting a support request:</h4>
                     <ul className="text-sm text-blue-800 space-y-1">
-                      <li>• Check our <a href="/faq" className="underline">FAQ section</a> for common solutions</li>
+                      <li>• Check our <Link to="/faq" className="underline">FAQ section</Link> for common solutions</li>
                       <li>• Try refreshing your browser or clearing cache</li>
                       <li>• Include specific error messages or screenshots</li>
                       <li>• Describe the steps to reproduce the issue</li>

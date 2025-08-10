@@ -1,7 +1,7 @@
 
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-
 
 interface AuthLayoutProps {
   title: string
@@ -32,13 +32,13 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
         <div className="mt-12 text-center space-y-2">
           <p className="text-xs text-muted-foreground">
             By proceeding you acknowledge that you have read, understood and agree to our{' '}
-            <a href="/terms-of-service" className="text-foreground underline hover:no-underline">
+            <Link to="/terms-of-service" className="text-foreground underline hover:no-underline">
               Terms and Conditions
-            </a>
+            </Link>
             {' '}and{' '}
-            <a href="/privacy-policy" className="text-foreground underline hover:no-underline">
+            <Link to="/privacy-policy" className="text-foreground underline hover:no-underline">
               Privacy Policy
-            </a>
+            </Link>
             .
           </p>
           <p className="text-xs text-muted-foreground">

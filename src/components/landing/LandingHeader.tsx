@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import {
   NavigationMenu,
@@ -43,28 +43,28 @@ export const LandingHeader = () => {
                 <NavigationMenuContent>
                   <ul className="grid w-[520px] gap-2 p-4 md:w-[640px] md:grid-cols-2">
                     <li>
-                      <a href="/landing#features" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                      <Link to="/landing#features" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
                         <span className="block text-sm font-medium">Features overview</span>
                         <span className="block text-xs text-muted-foreground">CRM, projects, billing, and more</span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/landing#automation" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                      <Link to="/landing#automation" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
                         <span className="block text-sm font-medium">Automation & AI</span>
                         <span className="block text-xs text-muted-foreground">Workflows, assistants, and voice</span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/landing#integrations" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                      <Link to="/landing#integrations" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
                         <span className="block text-sm font-medium">Integrations</span>
                         <span className="block text-xs text-muted-foreground">Connect your favorite tools</span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/landing#security" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                      <Link to="/landing#security" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
                         <span className="block text-sm font-medium">Security & permissions</span>
                         <span className="block text-xs text-muted-foreground">Best‑practice controls for teams</span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </NavigationMenuContent>
@@ -75,16 +75,16 @@ export const LandingHeader = () => {
                 <NavigationMenuContent>
                   <ul className="w-[280px] p-2">
                     <li>
-                      <a href="/landing#guides" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Guides & tutorials</a>
+                      <Link to="/landing#guides" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Guides & tutorials</Link>
                     </li>
                     <li>
-                      <a href="/landing#templates" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Templates</a>
+                      <Link to="/landing#templates" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Templates</Link>
                     </li>
                     <li>
-                      <a href="/landing#help" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Help center</a>
+                      <Link to="/landing#help" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Help center</Link>
                     </li>
                     <li>
-                      <a href="/landing#api" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">API docs</a>
+                      <Link to="/landing#api" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">API docs</Link>
                     </li>
                   </ul>
                 </NavigationMenuContent>
@@ -94,7 +94,7 @@ export const LandingHeader = () => {
                 <a href="#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Customers</a>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <a href="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">Pricing</a>
+                <Link to="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">Pricing</Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
