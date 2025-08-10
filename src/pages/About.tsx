@@ -4,6 +4,7 @@ import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 import { Card } from "@/components/ui/card";
 import t1 from "@/assets/entrepreneurs/entrepreneur-04.jpg";
 import t2 from "@/assets/entrepreneurs/entrepreneur-05.jpg";
+import t3 from "@/assets/entrepreneurs/entrepreneur-06.jpg";
 
 export default function About() {
   return (
@@ -32,10 +33,11 @@ export default function About() {
         </ul>
       </section>
       <section className="mt-8">
-        <h3 className="font-semibold">Founding team</h3>
-        <div className="grid sm:grid-cols-2 gap-6 mt-3">
-          <Card className="p-4 flex items-center gap-4"><img src={t1} alt="Founder 1" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Alex Rivera</p><p className="text-sm text-muted-foreground">Founder & CEO</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={t2} alt="Founder 2" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Jamie Chen</p><p className="text-sm text-muted-foreground">Co‑founder & CTO</p></div></Card>
+        <h3 className="font-semibold">Leadership</h3>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
+          <Card className="p-4 flex items-center gap-4"><img src={t1} alt="Wilson Junior - Founder and CEO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Wilson Junior</p><p className="text-sm text-muted-foreground">Founder & CEO</p></div></Card>
+          <Card className="p-4 flex items-center gap-4"><img src={t2} alt="Laura Monteiro - CTO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Laura Monteiro</p><p className="text-sm text-muted-foreground">CTO</p></div></Card>
+          <Card className="p-4 flex items-center gap-4"><img src={t3} alt="Rebekah Muller - Head of Marketing" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Rebekah Muller</p><p className="text-sm text-muted-foreground">Head of Marketing</p></div></Card>
         </div>
       </section>
     </MarketingPageLayout>
