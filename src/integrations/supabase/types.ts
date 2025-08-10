@@ -390,6 +390,75 @@ export type Database = {
         }
         Relationships: []
       }
+      comm_messages: {
+        Row: {
+          body_html: string | null
+          body_text: string | null
+          channel: string
+          client_id: string | null
+          context_id: string | null
+          context_type: string | null
+          created_at: string
+          from_email: string | null
+          from_name: string | null
+          id: string
+          meta: Json
+          provider_message_id: string | null
+          scheduled_at: string | null
+          sent_at: string | null
+          status: string
+          subject: string | null
+          to_email: string | null
+          to_phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body_html?: string | null
+          body_text?: string | null
+          channel: string
+          client_id?: string | null
+          context_id?: string | null
+          context_type?: string | null
+          created_at?: string
+          from_email?: string | null
+          from_name?: string | null
+          id?: string
+          meta?: Json
+          provider_message_id?: string | null
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          to_email?: string | null
+          to_phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body_html?: string | null
+          body_text?: string | null
+          channel?: string
+          client_id?: string | null
+          context_id?: string | null
+          context_type?: string | null
+          created_at?: string
+          from_email?: string | null
+          from_name?: string | null
+          id?: string
+          meta?: Json
+          provider_message_id?: string | null
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          to_email?: string | null
+          to_phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       company_profiles: {
         Row: {
           address: string | null
@@ -1694,6 +1763,39 @@ export type Database = {
         }
         Relationships: []
       }
+      senders_email: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_default: boolean
+          name: string | null
+          updated_at: string
+          user_id: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          is_default?: boolean
+          name?: string | null
+          updated_at?: string
+          user_id: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_default?: boolean
+          name?: string | null
+          updated_at?: string
+          user_id?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
       signatures: {
         Row: {
           client_id: string
@@ -1842,6 +1944,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      templates: {
+        Row: {
+          body_html: string | null
+          body_text: string | null
+          context: string
+          created_at: string
+          id: string
+          is_default: boolean
+          language: string
+          name: string
+          subject: string | null
+          updated_at: string
+          user_id: string | null
+          variables: Json
+        }
+        Insert: {
+          body_html?: string | null
+          body_text?: string | null
+          context: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          language?: string
+          name: string
+          subject?: string | null
+          updated_at?: string
+          user_id?: string | null
+          variables?: Json
+        }
+        Update: {
+          body_html?: string | null
+          body_text?: string | null
+          context?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          language?: string
+          name?: string
+          subject?: string | null
+          updated_at?: string
+          user_id?: string | null
+          variables?: Json
+        }
+        Relationships: []
       }
       user_email_logs: {
         Row: {

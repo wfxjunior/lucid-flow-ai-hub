@@ -1,5 +1,5 @@
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Mail, Send, Users, History } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
+import { supabase } from "@/integrations/supabase/client"
 
 export function EmailCenterPage() {
   const [emailData, setEmailData] = useState({
@@ -16,6 +18,31 @@ export function EmailCenterPage() {
   })
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
+
+  const [templates, setTemplates] = useState<any[]>([])
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>("")
+
+  useEffect(() => {
+    const load = async () => {
+      const { data, error } = await supabase.functions.invoke('list-templates', {
+        body: { context: 'billing', language: (navigator.language || 'en').slice(0,2) }
+      })
+      if (!error) setTemplates(data?.templates || [])
+    }
+    load()
+  }, [])
+
+  const handleTemplateChange = (value: string) => {
+    setSelectedTemplateId(value)
+    const t = templates.find((x) => x.id === value)
+    if (t) {
+      setEmailData(prev => ({
+        ...prev,
+        subject: t.subject || "",
+        message: t.body_html || t.body_text || ""
+      }))
+    }
+  }
 
   const handleSend = async () => {
     if (!emailData.to || !emailData.subject || !emailData.message) {
@@ -29,19 +56,31 @@ export function EmailCenterPage() {
 
     setIsLoading(true)
     try {
-      // Simulate email sending
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
+      const { data, error } = await supabase.functions.invoke('comm-send', {
+        body: {
+          channel: 'email',
+          toEmail: emailData.to,
+          subject: emailData.subject,
+          html: emailData.message,
+          text: emailData.message,
+          context: { type: 'billing' }
+        }
+      })
+
+      if (error || !data?.success) {
+        throw new Error(error?.message || data?.error || 'Failed to send')
+      }
+
       toast({
-        title: "Email Sent Successfully",
+        title: "Email sent",
         description: `Email sent to ${emailData.to}`,
       })
-      
       setEmailData({ to: "", subject: "", message: "" })
-    } catch (error) {
+      setSelectedTemplateId("")
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to send email. Please try again.",
+        description: error?.message || "Failed to send email. Please try again.",
         variant: "destructive"
       })
     } finally {
@@ -77,6 +116,20 @@ export function EmailCenterPage() {
               />
             </div>
             
+            <div>
+              <Label htmlFor="template">Template</Label>
+              <Select value={selectedTemplateId} onValueChange={handleTemplateChange}>
+                <SelectTrigger id="template">
+                  <SelectValue placeholder="Choose a template (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  {templates.map(t => (
+                    <SelectItem key={t.id} value={t.id}>{t.name} · {t.language}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <div>
               <Label htmlFor="subject">Subject</Label>
               <Input
