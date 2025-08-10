@@ -14,6 +14,7 @@ interface ContractRequest {
   contractType: string;
   businessType?: string;
   parties?: string[];
+  model?: string;
 }
 
 serve(async (req) => {
@@ -40,7 +41,7 @@ serve(async (req) => {
     const requestBody = await req.json();
     console.log('Request body:', requestBody);
     
-    const { prompt, contractType, businessType, parties }: ContractRequest = requestBody;
+    const { prompt, contractType, businessType, parties, model }: ContractRequest = requestBody;
 
     if (!prompt || !contractType) {
       console.error('Missing required fields:', { prompt: !!prompt, contractType: !!contractType });
@@ -68,6 +69,7 @@ Business Context: ${businessType || 'General business'}
 `;
 
     console.log('Making OpenAI API call...');
+    const modelToUse = (model && typeof model === 'string') ? model : 'gpt-4o-mini';
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -75,7 +77,7 @@ Business Context: ${businessType || 'General business'}
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: modelToUse,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: prompt }

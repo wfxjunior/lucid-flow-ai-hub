@@ -14,7 +14,7 @@ serve(async (req) => {
   }
 
   try {
-    const { fileUrl, fileName } = await req.json()
+    const { fileUrl, fileName, model } = await req.json()
     
     if (!fileUrl) {
       throw new Error('File URL is required')
@@ -29,6 +29,7 @@ serve(async (req) => {
     console.log('Processing file:', fileName)
 
     // Call OpenAI Vision API to extract data from the image
+    const modelToUse = (model && typeof model === 'string') ? model : 'gpt-4-vision-preview';
     const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -36,7 +37,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4-vision-preview',
+        model: modelToUse,
         messages: [
           {
             role: 'user',

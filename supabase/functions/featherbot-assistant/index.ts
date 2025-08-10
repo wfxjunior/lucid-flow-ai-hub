@@ -109,7 +109,7 @@ serve(async (req) => {
   }
 
   try {
-    const { message, language = 'en-US', context = 'general' } = await req.json();
+    const { message, language = 'en-US', context = 'general', model } = await req.json();
     
     if (!message) {
       throw new Error('Message is required');
@@ -326,6 +326,7 @@ Guidelines:
     }
 
     console.log('Sending request to OpenAI...');
+    const modelToUse = (model && typeof model === 'string') ? model : 'gpt-4.1-2025-04-14';
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -334,7 +335,7 @@ Guidelines:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4.1-2025-04-14',
+        model: modelToUse,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: message }

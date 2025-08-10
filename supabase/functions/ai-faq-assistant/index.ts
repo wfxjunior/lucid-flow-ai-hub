@@ -12,6 +12,7 @@ const corsHeaders = {
 interface FAQRequest {
   question: string;
   context?: string;
+  model?: string;
 }
 
 serve(async (req) => {
@@ -20,7 +21,7 @@ serve(async (req) => {
   }
 
   try {
-    const { question, context }: FAQRequest = await req.json();
+    const { question, context, model }: FAQRequest = await req.json();
 
     const systemPrompt = `You are a helpful assistant for FeatherBiz, a business management platform. 
     Answer user questions about business management, contracts, invoicing, estimates, work orders, and general business operations.
@@ -32,6 +33,7 @@ serve(async (req) => {
     - Include practical advice when relevant
     
     If the question is not related to business management, politely redirect to business topics.`;
+    const modelToUse = (model && typeof model === 'string') ? model : 'gpt-4o-mini';
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -40,7 +42,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: modelToUse,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: question }
