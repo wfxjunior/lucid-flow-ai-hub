@@ -819,7 +819,7 @@ CONTACT & DEMOS
                   <Button
                     onClick={() => sendMessage()}
                     disabled={isLoading || isTyping || !inputMessage.trim()}
-                    className={`${isGray ? 'bg-muted-foreground text-background hover:bg-muted-foreground/90' : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'} transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-blue-200 dark:shadow-blue-900/50`}
+                    className={`${isGray ? 'bg-muted-foreground text-background hover:bg-muted-foreground/90 hover:shadow-md shadow' : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg shadow-blue-200 dark:shadow-blue-900/50'} transition-all duration-200 hover:scale-105`}
                     size="sm"
                   >
                     <Send className="h-4 w-4" />
