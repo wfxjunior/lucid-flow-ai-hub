@@ -22,9 +22,6 @@ export const LandingFooter = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-foreground">FeatherBiz</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              The AI-native business platform that builds, scales and grows your company to the next level.
-            </p>
             <div className="pt-4">
               <LanguageSelector />
             </div>
