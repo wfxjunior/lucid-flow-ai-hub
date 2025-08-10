@@ -17,6 +17,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 
 import { CookieConsent } from "@/components/landing/CookieConsent";
 import { FeatherBot } from "@/components/FeatherBot";
+import SEO from "@/components/SEO";
 
 export default function LandingPage() {
   const location = useLocation();
@@ -31,6 +32,12 @@ export default function LandingPage() {
   }, [location]);
   return (
     <div className="min-h-screen w-full flex flex-col bg-background">
+      <SEO
+        title="FeatherBiz — AI business management platform"
+        description="AI-native platform to build, scale and grow your business: data, automations, pipeline, productivity, reporting."
+        canonicalPath="/landing"
+        ogImage="/og/landing-og.jpg"
+      />
       <LandingHeader />
       <main className="flex-1 flex flex-col">
         <LandingHeroSection />
