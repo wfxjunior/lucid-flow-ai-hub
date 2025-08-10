@@ -12,11 +12,18 @@ import { FeatherBot } from "@/components/FeatherBot"
 import { useFeatherBotAccess } from "@/hooks/useFeatherBotAccess"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { supabase } from "@/integrations/supabase/client"
+import { initFeatherBotClientAPI } from "@/features/featherbot/clientApi"
+import { TourProvider } from "@/features/featherbot/TourProvider"
 
 export default function Index() {
   const { user, loading } = useAuthState()
   const { hasAccess } = useFeatherBotAccess()
   const [activeView, setActiveView] = useState("dashboard")
+
+  // Init FeatherBot client API once
+  useEffect(() => {
+    initFeatherBotClientAPI()
+  }, [])
 
   // Handle URL parameters for navigation (e.g., from Stripe redirects) with debouncing
   useEffect(() => {
@@ -43,6 +50,23 @@ export default function Index() {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
+  }, []);
+
+  // Global hotkey: Shift + ? to explain current section
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const isShiftQuestion = e.shiftKey && (e.key === '?' || (e.key === '/' && e.shiftKey));
+      if (isShiftQuestion) {
+        const detail = {
+          prompt: 'What is this?',
+          source: 'hotkey-shift-question'
+        };
+        window.dispatchEvent(new CustomEvent('featherbot:explain', { detail }));
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
   // Handle voice navigation events with debouncing
@@ -103,6 +127,20 @@ export default function Index() {
           <header className="flex h-12 sm:h-16 shrink-0 items-center gap-2 border-b px-2 sm:px-4">
             <SidebarTrigger className="-ml-1" />
             <div className="ml-auto flex items-center gap-1 sm:gap-2">
+              {/* Quick action: Explain this */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const detail = {
+                    prompt: 'Explain this page',
+                    source: 'header-quick-action'
+                  }
+                  window.dispatchEvent(new CustomEvent('featherbot:explain', { detail }))
+                }}
+              >
+                Explain this
+              </Button>
               <UserGreeting onNavigate={setActiveView} />
             </div>
           </header>
@@ -118,6 +156,8 @@ export default function Index() {
 
           {/* ✅ ACTIVE CHATBOT: Mobile responsive positioning */}
           <FeatherBot isVisible={hasAccess} />
+          {/* Guided Tours Overlay */}
+          <TourProvider />
         </SidebarInset>
       </div>
     </SidebarProvider>

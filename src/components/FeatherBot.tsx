@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client"
 import { useAuthState } from "@/hooks/useAuthState"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { toast } from "sonner"
+import { useFeatherBotAccess } from "@/hooks/useFeatherBotAccess"
 
 interface Message {
   id: string
@@ -44,6 +45,60 @@ export function FeatherBot({ isVisible }: FeatherBotProps) {
   const { currentLanguage } = useLanguage()
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const { userPlan } = useFeatherBotAccess()
+
+  // Sync chat language with app language
+  useEffect(() => {
+    if (currentLanguage) setChatLanguage(currentLanguage)
+  }, [currentLanguage])
+
+  // Context helpers
+  const getCurrentPage = () => {
+    const route = window.location.pathname + window.location.search
+    const title = document.title || 'FeatherBiz'
+    const locale = chatLanguage
+    return {
+      id: route.includes('invo') ? 'invoices' : route === '/' ? 'dashboard' : route.replace(/[/?=&]/g, '_'),
+      title,
+      route,
+      plan: userPlan,
+      locale
+    }
+  }
+
+  const buildSelector = (el: HTMLElement | null): string | null => {
+    if (!el) return null
+    if (el.id) return `#${el.id}`
+    if (el.dataset && (el as any).dataset.kbId) return `[data-kb-id="${(el as any).dataset.kbId}"]`
+    const tag = el.tagName.toLowerCase()
+    const parent = el.parentElement
+    if (!parent) return tag
+    const index = Array.from(parent.children).indexOf(el) + 1
+    return `${buildSelector(parent)} > ${tag}:nth-child(${index})`
+  }
+
+  const getSelectionCtx = () => {
+    const active = (document.activeElement as HTMLElement) || null
+    const target = active?.closest('[data-kb-id]') as HTMLElement | null
+    const kbId = target?.getAttribute('data-kb-id') || undefined
+    const selector = buildSelector(target || active)
+    return { selector: selector || undefined, kbId, featureTag: kbId?.split('.')[0] }
+  }
+
+  // Listen to external explain requests
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail || {}
+      const prompt = detail.prompt || 'Explain this page'
+      setIsOpen(true)
+      setTimeout(() => {
+        setInputMessage(prompt)
+        sendMessage(prompt)
+      }, 50)
+    }
+    window.addEventListener('featherbot:explain', handler as EventListener)
+    return () => window.removeEventListener('featherbot:explain', handler as EventListener)
+  }, [])
 
   // Languages support
   const languages = {
@@ -395,11 +450,14 @@ CONTACT & DEMOS
     resetIdleTimer()
 
     try {
+      const page = getCurrentPage()
+      const selection = getSelectionCtx()
       const { data, error } = await supabase.functions.invoke('featherbot-assistant', {
         body: { 
           message: userMessage.content,
-          language: chatLanguage,
-          context: 'pricing_plans',
+          language: chatLanguage || 'en',
+          page,
+          selection,
           knowledge: featherBizKnowledge
         }
       })
@@ -495,7 +553,7 @@ CONTACT & DEMOS
                   </div>
                   <div className="flex flex-col">
                     <span>FeatherBot</span>
-                    <span className="text-xs text-blue-100">Pricing Assistant</span>
+                    <span className="text-xs text-blue-100">Assistant</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
