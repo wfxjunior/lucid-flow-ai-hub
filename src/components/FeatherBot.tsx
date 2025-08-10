@@ -27,9 +27,11 @@ interface LeadCapture {
 
 interface FeatherBotProps {
   isVisible: boolean
+  theme?: 'brand' | 'gray'
 }
 
-export function FeatherBot({ isVisible }: FeatherBotProps) {
+export function FeatherBot({ isVisible, theme = 'brand' }: FeatherBotProps) {
+  const isGray = theme === 'gray'
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [inputMessage, setInputMessage] = useState("")
@@ -542,8 +544,8 @@ CONTACT & DEMOS
       {/* Chat Window */}
       {isOpen && (
         <div className="animate-fade-in animate-scale-in">
-          <Card className="w-80 sm:w-96 h-96 sm:h-[500px] shadow-xl border-0 bg-white dark:bg-gray-800">
-            <CardHeader className="pb-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg">
+          <Card className="w-80 sm:w-96 h-96 sm:h-[500px] shadow-xl border border-border bg-background">
+            <CardHeader className={`${isGray ? 'bg-muted text-foreground' : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white'} pb-3 rounded-t-lg`}>
               <CardTitle className="flex items-center justify-between text-lg">
                 <div className="flex items-center gap-2">
                   <div className="relative">
@@ -558,7 +560,7 @@ CONTACT & DEMOS
                 </div>
                 <div className="flex items-center gap-2">
                   <Select value={chatLanguage} onValueChange={setChatLanguage}>
-                    <SelectTrigger className="w-12 h-8 p-0 border-0 bg-transparent text-white hover:bg-blue-600">
+                    <SelectTrigger className={`w-12 h-8 p-0 border-0 bg-transparent ${isGray ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-blue-600'}`}>
                       <Languages className="h-4 w-4" />
                     </SelectTrigger>
                     <SelectContent>
@@ -573,7 +575,7 @@ CONTACT & DEMOS
                     variant="ghost"
                     size="sm"
                     onClick={() => setIsOpen(false)}
-                    className="text-white hover:bg-blue-600/50 h-8 w-8 p-0 rounded-full transition-colors"
+                    className={`${isGray ? 'text-foreground hover:bg-muted/60' : 'text-white hover:bg-blue-600/50'} h-8 w-8 p-0 rounded-full transition-colors`}
                     aria-label="Close FeatherBot"
                   >
                     <X className="h-4 w-4" />
@@ -589,7 +591,7 @@ CONTACT & DEMOS
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
                     <div className="mb-6 flex justify-center">
                       <div className="relative">
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
+                        <div className={`w-16 h-16 ${isGray ? 'bg-muted' : 'bg-gradient-to-br from-blue-500 to-blue-600'} rounded-full border-3 border-white flex items-center justify-center shadow-lg`}>
                           <Smile className="w-8 h-8 text-white" />
                         </div>
                         <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full border-2 border-white flex items-center justify-center">
@@ -600,7 +602,7 @@ CONTACT & DEMOS
                     <div className="space-y-3">
                       <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">FeatherBiz Pricing Assistant</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">Ask me about plans, pricing, and features!</p>
-                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mx-4">
+                      <div className={`${isGray ? 'bg-muted' : 'bg-blue-50 dark:bg-blue-900/20'} rounded-lg p-4 mx-4`}>
                         <p className="text-xs text-blue-600 dark:text-blue-400 font-medium mb-2">I can help you with:</p>
                         <div className="grid grid-cols-2 gap-2 text-xs text-blue-700 dark:text-blue-300">
                           <div className="flex items-center gap-1">
@@ -638,7 +640,7 @@ CONTACT & DEMOS
                               variant="outline"
                               size="sm"
                               onClick={() => handleStarterPrompt(prompt)}
-                              className="text-xs bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 rounded-full"
+                              className={`text-xs ${isGray ? 'bg-muted hover:bg-muted/80 border-muted text-foreground' : 'bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700'} rounded-full`}
                             >
                               {prompt}
                             </Button>
@@ -653,7 +655,7 @@ CONTACT & DEMOS
                         <div
                           className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
                             message.type === 'user'
-                              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
+                              ? (isGray ? 'bg-muted-foreground text-background shadow' : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50')
                               : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 shadow-gray-100 dark:shadow-gray-800/50'
                           } transition-all duration-200 hover:shadow-md hover:scale-[1.02]`}
                         >
@@ -672,7 +674,7 @@ CONTACT & DEMOS
                               <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
                               <p
                                 className={`text-xs mt-2 ${
-                                  message.type === 'user' ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'
+                                  message.type === 'user' ? (isGray ? 'text-background/70' : 'text-blue-100') : 'text-gray-500 dark:text-gray-400'
                                 }`}
                               >
                                 {formatTime(message.timestamp)}
@@ -777,14 +779,14 @@ CONTACT & DEMOS
               </ScrollArea>
 
               {/* Input Area */}
-              <div className="p-4 border-t border-gray-200 dark:border-gray-600 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700">
+              <div className={`${isGray ? 'bg-muted' : 'bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700'} p-4 border-t border-gray-200 dark:border-gray-600`}>
                 {/* CTA Buttons */}
                 <div className="flex gap-2 mb-3">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => window.open('/pricing', '_blank')}
-                    className="text-xs bg-white border-blue-200 text-blue-700 hover:bg-blue-50 flex-1"
+                    className={"text-xs flex-1 " + (isGray ? '' : 'bg-white border-blue-200 text-blue-700 hover:bg-blue-50')}
                   >
                     <ExternalLink className="h-3 w-3 mr-1" />
                     View All Plans
@@ -793,7 +795,7 @@ CONTACT & DEMOS
                     variant="outline"
                     size="sm"
                     onClick={() => window.open('/auth', '_blank')}
-                    className="text-xs bg-blue-600 text-white border-blue-600 hover:bg-blue-700 flex-1"
+                    className={`text-xs flex-1 ${isGray ? 'bg-muted-foreground text-background border-transparent hover:bg-muted-foreground/90' : 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700'}`}
                   >
                     Start Free Trial
                   </Button>
@@ -807,7 +809,7 @@ CONTACT & DEMOS
                       onKeyPress={handleKeyPress}
                       placeholder="Ask about plans, pricing, features..."
                       disabled={isLoading || isTyping}
-                      className="pr-12 border-blue-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                      className={`pr-12 transition-all duration-200 shadow-sm ${isGray ? 'border-border focus:border-ring focus:ring-2 focus:ring-ring/20' : 'border-blue-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20'}`}
                     />
                     {inputMessage.trim() && (
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -818,7 +820,7 @@ CONTACT & DEMOS
                   <Button
                     onClick={() => sendMessage()}
                     disabled={isLoading || isTyping || !inputMessage.trim()}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-blue-200 dark:shadow-blue-900/50"
+                    className={`${isGray ? 'bg-muted-foreground text-background hover:bg-muted-foreground/90' : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'} transition-all duration-200 hover:scale-105 hover:shadow-lg shadow-blue-200 dark:shadow-blue-900/50`}
                     size="sm"
                   >
                     <Send className="h-4 w-4" />

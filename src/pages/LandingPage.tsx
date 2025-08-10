@@ -56,7 +56,7 @@ export default function LandingPage() {
       <LandingFooter />
       <CookieConsent />
       {/* ✅ ACTIVE CHATBOT: Black FeatherBot - Always visible on landing page */}
-      <FeatherBot isVisible={true} />
+      <FeatherBot isVisible={true} theme="gray" />
     </div>
   );
 }
