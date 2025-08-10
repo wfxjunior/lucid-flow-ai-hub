@@ -4,14 +4,6 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
 import { SalesContactModal } from "@/components/SalesContactModal";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 
 export const LandingHeroSection = () => {
   const navigate = useNavigate();
@@ -22,25 +14,6 @@ export const LandingHeroSection = () => {
     setIsVisible(true);
   }, []);
 
-  const dashboardImages = [
-    "/lovable-uploads/e99838ec-ccfb-4e35-881a-86c898faf65b.png",
-    "/lovable-uploads/d4fe3261-db25-46d8-8ddc-65f654585d30.png",
-    "/lovable-uploads/107901a4-fe2a-44c9-b543-d18a93075a75.png",
-    "/lovable-uploads/b3a030e5-fbb8-40da-ad09-2de0e49120d2.png",
-    "/lovable-uploads/db3e1a21-e27b-450a-bdd8-d5b170ce8df2.png",
-    "/lovable-uploads/06db7b63-b271-42b8-8ae1-a4fd67d0e5b7.png",
-    "/lovable-uploads/99434eed-2f9a-4eea-bee4-ddd3ac703ca2.png",
-  ];
-
-  const imageAltTexts = [
-    "Payments Dashboard - Track and manage client payments",
-    "E-Signatures - List of signed documents",
-    "Client Projects - Manage current projects and schedule upcoming jobs",
-    "Next Projects - Schedule new jobs and calendar view",
-    "Project Timeline - Track project milestones and progress",
-    "Smart Schedule - AI-powered intelligent scheduling system",
-    "FeatherBudget AI - Smart personal finance tracking with AI insights",
-  ];
 
   return (
     <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 bg-gradient-to-b from-background to-muted/20">
@@ -95,38 +68,6 @@ export const LandingHeroSection = () => {
             ))}
           </div>
 
-          {/* Dashboard Preview */}
-          <div className={`relative max-w-5xl mx-auto transition-all duration-1000 delay-900 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-            <div className="relative rounded-xl overflow-hidden border border-border/20 shadow-2xl bg-background">
-              <Carousel
-                plugins={[
-                  Autoplay({
-                    delay: 6000, // Increased from 4000ms to 6000ms
-                    stopOnInteraction: true, // Allow users to stop autoplay by interacting
-                  }),
-                ]}
-                className="w-full"
-              >
-                <CarouselContent>
-                  {dashboardImages.map((image, index) => (
-                    <CarouselItem key={index}>
-                      <div className="relative aspect-[16/10] w-full">
-                         <img
-                           src={image}
-                           alt={imageAltTexts[index]}
-                           className="w-full h-full object-cover"
-                           loading={index === 0 ? "eager" : "lazy"}
-                         />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
-            
-            {/* Subtle gradient overlay */}
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-background/10 to-transparent pointer-events-none" />
-          </div>
         </div>
       </div>
 
