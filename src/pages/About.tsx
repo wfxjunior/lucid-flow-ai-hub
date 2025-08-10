@@ -10,6 +10,7 @@ import t5 from "@/assets/entrepreneurs/entrepreneur-08.jpg";
 import t6 from "@/assets/entrepreneurs/entrepreneur-09.jpg";
 import lauraImg from "@/assets/leaders/laura-monteiro.jpg";
 import marcoImg from "@/assets/leaders/marco-rossi-male.jpg";
+import matheusImg from "@/assets/leaders/matheus-ribeiro.jpg";
 
 export default function About() {
   return (
@@ -46,7 +47,7 @@ export default function About() {
           <Card className="p-4 flex items-center gap-4"><img src={t4} alt="Ethan Clarke - CFO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Ethan Clarke</p><p className="text-sm text-muted-foreground">CFO</p></div></Card>
           <Card className="p-4 flex items-center gap-4"><img src={t5} alt="Sofia Andersson - CPO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Sofia Andersson</p><p className="text-sm text-muted-foreground">CPO</p></div></Card>
           <Card className="p-4 flex items-center gap-4"><img src={marcoImg} alt="Marco Rossi - COO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Marco Rossi</p><p className="text-sm text-muted-foreground">COO</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={t6} alt="Matheus Ribeiro - CSO (Chief Strategy Officer)" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Matheus Ribeiro</p><p className="text-sm text-muted-foreground">CSO</p></div></Card>
+          <Card className="p-4 flex items-center gap-4"><img src={matheusImg} alt="Matheus Ribeiro - CMO (Chief Marketing Officer)" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Matheus Ribeiro</p><p className="text-sm text-muted-foreground">CMO</p></div></Card>
         </div>
       </section>
     </MarketingPageLayout>
