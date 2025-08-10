@@ -109,7 +109,7 @@ serve(async (req) => {
   }
 
   try {
-    const { message, language = 'en-US', context = 'general', model } = await req.json();
+    const { message, language = 'en-US', context: reqContext = 'general', model } = await req.json();
     
     if (!message) {
       throw new Error('Message is required');
@@ -120,68 +120,78 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Get the user from the Authorization header
+    // Optional user from Authorization header (public allowed)
     const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      throw new Error('Authorization header required');
-    }
 
-    // Create Supabase client
+    // Create Supabase client (service role for server-side reads when user present)
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Get user from JWT
-    const jwt = authHeader.replace('Bearer ', '');
-    const { data: { user }, error: userError } = await supabase.auth.getUser(jwt);
-    
-    if (userError || !user) {
-      throw new Error('Invalid authentication');
+    let user: { id: string } | null = null;
+    if (authHeader?.startsWith('Bearer ')) {
+      try {
+        const jwt = authHeader.replace('Bearer ', '');
+        const { data: { user: authUser }, error: userError } = await supabase.auth.getUser(jwt);
+        if (!userError && authUser) user = { id: authUser.id };
+      } catch (_e) {
+        // ignore auth errors for public usage
+        user = null;
+      }
     }
 
-    // Get user's business data for context
-    const [invoicesData, clientsData, estimatesData, receiptsData, earningsData] = await Promise.all([
-      supabase.from('invoices').select('*').eq('user_id', user.id).limit(20).maybeSingle(),
-      supabase.from('clients').select('*').eq('user_id', user.id).limit(50),
-      supabase.from('estimates').select('*').eq('user_id', user.id).limit(20),
-      supabase.from('accounting_documents').select('*').eq('user_id', user.id).eq('document_type', 'receipt').limit(20),
-      supabase.from('earnsync_earnings').select('*').eq('user_id', user.id).limit(50)
-    ]);
-
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1;
-    const currentYear = currentDate.getFullYear();
-
-    // Calculate monthly earnings safely
-    const monthlyEarnings = earningsData.data?.filter(earning => {
-      const earningDate = new Date(earning.date);
-      return earningDate.getMonth() + 1 === currentMonth && earningDate.getFullYear() === currentYear;
-    }).reduce((sum, earning) => sum + Number(earning.amount), 0) || 0;
-
-    // Calculate total revenue safely
-    const totalRevenue = invoicesData.data ? (Array.isArray(invoicesData.data) ? invoicesData.data : [invoicesData.data]).reduce((sum, invoice) => sum + Number(invoice.amount || 0), 0) : 0;
-
-    // Count pending invoices safely
-    const pendingInvoices = invoicesData.data ? (Array.isArray(invoicesData.data) ? invoicesData.data : [invoicesData.data]).filter(invoice => invoice.status === 'pending') : [];
-
-    // Get knowledge base for user's language
-    const userKnowledge = knowledgeBase[language] || knowledgeBase['en-US'];
-
-    // Prepare context for AI
-    const context = {
-      user_id: user.id,
+    // Build business context (supports anonymous visitors)
+    let businessContext = {
+      user_id: user?.id || null,
       business_summary: {
-        total_clients: clientsData.data?.length || 0,
-        total_invoices: invoicesData.data ? (Array.isArray(invoicesData.data) ? invoicesData.data.length : 1) : 0,
-        pending_invoices: pendingInvoices.length,
-        monthly_earnings: monthlyEarnings,
-        total_revenue: totalRevenue,
-        recent_invoices: invoicesData.data ? (Array.isArray(invoicesData.data) ? invoicesData.data.slice(0, 5) : [invoicesData.data]) : [],
-        recent_clients: clientsData.data?.slice(0, 10) || []
+        total_clients: 0,
+        total_invoices: 0,
+        pending_invoices: 0,
+        monthly_earnings: 0,
+        total_revenue: 0,
+        recent_invoices: [] as any[],
+        recent_clients: [] as any[]
       }
     };
 
-    // Language configuration
+    if (user) {
+      const [invoicesData, clientsData, estimatesData, receiptsData, earningsData] = await Promise.all([
+        supabase.from('invoices').select('*').eq('user_id', user.id).limit(50),
+        supabase.from('clients').select('*').eq('user_id', user.id).limit(50),
+        supabase.from('estimates').select('*').eq('user_id', user.id).limit(20),
+        supabase.from('accounting_documents').select('*').eq('user_id', user.id).eq('document_type', 'receipt').limit(20),
+        supabase.from('earnsync_earnings').select('*').eq('user_id', user.id).limit(200)
+      ]);
+
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth() + 1;
+      const currentYear = currentDate.getFullYear();
+
+      const monthlyEarnings = (earningsData.data || []).filter((earning: any) => {
+        const earningDate = new Date(earning.date);
+        return earningDate.getMonth() + 1 === currentMonth && earningDate.getFullYear() === currentYear;
+      }).reduce((sum: number, earning: any) => sum + Number(earning.amount || 0), 0);
+
+      const invoices = invoicesData.data || [];
+      const totalRevenue = invoices.reduce((sum: number, inv: any) => sum + Number(inv.amount || 0), 0);
+      const pendingInvoices = invoices.filter((inv: any) => inv.status === 'pending');
+
+      businessContext = {
+        user_id: user.id,
+        business_summary: {
+          total_clients: (clientsData.data || []).length,
+          total_invoices: invoices.length,
+          pending_invoices: pendingInvoices.length,
+          monthly_earnings: monthlyEarnings,
+          total_revenue: totalRevenue,
+          recent_invoices: invoices.slice(0, 5),
+          recent_clients: (clientsData.data || []).slice(0, 10)
+        }
+      };
+    }
+
+    // Get knowledge base for user's language
+    const userKnowledge = (knowledgeBase as any)[language] || (knowledgeBase as any)['en-US'];
     const languageConfig = {
       'en-US': { name: 'English', responseLanguage: 'English' },
       'pt-BR': { name: 'Portuguese', responseLanguage: 'Portuguese (Brazilian)' },
@@ -189,12 +199,12 @@ serve(async (req) => {
       'fr': { name: 'French', responseLanguage: 'French' },
       'zh': { name: 'Chinese', responseLanguage: 'Chinese (Simplified)' },
       'de': { name: 'German', responseLanguage: 'German' }
-    };
+    } as const;
 
-    const userLanguage = languageConfig[language] || languageConfig['en-US'];
+    const userLanguage = (languageConfig as any)[language] || languageConfig['en-US'];
 
     // Create comprehensive knowledge base context
-    const knowledgeContext = userKnowledge.faqs.map(faq => `Q: ${faq.question}\nA: ${faq.answer}`).join('\n\n');
+    const knowledgeContext = userKnowledge.faqs.map((faq: any) => `Q: ${faq.question}\nA: ${faq.answer}`).join('\n\n');
 
     // Pricing-focused system prompt for pricing context
     const pricingSystemPrompt = `You are FeatherBot, a specialized pricing and sales assistant for FeatherBiz. Your main goal is to educate visitors about FeatherBiz plans, pricing, and features to help them make informed decisions.
@@ -253,11 +263,11 @@ Knowledge Base - Use this information to answer questions:
 ${knowledgeContext}
 
 User's Current Business Data:
-- Total Clients: ${context.business_summary.total_clients}
-- Total Invoices: ${context.business_summary.total_invoices}
-- Pending Invoices: ${context.business_summary.pending_invoices}
-- Monthly Earnings: $${context.business_summary.monthly_earnings}
-- Total Revenue: $${context.business_summary.total_revenue}
+- Total Clients: ${businessContext.business_summary.total_clients}
+- Total Invoices: ${businessContext.business_summary.total_invoices}
+- Pending Invoices: ${businessContext.business_summary.pending_invoices}
+- Monthly Earnings: $${businessContext.business_summary.monthly_earnings}
+- Total Revenue: $${businessContext.business_summary.total_revenue}
 
 Available Features on FeatherBiz:
 1. INVOICES: Create, send, and track invoices
@@ -289,16 +299,16 @@ Guidelines:
 - When users ask about actions (like creating invoices), guide them to the appropriate section of the platform
 - Use the knowledge base to answer common questions accurately`;
 
-    const systemPrompt = context === 'pricing_plans' ? pricingSystemPrompt : generalSystemPrompt;
+    const systemPrompt = reqContext === 'pricing_plans' ? pricingSystemPrompt : generalSystemPrompt;
 
     // Check for simple data queries that don't need AI
     const simpleResponses = {
-      'how many invoices': `You currently have ${context.business_summary.total_invoices} invoices in your account.`,
-      'invoices i have': `You have ${context.business_summary.total_invoices} invoices in total, with ${context.business_summary.pending_invoices} pending invoices.`,
-      'how many clients': `You have ${context.business_summary.total_clients} clients in your system.`,
-      'total revenue': `Your total revenue is $${context.business_summary.total_revenue}.`,
-      'monthly earnings': `Your monthly earnings are $${context.business_summary.monthly_earnings}.`,
-      'pending invoices': `You have ${context.business_summary.pending_invoices} pending invoices.`
+      'how many invoices': `You currently have ${businessContext.business_summary.total_invoices} invoices in your account.`,
+      'invoices i have': `You have ${businessContext.business_summary.total_invoices} invoices in total, with ${businessContext.business_summary.pending_invoices} pending invoices.`,
+      'how many clients': `You have ${businessContext.business_summary.total_clients} clients in your system.`,
+      'total revenue': `Your total revenue is $${businessContext.business_summary.total_revenue}.`,
+      'monthly earnings': `Your monthly earnings are $${businessContext.business_summary.monthly_earnings}.`,
+      'pending invoices': `You have ${businessContext.business_summary.pending_invoices} pending invoices.`
     };
 
     // Check if the message matches a simple query
@@ -309,15 +319,17 @@ Guidelines:
     if (messageKey) {
       const simpleResponse = simpleResponses[messageKey];
       
-      // Save conversation to database
-      try {
-        await supabase.from('featherbot_conversations').insert({
-          user_id: user.id,
-          message: message,
-          response: simpleResponse
-        });
-      } catch (dbError) {
-        console.error('Database save error:', dbError);
+      // Save conversation to database (only if authenticated)
+      if (user) {
+        try {
+          await supabase.from('featherbot_conversations').insert({
+            user_id: user.id,
+            message: message,
+            response: simpleResponse
+          });
+        } catch (dbError) {
+          console.error('Database save error:', dbError);
+        }
       }
 
       return new Response(JSON.stringify({ response: simpleResponse }), {
@@ -353,17 +365,19 @@ Guidelines:
       
       // Provide a helpful fallback message for quota exceeded
       if (errorText.includes('insufficient_quota') || errorText.includes('exceeded your current quota')) {
-        const fallbackResponse = `I'm currently experiencing some technical difficulties with my AI processing. However, I can see that you have ${context.business_summary.total_invoices} invoices, ${context.business_summary.total_clients} clients, and your monthly earnings are $${context.business_summary.monthly_earnings}. Please try asking me about specific business data, or contact support if you need help with platform features.`;
+        const fallbackResponse = `I'm currently experiencing some technical difficulties with my AI processing. However, I can see that you have ${businessContext.business_summary.total_invoices} invoices, ${businessContext.business_summary.total_clients} clients, and your monthly earnings are $${businessContext.business_summary.monthly_earnings}. Please try asking me about specific business data, or contact support if you need help with platform features.`;
         
-        // Save conversation to database
-        try {
-          await supabase.from('featherbot_conversations').insert({
-            user_id: user.id,
-            message: message,
-            response: fallbackResponse
-          });
-        } catch (dbError) {
-          console.error('Database save error:', dbError);
+        // Save conversation to database (only if authenticated)
+        if (user) {
+          try {
+            await supabase.from('featherbot_conversations').insert({
+              user_id: user.id,
+              message: message,
+              response: fallbackResponse
+            });
+          } catch (dbError) {
+            console.error('Database save error:', dbError);
+          }
         }
 
         return new Response(JSON.stringify({ response: fallbackResponse }), {
