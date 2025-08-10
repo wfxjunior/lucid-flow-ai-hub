@@ -31,7 +31,9 @@ export const LandingHeader = () => {
         
         {/* Logo */}
         <div className="flex items-center">
-          <span className="text-2xl font-bold text-foreground tracking-tight">FeatherBiz</span>
+          <Link to="/" className="text-2xl font-bold text-foreground tracking-tight hover-scale" aria-label="FeatherBiz home">
+            FeatherBiz
+          </Link>
         </div>
         
         {/* Navigation - Hidden on mobile */}
