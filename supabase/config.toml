@@ -230,3 +230,6 @@ verify_jwt = false
 
 [functions.list-stripe-prices]
 verify_jwt = false
+
+[functions.featherbot-assistant]
+verify_jwt = false

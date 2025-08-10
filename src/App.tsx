@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { ResponsiveCarRentalPage } from '@/components/ResponsiveCarRentalPage'
 import { ResponsiveMatTrackPage } from '@/components/ResponsiveMatTrackPage'
@@ -41,6 +41,22 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
 )
 
 function App() {
+  // Canonical redirect: any *.lovable* → featherbiz.io (preserve path, query, hash)
+  useEffect(() => {
+    try {
+      const host = window.location.hostname
+      const isLovable = host.includes('lovableproject.com') || host.includes('lovable.app')
+      if (isLovable) {
+        const target = `https://featherbiz.io${window.location.pathname}${window.location.search}${window.location.hash}`
+        if (window.location.href !== target) {
+          window.location.replace(target)
+        }
+      }
+    } catch (e) {
+      console.warn('Canonical redirect skipped:', e)
+    }
+  }, [])
+
   return (
     <DocumentTrackingProvider>
       <Router>
