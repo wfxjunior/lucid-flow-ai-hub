@@ -49,7 +49,7 @@ function App() {
           path="/landing"
           element={<LandingPage />}
         />
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/features-overview" element={<FeaturesOverview />} />
         <Route path="/editions" element={<EditionsPage />} />
