@@ -22,7 +22,7 @@ export default function Pricing() {
     );
 
     // Set canonical URL
-    const href = `${window.location.origin}/pricing`;
+    const href = `https://featherbiz.io/pricing`;
     let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!link) {
       link = document.createElement("link");

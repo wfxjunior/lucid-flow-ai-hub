@@ -18,7 +18,8 @@ export function SEO({
   siteName = "FeatherBiz",
 }: SEOProps) {
   useEffect(() => {
-    const origin = window.location.origin;
+    const preferredOrigin = "https://featherbiz.io";
+    const origin = preferredOrigin;
     const url = origin + canonicalPath;
 
     document.title = title;
