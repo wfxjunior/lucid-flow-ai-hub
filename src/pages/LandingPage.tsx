@@ -35,7 +35,7 @@ export default function LandingPage() {
       <SEO
         title="FeatherBiz — AI business management platform"
         description="AI-native platform to build, scale and grow your business: data, automations, pipeline, productivity, reporting."
-        canonicalPath="/"
+        canonicalPath="/landing"
         ogImage="/og/landing-og.jpg"
       />
       <LandingHeader />
