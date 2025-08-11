@@ -1,0 +1,10 @@
+{
+  "currency": "USD",
+  "plans": {
+    "pro": {
+      "monthly": 2500,
+      "active": true,
+      "mostPopular": true
+    }
+  }
+}
