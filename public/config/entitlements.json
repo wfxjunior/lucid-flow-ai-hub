@@ -2,15 +2,15 @@
   "pro": {
     "features": [
       "Work Orders",
-      "Projects",
-      "ESIGN",
       "EasyCalc",
       "MatTrack",
       "CarRental",
       "SmartSchedule",
       "Bids",
       "CrewControl",
-      "FeatherBudget"
+      "FeatherBudget",
+      "Projects",
+      "ESIGN"
     ],
     "coreBusiness": [
       "Meetings",

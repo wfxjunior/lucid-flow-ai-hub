@@ -70,15 +70,15 @@ const plans = {
       icon: Crown,
       features: [
         "Work Orders",
-        "Projects",
-        "ESIGN",
         "EasyCalc",
         "MatTrack",
         "CarRental",
         "SmartSchedule",
         "Bids",
         "CrewControl",
-        "FeatherBudget"
+        "FeatherBudget",
+        "Projects",
+        "ESIGN"
       ],
       buttonText: "Start Free Trial",
       popular: true,
@@ -171,15 +171,15 @@ const plans = {
       icon: Crown,
        features: [
          "Work Orders",
-         "Projects",
-         "ESIGN",
          "EasyCalc",
          "MatTrack",
          "CarRental",
          "SmartSchedule",
          "Bids",
          "CrewControl",
-         "FeatherBudget"
+         "FeatherBudget",
+         "Projects",
+         "ESIGN"
        ],
       buttonText: "Start Free Trial",
        popular: true,
