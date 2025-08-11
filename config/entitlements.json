@@ -1,0 +1,34 @@
+{
+  "pro": {
+    "features": [
+      "Work Orders",
+      "Projects",
+      "ESIGN",
+      "EasyCalc",
+      "MatTrack",
+      "CarRental",
+      "SmartSchedule",
+      "Bids",
+      "CrewControl",
+      "FeatherBudget"
+    ],
+    "coreBusiness": [
+      "Meetings",
+      "To-Do List",
+      "Notes",
+      "Appointments",
+      "Contracts",
+      "Proposals",
+      "Sales Orders",
+      "Forms",
+      "Referrals",
+      "Business Inbox",
+      "Tasks",
+      "Files/Documents",
+      "Invoices & Payments",
+      "Customer CRM"
+    ],
+    "mostPopular": true,
+    "priceRibbon": "Most Popular"
+  }
+}
