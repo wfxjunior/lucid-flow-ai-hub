@@ -13,6 +13,7 @@ interface PricingPlan {
   savings?: string
   icon: LucideIcon
   features: string[]
+  coreBusiness?: string[]
   buttonText: string
   popular: boolean
   color: string
@@ -86,6 +87,27 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
               ))}
             </div>
           </div>
+
+          {/* Core Business (expandable) */}
+          {plan.coreBusiness && plan.coreBusiness.length > 0 && (
+            <div className="mb-6">
+              <details className="group rounded-lg border bg-muted/20 p-4">
+                <summary className="cursor-pointer list-none flex items-center justify-between text-sm font-medium text-foreground">
+                  <span>Core Business</span>
+                  <span className="text-xs text-muted-foreground group-open:hidden">show</span>
+                  <span className="text-xs text-muted-foreground hidden group-open:inline">hide</span>
+                </summary>
+                <div className="mt-3 space-y-2">
+                  {plan.coreBusiness.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-4 h-4 rounded-full bg-muted flex items-center justify-center mt-0.5" />
+                      <span className="text-muted-foreground text-sm leading-relaxed">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            </div>
+          )}
           
           {/* CTA Button */}
           <Button 

@@ -310,6 +310,9 @@ export function PricingPlans() {
   const { toast } = useToast()
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly")
   const [remotePlans, setRemotePlans] = useState<typeof plans | null>(null)
+  const [pricingConfig, setPricingConfig] = useState<any | null>(null)
+  const [entitlements, setEntitlements] = useState<any | null>(null)
+  const [priceMap, setPriceMap] = useState<any | null>(null)
 
   useEffect(() => {
     const loadFromStripe = async () => {
@@ -362,6 +365,47 @@ export function PricingPlans() {
     loadFromStripe()
   }, [])
 
+  useEffect(() => {
+    const loadConfigsAndSync = async () => {
+      try {
+        // Load configs from public folder
+        const [pricingRes, entRes, mapRes] = await Promise.all([
+          fetch('/config/pricing.json').then(r => r.ok ? r.json() : null).catch(() => null),
+          fetch('/config/entitlements.json').then(r => r.ok ? r.json() : null).catch(() => null),
+          fetch('/config/stripe.priceMap.json').then(r => r.ok ? r.json() : null).catch(() => null),
+        ])
+        if (pricingRes) setPricingConfig(pricingRes)
+        if (entRes) setEntitlements(entRes)
+        if (mapRes) setPriceMap(mapRes)
+
+        // Sync and validate Stripe for PRO using pricing.json
+        if (pricingRes?.currency && pricingRes?.plans?.pro?.monthly) {
+          const includes = [
+            'ESIGN','EasyCalc','MatTrack','CarRental','SmartSchedule','Bids','CrewControl','FeatherBudget','CoreBusinessAll'
+          ]
+          const { data, error } = await supabase.functions.invoke('sync-stripe-pricing', {
+            body: {
+              plan: 'pro',
+              currency: pricingRes.currency,
+              amount: pricingRes.plans.pro.monthly,
+              includes,
+            }
+          })
+          if (error) {
+            console.error('Stripe sync/validation failed', error)
+          } else {
+            if (data?.status === 'ok') {
+              console.log('OK: Stripe is in sync with pricing.json for PRO ($25/month).')
+            }
+            if (data?.priceMap?.pro) setPriceMap(data.priceMap)
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load pricing configs or sync Stripe', e)
+      }
+    }
+    loadConfigsAndSync()
+  }, [])
 
   const handlePlanSelection = async (plan: typeof plans.monthly[0]) => {
     console.log('=== STRIPE CHECKOUT STARTED ===')
@@ -566,7 +610,45 @@ const getCategoryDescription = (title: string) => {
   }
 };
 
-const currentPlans = (remotePlans ?? plans)[billingPeriod]
+const basePlans = (remotePlans ?? plans)
+
+const proPopular = !!pricingConfig?.plans?.pro?.mostPopular
+
+const formatAmount = (amount?: number, currency?: string) => {
+  if (!amount || !currency) return undefined
+  try {
+    return new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
+  } catch {
+    return `$${((amount || 0) / 100).toFixed(0)}`
+  }
+}
+
+const monthly = basePlans.monthly.map((p) => {
+  if (p.id === 'pro' && pricingConfig?.plans?.pro?.monthly) {
+    const amt = pricingConfig.plans.pro.monthly
+    const cur = pricingConfig.currency || 'USD'
+    const priceStr = formatAmount(amt, cur) || p.price
+    return {
+      ...p,
+      price: priceStr,
+      period: 'per month',
+      popular: proPopular ? true : p.popular,
+      features: entitlements?.pro?.features || p.features,
+      coreBusiness: entitlements?.pro?.coreBusiness || [],
+      stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
+      currency: cur.toLowerCase(),
+    }
+  }
+  // Ensure only PRO is marked popular if config says so
+  if (proPopular && p.id !== 'pro') {
+    return { ...p, popular: false }
+  }
+  return p
+})
+
+const displayPlans = { monthly, annual: basePlans.annual }
+
+const currentPlans = displayPlans[billingPeriod]
 
   return (
     <div className="py-6 sm:py-8 lg:py-10 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
