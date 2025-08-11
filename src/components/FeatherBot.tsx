@@ -184,7 +184,7 @@ USAGE & BENEFITS
 - Team collaboration (Premium plan only)
 
 BILLING & POLICIES  
-- Refunds: Case-by-case within 14 days
+- Refunds: 30-day money-back guarantee
 - Payment methods: All major credit cards, Stripe, Square
 - Plan switching: Upgrade/downgrade anytime
 - Data retention: 60 days after cancellation

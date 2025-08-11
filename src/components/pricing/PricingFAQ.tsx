@@ -94,7 +94,7 @@ const faqs: FAQItem[] = [
   {
     question: "What is your refund policy?",
     answer:
-      "Subscriptions renew automatically. You can cancel anytime to stop future charges. For billing issues, contact support and we’ll help promptly.",
+      "We offer a 30‑day money‑back guarantee. If FeatherBiz isn’t a fit within the first 30 days, contact support for a refund. You can cancel anytime to stop future charges.",
   },
   {
     question: "Do you charge taxes?",
