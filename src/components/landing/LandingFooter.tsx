@@ -17,10 +17,10 @@ export const LandingFooter = () => {
   return (
     <footer className="bg-background border-t border-border/20">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
           
           {/* Company Info */}
-          <div className="space-y-4">
+          <div className="space-y-4 col-span-2 md:col-span-1">
             <h3 className="text-2xl font-bold text-foreground">FeatherBiz</h3>
             <div className="pt-4">
               <LanguageSelector />
