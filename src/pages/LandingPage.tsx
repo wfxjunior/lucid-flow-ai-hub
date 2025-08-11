@@ -7,7 +7,7 @@ import { LandingHeroSection } from "@/components/landing/LandingHeroSection";
 import { AttioFeatureGraphic } from "@/components/landing/AttioFeatureGraphic";
 import { LandingTestimonialsSection } from "@/components/landing/LandingTestimonialsSection";
 import { LandingNumbersSection } from "@/components/landing/LandingNumbersSection";
-import { LandingClientMarquee } from "@/components/landing/LandingClientMarquee";
+
 import { LandingEntrepreneursSection } from "@/components/landing/LandingEntrepreneursSection";
 import { LandingDashboardPreview } from "@/components/landing/LandingDashboardPreview";
 import { LandingPricingSection } from "@/components/landing/LandingPricingSection";
@@ -45,7 +45,7 @@ export default function LandingPage() {
         <AttioFeatureGraphic />
         <LandingTestimonialsSection />
         <LandingNumbersSection />
-        <LandingClientMarquee />
+        
         <LandingEntrepreneursSection />
         <LandingDashboardPreview />
         <LandingPricingSection />
