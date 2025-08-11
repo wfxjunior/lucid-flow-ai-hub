@@ -624,7 +624,7 @@ const getCategoryDescription = (title: string) => {
 
 const basePlans = (remotePlans ?? plans)
 
-const proPopular = !!pricingConfig?.plans?.pro?.mostPopular
+const proPopular = pricingConfig?.plans?.pro?.mostPopular ?? true
 
 const formatAmount = (amount?: number, currency?: string) => {
   if (!amount || !currency) return undefined
@@ -636,22 +636,23 @@ const formatAmount = (amount?: number, currency?: string) => {
 }
 
 const monthly = basePlans.monthly.map((p) => {
-  if (p.id === 'pro' && pricingConfig?.plans?.pro?.monthly) {
-    const amt = pricingConfig.plans.pro.monthly
-    const cur = pricingConfig.currency || 'USD'
-    const priceStr = formatAmount(amt, cur) || p.price
+  if (p.id === 'pro') {
+    const cur = pricingConfig?.currency || 'USD'
+    const priceStr = pricingConfig?.plans?.pro?.monthly
+      ? (formatAmount(pricingConfig.plans.pro.monthly, cur) || p.price)
+      : p.price
     return {
       ...p,
       price: priceStr,
       period: 'per month',
       popular: proPopular ? true : p.popular,
-      features: entitlements?.pro?.features || p.features,
-      coreBusiness: entitlements?.pro?.coreBusiness || [],
+      features: (entitlements?.pro?.features ?? entitlementsJson.pro.features) || p.features,
+      coreBusiness: (entitlements?.pro?.coreBusiness ?? entitlementsJson.pro.coreBusiness) || [],
       stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
-      currency: cur.toLowerCase(),
+      currency: pricingConfig?.currency ? cur.toLowerCase() : (p as any).currency,
     }
   }
-  // Ensure only PRO is marked popular if config says so
+  // Ensure only PRO is marked popular
   if (proPopular && p.id !== 'pro') {
     return { ...p, popular: false }
   }
@@ -663,8 +664,8 @@ const annual = basePlans.annual.map((p) => {
     return {
       ...p,
       popular: proPopular ? true : p.popular,
-      features: entitlements?.pro?.features || p.features,
-      coreBusiness: entitlements?.pro?.coreBusiness || (p as any).coreBusiness || [],
+      features: (entitlements?.pro?.features ?? entitlementsJson.pro.features) || p.features,
+      coreBusiness: (entitlements?.pro?.coreBusiness ?? entitlementsJson.pro.coreBusiness) || (p as any).coreBusiness || [],
       stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
     }
   }
