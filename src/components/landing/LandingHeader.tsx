@@ -31,7 +31,7 @@ export const LandingHeader = () => {
         
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="text-2xl font-bold text-foreground tracking-tight hover-scale" aria-label="FeatherBiz home">
+          <Link to="/landing" className="text-2xl font-bold text-foreground tracking-tight hover-scale" aria-label="FeatherBiz home">
             FeatherBiz
           </Link>
         </div>
@@ -93,7 +93,7 @@ export const LandingHeader = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <a href="#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Customers</a>
+                <Link to="/landing#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Customers</Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link to="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">Pricing</Link>

@@ -111,7 +111,7 @@ export default function Blog() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center space-x-2">
+              <Link to="/landing" className="flex items-center space-x-2">
                 <div className="w-10 h-10 flex items-center justify-center">
                   <img 
                     src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 
@@ -124,8 +124,8 @@ export default function Blog() {
             </div>
             
             <div className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">Home</Link>
-              <Link to="/#features" className="text-muted-foreground hover:text-primary transition-colors">Features</Link>
+              <Link to="/landing" className="text-muted-foreground hover:text-primary transition-colors">Home</Link>
+              <Link to="/landing#features" className="text-muted-foreground hover:text-primary transition-colors">Features</Link>
               <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
               <span className="text-primary font-medium">Blog</span>
             </div>
@@ -274,7 +274,7 @@ export default function Blog() {
       <footer className="bg-background border-t py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <Link to="/" className="flex items-center justify-center space-x-2 mb-4">
+            <Link to="/landing" className="flex items-center justify-center space-x-2 mb-4">
               <div className="w-8 h-8 flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/9c9fc115-bd20-4b1a-91a2-103ecc8ca698.png" 

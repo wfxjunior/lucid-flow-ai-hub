@@ -55,7 +55,7 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
       onNavigate('pricing');
     } else {
       // Fallback to external navigation
-      navigate('/#pricing');
+      navigate('/landing#pricing');
       
       // If we're already on a single page, try to scroll to pricing
       setTimeout(() => {
@@ -64,7 +64,7 @@ export const SubscriptionStatus = ({ onNavigate }: SubscriptionStatusProps) => {
           pricingSection.scrollIntoView({ behavior: 'smooth' });
         } else {
           // If no pricing section found, navigate to the landing page
-          window.location.href = '/#pricing';
+          window.location.href = '/landing#pricing';
         }
       }, 100);
     }

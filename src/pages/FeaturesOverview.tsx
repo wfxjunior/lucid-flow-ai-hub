@@ -159,7 +159,7 @@ export default function FeaturesOverview() {
         })}
       </div>
       <div className="max-w-2xl mx-auto flex flex-col items-center mt-10 gap-4">
-        <Link to="/" className="inline-block px-6 py-2 rounded-lg border bg-muted/80 hover:bg-primary/10 text-foreground font-medium transition mt-2">
+        <Link to="/landing" className="inline-block px-6 py-2 rounded-lg border bg-muted/80 hover:bg-primary/10 text-foreground font-medium transition mt-2">
           Back to Home
         </Link>
 
