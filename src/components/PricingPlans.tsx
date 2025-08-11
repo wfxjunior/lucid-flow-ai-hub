@@ -55,7 +55,7 @@ const plans = {
         "Priority support"
       ],
       buttonText: "Start Free Trial",
-      popular: true,
+      popular: false,
       color: "purple",
       bgGradient: "from-purple-50 to-purple-100",
       stripePrice: 1900,
@@ -69,17 +69,19 @@ const plans = {
       period: "per month",
       icon: Crown,
       features: [
-        "Everything in Starter",
-        "Contracts & e-signatures",
-        "Work orders & projects",
-        "AI Voice Assistant",
-        "Advanced analytics",
-        "API integrations",
-        "File manager (50GB)",
-        "24/7 support"
+        "Work Orders",
+        "Projects",
+        "ESIGN",
+        "EasyCalc",
+        "MatTrack",
+        "CarRental",
+        "SmartSchedule",
+        "Bids",
+        "CrewControl",
+        "FeatherBudget"
       ],
       buttonText: "Start Free Trial",
-      popular: false,
+      popular: true,
       color: "green",
       bgGradient: "from-green-50 to-green-100",
       stripePrice: 2500,
@@ -151,7 +153,7 @@ const plans = {
         "Priority support"
       ],
       buttonText: "Start Free Trial",
-      popular: true,
+       popular: false,
       color: "purple",
       bgGradient: "from-purple-50 to-purple-100",
       stripePrice: 1500,
@@ -167,18 +169,20 @@ const plans = {
       originalPrice: "$25",
       savings: "Save 20%",
       icon: Crown,
-      features: [
-        "Everything in Starter",
-        "Contracts & e-signatures",
-        "Work orders & projects",
-        "AI Voice Assistant",
-        "Advanced analytics",
-        "API integrations",
-        "File manager (50GB)",
-        "24/7 support"
-      ],
+       features: [
+         "Work Orders",
+         "Projects",
+         "ESIGN",
+         "EasyCalc",
+         "MatTrack",
+         "CarRental",
+         "SmartSchedule",
+         "Bids",
+         "CrewControl",
+         "FeatherBudget"
+       ],
       buttonText: "Start Free Trial",
-      popular: false,
+       popular: true,
       color: "green",
       bgGradient: "from-green-50 to-green-100",
       stripePrice: 2000,
@@ -654,7 +658,23 @@ const monthly = basePlans.monthly.map((p) => {
   return p
 })
 
-const displayPlans = { monthly, annual: basePlans.annual }
+const annual = basePlans.annual.map((p) => {
+  if (p.id === 'pro') {
+    return {
+      ...p,
+      popular: proPopular ? true : p.popular,
+      features: entitlements?.pro?.features || p.features,
+      coreBusiness: entitlements?.pro?.coreBusiness || (p as any).coreBusiness || [],
+      stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
+    }
+  }
+  if (proPopular && p.id !== 'pro') {
+    return { ...p, popular: false }
+  }
+  return p
+})
+
+const displayPlans = { monthly, annual }
 
 const currentPlans = displayPlans[billingPeriod]
 
