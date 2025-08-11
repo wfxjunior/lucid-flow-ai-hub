@@ -10,6 +10,9 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Badge } from "@/components/ui/badge"
 import { Check, X } from "lucide-react"
 import { useState, useEffect } from "react"
+import pricingJson from "../../config/pricing.json"
+import entitlementsJson from "../../config/entitlements.json"
+import priceMapJson from "../../config/stripe.priceMap.json"
 
 // Define pricing plans data
 const plans = {
@@ -368,26 +371,31 @@ export function PricingPlans() {
   useEffect(() => {
     const loadConfigsAndSync = async () => {
       try {
-        // Load configs from public folder
+        // Load configs from public folder, fall back to local JSON imports
         const [pricingRes, entRes, mapRes] = await Promise.all([
           fetch('/config/pricing.json').then(r => r.ok ? r.json() : null).catch(() => null),
           fetch('/config/entitlements.json').then(r => r.ok ? r.json() : null).catch(() => null),
           fetch('/config/stripe.priceMap.json').then(r => r.ok ? r.json() : null).catch(() => null),
         ])
-        if (pricingRes) setPricingConfig(pricingRes)
-        if (entRes) setEntitlements(entRes)
-        if (mapRes) setPriceMap(mapRes)
+
+        const pricingData = pricingRes ?? pricingJson
+        const entData = entRes ?? entitlementsJson
+        const mapData = mapRes ?? priceMapJson
+
+        if (pricingData) setPricingConfig(pricingData)
+        if (entData) setEntitlements(entData)
+        if (mapData) setPriceMap(mapData)
 
         // Sync and validate Stripe for PRO using pricing.json
-        if (pricingRes?.currency && pricingRes?.plans?.pro?.monthly) {
+        if (pricingData?.currency && pricingData?.plans?.pro?.monthly) {
           const includes = [
             'ESIGN','EasyCalc','MatTrack','CarRental','SmartSchedule','Bids','CrewControl','FeatherBudget','CoreBusinessAll'
           ]
           const { data, error } = await supabase.functions.invoke('sync-stripe-pricing', {
             body: {
               plan: 'pro',
-              currency: pricingRes.currency,
-              amount: pricingRes.plans.pro.monthly,
+              currency: pricingData.currency,
+              amount: pricingData.plans.pro.monthly,
               includes,
             }
           })
