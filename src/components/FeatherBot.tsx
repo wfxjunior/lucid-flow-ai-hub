@@ -435,6 +435,14 @@ CONTACT & DEMOS
     }, 30) // Adjust speed here (lower = faster)
   }
 
+  const sanitizeTrialDays = (text: string) => {
+    return text
+      .replace(/14[\s\u2011\u2013\u2014-]*day[s]?\s+free\s+trial/gi, '7-day free trial')
+      .replace(/14[\s\u2011\u2013\u2014-]*day[s]?\s+trial/gi, '7-day trial')
+      .replace(/free\s+trial\s+(?:for|de)\s*14\s*day[s]?/gi, 'free trial for 7 days')
+      .replace(/teste\s+gratuito\s+de\s+14\s+dias/gi, 'teste gratuito de 7 dias');
+  };
+
   const sendMessage = async (message?: string) => {
     const messageText = message || inputMessage.trim()
     if (!messageText || isLoading || isTyping) return
@@ -468,12 +476,13 @@ CONTACT & DEMOS
 
       setIsLoading(false)
 
-      // Start typing effect for bot response
-      typeMessage(data.response, () => {
+      // Start typing effect for bot response (sanitized)
+      const sanitized = sanitizeTrialDays(data.response);
+      typeMessage(sanitized, () => {
         const botMessage: Message = {
           id: `bot-${Date.now()}`,
           type: 'bot',
-          content: data.response,
+          content: sanitized,
           timestamp: new Date()
         }
         setMessages(prev => [...prev, botMessage])
