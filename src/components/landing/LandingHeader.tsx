@@ -139,12 +139,9 @@ export const LandingHeader = () => {
                     <Link to="/landing#pricing" onClick={onPricingClick} className="text-foreground hover:underline">Pricing</Link>
                   </SheetClose>
                 </div>
-                <div className="pt-4 border-t border-border/40 grid gap-2">
+                <div className="pt-4 border-t border-border/40">
                   <SheetClose asChild>
-                    <Button onClick={() => navigate('/auth')} className="bg-foreground text-background hover:bg-foreground/90">Start for free</Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button variant="ghost" onClick={() => navigate('/auth')} className="text-muted-foreground hover:text-foreground">Sign in</Button>
+                    <Button variant="ghost" onClick={() => navigate('/auth')} className="w-full text-muted-foreground hover:text-foreground">Sign in</Button>
                   </SheetClose>
                 </div>
               </nav>
@@ -158,12 +155,6 @@ export const LandingHeader = () => {
             className="hidden sm:inline-flex text-muted-foreground hover:text-foreground font-medium px-4"
           >
             Sign in
-          </Button>
-          <Button
-            onClick={() => navigate('/auth')}
-            className="bg-foreground text-background hover:bg-foreground/90 font-medium px-6 rounded-lg"
-          >
-            Start for free
           </Button>
         </div>
         
