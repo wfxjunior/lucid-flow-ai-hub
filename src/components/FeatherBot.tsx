@@ -48,6 +48,7 @@ export function FeatherBot({ isVisible, theme = 'brand' }: FeatherBotProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const { userPlan } = useFeatherBotAccess()
+  const chatOpenLoggedRef = useRef(false)
 
 
   const [showEoc, setShowEoc] = useState(false)
@@ -94,6 +95,23 @@ export function FeatherBot({ isVisible, theme = 'brand' }: FeatherBotProps) {
     const kbId = target?.getAttribute('data-kb-id') || undefined
     const selector = buildSelector(target || active)
     return { selector: selector || undefined, kbId, featureTag: kbId?.split('.')[0] }
+  }
+
+  // Analytics emitter
+  const emitEvent = async (event: string, metadata: any = {}) => {
+    try {
+      await supabase.functions.invoke('featherbot-analytics', {
+        body: {
+          event,
+          page_url: window.location.href,
+          locale: chatLanguage,
+          plan_context: userPlan,
+          ...metadata,
+        },
+      })
+    } catch (e) {
+      console.error('analytics error', e)
+    }
   }
 
   // Listen to external explain requests
@@ -259,16 +277,30 @@ CONTACT & DEMOS
     return () => clearInterval(blinkInterval)
   }, [])
 
-  // Load conversation history and show greeting
+  // Load conversation history, run indexer once, and show greeting
   useEffect(() => {
     if (isOpen) {
+      try {
+        if (!chatOpenLoggedRef.current) {
+          emitEvent('chat_open')
+          chatOpenLoggedRef.current = true
+          const last = localStorage.getItem('featherbot_kb_indexed_at')
+          const age = last ? Date.now() - new Date(last).getTime() : Infinity
+          if (age > 24 * 60 * 60 * 1000) {
+            supabase.functions
+              .invoke('featherbot-indexer', { body: { full: true } })
+              .then(() => localStorage.setItem('featherbot_kb_indexed_at', new Date().toISOString()))
+              .catch(() => {})
+          }
+        }
+      } catch {}
       if (user) {
         loadConversationHistory()
       }
       showGreetingMessage()
       resetIdleTimer()
     }
-  }, [isOpen, chatLanguage])
+  }, [isOpen])
 
   // Reset idle timer on user activity
   const resetIdleTimer = () => {
@@ -590,7 +622,7 @@ CONTACT & DEMOS
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Select value={chatLanguage} onValueChange={setChatLanguage}>
+                  <Select value={chatLanguage} onValueChange={(val) => { setChatLanguage(val); emitEvent('lang_set') }}>
                     <SelectTrigger className={`w-12 h-8 p-0 border-0 bg-transparent ${isGray ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-blue-600'}`}>
                       <Languages className="h-4 w-4" />
                     </SelectTrigger>
@@ -605,7 +637,7 @@ CONTACT & DEMOS
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setIsOpen(false)}
+                    onClick={handleClose}
                     className={`${isGray ? 'text-foreground hover:bg-muted/60' : 'text-white hover:bg-blue-600/50'} h-8 w-8 p-0 rounded-full transition-colors`}
                     aria-label="Close FeatherBot"
                   >
@@ -816,19 +848,19 @@ CONTACT & DEMOS
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => window.open('/pricing', '_blank')}
+                    onClick={() => { emitEvent('cta_clicked', { id: 'see_plans' }); window.open('/pricing', '_blank') }}
                     className={"text-xs flex-1 " + (isGray ? '' : 'bg-white border-blue-200 text-blue-700 hover:bg-blue-50')}
                   >
                     <ExternalLink className="h-3 w-3 mr-1" />
-                    View All Plans
+                    {chatLanguage === 'pt' ? 'Ver planos' : chatLanguage === 'es' ? 'Ver planes' : 'View All Plans'}
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => window.open('/auth', '_blank')}
+                    onClick={() => { emitEvent('cta_clicked', { id: 'start_free_trial' }); window.open('/signup?trial=7d&source=featherbot', '_blank') }}
                     className={`text-xs flex-1 ${isGray ? 'bg-muted-foreground text-background border-transparent hover:bg-muted-foreground/90' : 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700'}`}
                   >
-                    Start Free Trial
+                    {chatLanguage === 'pt' ? 'Começar grátis' : chatLanguage === 'es' ? 'Comenzar gratis' : 'Start Free Trial'}
                   </Button>
                 </div>
                 
