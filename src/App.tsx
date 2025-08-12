@@ -28,6 +28,9 @@ import LandingPage from '@/pages/LandingPage'
 import FeaturesOverview from '@/pages/FeaturesOverview'
 import EditionsPage from '@/pages/EditionsPage'
 import Pricing from '@/pages/Pricing'
+import BlogIndex from '@/pages/BlogIndex'
+import BlogPostDetail from '@/pages/BlogPostDetail'
+import AdminBlog from '@/pages/AdminBlog'
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   // For now, we'll just return children since we're using the Index page with its own auth
@@ -39,6 +42,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
     {children}
   </div>
 )
+
 
 function App() {
   // Canonical redirect: any *.lovable* → featherbiz.io (preserve path, query, hash)
@@ -105,6 +109,9 @@ function App() {
         <Route path="/press" element={<Press />} />
         <Route path="/partners" element={<Partners />} />
         <Route path="/investors" element={<Investors />} />
+        <Route path="/blog" element={<BlogIndex />} />
+        <Route path="/blog/:slug" element={<BlogPostDetail />} />
+        <Route path="/admin/blog" element={<AdminBlog />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/feedback" element={<Feedback />} />

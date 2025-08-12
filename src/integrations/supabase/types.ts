@@ -229,6 +229,92 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_likes: {
+        Row: {
+          client_id: string | null
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string | null
+        }
+        Insert: {
+          client_id?: string | null
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id?: string | null
+        }
+        Update: {
+          client_id?: string | null
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_posts: {
+        Row: {
+          author: string
+          content: string | null
+          cover_image_url: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          liked_by_names: string[] | null
+          likes_count: number
+          published_at: string | null
+          read_time_minutes: number | null
+          slug: string
+          status: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string
+          content?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          liked_by_names?: string[] | null
+          likes_count?: number
+          published_at?: string | null
+          read_time_minutes?: number | null
+          slug: string
+          status?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          content?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          liked_by_names?: string[] | null
+          likes_count?: number
+          published_at?: string | null
+          read_time_minutes?: number | null
+          slug?: string
+          status?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       business_proposals: {
         Row: {
           amount: number
@@ -2763,6 +2849,19 @@ export type Database = {
       track_referral_signup: {
         Args: { referral_code_param: string; new_user_email: string }
         Returns: boolean
+      }
+      upsert_blog_post: {
+        Args: {
+          p_title: string
+          p_slug: string
+          p_excerpt: string
+          p_content: string
+          p_tags: string[]
+          p_likes: number
+          p_names: string[]
+          p_read: number
+        }
+        Returns: undefined
       }
     }
     Enums: {

@@ -251,3 +251,6 @@ verify_jwt = false
 
 [functions.leads-create]
 verify_jwt = false
+
+[functions.blog-like]
+verify_jwt = false
