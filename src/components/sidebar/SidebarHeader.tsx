@@ -1,21 +1,13 @@
 
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export function SidebarHeader() {
-  const navigate = useNavigate()
-
-  const handleLogoClick = () => {
-    navigate("/")
-  }
 
   return (
     <div className="p-4 border-b">
-      <div 
-        className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
-        onClick={handleLogoClick}
-      >
+      <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary rounded">
         <h2 className="text-xl font-bold text-primary">FeatherBiz</h2>
-      </div>
+      </Link>
     </div>
   )
 }
