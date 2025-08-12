@@ -42,7 +42,7 @@ export const LandingFAQSection = () => {
         
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-50 border border-yellow-100 text-yellow-700 text-sm font-medium mb-6">
+          <div className="inline-flex items-center px-4 py-2 rounded-md bg-yellow-50 border border-yellow-100 text-yellow-700 text-sm font-medium mb-6">
             FAQ
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">

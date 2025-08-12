@@ -9,7 +9,7 @@ export const LandingDashboardPreview = () => {
         
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-accent/20 border border-accent/30 text-accent-foreground text-sm font-medium mb-6">
+          <div className="inline-flex items-center px-4 py-2 rounded-md bg-accent/20 border border-accent/30 text-accent-foreground text-sm font-medium mb-6">
             See It In Action
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-4">

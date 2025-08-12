@@ -209,7 +209,7 @@ export const LandingFreeTrialV2: React.FC = () => {
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <Button
                 variant="default"
-                className="rounded-full h-14 px-8 text-base font-semibold"
+                className="h-14 px-8 text-base font-semibold"
                 data-analytics-id="trial_cta_primary_click"
                 onClick={onPrimaryClick}
               >
@@ -218,7 +218,7 @@ export const LandingFreeTrialV2: React.FC = () => {
 
               <Button
                 variant="outline"
-                className="rounded-full h-14 px-8 text-base font-medium"
+                className="h-14 px-8 text-base font-medium"
                 data-analytics-id="trial_cta_secondary_click"
                 asChild
               >

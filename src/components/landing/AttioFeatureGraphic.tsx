@@ -111,7 +111,7 @@ export function AttioFeatureGraphic() {
                   aria-selected={active === s.id}
                   onClick={() => handleSelect(s.id)}
                   className={cn(
-                    "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm transition-colors",
+                    "inline-flex items-center gap-2 rounded-md border px-3.5 py-1.5 text-sm transition-colors",
                     active === s.id
                       ? "bg-primary/10 border-primary/30 text-primary"
                       : "bg-muted/40 border-border text-muted-foreground hover:bg-muted"
