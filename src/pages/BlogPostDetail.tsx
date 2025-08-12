@@ -136,15 +136,15 @@ export default function BlogPostDetail(){
 
         {/* Like + Share */}
         <div className="mt-5 flex items-center justify-between">
-          <Button variant={liked? 'default':'outline'} onClick={onToggleLike} className="gap-2" aria-label="Like this post">
+          <Button variant={liked? 'default':'outline'} size="sm" onClick={onToggleLike} className="gap-2" aria-label="Like this post">
             <Heart className="h-4 w-4 text-primary" /> <span className="text-primary">{count}</span>
           </Button>
           <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={()=>share('twitter')} aria-label="Share on X/Twitter"><Twitter className="h-4 w-4" /></Button>
-            <Button variant="outline" onClick={()=>share('linkedin')} aria-label="Share on LinkedIn"><Linkedin className="h-4 w-4" /></Button>
-            <Button variant="outline" onClick={()=>share('facebook')} aria-label="Share on Facebook"><Facebook className="h-4 w-4" /></Button>
-            <Button variant="outline" onClick={()=>share('copy')} aria-label="Copy link"><LinkIcon className="h-4 w-4" /></Button>
-            <Button variant="outline" onClick={()=>share('email')} aria-label="Share by email"><Mail className="h-4 w-4" /></Button>
+            <Button variant="outline" size="sm" onClick={()=>share('twitter')} aria-label="Share on X/Twitter"><Twitter className="h-4 w-4" /></Button>
+            <Button variant="outline" size="sm" onClick={()=>share('linkedin')} aria-label="Share on LinkedIn"><Linkedin className="h-4 w-4" /></Button>
+            <Button variant="outline" size="sm" onClick={()=>share('facebook')} aria-label="Share on Facebook"><Facebook className="h-4 w-4" /></Button>
+            <Button variant="outline" size="sm" onClick={()=>share('copy')} aria-label="Copy link"><LinkIcon className="h-4 w-4" /></Button>
+            <Button variant="outline" size="sm" onClick={()=>share('email')} aria-label="Share by email"><Mail className="h-4 w-4" /></Button>
           </div>
         </div>
 
