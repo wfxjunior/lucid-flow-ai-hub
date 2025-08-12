@@ -49,6 +49,15 @@ export function FeatherBot({ isVisible, theme = 'brand' }: FeatherBotProps) {
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const { userPlan } = useFeatherBotAccess()
 
+
+  const [showEoc, setShowEoc] = useState(false)
+  const [rating, setRating] = useState<number | null>(null)
+  const [comment, setComment] = useState("")
+  const [refFriend, setRefFriend] = useState("")
+  const [refSender, setRefSender] = useState("")
+  const [refConsent, setRefConsent] = useState(false)
+  const [eocShown, setEocShown] = useState(false)
+
   // Sync chat language with app language
   useEffect(() => {
     if (currentLanguage) setChatLanguage(currentLanguage)
@@ -414,6 +423,20 @@ CONTACT & DEMOS
       zh: "谢谢！我们会发送摘要并很快跟进。请随时提出更多问题！"
     }
     return messages[chatLanguage as keyof typeof messages] || messages.en
+  }
+
+  const handleClose = async () => {
+    try {
+      const shownKey = 'featherbot_eoc_shown';
+      if (!eocShown && !sessionStorage.getItem(shownKey)) {
+        setShowEoc(true)
+        setEocShown(true)
+        sessionStorage.setItem(shownKey, '1')
+        await supabase.functions.invoke('featherbot-analytics', { body: { event: 'eoc_prompt_shown', page_url: window.location.href, locale: chatLanguage, plan_context: userPlan } })
+        return
+      }
+    } catch {}
+    setIsOpen(false)
   }
 
   // Typing effect function

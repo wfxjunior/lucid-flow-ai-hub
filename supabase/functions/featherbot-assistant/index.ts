@@ -190,21 +190,21 @@ serve(async (req) => {
       };
     }
 
-    // Get knowledge base for user's language
-    const userKnowledge = (knowledgeBase as any)[language] || (knowledgeBase as any)['en-US'];
+    // Normalize language and internal KB
     const languageConfig = {
-      'en-US': { name: 'English', responseLanguage: 'English' },
-      'pt-BR': { name: 'Portuguese', responseLanguage: 'Portuguese (Brazilian)' },
-      'es': { name: 'Spanish', responseLanguage: 'Spanish' },
-      'fr': { name: 'French', responseLanguage: 'French' },
-      'zh': { name: 'Chinese', responseLanguage: 'Chinese (Simplified)' },
-      'de': { name: 'German', responseLanguage: 'German' }
+      'en-US': { name: 'English', responseLanguage: 'English', short: 'en' },
+      'en': { name: 'English', responseLanguage: 'English', short: 'en' },
+      'pt-BR': { name: 'Portuguese', responseLanguage: 'Portuguese (Brazilian)', short: 'pt' },
+      'pt': { name: 'Portuguese', responseLanguage: 'Portuguese (Brazilian)', short: 'pt' },
+      'es': { name: 'Spanish', responseLanguage: 'Spanish', short: 'es' },
+      'fr': { name: 'French', responseLanguage: 'French', short: 'fr' },
+      'zh': { name: 'Chinese', responseLanguage: 'Chinese (Simplified)', short: 'zh' },
+      'de': { name: 'German', responseLanguage: 'German', short: 'de' }
     } as const;
 
-    const userLanguage = (languageConfig as any)[language] || languageConfig['en-US'];
+    const userLanguage = (languageConfig as any)[language] || languageConfig['en'];
 
-    // Create comprehensive knowledge base context
-    const knowledgeContext = userKnowledge.faqs.map((faq: any) => `Q: ${faq.question}\nA: ${faq.answer}`).join('\n\n');
+    const userKnowledge = (knowledgeBase as any)[language] || (knowledgeBase as any)['en-US'];
 
     // Pricing-focused system prompt for pricing context
     const pricingSystemPrompt = `You are FeatherBot, a specialized pricing and sales assistant for FeatherBiz. Your main goal is to educate visitors about FeatherBiz plans, pricing, and features to help them make informed decisions.

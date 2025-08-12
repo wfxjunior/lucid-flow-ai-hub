@@ -236,3 +236,18 @@ verify_jwt = false
 
 [functions.sync-stripe-pricing]
 verify_jwt = false
+
+[functions.featherbot-indexer]
+verify_jwt = false
+
+[functions.featherbot-analytics]
+verify_jwt = false
+
+[functions.feedback-create]
+verify_jwt = false
+
+[functions.referrals-create]
+verify_jwt = false
+
+[functions.leads-create]
+verify_jwt = false
