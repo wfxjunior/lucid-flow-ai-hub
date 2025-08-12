@@ -933,6 +933,39 @@ export type Database = {
         }
         Relationships: []
       }
+      featherbot_cache: {
+        Row: {
+          answer: string
+          confidence: number | null
+          created_at: string
+          expires_at: string
+          id: string
+          locale: string
+          question_hash: string
+          sources: Json | null
+        }
+        Insert: {
+          answer: string
+          confidence?: number | null
+          created_at?: string
+          expires_at: string
+          id?: string
+          locale: string
+          question_hash: string
+          sources?: Json | null
+        }
+        Update: {
+          answer?: string
+          confidence?: number | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          locale?: string
+          question_hash?: string
+          sources?: Json | null
+        }
+        Relationships: []
+      }
       featherbot_conversations: {
         Row: {
           created_at: string
@@ -957,6 +990,143 @@ export type Database = {
           response?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      featherbot_events: {
+        Row: {
+          confidence_score: number | null
+          created_at: string
+          event: string
+          id: number
+          locale: string | null
+          metadata: Json | null
+          page_url: string | null
+          plan_context: string | null
+          user_id: string | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string
+          event: string
+          id?: number
+          locale?: string | null
+          metadata?: Json | null
+          page_url?: string | null
+          plan_context?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string
+          event?: string
+          id?: number
+          locale?: string | null
+          metadata?: Json | null
+          page_url?: string | null
+          plan_context?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      featherbot_feedback: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: number
+          locale: string | null
+          rating: number | null
+          source: string | null
+          user_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: number
+          locale?: string | null
+          rating?: number | null
+          source?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: number
+          locale?: string | null
+          rating?: number | null
+          source?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      featherbot_kb_chunks: {
+        Row: {
+          chunk_index: number
+          content: string
+          created_at: string
+          embedding: string | null
+          id: string
+          language: string | null
+          page_id: string
+        }
+        Insert: {
+          chunk_index: number
+          content: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          language?: string | null
+          page_id: string
+        }
+        Update: {
+          chunk_index?: number
+          content?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          language?: string | null
+          page_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "featherbot_kb_chunks_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "featherbot_kb_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      featherbot_kb_pages: {
+        Row: {
+          created_at: string
+          headings_outline: Json | null
+          id: string
+          language: string | null
+          last_modified: string | null
+          title: string | null
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          headings_outline?: Json | null
+          id?: string
+          language?: string | null
+          last_modified?: string | null
+          title?: string | null
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          headings_outline?: Json | null
+          id?: string
+          language?: string | null
+          last_modified?: string | null
+          title?: string | null
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }
@@ -987,6 +1157,39 @@ export type Database = {
           name?: string
           source?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      featherbot_referrals: {
+        Row: {
+          consent: boolean
+          created_at: string
+          friend_email: string
+          id: number
+          locale: string | null
+          sender_email: string | null
+          source: string | null
+          status: string
+        }
+        Insert: {
+          consent?: boolean
+          created_at?: string
+          friend_email: string
+          id?: number
+          locale?: string | null
+          sender_email?: string | null
+          source?: string | null
+          status?: string
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          friend_email?: string
+          id?: number
+          locale?: string | null
+          sender_email?: string | null
+          source?: string | null
+          status?: string
         }
         Relationships: []
       }
@@ -2490,6 +2693,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      binary_quantize: {
+        Args: { "": string } | { "": unknown }
+        Returns: unknown
+      }
       generate_bid_number: {
         Args: { starting_number?: number }
         Returns: string
@@ -2542,13 +2749,112 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      halfvec_avg: {
+        Args: { "": number[] }
+        Returns: unknown
+      }
+      halfvec_out: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      halfvec_send: {
+        Args: { "": unknown }
+        Returns: string
+      }
+      halfvec_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
+      }
       has_role: {
         Args: { _user_id: string; _role: string }
         Returns: boolean
       }
+      hnsw_bit_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnsw_halfvec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnsw_sparsevec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnswhandler: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflat_bit_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflat_halfvec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflathandler: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      l2_norm: {
+        Args: { "": unknown } | { "": unknown }
+        Returns: number
+      }
+      l2_normalize: {
+        Args: { "": string } | { "": unknown } | { "": unknown }
+        Returns: string
+      }
+      match_kb_chunks: {
+        Args: { query_embedding: string; match_count: number; lang: string }
+        Returns: {
+          chunk_id: string
+          content: string
+          url: string
+          title: string
+          language: string
+          similarity: number
+        }[]
+      }
+      sparsevec_out: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      sparsevec_send: {
+        Args: { "": unknown }
+        Returns: string
+      }
+      sparsevec_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
+      }
       track_referral_signup: {
         Args: { referral_code_param: string; new_user_email: string }
         Returns: boolean
+      }
+      vector_avg: {
+        Args: { "": number[] }
+        Returns: string
+      }
+      vector_dims: {
+        Args: { "": string } | { "": unknown }
+        Returns: number
+      }
+      vector_norm: {
+        Args: { "": string }
+        Returns: number
+      }
+      vector_out: {
+        Args: { "": string }
+        Returns: unknown
+      }
+      vector_send: {
+        Args: { "": string }
+        Returns: string
+      }
+      vector_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
       }
     }
     Enums: {
