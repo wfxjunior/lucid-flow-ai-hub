@@ -87,7 +87,7 @@ export const LandingHeroSection = () => {
             <Button
               data-analytics-id="hero_cta_start_click"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="group font-medium px-6 sm:px-8 h-14 rounded-full text-base"
+              className="group font-medium px-6 sm:px-8 h-14 text-base"
             >
               <span>Start for free</span>
               <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
@@ -96,7 +96,7 @@ export const LandingHeroSection = () => {
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
-              className="font-medium px-6 sm:px-8 h-14 rounded-full text-base border-border/50 hover:border-border hover:bg-muted/50"
+              className="font-medium px-6 sm:px-8 h-14 text-base border-border/50 hover:border-border hover:bg-muted/50"
             >
               <Play className="h-4 w-4 mr-2" aria-hidden="true" />
               <span>Talk to sales</span>
@@ -107,11 +107,11 @@ export const LandingHeroSection = () => {
             <div
               ref={pillsRef}
               data-analytics-id="hero_pills_view"
-              className="flex gap-3 sm:gap-6 justify-start sm:justify-center items-center px-4 overflow-x-auto sm:overflow-visible whitespace-nowrap sm:whitespace-normal"
+              className="flex flex-wrap gap-2 sm:gap-3 justify-center items-center px-4"
               aria-label="FeatherBiz capabilities"
             >
               {pillLabels.map((feature) => (
-                <span key={feature} className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground" aria-label={`Capability: ${feature}`}>
+                <span key={feature} className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground rounded-md border border-border/50 bg-muted/30 px-3 py-1.5" aria-label={`Capability: ${feature}`}>
                   <span className="w-3 h-3 sm:w-4 sm:h-4 rounded border border-border/50 flex items-center justify-center">
                     <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-muted-foreground" />
                   </span>

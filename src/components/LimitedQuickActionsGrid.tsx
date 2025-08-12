@@ -76,7 +76,7 @@ export function LimitedQuickActionsGrid({ actions, onActionClick, searchTerm }: 
           <Button
             variant="outline"
             onClick={() => setShowAll(!showAll)}
-            className="flex items-center gap-2 px-6 py-2 rounded-full border-2 hover:bg-primary/5 transition-all duration-200"
+            className="flex items-center gap-2 px-6 py-2 border-2 hover:bg-primary/5 transition-all duration-200"
           >
             {showAll ? (
               <>
