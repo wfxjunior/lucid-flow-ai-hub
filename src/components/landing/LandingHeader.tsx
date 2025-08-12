@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { Menu } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -11,6 +11,7 @@ import {
   NavigationMenuContent,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 
 export const LandingHeader = () => {
   const navigate = useNavigate();
@@ -103,12 +104,58 @@ export const LandingHeader = () => {
         </nav>
 
         
-        {/* Auth Buttons */}
-        <div className="flex items-center gap-3">
+        {/* Right actions */}
+        <div className="flex items-center gap-2">
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" className="lg:hidden p-2" aria-label="Open menu">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full sm:max-w-sm">
+              <nav className="mt-6 space-y-6">
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground mb-2">Platform</p>
+                  <div className="grid gap-2">
+                    <SheetClose asChild><Link to="/landing#features" className="text-foreground hover:underline">Features overview</Link></SheetClose>
+                    <SheetClose asChild><Link to="/landing#automation" className="text-foreground hover:underline">Automation & AI</Link></SheetClose>
+                    <SheetClose asChild><Link to="/landing#integrations" className="text-foreground hover:underline">Integrations</Link></SheetClose>
+                    <SheetClose asChild><Link to="/landing#security" className="text-foreground hover:underline">Security & permissions</Link></SheetClose>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground mb-2">Resources</p>
+                  <div className="grid gap-2">
+                    <SheetClose asChild><Link to="/landing#guides" className="text-foreground hover:underline">Guides & tutorials</Link></SheetClose>
+                    <SheetClose asChild><Link to="/landing#templates" className="text-foreground hover:underline">Templates</Link></SheetClose>
+                    <SheetClose asChild><Link to="/landing#help" className="text-foreground hover:underline">Help center</Link></SheetClose>
+                    <SheetClose asChild><Link to="/landing#api" className="text-foreground hover:underline">API docs</Link></SheetClose>
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <SheetClose asChild><Link to="/landing#testimonials" className="text-foreground hover:underline">Customers</Link></SheetClose>
+                  <SheetClose asChild>
+                    <Link to="/landing#pricing" onClick={onPricingClick} className="text-foreground hover:underline">Pricing</Link>
+                  </SheetClose>
+                </div>
+                <div className="pt-4 border-t border-border/40 grid gap-2">
+                  <SheetClose asChild>
+                    <Button onClick={() => navigate('/auth')} className="bg-foreground text-background hover:bg-foreground/90">Start for free</Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button variant="ghost" onClick={() => navigate('/auth')} className="text-muted-foreground hover:text-foreground">Sign in</Button>
+                  </SheetClose>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
+
+          {/* Auth Buttons */}
           <Button
             variant="ghost"
             onClick={() => navigate('/auth')}
-            className="text-muted-foreground hover:text-foreground font-medium px-4"
+            className="hidden sm:inline-flex text-muted-foreground hover:text-foreground font-medium px-4"
           >
             Sign in
           </Button>
