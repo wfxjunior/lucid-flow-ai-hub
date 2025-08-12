@@ -31,6 +31,11 @@ import Pricing from '@/pages/Pricing'
 import BlogIndex from '@/pages/BlogIndex'
 import BlogPostDetail from '@/pages/BlogPostDetail'
 import AdminBlog from '@/pages/AdminBlog'
+import TemplatesOverview from '@/pages/admin/docs/TemplatesOverview'
+import ApiDocsWhatAndHow from '@/pages/admin/docs/ApiDocsWhatAndHow'
+import AdminAPISettings from '@/pages/admin/api/AdminAPISettings'
+import OpenAPIPreview from '@/pages/admin/api/OpenAPIPreview'
+import OpenAPISkeletonJSON from '@/pages/admin/api/OpenAPISkeletonJSON'
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   // For now, we'll just return children since we're using the Index page with its own auth
@@ -112,6 +117,11 @@ function App() {
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPostDetail />} />
         <Route path="/admin/blog" element={<AdminBlog />} />
+        <Route path="/admin/docs/templates-overview" element={<TemplatesOverview />} />
+        <Route path="/admin/docs/api-docs-what-and-how" element={<ApiDocsWhatAndHow />} />
+        <Route path="/admin/api" element={<AdminAPISettings />} />
+        <Route path="/admin/api/preview" element={<OpenAPIPreview />} />
+        <Route path="/admin/api/openapi.json" element={<OpenAPISkeletonJSON />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/feedback" element={<Feedback />} />
