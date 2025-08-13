@@ -1,45 +1,53 @@
-import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import { ResponsiveCarRentalPage } from '@/components/ResponsiveCarRentalPage'
-import { ResponsiveMatTrackPage } from '@/components/ResponsiveMatTrackPage'
+import React, { Suspense, lazy, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { DocumentTrackingProvider } from '@/components/DocumentTrackingProvider'
-import Index from '@/pages/Index'
-import Auth from '@/pages/Auth'
-import Features from '@/pages/Features'
-import Integrations from '@/pages/Integrations'
-import API from '@/pages/API'
-import Security from '@/pages/Security'
-import HelpCenter from '@/pages/HelpCenter'
-import Documentation from '@/pages/Documentation'
-import Community from '@/pages/Community'
-import CaseStudies from '@/pages/CaseStudies'
-import Guides from '@/pages/Guides'
-import Webinars from '@/pages/Webinars'
-import About from '@/pages/About'
-import Careers from '@/pages/Careers'
-import Press from '@/pages/Press'
-import Partners from '@/pages/Partners'
-import Investors from '@/pages/Investors'
-import PrivacyPolicy from '@/pages/PrivacyPolicy'
-import TermsOfService from '@/pages/TermsOfService'
-import Feedback from '@/pages/Feedback'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
 
-import LandingPage from '@/pages/LandingPage'
-import ScalePage from '@/pages/ScalePage'
-import FeaturesOverview from '@/pages/FeaturesOverview'
-import EditionsPage from '@/pages/EditionsPage'
-import Pricing from '@/pages/Pricing'
-import BlogIndex from '@/pages/BlogIndex'
-import BlogPostDetail from '@/pages/BlogPostDetail'
-import AdminBlog from '@/pages/AdminBlog'
-import TemplatesOverview from '@/pages/admin/docs/TemplatesOverview'
-import ApiDocsWhatAndHow from '@/pages/admin/docs/ApiDocsWhatAndHow'
-import AdminAPISettings from '@/pages/admin/api/AdminAPISettings'
-import OpenAPIPreview from '@/pages/admin/api/OpenAPIPreview'
-import OpenAPISkeletonJSON from '@/pages/admin/api/OpenAPISkeletonJSON'
+// Lazy load pages for better performance
+const Index = lazy(() => import('@/pages/Index'))
+const Auth = lazy(() => import('@/pages/Auth'))
+const Features = lazy(() => import('@/pages/Features'))
+const Integrations = lazy(() => import('@/pages/Integrations'))
+const API = lazy(() => import('@/pages/API'))
+const Security = lazy(() => import('@/pages/Security'))
+const HelpCenter = lazy(() => import('@/pages/HelpCenter'))
+const Documentation = lazy(() => import('@/pages/Documentation'))
+const Community = lazy(() => import('@/pages/Community'))
+const CaseStudies = lazy(() => import('@/pages/CaseStudies'))
+const Guides = lazy(() => import('@/pages/Guides'))
+const Webinars = lazy(() => import('@/pages/Webinars'))
+const About = lazy(() => import('@/pages/About'))
+const Careers = lazy(() => import('@/pages/Careers'))
+const Press = lazy(() => import('@/pages/Press'))
+const Partners = lazy(() => import('@/pages/Partners'))
+const Investors = lazy(() => import('@/pages/Investors'))
+const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'))
+const TermsOfService = lazy(() => import('@/pages/TermsOfService'))
+const Feedback = lazy(() => import('@/pages/Feedback'))
+const LandingPage = lazy(() => import('@/pages/LandingPage'))
+const ScalePage = lazy(() => import('@/pages/ScalePage'))
+const FeaturesOverview = lazy(() => import('@/pages/FeaturesOverview'))
+const EditionsPage = lazy(() => import('@/pages/EditionsPage'))
+const Pricing = lazy(() => import('@/pages/Pricing'))
+const BlogIndex = lazy(() => import('@/pages/BlogIndex'))
+const BlogPostDetail = lazy(() => import('@/pages/BlogPostDetail'))
+const AdminBlog = lazy(() => import('@/pages/AdminBlog'))
+const PaymentSuccess = lazy(() => import('@/pages/PaymentSuccess'))
+const PaymentCanceled = lazy(() => import('@/pages/PaymentCanceled'))
+
+// Admin pages - separate chunk for admin functionality
+const TemplatesOverview = lazy(() => import('@/pages/admin/docs/TemplatesOverview'))
+const ApiDocsWhatAndHow = lazy(() => import('@/pages/admin/docs/ApiDocsWhatAndHow'))
+const AdminAPISettings = lazy(() => import('@/pages/admin/api/AdminAPISettings'))
+const OpenAPIPreview = lazy(() => import('@/pages/admin/api/OpenAPIPreview'))
+const OpenAPISkeletonJSON = lazy(() => import('@/pages/admin/api/OpenAPISkeletonJSON'))
+
+// Heavy components - lazy load for better initial load
+const ResponsiveCarRentalPage = lazy(() => import('@/components/ResponsiveCarRentalPage').then(module => ({ default: module.ResponsiveCarRentalPage })))
+const ResponsiveMatTrackPage = lazy(() => import('@/components/ResponsiveMatTrackPage').then(module => ({ default: module.ResponsiveMatTrackPage })))
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
-  // For now, we'll just return children since we're using the Index page with its own auth
   return <>{children}</>
 }
 
@@ -49,25 +57,49 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
   </div>
 )
 
+const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<LoadingSpinner />}>
+    <ErrorBoundary>
+      {children}
+    </ErrorBoundary>
+  </Suspense>
+)
 
 function App() {
-  // Canonical redirect: any *.lovable* → featherbiz.io (preserve path, query, hash)
-  // Disabled for development
+  // Secure canonical redirect
   useEffect(() => {
-    try {
-      const host = window.location.hostname
-      const isProduction = host === 'featherbiz.io'
-      const isLovable = host.includes('lovableproject.com') || host.includes('lovable.app')
-      
-      // Only redirect in production environment when coming from old domains
-      if (isLovable && isProduction) {
-        const target = `https://featherbiz.io${window.location.pathname}${window.location.search}${window.location.hash}`
-        if (window.location.href !== target) {
-          window.location.replace(target)
+    if (import.meta.env.PROD) {
+      try {
+        const host = window.location.hostname
+        const isLovable = host.includes('lovableproject.com') || host.includes('lovable.app')
+        
+        if (isLovable) {
+          const target = `https://featherbiz.io${window.location.pathname}${window.location.search}${window.location.hash}`
+          if (window.location.href !== target) {
+            window.location.replace(target)
+          }
+        }
+      } catch (e) {
+        // Silent fail in production
+        if (import.meta.env.DEV) {
+          console.warn('Canonical redirect skipped:', e)
         }
       }
-    } catch (e) {
-      console.warn('Canonical redirect skipped:', e)
+    }
+  }, [])
+
+  // Security headers implementation
+  useEffect(() => {
+    // Prevent clickjacking
+    if (window.self !== window.top) {
+      window.top!.location = window.self.location
+    }
+    
+    // Disable right-click in production for additional security
+    if (import.meta.env.PROD) {
+      const handleContextMenu = (e: MouseEvent) => e.preventDefault()
+      document.addEventListener('contextmenu', handleContextMenu)
+      return () => document.removeEventListener('contextmenu', handleContextMenu)
     }
   }, [])
 
@@ -75,62 +107,310 @@ function App() {
     <DocumentTrackingProvider>
       <Router>
         <Routes>
-        <Route
-          path="/landing"
-          element={<LandingPage />}
-        />
-        <Route path="/scale" element={<ScalePage />} />
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/features-overview" element={<FeaturesOverview />} />
-        <Route path="/editions" element={<EditionsPage />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route 
-          path="/car-rental" 
-          element={
-            <AuthGuard>
-              <Layout>
-                <ResponsiveCarRentalPage />
-              </Layout>
-            </AuthGuard>
-          } 
-        />
-        <Route 
-          path="/mat-track" 
-          element={
-            <AuthGuard>
-              <Layout>
-                <ResponsiveMatTrackPage />
-              </Layout>
-            </AuthGuard>
-          } 
-        />
-        <Route path="/features" element={<Features />} />
-        <Route path="/integrations" element={<Integrations />} />
-        <Route path="/api" element={<API />} />
-        <Route path="/security" element={<Security />} />
-        <Route path="/help-center" element={<HelpCenter />} />
-        <Route path="/documentation" element={<Documentation />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/case-studies" element={<CaseStudies />} />
-        <Route path="/guides" element={<Guides />} />
-        <Route path="/webinars" element={<Webinars />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/press" element={<Press />} />
-        <Route path="/partners" element={<Partners />} />
-        <Route path="/investors" element={<Investors />} />
-        <Route path="/blog" element={<BlogIndex />} />
-        <Route path="/blog/:slug" element={<BlogPostDetail />} />
-        <Route path="/admin/blog" element={<AdminBlog />} />
-        <Route path="/admin/docs/templates-overview" element={<TemplatesOverview />} />
-        <Route path="/admin/docs/api-docs-what-and-how" element={<ApiDocsWhatAndHow />} />
-        <Route path="/admin/api" element={<AdminAPISettings />} />
-        <Route path="/admin/api/preview" element={<OpenAPIPreview />} />
-        <Route path="/admin/api/openapi.json" element={<OpenAPISkeletonJSON />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/feedback" element={<Feedback />} />
+          <Route
+            path="/landing"
+            element={
+              <SuspenseWrapper>
+                <LandingPage />
+              </SuspenseWrapper>
+            }
+          />
+          <Route 
+            path="/scale" 
+            element={
+              <SuspenseWrapper>
+                <ScalePage />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/" 
+            element={
+              <SuspenseWrapper>
+                <LandingPage />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/auth" 
+            element={
+              <SuspenseWrapper>
+                <Auth />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/features-overview" 
+            element={
+              <SuspenseWrapper>
+                <FeaturesOverview />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/editions" 
+            element={
+              <SuspenseWrapper>
+                <EditionsPage />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/pricing" 
+            element={
+              <SuspenseWrapper>
+                <Pricing />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/payment/success" 
+            element={
+              <SuspenseWrapper>
+                <PaymentSuccess />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/payment/canceled" 
+            element={
+              <SuspenseWrapper>
+                <PaymentCanceled />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/car-rental" 
+            element={
+              <SuspenseWrapper>
+                <AuthGuard>
+                  <Layout>
+                    <ResponsiveCarRentalPage />
+                  </Layout>
+                </AuthGuard>
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/mat-track" 
+            element={
+              <SuspenseWrapper>
+                <AuthGuard>
+                  <Layout>
+                    <ResponsiveMatTrackPage />
+                  </Layout>
+                </AuthGuard>
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/features" 
+            element={
+              <SuspenseWrapper>
+                <Features />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/integrations" 
+            element={
+              <SuspenseWrapper>
+                <Integrations />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/api" 
+            element={
+              <SuspenseWrapper>
+                <API />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/security" 
+            element={
+              <SuspenseWrapper>
+                <Security />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/help-center" 
+            element={
+              <SuspenseWrapper>
+                <HelpCenter />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/documentation" 
+            element={
+              <SuspenseWrapper>
+                <Documentation />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/community" 
+            element={
+              <SuspenseWrapper>
+                <Community />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/case-studies" 
+            element={
+              <SuspenseWrapper>
+                <CaseStudies />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/guides" 
+            element={
+              <SuspenseWrapper>
+                <Guides />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/webinars" 
+            element={
+              <SuspenseWrapper>
+                <Webinars />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/about" 
+            element={
+              <SuspenseWrapper>
+                <About />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/careers" 
+            element={
+              <SuspenseWrapper>
+                <Careers />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/press" 
+            element={
+              <SuspenseWrapper>
+                <Press />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/partners" 
+            element={
+              <SuspenseWrapper>
+                <Partners />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/investors" 
+            element={
+              <SuspenseWrapper>
+                <Investors />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/blog" 
+            element={
+              <SuspenseWrapper>
+                <BlogIndex />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/blog/:slug" 
+            element={
+              <SuspenseWrapper>
+                <BlogPostDetail />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/admin/blog" 
+            element={
+              <SuspenseWrapper>
+                <AdminBlog />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/admin/docs/templates-overview" 
+            element={
+              <SuspenseWrapper>
+                <TemplatesOverview />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/admin/docs/api-docs-what-and-how" 
+            element={
+              <SuspenseWrapper>
+                <ApiDocsWhatAndHow />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/admin/api" 
+            element={
+              <SuspenseWrapper>
+                <AdminAPISettings />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/admin/api/preview" 
+            element={
+              <SuspenseWrapper>
+                <OpenAPIPreview />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/admin/api/openapi.json" 
+            element={
+              <SuspenseWrapper>
+                <OpenAPISkeletonJSON />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/privacy-policy" 
+            element={
+              <SuspenseWrapper>
+                <PrivacyPolicy />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/terms-of-service" 
+            element={
+              <SuspenseWrapper>
+                <TermsOfService />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/feedback" 
+            element={
+              <SuspenseWrapper>
+                <Feedback />
+              </SuspenseWrapper>
+            } 
+          />
         </Routes>
       </Router>
     </DocumentTrackingProvider>
