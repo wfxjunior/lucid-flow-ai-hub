@@ -114,15 +114,7 @@ export default function ScalePage() {
           </div>
 
           {/* Waitlist form */}
-          <form onSubmit={onJoinWaitlist} className="w-full max-w-xl grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <Input
-              type="text"
-              placeholder="Your name (optional)"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="sm:col-span-1"
-              aria-label="Your name"
-            />
+          <form onSubmit={onJoinWaitlist} className="w-full max-w-md grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Input
               type="email"
               placeholder="Your email"
@@ -313,6 +305,187 @@ export default function ScalePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Growth Impact Chart */}
+      <section className="mt-16">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-foreground mb-4">
+            See the Impact: Before vs After FeatherBiz Scale
+          </h2>
+          <p className="text-muted-foreground">
+            Real results from companies using FeatherBiz Scale
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-border/40 bg-gradient-to-br from-card to-muted/30 p-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Chart Visualization */}
+            <div className="relative">
+              <div className="space-y-6">
+                {[
+                  { 
+                    metric: "Time Saved Weekly", 
+                    before: 20, 
+                    after: 85, 
+                    unit: "hours",
+                    color: "bg-blue-500",
+                    beforeLabel: "Manual work",
+                    afterLabel: "With automation"
+                  },
+                  { 
+                    metric: "Team Productivity", 
+                    before: 35, 
+                    after: 78, 
+                    unit: "%",
+                    color: "bg-green-500",
+                    beforeLabel: "Standard tools",
+                    afterLabel: "Scale features"
+                  },
+                  { 
+                    metric: "Customer Response Time", 
+                    before: 80, 
+                    after: 25, 
+                    unit: "min",
+                    color: "bg-purple-500",
+                    beforeLabel: "Before Scale",
+                    afterLabel: "Priority support"
+                  },
+                  { 
+                    metric: "Revenue Growth", 
+                    before: 15, 
+                    after: 65, 
+                    unit: "%",
+                    color: "bg-orange-500",
+                    beforeLabel: "Last year",
+                    afterLabel: "With Scale"
+                  }
+                ].map((item, index) => (
+                  <div key={item.metric} className={`animate-fade-in`} style={{ animationDelay: `${index * 0.2}s` }}>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium text-foreground">{item.metric}</span>
+                      <div className="flex gap-4 text-xs text-muted-foreground">
+                        <span>{item.beforeLabel}</span>
+                        <span>{item.afterLabel}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      {/* Before */}
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-muted-foreground">Before</span>
+                          <span className="text-sm font-medium text-foreground">{item.before}{item.unit}</span>
+                        </div>
+                        <div className="h-6 bg-muted rounded-md overflow-hidden">
+                          <div 
+                            className={`h-full bg-muted-foreground/40 transition-all duration-1000 ease-out`}
+                            style={{ 
+                              width: `${item.metric === "Customer Response Time" ? (100 - item.before) + "%" : item.before + "%"}`,
+                              animationDelay: `${index * 0.3}s`
+                            }}
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* After */}
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-muted-foreground">After</span>
+                          <span className="text-sm font-medium text-foreground">{item.after}{item.unit}</span>
+                        </div>
+                        <div className="h-6 bg-muted rounded-md overflow-hidden">
+                          <div 
+                            className={`h-full ${item.color} transition-all duration-1000 ease-out animate-scale-in`}
+                            style={{ 
+                              width: `${item.metric === "Customer Response Time" ? (100 - item.after) + "%" : item.after + "%"}`,
+                              animationDelay: `${index * 0.3 + 0.5}s`
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Improvement indicator */}
+                    <div className="flex justify-end mt-1">
+                      <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400">
+                        <TrendingUp className="h-3 w-3" />
+                        {item.metric === "Customer Response Time" 
+                          ? `${Math.round(((item.before - item.after) / item.before) * 100)}% faster`
+                          : `+${item.after - item.before}${item.unit} improvement`
+                        }
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Key Benefits */}
+            <div className="space-y-6">
+              <div className="text-center md:text-left">
+                <h3 className="text-xl font-semibold text-foreground mb-4">
+                  Join 500+ companies already seeing results
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Don't let manual processes hold your business back. FeatherBiz Scale delivers measurable improvements from day one.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {[
+                  {
+                    icon: Clock,
+                    title: "Save 15+ hours weekly",
+                    desc: "Automated workflows handle repetitive tasks"
+                  },
+                  {
+                    icon: TrendingUp,
+                    title: "Boost team productivity by 40%",
+                    desc: "Advanced collaboration tools and insights"
+                  },
+                  {
+                    icon: Zap,
+                    title: "Respond 3x faster",
+                    desc: "Priority support and streamlined processes"
+                  },
+                  {
+                    icon: BarChart3,
+                    title: "Accelerate revenue growth",
+                    desc: "Data-driven decisions with real-time analytics"
+                  }
+                ].map((benefit, index) => (
+                  <div 
+                    key={benefit.title} 
+                    className={`flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors animate-fade-in`}
+                    style={{ animationDelay: `${index * 0.1 + 1}s` }}
+                  >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <benefit.icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-foreground">{benefit.title}</h4>
+                      <p className="text-xs text-muted-foreground">{benefit.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-4">
+                <Button 
+                  onClick={() => {
+                    const el = document.querySelector('form');
+                    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                  className="w-full group font-medium hover-scale"
+                >
+                  Get Early Access Now
+                  <TrendingUp className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
