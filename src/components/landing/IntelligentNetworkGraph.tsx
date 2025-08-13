@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 // Intelligent Network Graph - Dynamic data visualization with real-time animations
@@ -26,18 +29,19 @@ interface Edge {
 }
 
 const businessNodes = [
-  { id: 'dashboard', label: 'Dashboard', type: 'core', color: '#3b82f6', connections: ['invoices', 'appointments', 'analytics'] },
-  { id: 'invoices', label: 'Invoices', type: 'process', color: '#10b981', connections: ['payments', 'clients'] },
-  { id: 'appointments', label: 'Schedule', type: 'process', color: '#8b5cf6', connections: ['clients', 'calendar'] },
-  { id: 'payments', label: 'Payments', type: 'data', color: '#f59e0b', connections: ['analytics'] },
-  { id: 'clients', label: 'Clients', type: 'core', color: '#ef4444', connections: ['analytics', 'communication'] },
-  { id: 'analytics', label: 'Analytics', type: 'core', color: '#06b6d4', connections: ['reports'] },
-  { id: 'calendar', label: 'Calendar', type: 'data', color: '#84cc16', connections: ['communication'] },
-  { id: 'reports', label: 'Reports', type: 'process', color: '#f97316', connections: ['communication'] },
-  { id: 'communication', label: 'Communication', type: 'process', color: '#ec4899', connections: [] },
+  { id: 'dashboard', label: 'Dashboard', type: 'core', color: '#60a5fa', connections: ['invoices', 'appointments', 'analytics'] },
+  { id: 'invoices', label: 'Invoices', type: 'process', color: '#9ca3af', connections: ['payments', 'clients'] },
+  { id: 'appointments', label: 'Schedule', type: 'process', color: '#1f2937', connections: ['clients', 'calendar'] },
+  { id: 'payments', label: 'Payments', type: 'data', color: '#6b7280', connections: ['analytics'] },
+  { id: 'clients', label: 'Clients', type: 'core', color: '#3b82f6', connections: ['analytics', 'communication'] },
+  { id: 'analytics', label: 'Analytics', type: 'core', color: '#60a5fa', connections: ['reports'] },
+  { id: 'calendar', label: 'Calendar', type: 'data', color: '#9ca3af', connections: ['communication'] },
+  { id: 'reports', label: 'Reports', type: 'process', color: '#374151', connections: ['communication'] },
+  { id: 'communication', label: 'Communication', type: 'process', color: '#6b7280', connections: [] },
 ];
 
 export function IntelligentNetworkGraph() {
+  const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -239,13 +243,13 @@ export function IntelligentNetworkGraph() {
     // Clear canvas
     ctx.clearRect(0, 0, dimensions.width, dimensions.height);
 
-    // Draw background gradient
+    // Draw background gradient - lighter
     const gradient = ctx.createRadialGradient(
       dimensions.width / 2, dimensions.height / 2, 0,
       dimensions.width / 2, dimensions.height / 2, Math.max(dimensions.width, dimensions.height) / 2
     );
-    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.05)');
-    gradient.addColorStop(1, 'rgba(59, 130, 246, 0.01)');
+    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.02)');
+    gradient.addColorStop(1, 'rgba(59, 130, 246, 0.005)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
@@ -260,8 +264,8 @@ export function IntelligentNetworkGraph() {
         ctx.lineTo(target.x, target.y);
         
         const opacity = edge.active ? edge.strength : edge.strength * 0.3;
-        ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.6})`;
-        ctx.lineWidth = edge.active ? 2 : 1;
+        ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.3})`;
+        ctx.lineWidth = edge.active ? 1.5 : 0.8;
         ctx.stroke();
         
         // Animated data flow
@@ -272,8 +276,8 @@ export function IntelligentNetworkGraph() {
           const flowY = source.y + (target.y - source.y) * progress;
           
           ctx.beginPath();
-          ctx.arc(flowX, flowY, 3, 0, Math.PI * 2);
-          ctx.fillStyle = '#3b82f6';
+          ctx.arc(flowX, flowY, 2, 0, Math.PI * 2);
+          ctx.fillStyle = '#60a5fa';
           ctx.fill();
         }
       }
@@ -374,17 +378,32 @@ export function IntelligentNetworkGraph() {
             <div className="mt-6 space-y-2">
               <div className="text-sm font-medium text-foreground">Node Types:</div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-400"></div>
                 <span>Core Systems</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="w-3 h-3 rounded-full bg-gray-400"></div>
                 <span>Business Processes</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                <div className="w-2 h-2 rounded-full bg-gray-600"></div>
                 <span>Data Sources</span>
               </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="mt-8 space-y-3">
+              <Button
+                size="lg"
+                onClick={() => navigate('/signup?trial=7d&source=network-graph')}
+                className="w-full font-medium"
+              >
+                <span>Start For Free</span>
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Button>
+              <p className="text-xs text-muted-foreground text-center">
+                Test free for 7 days. No credit card required.
+              </p>
             </div>
           </aside>
 
