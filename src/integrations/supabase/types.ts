@@ -2929,7 +2929,15 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      security_status: {
+        Row: {
+          check_type: string | null
+          schemaname: unknown | null
+          status: string | null
+          tablename: unknown | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       check_rate_limit: {
@@ -2942,6 +2950,10 @@ export type Database = {
         Returns: boolean
       }
       cleanup_old_rate_limits: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      cleanup_old_security_events: {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
