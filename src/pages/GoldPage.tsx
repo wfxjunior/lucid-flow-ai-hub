@@ -104,9 +104,9 @@ export default function GoldPage() {
           </p>
 
           {/* Countdown */}
-          <div className="grid grid-flow-col gap-4 text-center auto-cols-max">
+          <div className="grid grid-cols-2 sm:grid-flow-col sm:auto-cols-max gap-3 sm:gap-4 text-center w-full max-w-xs sm:max-w-none mx-auto">
             {[{label:'days', value: days},{label:'hours', value: hours},{label:'min', value: minutes},{label:'sec', value: seconds}].map((t) => (
-              <div key={t.label} className="flex flex-col items-center rounded-md border border-border/50 bg-muted/30 px-4 py-3 min-w-[72px]">
+              <div key={t.label} className="flex flex-col items-center rounded-md border border-border/50 bg-muted/30 px-3 py-3">
                 <span className="text-2xl font-semibold tabular-nums text-foreground">{String(t.value).padStart(2, '0')}</span>
                 <span className="text-xs text-muted-foreground">{t.label}</span>
               </div>
@@ -132,7 +132,7 @@ export default function GoldPage() {
               aria-label="Your email"
               required
             />
-            <Button type="submit" disabled={loading} className="sm:col-span-1 group font-medium">
+            <Button type="submit" variant="default" disabled={loading} className="sm:col-span-1 w-full group font-medium">
               {loading ? "Sending…" : "Join the waitlist"}
             </Button>
           </form>
