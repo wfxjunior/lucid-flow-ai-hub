@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useUserRole } from './useUserRole'
+import { securityEvent, secureError } from '@/utils/security'
 
 interface SecurityEvent {
   id: string
@@ -30,7 +31,7 @@ export function useSecurityMonitoring() {
   const [error, setError] = useState<string | null>(null)
   const { isAdmin } = useUserRole()
 
-  // Rate limiting function for client-side operations
+  // Enhanced rate limiting function with security monitoring
   const checkRateLimit = async (action: string, maxRequests = 10, windowMinutes = 60) => {
     try {
       const { data, error } = await supabase.functions.invoke('security-middleware', {
@@ -42,18 +43,36 @@ export function useSecurityMonitoring() {
       })
 
       if (error) {
-        console.error('Rate limit check failed:', error)
+        securityEvent('Rate limit check failed', { 
+          action, 
+          error: error.message,
+          timestamp: new Date().toISOString()
+        })
         return false
+      }
+
+      // Log rate limit violations for security monitoring
+      if (data?.allowed === false) {
+        securityEvent('Rate limit exceeded', {
+          action,
+          maxRequests,
+          windowMinutes,
+          timestamp: new Date().toISOString()
+        })
       }
 
       return data?.allowed === true
     } catch (error) {
-      console.error('Rate limit error:', error)
+      securityEvent('Rate limit system error', { 
+        action, 
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString()
+      })
       return false
     }
   }
 
-  // Log template access
+  // Enhanced template access logging with security monitoring
   const logTemplateAccess = async (templateId: string, accessType: 'view' | 'download' | 'copy') => {
     try {
       await supabase.rpc('log_template_access', {
@@ -62,8 +81,20 @@ export function useSecurityMonitoring() {
         ip_address_param: null, // Will be detected server-side if needed
         user_agent_param: navigator.userAgent
       })
+
+      // Log for security monitoring
+      securityEvent('Template accessed', {
+        templateId,
+        accessType,
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString()
+      })
     } catch (error) {
-      console.error('Failed to log template access:', error)
+      secureError('Failed to log template access', { 
+        templateId, 
+        accessType, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      })
     }
   }
 
@@ -85,7 +116,7 @@ export function useSecurityMonitoring() {
           .limit(100)
 
         if (eventsError) {
-          console.error('Error fetching security events:', eventsError)
+          secureError('Error fetching security events', { error: eventsError.message })
         } else {
           setSecurityEvents(events || [])
         }
@@ -98,13 +129,15 @@ export function useSecurityMonitoring() {
           .limit(100)
 
         if (accessError) {
-          console.error('Error fetching template access logs:', accessError)
+          secureError('Error fetching template access logs', { error: accessError.message })
         } else {
           setTemplateAccessLogs(accessLogs || [])
         }
 
       } catch (error) {
-        console.error('Security monitoring error:', error)
+        secureError('Security monitoring error', { 
+          error: error instanceof Error ? error.message : 'Unknown error' 
+        })
         setError('Failed to load security data')
       } finally {
         setLoading(false)

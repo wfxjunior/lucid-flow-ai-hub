@@ -263,13 +263,13 @@ export type Database = {
       }
       blog_posts: {
         Row: {
+          anonymous_likes_count: number | null
           author: string
           content: string | null
           cover_image_url: string | null
           created_at: string
           excerpt: string | null
           id: string
-          liked_by_names: string[] | null
           likes_count: number
           published_at: string | null
           read_time_minutes: number | null
@@ -280,13 +280,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          anonymous_likes_count?: number | null
           author?: string
           content?: string | null
           cover_image_url?: string | null
           created_at?: string
           excerpt?: string | null
           id?: string
-          liked_by_names?: string[] | null
           likes_count?: number
           published_at?: string | null
           read_time_minutes?: number | null
@@ -297,13 +297,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          anonymous_likes_count?: number | null
           author?: string
           content?: string | null
           cover_image_url?: string | null
           created_at?: string
           excerpt?: string | null
           id?: string
-          liked_by_names?: string[] | null
           likes_count?: number
           published_at?: string | null
           read_time_minutes?: number | null
@@ -2945,6 +2945,16 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      enhanced_rate_limit_check: {
+        Args: {
+          client_ip: unknown
+          action: string
+          user_context?: string
+          max_requests?: number
+          window_minutes?: number
+        }
+        Returns: boolean
+      }
       generate_bid_number: {
         Args: { starting_number?: number }
         Returns: string
@@ -3047,6 +3057,10 @@ export type Database = {
           p_read: number
         }
         Returns: undefined
+      }
+      validate_user_session: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
       }
     }
     Enums: {

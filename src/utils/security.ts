@@ -1,23 +1,103 @@
 // Performance and Security Utilities
 
-// Secure console logging - only in development
-export const secureLog = (...args: any[]) => {
-  if (import.meta.env.DEV) {
-    console.log(...args)
+// Centralized Security Logging System
+interface SecurityLogEvent {
+  level: 'info' | 'warn' | 'error' | 'security'
+  message: string
+  metadata?: Record<string, any>
+  timestamp?: Date
+}
+
+class SecurityLogger {
+  private static instance: SecurityLogger
+  private isDevelopment = import.meta.env.DEV
+
+  static getInstance(): SecurityLogger {
+    if (!SecurityLogger.instance) {
+      SecurityLogger.instance = new SecurityLogger()
+    }
+    return SecurityLogger.instance
+  }
+
+  private logToConsole(event: SecurityLogEvent) {
+    if (!this.isDevelopment) return
+
+    const timestamp = (event.timestamp || new Date()).toISOString()
+    const logData = event.metadata ? [event.message, event.metadata] : [event.message]
+
+    switch (event.level) {
+      case 'error':
+      case 'security':
+        console.error(`[${timestamp}] ${event.level.toUpperCase()}:`, ...logData)
+        break
+      case 'warn':
+        console.warn(`[${timestamp}] WARN:`, ...logData)
+        break
+      default:
+        console.log(`[${timestamp}] INFO:`, ...logData)
+    }
+  }
+
+  private logToProduction(event: SecurityLogEvent) {
+    if (this.isDevelopment) return
+
+    // In production, send to monitoring service
+    // This prevents console pollution while maintaining security monitoring
+    try {
+      // Could integrate with services like Sentry, LogRocket, etc.
+      // For now, only log security events to prevent data exposure
+      if (event.level === 'security' || event.level === 'error') {
+        // Log to external service - placeholder for future implementation
+        console.error('SECURITY_EVENT:', {
+          level: event.level,
+          message: event.message,
+          timestamp: event.timestamp || new Date()
+        })
+      }
+    } catch (error) {
+      // Silently fail in production to prevent cascading errors
+    }
+  }
+
+  log(event: SecurityLogEvent) {
+    this.logToConsole(event)
+    this.logToProduction(event)
+  }
+
+  info(message: string, metadata?: Record<string, any>) {
+    this.log({ level: 'info', message, metadata })
+  }
+
+  warn(message: string, metadata?: Record<string, any>) {
+    this.log({ level: 'warn', message, metadata })
+  }
+
+  error(message: string, metadata?: Record<string, any>) {
+    this.log({ level: 'error', message, metadata })
+  }
+
+  security(message: string, metadata?: Record<string, any>) {
+    this.log({ level: 'security', message, metadata })
   }
 }
 
-export const secureWarn = (...args: any[]) => {
-  if (import.meta.env.DEV) {
-    console.warn(...args)
-  }
+const logger = SecurityLogger.getInstance()
+
+// Secure console logging - only in development, production-safe
+export const secureLog = (message: string, ...args: any[]) => {
+  logger.info(message, args.length > 0 ? { details: args } : undefined)
 }
 
-export const secureError = (...args: any[]) => {
-  if (import.meta.env.DEV) {
-    console.error(...args)
-  }
-  // In production, you might want to send to error tracking service
+export const secureWarn = (message: string, ...args: any[]) => {
+  logger.warn(message, args.length > 0 ? { details: args } : undefined)
+}
+
+export const secureError = (message: string, ...args: any[]) => {
+  logger.error(message, args.length > 0 ? { details: args } : undefined)
+}
+
+export const securityEvent = (message: string, metadata?: Record<string, any>) => {
+  logger.security(message, metadata)
 }
 
 // Input sanitization
