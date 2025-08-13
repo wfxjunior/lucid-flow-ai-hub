@@ -76,6 +76,15 @@ serve(async (req) => {
     
     console.log('Checkout request:', { priceAmount, priceId, planName, planId, recurring, trialPeriodDays, annualBilling, country });
     
+    // Determine safe base URL for redirects
+    const requestOrigin = req.headers.get("origin") || "https://featherbiz.io";
+    const allowedOrigins = new Set([
+      "https://featherbiz.io",
+      "https://www.featherbiz.io",
+      "http://localhost:5173"
+    ]);
+    const baseUrl = allowedOrigins.has(requestOrigin) ? requestOrigin : "https://featherbiz.io";
+    
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
@@ -97,8 +106,8 @@ serve(async (req) => {
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
       mode: recurring ? "subscription" : "payment",
-      success_url: `${req.headers.get("origin")}/?view=payment-success&plan=${planId}&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/?view=pricing&canceled=true`,
+      success_url: `${baseUrl}/?view=payment-success&plan=${planId}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/?view=pricing&canceled=true`,
       metadata: {
         user_id: user.id,
         plan_id: planId,
@@ -114,8 +123,8 @@ serve(async (req) => {
       ...(currency === 'eur' && { payment_method_types: ['card', 'sepa_debit', 'ideal', 'bancontact'] }),
     };
 
-    if (!priceId) {
-      return new Response(JSON.stringify({ error: 'Missing priceId. Dynamic amounts are not allowed.' }), {
+    if (!priceId || !/^price_[A-Za-z0-9]+$/.test(priceId)) {
+      return new Response(JSON.stringify({ error: 'Invalid priceId. Dynamic amounts are not allowed.' }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 400,
       });

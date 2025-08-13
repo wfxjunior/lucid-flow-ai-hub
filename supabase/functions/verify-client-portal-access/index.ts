@@ -23,6 +23,15 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
+    // Require a configured secret for client portal access
+    if (!Deno.env.get('CLIENT_PORTAL_SECRET')) {
+      console.error('CLIENT_PORTAL_SECRET is not configured')
+      return new Response(
+        JSON.stringify({ success: false, error: 'Access not available' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
     const { documentId, clientToken }: VerifyAccessRequest = await req.json()
 
     if (!documentId || !clientToken) {
