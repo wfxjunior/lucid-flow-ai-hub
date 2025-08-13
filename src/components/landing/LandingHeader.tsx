@@ -14,6 +14,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/s
 import navglyphsUrl from "@/assets/navglyphs.svg";
 import { WhatsNewCard } from "./WhatsNewCard";
 import { track } from "@/lib/analytics";
+import { useSubscription } from "@/hooks/useSubscription"
 
 // Helper: inline SVG symbol use
 const NavGlyph = ({ name, className = "", size = 24 }: { name: string; className?: string; size?: number }) => (
@@ -44,6 +45,8 @@ export const LandingHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const locale = typeof navigator !== "undefined" ? navigator.language : "en";
+
+  const { isSubscribed, openCustomerPortal } = useSubscription()
 
   const onPricingClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const isLanding = location.pathname === '/landing' || location.pathname === '/';
@@ -237,19 +240,28 @@ export const LandingHeader = () => {
           </Sheet>
 
           {/* CTAs */}
-          <Button
-            onClick={() => {
-              const isLanding = location.pathname === '/landing' || location.pathname === '/';
-              if (isLanding) {
-                const el = document.getElementById('pricing');
-                if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-              }
-              navigate('/pricing');
-            }}
-            className="hidden sm:inline-flex font-medium"
-          >
-            Subscribe
-          </Button>
+          {isSubscribed ? (
+            <Button
+              onClick={openCustomerPortal}
+              className="hidden sm:inline-flex font-medium"
+            >
+              Manage Subscription
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                const isLanding = location.pathname === '/landing' || location.pathname === '/';
+                if (isLanding) {
+                  const el = document.getElementById('pricing');
+                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+                }
+                navigate('/pricing');
+              }}
+              className="hidden sm:inline-flex font-medium"
+            >
+              Subscribe
+            </Button>
+          )}
           <Button
             variant="ghost"
             onClick={() => navigate('/auth')}
