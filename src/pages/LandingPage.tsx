@@ -18,6 +18,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 
 import { CookieConsent } from "@/components/landing/CookieConsent";
 import { FeatherBot } from "@/components/FeatherBot";
+import { DebugAuth } from "@/components/DebugAuth";
 import SEO from "@/components/SEO";
 
 export default function LandingPage() {
@@ -59,6 +60,7 @@ export default function LandingPage() {
       <CookieConsent />
       {/* ✅ ACTIVE CHATBOT: Black FeatherBot - Always visible on landing page */}
       <FeatherBot isVisible={true} theme="gray" />
+      <DebugAuth />
     </div>
   );
 }

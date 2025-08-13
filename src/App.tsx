@@ -52,11 +52,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
 
 function App() {
   // Canonical redirect: any *.lovable* → featherbiz.io (preserve path, query, hash)
+  // Disabled for development
   useEffect(() => {
     try {
       const host = window.location.hostname
+      const isProduction = host === 'featherbiz.io'
       const isLovable = host.includes('lovableproject.com') || host.includes('lovable.app')
-      if (isLovable) {
+      
+      // Only redirect in production environment when coming from old domains
+      if (isLovable && isProduction) {
         const target = `https://featherbiz.io${window.location.pathname}${window.location.search}${window.location.hash}`
         if (window.location.href !== target) {
           window.location.replace(target)

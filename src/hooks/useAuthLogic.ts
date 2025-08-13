@@ -66,7 +66,7 @@ export function useAuthLogic() {
   }
 
   const getRedirectUrl = () => {
-    return `https://featherbiz.io/`
+    return `${window.location.origin}/`
   }
 
   const sendWelcomeEmail = async (email: string) => {
@@ -145,7 +145,11 @@ export function useAuthLogic() {
         password: password.trim(),
       })
 
-      console.log('Sign in response:', { data, error })
+      console.log('Sign in response:', { 
+        user: data?.user?.id, 
+        session: !!data?.session, 
+        error: error?.message 
+      })
 
       if (error) {
         console.error('Sign in error:', error)
