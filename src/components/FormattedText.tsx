@@ -1,4 +1,4 @@
-import React from 'react'
+// React import removed - using new JSX transform
 import { SafeHtml } from '@/utils/htmlSanitizer'
 
 interface FormattedTextProps {

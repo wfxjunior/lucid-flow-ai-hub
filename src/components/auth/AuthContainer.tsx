@@ -1,5 +1,5 @@
 
-import React from 'react'
+// React import removed - using new JSX transform
 import { AuthLayout } from './AuthLayout'
 import { SignInForm } from './SignInForm'
 import { SignUpForm } from './SignUpForm'

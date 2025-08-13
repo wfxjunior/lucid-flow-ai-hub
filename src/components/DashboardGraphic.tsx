@@ -1,5 +1,5 @@
 
-import React from 'react'
+// React import removed - using new JSX transform
 import { BarChart3, TrendingUp, Users, DollarSign } from 'lucide-react'
 
 export function DashboardGraphic() {

@@ -1,4 +1,4 @@
-import React from 'react'
+// React import removed - using new JSX transform
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Download, Send, Eye } from 'lucide-react'
@@ -46,7 +46,9 @@ export function InvoicePreview(props: InvoicePreviewProps) {
         status: props.status
       })
     } catch (error) {
-      console.error('Failed to generate PDF:', error)
+      if (import.meta.env.DEV) {
+        console.error('Failed to generate PDF:', error)
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+// React import removed - using new JSX transform
 import { Button } from "@/components/ui/button"
 import { useAuthState } from "@/hooks/useAuthState"
 import { useNavigate } from 'react-router-dom'
@@ -21,7 +21,11 @@ export function DebugAuth() {
             Go to Login
           </Button>
         )}
-        <Button size="sm" variant="outline" onClick={() => console.log({ user, session, loading })}>
+        <Button size="sm" variant="outline" onClick={() => {
+          if (import.meta.env.DEV) {
+            console.log({ user, session, loading })
+          }
+        }}>
           Log to Console
         </Button>
       </div>
