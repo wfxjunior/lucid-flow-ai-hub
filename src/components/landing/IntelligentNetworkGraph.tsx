@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
 // Intelligent Network Graph - Dynamic data visualization with real-time animations
@@ -44,6 +44,7 @@ export function IntelligentNetworkGraph() {
   const [edges, setEdges] = useState<Edge[]>([]);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   // Initialize nodes and edges
   useEffect(() => {
@@ -86,6 +87,19 @@ export function IntelligentNetworkGraph() {
     setEdges(initEdges);
   }, [dimensions]);
 
+  // Intersection Observer to pause animation when not visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    
+    const canvas = canvasRef.current;
+    if (canvas) observer.observe(canvas);
+    
+    return () => observer.disconnect();
+  }, []);
+
   // Handle canvas resize
   useEffect(() => {
     const handleResize = () => {
@@ -104,37 +118,37 @@ export function IntelligentNetworkGraph() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Physics simulation
-  const updatePhysics = (nodes: Node[], edges: Edge[]) => {
+  // Physics simulation - Optimized
+  const updatePhysics = useMemo(() => (nodes: Node[], edges: Edge[]) => {
     const newNodes = [...nodes];
     
-    // Apply forces
+    // Apply forces with reduced intensity
     newNodes.forEach((node, i) => {
       let fx = 0, fy = 0;
       
-      // Gravitational center force
+      // Weaker gravitational center force
       const centerX = dimensions.width / 2;
       const centerY = dimensions.height / 2;
       const distToCenter = Math.sqrt((node.x - centerX) ** 2 + (node.y - centerY) ** 2);
       if (distToCenter > 0) {
-        fx += (centerX - node.x) * 0.0002;
-        fy += (centerY - node.y) * 0.0002;
+        fx += (centerX - node.x) * 0.0001; // Reduced from 0.0002
+        fy += (centerY - node.y) * 0.0001;
       }
       
-      // Repulsion between nodes
+      // Lighter repulsion between nodes
       newNodes.forEach((other, j) => {
         if (i === j) return;
         const dx = node.x - other.x;
         const dy = node.y - other.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > 0 && dist < 150) {
-          const force = 30 / (dist * dist);
+        if (dist > 0 && dist < 120) { // Reduced from 150
+          const force = 20 / (dist * dist); // Reduced from 30
           fx += (dx / dist) * force;
           fy += (dy / dist) * force;
         }
       });
       
-      // Attraction along connections
+      // Weaker attraction along connections
       edges.forEach(edge => {
         if (edge.source === node.id) {
           const target = newNodes.find(n => n.id === edge.target);
@@ -143,7 +157,7 @@ export function IntelligentNetworkGraph() {
             const dy = target.y - node.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist > 0) {
-              const force = edge.strength * 0.001;
+              const force = edge.strength * 0.0005; // Reduced from 0.001
               fx += (dx / dist) * force;
               fy += (dy / dist) * force;
             }
@@ -151,9 +165,9 @@ export function IntelligentNetworkGraph() {
         }
       });
       
-      // Apply damping
-      node.vx = (node.vx + fx) * 0.85;
-      node.vy = (node.vy + fy) * 0.85;
+      // Stronger damping
+      node.vx = (node.vx + fx) * 0.75; // Increased damping from 0.85
+      node.vy = (node.vy + fy) * 0.75;
       
       // Update position
       node.x += node.vx;
@@ -164,24 +178,36 @@ export function IntelligentNetworkGraph() {
       node.x = Math.max(margin, Math.min(dimensions.width - margin, node.x));
       node.y = Math.max(margin, Math.min(dimensions.height - margin, node.y));
       
-      // Update activity for pulsing effect
-      node.activity = Math.sin(Date.now() * 0.003 + i) * 0.5 + 0.5;
+      // Slower activity update for pulsing effect
+      node.activity = Math.sin(Date.now() * 0.002 + i) * 0.3 + 0.7; // Reduced frequency and amplitude
     });
     
     return newNodes;
-  };
+  }, [dimensions]);
 
-  // Animation loop
+  // Animation loop - Only when visible, optimized with reduced frequency
   useEffect(() => {
-    const animate = () => {
-      setNodes(prevNodes => updatePhysics(prevNodes, edges));
-      setEdges(prevEdges => 
-        prevEdges.map(edge => ({
-          ...edge,
-          active: Math.random() > 0.7 ? !edge.active : edge.active,
-          strength: edge.strength + (Math.random() - 0.5) * 0.01
-        }))
-      );
+    if (!isVisible) return; // Pause when not visible
+    
+    let lastUpdate = 0;
+    const frameRate = 1000 / 20; // 20 FPS for better performance
+    
+    const animate = (timestamp: number) => {
+      if (timestamp - lastUpdate >= frameRate) {
+        setNodes(prevNodes => updatePhysics(prevNodes, edges));
+        
+        // Reduce edge update frequency even more
+        if (Math.random() > 0.97) {
+          setEdges(prevEdges => 
+            prevEdges.map(edge => ({
+              ...edge,
+              active: Math.random() > 0.85 ? !edge.active : edge.active,
+              strength: Math.max(0.3, Math.min(1, edge.strength + (Math.random() - 0.5) * 0.003))
+            }))
+          );
+        }
+        lastUpdate = timestamp;
+      }
       animationRef.current = requestAnimationFrame(animate);
     };
     
@@ -191,9 +217,9 @@ export function IntelligentNetworkGraph() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [edges]);
+  }, [edges, isVisible]);
 
-  // Drawing function
+  // Drawing function - Optimized render frequency
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -201,12 +227,14 @@ export function IntelligentNetworkGraph() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
-    canvas.width = dimensions.width * 2; // For retina
-    canvas.height = dimensions.height * 2;
-    canvas.style.width = `${dimensions.width}px`;
-    canvas.style.height = `${dimensions.height}px`;
-    ctx.scale(2, 2);
+    // Set canvas size only when dimensions change
+    if (canvas.width !== dimensions.width * 2 || canvas.height !== dimensions.height * 2) {
+      canvas.width = dimensions.width * 2; 
+      canvas.height = dimensions.height * 2;
+      canvas.style.width = `${dimensions.width}px`;
+      canvas.style.height = `${dimensions.height}px`;
+      ctx.scale(2, 2);
+    }
 
     // Clear canvas
     ctx.clearRect(0, 0, dimensions.width, dimensions.height);
