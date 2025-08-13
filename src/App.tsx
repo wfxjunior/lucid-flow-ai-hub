@@ -90,9 +90,19 @@ function App() {
 
   // Security headers implementation
   useEffect(() => {
-    // Prevent clickjacking
-    if (window.self !== window.top) {
-      window.top!.location = window.self.location
+    // Prevent clickjacking with proper error handling
+    try {
+      if (window.self !== window.top) {
+        // Only redirect if we have permission to access window.top
+        if (window.top && window.top.location) {
+          window.top.location = window.self.location
+        }
+      }
+    } catch (e) {
+      // Silently fail for cross-origin restrictions
+      if (import.meta.env.DEV) {
+        console.warn('Clickjacking prevention skipped due to cross-origin restrictions')
+      }
     }
     
     // Disable right-click in production for additional security
