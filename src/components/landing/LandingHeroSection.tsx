@@ -13,7 +13,7 @@ export const LandingHeroSection = () => {
   const pillsRef = useRef<HTMLDivElement>(null);
   const [pillsOverflow, setPillsOverflow] = useState(false);
   const [pillsLogged, setPillsLogged] = useState(false);
-  const pillLabels = ["Voices","Estimates","AI & Calc","Assignments","Data","Automations","Pipeline","Productivity","Reporting"];
+  const pillLabels = ["AI Voice","Estimates","SmartSchedule","EasyCalc","E-sign","Reports","Invoices","Receipts","Bids"];
 
   useEffect(() => {
     setIsVisible(true);
