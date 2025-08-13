@@ -1864,6 +1864,33 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          action_type: string
+          count: number | null
+          created_at: string
+          id: string
+          ip_address: unknown
+          window_start: string | null
+        }
+        Insert: {
+          action_type: string
+          count?: number | null
+          created_at?: string
+          id?: string
+          ip_address: unknown
+          window_start?: string | null
+        }
+        Update: {
+          action_type?: string
+          count?: number | null
+          created_at?: string
+          id?: string
+          ip_address?: unknown
+          window_start?: string | null
+        }
+        Relationships: []
+      }
       receipts: {
         Row: {
           amount: number
@@ -2812,6 +2839,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_rate_limit: {
+        Args: {
+          client_ip: unknown
+          action: string
+          max_requests?: number
+          window_minutes?: number
+        }
+        Returns: boolean
+      }
       generate_bid_number: {
         Args: { starting_number?: number }
         Returns: string
