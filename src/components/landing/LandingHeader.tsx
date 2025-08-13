@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Menu } from "lucide-react";
@@ -12,10 +11,39 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import navglyphsUrl from "@/assets/navglyphs.svg";
+import { WhatsNewCard } from "./WhatsNewCard";
+import { track } from "@/lib/analytics";
+
+// Helper: inline SVG symbol use
+const NavGlyph = ({ name, className = "", size = 24 }: { name: string; className?: string; size?: number }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+  >
+    <use href={`${navglyphsUrl}#glyph-${name}`} />
+  </svg>
+);
+
+const features = [
+  { key: "voices", icon: "voices", title: "Voices", desc: "Turn calls into actions" },
+  { key: "estimates", icon: "estimates", title: "Estimates", desc: "Faster quotes, fewer errors" },
+  { key: "ai-calc", icon: "ai-calc", title: "AI & Calc", desc: "Smart pricing & ops" },
+  { key: "assignments", icon: "assignments", title: "Assignments", desc: "Own every task" },
+  { key: "reporting", icon: "reporting", title: "Reporting", desc: "Analyze & share" },
+  { key: "automations", icon: "automations", title: "Automations", desc: "Workflow anything" },
+  { key: "integrations", icon: "integrations", title: "Apps & integrations", desc: "Connect your stack" },
+];
 
 export const LandingHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const locale = typeof navigator !== "undefined" ? navigator.language : "en";
 
   const onPricingClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const isLanding = location.pathname === '/landing' || location.pathname === '/';
@@ -25,83 +53,136 @@ export const LandingHeader = () => {
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-  
+
+  // Lazy render toggles for right column
+  const [platformReady, setPlatformReady] = useState(false);
+  const [resourcesReady, setResourcesReady] = useState(false);
+  const [customersReady, setCustomersReady] = useState(false);
+
+  const handleOpen = (menuId: string) => {
+    track('nav_megamenu_open', { menu_id: menuId, locale });
+    if (menuId === 'header_megamenu_platform') setPlatformReady(true);
+    if (menuId === 'header_megamenu_resources') setResourcesReady(true);
+    if (menuId === 'header_megamenu_customers') setCustomersReady(true);
+  };
+
+  const FeatureItem = ({ item, menuId }: { item: typeof features[number]; menuId: string }) => (
+    <button
+      type="button"
+      onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: item.key, locale })}
+      className="flex items-start gap-3 rounded-md p-3 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      aria-label={`${item.title} — ${item.desc}`}
+    >
+      <NavGlyph name={item.icon} className="shrink-0 text-foreground/80" size={24} />
+      <span>
+        <span className="block text-sm font-medium">{item.title}</span>
+        <span className="block text-xs text-muted-foreground">{item.desc}</span>
+      </span>
+    </button>
+  );
+
+  const RightColumn = ({ menuId, ready }: { menuId: 'header_megamenu_platform'|'header_megamenu_resources'|'header_megamenu_customers'; ready: boolean }) => (
+    <div className="flex flex-col gap-3">
+      {/* Get started links */}
+      <div className="grid grid-cols-1 gap-2" aria-label="Get started">
+        <button
+          type="button"
+          onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'get-started-101', locale })}
+          className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          aria-label="FeatherBiz 101"
+        >
+          <NavGlyph name="work" className="text-foreground/80" size={20} />
+          <span className="text-sm">FeatherBiz 101</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'hire-expert', locale })}
+          className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          aria-label="Hire an expert"
+        >
+          <NavGlyph name="integrations" className="text-foreground/80" size={20} />
+          <span className="text-sm">Hire an expert</span>
+        </button>
+      </div>
+      {/* What's new card */}
+      {ready && (
+        <div onPointerEnter={() => track('nav_whatsnew_view', { menu_id: menuId, locale })}>
+          <WhatsNewCard menuId={menuId} locale={locale} />
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <header className="w-full border-b border-border/20 bg-background/80 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        
         {/* Logo */}
         <div className="flex items-center">
           <Link to="/" className="text-2xl font-bold text-foreground tracking-tight hover-scale" aria-label="FeatherBiz home">
             FeatherBiz
           </Link>
         </div>
-        
+
         {/* Navigation - Hidden on mobile */}
         <nav className="hidden lg:flex items-center gap-6">
           <NavigationMenu>
             <NavigationMenuList>
+              {/* Platform */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-medium">Platform</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[520px] gap-2 p-4 md:w-[640px] md:grid-cols-2">
-                    <li>
-                      <Link to="/landing#features" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
-                        <span className="block text-sm font-medium">Features overview</span>
-                        <span className="block text-xs text-muted-foreground">CRM, projects, billing, and more</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/landing#automation" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
-                        <span className="block text-sm font-medium">Automation & AI</span>
-                        <span className="block text-xs text-muted-foreground">Workflows, assistants, and voice</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/landing#integrations" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
-                        <span className="block text-sm font-medium">Integrations</span>
-                        <span className="block text-xs text-muted-foreground">Connect your favorite tools</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/landing#security" className="block rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
-                        <span className="block text-sm font-medium">Security & permissions</span>
-                        <span className="block text-xs text-muted-foreground">Best‑practice controls for teams</span>
-                      </Link>
-                    </li>
-                  </ul>
+                <NavigationMenuTrigger className="font-medium" onPointerEnter={() => handleOpen('header_megamenu_platform')}>Platform</NavigationMenuTrigger>
+                <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_platform')}>
+                  <div id="header_megamenu_platform" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
+                    <div className="grid gap-1">
+                      {features.map((it) => (
+                        <FeatureItem key={it.key} item={it} menuId="header_megamenu_platform" />
+                      ))}
+                    </div>
+                    <RightColumn menuId="header_megamenu_platform" ready={platformReady} />
+                  </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
+              {/* Resources */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-medium">Resources</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="w-[280px] p-2">
-                    <li>
-                      <Link to="/landing#guides" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Guides & tutorials</Link>
-                    </li>
-                    <li>
-                      <Link to="/landing#templates" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Templates</Link>
-                    </li>
-                    <li>
-                      <Link to="/landing#help" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">Help center</Link>
-                    </li>
-                    <li>
-                      <Link to="/landing#api" className="block rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground">API docs</Link>
-                    </li>
-                  </ul>
+                <NavigationMenuTrigger className="font-medium" onPointerEnter={() => handleOpen('header_megamenu_resources')}>Resources</NavigationMenuTrigger>
+                <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_resources')}>
+                  <div id="header_megamenu_resources" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
+                    <div className="grid gap-1">
+                      {features.map((it) => (
+                        <FeatureItem key={it.key} item={it} menuId="header_megamenu_resources" />
+                      ))}
+                    </div>
+                    <RightColumn menuId="header_megamenu_resources" ready={resourcesReady} />
+                  </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
+              {/* Customers */}
               <NavigationMenuItem>
-                <Link to="/landing#testimonials" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Customers</Link>
+                <NavigationMenuTrigger className="font-medium" onPointerEnter={() => handleOpen('header_megamenu_customers')}>Customers</NavigationMenuTrigger>
+                <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_customers')}>
+                  <div id="header_megamenu_customers" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
+                    <div className="grid gap-1">
+                      {features.map((it) => (
+                        <FeatureItem key={it.key} item={it} menuId="header_megamenu_customers" />
+                      ))}
+                    </div>
+                    <RightColumn menuId="header_megamenu_customers" ready={customersReady} />
+                  </div>
+                </NavigationMenuContent>
               </NavigationMenuItem>
+
+              {/* Pricing (unchanged) */}
               <NavigationMenuItem>
                 <Link to="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">Pricing</Link>
               </NavigationMenuItem>
+
+              {/* Blog */}
               <NavigationMenuItem>
                 <Link to="/blog" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Blog</Link>
               </NavigationMenuItem>
+
+              {/* Gold */}
               <NavigationMenuItem>
                 <Link to="/gold" className="text-foreground font-medium transition-colors">Gold</Link>
               </NavigationMenuItem>
@@ -109,7 +190,6 @@ export const LandingHeader = () => {
           </NavigationMenu>
         </nav>
 
-        
         {/* Right actions */}
         <div className="flex items-center gap-2">
           {/* Mobile Menu */}
@@ -165,7 +245,6 @@ export const LandingHeader = () => {
             Sign in
           </Button>
         </div>
-        
       </div>
     </header>
   );
