@@ -106,14 +106,18 @@ export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
       } else {
         console.log('Sign out successful')
         toast.success('Logout realizado com sucesso!')
-        // Force redirect to auth page with page reload for clean state
-        window.location.href = '/auth'
+        // Use controlled redirect with delay to prevent loops
+        setTimeout(() => {
+          window.location.href = '/auth'
+        }, 100)
       }
     } catch (error) {
       console.error('Unexpected sign out error:', error)
       toast.error('Erro inesperado ao sair.')
-      // Force redirect even on error
-      window.location.href = '/auth'
+      // Force redirect even on error with delay
+      setTimeout(() => {
+        window.location.href = '/auth'
+      }, 100)
     } finally {
       setIsLoading(false)
     }

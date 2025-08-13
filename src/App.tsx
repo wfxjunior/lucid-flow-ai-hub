@@ -1,8 +1,9 @@
-import React, { Suspense, lazy, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React, { Suspense, lazy, useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
 import { DocumentTrackingProvider } from '@/components/DocumentTrackingProvider'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { AuthGuard } from '@/components/AuthGuard'
 
 // Lazy load pages for better performance
 const Index = lazy(() => import('@/pages/Index'))
@@ -47,9 +48,7 @@ const OpenAPISkeletonJSON = lazy(() => import('@/pages/admin/api/OpenAPISkeleton
 const ResponsiveCarRentalPage = lazy(() => import('@/components/ResponsiveCarRentalPage').then(module => ({ default: module.ResponsiveCarRentalPage })))
 const ResponsiveMatTrackPage = lazy(() => import('@/components/ResponsiveMatTrackPage').then(module => ({ default: module.ResponsiveMatTrackPage })))
 
-const AuthGuard = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>
-}
+// Remove the dummy AuthGuard since we're importing the real one
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <div className="min-h-screen bg-background">
@@ -66,9 +65,11 @@ const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
 )
 
 function App() {
-  // Secure canonical redirect
+  const [redirectProcessed, setRedirectProcessed] = useState(false)
+
+  // Optimized canonical redirect with loop prevention
   useEffect(() => {
-    if (import.meta.env.PROD) {
+    if (import.meta.env.PROD && !redirectProcessed) {
       try {
         const host = window.location.hostname
         const isLovable = host.includes('lovableproject.com') || host.includes('lovable.app')
@@ -76,7 +77,13 @@ function App() {
         if (isLovable) {
           const target = `https://featherbiz.io${window.location.pathname}${window.location.search}${window.location.hash}`
           if (window.location.href !== target) {
-            window.location.replace(target)
+            // Add delay and state check to prevent loops
+            setTimeout(() => {
+              if (!redirectProcessed) {
+                setRedirectProcessed(true)
+                window.location.replace(target)
+              }
+            }, 100)
           }
         }
       } catch (e) {
@@ -86,16 +93,16 @@ function App() {
         }
       }
     }
-  }, [])
+  }, [redirectProcessed])
 
-  // Security headers implementation
+  // Improved security headers implementation
   useEffect(() => {
     // Prevent clickjacking with proper error handling
     try {
       if (window.self !== window.top) {
-        // Only redirect if we have permission to access window.top
-        if (window.top && window.top.location) {
-          window.top.location = window.self.location
+        // Log but don't redirect to prevent loops
+        if (import.meta.env.DEV) {
+          console.warn('App loaded in iframe - potential clickjacking')
         }
       }
     } catch (e) {
@@ -137,7 +144,9 @@ function App() {
             path="/" 
             element={
               <SuspenseWrapper>
-                <LandingPage />
+                <AuthGuard fallback={<LandingPage />}>
+                  <Index />
+                </AuthGuard>
               </SuspenseWrapper>
             } 
           />

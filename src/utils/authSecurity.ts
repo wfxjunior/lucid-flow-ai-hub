@@ -46,12 +46,16 @@ export const secureSignOut = async () => {
       console.warn('Sign out warning:', error)
     }
     
-    // Force page reload for clean state
-    window.location.href = '/auth'
+    // Use a more controlled redirect approach
+    setTimeout(() => {
+      window.location.href = '/auth'
+    }, 100)
   } catch (error) {
     console.error('Error during secure sign out:', error)
-    // Force reload even on error
-    window.location.href = '/auth'
+    // Force redirect even on error with delay
+    setTimeout(() => {
+      window.location.href = '/auth'
+    }, 100)
   }
 }
 
@@ -79,7 +83,7 @@ export const secureSignIn = async (email: string, password: string) => {
     if (error) throw error
     
     if (data.user) {
-      // Small delay to ensure session is established
+      // Use a more controlled redirect approach
       setTimeout(() => {
         window.location.href = '/'
       }, 100)
