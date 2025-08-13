@@ -95,7 +95,6 @@ export default function ScalePage() {
             aria-label="FeatherBiz Scale — Early access"
             onClick={(e) => { e.preventDefault(); const form = document.querySelector('form'); form?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
           >
-            <Sparkles className="h-4 w-4" aria-hidden="true" />
             FeatherBiz Scale — Early access
           </button>
 
@@ -124,7 +123,7 @@ export default function ScalePage() {
               aria-label="Your email"
               required
             />
-            <Button type="submit" variant="default" disabled={loading} className="sm:col-span-1 w-full group font-medium">
+            <Button type="submit" variant="default" size="lg" disabled={loading} className="sm:col-span-1 w-full group font-medium">
               {loading ? "Sending…" : "Join the waitlist"}
             </Button>
           </form>
@@ -191,7 +190,6 @@ export default function ScalePage() {
                   <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
                   <p className="text-sm text-muted-foreground mb-3">{feature.desc}</p>
                   <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                    <CheckCircle className="h-3 w-3" />
                     {feature.highlight}
                   </div>
                 </div>
@@ -410,7 +408,6 @@ export default function ScalePage() {
                     {/* Improvement indicator */}
                     <div className="flex justify-end mt-1">
                       <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400">
-                        <TrendingUp className="h-3 w-3" />
                         {item.metric === "Customer Response Time" 
                           ? `${Math.round(((item.before - item.after) / item.before) * 100)}% faster`
                           : `+${item.after - item.before}${item.unit} improvement`
@@ -478,10 +475,10 @@ export default function ScalePage() {
                     const el = document.querySelector('form');
                     el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                   }}
+                  size="lg"
                   className="w-full group font-medium hover-scale"
                 >
                   Get Early Access Now
-                  <TrendingUp className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </div>
             </div>
@@ -506,7 +503,7 @@ export default function ScalePage() {
           <Button onClick={() => {
             const el = document.querySelector('form');
             el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }} className="group font-medium">
+          }} size="lg" className="group font-medium">
             Join the waitlist
           </Button>
         </div>
