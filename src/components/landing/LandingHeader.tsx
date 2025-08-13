@@ -236,7 +236,20 @@ export const LandingHeader = () => {
             </SheetContent>
           </Sheet>
 
-          {/* Auth Buttons */}
+          {/* CTAs */}
+          <Button
+            onClick={() => {
+              const isLanding = location.pathname === '/landing' || location.pathname === '/';
+              if (isLanding) {
+                const el = document.getElementById('pricing');
+                if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+              }
+              navigate('/pricing');
+            }}
+            className="hidden sm:inline-flex font-medium"
+          >
+            Subscribe
+          </Button>
           <Button
             variant="ghost"
             onClick={() => navigate('/auth')}

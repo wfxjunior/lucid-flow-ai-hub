@@ -108,6 +108,15 @@ export const LandingHeroSection = () => {
               <Play className="h-4 w-4 mr-2" aria-hidden="true" />
               <span>Talk to sales</span>
             </Button>
+            <Button
+              data-analytics-id="hero_cta_subscribe_click"
+              variant="secondary"
+              onClick={() => navigate('/pricing')}
+              className="font-medium"
+            >
+              <span>Subscribe — Pro</span>
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            </Button>
           </div>
 
           <div className={`relative transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
