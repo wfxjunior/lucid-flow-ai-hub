@@ -91,11 +91,17 @@ export default function ScalePage() {
         <div className="flex flex-col items-center text-center gap-6">
           <button
             type="button"
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm bg-muted text-muted-foreground border border-border hover:bg-muted/80 transform-gpu transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border border-border hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring transform-gpu transition-all duration-300 overflow-hidden"
             aria-label="FeatherBiz Scale — Early access"
             onClick={(e) => { e.preventDefault(); const form = document.querySelector('form'); form?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
           >
-            FeatherBiz Scale — Early access
+            {/* Gradient background effect contained within button */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/30 to-primary/20 opacity-60"
+              aria-hidden="true"
+            />
+            {/* Content with proper z-index */}
+            <span className="relative z-10 font-medium text-foreground">FeatherBiz Scale — Early access</span>
           </button>
 
           <p className="text-lg text-muted-foreground max-w-2xl">
