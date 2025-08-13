@@ -3,7 +3,7 @@ import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sparkles, Zap, Shield, Users, TrendingUp, Lock, Rocket, BarChart3, Clock, CheckCircle } from "lucide-react";
-import { AttioFeatureGraphic } from "@/components/landing/AttioFeatureGraphic";
+import { IntelligentNetworkGraph } from "@/components/landing/IntelligentNetworkGraph";
 import { toast } from "sonner";
 
 function useCountdown(target: Date) {
@@ -495,7 +495,7 @@ export default function ScalePage() {
       {/* Graphic (keeps Attio/our style) */}
       <section className="mt-12">
         <div className="rounded-xl border border-border/40 bg-muted/20 p-4">
-          <AttioFeatureGraphic />
+          <IntelligentNetworkGraph />
         </div>
       </section>
 

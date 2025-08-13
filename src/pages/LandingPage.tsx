@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingHeroSection } from "@/components/landing/LandingHeroSection";
 
-import { AttioFeatureGraphic } from "@/components/landing/AttioFeatureGraphic";
+import { IntelligentNetworkGraph } from "@/components/landing/IntelligentNetworkGraph";
 import { LandingTestimonialsSection } from "@/components/landing/LandingTestimonialsSection";
 import { LandingNumbersSection } from "@/components/landing/LandingNumbersSection";
 
@@ -43,7 +43,7 @@ export default function LandingPage() {
       <main className="flex-1 flex flex-col">
         <LandingHeroSection />
         
-        <AttioFeatureGraphic />
+        <IntelligentNetworkGraph />
         <LandingTestimonialsSection />
         <LandingFreeTrialV2 />
         <LandingNumbersSection />
