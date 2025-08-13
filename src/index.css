@@ -289,42 +289,31 @@
   animation: pulse-subtle 2s infinite;
 }
 
-/* Gold button styles */
-@keyframes gold-shine {
+/* Gold button styles - updated to use primary colors */
+@keyframes primary-shine {
   0% { transform: translateX(-150%); }
   100% { transform: translateX(150%); }
-}
-
-@layer base {
-  :root {
-    --gold: 216 100% 53%;
-    --gold-glow: 216 100% 60%;
-  }
-  .dark {
-    --gold: 216 100% 60%;
-    --gold-glow: 216 100% 70%;
-  }
 }
 
 @layer components {
   .gold-chip {
     position: relative;
-    color: hsl(var(--gold));
-    border: 1px solid hsl(var(--gold));
+    color: hsl(var(--primary));
+    border: 1px solid hsl(var(--primary));
     background-color: transparent;
   }
   .gold-chip:hover {
-    background-color: hsl(var(--gold) / 0.06);
-    box-shadow: 0 8px 24px -8px hsl(var(--gold) / 0.35);
+    background-color: hsl(var(--primary) / 0.06);
+    box-shadow: 0 8px 24px -8px hsl(var(--primary) / 0.35);
   }
   .gold-chip::after {
     content: "";
     position: absolute;
     inset: -1px;
     border-radius: 9999px;
-    background: linear-gradient(90deg, transparent 0%, hsl(var(--gold-glow) / 0) 10%, hsl(var(--gold-glow) / 0.6) 50%, hsl(var(--gold-glow) / 0) 90%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--primary) / 0) 10%, hsl(var(--primary) / 0.6) 50%, hsl(var(--primary) / 0) 90%, transparent 100%);
     transform: translateX(-150%);
-    animation: gold-shine 2.4s ease-in-out infinite;
+    animation: primary-shine 2.4s ease-in-out infinite;
     pointer-events: none;
     opacity: 0.85;
   }

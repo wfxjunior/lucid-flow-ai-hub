@@ -78,20 +78,20 @@ export default function ScalePage() {
 
       {/* Hero + Countdown */}
       <section className="relative overflow-hidden rounded-xl border border-border/40 bg-gradient-to-b from-background to-muted/30 p-6 sm:p-10">
-        {/* Subtle gold glow */}
+        {/* Subtle background glow */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             backgroundImage:
-              "radial-gradient(60% 40% at 50% 0%, hsl(var(--gold) / 0.08), transparent 60%)",
+              "radial-gradient(60% 40% at 50% 0%, hsl(var(--primary) / 0.08), transparent 60%)",
           }}
         />
 
         <div className="flex flex-col items-center text-center gap-6">
           <button
             type="button"
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm bg-foreground text-[hsl(var(--gold))] border border-[hsl(var(--gold)/0.25)] ring-1 ring-[hsl(var(--gold)/0.12)] transform-gpu transition-transform duration-500 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--gold)/0.5)]"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm bg-foreground text-primary border border-primary/25 ring-1 ring-primary/12 transform-gpu transition-transform duration-500 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
             aria-label="FeatherBiz Gold — Early access"
             onClick={(e) => { e.preventDefault(); const form = document.querySelector('form'); form?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
           >
