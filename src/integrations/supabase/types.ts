@@ -2378,6 +2378,36 @@ export type Database = {
         }
         Relationships: []
       }
+      template_access_log: {
+        Row: {
+          access_type: string
+          created_at: string
+          id: string
+          ip_address: unknown | null
+          template_id: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          access_type: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          template_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          access_type?: string
+          created_at?: string
+          id?: string
+          ip_address?: unknown | null
+          template_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       templates: {
         Row: {
           body_html: string | null
@@ -2887,6 +2917,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      cleanup_old_rate_limits: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       generate_bid_number: {
         Args: { starting_number?: number }
         Returns: string
@@ -2950,6 +2984,15 @@ export type Database = {
           p_record_id?: string
           p_old_data?: Json
           p_new_data?: Json
+        }
+        Returns: undefined
+      }
+      log_template_access: {
+        Args: {
+          template_id_param: string
+          access_type_param: string
+          ip_address_param?: unknown
+          user_agent_param?: string
         }
         Returns: undefined
       }

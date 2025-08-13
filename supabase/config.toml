@@ -254,3 +254,6 @@ verify_jwt = false
 
 [functions.blog-like]
 verify_jwt = false
+
+[functions.security-middleware]
+verify_jwt = false
