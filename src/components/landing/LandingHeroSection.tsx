@@ -64,9 +64,14 @@ export const LandingHeroSection = () => {
       />
       {/* Announcement Banner */}
       <div className={`text-center mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-md border border-border/50 text-sm text-muted-foreground hover:bg-muted/70 transition-colors cursor-pointer">
-          <span>FeatherBiz for desktop is here</span>
-          <ArrowRight className="h-3 w-3" />
+        <div
+          className="group inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full border border-border/50 text-sm text-muted-foreground hover:bg-muted/70 transition-colors cursor-pointer hover-scale shadow-sm hover:shadow-md"
+          role="button"
+          aria-label="Announcement: FeatherBiz for desktop is here"
+          tabIndex={0}
+        >
+          <span className="font-medium">FeatherBiz for desktop is here</span>
+          <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
