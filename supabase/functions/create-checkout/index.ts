@@ -80,12 +80,8 @@ serve(async (req) => {
       apiVersion: "2023-10-16",
     });
 
-    // Detect currency based on country (still used for metadata and some payment methods)
+    // Detect currency based on country (used for metadata and payment methods only)
     const currency = getCurrencyByCountry(country);
-    const priceMultiplier = getPriceMultiplier(currency);
-    const localizedPrice = Math.round((priceAmount || 0) * priceMultiplier);
-
-    console.log('Localized pricing:', { currency, priceMultiplier, localizedPrice });
 
     // Check if customer exists
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
@@ -109,49 +105,28 @@ serve(async (req) => {
         plan_name: planName,
         billing_period: annualBilling ? 'annual' : 'monthly',
         currency: currency,
-        original_price_usd: priceAmount || null
       },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
-      automatic_tax: {
-        enabled: true,
-      },
+      automatic_tax: { enabled: true },
       payment_method_types: ['card'],
-      ...(currency === 'brl' && {
-        payment_method_types: ['card', 'boleto'],
-      }),
-      ...(currency === 'eur' && {
-        payment_method_types: ['card', 'sepa_debit', 'ideal', 'bancontact'],
-      }),
+      ...(currency === 'brl' && { payment_method_types: ['card', 'boleto'] }),
+      ...(currency === 'eur' && { payment_method_types: ['card', 'sepa_debit', 'ideal', 'bancontact'] }),
     };
 
-    if (priceId) {
-      sessionConfig.line_items = [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ];
-    } else {
-      sessionConfig.line_items = [
-        {
-          price_data: {
-            currency: currency,
-            product_data: { 
-              name: planName,
-              description: `FeatherBiz ${planName} - AI Business Automation Platform`
-            },
-            unit_amount: localizedPrice,
-            ...(recurring && { 
-              recurring: { 
-                interval: annualBilling ? 'year' : 'month' 
-              } 
-            })
-          },
-          quantity: 1,
-        },
-      ];
+    if (!priceId) {
+      return new Response(JSON.stringify({ error: 'Missing priceId. Dynamic amounts are not allowed.' }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 400,
+      });
     }
+
+    sessionConfig.line_items = [
+      {
+        price: priceId,
+        quantity: 1,
+      },
+    ];
 
     // Add trial period for subscriptions
     if (recurring && trialPeriodDays && trialPeriodDays > 0) {

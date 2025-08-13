@@ -21,6 +21,16 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Require secret header to call this function
+    const providedSecret = req.headers.get('x-hook-secret') || req.headers.get('x-webhook-secret')
+    const expectedSecret = Deno.env.get('SEND_EMAIL_HOOK_SECRET')
+    if (!expectedSecret || providedSecret !== expectedSecret) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      })
+    }
+
     const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
     
     const { email, token, type, redirectTo }: AuthEmailRequest = await req.json();

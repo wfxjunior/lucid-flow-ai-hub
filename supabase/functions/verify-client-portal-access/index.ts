@@ -38,15 +38,13 @@ serve(async (req) => {
       )
     }
 
-    // Verify client token and get document info
-    // This is a simple token verification - in production you might want more robust security
-    const expectedToken = generateClientToken(documentId)
-    
-    if (clientToken !== expectedToken) {
+    // Verify HMAC-based client token with expiry
+    const isValid = await verifyClientToken(documentId, clientToken)
+    if (!isValid) {
       return new Response(
         JSON.stringify({ 
           success: false, 
-          error: 'Invalid access token' 
+          error: 'Invalid or expired access token' 
         }),
         { 
           status: 403, 
@@ -117,22 +115,62 @@ serve(async (req) => {
   }
 })
 
-function generateClientToken(documentId: string): string {
-  // Simple token generation - in production use more robust method
-  // This should match the token generation in your main application
+async function generateClientToken(documentId: string, ttlSeconds: number = 60 * 60 * 24): Promise<string> {
   const secret = Deno.env.get('CLIENT_PORTAL_SECRET') || 'default-secret'
+  const exp = Math.floor(Date.now() / 1000) + ttlSeconds
   const encoder = new TextEncoder()
-  const data = encoder.encode(`${documentId}-${secret}`)
-  
-  // Simple hash (in production, use crypto.subtle.digest)
-  let hash = 0
-  for (let i = 0; i < data.length; i++) {
-    const char = data[i]
-    hash = ((hash << 5) - hash) + char
-    hash = hash & hash // Convert to 32bit integer
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+  const data = encoder.encode(`${documentId}.${exp}`)
+  const signature = await crypto.subtle.sign('HMAC', key, data)
+  const sigB64 = toBase64Url(new Uint8Array(signature))
+  return `${exp}.${sigB64}`
+}
+
+async function verifyClientToken(documentId: string, token: string): Promise<boolean> {
+  try {
+    const secret = Deno.env.get('CLIENT_PORTAL_SECRET') || 'default-secret'
+    const [expStr, sig] = token.split('.')
+    if (!expStr || !sig) return false
+    const exp = parseInt(expStr, 10)
+    if (!Number.isFinite(exp) || Math.floor(Date.now() / 1000) > exp) return false
+
+    const encoder = new TextEncoder()
+    const key = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(secret),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    )
+    const data = encoder.encode(`${documentId}.${exp}`)
+    const signature = await crypto.subtle.sign('HMAC', key, data)
+    const expected = toBase64Url(new Uint8Array(signature))
+    return timingSafeEqual(expected, sig)
+  } catch (_) {
+    return false
   }
-  
-  return Math.abs(hash).toString(36)
+}
+
+function toBase64Url(bytes: Uint8Array): string {
+  let binary = ''
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i])
+  const base64 = btoa(binary)
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false
+  let mismatch = 0
+  for (let i = 0; i < a.length; i++) {
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  }
+  return mismatch === 0
 }
 
 async function findDocumentInTables(supabaseClient: any, documentId: string) {

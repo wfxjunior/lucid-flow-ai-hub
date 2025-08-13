@@ -18,6 +18,27 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Require authenticated user
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+    )
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 401,
+      })
+    }
+    const token = authHeader.replace('Bearer ', '')
+    const { data: userData, error: userError } = await supabaseClient.auth.getUser(token)
+    if (userError || !userData?.user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 401,
+      })
+    }
+
     const clientId = Deno.env.get('SIGNNOW_CLIENT_ID')
     const clientSecret = Deno.env.get('SIGNNOW_CLIENT_SECRET')
     
