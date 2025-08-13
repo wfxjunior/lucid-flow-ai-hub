@@ -2007,6 +2007,39 @@ export type Database = {
           },
         ]
       }
+      role_change_audit: {
+        Row: {
+          action: string
+          changed_at: string
+          changed_by: string
+          id: string
+          metadata: Json | null
+          new_role: string | null
+          old_role: string | null
+          target_user_id: string
+        }
+        Insert: {
+          action: string
+          changed_at?: string
+          changed_by: string
+          id?: string
+          metadata?: Json | null
+          new_role?: string | null
+          old_role?: string | null
+          target_user_id: string
+        }
+        Update: {
+          action?: string
+          changed_at?: string
+          changed_by?: string
+          id?: string
+          metadata?: Json | null
+          new_role?: string | null
+          old_role?: string | null
+          target_user_id?: string
+        }
+        Relationships: []
+      }
       sales_orders: {
         Row: {
           amount: number
