@@ -73,7 +73,7 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
           </CardDescription>
         </CardHeader>
         
-        <CardContent className="px-6 pb-8 flex flex-col h-full">
+        <CardContent className="px-6 pb-8 flex flex-col justify-between h-full">
           {/* Features List */}
           <div className="flex-1 mb-6">
             <div className="space-y-3">
@@ -109,19 +109,21 @@ export function PricingCard({ plan, onPlanSelect }: PricingCardProps) {
             </div>
           )}
           
-          {/* CTA Button */}
-          <Button 
-            className={`
-              w-full py-3 text-sm font-medium rounded-lg transition-all duration-300
-              ${plan.popular 
-                ? 'bg-foreground text-background hover:bg-foreground/90' 
-                : 'bg-transparent border border-border text-foreground hover:bg-muted'
-              }
-            `}
-            onClick={() => onPlanSelect(plan)}
-          >
-            {plan.buttonText}
-          </Button>
+          {/* CTA Button - Fixed height and alignment */}
+          <div className="mt-auto">
+            <Button 
+              className={`
+                w-full h-12 text-sm font-medium rounded-lg transition-all duration-300 flex items-center justify-center
+                ${plan.popular 
+                  ? 'bg-foreground text-background hover:bg-foreground/90' 
+                  : 'bg-transparent border border-border text-foreground hover:bg-muted'
+                }
+              `}
+              onClick={() => onPlanSelect(plan)}
+            >
+              {plan.buttonText}
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
