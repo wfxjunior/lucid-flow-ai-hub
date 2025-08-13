@@ -297,12 +297,12 @@
 
 @layer base {
   :root {
-    --gold: 46 90% 52%;
-    --gold-glow: 46 95% 70%;
+    --gold: 216 100% 53%;
+    --gold-glow: 216 100% 60%;
   }
   .dark {
-    --gold: 46 80% 60%;
-    --gold-glow: 46 90% 72%;
+    --gold: 216 100% 60%;
+    --gold-glow: 216 100% 70%;
   }
 }
 
