@@ -2112,6 +2112,45 @@ export type Database = {
         }
         Relationships: []
       }
+      security_audit_log: {
+        Row: {
+          created_at: string | null
+          id: string
+          ip_address: unknown | null
+          new_data: Json | null
+          old_data: Json | null
+          operation: string
+          record_id: string | null
+          table_name: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          new_data?: Json | null
+          old_data?: Json | null
+          operation: string
+          record_id?: string | null
+          table_name: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          new_data?: Json | null
+          old_data?: Json | null
+          operation?: string
+          record_id?: string | null
+          table_name?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       senders_email: {
         Row: {
           created_at: string
@@ -2903,6 +2942,16 @@ export type Database = {
       has_role: {
         Args: { _user_id: string; _role: string }
         Returns: boolean
+      }
+      log_security_event: {
+        Args: {
+          p_table_name: string
+          p_operation: string
+          p_record_id?: string
+          p_old_data?: Json
+          p_new_data?: Json
+        }
+        Returns: undefined
       }
       match_kb_chunks: {
         Args: { query_embedding: string; match_count: number; lang: string }
