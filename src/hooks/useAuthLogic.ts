@@ -2,30 +2,10 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { cleanupAuthState, secureSignIn, secureSignOut, logSecurityEvent } from '@/utils/authSecurity'
+import { validateEmail as validateEmailUtil, checkClientRateLimit } from '@/utils/inputValidation'
 
 type AuthMode = 'signin' | 'signup' | 'forgot-password'
-
-// Auth cleanup utility to prevent limbo states
-const cleanupAuthState = () => {
-  console.log('Cleaning up auth state')
-  
-  // Remove standard auth tokens
-  localStorage.removeItem('supabase.auth.token')
-  
-  // Remove all Supabase auth keys from localStorage
-  Object.keys(localStorage).forEach((key) => {
-    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-      localStorage.removeItem(key)
-    }
-  })
-  
-  // Remove from sessionStorage if in use
-  Object.keys(sessionStorage || {}).forEach((key) => {
-    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-      sessionStorage.removeItem(key)
-    }
-  })
-}
 
 export function useAuthLogic() {
   const [mode, setMode] = useState<AuthMode>('signin')
@@ -57,8 +37,8 @@ export function useAuthLogic() {
   const addError = (error: string) => setErrors(prev => [...prev, error])
 
   const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
+    const validation = validateEmailUtil(email)
+    return validation.isValid
   }
 
   const validatePassword = (password: string) => {
@@ -128,43 +108,28 @@ export function useAuthLogic() {
     setLoading(true)
     
     try {
-      console.log('Attempting sign in with:', email)
-      
-      // Clean up existing state before signing in
-      cleanupAuthState()
-      
-      // Attempt global sign out first
-      try {
-        await supabase.auth.signOut({ scope: 'global' })
-      } catch (err) {
-        console.log('Sign out before sign in failed (expected):', err)
+      // Check rate limit
+      if (!checkClientRateLimit('signin', 5, 300000)) { // 5 attempts per 5 minutes
+        addError('Too many sign-in attempts. Please try again in a few minutes.')
+        return
       }
       
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password: password.trim(),
-      })
+      console.log('Attempting sign in with:', email)
+      logSecurityEvent('signin_attempt', { email })
+      
+      // Use secure sign in function
+      const data = await secureSignIn(email, password)
 
       console.log('Sign in response:', { 
         user: data?.user?.id, 
-        session: !!data?.session, 
-        error: error?.message 
+        session: !!data?.session
       })
 
-      if (error) {
-        console.error('Sign in error:', error)
-        if (error.message.includes('Invalid login credentials')) {
-          addError('Invalid email or password. Please check your credentials.')
-        } else if (error.message.includes('Email not confirmed')) {
-          addError('Please check your email and click the confirmation link.')
-        } else {
-          addError(`Error: ${error.message}`)
-        }
-      } else if (data.user) {
+      if (data.user) {
         console.log('Sign in successful, user:', data.user)
+        logSecurityEvent('signin_success', { email })
         toast.success('Successfully signed in!')
-        // Force page reload to ensure clean state
-        window.location.href = '/'
+        // secureSignIn already handles the redirect
       }
     } catch (error: any) {
       console.error('Unexpected sign in error:', error)

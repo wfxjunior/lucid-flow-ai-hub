@@ -36,8 +36,31 @@ export function sanitizeHtml(html: string): string {
     ALLOWED_URI_REGEXP: /^(?:(?:https?):|mailto:|tel)/i,
     ALLOW_DATA_ATTR: false,
     FORBID_TAGS: ['script', 'object', 'embed', 'iframe', 'form', 'input'],
-    FORBID_ATTR: ['onclick', 'onerror', 'onload', 'onmouseover']
+    FORBID_ATTR: ['onclick', 'onerror', 'onload', 'onmouseover', 'style', 'onfocus', 'onblur'],
+    RETURN_DOM: false,
+    RETURN_DOM_FRAGMENT: false,
+    SANITIZE_DOM: true,
+    KEEP_CONTENT: false
   })
+}
+
+/**
+ * Sanitizes text content for PDF generation
+ * @param text - The text string to sanitize
+ * @returns Sanitized text string
+ */
+export function sanitizeTextForPdf(text: string): string {
+  // Remove any HTML tags and decode entities
+  const withoutTags = text.replace(/<[^>]*>/g, '')
+  // Decode common HTML entities
+  return withoutTags
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&#x2F;/g, '/')
+    .trim()
 }
 
 /**
