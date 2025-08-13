@@ -49,6 +49,7 @@ import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
 import { EnhancedAIVoice } from "@/components/EnhancedAIVoice"
 import Upgrade from "@/pages/Upgrade"
 import PaymentSuccess from "@/pages/PaymentSuccess"
+import PaymentCanceled from "@/pages/PaymentCanceled"
 
 interface MainContentProps {
   activeView: string
@@ -181,6 +182,11 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <SettingsPage />
       case "payment-success":
         return <PaymentSuccess />
+      case "payment-canceled":
+      case "payment-cancel":
+        return <PaymentCanceled />
+      case "cancel":
+        return <PaymentCanceled />
       
       // Legacy routes for compatibility
       case "invoices":

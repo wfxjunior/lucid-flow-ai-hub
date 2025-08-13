@@ -133,21 +133,21 @@ export const LandingHeroSection = () => {
                 variant="secondary"
                 size="xl"
                 onClick={openCustomerPortal}
-                className="font-medium text-lg px-8 py-4 h-14"
+                className="font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
               >
                 <span>Manage Subscription</span>
-                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
               </Button>
             ) : (
               <Button
-                data-analytics-id="hero_cta_subscribe_click"
+                data-analytics-id="hero_cta_get_started_click"
                 variant="secondary"
                 size="xl"
                 onClick={() => navigate('/pricing')}
-                className="font-medium text-lg px-8 py-4 h-14"
+                className="font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
               >
-                <span>Subscribe — Pro</span>
-                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                <span>Get Started</span>
+                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
               </Button>
             )}
           </div>
