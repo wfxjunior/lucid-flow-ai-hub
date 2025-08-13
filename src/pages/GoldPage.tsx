@@ -36,18 +36,18 @@ export default function GoldPage() {
   const onJoinWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
-      toast.error("Insira um e-mail válido.");
+      toast.error("Enter a valid email.");
       return;
     }
     setLoading(true);
     try {
       // For now, client-only. We can save to Supabase after your approval.
       await new Promise((r) => setTimeout(r, 800));
-      toast.success("Você entrou na lista de espera do FeatherBiz Gold!");
+      toast.success("You're on the FeatherBiz Gold waitlist!");
       setEmail("");
       setName("");
     } catch (e) {
-      toast.error("Algo deu errado. Tente novamente.");
+      toast.error("Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
@@ -64,14 +64,14 @@ export default function GoldPage() {
       availability: "https://schema.org/PreOrder",
       price: "0",
       priceCurrency: "USD",
-      description: "Lista de espera do FeatherBiz Gold"
+      description: "FeatherBiz Gold waitlist"
     }
   };
 
   return (
     <MarketingPageLayout
       title="FeatherBiz Gold"
-      description="Entre na lista de espera do FeatherBiz Gold: benefícios exclusivos, suporte prioritário e recursos avançados."
+      description="Join the FeatherBiz Gold waitlist: exclusive benefits, priority support, and advanced features."
       canonical="/gold"
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -89,18 +89,23 @@ export default function GoldPage() {
         />
 
         <div className="flex flex-col items-center text-center gap-6">
-          <span className="gold-chip inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm">
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm bg-foreground text-[hsl(var(--gold))] border border-[hsl(var(--gold)/0.25)] ring-1 ring-[hsl(var(--gold)/0.12)] transform-gpu transition-transform duration-500 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--gold)/0.5)]"
+            aria-label="FeatherBiz Gold — Early access"
+            onClick={(e) => { e.preventDefault(); const form = document.querySelector('form'); form?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
+          >
             <Sparkles className="h-4 w-4" aria-hidden="true" />
-            FeatherBiz Gold — Acesso antecipado
-          </span>
+            FeatherBiz Gold — Early access
+          </button>
 
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Recursos premium, performance superior e suporte prioritário para acelerar o crescimento do seu negócio.
+            Premium features, superior performance, and priority support to accelerate your growth.
           </p>
 
           {/* Countdown */}
           <div className="grid grid-flow-col gap-4 text-center auto-cols-max">
-            {[{label:'dias', value: days},{label:'horas', value: hours},{label:'min', value: minutes},{label:'seg', value: seconds}].map((t) => (
+            {[{label:'days', value: days},{label:'hours', value: hours},{label:'min', value: minutes},{label:'sec', value: seconds}].map((t) => (
               <div key={t.label} className="flex flex-col items-center rounded-md border border-border/50 bg-muted/30 px-4 py-3 min-w-[72px]">
                 <span className="text-2xl font-semibold tabular-nums text-foreground">{String(t.value).padStart(2, '0')}</span>
                 <span className="text-xs text-muted-foreground">{t.label}</span>
@@ -112,23 +117,23 @@ export default function GoldPage() {
           <form onSubmit={onJoinWaitlist} className="w-full max-w-xl grid grid-cols-1 sm:grid-cols-3 gap-3">
             <Input
               type="text"
-              placeholder="Seu nome (opcional)"
+              placeholder="Your name (optional)"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="sm:col-span-1"
-              aria-label="Seu nome"
+              aria-label="Your name"
             />
             <Input
               type="email"
-              placeholder="Seu e-mail"
+              placeholder="Your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="sm:col-span-1"
-              aria-label="Seu e-mail"
+              aria-label="Your email"
               required
             />
             <Button type="submit" disabled={loading} className="sm:col-span-1 group font-medium">
-              {loading ? "Enviando…" : "Entrar na lista de espera"}
+              {loading ? "Sending…" : "Join the waitlist"}
             </Button>
           </form>
         </div>
@@ -136,10 +141,10 @@ export default function GoldPage() {
 
       {/* Benefits */}
       <section className="mt-12 grid gap-6 md:grid-cols-3">
-        {[
-          { icon: Zap, title: "Performance e automação", desc: "Fluxos avançados, IA e automações exclusivas para economizar tempo." },
-          { icon: Shield, title: "Suporte prioritário", desc: "Atendimento VIP e SLAs melhores para você não parar." },
-          { icon: Sparkles, title: "Recursos premium", desc: "Dashboards avançados, integrações exclusivas e novidades primeiro." },
+        {[ 
+          { icon: Zap, title: "Performance & automation", desc: "Advanced flows, AI, and exclusive automations to save time." },
+          { icon: Shield, title: "Priority support", desc: "VIP assistance and better SLAs so you never slow down." },
+          { icon: Sparkles, title: "Premium features", desc: "Advanced dashboards, exclusive integrations, and early access to new releases." },
         ].map((b) => (
           <article key={b.title} className="rounded-lg border border-border/40 bg-card p-6 shadow-sm">
             <div className="flex items-center gap-3">
@@ -161,15 +166,15 @@ export default function GoldPage() {
       {/* CTA */}
       <section className="mt-12">
         <div className="flex flex-col items-center gap-4 text-center rounded-lg border border-border/40 p-8 bg-gradient-to-b from-background to-muted/20">
-          <h2 className="text-xl font-semibold text-foreground">Garanta seu lugar no FeatherBiz Gold</h2>
+          <h2 className="text-xl font-semibold text-foreground">Secure your spot in FeatherBiz Gold</h2>
           <p className="text-sm text-muted-foreground max-w-2xl">
-            Vagas limitadas de acesso antecipado. Entrando agora, você terá prioridade quando abrirmos as primeiras contas.
+            Limited early access slots. Join now to get priority when we open the first accounts.
           </p>
           <Button onClick={() => {
             const el = document.querySelector('form');
             el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }} className="group font-medium">
-            Entrar na lista de espera
+            Join the waitlist
           </Button>
         </div>
       </section>
