@@ -28,11 +28,11 @@ export const LandingFooter = () => {
           </div>
 
           {/* Link Groups - force 2 columns on mobile, 3 on md+ */}
-          <div className="col-span-2 md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          <div className="col-span-2 md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
             {/* Platform */}
             <div className="grid grid-cols-[auto,1fr] items-start gap-x-6 gap-y-2 md:block">
-              <h4 className="font-semibold text-foreground mb-0 md:mb-4">Platform</h4>
-              <ul className="space-y-3 text-muted-foreground mt-1 md:mt-0">
+              <h4 className="text-sm font-semibold text-muted-foreground md:text-base mb-1 md:mb-4">Platform</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
                 <li><Link to={location.pathname === '/landing' || location.pathname === '/' ? '#pricing' : '/landing#pricing'} onClick={handlePricingClick} className="hover:text-foreground transition-colors">Pricing</Link></li>
                 <li><Link to="/features" className="hover:text-foreground transition-colors">Features</Link></li>
                 <li><Link to="/integrations" className="hover:text-foreground transition-colors">Integrations</Link></li>
@@ -43,8 +43,8 @@ export const LandingFooter = () => {
             
             {/* Support */}
             <div className="grid grid-cols-[auto,1fr] items-start gap-x-6 gap-y-2 md:block">
-              <h4 className="font-semibold text-foreground mb-0 md:mb-4">Support</h4>
-              <ul className="space-y-3 text-muted-foreground mt-1 md:mt-0">
+              <h4 className="text-sm font-semibold text-muted-foreground md:text-base mb-1 md:mb-4">Support</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
                 <li><Link to="/help-center" className="hover:text-foreground transition-colors">Help Center</Link></li>
                 <li><Link to="/documentation" className="hover:text-foreground transition-colors">Documentation</Link></li>
                 <li><Link to="/guides" className="hover:text-foreground transition-colors">Guides</Link></li>
@@ -54,8 +54,8 @@ export const LandingFooter = () => {
             
             {/* Company */}
             <div className="grid grid-cols-[auto,1fr] items-start gap-x-6 gap-y-2 md:block">
-              <h4 className="font-semibold text-foreground mb-0 md:mb-4">Company</h4>
-              <ul className="space-y-3 text-muted-foreground mt-1 md:mt-0">
+              <h4 className="text-sm font-semibold text-muted-foreground md:text-base mb-1 md:mb-4">Company</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
                 <li><Link to="/about" className="hover:text-foreground transition-colors">About</Link></li>
                 <li><Link to="/careers" className="hover:text-foreground transition-colors">Careers</Link></li>
                 <li><Link to="/press" className="hover:text-foreground transition-colors">Press</Link></li>
