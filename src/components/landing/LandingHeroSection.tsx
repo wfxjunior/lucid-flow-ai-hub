@@ -110,40 +110,44 @@ export const LandingHeroSection = () => {
           <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <Button
               data-analytics-id="hero_cta_start_click"
+              size="xl"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="group font-medium"
+              className="group font-medium text-lg px-8 py-4 h-14"
             >
               <span>Start for free</span>
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
             </Button>
             <Button
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
+              size="xl"
               onClick={() => setShowSalesModal(true)}
-              className="font-medium border-border/50 hover:border-border hover:bg-muted/50"
+              className="font-medium text-lg px-8 py-4 h-14 border-border/50 hover:border-border hover:bg-muted/50"
             >
-              <Play className="h-4 w-4 mr-2" aria-hidden="true" />
+              <Play className="h-5 w-5 mr-2" aria-hidden="true" />
               <span>Talk to sales</span>
             </Button>
             {isSubscribed ? (
               <Button
                 data-analytics-id="hero_cta_manage_sub_click"
                 variant="secondary"
+                size="xl"
                 onClick={openCustomerPortal}
-                className="font-medium"
+                className="font-medium text-lg px-8 py-4 h-14"
               >
                 <span>Manage Subscription</span>
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
               </Button>
             ) : (
               <Button
                 data-analytics-id="hero_cta_subscribe_click"
                 variant="secondary"
+                size="xl"
                 onClick={() => navigate('/pricing')}
-                className="font-medium"
+                className="font-medium text-lg px-8 py-4 h-14"
               >
                 <span>Subscribe — Pro</span>
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
               </Button>
             )}
           </div>
