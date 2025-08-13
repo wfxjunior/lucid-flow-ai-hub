@@ -52,82 +52,205 @@ function tryOpenSignupModal() {
   return false;
 }
 
-const HatchedPatternDef = ({ id = "hatched-45" }: { id?: string }) => (
-  <pattern id={id} patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
-    {/* Use brand tokens via CSS variables for color; very light */}
-    <line x1="0" y1="0" x2="0" y2="8" stroke="hsl(var(--primary) / 0.25)" strokeWidth="1" />
+const CircuitPatternDef = ({ id = "circuit-pattern" }: { id?: string }) => (
+  <pattern id={id} patternUnits="userSpaceOnUse" width="12" height="12">
+    <circle cx="6" cy="6" r="1" fill="hsl(var(--primary) / 0.3)" />
+    <line x1="6" y1="0" x2="6" y2="12" stroke="hsl(var(--primary) / 0.15)" strokeWidth="0.5" />
+    <line x1="0" y1="6" x2="12" y2="6" stroke="hsl(var(--primary) / 0.15)" strokeWidth="0.5" />
   </pattern>
 );
 
-const TrialFlowChevronsFB = ({ isVisible }: { isVisible: boolean }) => {
-  // Create 5 tiles (rounded rhomboids) using rotated rounded rects
-  // Only tile index 3 (4th) uses hatch fill; others are transparent fill
-  const tiles = [0, 1, 2, 3, 4];
+const GrowthOrbitsFB = ({ isVisible }: { isVisible: boolean }) => {
+  // Create interconnected orbital rings representing business growth and automation
+  const orbits = [
+    { radius: 40, delay: 0, opacity: 0.9 },
+    { radius: 70, delay: 100, opacity: 0.7 },
+    { radius: 100, delay: 200, opacity: 0.5 },
+  ];
+  
+  const nodes = [
+    { x: 280, y: 180, delay: 300, size: 12, type: 'primary' },
+    { x: 220, y: 140, delay: 400, size: 8, type: 'secondary' },
+    { x: 340, y: 140, delay: 500, size: 8, type: 'secondary' },
+    { x: 180, y: 200, delay: 600, size: 6, type: 'tertiary' },
+    { x: 380, y: 200, delay: 700, size: 6, type: 'tertiary' },
+    { x: 280, y: 120, delay: 800, size: 6, type: 'tertiary' },
+    { x: 280, y: 240, delay: 900, size: 6, type: 'tertiary' },
+  ];
+
+  const connections = [
+    { from: { x: 280, y: 180 }, to: { x: 220, y: 140 }, delay: 1000 },
+    { from: { x: 280, y: 180 }, to: { x: 340, y: 140 }, delay: 1100 },
+    { from: { x: 280, y: 180 }, to: { x: 180, y: 200 }, delay: 1200 },
+    { from: { x: 280, y: 180 }, to: { x: 380, y: 200 }, delay: 1300 },
+    { from: { x: 220, y: 140 }, to: { x: 280, y: 120 }, delay: 1400 },
+    { from: { x: 340, y: 140 }, to: { x: 280, y: 120 }, delay: 1500 },
+  ];
+
   return (
     <div className="relative w-full h-full">
-      {/* Faint grid background using brand tokens */}
+      {/* Subtle grid background */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10 rounded-2xl"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(var(--muted-foreground)/0.06) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--muted-foreground)/0.06) 1px, transparent 1px)",
-          backgroundSize: "22px 22px, 22px 22px",
-          backgroundPosition: "-1px -1px",
+            "radial-gradient(circle at 2px 2px, hsl(var(--muted-foreground)/0.08) 1px, transparent 0)",
+          backgroundSize: "32px 32px",
         }}
       />
 
       <svg
         role="img"
-        aria-label="Illustration of a forward setup flow representing a quick start to your Pro trial."
+        aria-label="Illustration showing interconnected business automation and growth network"
         className="w-full h-auto"
         viewBox="0 0 560 360"
         fill="none"
       >
         <defs>
-          <HatchedPatternDef id="trial-hatch" />
-          <filter id="subtleShadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="hsl(var(--foreground) / 0.10)" />
+          <CircuitPatternDef id="growth-pattern" />
+          <filter id="glowEffect" x="-50%" y="-50%" width="200%" height="200%">
+            <feMorphology operator="dilate" radius="2" />
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/> 
+            </feMerge>
           </filter>
+          <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" />
+            <stop offset="100%" stopColor="hsl(var(--primary) / 0.6)" />
+          </linearGradient>
         </defs>
 
-        {tiles.map((i) => {
-          // Layout: stagger tiles along a subtle diagonal
-          const baseX = 110 + i * 70;
-          const baseY = 110 + i * 10;
-          const w = 120;
-          const h = 68;
-          const rx = 16; // rounded corners consistent with DS
-          const delayMs = 60 + i * 70; // 60–90ms+ between
-          const isHatched = i === 3;
+        {/* Orbital rings */}
+        {orbits.map((orbit, i) => (
+          <circle
+            key={`orbit-${i}`}
+            cx="280"
+            cy="180"
+            r={orbit.radius}
+            fill="none"
+            stroke="hsl(var(--primary) / 0.2)"
+            strokeWidth="1"
+            strokeDasharray="4 8"
+            style={{
+              transition: "opacity 800ms ease, stroke-dashoffset 1200ms ease",
+              transitionDelay: `${orbit.delay}ms`,
+              opacity: isVisible ? orbit.opacity : 0,
+              strokeDashoffset: isVisible ? 0 : 100,
+            }}
+          />
+        ))}
 
-          return (
-            <g
-              key={i}
+        {/* Connection lines */}
+        {connections.map((conn, i) => (
+          <line
+            key={`connection-${i}`}
+            x1={conn.from.x}
+            y1={conn.from.y}
+            x2={conn.to.x}
+            y2={conn.to.y}
+            stroke="hsl(var(--primary) / 0.4)"
+            strokeWidth="1.5"
+            style={{
+              transition: "opacity 600ms ease, stroke-dashoffset 800ms ease",
+              transitionDelay: `${conn.delay}ms`,
+              opacity: isVisible ? 1 : 0,
+              strokeDasharray: "3 6",
+              strokeDashoffset: isVisible ? 0 : 50,
+            }}
+          />
+        ))}
+
+        {/* Nodes */}
+        {nodes.map((node, i) => (
+          <g key={`node-${i}`}>
+            <circle
+              cx={node.x}
+              cy={node.y}
+              r={node.size}
+              fill="url(#nodeGradient)"
               style={{
-                transition: "transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 600ms ease",
-                transitionDelay: `${delayMs}ms`,
-                transform: isVisible ? "translateX(0px)" : "translateX(16px)",
+                transition: "transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 600ms ease",
+                transitionDelay: `${node.delay}ms`,
+                transform: isVisible ? "scale(1)" : "scale(0)",
                 opacity: isVisible ? 1 : 0,
-                filter: "url(#subtleShadow)",
+                filter: node.type === 'primary' ? "url(#glowEffect)" : "none",
               }}
-            >
-              <rect
-                x={baseX}
-                y={baseY}
-                width={w}
-                height={h}
-                rx={rx}
-                ry={rx}
-                transform={`rotate(45 ${baseX + w / 2} ${baseY + h / 2})`}
-                fill={isHatched ? "url(#trial-hatch)" : "none"}
-                stroke="hsl(var(--primary))"
-                strokeWidth={1.75}
-                vectorEffect="non-scaling-stroke"
+            />
+            {node.type === 'primary' && (
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r={node.size + 4}
+                fill="none"
+                stroke="hsl(var(--primary) / 0.3)"
+                strokeWidth="2"
+                style={{
+                  transition: "transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 600ms ease",
+                  transitionDelay: `${node.delay + 200}ms`,
+                  transform: isVisible ? "scale(1)" : "scale(0.5)",
+                  opacity: isVisible ? 1 : 0,
+                }}
               />
-            </g>
-          );
-        })}
+            )}
+          </g>
+        ))}
+
+        {/* Growth arrows */}
+        <path
+          d="M 200 140 L 220 120 L 215 125 M 220 120 L 215 115"
+          stroke="hsl(var(--primary))"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+          style={{
+            transition: "opacity 600ms ease, transform 800ms ease",
+            transitionDelay: "1600ms",
+            opacity: isVisible ? 0.8 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(10px)",
+          }}
+        />
+        <path
+          d="M 360 140 L 340 120 L 345 125 M 340 120 L 345 115"
+          stroke="hsl(var(--primary))"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+          style={{
+            transition: "opacity 600ms ease, transform 800ms ease",
+            transitionDelay: "1700ms",
+            opacity: isVisible ? 0.8 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(10px)",
+          }}
+        />
+
+        {/* Floating elements for dynamism */}
+        <circle
+          cx="160"
+          cy="120"
+          r="2"
+          fill="hsl(var(--primary) / 0.6)"
+          style={{
+            transition: "opacity 600ms ease, transform 1000ms ease",
+            transitionDelay: "1800ms",
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(20px)",
+          }}
+        />
+        <circle
+          cx="400"
+          cy="260"
+          r="3"
+          fill="hsl(var(--primary) / 0.4)"
+          style={{
+            transition: "opacity 600ms ease, transform 1000ms ease",
+            transitionDelay: "1900ms",
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(-15px)",
+          }}
+        />
       </svg>
     </div>
   );
@@ -230,10 +353,10 @@ export const LandingFreeTrialV2: React.FC = () => {
           {/* Right: Illustration */}
           <aside className="relative">
             <div className="relative w-full aspect-[7/5] rounded-2xl border border-border bg-card p-4 md:p-6">
-              <TrialFlowChevronsFB isVisible={isVisible} />
+              <GrowthOrbitsFB isVisible={isVisible} />
             </div>
             <span className="sr-only">
-              Illustration of a forward setup flow representing a quick start to your Pro trial.
+              Illustration showing interconnected business automation and growth network representing your Pro trial journey.
             </span>
           </aside>
         </div>
