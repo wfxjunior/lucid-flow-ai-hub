@@ -71,10 +71,10 @@ export const LandingHeroSection = () => {
           role="button"
           aria-label="FeatherBiz Gold — Lista de Espera"
           tabIndex={0}
-          onClick={() => navigate('/gold')}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/gold'); } }}
+          onClick={() => navigate('/scale')}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/scale'); } }}
         >
-          <span className="font-medium">FeatherBiz Gold</span>
+          <span className="font-medium">FeatherBiz Scale</span>
           <ArrowRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-0.5" aria-hidden="true" />
         </div>
       </div>

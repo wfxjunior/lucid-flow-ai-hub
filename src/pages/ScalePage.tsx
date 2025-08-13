@@ -20,7 +20,7 @@ function useCountdown(target: Date) {
   return { total, days, hours, minutes, seconds };
 }
 
-export default function GoldPage() {
+export default function ScalePage() {
   const target = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() + 14);
@@ -43,7 +43,7 @@ export default function GoldPage() {
     try {
       // For now, client-only. We can save to Supabase after your approval.
       await new Promise((r) => setTimeout(r, 800));
-      toast.success("You're on the FeatherBiz Gold waitlist!");
+      toast.success("You're on the FeatherBiz Scale waitlist!");
       setEmail("");
       setName("");
     } catch (e) {
@@ -56,7 +56,7 @@ export default function GoldPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "FeatherBiz Gold",
+    name: "FeatherBiz Scale",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     offers: {
@@ -64,15 +64,15 @@ export default function GoldPage() {
       availability: "https://schema.org/PreOrder",
       price: "0",
       priceCurrency: "USD",
-      description: "FeatherBiz Gold waitlist"
+      description: "FeatherBiz Scale waitlist"
     }
   };
 
   return (
     <MarketingPageLayout
-      title="FeatherBiz Gold"
-      description="Join the FeatherBiz Gold waitlist: exclusive benefits, priority support, and advanced features."
-      canonical="/gold"
+      title="FeatherBiz Scale"
+      description="Join the FeatherBiz Scale waitlist: exclusive benefits, priority support, and advanced features."
+      canonical="/scale"
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
@@ -96,7 +96,7 @@ export default function GoldPage() {
             onClick={(e) => { e.preventDefault(); const form = document.querySelector('form'); form?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
           >
             <Sparkles className="h-4 w-4" aria-hidden="true" />
-            FeatherBiz Gold — Early access
+            FeatherBiz Scale — Early access
           </button>
 
           <p className="text-lg text-muted-foreground max-w-2xl">
@@ -166,7 +166,7 @@ export default function GoldPage() {
       {/* CTA */}
       <section className="mt-12">
         <div className="flex flex-col items-center gap-4 text-center rounded-lg border border-border/40 p-8 bg-gradient-to-b from-background to-muted/20">
-          <h2 className="text-xl font-semibold text-foreground">Secure your spot in FeatherBiz Gold</h2>
+          <h2 className="text-xl font-semibold text-foreground">Secure your spot in FeatherBiz Scale</h2>
           <p className="text-sm text-muted-foreground max-w-2xl">
             Limited early access slots. Join now to get priority when we open the first accounts.
           </p>

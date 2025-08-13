@@ -185,9 +185,9 @@ export const LandingHeader = () => {
                 <Link to="/blog" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Blog</Link>
               </NavigationMenuItem>
 
-              {/* Gold */}
+              {/* Scale */}
               <NavigationMenuItem>
-                <Link to="/gold" className="text-foreground font-medium transition-colors">Gold</Link>
+                <Link to="/scale" className="text-foreground font-medium transition-colors">Scale</Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -228,7 +228,7 @@ export const LandingHeader = () => {
                     <Link to="/landing#pricing" onClick={onPricingClick} className="text-foreground hover:underline">Pricing</Link>
                   </SheetClose>
                   <SheetClose asChild><Link to="/blog" className="text-foreground hover:underline">Blog</Link></SheetClose>
-                  <SheetClose asChild><Link to="/gold" className="text-foreground hover:underline">Gold</Link></SheetClose>
+                  <SheetClose asChild><Link to="/scale" className="text-foreground hover:underline">Scale</Link></SheetClose>
                 </div>
                 <div className="pt-4 border-t border-border/40">
                   <SheetClose asChild>
