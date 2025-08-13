@@ -2929,15 +2929,7 @@ export type Database = {
       }
     }
     Views: {
-      security_status: {
-        Row: {
-          check_type: string | null
-          schemaname: unknown | null
-          status: string | null
-          tablename: unknown | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       check_rate_limit: {
@@ -3018,6 +3010,15 @@ export type Database = {
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_security_status: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          check_type: string
+          schema_name: string
+          table_name: string
+          status: string
+        }[]
       }
       has_role: {
         Args: { _user_id: string; _role: string }
