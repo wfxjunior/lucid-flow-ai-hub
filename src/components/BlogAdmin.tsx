@@ -1,5 +1,5 @@
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Plus, Edit, Trash2, Eye, Calendar, Tag, User, Search } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useUserRole } from "@/hooks/useUserRole"
+import { useNavigate } from "react-router-dom"
 
 interface BlogPost {
   id: string
@@ -23,6 +25,36 @@ interface BlogPost {
 }
 
 export function BlogAdmin() {
+  const { isAdmin, loading } = useUserRole()
+  const navigate = useNavigate()
+
+  // Security check: redirect if not admin
+  useEffect(() => {
+    if (!loading && !isAdmin) {
+      console.warn('BlogAdmin: Non-admin user attempted access')
+      navigate('/')
+    }
+  }, [isAdmin, loading, navigate])
+
+  // Don't render anything while checking permissions
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span className="ml-2">Verificando permissões...</span>
+      </div>
+    )
+  }
+
+  // Security: only render if user is admin
+  if (!isAdmin) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+        <h2 className="text-lg font-semibold text-red-800 mb-2">Acesso Negado</h2>
+        <p className="text-red-600">Você não tem permissão para acessar o painel de administração do blog.</p>
+      </div>
+    )
+  }
   const [posts, setPosts] = useState<BlogPost[]>([
     {
       id: "1",

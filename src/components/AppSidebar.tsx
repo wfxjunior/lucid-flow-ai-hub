@@ -4,6 +4,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useUserRole } from "@/hooks/useUserRole"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
 import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
@@ -25,6 +26,7 @@ interface AppSidebarProps {
 
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const { t } = useLanguage()
+  const { isAdmin } = useUserRole()
   
   const handleMenuClick = (view: string) => {
     setActiveView(view)
@@ -93,10 +95,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: t("sidebar.communication.emailCenter", "Email Center"), view: "email-center", icon: Mail },
   ]
 
-  // Analytics
+  // Analytics - Only show Admin Panel to admin users
   const analyticsItems = [
     { title: t("sidebar.analytics.analytics", "Analytics"), view: "analytics", icon: BarChart3 },
-    { title: t("sidebar.analytics.adminPanel", "Admin Panel"), view: "admin-panel", icon: Shield },
+    ...(isAdmin ? [{ title: t("sidebar.analytics.adminPanel", "Admin Panel"), view: "admin-panel", icon: Shield }] : [])
   ]
 
   // General & Support
