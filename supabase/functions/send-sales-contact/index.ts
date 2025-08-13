@@ -19,6 +19,7 @@ interface SalesContactRequest {
   companySize: string;
   useCase?: string;
   message?: string;
+  page_url?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -29,79 +30,119 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const contactData: SalesContactRequest = await req.json();
+    const currentTimestamp = new Date().toISOString();
+    const pageUrl = contactData.page_url || 'Sales contact form';
 
-    // Send email to sales team
-    const salesEmailResponse = await resend.emails.send({
-      from: "FeatherBiz Sales <sales@featherbiz.io>",
-      to: ["sales@featherbiz.io", "juniorxavierusa@gmail.com"],
-      bcc: ["wearefeatherbiz@gmail.com"],
-      subject: `New Sales Inquiry from ${contactData.firstName} ${contactData.lastName} - ${contactData.company}`,
+    // Send internal notification to hello@featherbiz.io  
+    const internalNotificationResponse = await resend.emails.send({
+      from: "FeatherBiz <hello@featherbiz.io>",
+      replyTo: "hello@featherbiz.io",
+      to: ["hello@featherbiz.io"],
+      subject: "[FeatherBiz] New submission — contact.create",
       html: `
-        <h2>New Sales Contact Request</h2>
-        <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3>Contact Information</h3>
-          <p><strong>Name:</strong> ${contactData.firstName} ${contactData.lastName}</p>
-          <p><strong>Email:</strong> ${contactData.email}</p>
-          <p><strong>Phone:</strong> ${contactData.phone || 'Not provided'}</p>
-          <p><strong>Company:</strong> ${contactData.company}</p>
-          <p><strong>Job Title:</strong> ${contactData.jobTitle || 'Not provided'}</p>
-          <p><strong>Company Size:</strong> ${contactData.companySize}</p>
-          <p><strong>Use Case:</strong> ${contactData.useCase || 'Not provided'}</p>
-        </div>
-        
-        ${contactData.message ? `
-        <div style="background: #fff; padding: 20px; border-left: 4px solid #2563eb; margin: 20px 0;">
-          <h3>Message</h3>
-          <p>${contactData.message}</p>
-        </div>
-        ` : ''}
-        
-        <p><strong>Action Required:</strong> Please contact this prospect within 24 hours.</p>
+        <h2>New Sales Contact Submission</h2>
+        <p><strong>Timestamp:</strong> ${currentTimestamp}</p>
+        <p><strong>Page URL:</strong> ${pageUrl}</p>
+        <p><strong>Locale:</strong> en</p>
+        <br>
+        <p><strong>Submitted Fields:</strong></p>
+        <ul>
+          <li>Name: ${contactData.firstName} ${contactData.lastName}</li>
+          <li>Email: ${contactData.email}</li>
+          <li>Phone: ${contactData.phone || 'Not provided'}</li>
+          <li>Company: ${contactData.company}</li>
+          <li>Job Title: ${contactData.jobTitle || 'Not provided'}</li>
+          <li>Company Size: ${contactData.companySize}</li>
+          <li>Use Case: ${contactData.useCase || 'Not provided'}</li>
+          ${contactData.message ? `<li>Message: ${contactData.message}</li>` : ''}
+        </ul>
       `,
+      text: `New Sales Contact Submission
+
+Timestamp: ${currentTimestamp}
+Page URL: ${pageUrl}
+Locale: en
+
+Submitted Fields:
+- Name: ${contactData.firstName} ${contactData.lastName}
+- Email: ${contactData.email}
+- Phone: ${contactData.phone || 'Not provided'}
+- Company: ${contactData.company}
+- Job Title: ${contactData.jobTitle || 'Not provided'}
+- Company Size: ${contactData.companySize}
+- Use Case: ${contactData.useCase || 'Not provided'}
+${contactData.message ? `- Message: ${contactData.message}` : ''}`
     });
 
-    // Send confirmation email to prospect
+    // Send user confirmation email - user_confirm_generic_v1
     const confirmationEmailResponse = await resend.emails.send({
       from: "FeatherBiz <hello@featherbiz.io>",
+      replyTo: "hello@featherbiz.io",
       to: [contactData.email],
-      bcc: ["wearefeatherbiz@gmail.com"],
-      subject: "Thank you for your interest in FeatherBiz",
+      subject: "We received your request",
       html: `
-        <h2>Thank you for contacting FeatherBiz!</h2>
-        
-        <p>Dear ${contactData.firstName},</p>
-        
-        <p>Thank you for your interest in FeatherBiz. We have received your inquiry and our sales team will reach out to you within 24 hours to discuss how we can help streamline your business operations.</p>
-        
-        <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3>What happens next?</h3>
-          <ul>
-            <li>A sales specialist will contact you within 24 hours</li>
-            <li>We'll schedule a personalized demo based on your needs</li>
-            <li>You'll receive a customized proposal for your business</li>
-          </ul>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+          <div style="padding: 30px; background: white;">
+            <p>Hi ${contactData.firstName},</p>
+            <br>
+            <p>Thanks for reaching out to FeatherBiz. We've received your request and our team will get back to you shortly.</p>
+            <br>
+            <p><strong>Summary</strong></p>
+            <ul style="margin: 10px 0;">
+              <li>Name: ${contactData.firstName} ${contactData.lastName}</li>
+              <li>Company: ${contactData.company}</li>
+              <li>Email: ${contactData.email}</li>
+              <li>Submitted from: ${pageUrl}</li>
+              <li>Time: ${currentTimestamp}</li>
+            </ul>
+            <br>
+            <p>If you didn't make this request, reply to this email.</p>
+            <br>
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+            <p style="font-size: 12px; color: #6b7280;">
+              FeatherBiz - Modern Business Management Platform<br>
+              <a href="https://featherbiz.io/privacy" style="color: #6b7280;">Privacy Policy</a> | 
+              <a href="https://featherbiz.io" style="color: #6b7280;">featherbiz.io</a>
+            </p>
+          </div>
         </div>
-        
-        <p>In the meantime, feel free to explore our platform or reach out if you have any immediate questions.</p>
-        
-        <p>Best regards,<br>The FeatherBiz Sales Team</p>
-        
-        <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
-        <p style="font-size: 12px; color: #6b7280;">
-          FeatherBiz - Streamline your business operations<br>
-          If you have any questions, reply to this email or contact us at sales@featherbiz.io
-        </p>
       `,
+      text: `Hi ${contactData.firstName},
+
+Thanks for reaching out to FeatherBiz. We've received your request and our team will get back to you shortly.
+
+Summary
+• Name: ${contactData.firstName} ${contactData.lastName}
+• Company: ${contactData.company}
+• Email: ${contactData.email}
+• Submitted from: ${pageUrl}
+• Time: ${currentTimestamp}
+
+If you didn't make this request, reply to this email.
+
+FeatherBiz - Modern Business Management Platform
+Privacy Policy: https://featherbiz.io/privacy`
     });
 
+    // Log analytics events
+    console.log('[Analytics] form_submit_success', { 
+      form_name: 'contact.create', 
+      email: contactData.email, 
+      locale: 'en', 
+      page_url: pageUrl, 
+      timestamp: currentTimestamp 
+    });
+    console.log('[Analytics] notify_internal_sent', { form_name: 'contact.create', timestamp: currentTimestamp });
+    console.log('[Analytics] user_confirmation_sent', { form_name: 'contact.create', email: contactData.email, timestamp: currentTimestamp });
+
     console.log("Sales contact emails sent successfully:", {
-      sales: salesEmailResponse,
+      internal: internalNotificationResponse,
       confirmation: confirmationEmailResponse
     });
 
     return new Response(JSON.stringify({ 
       success: true,
-      message: "Contact request sent successfully"
+      message: "Request received. We've sent a confirmation to your email. Our team will get back to you shortly."
     }), {
       status: 200,
       headers: {
