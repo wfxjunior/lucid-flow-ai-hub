@@ -2112,6 +2112,30 @@ export type Database = {
         }
         Relationships: []
       }
+      scale_waitlist: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       security_audit_log: {
         Row: {
           created_at: string | null

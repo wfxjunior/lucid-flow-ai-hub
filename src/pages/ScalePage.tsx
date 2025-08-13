@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Sparkles, Zap, Shield, Users, TrendingUp, Lock, Rocket, BarChart3, Clock, CheckCircle } from "lucide-react";
 import { IntelligentNetworkGraph } from "@/components/landing/IntelligentNetworkGraph";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState<Date>(new Date());
@@ -35,18 +36,28 @@ export default function ScalePage() {
 
   const onJoinWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast.error("Enter a valid email.");
       return;
     }
     setLoading(true);
     try {
-      // For now, client-only. We can save to Supabase after your approval.
-      await new Promise((r) => setTimeout(r, 800));
-      toast.success("You're on the FeatherBiz Scale waitlist!");
+      const { data, error } = await supabase.functions.invoke('waitlist-join', {
+        body: {
+          email,
+          name: name || null,
+          page_url: window.location.href
+        }
+      });
+
+      if (error) throw error;
+      if (!data.success) throw new Error(data.error || 'Failed to join waitlist');
+
+      toast.success(data.message || "You're on the list. A confirmation was sent to your email.");
       setEmail("");
       setName("");
-    } catch (e) {
+    } catch (e: any) {
+      console.error('Error joining waitlist:', e);
       toast.error("Something went wrong. Try again.");
     } finally {
       setLoading(false);
