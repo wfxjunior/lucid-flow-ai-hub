@@ -33,11 +33,11 @@ export const LandingFooter = () => {
             <div className="grid grid-cols-[auto,1fr] items-start gap-x-6 gap-y-2 md:block">
               <h4 className="text-sm font-semibold text-muted-foreground md:text-base mb-1 md:mb-4">Platform</h4>
               <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
-                <li><Link to={location.pathname === '/landing' || location.pathname === '/' ? '#pricing' : '/landing#pricing'} onClick={handlePricingClick} className="hover:text-foreground transition-colors">Pricing</Link></li>
-                <li><Link to="/features" className="hover:text-foreground transition-colors">Features</Link></li>
-                <li><Link to="/integrations" className="hover:text-foreground transition-colors">Integrations</Link></li>
-                <li><Link to="/api" className="hover:text-foreground transition-colors">API</Link></li>
-                <li><Link to="/security" className="hover:text-foreground transition-colors">Security</Link></li>
+                <li><Link to={location.pathname === '/landing' || location.pathname === '/' ? '#pricing' : '/landing#pricing'} onClick={handlePricingClick} className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Pricing</Link></li>
+                <li><Link to="/features" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Features</Link></li>
+                <li><Link to="/integrations" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Integrations</Link></li>
+                <li><Link to="/api" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">API</Link></li>
+                <li><Link to="/security" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Security</Link></li>
               </ul>
             </div>
             
@@ -45,10 +45,10 @@ export const LandingFooter = () => {
             <div className="grid grid-cols-[auto,1fr] items-start gap-x-6 gap-y-2 md:block">
               <h4 className="text-sm font-semibold text-muted-foreground md:text-base mb-1 md:mb-4">Support</h4>
               <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
-                <li><Link to="/help-center" className="hover:text-foreground transition-colors">Help Center</Link></li>
-                <li><Link to="/documentation" className="hover:text-foreground transition-colors">Documentation</Link></li>
-                <li><Link to="/guides" className="hover:text-foreground transition-colors">Guides</Link></li>
-                <li><Link to="/community" className="hover:text-foreground transition-colors">Community</Link></li>
+                <li><Link to="/help-center" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Help Center</Link></li>
+                <li><Link to="/documentation" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Documentation</Link></li>
+                <li><Link to="/guides" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Guides</Link></li>
+                <li><Link to="/community" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Community</Link></li>
               </ul>
             </div>
             
@@ -56,12 +56,12 @@ export const LandingFooter = () => {
             <div className="grid grid-cols-[auto,1fr] items-start gap-x-6 gap-y-2 md:block">
               <h4 className="text-sm font-semibold text-muted-foreground md:text-base mb-1 md:mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
-                <li><Link to="/about" className="hover:text-foreground transition-colors">About</Link></li>
-                <li><Link to="/careers" className="hover:text-foreground transition-colors">Careers</Link></li>
-                <li><Link to="/press" className="hover:text-foreground transition-colors">Press</Link></li>
-                <li><Link to="/partners" className="hover:text-foreground transition-colors">Partners</Link></li>
-                <li><Link to="/investors" className="hover:text-foreground transition-colors">Investors</Link></li>
-                <li><Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link></li>
+                <li><Link to="/about" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">About</Link></li>
+                <li><Link to="/careers" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Careers</Link></li>
+                <li><Link to="/press" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Press</Link></li>
+                <li><Link to="/partners" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Partners</Link></li>
+                <li><Link to="/investors" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Investors</Link></li>
+                <li><Link to="/blog" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Blog</Link></li>
               </ul>
             </div>
           </div>
@@ -75,19 +75,19 @@ export const LandingFooter = () => {
           
           {/* Social Links */}
           <div className="flex items-center gap-4">
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Instagram">
+            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Instagram">
               <Instagram className="h-5 w-5" />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Facebook">
+            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Facebook">
               <Facebook className="h-5 w-5" />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Twitter">
+            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Twitter">
               <Twitter className="h-5 w-5" />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
+            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="LinkedIn">
               <Linkedin className="h-5 w-5" />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="YouTube">
+            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="YouTube">
               <Youtube className="h-5 w-5" />
             </a>
           </div>
@@ -95,9 +95,9 @@ export const LandingFooter = () => {
         
         {/* Legal Links */}
         <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm text-muted-foreground">
-          <Link to="/privacy-policy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
-          <Link to="/terms-of-service" className="hover:text-foreground transition-colors">Terms of Service</Link>
-          <Link to="/feedback" className="hover:text-foreground transition-colors">Feedback</Link>
+          <Link to="/privacy-policy" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Privacy Policy</Link>
+          <Link to="/terms-of-service" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Terms of Service</Link>
+          <Link to="/feedback" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Feedback</Link>
         </div>
       </div>
     </footer>
