@@ -28,7 +28,8 @@ export const LandingFooter = () => {
           </div>
 
           {/* Link Groups - force 2 columns on mobile, 3 on md+ */}
-          <div className="col-span-2 md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
+          <nav aria-label="Footer navigation" className="col-span-2 md:col-span-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
             {/* Platform */}
             <div className="grid grid-cols-[auto,1fr] items-start gap-x-6 gap-y-2 md:block">
               <h4 className="text-sm font-semibold text-muted-foreground md:text-base mb-1 md:mb-4">Platform</h4>
@@ -65,29 +66,30 @@ export const LandingFooter = () => {
               </ul>
             </div>
           </div>
+          </nav>
         </div>
         
         {/* Bottom Section */}
-        <div className="border-t border-border/20 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="border-t border-border/20 mt-12 pt-8 flex flex-col items-center gap-4 text-center">
           <div className="text-sm text-muted-foreground">
             © 2025 FeatherBiz. By XSenSys
           </div>
           
           {/* Social Links */}
           <div className="flex items-center gap-4">
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Instagram">
+            <a href="#" className="hover-scale text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Instagram">
               <Instagram className="h-5 w-5" />
             </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Facebook">
+            <a href="#" className="hover-scale text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Facebook">
               <Facebook className="h-5 w-5" />
             </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Twitter">
+            <a href="#" className="hover-scale text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Twitter">
               <Twitter className="h-5 w-5" />
             </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="LinkedIn">
+            <a href="#" className="hover-scale text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="LinkedIn">
               <Linkedin className="h-5 w-5" />
             </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="YouTube">
+            <a href="#" className="hover-scale text-foreground/80 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="YouTube">
               <Youtube className="h-5 w-5" />
             </a>
           </div>
