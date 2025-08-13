@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
 import { SalesContactModal } from "@/components/SalesContactModal";
 import { useSubscription } from "@/hooks/useSubscription";
+import { track } from "@/lib/analytics";
+import navglyphsUrl from "@/assets/navglyphs.svg";
 
 export const LandingHeroSection = () => {
   const navigate = useNavigate();
@@ -16,6 +18,19 @@ export const LandingHeroSection = () => {
   const [pillsOverflow, setPillsOverflow] = useState(false);
   const [pillsLogged, setPillsLogged] = useState(false);
   const pillLabels = ["AI Voice","Estimates","SmartSchedule","EasyCalc","E-sign","Reports","Invoices","Receipts","Bids"];
+  
+  // Icon mapping for pills
+  const pillIconMap: Record<string, string> = {
+    "AI Voice": "voice",
+    "Estimates": "estimates", 
+    "SmartSchedule": "calendar-clock",
+    "EasyCalc": "calc",
+    "E-sign": "esign",
+    "Reports": "bars",
+    "Invoices": "invoice",
+    "Receipts": "receipt",
+    "Bids": "gavel"
+  };
 
   useEffect(() => {
     setIsVisible(true);
@@ -142,9 +157,15 @@ export const LandingHeroSection = () => {
             >
               {pillLabels.map((feature) => (
                 <span key={feature} className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground rounded-md border border-border/50 bg-muted/30 px-3 py-1.5" aria-label={`Capability: ${feature}`}>
-                  <span className="w-3 h-3 sm:w-4 sm:h-4 rounded border border-border/50 flex items-center justify-center">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-muted-foreground" />
-                  </span>
+                  <svg
+                    aria-hidden="true"
+                    className="w-4 h-4 shrink-0"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <use href={`${navglyphsUrl}#glyph-${pillIconMap[feature]}`} />
+                  </svg>
                   <span className="font-medium">{feature}</span>
                 </span>
               ))}
