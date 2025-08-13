@@ -29,14 +29,17 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    // Optimize build for production
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.log in production
-        drop_debugger: true,
+    // Only minify in production
+    minify: mode === 'production' ? 'terser' : false,
+    // Terser options for production only
+    ...(mode === 'production' && {
+      terserOptions: {
+        compress: {
+          drop_console: true, // Remove console.log in production
+          drop_debugger: true,
+        },
       },
-    },
+    }),
     rollupOptions: {
       output: {
         manualChunks: {
