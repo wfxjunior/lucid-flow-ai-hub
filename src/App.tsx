@@ -25,6 +25,7 @@ import TermsOfService from '@/pages/TermsOfService'
 import Feedback from '@/pages/Feedback'
 
 import LandingPage from '@/pages/LandingPage'
+import GoldPage from '@/pages/GoldPage'
 import FeaturesOverview from '@/pages/FeaturesOverview'
 import EditionsPage from '@/pages/EditionsPage'
 import Pricing from '@/pages/Pricing'
@@ -74,6 +75,7 @@ function App() {
           path="/landing"
           element={<LandingPage />}
         />
+        <Route path="/gold" element={<GoldPage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/features-overview" element={<FeaturesOverview />} />

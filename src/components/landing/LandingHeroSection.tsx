@@ -67,8 +67,10 @@ export const LandingHeroSection = () => {
         <div
           className="group gold-chip inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-colors cursor-pointer hover-scale shadow-sm hover:shadow-md"
           role="button"
-          aria-label="FeatherBiz Gold"
+          aria-label="FeatherBiz Gold — Lista de Espera"
           tabIndex={0}
+          onClick={() => navigate('/gold')}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/gold'); } }}
         >
           <span className="font-medium">FeatherBiz Gold</span>
           <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
