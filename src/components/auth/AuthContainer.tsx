@@ -52,7 +52,21 @@ export function AuthContainer() {
         return {
           title: 'Create Account',
           description: 'Start your free FeatherBiz trial today',
-          form: <SignUpForm />
+          form: (
+            <SignUpForm
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
+              loading={loading}
+              errors={errors}
+              onSubmit={handleSignUp}
+              onGoogleSignIn={handleGoogleSignIn}
+              onSwitchToSignIn={() => setMode('signin')}
+            />
+          )
         }
       case 'forgot-password':
         return {
