@@ -104,21 +104,24 @@ export function IntelligentNetworkGraph() {
     return () => observer.disconnect();
   }, []);
 
-  // Handle canvas resize
+  // Handle canvas resize - improved for mobile responsiveness
   useEffect(() => {
     const handleResize = () => {
       const container = canvasRef.current?.parentElement;
       if (container) {
         const rect = container.getBoundingClientRect();
-        setDimensions({ 
-          width: Math.max(600, rect.width), 
-          height: Math.max(400, Math.min(600, rect.width * 0.6)) 
-        });
+        const isMobile = window.innerWidth < 768;
+        const width = Math.max(isMobile ? 320 : 400, rect.width - 32);
+        const height = isMobile ? width * 0.8 : Math.min(600, width * 0.75);
+        
+        setDimensions({ width, height });
       }
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
+    // Add a timeout to handle initial layout
+    setTimeout(handleResize, 100);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -231,13 +234,17 @@ export function IntelligentNetworkGraph() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size only when dimensions change
-    if (canvas.width !== dimensions.width * 2 || canvas.height !== dimensions.height * 2) {
-      canvas.width = dimensions.width * 2; 
-      canvas.height = dimensions.height * 2;
+    // Set canvas size with proper pixel ratio handling
+    const pixelRatio = window.devicePixelRatio || 1;
+    const canvasWidth = dimensions.width * pixelRatio;
+    const canvasHeight = dimensions.height * pixelRatio;
+    
+    if (canvas.width !== canvasWidth || canvas.height !== canvasHeight) {
+      canvas.width = canvasWidth; 
+      canvas.height = canvasHeight;
       canvas.style.width = `${dimensions.width}px`;
       canvas.style.height = `${dimensions.height}px`;
-      ctx.scale(2, 2);
+      ctx.scale(pixelRatio, pixelRatio);
     }
 
     // Clear canvas
@@ -350,14 +357,14 @@ export function IntelligentNetworkGraph() {
   return (
     <section aria-label="Business Process Network" className="relative bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-28">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-10">
           {/* Left content */}
-          <aside className="lg:col-span-5 lg:sticky lg:top-24 self-start">
+          <aside className="lg:col-span-5 lg:sticky lg:top-24 self-start order-2 lg:order-1">
             <header>
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground">
                 Intelligent Business Network
               </h2>
-              <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-prose">
+              <p className="mt-3 text-sm sm:text-base lg:text-lg text-muted-foreground max-w-prose">
                 Watch how FeatherBiz connects every aspect of your business in real-time. Each node represents a core process, with intelligent data flows optimizing your workflow automatically.
               </p>
             </header>
@@ -408,20 +415,23 @@ export function IntelligentNetworkGraph() {
           </aside>
 
           {/* Right graph */}
-          <div className="lg:col-span-7">
-            <div className="relative rounded-2xl border bg-card shadow-sm overflow-hidden">
+          <div className="lg:col-span-7 order-1 lg:order-2">
+            <div className="relative rounded-xl lg:rounded-2xl border bg-card shadow-sm overflow-hidden min-h-[300px] sm:min-h-[400px]">
               <canvas
                 ref={canvasRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={() => setHoveredNode(null)}
-                className="w-full h-full cursor-pointer"
-                style={{ background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)' }}
+                className="w-full h-full cursor-pointer block"
+                style={{ 
+                  background: 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.3) 100%)',
+                  minHeight: '300px'
+                }}
               />
               
-              {/* Hover tooltip */}
+              {/* Hover tooltip - responsive positioning */}
               {hoveredNode && (
-                <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm border rounded-lg p-3 shadow-lg">
-                  <div className="font-medium text-sm">
+                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-background/90 backdrop-blur-sm border rounded-lg p-2 sm:p-3 shadow-lg max-w-[200px]">
+                  <div className="font-medium text-xs sm:text-sm">
                     {nodes.find(n => n.id === hoveredNode)?.label}
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
