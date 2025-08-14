@@ -120,27 +120,27 @@ export default function ScalePage() {
           </p>
 
           {/* Countdown */}
-          <div className="grid grid-cols-2 sm:grid-flow-col sm:auto-cols-max gap-3 sm:gap-4 text-center w-full max-w-xs sm:max-w-none mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center w-full max-w-sm md:max-w-none mx-auto">
             {[{label:'days', value: days},{label:'hours', value: hours},{label:'min', value: minutes},{label:'sec', value: seconds}].map((t) => (
-              <div key={t.label} className="flex flex-col items-center rounded-md border border-border/50 bg-muted/30 px-3 py-3">
-                <span className="text-2xl font-semibold tabular-nums text-foreground">{String(t.value).padStart(2, '0')}</span>
+              <div key={t.label} className="flex flex-col items-center rounded-md border border-border/50 bg-muted/30 px-3 py-3 md:px-4 md:py-4">
+                <span className="text-xl md:text-2xl font-semibold tabular-nums text-foreground">{String(t.value).padStart(2, '0')}</span>
                 <span className="text-xs text-muted-foreground">{t.label}</span>
               </div>
             ))}
           </div>
 
           {/* Waitlist form */}
-          <form onSubmit={onJoinWaitlist} className="w-full max-w-md grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <form onSubmit={onJoinWaitlist} className="w-full max-w-md flex flex-col sm:flex-row gap-3">
             <Input
               type="email"
               placeholder="Your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="sm:col-span-1"
+              className="flex-1"
               aria-label="Your email"
               required
             />
-            <Button type="submit" variant="default" size="lg" disabled={loading} className="sm:col-span-1 w-full group font-medium">
+            <Button type="submit" variant="default" size="lg" disabled={loading} className="w-full sm:w-auto group font-medium">
               {loading ? "Sending…" : "Join the waitlist"}
             </Button>
           </form>
@@ -334,18 +334,18 @@ export default function ScalePage() {
           </p>
         </div>
 
-        <div className="rounded-xl border border-border/40 bg-gradient-to-br from-card to-muted/30 p-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="rounded-xl border border-border/40 bg-gradient-to-br from-card to-muted/30 p-4 md:p-8">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Chart Visualization */}
-            <div className="relative">
-              <div className="space-y-6">
+            <div className="relative order-2 lg:order-1">
+              <div className="space-y-4 md:space-y-6">
                 {[
                   { 
                     metric: "Time Saved Weekly", 
                     before: 20, 
                     after: 85, 
                     unit: "hours",
-                    color: "bg-blue-500",
+                    color: "bg-primary",
                     beforeLabel: "Manual work",
                     afterLabel: "With automation"
                   },
@@ -354,7 +354,7 @@ export default function ScalePage() {
                     before: 35, 
                     after: 78, 
                     unit: "%",
-                    color: "bg-green-500",
+                    color: "bg-accent",
                     beforeLabel: "Standard tools",
                     afterLabel: "Scale features"
                   },
@@ -363,7 +363,7 @@ export default function ScalePage() {
                     before: 80, 
                     after: 25, 
                     unit: "min",
-                    color: "bg-purple-500",
+                    color: "bg-secondary",
                     beforeLabel: "Before Scale",
                     afterLabel: "Priority support"
                   },
@@ -372,28 +372,28 @@ export default function ScalePage() {
                     before: 15, 
                     after: 65, 
                     unit: "%",
-                    color: "bg-orange-500",
+                    color: "bg-muted-foreground",
                     beforeLabel: "Last year",
                     afterLabel: "With Scale"
                   }
                 ].map((item, index) => (
                   <div key={item.metric} className={`animate-fade-in`} style={{ animationDelay: `${index * 0.2}s` }}>
-                    <div className="flex justify-between items-center mb-2">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1">
                       <span className="text-sm font-medium text-foreground">{item.metric}</span>
-                      <div className="flex gap-4 text-xs text-muted-foreground">
+                      <div className="flex gap-3 text-xs text-muted-foreground">
                         <span>{item.beforeLabel}</span>
                         <span>{item.afterLabel}</span>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                       {/* Before */}
                       <div className="relative">
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-xs text-muted-foreground">Before</span>
                           <span className="text-sm font-medium text-foreground">{item.before}{item.unit}</span>
                         </div>
-                        <div className="h-6 bg-muted rounded-md overflow-hidden">
+                        <div className="h-5 md:h-6 bg-muted rounded-md overflow-hidden">
                           <div 
                             className={`h-full bg-muted-foreground/40 transition-all duration-1000 ease-out`}
                             style={{ 
@@ -410,7 +410,7 @@ export default function ScalePage() {
                           <span className="text-xs text-muted-foreground">After</span>
                           <span className="text-sm font-medium text-foreground">{item.after}{item.unit}</span>
                         </div>
-                        <div className="h-6 bg-muted rounded-md overflow-hidden">
+                        <div className="h-5 md:h-6 bg-muted rounded-md overflow-hidden">
                           <div 
                             className={`h-full ${item.color} transition-all duration-1000 ease-out animate-scale-in`}
                             style={{ 
@@ -424,7 +424,7 @@ export default function ScalePage() {
                     
                     {/* Improvement indicator */}
                     <div className="flex justify-end mt-1">
-                      <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400">
+                      <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">
                         {item.metric === "Customer Response Time" 
                           ? `${Math.round(((item.before - item.after) / item.before) * 100)}% faster`
                           : `+${item.after - item.before}${item.unit} improvement`
@@ -437,9 +437,9 @@ export default function ScalePage() {
             </div>
 
             {/* Key Benefits */}
-            <div className="space-y-6">
-              <div className="text-center md:text-left">
-                <h3 className="text-xl font-semibold text-foreground mb-4">
+            <div className="space-y-6 order-1 lg:order-2">
+              <div className="text-center lg:text-left">
+                <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-4">
                   Join 500+ companies already seeing results
                 </h3>
                 <p className="text-muted-foreground mb-6">
@@ -447,7 +447,7 @@ export default function ScalePage() {
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {[
                   {
                     icon: Clock,
@@ -478,7 +478,7 @@ export default function ScalePage() {
                     <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                       <benefit.icon className="h-4 w-4 text-primary" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <h4 className="text-sm font-medium text-foreground">{benefit.title}</h4>
                       <p className="text-xs text-muted-foreground">{benefit.desc}</p>
                     </div>
@@ -493,7 +493,7 @@ export default function ScalePage() {
                     el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                   }}
                   size="lg"
-                  className="w-full group font-medium hover-scale"
+                  className="w-full group font-medium"
                 >
                   Get Early Access Now
                 </Button>
