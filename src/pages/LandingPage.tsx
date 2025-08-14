@@ -22,6 +22,12 @@ import SEO from "@/components/SEO";
 
 export default function LandingPage() {
   const location = useLocation();
+  
+  // Debug logging
+  useEffect(() => {
+    console.log('LandingPage mounted, location:', location.pathname);
+  }, []);
+  
   useEffect(() => {
     if (location.hash) {
       const id = location.hash.replace('#', '');
