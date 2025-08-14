@@ -1,10 +1,9 @@
 
 import { useState, useEffect } from "react"
-import { getDefaultCurrency } from "@/utils/currencyUtils"
-import { documentTerms } from "./documentConfig"
-import { useDocumentNumber } from "./useDocumentNumber"
+import { supabase } from "@/integrations/supabase/client"
 
-interface DocumentFormData {
+interface DefaultFormData {
+  id?: string
   number: string
   date: string
   dueDate: string
@@ -31,6 +30,7 @@ interface DocumentFormData {
     description: string
     quantity: number
     unitPrice: number
+    discount: number
     tax: number
     total: number
   }>
@@ -39,21 +39,21 @@ interface DocumentFormData {
 }
 
 export function useDocumentForm(documentType: string, initialData?: any) {
-  const { autoGenerateNumbers, loadNumberSettings, generateDocumentNumber } = useDocumentNumber(documentType)
+  const [autoGenerateNumbers, setAutoGenerateNumbers] = useState(true)
   
-  const [formData, setFormData] = useState<DocumentFormData>(initialData || {
+  const getDefaultFormData = (): DefaultFormData => ({
     number: '',
     date: new Date().toISOString().split('T')[0],
     dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     status: 'draft',
     paymentMethod: 'card',
-    currency: getDefaultCurrency().code,
+    currency: 'USD',
     companyInfo: {
-      name: '',
+      name: 'Your Company',
       logo: '',
-      address: '',
-      phone: '',
-      email: ''
+      address: 'Your Address',
+      phone: 'Your Phone',
+      email: 'your@email.com'
     },
     clientInfo: {
       id: '',
@@ -68,37 +68,66 @@ export function useDocumentForm(documentType: string, initialData?: any) {
       description: '',
       quantity: 1,
       unitPrice: 0,
+      discount: 0,
       tax: 0,
       total: 0
     }],
     notes: '',
-    terms: documentTerms[documentType] || 'Terms and conditions apply.'
+    terms: 'Payment is due within 30 days from the date of this document.'
   })
 
-  useEffect(() => {
-    loadNumberSettings()
-  }, [documentType, loadNumberSettings])
+  const [formData, setFormData] = useState<DefaultFormData>(() => {
+    if (initialData) {
+      return {
+        ...getDefaultFormData(),
+        ...initialData,
+        lineItems: initialData.lineItems?.map((item: any) => ({
+          ...item,
+          discount: item.discount || 0 // Ensure discount property exists
+        })) || getDefaultFormData().lineItems
+      }
+    }
+    return getDefaultFormData()
+  })
+
+  const generateDocumentNumber = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+
+      const functionName = `generate_${documentType}_number`
+      const { data, error } = await supabase.rpc(functionName)
+      
+      if (error) {
+        console.error(`Error generating ${documentType} number:`, error)
+        return null
+      }
+      
+      return data
+    } catch (error) {
+      console.error(`Error generating ${documentType} number:`, error)
+      return null
+    }
+  }
 
   useEffect(() => {
-    if (initialData) {
-      setFormData({
-        ...initialData,
-        currency: initialData.currency || getDefaultCurrency().code,
-        terms: initialData.terms || documentTerms[documentType] || 'Terms and conditions apply.'
-      })
-    } else if (autoGenerateNumbers && !formData.number) {
-      generateDocumentNumber().then(number => {
-        if (number) {
-          setFormData(prev => ({ ...prev, number }))
+    const initializeNumber = async () => {
+      if (autoGenerateNumbers && !formData.number && !initialData) {
+        const newNumber = await generateDocumentNumber()
+        if (newNumber) {
+          setFormData(prev => ({ ...prev, number: newNumber }))
         }
-      })
+      }
     }
-  }, [initialData, documentType, autoGenerateNumbers, generateDocumentNumber, formData.number])
+    
+    initializeNumber()
+  }, [documentType, autoGenerateNumbers, formData.number, initialData])
 
   return {
     formData,
     setFormData,
     autoGenerateNumbers,
+    setAutoGenerateNumbers,
     generateDocumentNumber
   }
 }
