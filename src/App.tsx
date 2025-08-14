@@ -6,7 +6,10 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { AuthGuard } from '@/components/AuthGuard'
 import { ErrorFallback } from '@/components/ErrorFallback'
 
-// Lazy load pages for better performance
+// Import LandingPage directly to avoid module loading issues
+import LandingPage from '@/pages/LandingPage'
+
+// Lazy load other pages for better performance
 const Index = lazy(() => import('@/pages/Index'))
 const Auth = lazy(() => import('@/pages/Auth'))
 const Features = lazy(() => import('@/pages/Features'))
@@ -27,7 +30,6 @@ const Investors = lazy(() => import('@/pages/Investors'))
 const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'))
 const TermsOfService = lazy(() => import('@/pages/TermsOfService'))
 const Feedback = lazy(() => import('@/pages/Feedback'))
-const LandingPage = lazy(() => import('@/pages/LandingPage'))
 const ScalePage = lazy(() => import('@/pages/ScalePage'))
 const FeaturesOverview = lazy(() => import('@/pages/FeaturesOverview'))
 const EditionsPage = lazy(() => import('@/pages/EditionsPage'))
@@ -127,11 +129,7 @@ function App() {
         <Routes>
           <Route
             path="/landing"
-            element={
-              <SuspenseWrapper>
-                <LandingPage />
-              </SuspenseWrapper>
-            }
+            element={<LandingPage />}
           />
           <Route 
             path="/scale" 
