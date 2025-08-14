@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.12 (cd3cf9e)"
@@ -2934,8 +2934,8 @@ export type Database = {
     Functions: {
       check_rate_limit: {
         Args: {
-          client_ip: unknown
           action: string
+          client_ip: unknown
           max_requests?: number
           window_minutes?: number
         }
@@ -2951,10 +2951,10 @@ export type Database = {
       }
       enhanced_rate_limit_check: {
         Args: {
-          client_ip: unknown
           action: string
-          user_context?: string
+          client_ip: unknown
           max_requests?: number
+          user_context?: string
           window_minutes?: number
         }
         Returns: boolean
@@ -3016,58 +3016,58 @@ export type Database = {
         Returns: {
           check_type: string
           schema_name: string
-          table_name: string
           status: string
+          table_name: string
         }[]
       }
       has_role: {
-        Args: { _user_id: string; _role: string }
+        Args: { _role: string; _user_id: string }
         Returns: boolean
       }
       log_security_event: {
         Args: {
-          p_table_name: string
+          p_new_data?: Json
+          p_old_data?: Json
           p_operation: string
           p_record_id?: string
-          p_old_data?: Json
-          p_new_data?: Json
+          p_table_name: string
         }
         Returns: undefined
       }
       log_template_access: {
         Args: {
-          template_id_param: string
           access_type_param: string
           ip_address_param?: unknown
+          template_id_param: string
           user_agent_param?: string
         }
         Returns: undefined
       }
       match_kb_chunks: {
-        Args: { query_embedding: string; match_count: number; lang: string }
+        Args: { lang: string; match_count: number; query_embedding: string }
         Returns: {
           chunk_id: string
           content: string
-          url: string
-          title: string
           language: string
           similarity: number
+          title: string
+          url: string
         }[]
       }
       track_referral_signup: {
-        Args: { referral_code_param: string; new_user_email: string }
+        Args: { new_user_email: string; referral_code_param: string }
         Returns: boolean
       }
       upsert_blog_post: {
         Args: {
-          p_title: string
-          p_slug: string
-          p_excerpt: string
           p_content: string
-          p_tags: string[]
+          p_excerpt: string
           p_likes: number
           p_names: string[]
           p_read: number
+          p_slug: string
+          p_tags: string[]
+          p_title: string
         }
         Returns: undefined
       }
