@@ -70,6 +70,11 @@ const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
 function App() {
   const [redirectProcessed, setRedirectProcessed] = useState(false)
 
+  // Debug logging for app mounting
+  useEffect(() => {
+    console.log('App component mounted');
+  }, []);
+
   // Optimized canonical redirect with loop prevention
   useEffect(() => {
     if (import.meta.env.PROD && !redirectProcessed) {
