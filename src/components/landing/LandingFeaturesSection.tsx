@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   FileText,
   Users,
@@ -79,39 +79,12 @@ const features = [
 ];
 
 export const LandingFeaturesSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const section = document.getElementById('features-section');
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          // Reveal only once to prevent flicker/instability
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        threshold: 0.15,
-        rootMargin: '0px 0px -10% 0px'
-      }
-    );
-
-    observer.observe(section);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   return (
     <section id="features" className="py-16 sm:py-24 lg:py-32 bg-background">
-      <div id="features-section" className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
         {/* Section Header */}
-        <div className={`text-center max-w-3xl mx-auto mb-12 sm:mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-4">
             Everything your business needs,{" "}
             <span className="text-muted-foreground">in one place.</span>
@@ -123,15 +96,10 @@ export const LandingFeaturesSection = () => {
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-4">
-          {features.map((feature, index) => (
+          {features.map((feature) => (
             <div
               key={feature.title}
-              className={`group p-6 rounded-xl border border-border/50 hover:border-border transition-all duration-500 hover:shadow-lg bg-card/50 backdrop-blur-sm ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-              style={{
-                transitionDelay: isVisible ? `${index * 50}ms` : '0ms'
-              }}
+              className="group p-6 rounded-xl border border-border/50 hover:border-border transition-all duration-500 hover:shadow-lg bg-card/50 backdrop-blur-sm"
             >
               <div className="flex items-start gap-4">
                 <div className="p-2 rounded-lg bg-muted/50 border border-border/50 group-hover:bg-muted transition-colors">
@@ -151,7 +119,7 @@ export const LandingFeaturesSection = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className={`text-center mt-16 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className="text-center mt-16">
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             <strong className="text-foreground">50+ integrated business tools</strong> designed to work together seamlessly, giving you the complete business management experience you've been looking for.
           </p>

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
@@ -10,13 +10,11 @@ import navglyphsUrl from "@/assets/navglyphs.svg";
 
 export const LandingHeroSection = () => {
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
   const [showSalesModal, setShowSalesModal] = useState(false);
   const { isSubscribed, openCustomerPortal } = useSubscription();
 
   const pillsRef = useRef<HTMLDivElement>(null);
   const [pillsOverflow, setPillsOverflow] = useState(false);
-  const [pillsLogged, setPillsLogged] = useState(false);
   const pillLabels = ["AI Voice","Estimates","SmartSchedule","EasyCalc","E-sign","Reports","Invoices","Receipts","Bids"];
   
   // Icon mapping for pills
@@ -33,10 +31,6 @@ export const LandingHeroSection = () => {
   };
 
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  useEffect(() => {
     const el = pillsRef.current;
     const check = () => {
       if (!el) return;
@@ -46,24 +40,6 @@ export const LandingHeroSection = () => {
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
-
-  useEffect(() => {
-    if (pillsLogged) return;
-    const el = pillsRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          console.log('hero_pills_view', pillLabels.slice(0, 4));
-          setPillsLogged(true);
-          obs.disconnect();
-        }
-      });
-    }, { threshold: 0.3 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [pillsLogged]);
-
 
   return (
     <section id="hero_headline_v1" data-component-key="hero_headline_v1" className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 bg-gradient-to-b from-background to-muted/20">
@@ -80,7 +56,7 @@ export const LandingHeroSection = () => {
         }}
       />
       {/* Announcement Banner */}
-      <div className={`text-center mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <div className="text-center mb-8">
         <div
           className="group gold-chip inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-colors cursor-pointer transform-gpu will-change-transform transition-transform duration-500 hover:scale-105 shadow-sm hover:shadow-md"
           role="button"
@@ -96,18 +72,18 @@ export const LandingHeroSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-4xl mx-auto">
           {/* Main Headline */}
-          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 leading-[1.08] transition-all duration-1000 delay-200 px-4 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 leading-[1.08] px-4">
             Business management{" "}
             <span className="text-primary">magic.</span>
           </h1>
 
           {/* Subtitle */}
-          <p className={`text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed transition-all duration-1000 delay-400 px-4 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed px-4">
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
           {/* CTA Buttons */}
-          <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button
               data-analytics-id="hero_cta_start_click"
               size="xl"
@@ -152,7 +128,7 @@ export const LandingHeroSection = () => {
             )}
           </div>
 
-          <div className={`relative transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="relative">
             <div
               ref={pillsRef}
               data-analytics-id="hero_pills_view"
