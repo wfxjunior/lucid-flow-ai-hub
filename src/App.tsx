@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy, useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
 import { DocumentTrackingProvider } from '@/components/DocumentTrackingProvider'
@@ -12,6 +13,7 @@ import LandingPage from '@/pages/LandingPage'
 // Lazy load other pages for better performance
 const Index = lazy(() => import('@/pages/Index'))
 const Auth = lazy(() => import('@/pages/Auth'))
+const TestPDF = lazy(() => import('@/pages/TestPDF'))
 const Features = lazy(() => import('@/pages/Features'))
 const Integrations = lazy(() => import('@/pages/Integrations'))
 const API = lazy(() => import('@/pages/API'))
@@ -159,6 +161,14 @@ function App() {
             element={
               <SuspenseWrapper>
                 <Auth />
+              </SuspenseWrapper>
+            } 
+          />
+          <Route 
+            path="/test-pdf" 
+            element={
+              <SuspenseWrapper>
+                <TestPDF />
               </SuspenseWrapper>
             } 
           />
