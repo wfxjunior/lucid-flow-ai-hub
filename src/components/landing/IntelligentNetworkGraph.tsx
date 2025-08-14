@@ -28,16 +28,47 @@ interface Edge {
   active: boolean;
 }
 
+// Helper function to get theme colors
+const getThemeColor = (colorName: string, opacity = 1): string => {
+  if (typeof window === 'undefined') return '#3b82f6';
+  
+  const root = document.documentElement;
+  const style = getComputedStyle(root);
+  
+  let hslValue = '';
+  switch (colorName) {
+    case 'primary':
+      hslValue = style.getPropertyValue('--primary').trim();
+      break;
+    case 'foreground':
+      hslValue = style.getPropertyValue('--foreground').trim();
+      break;
+    case 'muted-foreground':
+      hslValue = style.getPropertyValue('--muted-foreground').trim();
+      break;
+    case 'accent':
+      hslValue = style.getPropertyValue('--accent').trim();
+      break;
+    case 'secondary':
+      hslValue = style.getPropertyValue('--secondary').trim();
+      break;
+    default:
+      hslValue = '221.2 83.2% 53.3%'; // fallback primary
+  }
+  
+  return `hsl(${hslValue} / ${opacity})`;
+};
+
 const businessNodes = [
-  { id: 'dashboard', label: 'Dashboard', type: 'core', color: 'hsl(var(--primary))', connections: ['invoices', 'appointments', 'analytics'] },
-  { id: 'invoices', label: 'Invoices', type: 'process', color: 'hsl(var(--muted-foreground))', connections: ['payments', 'clients'] },
-  { id: 'appointments', label: 'Schedule', type: 'process', color: 'hsl(var(--foreground))', connections: ['clients', 'calendar'] },
-  { id: 'payments', label: 'Payments', type: 'data', color: 'hsl(var(--accent))', connections: ['analytics'] },
-  { id: 'clients', label: 'Clients', type: 'core', color: 'hsl(var(--primary) / 0.8)', connections: ['analytics', 'communication'] },
-  { id: 'analytics', label: 'Analytics', type: 'core', color: 'hsl(var(--primary) / 0.6)', connections: ['reports'] },
-  { id: 'calendar', label: 'Calendar', type: 'data', color: 'hsl(var(--secondary))', connections: ['communication'] },
-  { id: 'reports', label: 'Reports', type: 'process', color: 'hsl(var(--muted-foreground) / 0.8)', connections: ['communication'] },
-  { id: 'communication', label: 'Communication', type: 'process', color: 'hsl(var(--accent) / 0.8)', connections: [] },
+  { id: 'dashboard', label: 'Dashboard', type: 'core', color: 'primary', connections: ['invoices', 'appointments', 'analytics'] },
+  { id: 'invoices', label: 'Invoices', type: 'process', color: 'muted-foreground', connections: ['payments', 'clients'] },
+  { id: 'appointments', label: 'Schedule', type: 'process', color: 'foreground', connections: ['clients', 'calendar'] },
+  { id: 'payments', label: 'Payments', type: 'data', color: 'accent', connections: ['analytics'] },
+  { id: 'clients', label: 'Clients', type: 'core', color: 'primary', connections: ['analytics', 'communication'] },
+  { id: 'analytics', label: 'Analytics', type: 'core', color: 'primary', connections: ['reports'] },
+  { id: 'calendar', label: 'Calendar', type: 'data', color: 'secondary', connections: ['communication'] },
+  { id: 'reports', label: 'Reports', type: 'process', color: 'muted-foreground', connections: ['communication'] },
+  { id: 'communication', label: 'Communication', type: 'process', color: 'accent', connections: [] },
 ];
 
 export function IntelligentNetworkGraph() {
@@ -66,7 +97,7 @@ export function IntelligentNetworkGraph() {
         vy: 0,
         radius: node.type === 'core' ? 25 : node.type === 'process' ? 20 : 15,
         label: node.label,
-        color: node.color,
+        color: getThemeColor(node.color),
         connections: node.connections,
         activity: Math.random(),
         type: node.type as 'core' | 'process' | 'data'
@@ -268,8 +299,8 @@ export function IntelligentNetworkGraph() {
       dimensions.width / 2, dimensions.height / 2, 0,
       dimensions.width / 2, dimensions.height / 2, Math.max(dimensions.width, dimensions.height) / 2
     );
-    gradient.addColorStop(0, 'hsl(var(--primary) / 0.02)');
-    gradient.addColorStop(1, 'hsl(var(--primary) / 0.005)');
+    gradient.addColorStop(0, getThemeColor('primary', 0.02));
+    gradient.addColorStop(1, getThemeColor('primary', 0.005));
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
@@ -284,7 +315,7 @@ export function IntelligentNetworkGraph() {
         ctx.lineTo(target.x, target.y);
         
         const opacity = edge.active ? edge.strength : edge.strength * 0.3;
-        ctx.strokeStyle = `hsl(var(--primary) / ${opacity * 0.4})`;
+        ctx.strokeStyle = getThemeColor('primary', opacity * 0.4);
         ctx.lineWidth = edge.active ? 1.5 : 0.8;
         ctx.stroke();
         
@@ -297,7 +328,7 @@ export function IntelligentNetworkGraph() {
           
           ctx.beginPath();
           ctx.arc(flowX, flowY, 2, 0, Math.PI * 2);
-          ctx.fillStyle = 'hsl(var(--primary))';
+          ctx.fillStyle = getThemeColor('primary');
           ctx.fill();
         }
       }
@@ -337,7 +368,7 @@ export function IntelligentNetworkGraph() {
       
       // Label - responsive font size
       if (isHovered || node.type === 'core') {
-        ctx.fillStyle = 'hsl(var(--foreground))';
+        ctx.fillStyle = getThemeColor('foreground');
         const fontSize = window.innerWidth < 640 ? 10 : 12;
         ctx.font = `bold ${fontSize}px system-ui`;
         ctx.textAlign = 'center';
