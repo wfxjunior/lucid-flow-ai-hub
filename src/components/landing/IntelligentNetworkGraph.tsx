@@ -28,6 +28,43 @@ interface Edge {
   active: boolean;
 }
 
+// Helper function to convert HSL to RGBA
+const hslToRgba = (hslColor: string) => {
+  // Extract HSL values from string like "hsl(221.2 83.2% 53.3%)"
+  const match = hslColor.match(/hsl\(([^)]+)\)/);
+  if (!match) return { r: 59, g: 130, b: 246 }; // fallback blue
+  
+  const [h, s, l] = match[1].split(/\s+/).map((val, i) => {
+    const num = parseFloat(val.replace('%', ''));
+    return i === 0 ? num : num / 100;
+  });
+  
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+  const m = l - c / 2;
+  
+  let r = 0, g = 0, b = 0;
+  if (0 <= h && h < 60) {
+    r = c; g = x; b = 0;
+  } else if (60 <= h && h < 120) {
+    r = x; g = c; b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0; g = c; b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0; g = x; b = c;
+  } else if (240 <= h && h < 300) {
+    r = x; g = 0; b = c;
+  } else if (300 <= h && h < 360) {
+    r = c; g = 0; b = x;
+  }
+  
+  return {
+    r: Math.round((r + m) * 255),
+    g: Math.round((g + m) * 255),
+    b: Math.round((b + m) * 255)
+  };
+};
+
 // Helper function to get theme colors
 const getThemeColor = (colorName: string, opacity = 1): string => {
   if (typeof window === 'undefined') return '#3b82f6';
@@ -348,8 +385,10 @@ export function IntelligentNetworkGraph() {
           node.x, node.y, 0,
           node.x, node.y, radius + 10
         );
-        glowGradient.addColorStop(0, `${node.color}40`);
-        glowGradient.addColorStop(1, `${node.color}00`);
+        // Convert HSL color to rgba for gradients
+        const rgbaColor = hslToRgba(node.color);
+        glowGradient.addColorStop(0, `rgba(${rgbaColor.r}, ${rgbaColor.g}, ${rgbaColor.b}, 0.25)`);
+        glowGradient.addColorStop(1, `rgba(${rgbaColor.r}, ${rgbaColor.g}, ${rgbaColor.b}, 0)`);
         ctx.fillStyle = glowGradient;
         ctx.fill();
       }
