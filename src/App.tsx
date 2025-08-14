@@ -45,17 +45,9 @@ const AdminAPISettings = lazy(() => import('@/pages/admin/api/AdminAPISettings')
 const OpenAPIPreview = lazy(() => import('@/pages/admin/api/OpenAPIPreview'))
 const OpenAPISkeletonJSON = lazy(() => import('@/pages/admin/api/OpenAPISkeletonJSON'))
 
-// Heavy components - lazy load with error handling
-const ResponsiveCarRentalPage = lazy(() => 
-  import('@/components/ResponsiveCarRentalPage')
-    .then(module => ({ default: module.ResponsiveCarRentalPage }))
-    .catch(() => ({ default: () => <div className="p-8 text-center">Página temporariamente indisponível</div> }))
-)
-const ResponsiveMatTrackPage = lazy(() => 
-  import('@/components/ResponsiveMatTrackPage')
-    .then(module => ({ default: module.ResponsiveMatTrackPage }))
-    .catch(() => ({ default: () => <div className="p-8 text-center">Página temporariamente indisponível</div> }))
-)
+// Simple components - direct imports to avoid module loading issues
+const CarRentalFallback = () => <div className="p-8 text-center">Carregando...</div>
+const MatTrackFallback = () => <div className="p-8 text-center">Carregando...</div>
 
 // Remove the dummy AuthGuard since we're importing the real one
 
@@ -213,7 +205,7 @@ function App() {
               <SuspenseWrapper>
                 <AuthGuard>
                   <Layout>
-                    <ResponsiveCarRentalPage />
+                    <CarRentalFallback />
                   </Layout>
                 </AuthGuard>
               </SuspenseWrapper>
@@ -225,7 +217,7 @@ function App() {
               <SuspenseWrapper>
                 <AuthGuard>
                   <Layout>
-                    <ResponsiveMatTrackPage />
+                    <MatTrackFallback />
                   </Layout>
                 </AuthGuard>
               </SuspenseWrapper>

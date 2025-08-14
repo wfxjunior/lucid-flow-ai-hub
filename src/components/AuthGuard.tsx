@@ -15,25 +15,23 @@ export function AuthGuard({ children, fallback }: AuthGuardProps) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Check current auth state
+    // Check current auth state with better error handling
     const checkAuth = async () => {
       try {
         const { data: { user }, error } = await supabase.auth.getUser()
         
-        if (error) {
+        if (error && error.message !== 'Auth session missing!') {
           console.error('Auth check error:', error)
-          navigate('/auth')
-          return
         }
         
         setUser(user)
         
-        if (!user) {
-          navigate('/auth')
+        if (!user && window.location.pathname !== '/landing') {
+          navigate('/landing')
         }
       } catch (error) {
         console.error('Error checking auth:', error)
-        navigate('/auth')
+        setUser(null)
       } finally {
         setLoading(false)
       }
