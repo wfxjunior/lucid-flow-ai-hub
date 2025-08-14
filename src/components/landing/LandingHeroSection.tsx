@@ -112,19 +112,19 @@ export const LandingHeroSection = () => {
               data-analytics-id="hero_cta_start_click"
               size="xl"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="group font-medium text-lg px-8 py-4 h-14"
+              className="group font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
             >
               <span>Start for free</span>
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
             </Button>
             <Button
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               size="xl"
               onClick={() => setShowSalesModal(true)}
-              className="font-medium text-lg px-8 py-4 h-14 border-border/50 hover:border-border hover:bg-muted/50"
+              className="font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto border-border/50 hover:border-border hover:bg-muted/50"
             >
-              <Play className="h-5 w-5 mr-2" aria-hidden="true" />
+              <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2" aria-hidden="true" />
               <span>Talk to sales</span>
             </Button>
             {isSubscribed ? (
