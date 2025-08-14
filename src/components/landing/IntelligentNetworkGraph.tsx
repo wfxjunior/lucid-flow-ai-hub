@@ -29,15 +29,15 @@ interface Edge {
 }
 
 const businessNodes = [
-  { id: 'dashboard', label: 'Dashboard', type: 'core', color: '#60a5fa', connections: ['invoices', 'appointments', 'analytics'] },
-  { id: 'invoices', label: 'Invoices', type: 'process', color: '#9ca3af', connections: ['payments', 'clients'] },
-  { id: 'appointments', label: 'Schedule', type: 'process', color: '#1f2937', connections: ['clients', 'calendar'] },
-  { id: 'payments', label: 'Payments', type: 'data', color: '#6b7280', connections: ['analytics'] },
-  { id: 'clients', label: 'Clients', type: 'core', color: '#3b82f6', connections: ['analytics', 'communication'] },
-  { id: 'analytics', label: 'Analytics', type: 'core', color: '#60a5fa', connections: ['reports'] },
-  { id: 'calendar', label: 'Calendar', type: 'data', color: '#9ca3af', connections: ['communication'] },
-  { id: 'reports', label: 'Reports', type: 'process', color: '#374151', connections: ['communication'] },
-  { id: 'communication', label: 'Communication', type: 'process', color: '#6b7280', connections: [] },
+  { id: 'dashboard', label: 'Dashboard', type: 'core', color: 'hsl(var(--primary))', connections: ['invoices', 'appointments', 'analytics'] },
+  { id: 'invoices', label: 'Invoices', type: 'process', color: 'hsl(var(--muted-foreground))', connections: ['payments', 'clients'] },
+  { id: 'appointments', label: 'Schedule', type: 'process', color: 'hsl(var(--foreground))', connections: ['clients', 'calendar'] },
+  { id: 'payments', label: 'Payments', type: 'data', color: 'hsl(var(--accent))', connections: ['analytics'] },
+  { id: 'clients', label: 'Clients', type: 'core', color: 'hsl(var(--primary) / 0.8)', connections: ['analytics', 'communication'] },
+  { id: 'analytics', label: 'Analytics', type: 'core', color: 'hsl(var(--primary) / 0.6)', connections: ['reports'] },
+  { id: 'calendar', label: 'Calendar', type: 'data', color: 'hsl(var(--secondary))', connections: ['communication'] },
+  { id: 'reports', label: 'Reports', type: 'process', color: 'hsl(var(--muted-foreground) / 0.8)', connections: ['communication'] },
+  { id: 'communication', label: 'Communication', type: 'process', color: 'hsl(var(--accent) / 0.8)', connections: [] },
 ];
 
 export function IntelligentNetworkGraph() {
@@ -110,9 +110,21 @@ export function IntelligentNetworkGraph() {
       const container = canvasRef.current?.parentElement;
       if (container) {
         const rect = container.getBoundingClientRect();
-        const isMobile = window.innerWidth < 768;
-        const width = Math.max(isMobile ? 320 : 400, rect.width - 32);
-        const height = isMobile ? width * 0.8 : Math.min(600, width * 0.75);
+        const isMobile = window.innerWidth < 640;
+        const isTablet = window.innerWidth < 1024;
+        
+        let width, height;
+        
+        if (isMobile) {
+          width = Math.max(280, rect.width - 16);
+          height = width * 0.75;
+        } else if (isTablet) {
+          width = Math.max(400, rect.width - 24);
+          height = width * 0.7;
+        } else {
+          width = Math.max(500, rect.width - 32);
+          height = Math.min(600, width * 0.75);
+        }
         
         setDimensions({ width, height });
       }
@@ -120,8 +132,9 @@ export function IntelligentNetworkGraph() {
 
     handleResize();
     window.addEventListener('resize', handleResize);
-    // Add a timeout to handle initial layout
+    // Multiple timeouts to handle different layout stages
     setTimeout(handleResize, 100);
+    setTimeout(handleResize, 300);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -250,13 +263,13 @@ export function IntelligentNetworkGraph() {
     // Clear canvas
     ctx.clearRect(0, 0, dimensions.width, dimensions.height);
 
-    // Draw background gradient - lighter
+    // Draw background gradient - using theme colors
     const gradient = ctx.createRadialGradient(
       dimensions.width / 2, dimensions.height / 2, 0,
       dimensions.width / 2, dimensions.height / 2, Math.max(dimensions.width, dimensions.height) / 2
     );
-    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.02)');
-    gradient.addColorStop(1, 'rgba(59, 130, 246, 0.005)');
+    gradient.addColorStop(0, 'hsl(var(--primary) / 0.02)');
+    gradient.addColorStop(1, 'hsl(var(--primary) / 0.005)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
@@ -271,11 +284,11 @@ export function IntelligentNetworkGraph() {
         ctx.lineTo(target.x, target.y);
         
         const opacity = edge.active ? edge.strength : edge.strength * 0.3;
-        ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.3})`;
+        ctx.strokeStyle = `hsl(var(--primary) / ${opacity * 0.4})`;
         ctx.lineWidth = edge.active ? 1.5 : 0.8;
         ctx.stroke();
         
-        // Animated data flow
+        // Animated data flow - using primary color
         if (edge.active) {
           const time = Date.now() * 0.005;
           const progress = (Math.sin(time + edge.strength * 10) + 1) / 2;
@@ -284,7 +297,7 @@ export function IntelligentNetworkGraph() {
           
           ctx.beginPath();
           ctx.arc(flowX, flowY, 2, 0, Math.PI * 2);
-          ctx.fillStyle = '#60a5fa';
+          ctx.fillStyle = 'hsl(var(--primary))';
           ctx.fill();
         }
       }
@@ -322,13 +335,14 @@ export function IntelligentNetworkGraph() {
       ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
       ctx.fill();
       
-      // Label
+      // Label - responsive font size
       if (isHovered || node.type === 'core') {
-        ctx.fillStyle = '#1f2937';
-        ctx.font = 'bold 12px system-ui';
+        ctx.fillStyle = 'hsl(var(--foreground))';
+        const fontSize = window.innerWidth < 640 ? 10 : 12;
+        ctx.font = `bold ${fontSize}px system-ui`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(node.label, node.x, node.y + radius + 20);
+        ctx.fillText(node.label, node.x, node.y + radius + (window.innerWidth < 640 ? 16 : 20));
       }
     });
   }, [nodes, edges, dimensions, hoveredNode]);
@@ -385,15 +399,15 @@ export function IntelligentNetworkGraph() {
             <div className="mt-6 space-y-2">
               <div className="text-sm font-medium text-foreground">Node Types:</div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-4 h-4 rounded-full bg-blue-400"></div>
+                <div className="w-4 h-4 rounded-full bg-primary"></div>
                 <span>Core Systems</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                <div className="w-3 h-3 rounded-full bg-muted-foreground"></div>
                 <span>Business Processes</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                <div className="w-2 h-2 rounded-full bg-accent"></div>
                 <span>Data Sources</span>
               </div>
             </div>
@@ -416,7 +430,7 @@ export function IntelligentNetworkGraph() {
 
           {/* Right graph */}
           <div className="lg:col-span-7 order-1 lg:order-2">
-            <div className="relative rounded-xl lg:rounded-2xl border bg-card shadow-sm overflow-hidden min-h-[300px] sm:min-h-[400px]">
+            <div className="relative rounded-xl lg:rounded-2xl border bg-card shadow-sm overflow-hidden min-h-[250px] sm:min-h-[300px] lg:min-h-[400px]">
               <canvas
                 ref={canvasRef}
                 onMouseMove={handleMouseMove}
@@ -424,13 +438,13 @@ export function IntelligentNetworkGraph() {
                 className="w-full h-full cursor-pointer block"
                 style={{ 
                   background: 'linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.3) 100%)',
-                  minHeight: '300px'
+                  minHeight: 'inherit'
                 }}
               />
               
               {/* Hover tooltip - responsive positioning */}
               {hoveredNode && (
-                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-background/90 backdrop-blur-sm border rounded-lg p-2 sm:p-3 shadow-lg max-w-[200px]">
+                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-background/90 backdrop-blur-sm border rounded-lg p-2 sm:p-3 shadow-lg max-w-[180px] sm:max-w-[200px]">
                   <div className="font-medium text-xs sm:text-sm">
                     {nodes.find(n => n.id === hoveredNode)?.label}
                   </div>
