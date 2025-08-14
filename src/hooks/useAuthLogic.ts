@@ -18,19 +18,30 @@ export function useAuthLogic() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Check if user is already authenticated
+    // Check if user is already authenticated, but only after component mounts
     const checkAuth = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user) {
+        // Use getSession instead of getUser to avoid auth errors
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user) {
           console.log('User already authenticated, redirecting to home')
-          navigate('/')
+          // Use setTimeout to prevent immediate navigation issues
+          setTimeout(() => {
+            navigate('/')
+          }, 100)
         }
       } catch (error) {
-        console.error('Error checking auth:', error)
+        // Silently handle auth check errors on login page
+        console.log('Auth check on login page:', error.message)
       }
     }
-    checkAuth()
+    
+    // Delay the auth check to prevent module loading issues
+    const timer = setTimeout(() => {
+      checkAuth()
+    }, 500)
+    
+    return () => clearTimeout(timer)
   }, [navigate])
 
   const clearErrors = () => setErrors([])
