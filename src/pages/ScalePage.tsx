@@ -119,15 +119,6 @@ export default function ScalePage() {
             Premium features, superior performance, and priority support to accelerate your growth.
           </p>
 
-          {/* Countdown */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center w-full max-w-sm md:max-w-none mx-auto">
-            {[{label:'days', value: days},{label:'hours', value: hours},{label:'min', value: minutes},{label:'sec', value: seconds}].map((t) => (
-              <div key={t.label} className="flex flex-col items-center rounded-md border border-border/50 bg-muted/30 px-3 py-3 md:px-4 md:py-4">
-                <span className="text-xl md:text-2xl font-semibold tabular-nums text-foreground">{String(t.value).padStart(2, '0')}</span>
-                <span className="text-xs text-muted-foreground">{t.label}</span>
-              </div>
-            ))}
-          </div>
 
           {/* Waitlist form */}
           <form onSubmit={onJoinWaitlist} className="w-full max-w-md flex flex-col sm:flex-row gap-3">
@@ -354,7 +345,7 @@ export default function ScalePage() {
                     before: 35, 
                     after: 78, 
                     unit: "%",
-                    color: "bg-accent",
+                    color: "bg-blue-500",
                     beforeLabel: "Standard tools",
                     afterLabel: "Scale features"
                   },
@@ -363,7 +354,7 @@ export default function ScalePage() {
                     before: 80, 
                     after: 25, 
                     unit: "min",
-                    color: "bg-secondary",
+                    color: "bg-green-500",
                     beforeLabel: "Before Scale",
                     afterLabel: "Priority support"
                   },
@@ -372,7 +363,7 @@ export default function ScalePage() {
                     before: 15, 
                     after: 65, 
                     unit: "%",
-                    color: "bg-muted-foreground",
+                    color: "bg-purple-500",
                     beforeLabel: "Last year",
                     afterLabel: "With Scale"
                   }
