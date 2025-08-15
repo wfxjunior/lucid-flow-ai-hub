@@ -53,7 +53,7 @@ export default function ScalePage() {
       if (error) throw error;
       if (!data.success) throw new Error(data.error || 'Failed to join waitlist');
 
-      toast.success(data.message || "You're on the list. A confirmation was sent to your email.");
+      toast.success(data.message || "🎉 Welcome to FeatherBiz Scale! You're now on our exclusive waitlist. Check your email for confirmation and be the first to know when we launch!");
       setEmail("");
       setName("");
     } catch (e: any) {
