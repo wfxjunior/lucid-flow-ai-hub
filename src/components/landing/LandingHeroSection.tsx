@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SalesContactModal } from "@/components/SalesContactModal";
 import { useSubscription } from "@/hooks/useSubscription";
 import { track } from "@/lib/analytics";
@@ -91,7 +91,6 @@ export const LandingHeroSection = () => {
               className="group font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
             >
               <span>Start for free</span>
-              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
             </Button>
             <Button
               data-analytics-id="hero_cta_sales_click"
@@ -100,32 +99,8 @@ export const LandingHeroSection = () => {
               onClick={() => setShowSalesModal(true)}
               className="font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto border-border/50 hover:border-border hover:bg-muted/50"
             >
-              <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2" aria-hidden="true" />
               <span>Talk to sales</span>
             </Button>
-            {isSubscribed ? (
-              <Button
-                data-analytics-id="hero_cta_manage_sub_click"
-                variant="secondary"
-                size="xl"
-                onClick={openCustomerPortal}
-                className="font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
-              >
-                <span>Manage Subscription</span>
-                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
-              </Button>
-            ) : (
-              <Button
-                data-analytics-id="hero_cta_get_started_click"
-                variant="secondary"
-                size="xl"
-                onClick={() => navigate('/pricing')}
-                className="font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
-              >
-                <span>Get Started</span>
-                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
-              </Button>
-            )}
           </div>
 
           <div className="relative">
