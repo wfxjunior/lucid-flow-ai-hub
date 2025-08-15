@@ -4,8 +4,7 @@ import { useLocation } from "react-router-dom";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingHeroSection } from "@/components/landing/LandingHeroSection";
 
-// Temporarily removing IntelligentNetworkGraph to fix blank screen issue
-// import { IntelligentNetworkGraph } from "@/components/landing/IntelligentNetworkGraph";
+import { IntelligentNetworkGraph } from "@/components/landing/IntelligentNetworkGraph";
 import { LandingTestimonialsSection } from "@/components/landing/LandingTestimonialsSection";
 import { LandingNumbersSection } from "@/components/landing/LandingNumbersSection";
 
@@ -51,8 +50,7 @@ export default function LandingPage() {
       <main className="flex-1 flex flex-col">
         <LandingHeroSection />
         
-        {/* Temporarily removed IntelligentNetworkGraph to fix blank screen */}
-        {/* <IntelligentNetworkGraph /> */}
+        <IntelligentNetworkGraph />
         <LandingTestimonialsSection />
         <LandingFreeTrialV2 />
         <LandingNumbersSection />
