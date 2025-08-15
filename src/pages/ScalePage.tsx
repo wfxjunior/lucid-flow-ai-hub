@@ -494,11 +494,9 @@ export default function ScalePage() {
         </div>
       </section>
 
-      {/* Graphic (keeps Attio/our style) */}
+      {/* Enhanced Network Visualization */}
       <section className="mt-12">
-        <div className="rounded-xl border border-border/40 bg-muted/20 p-4">
-          <IntelligentNetworkGraph />
-        </div>
+        <IntelligentNetworkGraph />
       </section>
 
       {/* CTA */}
