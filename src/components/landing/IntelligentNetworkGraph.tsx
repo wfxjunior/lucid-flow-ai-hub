@@ -66,8 +66,8 @@ export const IntelligentNetworkGraph = () => {
         id: i,
         x: Math.random() * (width - 120) + 60,
         y: Math.random() * (height - 120) + 60,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5,
         radius: Math.random() * 8 + 6,
         color: getNodeColor(type),
         connections: [],
@@ -149,8 +149,9 @@ export const IntelligentNetworkGraph = () => {
     const animate = () => {
       time += 0.016;
       
-      // Clear canvas
-      ctx.fillStyle = 'transparent';
+      // Clear canvas with background
+      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
       ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
       // Update node positions with simple physics
@@ -169,12 +170,27 @@ export const IntelligentNetworkGraph = () => {
           node.y = Math.max(node.radius, Math.min(dimensions.height - node.radius, node.y));
         }
 
+        // Add repulsion between nodes
+        nodes.forEach(otherNode => {
+          if (otherNode.id !== node.id) {
+            const dx = node.x - otherNode.x;
+            const dy = node.y - otherNode.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 80 && distance > 0) {
+              const force = 0.1 / distance;
+              node.vx += (dx / distance) * force;
+              node.vy += (dy / distance) * force;
+            }
+          }
+        });
+
         // Add some damping
-        node.vx *= 0.99;
-        node.vy *= 0.99;
+        node.vx *= 0.98;
+        node.vy *= 0.98;
 
         // Update pulse phase
-        node.pulsePhase += 0.02;
+        node.pulsePhase += 0.05;
       });
 
       // Draw connections
