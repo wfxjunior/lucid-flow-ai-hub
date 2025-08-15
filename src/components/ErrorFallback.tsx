@@ -38,15 +38,15 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="text-center space-y-6 max-w-md">
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold text-foreground">Oops! Algo deu errado</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Oops! Something went wrong</h1>
           <p className="text-muted-foreground">
-            Encontramos um erro técnico. Vamos corrigir isso rapidamente.
+            We encountered a technical error. We'll fix this quickly.
           </p>
         </div>
         
         {error && (
           <details className="text-left bg-muted p-4 rounded-lg">
-            <summary className="cursor-pointer text-sm font-medium">Detalhes técnicos</summary>
+            <summary className="cursor-pointer text-sm font-medium">Technical Details</summary>
             <pre className="mt-2 text-xs text-muted-foreground overflow-auto">
               {error.message}
             </pre>
@@ -58,13 +58,13 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
             onClick={handleRefresh}
             className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
           >
-            Atualizar Página
+            Refresh Page
           </button>
           <button
             onClick={handleGoHome}
             className="w-full bg-muted text-muted-foreground px-4 py-2 rounded-lg hover:bg-muted/80 transition-colors"
           >
-            Ir para Início
+            Go to Home
           </button>
         </div>
       </div>

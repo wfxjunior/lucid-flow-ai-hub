@@ -13,7 +13,7 @@ export default function Index() {
         <div className="space-y-2">
           <h1 className="text-3xl font-bold text-foreground">FeatherBiz</h1>
           <p className="text-muted-foreground">
-            Plataforma de gestão empresarial com IA
+            AI-powered business management platform
           </p>
         </div>
         
@@ -24,7 +24,7 @@ export default function Index() {
             size="lg"
           >
             <FileText className="w-5 h-5" />
-            Gerar PDF de Teste
+            Generate Test PDF
           </Button>
           
           <Button
@@ -33,7 +33,7 @@ export default function Index() {
             className="w-full"
             size="lg"
           >
-            Ver Landing Page
+            View Landing Page
           </Button>
         </div>
       </div>
