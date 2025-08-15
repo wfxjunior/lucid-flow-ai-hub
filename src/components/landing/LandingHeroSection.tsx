@@ -58,7 +58,7 @@ export const LandingHeroSection = () => {
       {/* Announcement Banner */}
       <div className="text-center mb-8">
         <div
-          className="group gold-chip inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-colors cursor-pointer shadow-sm hover:shadow-md"
+          className="gold-chip inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm cursor-pointer shadow-sm"
           role="button"
           aria-label="FeatherBiz Gold — Lista de Espera"
           tabIndex={0}
