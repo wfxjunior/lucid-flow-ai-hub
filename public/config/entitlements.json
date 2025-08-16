@@ -2,7 +2,7 @@
   "pro": {
     "features": [
       "Work Orders",
-      "EasyCalc",
+      "EasyCalc", 
       "MatTrack",
       "CarRental",
       "SmartSchedule",
@@ -15,7 +15,7 @@
     "coreBusiness": [
       "Meetings",
       "To-Do List",
-      "Notes",
+      "Notes", 
       "Appointments",
       "Contracts",
       "Proposals",

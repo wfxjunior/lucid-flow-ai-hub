@@ -2,7 +2,7 @@
   "pro": {
     "productId": "",
     "priceId": "",
-    "currency": "USD",
+    "currency": "USD", 
     "amount": 2500
   }
 }
