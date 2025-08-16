@@ -14,38 +14,38 @@ export function TestPDFGenerator() {
     try {
       const testInvoiceData = {
         invoiceNumber: 'INV-0001',
-        invoiceDate: new Date().toLocaleDateString('pt-BR'),
-        dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
-        title: 'Serviços de Consultoria',
+        invoiceDate: new Date().toLocaleDateString('en-US'),
+        dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US'),
+        title: 'Consulting Services',
         documentTitle: 'INVOICE',
         companyInfo: {
           name: 'FeatherBiz Company',
-          address: 'Rua das Flores, 123\nSão Paulo, SP - 01234-567',
-          phone: '+55 (11) 9999-9999',
-          email: 'contato@featherbiz.com',
+          address: '123 Business Street\nNew York, NY - 10001',
+          phone: '+1 (555) 999-9999',
+          email: 'contact@featherbiz.com',
           logo: '/lovable-uploads/f012d690-5b3d-4a3f-94fc-7d7114bb4fe5.png'
         },
         clientInfo: {
-          name: 'Cliente Exemplo Ltda',
-          email: 'cliente@exemplo.com',
-          phone: '+55 (11) 8888-8888',
-          address: 'Av. Paulista, 1000\nSão Paulo, SP - 01310-100'
+          name: 'Example Client Ltd',
+          email: 'client@example.com',
+          phone: '+1 (555) 888-8888',
+          address: '456 Corporate Ave\nNew York, NY - 10002'
         },
         lineItems: [
           {
-            description: 'Consultoria em Gestão Empresarial',
+            description: 'Business Management Consulting',
             quantity: 10,
             rate: 150.00,
             amount: 1500.00
           },
           {
-            description: 'Análise de Processos',
+            description: 'Process Analysis',
             quantity: 5,
             rate: 200.00,
             amount: 1000.00
           },
           {
-            description: 'Treinamento da Equipe',
+            description: 'Team Training',
             quantity: 3,
             rate: 300.00,
             amount: 900.00
@@ -57,22 +57,22 @@ export function TestPDFGenerator() {
           tax: 306.00,
           total: 3366.00
         },
-        notes: `Termos e Condições:
-• Pagamento em até 30 dias após o vencimento
-• Multa de 2% ao mês em caso de atraso
-• Desconto de 10% para pagamento antecipado
-• Este documento requer assinatura digital para validação
+        notes: `Terms and Conditions:
+• Payment due within 30 days of invoice date
+• 2% monthly penalty for late payments
+• 10% discount for early payment
+• This document requires digital signature for validation
 
-ESPAÇO PARA ASSINATURA DIGITAL:
-Por favor, assine digitalmente este documento para confirmar o acordo dos termos e valores apresentados.`,
+DIGITAL SIGNATURE SPACE:
+Please digitally sign this document to confirm agreement with the terms and amounts presented.`,
         status: 'pending'
       }
 
       await generateInvoicePDF(testInvoiceData)
-      toast.success('PDF de teste gerado com sucesso!')
+      toast.success('Test PDF generated successfully!')
     } catch (error) {
-      console.error('Erro ao gerar PDF de teste:', error)
-      toast.error('Erro ao gerar PDF de teste')
+      console.error('Error generating test PDF:', error)
+      toast.error('Error generating test PDF')
     } finally {
       setIsGenerating(false)
     }
@@ -83,23 +83,23 @@ Por favor, assine digitalmente este documento para confirmar o acordo dos termos
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="h-5 w-5" />
-          Gerador de PDF Teste
+          Test PDF Generator
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Clique no botão abaixo para gerar um PDF de exemplo com espaço para assinatura digital.
+          Click the button below to generate a sample PDF with space for digital signature.
         </p>
         
         <div className="space-y-2">
-          <h4 className="text-sm font-medium">O PDF incluirá:</h4>
+          <h4 className="text-sm font-medium">The PDF will include:</h4>
           <ul className="text-sm text-muted-foreground space-y-1">
-            <li>• Header profissional com logo</li>
-            <li>• Informações da empresa e cliente</li>
-            <li>• Itens de serviço detalhados</li>
-            <li>• Cálculos automáticos de totais</li>
-            <li>• Área dedicada para assinatura</li>
-            <li>• Termos e condições</li>
+            <li>• Professional header with logo</li>
+            <li>• Company and client information</li>
+            <li>• Detailed service items</li>
+            <li>• Automatic total calculations</li>
+            <li>• Dedicated signature area</li>
+            <li>• Terms and conditions</li>
           </ul>
         </div>
 
@@ -109,7 +109,7 @@ Por favor, assine digitalmente este documento para confirmar o acordo dos termos
           className="w-full"
         >
           <Download className="mr-2 h-4 w-4" />
-          {isGenerating ? 'Gerando PDF...' : 'Gerar PDF de Teste'}
+          {isGenerating ? 'Generating PDF...' : 'Generate Test PDF'}
         </Button>
       </CardContent>
     </Card>
