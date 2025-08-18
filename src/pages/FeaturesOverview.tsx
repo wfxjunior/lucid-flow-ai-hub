@@ -8,11 +8,12 @@ import {
   GanttChartSquare, PenLine, CalendarClock, PiggyBank, Calculator, Coins, BookOpen,
   Quote, Car, ClipboardList, Boxes, UserCog, RefreshCcw, HeartHandshake, PenTool, FileText as DocFileText,
   ArrowRightLeft, HandCoins, AlarmClock, StickyNote, MessagesSquare, Mail, BarChart3,
-  ServerCog, UserPlus, Calendar, Star, SlidersHorizontal, HelpCircle, Settings2
+  ServerCog, UserPlus, Calendar, Star, SlidersHorizontal, HelpCircle, Settings2,
+  LucideIcon
 } from "lucide-react"
 
 // Map each feature to a Lucide icon
-const featureIconMap: Record<string, React.ElementType> = {
+const featureIconMap: Record<string, LucideIcon> = {
   "Dashboard": LayoutDashboard,
   "AI Voice": Bot,
   "Invoices": FileText,
