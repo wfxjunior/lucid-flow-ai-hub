@@ -15,11 +15,15 @@ export default function Index() {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-full">
-        <AppSidebar setActiveView={setActiveView} activeView={activeView} />
-        <main className="flex-1 overflow-auto">
-          <MainContent activeView={activeView} onNavigate={handleNavigate} />
-        </main>
+      <div className="w-full min-h-screen bg-background">
+        <div className="flex w-full min-h-screen max-w-none">
+          <AppSidebar setActiveView={setActiveView} activeView={activeView} />
+          <main className="flex-1 min-w-0 max-w-none bg-background overflow-hidden">
+            <div className="h-screen overflow-y-auto">
+              <MainContent activeView={activeView} onNavigate={handleNavigate} />
+            </div>
+          </main>
+        </div>
       </div>
     </SidebarProvider>
   )

@@ -34,7 +34,8 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   }
 
   return (
-    <div className="space-y-3 sm:space-y-4 lg:space-y-6 w-full">
+    <div className="w-full h-full p-4 md:p-6 overflow-y-auto">
+      <div className="space-y-3 sm:space-y-4 lg:space-y-6 w-full max-w-7xl mx-auto pb-8">
       {/* Header */}
       <DashboardHeader 
         onNavigate={handleNavigateInternal} 
@@ -55,6 +56,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
 
       {/* Bottom Section - Key Metrics */}
       <DashboardMetrics />
+      </div>
     </div>
   )
 }

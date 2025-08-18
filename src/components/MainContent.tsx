@@ -225,10 +225,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
   }
 
   return (
-    <div className="flex-1 min-h-0 w-full">
-      <div className="h-full w-full">
-        {renderContent()}
-      </div>
+    <div className="w-full h-full">
+      {renderContent()}
     </div>
   )
 }
