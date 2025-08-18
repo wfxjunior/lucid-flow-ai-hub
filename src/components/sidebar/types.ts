@@ -1,6 +1,6 @@
 
 export interface MenuItem {
   title: string
-  icon: any
+  icon?: any
   view: string
 }

@@ -38,7 +38,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: t("sidebar.mainFeatures.aiVoice", "AI Voice"), view: "ai-voice", icon: Mic },
     { title: t("sidebar.mainFeatures.invoices", "Invoices"), view: "invoices", icon: FileText },
     { title: t("sidebar.mainFeatures.estimates", "Estimates"), view: "estimates", icon: Calculator },
-    { title: t("sidebar.mainFeatures.payments", "Payments"), view: "payments", icon: CreditCard },
+    { title: t("sidebar.mainFeatures.payments", "Payments"), view: "payments" },
     { title: t("sidebar.mainFeatures.esignatures", "E-Signatures"), view: "e-signatures", icon: Signature },
   ]
 

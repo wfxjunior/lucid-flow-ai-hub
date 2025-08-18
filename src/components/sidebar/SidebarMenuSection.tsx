@@ -36,7 +36,7 @@ export function SidebarMenuSection({
                 isActive={activeView === item.view}
                 className="w-full justify-start px-2 py-1.5 text-sm font-medium transition-colors hover:bg-blue-500/10 hover:text-blue-600 data-[active=true]:bg-blue-500/20 data-[active=true]:text-blue-700 data-[active=true]:font-semibold"
               >
-                <item.icon className="mr-2 h-4 w-4" />
+                {item.icon && <item.icon className="mr-2 h-4 w-4" />}
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
