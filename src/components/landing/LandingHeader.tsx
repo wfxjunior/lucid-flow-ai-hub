@@ -257,7 +257,7 @@ export const LandingHeader = () => {
 
   return (
     <header className="w-full border-b border-[#E9EEF5] bg-white/95 backdrop-blur-sm sticky top-0 z-50" style={{ height: 'var(--nav-h)' }}>
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between h-full" style={{ paddingLeft: 'var(--nav-pl)', paddingRight: '24px' }}>
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between h-full pl-3 pr-6">
         {/* Logo and Navigation */}
         <div className="flex items-center">
           <Link to="/" className="text-xl font-bold text-[#111827] tracking-tight" aria-label="FeatherBiz home">
@@ -265,9 +265,9 @@ export const LandingHeader = () => {
           </Link>
 
           {/* Navigation - Hidden on mobile */}
-          <nav className="hidden lg:flex items-center" style={{ marginLeft: 'var(--logo-gap)' }}>
+          <nav className="hidden lg:flex items-center ml-5">
           <NavigationMenu>
-            <NavigationMenuList style={{ gap: 'var(--links-gap)' }}>
+            <NavigationMenuList className="gap-6">{/* Reduced from 36px to 24px */}
               {/* Platform */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger 
