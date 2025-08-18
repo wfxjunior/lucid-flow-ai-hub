@@ -40,8 +40,7 @@ export function ResponsivePaymentsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
-            <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
             Payments
           </h1>
           <p className="text-muted-foreground mt-1">
