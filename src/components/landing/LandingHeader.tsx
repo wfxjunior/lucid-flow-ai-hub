@@ -32,13 +32,13 @@ const NavGlyph = ({ name, className = "", size = 24 }: { name: string; className
 );
 
 const features = [
-  { key: "voices", icon: "voices", title: "Voices", desc: "Turn calls into actions" },
+  { key: "ai-voice", icon: "voices", title: "AI Voice", desc: "Turn calls into actions" },
+  { key: "invoices", icon: "estimates", title: "Invoices", desc: "Professional billing system" },
   { key: "estimates", icon: "estimates", title: "Estimates", desc: "Faster quotes, fewer errors" },
-  { key: "ai-calc", icon: "ai-calc", title: "AI & Calc", desc: "Smart pricing & ops" },
-  { key: "assignments", icon: "assignments", title: "Assignments", desc: "Own every task" },
-  { key: "reporting", icon: "reporting", title: "Reporting", desc: "Analyze & share" },
-  { key: "automations", icon: "automations", title: "Automations", desc: "Workflow anything" },
-  { key: "integrations", icon: "integrations", title: "Apps & integrations", desc: "Connect your stack" },
+  { key: "easy-calc", icon: "ai-calc", title: "EasyCalc", desc: "Smart pricing calculator" },
+  { key: "pipeline", icon: "assignments", title: "Pipeline", desc: "Manage your sales funnel" },
+  { key: "feather-tax", icon: "reporting", title: "FeatherTax", desc: "Tax management made easy" },
+  { key: "work-orders", icon: "automations", title: "Work Orders", desc: "Streamline operations" },
 ];
 
 export const LandingHeader = () => {
