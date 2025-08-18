@@ -184,52 +184,42 @@ export const LandingEntrepreneursSection = () => {
                     zIndex: isLarge ? 30 : isMedium ? 20 : 10,
                   }}
                 >
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="relative group">
-                        {/* Glow effect for larger avatars */}
-                        {isLarge && (
-                          <div className="absolute inset-0 bg-primary/20 rounded-full blur-md scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        )}
-                        
-                        <Avatar className={`
-                          ${entrepreneur.size} 
-                          transition-all duration-500 
-                          hover:scale-110 hover:rotate-2 
-                          border-2 border-background/80 
-                          shadow-lg hover:shadow-2xl 
-                          hover:border-primary/30 
-                          ${!animationStopped ? 'animate-pulse-subtle' : ''} 
-                          cursor-pointer
-                          backdrop-blur-sm
-                          ${isLarge ? 'ring-2 ring-primary/20 ring-offset-2 ring-offset-background' : ''}
-                          ${isMedium ? 'ring-1 ring-primary/10 ring-offset-1 ring-offset-background' : ''}
-                        `}>
-                          <AvatarImage
-                            src={entrepreneur.avatar}
-                            alt={`${entrepreneur.name} - ${entrepreneur.role}`}
-                            className={`
-                              object-cover 
-                              transition-all duration-500
-                              ${isLarge ? 'grayscale-0 saturate-110' : 'grayscale-[0.3] hover:grayscale-0'}
-                              hover:saturate-120
-                              group-hover:brightness-110
-                            `}
-                            loading="lazy"
-                          />
-                          <AvatarFallback className="bg-muted/80 text-muted-foreground text-xs font-medium backdrop-blur-sm">
-                            {entrepreneur.initials}
-                          </AvatarFallback>
-                        </Avatar>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-popover/95 backdrop-blur-md border border-border/50">
-                      <div className="text-center">
-                        <p className="font-medium text-sm text-popover-foreground">{entrepreneur.name}</p>
-                        <p className="text-xs text-muted-foreground">{entrepreneur.role}</p>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
+                  <div className="relative group">
+                    {/* Glow effect for larger avatars */}
+                    {isLarge && (
+                      <div className="absolute inset-0 bg-primary/20 rounded-full blur-md scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    )}
+                    
+                    <Avatar className={`
+                      ${entrepreneur.size} 
+                      transition-all duration-500 
+                      hover:scale-110 hover:rotate-2 
+                      border-2 border-background/80 
+                      shadow-lg hover:shadow-2xl 
+                      hover:border-primary/30 
+                      ${!animationStopped ? 'animate-pulse-subtle' : ''} 
+                      cursor-pointer
+                      backdrop-blur-sm
+                      ${isLarge ? 'ring-2 ring-primary/20 ring-offset-2 ring-offset-background' : ''}
+                      ${isMedium ? 'ring-1 ring-primary/10 ring-offset-1 ring-offset-background' : ''}
+                    `}>
+                      <AvatarImage
+                        src={entrepreneur.avatar}
+                        alt="Entrepreneur"
+                        className={`
+                          object-cover 
+                          transition-all duration-500
+                          ${isLarge ? 'grayscale-0 saturate-110' : 'grayscale-[0.3] hover:grayscale-0'}
+                          hover:saturate-120
+                          group-hover:brightness-110
+                        `}
+                        loading="lazy"
+                      />
+                      <AvatarFallback className="bg-muted/80 text-muted-foreground text-xs font-medium backdrop-blur-sm">
+                        {entrepreneur.initials}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
                 </div>
               );
             })}
