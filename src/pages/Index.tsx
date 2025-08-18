@@ -1,33 +1,26 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { FileText } from 'lucide-react'
+import { AppSidebar } from "@/components/AppSidebar"
+import { MainContent } from "@/components/MainContent"
+import { SidebarProvider } from "@/components/ui/sidebar"
 
 export default function Index() {
   const navigate = useNavigate()
+  const [activeView, setActiveView] = useState("dashboard")
+
+  const handleNavigate = (view: string) => {
+    setActiveView(view)
+  }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="text-center space-y-6 max-w-md">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-foreground">FeatherBiz</h1>
-          <p className="text-muted-foreground">
-            AI-powered business management platform
-          </p>
-        </div>
-        
-        <div className="space-y-4">
-          <Button
-            onClick={() => navigate('/landing')}
-            variant="outline"
-            className="w-full"
-            size="lg"
-          >
-            View Landing Page
-          </Button>
-        </div>
+    <SidebarProvider>
+      <div className="flex h-screen w-full">
+        <AppSidebar setActiveView={setActiveView} activeView={activeView} />
+        <main className="flex-1 overflow-auto">
+          <MainContent activeView={activeView} onNavigate={handleNavigate} />
+        </main>
       </div>
-    </div>
+    </SidebarProvider>
   )
 }
