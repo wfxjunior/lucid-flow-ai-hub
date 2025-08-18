@@ -109,6 +109,9 @@
     --chip-fs: 13px;
     --chip-px: 12px;
     --chip-gap: 8px;
+    
+    /* Enhanced gradient utilities */
+    --gradient-radial: radial-gradient(circle at center, var(--tw-gradient-stops));
   }
 
   .dark {
