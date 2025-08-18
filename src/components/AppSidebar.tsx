@@ -96,6 +96,14 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: t("sidebar.communication.emailCenter", "Email Center"), view: "email-center", icon: Mail },
   ]
 
+  // Business Growth & Management
+  const businessGrowthItems = [
+    { title: "Tours", view: "tours", icon: Calendar },
+    { title: "Finance", view: "finance", icon: Banknote },
+    { title: "Growth", view: "growth", icon: TrendingUp },
+    { title: "Automations", view: "automations", icon: Zap },
+  ]
+
   // Analytics - Only show Admin Panel to admin users
   const analyticsItems = [
     { title: t("sidebar.analytics.analytics", "Analytics"), view: "analytics", icon: BarChart3 },
@@ -173,6 +181,13 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         <SidebarMenuSection 
           items={communicationItems} 
           sectionTitle={t("sidebarSections.communication", "Communication")}
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        <SidebarSeparator />
+        <SidebarMenuSection 
+          items={businessGrowthItems} 
+          sectionTitle="Business Growth"
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />

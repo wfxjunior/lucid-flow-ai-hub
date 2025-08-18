@@ -10,7 +10,7 @@ import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { ProjectsPage } from "@/components/ProjectsPage"
-import { ProjectTimelinePage } from "@/components/ProjectTimelinePage"
+// import { ProjectTimelinePage } from "@/components/ProjectTimelinePage" // Commented out old version
 import { PipelineBoard } from "@/components/PipelineBoard"
 import { FeatherTaxPage } from "@/components/FeatherTaxPage"
 import { EasyCalcPage } from "@/components/EasyCalcPage"
@@ -51,6 +51,13 @@ import Upgrade from "@/pages/Upgrade"
 import PaymentSuccess from "@/pages/PaymentSuccess"
 import PaymentCanceled from "@/pages/PaymentCanceled"
 
+// New Clean Pages
+import { ProjectTimelinePage } from "@/components/pages/ProjectTimelinePage"
+import { ToursPage } from "@/components/pages/ToursPage"
+import { FinancePage } from "@/components/pages/FinancePage"
+import { GrowthPage } from "@/components/pages/GrowthPage"
+import { AutomationsPage } from "@/components/pages/AutomationsPage"
+
 interface MainContentProps {
   activeView: string
   onNavigate: (view: string) => void
@@ -81,13 +88,21 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       case "projects":
         return <ProjectsPage />
       case "project-timeline":
-        return <ProjectTimelinePage />
+        return <ProjectTimelinePage onNavigate={onNavigate} />
+      case "tours":
+        return <ToursPage onNavigate={onNavigate} />
+      case "growth":
+        return <GrowthPage onNavigate={onNavigate} />
+      case "automations":
+        return <AutomationsPage onNavigate={onNavigate} />
       case "pipeline":
         return <PipelineBoard />
       case "smart-schedule":
         return <SmartSchedulePage />
       
       // Financial Tools
+      case "finance":
+        return <FinancePage onNavigate={onNavigate} />
       case "feather-budget":
         return <FeatherBudgetPage />
       case "feather-tax":
@@ -210,7 +225,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
   }
 
   return (
-    <div className="flex-1 overflow-auto p-2 sm:p-4 lg:p-6 space-y-3 sm:space-y-4 lg:space-y-6">
+    <div className="flex-1 overflow-auto">
       {renderContent()}
     </div>
   )
