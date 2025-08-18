@@ -405,7 +405,8 @@ export const LandingHeader = () => {
                   paddingRight: 'var(--cta-px)', 
                   borderRadius: 'var(--cta-radius)',
                   fontSize: 'var(--cta-fs)',
-                  fontWeight: 'var(--cta-fw)'
+                  fontWeight: 'var(--cta-fw)',
+                  color: 'white'
                 }}
                 className="shadow-sm"
               >
@@ -428,7 +429,8 @@ export const LandingHeader = () => {
                   paddingRight: 'var(--cta-px)', 
                   borderRadius: 'var(--cta-radius)',
                   fontSize: 'var(--cta-fs)',
-                  fontWeight: 'var(--cta-fw)'
+                  fontWeight: 'var(--cta-fw)',
+                  color: 'white'
                 }}
                 className="shadow-sm"
               >
