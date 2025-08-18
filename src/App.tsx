@@ -77,33 +77,33 @@ function App() {
     console.log('App component mounted');
   }, []);
 
-  // Optimized canonical redirect with loop prevention
-  useEffect(() => {
-    if (import.meta.env.PROD && !redirectProcessed) {
-      try {
-        const host = window.location.hostname
-        const isLovable = host.includes('lovableproject.com') || host.includes('lovable.app')
-        
-        if (isLovable) {
-          const target = `https://featherbiz.io${window.location.pathname}${window.location.search}${window.location.hash}`
-          if (window.location.href !== target) {
-            // Add delay and state check to prevent loops
-            setTimeout(() => {
-              if (!redirectProcessed) {
-                setRedirectProcessed(true)
-                window.location.replace(target)
-              }
-            }, 100)
-          }
-        }
-      } catch (e) {
-        // Silent fail in production
-        if (import.meta.env.DEV) {
-          console.warn('Canonical redirect skipped:', e)
-        }
-      }
-    }
-  }, [redirectProcessed])
+  // Canonical redirect disabled to prevent reloading issues
+  // useEffect(() => {
+  //   if (import.meta.env.PROD && !redirectProcessed) {
+  //     try {
+  //       const host = window.location.hostname
+  //       const isLovable = host.includes('lovableproject.com') || host.includes('lovable.app')
+  //       
+  //       if (isLovable) {
+  //         const target = `https://featherbiz.io${window.location.pathname}${window.location.search}${window.location.hash}`
+  //         if (window.location.href !== target) {
+  //           // Add delay and state check to prevent loops
+  //           setTimeout(() => {
+  //             if (!redirectProcessed) {
+  //               setRedirectProcessed(true)
+  //               window.location.replace(target)
+  //             }
+  //           }, 100)
+  //         }
+  //       }
+  //     } catch (e) {
+  //       // Silent fail in production
+  //       if (import.meta.env.DEV) {
+  //         console.warn('Canonical redirect skipped:', e)
+  //       }
+  //     }
+  //   }
+  // }, [redirectProcessed])
 
   // Improved security headers implementation
   useEffect(() => {
