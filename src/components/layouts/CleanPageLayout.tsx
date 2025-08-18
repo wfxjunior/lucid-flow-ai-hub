@@ -27,35 +27,38 @@ export function CleanPageLayout({
   children 
 }: CleanPageLayoutProps) {
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="w-full bg-background p-4 md:p-6">
+      <div className="w-full max-w-7xl mx-auto space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold text-foreground mb-2">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-2xl md:text-3xl font-semibold text-foreground mb-2 break-words">
               {title}
             </h1>
-            <p className="text-base text-muted-foreground">
+            <p className="text-sm md:text-base text-muted-foreground">
               {subtitle}
             </p>
           </div>
           
           {actionLabel && (
-            <Button 
-              onClick={onActionClick}
-              className="bg-primary hover:bg-primary/90 text-white rounded-xl px-6 py-3"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              {actionLabel}
-            </Button>
+            <div className="flex-shrink-0">
+              <Button 
+                onClick={onActionClick}
+                className="bg-primary hover:bg-primary/90 text-white rounded-xl px-4 md:px-6 py-2 md:py-3 w-full sm:w-auto"
+                size="sm"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                {actionLabel}
+              </Button>
+            </div>
           )}
         </div>
 
         {/* Metrics Cards */}
         {metrics.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {metrics.map((metric, index) => (
-              <Card key={index} className="bg-card border border-border rounded-2xl p-6">
+              <Card key={index} className="bg-card border border-border rounded-2xl p-4 md:p-6">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">

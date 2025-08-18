@@ -98,33 +98,33 @@ export function FinancePage({ onNavigate }: FinancePageProps) {
       metrics={metrics}
     >
       {/* Quick Actions */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
         <Button 
           variant="outline" 
-          className="flex flex-col items-center gap-2 p-6 h-auto rounded-2xl"
+          className="flex flex-col items-center gap-2 p-4 md:p-6 h-auto rounded-2xl text-xs md:text-sm"
         >
-          <DollarSign className="h-6 w-6" />
+          <DollarSign className="h-5 md:h-6 w-5 md:w-6" />
           <span>Payments</span>
         </Button>
         <Button 
           variant="outline" 
-          className="flex flex-col items-center gap-2 p-6 h-auto rounded-2xl"
+          className="flex flex-col items-center gap-2 p-4 md:p-6 h-auto rounded-2xl text-xs md:text-sm"
         >
-          <CreditCard className="h-6 w-6" />
+          <CreditCard className="h-5 md:h-6 w-5 md:w-6" />
           <span>Payouts</span>
         </Button>
         <Button 
           variant="outline" 
-          className="flex flex-col items-center gap-2 p-6 h-auto rounded-2xl"
+          className="flex flex-col items-center gap-2 p-4 md:p-6 h-auto rounded-2xl text-xs md:text-sm"
         >
-          <TrendingUp className="h-6 w-6" />
+          <TrendingUp className="h-5 md:h-6 w-5 md:w-6" />
           <span>Reports</span>
         </Button>
         <Button 
           variant="outline" 
-          className="flex flex-col items-center gap-2 p-6 h-auto rounded-2xl"
+          className="flex flex-col items-center gap-2 p-4 md:p-6 h-auto rounded-2xl text-xs md:text-sm"
         >
-          <FileText className="h-6 w-6" />
+          <FileText className="h-5 md:h-6 w-5 md:w-6" />
           <span>Tax Documents</span>
         </Button>
       </div>
@@ -132,7 +132,7 @@ export function FinancePage({ onNavigate }: FinancePageProps) {
       {/* Recent Transactions */}
       <div className="space-y-4">
         <div>
-          <h2 className="text-xl font-semibold text-foreground mb-2">
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-2">
             Recent Transactions
           </h2>
         </div>
@@ -140,40 +140,40 @@ export function FinancePage({ onNavigate }: FinancePageProps) {
         <div className="space-y-3">
           {transactions.map((transaction) => (
             <Card key={transaction.id} className="bg-card border border-border rounded-2xl">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className={`p-2 rounded-lg ${
+              <CardContent className="p-3 md:p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-1">
+                    <div className={`p-2 rounded-lg flex-shrink-0 ${
                       transaction.isIncome ? 'bg-success/10' : 'bg-muted'
                     }`}>
                       {transaction.isIncome ? (
-                        <ArrowDownRight className="h-5 w-5 text-success" />
+                        <ArrowDownRight className="h-4 md:h-5 w-4 md:w-5 text-success" />
                       ) : (
-                        <ArrowUpRight className="h-5 w-5 text-muted-foreground" />
+                        <ArrowUpRight className="h-4 md:h-5 w-4 md:w-5 text-muted-foreground" />
                       )}
                     </div>
                     
-                    <div className="space-y-1">
-                      <h3 className="font-medium text-foreground">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <h3 className="font-medium text-foreground text-sm md:text-base truncate">
                         {transaction.name}
                       </h3>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-muted-foreground">
                         <span>{transaction.type}</span>
-                        <span>•</span>
+                        <span className="hidden sm:inline">•</span>
                         <span>{transaction.date}</span>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="text-right">
-                    <div className={`text-lg font-semibold ${
+                  <div className="flex items-center justify-between sm:flex-col sm:items-end gap-2">
+                    <div className={`text-base md:text-lg font-semibold ${
                       transaction.isIncome ? 'text-success' : 'text-foreground'
                     }`}>
                       {transaction.isIncome ? '+' : '-'}${transaction.amount.toLocaleString()}
                     </div>
                     <Badge 
                       variant={transaction.status === 'completed' ? 'success' : 'default'}
-                      className="mt-1"
+                      className="text-xs"
                     >
                       {transaction.status === 'completed' ? 'Completed' : 'Paid'}
                     </Badge>

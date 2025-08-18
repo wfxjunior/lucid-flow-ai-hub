@@ -225,8 +225,10 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
   }
 
   return (
-    <div className="flex-1 overflow-auto">
-      {renderContent()}
+    <div className="flex-1 min-h-0 w-full">
+      <div className="h-full w-full">
+        {renderContent()}
+      </div>
     </div>
   )
 }

@@ -86,18 +86,18 @@ export function GrowthPage({ onNavigate }: GrowthPageProps) {
       metrics={metrics}
     >
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 mb-8">
+      <div className="flex flex-wrap items-center gap-2 mb-6 md:mb-8">
         <Button 
           variant="secondary" 
           size="sm"
-          className="bg-accent text-accent-foreground rounded-full px-6 py-2"
+          className="bg-accent text-accent-foreground rounded-full px-4 md:px-6 py-2 text-xs md:text-sm"
         >
           Listings & Syndication
         </Button>
-        <Button variant="ghost" size="sm" className="rounded-full px-6 py-2">
+        <Button variant="ghost" size="sm" className="rounded-full px-4 md:px-6 py-2 text-xs md:text-sm">
           Leads & CRM
         </Button>
-        <Button variant="ghost" size="sm" className="rounded-full px-6 py-2">
+        <Button variant="ghost" size="sm" className="rounded-full px-4 md:px-6 py-2 text-xs md:text-sm">
           Campaigns
         </Button>
       </div>
@@ -105,7 +105,7 @@ export function GrowthPage({ onNavigate }: GrowthPageProps) {
       {/* Active Property Listings */}
       <div className="space-y-4">
         <div>
-          <h2 className="text-xl font-semibold text-foreground mb-2">
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-2">
             Active Property Listings
           </h2>
         </div>
@@ -113,15 +113,15 @@ export function GrowthPage({ onNavigate }: GrowthPageProps) {
         <div className="space-y-4">
           {activeListings.map((listing) => (
             <Card key={listing.id} className="bg-card border border-border rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-foreground">
+              <CardContent className="p-4 md:p-6">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-3">
+                      <h3 className="text-base md:text-lg font-semibold text-foreground break-words">
                         {listing.name}
                       </h3>
-                      <div className="text-right">
-                        <div className="text-xl font-semibold text-foreground mb-1">
+                      <div className="flex items-center gap-3 sm:text-right">
+                        <div className="text-lg md:text-xl font-semibold text-foreground">
                           {listing.price}
                         </div>
                         <Badge 
@@ -132,18 +132,18 @@ export function GrowthPage({ onNavigate }: GrowthPageProps) {
                       </div>
                     </div>
                     
-                    <div className="flex items-center gap-6 mb-4">
+                    <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-4">
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">
+                        <TrendingUp className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="text-xs md:text-sm text-muted-foreground">
                           {listing.views} views • {listing.leads} leads
                         </span>
                       </div>
                     </div>
                     
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       {listing.platforms.map((platform, index) => (
-                        <Badge key={index} variant="outline" className="bg-muted/50">
+                        <Badge key={index} variant="outline" className="bg-muted/50 text-xs">
                           {platform}
                         </Badge>
                       ))}

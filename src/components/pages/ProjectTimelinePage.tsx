@@ -95,10 +95,10 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
       {/* Project Milestones Section */}
       <div className="space-y-4">
         <div>
-          <h2 className="text-xl font-semibold text-foreground mb-2">
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-2">
             Project Milestones
           </h2>
-          <p className="text-base text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Track progress of your project milestones
           </p>
         </div>
@@ -106,60 +106,60 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
         <div className="space-y-4">
           {milestones.map((milestone) => (
             <Card key={milestone.id} className="bg-card border border-border rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className={`p-2 rounded-lg bg-muted`}>
-                    <milestone.icon className={`h-5 w-5 ${milestone.iconColor}`} />
+              <CardContent className="p-4 md:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div className={`p-2 rounded-lg bg-muted flex-shrink-0`}>
+                    <milestone.icon className={`h-4 md:h-5 w-4 md:w-5 ${milestone.iconColor}`} />
                   </div>
                   
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-1">
-                        <h3 className="font-medium text-foreground">
+                  <div className="flex-1 space-y-3 min-w-0">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+                      <div className="space-y-1 min-w-0 flex-1">
+                        <h3 className="font-medium text-foreground text-sm md:text-base break-words">
                           {milestone.title}
                         </h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                           {milestone.description}
                         </p>
                       </div>
                       
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2 lg:flex-shrink-0">
                         {milestone.status === 'completed' && (
-                          <Badge variant="success">completed</Badge>
+                          <Badge variant="success" className="text-xs">completed</Badge>
                         )}
                         {milestone.status === 'in-progress' && (
-                          <Badge variant="default">in progress</Badge>
+                          <Badge variant="default" className="text-xs">in progress</Badge>
                         )}
                         {milestone.status === 'pending' && (
-                          <Badge variant="warning">pending</Badge>
+                          <Badge variant="warning" className="text-xs">pending</Badge>
                         )}
                         
                         {milestone.status === 'in-progress' && (
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" className="text-xs">
                             Complete
                           </Button>
                         )}
                         
                         {milestone.status === 'pending' && (
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" className="text-xs">
                             Start
                           </Button>
                         )}
                       </div>
                     </div>
                     
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs md:text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
+                        <Calendar className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
                         <span>Due: {milestone.due}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <User className="h-4 w-4" />
-                        <span>{milestone.assignee}</span>
+                        <User className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span className="truncate">{milestone.assignee}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Tag className="h-4 w-4" />
-                        <span>{milestone.project}</span>
+                        <Tag className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span className="truncate">{milestone.project}</span>
                       </div>
                     </div>
                   </div>

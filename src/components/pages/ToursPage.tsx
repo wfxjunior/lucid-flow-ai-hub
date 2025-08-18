@@ -88,27 +88,27 @@ export function ToursPage({ onNavigate }: ToursPageProps) {
       metrics={metrics}
     >
       {/* Filters and Search */}
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-6">
+        <div className="flex flex-wrap items-center gap-2">
           <Button 
             variant="secondary" 
             size="sm"
-            className="bg-accent text-accent-foreground rounded-full px-4 py-2"
+            className="bg-accent text-accent-foreground rounded-full px-3 md:px-4 py-2 text-xs md:text-sm"
           >
             All
           </Button>
-          <Button variant="ghost" size="sm" className="rounded-full px-4 py-2">
+          <Button variant="ghost" size="sm" className="rounded-full px-3 md:px-4 py-2 text-xs md:text-sm">
             Pending
           </Button>
-          <Button variant="ghost" size="sm" className="rounded-full px-4 py-2">
+          <Button variant="ghost" size="sm" className="rounded-full px-3 md:px-4 py-2 text-xs md:text-sm">
             Approved
           </Button>
-          <Button variant="ghost" size="sm" className="rounded-full px-4 py-2">
+          <Button variant="ghost" size="sm" className="rounded-full px-3 md:px-4 py-2 text-xs md:text-sm">
             Declined
           </Button>
         </div>
         
-        <div className="relative w-64">
+        <div className="relative w-full max-w-xs lg:max-w-64">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="text"
@@ -122,25 +122,25 @@ export function ToursPage({ onNavigate }: ToursPageProps) {
       <Card className="bg-card border border-border rounded-2xl">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[600px]">
               <thead className="border-b border-border">
                 <tr>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-muted-foreground">
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
                     Property Name
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-muted-foreground">
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
                     Tenant Name
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-muted-foreground">
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
                     Date
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-muted-foreground">
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
                     Time
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-muted-foreground">
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
                     Tour Type
                   </th>
-                  <th className="text-left py-4 px-6 text-sm font-semibold text-muted-foreground">
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
                     Status
                   </th>
                 </tr>
@@ -151,27 +151,27 @@ export function ToursPage({ onNavigate }: ToursPageProps) {
                     key={request.id} 
                     className={`${index % 2 === 1 ? 'bg-muted/50' : ''} hover:bg-muted/30 transition-colors`}
                   >
-                    <td className="py-4 px-6">
+                    <td className="py-3 md:py-4 px-3 md:px-6">
                       <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-medium text-foreground">
+                        <MapPin className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="font-medium text-foreground text-xs md:text-sm truncate">
                           {request.propertyName}
                         </span>
                       </div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-3 md:py-4 px-3 md:px-6">
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-foreground">{request.tenantName}</span>
+                        <User className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="text-foreground text-xs md:text-sm truncate">{request.tenantName}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-foreground">
+                    <td className="py-3 md:py-4 px-3 md:px-6 text-foreground text-xs md:text-sm">
                       {request.date}
                     </td>
-                    <td className="py-4 px-6 text-foreground">
+                    <td className="py-3 md:py-4 px-3 md:px-6 text-foreground text-xs md:text-sm">
                       {request.time}
                     </td>
-                    <td className="py-4 px-6 text-foreground">
+                    <td className="py-3 md:py-4 px-3 md:px-6 text-foreground text-xs md:text-sm">
                       {request.tourType}
                     </td>
                     <td className="py-4 px-6">
