@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge"
 import { DocumentActionsDropdown } from "@/components/documents/DocumentActionsDropdown"
 import { toast } from "sonner"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 export function QuotesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -155,101 +156,118 @@ export function QuotesPage() {
     </Button>
   )
 
+  const metrics = [
+    {
+      title: "Total Quotes",
+      value: quotes.length.toString(),
+      subtitle: "All quotes",
+      icon: FileText
+    },
+    {
+      title: "Pending",
+      value: quotes.filter(q => q.status === 'pending').length.toString(),
+      subtitle: "Awaiting response",
+      icon: Calculator
+    },
+    {
+      title: "Accepted",
+      value: quotes.filter(q => q.status === 'accepted').length.toString(),
+      subtitle: "Client approved",
+      icon: FileText
+    },
+    {
+      title: "Total Value",
+      value: `$${quotes.reduce((sum, q) => sum + q.amount, 0).toFixed(2)}`,
+      subtitle: "Quote value",
+      icon: DollarSign
+    }
+  ]
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Quotes</h1>
-          <p className="text-muted-foreground">
-            Track and manage all your quotes
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                New Quote
+    <CleanPageLayout
+      title="Quotes"
+      subtitle="Track and manage all your quotes"
+      actionLabel="New Quote"
+      onActionClick={() => setIsDialogOpen(true)}
+      metrics={metrics}
+    >
+      {/* New Quote Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Create New Quote</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="client">Client *</Label>
+                <Select value={formData.client} onValueChange={(value) => setFormData({ ...formData, client: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select client" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {clients.map((client) => (
+                      <SelectItem key={client} value={client}>{client}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="amount">Amount *</Label>
+                <Input
+                  id="amount"
+                  type="number"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={formData.amount}
+                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="title">Quote Title *</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="Enter quote title"
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Enter quote description..."
+                rows={4}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="validUntil">Valid Until</Label>
+              <Input
+                id="validUntil"
+                type="date"
+                value={formData.validUntil}
+                onChange={(e) => setFormData({ ...formData, validUntil: e.target.value })}
+              />
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <Button type="submit" className="flex-1">Create Quote</Button>
+              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Cancel
               </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>Create New Quote</DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="client">Client *</Label>
-                    <Select value={formData.client} onValueChange={(value) => setFormData({ ...formData, client: value })}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select client" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {clients.map((client) => (
-                          <SelectItem key={client} value={client}>{client}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="amount">Amount *</Label>
-                    <Input
-                      id="amount"
-                      type="number"
-                      step="0.01"
-                      placeholder="0.00"
-                      value={formData.amount}
-                      onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="title">Quote Title *</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="Enter quote title"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Enter quote description..."
-                    rows={4}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="validUntil">Valid Until</Label>
-                  <Input
-                    id="validUntil"
-                    type="date"
-                    value={formData.validUntil}
-                    onChange={(e) => setFormData({ ...formData, validUntil: e.target.value })}
-                  />
-                </div>
-
-                <div className="flex gap-2 pt-4">
-                  <Button type="submit" className="flex-1">Create Quote</Button>
-                  <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Control Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -351,6 +369,6 @@ export function QuotesPage() {
           <span>Total: ${filteredQuotes.reduce((sum, quote) => sum + quote.amount, 0).toFixed(2)}</span>
         </div>
       </div>
-    </div>
+    </CleanPageLayout>
   )
 }

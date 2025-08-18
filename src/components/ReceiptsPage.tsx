@@ -16,6 +16,7 @@ import { CreateReceiptDialog } from "./receipts/CreateReceiptDialog"
 import { ConvertToReceiptDialog } from "./receipts/ConvertToReceiptDialog"
 import { ReceiptEmailDialog } from "./receipts/ReceiptEmailDialog"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 interface Receipt {
   id: string
@@ -225,24 +226,41 @@ export function ReceiptsPage() {
     )
   }
 
+  const metrics = [
+    {
+      title: "Total Receipts",
+      value: receipts.length.toString(),
+      subtitle: "All receipts",
+      icon: Receipt
+    },
+    {
+      title: "Paid",
+      value: receipts.filter(r => r.status === 'paid').length.toString(),
+      subtitle: "Completed payments",
+      icon: CheckCircle
+    },
+    {
+      title: "Pending",
+      value: receipts.filter(r => r.status === 'pending').length.toString(),
+      subtitle: "Awaiting payment",
+      icon: Clock
+    },
+    {
+      title: "Total Amount",
+      value: `$${receipts.reduce((sum, r) => sum + r.amount, 0).toFixed(2)}`,
+      subtitle: "Total received",
+      icon: DollarSign
+    }
+  ]
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Receipts</h1>
-          <p className="text-muted-foreground">
-            Track and manage all your receipts
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <CreateReceiptDialog 
-            isOpen={isCreateDialogOpen}
-            onOpenChange={setIsCreateDialogOpen}
-            onReceiptCreated={fetchData}
-          />
-        </div>
-      </div>
+    <CleanPageLayout
+      title="Receipts"
+      subtitle="Track and manage all your receipts"
+      actionLabel="Create Receipt"
+      onActionClick={() => setIsCreateDialogOpen(true)}
+      metrics={metrics}
+    >
 
       {/* Control Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -370,6 +388,6 @@ export function ReceiptsPage() {
           <span>Total: ${filteredReceipts.reduce((sum, receipt) => sum + receipt.amount, 0).toFixed(2)}</span>
         </div>
       </div>
-    </div>
+    </CleanPageLayout>
   )
 }

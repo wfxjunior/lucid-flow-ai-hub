@@ -13,6 +13,7 @@ import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
 import { format } from "date-fns"
 import type { WorkOrder } from "@/types/business"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 export function WorkOrdersPage() {
   const { workOrders, loading, deleteWorkOrder, loadData } = useBusinessData()
@@ -125,69 +126,41 @@ export function WorkOrdersPage() {
     )
   }
 
+  const metrics = [
+    {
+      title: "Total Work Orders",
+      value: workOrders?.length || 0,
+      subtitle: "All work orders",
+      icon: Calendar
+    },
+    {
+      title: "In Progress",
+      value: workOrders?.filter(wo => wo.status === 'in_progress').length || 0,
+      subtitle: "Active work",
+      icon: Clock
+    },
+    {
+      title: "Completed",
+      value: workOrders?.filter(wo => wo.status === 'completed').length || 0,
+      subtitle: "Finished work",
+      icon: User
+    },
+    {
+      title: "Total Value",
+      value: `$${workOrders?.reduce((sum, wo) => sum + (wo.total_cost || 0), 0).toFixed(2) || '0.00'}`,
+      subtitle: "Total revenue",
+      icon: DollarSign
+    }
+  ]
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Work Orders</h1>
-          <p className="text-muted-foreground">
-            Manage and track your work orders from creation to completion
-          </p>
-        </div>
-        <Button onClick={() => setShowForm(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Work Order
-        </Button>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Work Orders</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{workOrders?.length || 0}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">In Progress</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {workOrders?.filter(wo => wo.status === 'in_progress').length || 0}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completed</CardTitle>
-            <User className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {workOrders?.filter(wo => wo.status === 'completed').length || 0}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Value</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${workOrders?.reduce((sum, wo) => sum + (wo.total_cost || 0), 0).toFixed(2) || '0.00'}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+    <CleanPageLayout
+      title="Work Orders"
+      subtitle="Manage and track your work orders from creation to completion"
+      actionLabel="New Work Order"
+      onActionClick={() => setShowForm(true)}
+      metrics={metrics}
+    >
 
       {/* Filters */}
       <Card>
@@ -332,6 +305,6 @@ export function WorkOrdersPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CleanPageLayout>
   )
 }

@@ -12,6 +12,7 @@ import { ContractForm } from "@/components/ContractForm"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 export function ContractsPage() {
   const { contracts, loading, createContract, updateContract, deleteContract } = useBusinessData()
@@ -103,69 +104,41 @@ export function ContractsPage() {
     )
   }
 
+  const metrics = [
+    {
+      title: "Total Contracts",
+      value: contracts?.length || 0,
+      subtitle: "All contracts",
+      icon: FileText
+    },
+    {
+      title: "Active",
+      value: contracts?.filter(c => c.status === 'active').length || 0,
+      subtitle: "Currently active",
+      icon: FileText
+    },
+    {
+      title: "Pending",
+      value: contracts?.filter(c => c.status === 'pending').length || 0,
+      subtitle: "Awaiting approval",
+      icon: FileText
+    },
+    {
+      title: "Templates",
+      value: contracts?.filter(c => c.is_template).length || 0,
+      subtitle: "Available templates",
+      icon: FileText
+    }
+  ]
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Contracts</h1>
-          <p className="text-muted-foreground">
-            Create, manage, and track your business contracts and agreements
-          </p>
-        </div>
-        <Button onClick={() => setShowForm(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Create Contract
-        </Button>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Contracts</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{contracts?.length || 0}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {contracts?.filter(c => c.status === 'active').length || 0}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {contracts?.filter(c => c.status === 'pending').length || 0}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Templates</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {contracts?.filter(c => c.is_template).length || 0}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+    <CleanPageLayout
+      title="Contracts"
+      subtitle="Create, manage, and track your business contracts and agreements"
+      actionLabel="Create Contract"
+      onActionClick={() => setShowForm(true)}
+      metrics={metrics}
+    >
 
       {/* Filters */}
       <Card>
@@ -357,6 +330,6 @@ export function ContractsPage() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CleanPageLayout>
   )
 }

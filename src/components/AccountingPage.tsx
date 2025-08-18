@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Plus, Upload, FileText, DollarSign, Calendar, Filter } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 export function AccountingPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -88,164 +88,135 @@ export function AccountingPage() {
     return <FileText className="w-5 h-5 text-blue-600" />
   }
 
+  const metrics = [
+    {
+      title: "Total Documents",
+      value: documents.length.toString(),
+      subtitle: "All uploaded",
+      icon: FileText
+    },
+    {
+      title: "Pending Review",
+      value: documents.filter(d => d.status === 'pending').length.toString(),
+      subtitle: "Awaiting review",
+      icon: Calendar
+    },
+    {
+      title: "Processed",
+      value: documents.filter(d => d.status === 'processed').length.toString(),
+      subtitle: "Completed",
+      icon: Upload
+    },
+    {
+      title: "Total Amount",
+      value: `$${documents.reduce((sum, d) => sum + d.amount, 0).toFixed(2)}`,
+      subtitle: "Document value",
+      icon: DollarSign
+    }
+  ]
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Accounting</h1>
-          <p className="text-muted-foreground">
-            Manage financial documents and track expenses
-          </p>
-        </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Document
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Upload Accounting Document</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
+    <CleanPageLayout
+      title="Accounting"
+      subtitle="Manage financial documents and track expenses"
+      actionLabel="Upload Document"
+      onActionClick={() => setIsDialogOpen(true)}
+      metrics={metrics}
+    >
+      {/* Upload Document Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Upload Accounting Document</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="title">Document Title *</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="Enter document title"
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="title">Document Title *</Label>
+                <Label htmlFor="type">Document Type *</Label>
+                <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {documentTypes.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="amount">Amount *</Label>
                 <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Enter document title"
+                  id="amount"
+                  type="number"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={formData.amount}
+                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                   required
                 />
               </div>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="type">Document Type *</Label>
-                  <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {documentTypes.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <Label htmlFor="amount">Amount *</Label>
-                  <Input
-                    id="amount"
-                    type="number"
-                    step="0.01"
-                    placeholder="0.00"
-                    value={formData.amount}
-                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="vendor">Vendor/Company</Label>
-                  <Input
-                    id="vendor"
-                    value={formData.vendor}
-                    onChange={(e) => setFormData({ ...formData, vendor: e.target.value })}
-                    placeholder="Enter vendor name"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="date">Date *</Label>
-                  <Input
-                    id="date"
-                    type="date"
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    required
-                  />
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="vendor">Vendor/Company</Label>
+                <Input
+                  id="vendor"
+                  value={formData.vendor}
+                  onChange={(e) => setFormData({ ...formData, vendor: e.target.value })}
+                  placeholder="Enter vendor name"
+                />
               </div>
 
               <div>
-                <Label htmlFor="file">Upload File</Label>
+                <Label htmlFor="date">Date *</Label>
                 <Input
-                  id="file"
-                  type="file"
-                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-                  onChange={(e) => setFormData({ ...formData, file: e.target.files?.[0] || null })}
+                  id="date"
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                  required
                 />
-                <p className="text-xs text-gray-500 mt-1">
-                  Supported formats: PDF, JPG, PNG, DOC, DOCX (Max 10MB)
-                </p>
               </div>
-
-              <div className="flex gap-2 pt-4">
-                <Button type="submit" className="flex-1">Upload Document</Button>
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Documents</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{documents.length}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Review</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {documents.filter(d => d.status === 'pending').length}
             </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Processed</CardTitle>
-            <Upload className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {documents.filter(d => d.status === 'processed').length}
+            <div>
+              <Label htmlFor="file">Upload File</Label>
+              <Input
+                id="file"
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                onChange={(e) => setFormData({ ...formData, file: e.target.files?.[0] || null })}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Supported formats: PDF, JPG, PNG, DOC, DOCX (Max 10MB)
+              </p>
             </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Amount</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              ${documents.reduce((sum, d) => sum + d.amount, 0).toFixed(2)}
+            <div className="flex gap-2 pt-4">
+              <Button type="submit" className="flex-1">Upload Document</Button>
+              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </Button>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Documents List */}
       <Card>
@@ -283,6 +254,6 @@ export function AccountingPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </CleanPageLayout>
   )
 }

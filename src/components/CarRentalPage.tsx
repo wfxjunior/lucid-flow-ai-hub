@@ -7,21 +7,46 @@ import { Car, Plus, FileText, BarChart3 } from 'lucide-react'
 import { VehicleRegistry } from './car-rental/VehicleRegistry'
 import { RentalManagement } from './car-rental/RentalManagement'
 import { RentalReports } from './car-rental/RentalReports'
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 export function CarRentalPage() {
   const [activeTab, setActiveTab] = useState("vehicles")
 
+  const metrics = [
+    {
+      title: "Total Vehicles",
+      value: "15",
+      subtitle: "Fleet size",
+      icon: Car
+    },
+    {
+      title: "Active Rentals",
+      value: "8",
+      subtitle: "Currently rented",
+      icon: FileText
+    },
+    {
+      title: "Available",
+      value: "7",
+      subtitle: "Ready to rent",
+      icon: Car
+    },
+    {
+      title: "Revenue Today",
+      value: "$1,250",
+      subtitle: "Daily earnings",
+      icon: BarChart3
+    }
+  ]
+
   return (
-    <div className="space-y-4 md:space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-2">
-            <Car className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />
-            Car Rental Management
-          </h1>
-          <p className="text-sm md:text-base text-gray-600 mt-1">Manage your vehicle fleet and rental operations</p>
-        </div>
-      </div>
+    <CleanPageLayout
+      title="Car Rental Management"
+      subtitle="Manage your vehicle fleet and rental operations"
+      actionLabel="Add Vehicle"
+      onActionClick={() => {}}
+      metrics={metrics}
+    >
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3 h-auto">
@@ -54,6 +79,6 @@ export function CarRentalPage() {
           <RentalReports />
         </TabsContent>
       </Tabs>
-    </div>
+    </CleanPageLayout>
   )
 }
