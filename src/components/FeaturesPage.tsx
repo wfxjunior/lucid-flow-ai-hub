@@ -232,22 +232,22 @@ export function FeaturesPage() {
   const inProgressFeatures = features.filter(f => f.status === "in-progress").length
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div className="min-h-screen bg-white p-6">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header Section */}
         <div className="text-center space-y-6">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Button onClick={toggleSidebar} variant="outline" size="sm">
+            <Button onClick={toggleSidebar} variant="outline" size="sm" className="rounded-full">
               <Menu className="mr-2 h-4 w-4" />
               Menu
             </Button>
           </div>
           
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-primary">
               Feature Requests
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Shape the future of FeatherBiz! Your ideas drive our development. 
               Suggest features, vote on proposals, and see your requests come to life.
             </p>
@@ -255,38 +255,38 @@ export function FeaturesPage() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-            <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-              <CardContent className="p-4 text-center">
+            <Card className="bg-white border border-border shadow-sm">
+              <CardContent className="p-6 text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  <span className="text-2xl font-bold text-gray-900">{totalFeatures}</span>
+                  <span className="text-2xl font-bold text-foreground">{totalFeatures}</span>
                 </div>
-                <p className="text-sm text-gray-600">Total Requests</p>
+                <p className="text-sm text-muted-foreground">Total Requests</p>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-              <CardContent className="p-4 text-center">
+            <Card className="bg-white border border-border shadow-sm">
+              <CardContent className="p-6 text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <TrendingUp className="h-5 w-5 text-blue-500" />
-                  <span className="text-2xl font-bold text-gray-900">{inProgressFeatures}</span>
+                  <span className="text-2xl font-bold text-foreground">{inProgressFeatures}</span>
                 </div>
-                <p className="text-sm text-gray-600">In Development</p>
+                <p className="text-sm text-muted-foreground">In Development</p>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-              <CardContent className="p-4 text-center">
+            <Card className="bg-white border border-border shadow-sm">
+              <CardContent className="p-6 text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span className="text-2xl font-bold text-gray-900">{completedFeatures}</span>
+                  <span className="text-2xl font-bold text-foreground">{completedFeatures}</span>
                 </div>
-                <p className="text-sm text-gray-600">Completed</p>
+                <p className="text-sm text-muted-foreground">Completed</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Premium Notice */}
           {!hasPremium && (
-            <Card className="bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200 max-w-2xl mx-auto">
+            <Card className="bg-yellow-50 border-yellow-200 max-w-2xl mx-auto">
               <CardContent className="p-6">
                 <div className="flex items-center gap-3 justify-center">
                   <Crown className="h-6 w-6 text-yellow-600" />
@@ -310,7 +310,7 @@ export function FeaturesPage() {
               description: "Upgrade to premium to suggest new features.",
               variant: "destructive"
             })}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            className="rounded-full px-8 py-3 text-base font-medium shadow-sm"
             size="lg"
           >
             {!hasPremium && <Crown className="h-5 w-5 mr-2" />}
@@ -321,53 +321,54 @@ export function FeaturesPage() {
 
         {/* Add Feature Form */}
         {showAddForm && hasPremium && (
-          <Card className="max-w-2xl mx-auto bg-white shadow-xl border-0">
-            <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-t-lg">
+          <Card className="max-w-2xl mx-auto bg-white shadow-sm border border-border">
+            <CardHeader className="bg-primary text-white rounded-t-lg">
               <CardTitle className="flex items-center gap-2">
                 <Plus className="h-5 w-5" />
                 Suggest a New Feature
               </CardTitle>
-              <CardDescription className="text-blue-100">
+              <CardDescription className="text-white/90">
                 Tell us about the feature you'd like to see in FeatherBiz
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6 space-y-6">
               <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">Feature Title *</label>
+                <label className="text-sm font-semibold text-foreground mb-2 block">Feature Title *</label>
                 <Input
                   placeholder="e.g., Advanced Email Templates"
                   value={newFeature.title}
                   onChange={(e) => setNewFeature({ ...newFeature, title: e.target.value })}
-                  className="border-2 focus:border-blue-500"
+                  className="border-2 focus:border-primary"
                 />
               </div>
               <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">Category</label>
+                <label className="text-sm font-semibold text-foreground mb-2 block">Category</label>
                 <Input
                   placeholder="e.g., Communication, Analytics, Integration"
                   value={newFeature.category}
                   onChange={(e) => setNewFeature({ ...newFeature, category: e.target.value })}
-                  className="border-2 focus:border-blue-500"
+                  className="border-2 focus:border-primary"
                 />
               </div>
               <div>
-                <label className="text-sm font-semibold text-gray-700 mb-2 block">Description *</label>
+                <label className="text-sm font-semibold text-foreground mb-2 block">Description *</label>
                 <Textarea
                   placeholder="Describe your feature idea in detail. How would it help you and other users?"
                   value={newFeature.description}
                   onChange={(e) => setNewFeature({ ...newFeature, description: e.target.value })}
                   rows={4}
-                  className="border-2 focus:border-blue-500"
+                  className="border-2 focus:border-primary"
                 />
               </div>
               <div className="flex gap-3">
                 <Button 
                   onClick={handleSubmitFeature}
-                  className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                  className="flex-1"
+                  variant="default"
                 >
                   Submit Feature Request
                 </Button>
-                <Button variant="outline" onClick={() => setShowAddForm(false)} className="border-2">
+                <Button variant="outline" onClick={() => setShowAddForm(false)}>
                   Cancel
                 </Button>
               </div>
@@ -378,20 +379,20 @@ export function FeaturesPage() {
         {/* Features List */}
         <div className="space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Community Requests</h2>
-            <p className="text-gray-600">Sorted by popularity - your votes matter!</p>
+            <h2 className="text-2xl font-bold text-foreground mb-2">Community Requests</h2>
+            <p className="text-muted-foreground">Sorted by popularity - your votes matter!</p>
           </div>
           
           <div className="grid gap-6 max-w-4xl mx-auto">
             {sortedFeatures.map((feature) => (
-              <Card key={feature.id} className="bg-white shadow-lg border-0 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+              <Card key={feature.id} className="bg-white border border-border shadow-sm hover:shadow-md transition-all duration-200">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between gap-6">
                     <div className="flex-1 space-y-4">
                       {/* Header */}
                       <div className="flex items-start gap-3 flex-wrap">
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                          <h3 className="text-xl font-bold text-foreground mb-2">{feature.title}</h3>
                           <div className="flex items-center gap-2 flex-wrap">
                             <Badge className={`${getStatusColor(feature.status)} font-semibold border`}>
                               <div className="flex items-center gap-1">
@@ -399,7 +400,7 @@ export function FeaturesPage() {
                                 <span>{getStatusText(feature.status)}</span>
                               </div>
                             </Badge>
-                            <Badge variant="outline" className="bg-gray-50 border-gray-200">
+                            <Badge variant="outline" className="bg-white border-border">
                               {feature.category}
                             </Badge>
                           </div>
@@ -407,10 +408,10 @@ export function FeaturesPage() {
                       </div>
                       
                       {/* Description */}
-                      <p className="text-gray-700 leading-relaxed">{feature.description}</p>
+                      <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
                       
                       {/* Meta Info */}
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Users className="h-4 w-4" />
                           <span>by {feature.submittedBy}</span>
@@ -429,9 +430,9 @@ export function FeaturesPage() {
                           {comments
                             .filter(comment => comment.featureId === feature.id)
                             .map((comment) => (
-                              <div key={comment.id} className="bg-gray-50 rounded-lg p-4 border-l-4 border-blue-500">
-                                <p className="text-gray-800">{comment.text}</p>
-                                <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
+                              <div key={comment.id} className="bg-muted/50 rounded-lg p-4 border-l-4 border-primary">
+                                <p className="text-foreground">{comment.text}</p>
+                                <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                                   <span className="font-medium">{comment.author}</span>
                                   <span>•</span>
                                   <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
@@ -445,12 +446,11 @@ export function FeaturesPage() {
                                 placeholder="Add your thoughts..."
                                 value={newComment}
                                 onChange={(e) => setNewComment(e.target.value)}
-                                className="flex-1 border-2 focus:border-blue-500"
+                                className="flex-1 border-2 focus:border-primary"
                               />
                               <Button 
                                 onClick={() => handleAddComment(feature.id)}
                                 disabled={!newComment.trim()}
-                                className="bg-blue-600 hover:bg-blue-700"
                               >
                                 Post
                               </Button>
@@ -474,7 +474,7 @@ export function FeaturesPage() {
                         className={`flex flex-col items-center gap-1 p-3 rounded-lg transition-all duration-200 ${
                           feature.isLiked 
                             ? 'text-red-600 bg-red-50 hover:bg-red-100' 
-                            : 'text-gray-600 hover:text-red-600 hover:bg-red-50'
+                            : 'text-muted-foreground hover:text-red-600 hover:bg-red-50'
                         }`}
                         disabled={!hasPremium}
                       >
@@ -493,7 +493,7 @@ export function FeaturesPage() {
                         onClick={() => setSelectedFeature(
                           selectedFeature === feature.id ? null : feature.id
                         )}
-                        className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-lg transition-all duration-200"
+                        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary hover:bg-muted p-2 rounded-lg transition-all duration-200"
                       >
                         <MessageCircle className="h-4 w-4" />
                         {selectedFeature === feature.id ? 'Hide' : 'Comments'}
@@ -507,25 +507,25 @@ export function FeaturesPage() {
         </div>
 
         {/* Footer Info */}
-        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-0">
+        <Card className="bg-muted/20 border-border">
           <CardContent className="p-8 text-center">
-            <h3 className="font-semibold text-gray-900 mb-3">How Feature Requests Work</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
+            <h3 className="font-semibold text-foreground mb-3">How Feature Requests Work</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-muted-foreground">
               <div>
-                <div className="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
-                  <Plus className="h-6 w-6 text-blue-600" />
+                <div className="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                  <Plus className="h-6 w-6 text-primary" />
                 </div>
                 <p><strong>1. Submit Ideas</strong><br />Share your feature suggestions with the community</p>
               </div>
               <div>
-                <div className="bg-purple-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
-                  <Heart className="h-6 w-6 text-purple-600" />
+                <div className="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                  <Heart className="h-6 w-6 text-primary" />
                 </div>
                 <p><strong>2. Vote & Discuss</strong><br />Community votes help us prioritize development</p>
               </div>
               <div>
-                <div className="bg-green-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
-                  <CheckCircle className="h-6 w-6 text-green-600" />
+                <div className="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle className="h-6 w-6 text-primary" />
                 </div>
                 <p><strong>3. See Results</strong><br />Popular features are built and released monthly</p>
               </div>
