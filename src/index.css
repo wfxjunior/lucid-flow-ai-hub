@@ -448,17 +448,19 @@
   /* Attio-like responsive typography */
   @media (max-width: 1024px) {
     :root {
-      --hero-h1-d: var(--hero-h1-t);
+      --hero-h1-d: 48px;
+      --nav-h: 60px;
     }
   }
 
   @media (max-width: 640px) {
     :root {
-      --hero-h1-d: var(--hero-h1-m);
-      --hero-sub-fs-d: var(--hero-sub-fs-m);
+      --hero-h1-d: 36px;
+      --hero-sub-fs-d: 16px;
       --cta-h: 40px;
-      --cta-fs: 15.5px;
-      --cta-px: 18px;
+      --cta-fs: 15px;
+      --cta-px: 16px;
+      --nav-h: 56px;
     }
   }
 }
