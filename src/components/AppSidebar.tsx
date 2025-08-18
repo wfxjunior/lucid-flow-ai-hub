@@ -12,11 +12,12 @@ import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
 import { AllFeaturesDialog } from "@/components/AllFeaturesDialog"
 import { HelpCenter } from "@/components/HelpCenter"
 import { 
-  Home, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
+  LayoutDashboard, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
   Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
   Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
   DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
-  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt, Mail
+  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt, Mail,
+  Building2, Banknote, Target, CircleDollarSign, Bot
 } from "lucide-react"
 
 interface AppSidebarProps {
@@ -34,7 +35,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
   // Main Features
   const mainFeatures = [
-    { title: t("sidebar.mainFeatures.dashboard", "Dashboard"), view: "dashboard", icon: Home },
+    { title: t("sidebar.mainFeatures.dashboard", "Dashboard"), view: "dashboard", icon: LayoutDashboard },
     { title: t("sidebar.mainFeatures.aiVoice", "AI Voice"), view: "ai-voice", icon: Mic },
     { title: t("sidebar.mainFeatures.invoices", "Invoices"), view: "invoices", icon: FileText },
     { title: t("sidebar.mainFeatures.estimates", "Estimates"), view: "estimates", icon: Calculator },
@@ -58,7 +59,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: t("sidebar.financialTools.featherTax", "FeatherTax"), view: "feather-tax", icon: FileCheck },
     { title: t("sidebar.financialTools.easyCalc", "EasyCalc"), view: "easy-calc", icon: Calculator },
     { title: t("sidebar.financialTools.receipts", "Receipts"), view: "receipts", icon: Receipt },
-    { title: t("sidebar.financialTools.accounting", "Accounting"), view: "accounting", icon: DollarSign },
+    { title: t("sidebar.financialTools.accounting", "Accounting"), view: "accounting", icon: Banknote },
     { title: t("sidebar.financialTools.quotes", "Quotes"), view: "quotes", icon: FileText },
   ]
 
@@ -76,7 +77,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const documentsItems = [
     { title: t("sidebar.documents.featherForms", "FeatherForms"), view: "feather-forms", icon: ClipboardList },
     { title: t("sidebar.documents.salesOrders", "Sales Orders"), view: "sales-orders", icon: Store },
-    { title: t("sidebar.documents.businessProposals", "Business Proposals"), view: "business-proposals", icon: Building },
+    { title: t("sidebar.documents.businessProposals", "Business Proposals"), view: "business-proposals", icon: Building2 },
     { title: t("sidebar.documents.bids", "Bids"), view: "bids", icon: Zap },
     { title: t("sidebar.documents.contracts", "Contracts"), view: "contracts", icon: File },
   ]
@@ -108,7 +109,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     { title: t("sidebar.general.features", "Features"), view: "features", icon: Grid },
     { title: t("sidebar.general.faqHelp", "FAQ & Help"), view: "faq-help", icon: HelpCircle },
     { title: t("sidebar.general.feedback", "Feedback"), view: "feedback", icon: MessageCircleQuestion },
-    { title: t("sidebar.general.pricing", "Pricing"), view: "pricing", icon: DollarSign },
+    { title: t("sidebar.general.pricing", "Pricing"), view: "pricing", icon: CircleDollarSign },
     { title: t("sidebar.general.settings", "Settings"), view: "settings", icon: Settings },
   ]
 

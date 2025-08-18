@@ -35,51 +35,68 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
   const [activeTab, setActiveTab] = useState("overview")
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="overview" className="text-xs sm:text-sm">
-          Overview
-        </TabsTrigger>
-        <TabsTrigger value="tasks" className="text-xs sm:text-sm">
-          Tasks & Activities
-        </TabsTrigger>
-        <TabsTrigger value="quick-actions" className="text-xs sm:text-sm">
-          Quick Actions
-        </TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="overview" className="space-y-4">
-        <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
-          {/* Subscription Status - Full width now */}
-          <div className="lg:col-span-3">
-            <SubscriptionStatus onNavigate={onNavigate} />
-          </div>
+    <div className="space-y-6">
+      {/* Soft tab navigation */}
+      <div className="bg-muted rounded-2xl p-1 w-fit">
+        <div className="flex space-x-1">
+          <button
+            onClick={() => setActiveTab("overview")}
+            className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
+              activeTab === "overview"
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab("tasks")}
+            className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
+              activeTab === "tasks"
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Tasks & Activities
+          </button>
+          <button
+            onClick={() => setActiveTab("quick-actions")}
+            className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
+              activeTab === "quick-actions"
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Quick Actions
+          </button>
         </div>
+      </div>
 
-        <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
-          {/* Recent Activity */}
-          <Card className="lg:col-span-7">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">
-                Recent Activity
-              </CardTitle>
-              <CardDescription className="text-sm">
+      {/* Tab Content */}
+      {activeTab === "overview" && (
+        <div className="space-y-6">
+          <SubscriptionStatus onNavigate={onNavigate} />
+          
+          <Card className="bg-card border border-border rounded-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold">Recent Activity</CardTitle>
+              <CardDescription className="text-sm text-muted-foreground">
                 Latest business activities
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <div className="space-y-4">
                 {stats.recentActivities.slice(0, 5).map((activity) => (
-                  <div key={activity.id} className="flex items-center space-x-4">
+                  <div key={activity.id} className="flex items-center space-x-3 py-2">
                     <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                      activity.type === 'payment' ? 'bg-green-500' :
-                      activity.type === 'invoice' ? 'bg-blue-500' :
-                      activity.type === 'customer' ? 'bg-purple-500' :
-                      activity.type === 'estimate' ? 'bg-orange-500' :
-                      'bg-gray-500'
+                      activity.type === 'payment' ? 'bg-success' :
+                      activity.type === 'invoice' ? 'bg-primary' :
+                      activity.type === 'customer' ? 'bg-secondary' :
+                      activity.type === 'estimate' ? 'bg-warning' :
+                      'bg-muted-foreground'
                     }`}></div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{activity.action}</p>
+                      <p className="text-sm font-medium text-foreground">{activity.action}</p>
                       <p className="text-xs text-muted-foreground">{activity.time}</p>
                     </div>
                   </div>
@@ -88,79 +105,78 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
             </CardContent>
           </Card>
         </div>
-      </TabsContent>
+      )}
 
-      <TabsContent value="tasks" className="space-y-4">
-        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-          {/* Upcoming Tasks */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+      {activeTab === "tasks" && (
+        <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+          <Card className="bg-card border border-border rounded-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-2 text-lg font-semibold">
                 <Clock className="h-5 w-5" />
                 Upcoming Tasks
               </CardTitle>
-              <CardDescription className="text-sm">
+              <CardDescription className="text-sm text-muted-foreground">
                 Tasks that need your attention
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <div className="space-y-3">
                 {stats.upcomingTasks.map((task) => (
-                  <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div key={task.id} className="flex items-center justify-between p-4 bg-muted/50 rounded-xl">
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">{task.title}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="font-medium text-sm text-foreground">{task.title}</p>
+                      <p className="text-xs text-muted-foreground mt-1">
                         Due: {task.due}
                       </p>
                     </div>
-                    <Badge 
-                      variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'}
-                      className="ml-2 flex-shrink-0"
-                    >
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      task.priority === 'high' ? 'bg-destructive/10 text-destructive' :
+                      task.priority === 'medium' ? 'bg-warning/10 text-warning' :
+                      'bg-muted text-muted-foreground'
+                    }`}>
                       {task.priority}
-                    </Badge>
+                    </span>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
 
-          {/* Quick Stats */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+          <Card className="bg-card border border-border rounded-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-2 text-lg font-semibold">
                 <CheckCircle className="h-5 w-5" />
                 Today's Progress
               </CardTitle>
-              <CardDescription className="text-sm">
+              <CardDescription className="text-sm text-muted-foreground">
                 Your productivity metrics
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Tasks Completed</span>
-                <span className="font-bold">0/0</span>
+            <CardContent className="pt-0 space-y-4">
+              <div className="flex items-center justify-between py-2">
+                <span className="text-sm text-foreground">Tasks Completed</span>
+                <span className="font-semibold text-foreground">0/0</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Invoices Created</span>
-                <span className="font-bold">0</span>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-sm text-foreground">Invoices Created</span>
+                <span className="font-semibold text-foreground">0</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Customer Calls</span>
-                <span className="font-bold">0</span>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-sm text-foreground">Customer Calls</span>
+                <span className="font-semibold text-foreground">0</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Revenue Generated</span>
-                <span className="font-bold">$0</span>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-sm text-foreground">Revenue Generated</span>
+                <span className="font-semibold text-foreground">$0</span>
               </div>
             </CardContent>
           </Card>
         </div>
-      </TabsContent>
+      )}
 
-      <TabsContent value="quick-actions" className="space-y-4">
+      {activeTab === "quick-actions" && (
         <LimitedQuickActions onActionClick={onActionClick} />
-      </TabsContent>
-    </Tabs>
+      )}
+    </div>
   )
 }

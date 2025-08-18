@@ -77,12 +77,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// FeatherBiz specific colors
+				success: 'hsl(var(--fb-success))',
+				warning: 'hsl(var(--fb-warning))',
+				danger: 'hsl(var(--fb-danger))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'2xl': '1rem'
 			},
 			keyframes: {
 				'accordion-down': {

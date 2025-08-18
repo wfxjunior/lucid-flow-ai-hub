@@ -24,7 +24,7 @@ export function SidebarMenuSection({
 }: SidebarMenuSectionProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-xs font-medium text-sidebar-foreground/70 px-2 py-1.5">
+      <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground px-3 py-2 uppercase tracking-wider">
         {sectionTitle}
       </SidebarGroupLabel>
       <SidebarGroupContent>
@@ -34,9 +34,9 @@ export function SidebarMenuSection({
               <SidebarMenuButton
                 onClick={() => onMenuClick(item.view)}
                 isActive={activeView === item.view}
-                className="w-full justify-start px-2 py-1.5 text-sm font-medium transition-colors hover:bg-blue-500/10 hover:text-blue-600 data-[active=true]:bg-blue-500/20 data-[active=true]:text-blue-700 data-[active=true]:font-semibold"
+                className="w-full justify-start px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:bg-accent hover:text-accent-foreground data-[active=true]:bg-accent data-[active=true]:text-accent-foreground data-[active=true]:font-semibold data-[active=true]:border-l-2 data-[active=true]:border-primary"
               >
-                {item.icon && <item.icon className="mr-2 h-4 w-4" />}
+                {item.icon && <item.icon className="mr-3 h-5 w-5 stroke-[1.5]" />}
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>

@@ -16,44 +16,57 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* FeatherBiz Design System */
+    --fb-bg: 214 31% 97%;
+    --fb-surface: 0 0% 100%;
+    --fb-border: 221 21% 91%;
+    --fb-text: 217 33% 17%;
+    --fb-muted: 215 16% 47%;
+    --fb-primary: 216 100% 53%;
+    --fb-primary-10: 216 100% 97%;
+    --fb-success: 199 89% 48%;
+    --fb-warning: 32 95% 44%;
+    --fb-danger: 0 84% 60%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Base tokens (compatible with existing) */
+    --background: var(--fb-bg);
+    --foreground: var(--fb-text);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --card: var(--fb-surface);
+    --card-foreground: var(--fb-text);
 
-    --primary: 216 100% 53%;
-    --primary-foreground: 210 40% 98%;
+    --popover: var(--fb-surface);
+    --popover-foreground: var(--fb-text);
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary: var(--fb-primary);
+    --primary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: var(--fb-primary-10);
+    --secondary-foreground: var(--fb-primary);
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: var(--fb-primary-10);
+    --muted-foreground: var(--fb-muted);
 
-    --destructive: 220 13% 46%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: var(--fb-primary-10);
+    --accent-foreground: var(--fb-primary);
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 216 100% 53%;
+    --destructive: var(--fb-danger);
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.75rem;
+    --border: var(--fb-border);
+    --input: var(--fb-border);
+    --ring: var(--fb-primary);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 216 100% 53%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 216 100% 53%;
+    --radius: 1rem;
+
+    --sidebar-background: var(--fb-surface);
+    --sidebar-foreground: var(--fb-text);
+    --sidebar-primary: var(--fb-primary);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--fb-primary-10);
+    --sidebar-accent-foreground: var(--fb-primary);
+    --sidebar-border: var(--fb-border);
+    --sidebar-ring: var(--fb-primary);
 
     /* Brand palette */
     --brand-blue: var(--primary);
@@ -62,33 +75,46 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* FeatherBiz Dark Mode */
+    --fb-bg: 217 33% 17%;
+    --fb-surface: 222 47% 11%;
+    --fb-border: 217 33% 24%;
+    --fb-text: 210 40% 98%;
+    --fb-muted: 215 20% 65%;
+    --fb-primary: 216 100% 60%;
+    --fb-primary-10: 217 33% 20%;
+    --fb-success: 199 89% 48%;
+    --fb-warning: 32 95% 44%;
+    --fb-danger: 0 84% 60%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    /* Base tokens (compatible with existing) */
+    --background: var(--fb-bg);
+    --foreground: var(--fb-text);
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --card: var(--fb-surface);
+    --card-foreground: var(--fb-text);
 
-    --primary: 216 100% 53%;
-    --primary-foreground: 210 40% 98%;
+    --popover: var(--fb-surface);
+    --popover-foreground: var(--fb-text);
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --primary: var(--fb-primary);
+    --primary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --secondary: var(--fb-primary-10);
+    --secondary-foreground: var(--fb-primary);
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --muted: var(--fb-primary-10);
+    --muted-foreground: var(--fb-muted);
 
-    --destructive: 220 13% 56%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: var(--fb-primary-10);
+    --accent-foreground: var(--fb-primary);
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 216 100% 60%;
+    --destructive: var(--fb-danger);
+    --destructive-foreground: 0 0% 100%;
+
+    --border: var(--fb-border);
+    --input: var(--fb-border);
+    --ring: var(--fb-primary);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 216 100% 53%;
@@ -119,6 +145,9 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
     transition: background-color 0.3s ease, color 0.3s ease;
     /* Mobile touch optimizations */
     -webkit-touch-callout: none;
@@ -166,18 +195,65 @@
     animation: scrollRight 20s linear infinite;
   }
 
-  /* Enhanced sidebar font size customization */
+  /* FeatherBiz Typography */
+  .fb-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .fb-subtitle {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .fb-metric {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .fb-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: hsl(var(--fb-muted));
+  }
+
+  /* Enhanced sidebar styling */
   [data-sidebar="sidebar"] {
-    font-size: 1.125rem; /* increased from 1rem to text-lg */
+    width: 240px;
+    background: hsl(var(--fb-surface));
+    border-right: 1px solid hsl(var(--fb-border));
   }
 
   [data-sidebar="menu-button"] {
-    font-size: 1.0625rem; /* increased from 0.9375rem to larger size */
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  [data-sidebar="menu-button"]:hover {
+    background: hsl(var(--fb-primary-10));
+    color: hsl(var(--fb-primary));
+  }
+
+  [data-sidebar="menu-button"][data-active="true"] {
+    background: hsl(var(--fb-primary-10));
+    color: hsl(var(--fb-primary));
+    font-weight: 600;
+    border-left: 3px solid hsl(var(--fb-primary));
+    margin-left: -3px;
   }
 
   [data-sidebar="group-label"] {
-    font-size: 1rem; /* increased from 0.875rem to text-base */
-    font-weight: 600; /* made labels bolder */
+    font-size: 12px;
+    font-weight: 600;
+    color: hsl(var(--fb-muted));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* Mobile responsive utilities */

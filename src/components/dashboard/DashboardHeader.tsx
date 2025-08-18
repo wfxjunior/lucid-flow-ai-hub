@@ -16,64 +16,47 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
   const { t } = useLanguage()
 
   return (
-    <div className="space-y-3 sm:space-y-4 w-full max-w-screen-xl mx-auto">
-      <div className="flex flex-col gap-3 sm:gap-4 w-full">
-        <div className="flex flex-col gap-1 sm:gap-2">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">
-            {t("dashboardHeader.title", "Business Dashboard")}
+    <div className="w-full">
+      {/* Clean header with title and search */}
+      <div className="flex items-center justify-between pb-6 border-b border-border">
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">
+            {t("dashboardHeader.title", "Dashboard")}
           </h1>
-          <p className="text-xs sm:text-sm lg:text-base text-muted-foreground">
-            {t("dashboardHeader.welcome", "Welcome back! Here's what's happening with your business today.")}
+          <p className="text-sm text-muted-foreground mt-1">
+            {t("dashboardHeader.welcome", "Overview of your business performance")}
           </p>
         </div>
-
-        <div className="w-full flex justify-center">
+        
+        <div className="flex items-center gap-3">
+          {/* Search field */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-4 w-4 text-muted-foreground" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-64 pl-10 pr-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+          
           <Button
             onClick={onRefresh}
             variant="outline"
-            size={isMobile ? "sm" : "default"}
+            size="sm"
             disabled={loading}
-            className="w-full max-w-md rounded-full py-3 sm:py-4 text-sm sm:text-base font-medium flex items-center justify-center border"
+            className="px-3 py-2"
           >
-            <RefreshCw className={`h-4 w-4 sm:h-5 sm:w-5 ${loading ? 'animate-spin' : ''}`} />
-            {loading ? t("dashboardHeader.updating", "Updating...") : t("dashboardHeader.refresh", "Refresh")}
+            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
-        </div>
-
-        <div className="w-full flex flex-col gap-2 items-center">
-          <Button
-            onClick={() => onNavigate('ai-voice')}
-            variant="elevated"
-            className="w-full max-w-md rounded-full py-3 sm:py-4 text-sm sm:text-base lg:text-lg"
-            size={isMobile ? "lg" : "default"}
-          >
-            <Mic className="h-4 w-4 sm:h-5 sm:w-5" />
-            {t("dashboardHeader.aiVoiceAssistant", "AI Voice Assistant")}
-          </Button>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-2xl">
-            <Button
-              onClick={() => onNavigate('analytics')}
-              variant="soft"
-              className="w-full rounded-full py-3 sm:py-4 text-sm sm:text-base font-medium"
-              size={isMobile ? "lg" : "default"}
-            >
-              <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
-              {t("dashboardHeader.viewAnalytics", "View Analytics")}
-            </Button>
-            <Button
-              onClick={() => onNavigate('invoice-creator')}
-              variant="soft"
-              className="w-full rounded-full py-3 sm:py-4 text-sm sm:text-base font-medium"
-              size={isMobile ? "lg" : "default"}
-            >
-              <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
-              {t("dashboardHeader.invoices", "Invoices")}
-            </Button>
-          </div>
         </div>
       </div>
+
       {error && (
-        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
+        <div className="mt-4 bg-destructive/10 border border-destructive/20 rounded-lg p-3">
           <p className="text-sm text-destructive">{error}</p>
         </div>
       )}
