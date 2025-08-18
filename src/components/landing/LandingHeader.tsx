@@ -396,6 +396,7 @@ export const LandingHeader = () => {
           <div className="hidden sm:flex items-center gap-[14px]">
             {isSubscribed ? (
               <Button
+                variant="default"
                 onClick={openCustomerPortal}
                 style={{ 
                   height: 'var(--cta-h)', 
@@ -403,14 +404,16 @@ export const LandingHeader = () => {
                   paddingRight: 'var(--cta-px)', 
                   borderRadius: 'var(--cta-radius)',
                   fontSize: 'var(--cta-fs)',
-                  fontWeight: 'var(--cta-fw)'
+                  fontWeight: 'var(--cta-fw)',
+                  color: 'white'
                 }}
-                className="shadow-sm text-white"
+                className="shadow-sm"
               >
                 Manage Subscription
               </Button>
             ) : (
               <Button
+                variant="default"
                 onClick={() => {
                   const isLanding = location.pathname === '/landing' || location.pathname === '/';
                   if (isLanding) {
@@ -425,9 +428,10 @@ export const LandingHeader = () => {
                   paddingRight: 'var(--cta-px)', 
                   borderRadius: 'var(--cta-radius)',
                   fontSize: 'var(--cta-fs)',
-                  fontWeight: 'var(--cta-fw)'
+                  fontWeight: 'var(--cta-fw)',
+                  color: 'white'
                 }}
-                className="shadow-sm text-white"
+                className="shadow-sm"
               >
                 Subscribe
               </Button>
