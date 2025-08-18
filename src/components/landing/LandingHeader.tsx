@@ -117,15 +117,14 @@ export const LandingHeader = () => {
   return (
     <header className="w-full border-b border-border/20 bg-background/80 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <div className="flex items-center">
+        {/* Logo and Navigation */}
+        <div className="flex items-center gap-8">
           <Link to="/" className="text-2xl font-bold text-foreground tracking-tight hover-scale" aria-label="FeatherBiz home">
             FeatherBiz
           </Link>
-        </div>
 
-        {/* Navigation - Hidden on mobile */}
-        <nav className="hidden lg:flex items-center gap-6">
+          {/* Navigation - Hidden on mobile */}
+          <nav className="hidden lg:flex items-center gap-6">
           <NavigationMenu>
             <NavigationMenuList>
               {/* Platform */}
@@ -174,7 +173,8 @@ export const LandingHeader = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-        </nav>
+          </nav>
+        </div>
 
         {/* Right actions */}
         <div className="flex items-center gap-2">
