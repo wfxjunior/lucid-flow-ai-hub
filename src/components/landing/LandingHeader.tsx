@@ -208,7 +208,7 @@ export const LandingHeader = () => {
   };
 
   const RightColumn = ({ menuId, ready }: { menuId: 'header_megamenu_platform'|'header_megamenu_resources'; ready: boolean }) => {
-    // For Platform menu, show both CTAs
+    // For Platform menu, show only FeatherBiz 101 CTA
     if (menuId === 'header_megamenu_platform') {
       return (
         <div className="flex flex-col gap-3">
@@ -221,15 +221,6 @@ export const LandingHeader = () => {
             >
               <NavGlyph name="work" className="text-foreground/80" size={20} />
               <span className="text-sm">FeatherBiz 101</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'hire-expert', locale })}
-              className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-              aria-label="Hire an expert"
-            >
-              <NavGlyph name="integrations" className="text-foreground/80" size={20} />
-              <span className="text-sm">Hire an expert</span>
             </button>
           </div>
           {ready && (
@@ -265,21 +256,26 @@ export const LandingHeader = () => {
   };
 
   return (
-    <header className="w-full border-b border-border/20 bg-background/80 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <header className="w-full border-b border-[#E9EEF5] bg-background/95 backdrop-blur-sm sticky top-0 z-50 h-16 xl:h-16">
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 xl:px-6 lg:px-5 h-full">
         {/* Logo and Navigation */}
-        <div className="flex items-center gap-8">
-          <Link to="/" className="text-2xl font-bold text-foreground tracking-tight hover-scale" aria-label="FeatherBiz home">
+        <div className="flex items-center">
+          <Link to="/" className="text-xl font-bold text-[#111827] tracking-tight" aria-label="FeatherBiz home">
             FeatherBiz
           </Link>
 
           {/* Navigation - Hidden on mobile */}
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center ml-12 2xl:gap-10 xl:gap-9 lg:gap-6">
           <NavigationMenu>
-            <NavigationMenuList>
+            <NavigationMenuList className="gap-9 xl:gap-8 lg:gap-6">
               {/* Platform */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-medium" onPointerEnter={() => handleOpen('header_megamenu_platform')}>Platform</NavigationMenuTrigger>
+                <NavigationMenuTrigger 
+                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 focus:text-[#111827] bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-1 py-0 h-auto focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
+                  onPointerEnter={() => handleOpen('header_megamenu_platform')}
+                >
+                  Platform
+                </NavigationMenuTrigger>
                 <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_platform')}>
                   <div id="header_megamenu_platform" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
                     <div className="grid gap-1">
@@ -294,7 +290,12 @@ export const LandingHeader = () => {
 
               {/* Resources */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-medium" onPointerEnter={() => handleOpen('header_megamenu_resources')}>Resources</NavigationMenuTrigger>
+                <NavigationMenuTrigger 
+                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 focus:text-[#111827] bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-1 py-0 h-auto focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
+                  onPointerEnter={() => handleOpen('header_megamenu_resources')}
+                >
+                  Resources
+                </NavigationMenuTrigger>
                 <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_resources')}>
                   <div id="header_megamenu_resources" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
                     <div className="grid gap-1">
@@ -307,19 +308,35 @@ export const LandingHeader = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* Pricing (unchanged) */}
+              {/* Pricing */}
               <NavigationMenuItem>
-                <Link to="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">Pricing</Link>
+                <Link 
+                  to="/landing#pricing" 
+                  onClick={onPricingClick} 
+                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
+                >
+                  Pricing
+                </Link>
               </NavigationMenuItem>
 
               {/* Blog */}
               <NavigationMenuItem>
-                <Link to="/blog" className="text-muted-foreground hover:text-foreground font-medium transition-colors">Blog</Link>
+                <Link 
+                  to="/blog" 
+                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
+                >
+                  Blog
+                </Link>
               </NavigationMenuItem>
 
               {/* Scale */}
               <NavigationMenuItem>
-                <Link to="/scale" className="text-foreground font-medium transition-colors">Scale</Link>
+                <Link 
+                  to="/scale" 
+                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
+                >
+                  Scale
+                </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -327,11 +344,11 @@ export const LandingHeader = () => {
         </div>
 
         {/* Right actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center ml-auto">
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" className="lg:hidden p-2" aria-label="Open menu">
+              <Button variant="ghost" className="lg:hidden p-2 mr-2" aria-label="Open menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
@@ -375,36 +392,37 @@ export const LandingHeader = () => {
             </SheetContent>
           </Sheet>
 
-          {/* CTAs */}
-          {isSubscribed ? (
-            <Button
-              onClick={openCustomerPortal}
-              className="hidden sm:inline-flex font-medium"
+          {/* Desktop CTAs */}
+          <div className="hidden sm:flex items-center gap-[14px]">
+            {isSubscribed ? (
+              <Button
+                onClick={openCustomerPortal}
+                className="h-10 px-5 rounded-xl text-base font-medium shadow-sm"
+              >
+                Manage Subscription
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  const isLanding = location.pathname === '/landing' || location.pathname === '/';
+                  if (isLanding) {
+                    const el = document.getElementById('pricing');
+                    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+                  }
+                  navigate('/pricing');
+                }}
+                className="h-10 px-5 rounded-xl text-base font-medium shadow-sm"
+              >
+                Subscribe
+              </Button>
+            )}
+            <button
+              onClick={() => navigate('/auth')}
+              className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
             >
-              Manage Subscription
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                const isLanding = location.pathname === '/landing' || location.pathname === '/';
-                if (isLanding) {
-                  const el = document.getElementById('pricing');
-                  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-                }
-                navigate('/pricing');
-              }}
-              className="hidden sm:inline-flex font-medium"
-            >
-              Subscribe
-            </Button>
-          )}
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/auth')}
-            className="hidden sm:inline-flex text-muted-foreground hover:text-foreground font-medium px-4"
-          >
-            Sign in
-          </Button>
+              Sign in
+            </button>
+          </div>
         </div>
       </div>
     </header>
