@@ -16,6 +16,16 @@
 
 @layer base {
   :root {
+    /* Roomy Layout Tokens */
+    --sidebar-w: 248px;
+    --shell-gap: 28px;
+    --shell-gap-md: 24px;
+    --shell-gap-sm: 16px;
+    --content-max: 1180px;
+    --content-px: 24px;
+    --content-px-sm: 16px;
+    --section-gap-y: 20px;
+
     /* FeatherBiz Design System */
     --fb-bg: 0 0% 100%;
     --fb-surface: 0 0% 100%;
@@ -414,6 +424,28 @@
     background-color: transparent;
   }
   
+  /* Roomy Layout Utilities */
+  .roomy-container {
+    max-width: var(--content-max);
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--content-px);
+  }
+
+  .roomy-section-gap {
+    margin-top: var(--section-gap-y);
+  }
+
+  .roomy-grid-gap {
+    gap: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    .roomy-grid-gap {
+      gap: 20px;
+    }
+  }
+  
   /* Global scrollbar styling */
   ::-webkit-scrollbar {
     width: 6px;
@@ -448,10 +480,19 @@
   }
 
   /* Attio-like responsive typography */
+  @media (max-width: 1279px) and (min-width: 1024px) {
+    :root {
+      --shell-gap: var(--shell-gap-md);
+      --content-px: var(--content-px-sm);
+    }
+  }
+
   @media (max-width: 1024px) {
     :root {
       --hero-h1-d: 48px;
       --nav-h: 60px;
+      --shell-gap: var(--shell-gap-sm);
+      --content-px: var(--content-px-sm);
     }
   }
 

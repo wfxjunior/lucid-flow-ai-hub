@@ -16,9 +16,10 @@ export default function Index() {
   return (
     <SidebarProvider>
       <div className="w-full min-h-screen bg-background">
-        <div className="flex w-full min-h-screen max-w-none">
+        <div className="grid w-full min-h-screen max-w-none lg:grid-cols-[var(--sidebar-w)_1fr] lg:gap-[var(--shell-gap)] xl:gap-[var(--shell-gap)]">
           <AppSidebar setActiveView={setActiveView} activeView={activeView} />
-          <main className="flex-1 min-w-0 max-w-none bg-background overflow-hidden">
+          <main className="min-w-0 bg-background overflow-hidden lg:pr-0" 
+                style={{ maxWidth: 'var(--content-max)', width: '100%', marginInline: 'auto', paddingInline: 'var(--content-px)' }}>
             <div className="h-screen overflow-y-auto">
               <MainContent activeView={activeView} onNavigate={handleNavigate} />
             </div>

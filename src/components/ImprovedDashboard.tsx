@@ -34,8 +34,12 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   }
 
   return (
-    <div className="w-full h-full p-4 md:p-6 overflow-y-auto">
-      <div className="space-y-3 sm:space-y-4 lg:space-y-6 w-full max-w-7xl mx-auto pb-8">
+    <div className="w-full h-full overflow-y-auto" style={{ paddingInline: 'var(--content-px)' }}>
+      <div className="w-full mx-auto pb-8 space-y-4 lg:space-y-6" 
+           style={{ 
+             maxWidth: 'var(--content-max)', 
+             gap: 'var(--section-gap-y)'
+           }}>
       {/* Header */}
       <DashboardHeader 
         onNavigate={handleNavigateInternal} 

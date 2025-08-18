@@ -20,7 +20,12 @@ export function AnalyticsDashboard() {
   } = useBusinessData()
 
   return (
-    <div className="p-2 sm:p-4 lg:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto">
+    <div className="w-full overflow-y-auto" style={{ paddingInline: 'var(--content-px)' }}>
+      <div className="w-full mx-auto pb-8 space-y-4 sm:space-y-6" 
+           style={{ 
+             maxWidth: 'var(--content-max)', 
+             gap: 'var(--section-gap-y)'
+           }}>
       <DashboardHeader />
 
       {/* Key Metrics */}
@@ -31,7 +36,8 @@ export function AnalyticsDashboard() {
       />
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6" 
+           style={{ marginTop: 'var(--section-gap-y)' }}>
         <div className="w-full">
           <RevenueChart />
         </div>
@@ -51,6 +57,7 @@ export function AnalyticsDashboard() {
         clients={clients}
         activeClients={activeClients}
       />
+      </div>
     </div>
   )
 }

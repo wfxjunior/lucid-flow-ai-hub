@@ -35,9 +35,9 @@ export function DashboardTabs({ stats, onActionClick, onNavigate }: DashboardTab
   const [activeTab, setActiveTab] = useState("overview")
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" style={{ marginTop: '12px', marginBottom: '12px' }}>
       {/* Soft tab navigation */}
-      <div className="bg-muted rounded-2xl p-1 w-fit">
+      <div className="bg-muted rounded-2xl p-1 w-fit" style={{ marginBottom: '16px' }}>
         <div className="flex space-x-1">
           <button
             onClick={() => setActiveTab("overview")}
