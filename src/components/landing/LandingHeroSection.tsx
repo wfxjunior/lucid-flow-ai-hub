@@ -42,7 +42,7 @@ export const LandingHeroSection = () => {
   }, []);
 
   return (
-    <section id="hero_headline_v1" data-component-key="hero_headline_v1" className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 bg-gradient-to-b from-background to-muted/20">
+    <section id="hero_headline_v1" data-component-key="hero_headline_v1" className="relative bg-gradient-to-b from-background to-muted/20" style={{ paddingTop: 'var(--hero-pt)', paddingBottom: 'var(--hero-pb)' }}>
       {/* very subtle grid/halo background, disabled on mobile */}
       <div
         aria-hidden="true"
@@ -58,46 +58,89 @@ export const LandingHeroSection = () => {
       {/* Announcement Banner */}
       <div className="text-center mb-8">
         <div
-          className="gold-chip inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm cursor-pointer shadow-sm"
+          className="gold-chip inline-flex items-center gap-2 cursor-pointer shadow-sm"
           role="button"
-          aria-label="FeatherBiz Gold — Lista de Espera"
+          aria-label="FeatherBiz Scale"
           tabIndex={0}
           onClick={() => navigate('/scale')}
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/scale'); } }}
+          style={{
+            height: '28px',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            borderRadius: '9999px',
+            fontSize: '13px',
+            fontWeight: '500'
+          }}
         >
           <span className="font-medium">FeatherBiz Scale</span>
           <ArrowRight className="h-3 w-3" aria-hidden="true" />
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-4xl mx-auto">
           {/* Main Headline */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-6 leading-[1.08] px-4">
+          <h1 
+            className="font-bold text-foreground px-4"
+            style={{
+              fontSize: 'var(--hero-h1-d)',
+              lineHeight: 'var(--hero-h1-lh)',
+              fontWeight: 'var(--hero-h1-w)',
+              letterSpacing: '0',
+              marginTop: '0',
+              marginBottom: 'var(--hero-gap-title-sub)'
+            }}
+          >
             Business management{" "}
             <span className="text-primary">magic.</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed px-4">
+          <p 
+            className="text-muted-foreground max-w-2xl mx-auto px-4"
+            style={{
+              fontSize: 'var(--hero-sub-fs-d)',
+              lineHeight: 'var(--hero-sub-lh)',
+              color: 'hsl(var(--hero-sub-color))',
+              marginBottom: 'var(--hero-gap-sub-ctas)'
+            }}
+          >
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <div className="flex flex-col sm:flex-row justify-center items-center w-full sm:w-auto" style={{ gap: '12px', marginBottom: '20px' }}>
             <Button
               data-analytics-id="hero_cta_start_click"
-              size="xl"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="group font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
+              className="group w-full sm:w-auto"
+              style={{
+                height: 'var(--cta-h)',
+                paddingLeft: 'var(--cta-px)',
+                paddingRight: 'var(--cta-px)',
+                borderRadius: 'var(--cta-radius)',
+                fontSize: 'var(--cta-fs)',
+                fontWeight: 'var(--cta-fw)',
+                letterSpacing: '0'
+              }}
             >
               <span>Start for free</span>
             </Button>
             <Button
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
-              size="xl"
               onClick={() => setShowSalesModal(true)}
-              className="font-medium text-lg px-6 sm:px-8 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto border-border/50 hover:border-border hover:bg-muted/50"
+              className="w-full sm:w-auto border-border hover:bg-primary/10 hover:text-primary"
+              style={{
+                height: 'var(--cta-h)',
+                paddingLeft: 'var(--cta-px)',
+                paddingRight: 'var(--cta-px)',
+                borderRadius: 'var(--cta-radius)',
+                fontSize: 'var(--cta-fs)',
+                fontWeight: 'var(--cta-fw)',
+                letterSpacing: '0',
+                backgroundColor: '#fff'
+              }}
             >
               <span>Talk to sales</span>
             </Button>
@@ -107,11 +150,24 @@ export const LandingHeroSection = () => {
             <div
               ref={pillsRef}
               data-analytics-id="hero_pills_view"
-              className="flex flex-wrap gap-2 sm:gap-3 justify-center items-center px-4"
+              className="flex flex-wrap justify-center items-center px-4"
               aria-label="FeatherBiz capabilities"
+              style={{ gap: 'var(--chip-gap)' }}
             >
               {pillLabels.map((feature) => (
-                <span key={feature} className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground rounded-md border border-border/50 bg-muted/30 px-3 py-1.5" aria-label={`Capability: ${feature}`}>
+                <span 
+                  key={feature} 
+                  className="inline-flex items-center text-muted-foreground border border-border bg-white hover:bg-primary/10" 
+                  aria-label={`Capability: ${feature}`}
+                  style={{
+                    height: 'var(--chip-h)',
+                    paddingLeft: 'var(--chip-px)',
+                    paddingRight: 'var(--chip-px)',
+                    borderRadius: 'var(--chip-radius)',
+                    fontSize: 'var(--chip-fs)',
+                    gap: 'var(--chip-gap)'
+                  }}
+                >
                   <svg
                     aria-hidden="true"
                     className="w-4 h-4 shrink-0"

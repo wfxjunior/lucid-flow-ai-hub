@@ -72,6 +72,33 @@
     --brand-blue: var(--primary);
     --brand-green: 142 71% 45%;
     --brand-purple: 262 83% 67%;
+
+    /* Attio-like Layout Tokens */
+    --nav-h: 64px;
+    --hero-pt: 56px;
+    --hero-pb: 56px;
+    --hero-h1-d: 56px;
+    --hero-h1-t: 48px;
+    --hero-h1-m: 36px;
+    --hero-h1-lh: 1.08;
+    --hero-h1-w: 800;
+    --hero-sub-fs-d: 18px;
+    --hero-sub-fs-m: 16px;
+    --hero-sub-lh: 1.6;
+    --hero-sub-color: var(--fb-muted);
+    --hero-gap-title-sub: 12px;
+    --hero-gap-sub-ctas: 20px;
+    --cta-h: 40px;
+    --cta-radius: 12px;
+    --cta-fs: 15.5px;
+    --cta-fw: 500;
+    --cta-px: 18px;
+    --cta-gap: 8px;
+    --chip-h: 32px;
+    --chip-radius: 12px;
+    --chip-fs: 13px;
+    --chip-px: 12px;
+    --chip-gap: 8px;
   }
 
   .dark {
@@ -416,5 +443,22 @@
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* Attio-like responsive typography */
+  @media (max-width: 1024px) {
+    :root {
+      --hero-h1-d: var(--hero-h1-t);
+    }
+  }
+
+  @media (max-width: 640px) {
+    :root {
+      --hero-h1-d: var(--hero-h1-m);
+      --hero-sub-fs-d: var(--hero-sub-fs-m);
+      --cta-h: 40px;
+      --cta-fs: 15.5px;
+      --cta-px: 18px;
+    }
   }
 }

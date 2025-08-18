@@ -256,8 +256,8 @@ export const LandingHeader = () => {
   };
 
   return (
-    <header className="w-full border-b border-[#E9EEF5] bg-background/95 backdrop-blur-sm sticky top-0 z-50 h-16 xl:h-16">
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 xl:px-6 lg:px-5 h-full">
+    <header className="w-full border-b border-[#E9EEF5] bg-background/95 backdrop-blur-sm sticky top-0 z-50" style={{ height: 'var(--nav-h)' }}>
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between h-full" style={{ paddingLeft: '24px', paddingRight: '24px' }}>
         {/* Logo and Navigation */}
         <div className="flex items-center">
           <Link to="/" className="text-xl font-bold text-[#111827] tracking-tight" aria-label="FeatherBiz home">
@@ -265,9 +265,9 @@ export const LandingHeader = () => {
           </Link>
 
           {/* Navigation - Hidden on mobile */}
-          <nav className="hidden lg:flex items-center ml-12 2xl:gap-10 xl:gap-9 lg:gap-6">
+          <nav className="hidden lg:flex items-center ml-12">
           <NavigationMenu>
-            <NavigationMenuList className="gap-9 xl:gap-8 lg:gap-6">
+            <NavigationMenuList style={{ gap: '36px' }} className="2xl:[gap:36px] xl:[gap:30px] lg:[gap:24px]">
               {/* Platform */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger 
@@ -397,7 +397,15 @@ export const LandingHeader = () => {
             {isSubscribed ? (
               <Button
                 onClick={openCustomerPortal}
-                className="h-10 px-5 rounded-xl text-base font-medium shadow-sm"
+                style={{ 
+                  height: 'var(--cta-h)', 
+                  paddingLeft: 'var(--cta-px)', 
+                  paddingRight: 'var(--cta-px)', 
+                  borderRadius: 'var(--cta-radius)',
+                  fontSize: 'var(--cta-fs)',
+                  fontWeight: 'var(--cta-fw)'
+                }}
+                className="shadow-sm"
               >
                 Manage Subscription
               </Button>
@@ -411,7 +419,15 @@ export const LandingHeader = () => {
                   }
                   navigate('/pricing');
                 }}
-                className="h-10 px-5 rounded-xl text-base font-medium shadow-sm"
+                style={{ 
+                  height: 'var(--cta-h)', 
+                  paddingLeft: 'var(--cta-px)', 
+                  paddingRight: 'var(--cta-px)', 
+                  borderRadius: 'var(--cta-radius)',
+                  fontSize: 'var(--cta-fs)',
+                  fontWeight: 'var(--cta-fw)'
+                }}
+                className="shadow-sm"
               >
                 Subscribe
               </Button>
