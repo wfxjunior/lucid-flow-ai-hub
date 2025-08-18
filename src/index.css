@@ -25,6 +25,17 @@
     --content-px: 24px;
     --content-px-sm: 16px;
     --section-gap-y: 20px;
+    
+    /* Navigation header tokens */
+    --nav-pl: 12px;
+    --nav-pl-md: 10px;
+    --nav-pl-sm: 8px;
+    --logo-gap: 22px;
+    --logo-gap-md: 18px;
+    --logo-gap-sm: 16px;
+    --links-gap: 28px;
+    --links-gap-md: 24px;
+    --links-gap-sm: 20px;
 
     /* FeatherBiz Design System */
     --fb-bg: 0 0% 100%;
@@ -487,6 +498,9 @@
     :root {
       --shell-gap: var(--shell-gap-md);
       --content-px: var(--content-px-sm);
+      --nav-pl: var(--nav-pl-md);
+      --logo-gap: var(--logo-gap-md);
+      --links-gap: var(--links-gap-md);
     }
   }
 
@@ -496,6 +510,9 @@
       --nav-h: 60px;
       --shell-gap: var(--shell-gap-sm);
       --content-px: var(--content-px-sm);
+      --nav-pl: var(--nav-pl-sm);
+      --logo-gap: var(--logo-gap-sm);
+      --links-gap: var(--links-gap-sm);
     }
   }
 
