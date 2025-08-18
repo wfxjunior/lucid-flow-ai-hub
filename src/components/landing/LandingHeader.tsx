@@ -60,13 +60,11 @@ export const LandingHeader = () => {
   // Lazy render toggles for right column
   const [platformReady, setPlatformReady] = useState(false);
   const [resourcesReady, setResourcesReady] = useState(false);
-  const [customersReady, setCustomersReady] = useState(false);
 
   const handleOpen = (menuId: string) => {
     track('nav_megamenu_open', { menu_id: menuId, locale });
     if (menuId === 'header_megamenu_platform') setPlatformReady(true);
     if (menuId === 'header_megamenu_resources') setResourcesReady(true);
-    if (menuId === 'header_megamenu_customers') setCustomersReady(true);
   };
 
   const FeatureItem = ({ item, menuId }: { item: typeof features[number]; menuId: string }) => (
@@ -84,7 +82,7 @@ export const LandingHeader = () => {
     </button>
   );
 
-  const RightColumn = ({ menuId, ready }: { menuId: 'header_megamenu_platform'|'header_megamenu_resources'|'header_megamenu_customers'; ready: boolean }) => (
+  const RightColumn = ({ menuId, ready }: { menuId: 'header_megamenu_platform'|'header_megamenu_resources'; ready: boolean }) => (
     <div className="flex flex-col gap-3">
       {/* Get started links */}
       <div className="grid grid-cols-1 gap-2" aria-label="Get started">
@@ -160,21 +158,6 @@ export const LandingHeader = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* Customers */}
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-medium" onPointerEnter={() => handleOpen('header_megamenu_customers')}>Customers</NavigationMenuTrigger>
-                <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_customers')}>
-                  <div id="header_megamenu_customers" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
-                    <div className="grid gap-1">
-                      {features.map((it) => (
-                        <FeatureItem key={it.key} item={it} menuId="header_megamenu_customers" />
-                      ))}
-                    </div>
-                    <RightColumn menuId="header_megamenu_customers" ready={customersReady} />
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
               {/* Pricing (unchanged) */}
               <NavigationMenuItem>
                 <Link to="/landing#pricing" onClick={onPricingClick} className="text-muted-foreground hover:text-foreground font-medium transition-colors">Pricing</Link>
@@ -223,7 +206,6 @@ export const LandingHeader = () => {
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <SheetClose asChild><Link to="/landing#testimonials" className="text-foreground hover:underline">Customers</Link></SheetClose>
                   <SheetClose asChild>
                     <Link to="/landing#pricing" onClick={onPricingClick} className="text-foreground hover:underline">Pricing</Link>
                   </SheetClose>
