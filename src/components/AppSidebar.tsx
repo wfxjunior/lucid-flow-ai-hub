@@ -44,7 +44,6 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
 
   // Core Business
   const coreBusinessItems = [
-    { title: t("sidebar.coreBusiness.customers", "Customers"), view: "customers", icon: Users },
     { title: t("sidebar.coreBusiness.projects", "Projects"), view: "projects", icon: Briefcase },
     // Use ListTodo for Project Timeline
     { title: t("sidebar.coreBusiness.projectTimeline", "Project Timeline"), view: "project-timeline", icon: ListTodo },

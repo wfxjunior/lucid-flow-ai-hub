@@ -19,15 +19,6 @@ export default function Index() {
         
         <div className="space-y-4">
           <Button
-            onClick={() => navigate('/test-pdf')}
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
-            size="lg"
-          >
-            <FileText className="w-5 h-5" />
-            Generate Test PDF
-          </Button>
-          
-          <Button
             onClick={() => navigate('/landing')}
             variant="outline"
             className="w-full"
