@@ -10,6 +10,7 @@ import { TaxTransactions } from '@/components/tax/TaxTransactions'
 import { TaxReports } from '@/components/tax/TaxReports'
 import { TaxDeadlines } from '@/components/tax/TaxDeadlines'
 import { TaxSettings } from '@/components/tax/TaxSettings'
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 export function FeatherTaxPage() {
   const [selectedCountry, setSelectedCountry] = useState("US")
@@ -32,87 +33,27 @@ export function FeatherTaxPage() {
   ]
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            FeatherTax
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Comprehensive tax management and reporting system
-          </p>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-            <SelectTrigger className="w-full sm:w-[200px]">
-              <SelectValue placeholder="Select country" />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((country) => (
-                <SelectItem key={country.code} value={country.code}>
-                  {country.flag} {country.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+    <CleanPageLayout
+      title="FeatherTax"
+      subtitle="Comprehensive tax management and reporting system"
+      actionLabel="Generate Report"
+      onActionClick={() => {}}
+    >
 
-      {/* Quick Stats */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Income</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Loading...</div>
-            <p className="text-xs text-muted-foreground">
-              This tax year
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Taxable Income</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Loading...</div>
-            <p className="text-xs text-muted-foreground">
-              After deductions
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Deductions</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Loading...</div>
-            <p className="text-xs text-muted-foreground">
-              Business expenses
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Estimated Tax</CardTitle>
-            <Calculator className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Loading...</div>
-            <p className="text-xs text-muted-foreground">
-              For this year
-            </p>
-          </CardContent>
-        </Card>
+      {/* Country Selector */}
+      <div className="flex flex-col sm:flex-row gap-2">
+        <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+          <SelectTrigger className="w-full sm:w-[200px]">
+            <SelectValue placeholder="Select country" />
+          </SelectTrigger>
+          <SelectContent>
+            {countries.map((country) => (
+              <SelectItem key={country.code} value={country.code}>
+                {country.flag} {country.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Upcoming Deadlines Alert */}
@@ -192,6 +133,6 @@ export function FeatherTaxPage() {
           <TaxSettings country={selectedCountry} onCountryChange={setSelectedCountry} />
         </TabsContent>
       </Tabs>
-    </div>
+    </CleanPageLayout>
   )
 }

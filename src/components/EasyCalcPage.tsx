@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 interface DimensionPair {
   id: string
@@ -361,66 +362,54 @@ export function EasyCalcPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-2 sm:p-4 md:p-6">
-      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
-        {/* Header - Responsive */}
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-foreground">EasyCalc</h1>
-                <p className="text-sm sm:text-base text-muted-foreground">AI-powered smart estimates for any industry</p>
-              </div>
-            </div>
-            
-            {/* Project Name Input - Full width on mobile */}
-            <div className="w-full sm:w-auto">
-              <Input
-                placeholder="Project name..."
-                value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
-                className="w-full sm:w-48"
-              />
-            </div>
-          </div>
+    <CleanPageLayout
+      title="EasyCalc"
+      subtitle="AI-powered smart estimates for any industry"
+      actionLabel="Save Project"
+      onActionClick={saveEstimate}
+    >
 
-          {/* Action Buttons - Responsive Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-            <Button variant="outline" onClick={exportProject} className="text-xs sm:text-sm">
-              <FileDown className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Export</span>
-              <span className="xs:hidden">Export</span>
-            </Button>
-            <Button variant="outline" asChild className="text-xs sm:text-sm">
-              <label htmlFor="import-project" className="cursor-pointer">
-                <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                <span className="hidden xs:inline">Import</span>
-                <span className="xs:hidden">Import</span>
-                <input
-                  id="import-project"
-                  type="file"
-                  accept=".json"
-                  onChange={importProject}
-                  className="hidden"
-                />
-              </label>
-            </Button>
-            <Button variant="outline" onClick={saveEstimate} className="text-xs sm:text-sm">
-              <Save className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Save</span>
-              <span className="xs:hidden">Save</span>
-            </Button>
-            <Button variant="outline" onClick={resetForm} className="text-xs sm:text-sm">
-              <RotateCcw className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Reset</span>
-              <span className="xs:hidden">Reset</span>
-            </Button>
-          </div>
-        </div>
+      {/* Project Name Input */}
+      <div className="w-full sm:w-auto">
+        <Input
+          placeholder="Project name..."
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          className="w-full sm:w-48"
+        />
+      </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
-          {/* Input Form */}
-          <div className="xl:col-span-2">
+      {/* Action Buttons - Responsive Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+        <Button variant="outline" onClick={exportProject} className="text-xs sm:text-sm">
+          <FileDown className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+          Export
+        </Button>
+        <Button variant="outline" asChild className="text-xs sm:text-sm">
+          <label htmlFor="import-project" className="cursor-pointer">
+            <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            Import
+            <input
+              id="import-project"
+              type="file"
+              accept=".json"
+              onChange={importProject}
+              className="hidden"
+            />
+          </label>
+        </Button>
+        <Button variant="outline" onClick={exportPDF} className="text-xs sm:text-sm">
+          <FileDown className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+          PDF
+        </Button>
+        <Button variant="outline" onClick={resetForm} className="text-xs sm:text-sm">
+          <RotateCcw className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+          Reset
+        </Button>
+      </div>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
+        {/* Input Form */}
+        <div className="xl:col-span-2">
             <Tabs defaultValue="measurements" className="space-y-4">
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="measurements" className="text-xs sm:text-sm">Measurements</TabsTrigger>
@@ -686,10 +675,10 @@ export function EasyCalcPage() {
                 </Card>
               </TabsContent>
             </Tabs>
-          </div>
+        </div>
 
-          {/* Results Panel */}
-          <div className="space-y-4">
+        {/* Results Panel */}
+        <div className="space-y-4">
             <Card>
               <CardHeader className="p-4 sm:p-6">
                 <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
@@ -772,9 +761,8 @@ export function EasyCalcPage() {
                 <p>• Check local material prices for accuracy</p>
               </CardContent>
             </Card>
-          </div>
         </div>
       </div>
-    </div>
+    </CleanPageLayout>
   )
 }

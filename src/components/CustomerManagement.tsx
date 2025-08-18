@@ -9,6 +9,7 @@ import { Plus, Search, Edit, Trash2, Mail, Phone, MessageSquare, CreditCard } fr
 import { CustomerForm } from "./CustomerForm"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { toast } from "sonner"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 export function CustomerManagement() {
   const { clients, loading, loadData } = useBusinessData()
@@ -74,73 +75,46 @@ export function CustomerManagement() {
     )
   }
 
+  const metrics = [
+    {
+      title: "Total Customers",
+      value: clients?.length || 0,
+      subtitle: "All registered clients",
+      icon: Mail
+    },
+    {
+      title: "Active Customers", 
+      value: clients?.filter(c => c.status === 'active').length || 0,
+      subtitle: "Currently active",
+      icon: Phone
+    },
+    {
+      title: "Pending",
+      value: clients?.filter(c => c.status === 'pending').length || 0,
+      subtitle: "Awaiting response",
+      icon: MessageSquare
+    },
+    {
+      title: "This Month",
+      value: clients?.filter(c => {
+        const clientDate = new Date(c.created_at)
+        const now = new Date()
+        return clientDate.getMonth() === now.getMonth() && clientDate.getFullYear() === now.getFullYear()
+      }).length || 0,
+      subtitle: "New customers",
+      icon: CreditCard
+    }
+  ]
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Customer Management</h1>
-          <p className="text-muted-foreground">
-            Manage your client relationships and contact information
-          </p>
-        </div>
-        <Button onClick={() => setShowForm(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Customer
-        </Button>
-      </div>
+    <CleanPageLayout
+      title="Customer Management"
+      subtitle="Manage your client relationships and contact information"
+      actionLabel="Add Customer"
+      onActionClick={() => setShowForm(true)}
+      metrics={metrics}
+    >
 
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
-            <Mail className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{clients?.length || 0}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Customers</CardTitle>
-            <Phone className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {clients?.filter(c => c.status === 'active').length || 0}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending</CardTitle>
-            <MessageSquare className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {clients?.filter(c => c.status === 'pending').length || 0}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Month</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {clients?.filter(c => {
-                const clientDate = new Date(c.created_at)
-                const now = new Date()
-                return clientDate.getMonth() === now.getMonth() && clientDate.getFullYear() === now.getFullYear()
-              }).length || 0}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Search */}
       <Card>
@@ -252,6 +226,6 @@ export function CustomerManagement() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </CleanPageLayout>
   )
 }

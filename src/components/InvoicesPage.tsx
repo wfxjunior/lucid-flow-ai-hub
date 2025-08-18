@@ -28,6 +28,7 @@ import { DocumentEventsBadge } from "@/components/DocumentEventsBadge"
 import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { toast } from "sonner"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 type StatusFilter = "all" | "draft" | "sent" | "late" | "paid" | "partial" | "archived"
 
@@ -181,19 +182,12 @@ export function InvoicesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header - Mobile Responsive */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">List of Invoices</h1>
-        <Button 
-          onClick={() => setShowForm(true)} 
-          variant="outline"
-          className="w-full sm:w-auto"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          New Invoice
-        </Button>
-      </div>
+    <CleanPageLayout
+      title="List of Invoices"
+      subtitle="Manage your invoices and track payments"
+      actionLabel="New Invoice"
+      onActionClick={() => setShowForm(true)}
+    >
 
       {/* Control Bar - Mobile Responsive */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -440,6 +434,6 @@ export function InvoicesPage() {
         </CardContent>
       </Card>
 
-    </div>
+    </CleanPageLayout>
   )
 }

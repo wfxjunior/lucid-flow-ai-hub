@@ -17,7 +17,7 @@ import {
   Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
   DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
   TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt, Mail,
-  Building2, Banknote, Target, CircleDollarSign, Bot
+  Building2, Banknote, Target, CircleDollarSign, Bot, Boxes
 } from "lucide-react"
 
 interface AppSidebarProps {
@@ -67,7 +67,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const operationsItems = [
     { title: t("sidebar.operations.carRental", "Car Rental"), view: "car-rental", icon: Truck },
     { title: t("sidebar.operations.workOrders", "Work Orders"), view: "work-orders", icon: Wrench },
-    { title: t("sidebar.operations.matTrack", "MatTrack"), view: "mat-track", icon: Package },
+    { title: t("sidebar.operations.matTrack", "MatTrack"), view: "mat-track", icon: Boxes },
     { title: t("sidebar.operations.crewControl", "Crew Control"), view: "crew-control", icon: UserCheck },
     { title: t("sidebar.operations.earnsync", "EarnSync"), view: "earnsync", icon: DollarSign },
     { title: t("sidebar.operations.aftercare", "AfterCare"), view: "aftercare", icon: Heart },

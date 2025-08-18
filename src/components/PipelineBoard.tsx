@@ -23,6 +23,7 @@ import {
   Filter
 } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 interface Lead {
   id: string
@@ -153,141 +154,47 @@ export function PipelineBoard() {
     return 'text-red-600'
   }
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold">Sales Pipeline</h1>
-          <p className="text-muted-foreground text-sm sm:text-base">
-            Manage your leads and sales opportunities
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-          <Button variant="outline" size="sm" className="w-full sm:w-auto">
-            <Filter className="w-4 h-4 mr-2" />
-            Filters
-          </Button>
-          <Dialog open={isAddingLead} onOpenChange={setIsAddingLead}>
-            <DialogTrigger asChild>
-              <Button className="w-full sm:w-auto">
-                <Plus className="w-4 h-4 mr-2" />
-                New Lead
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl mx-4 sm:mx-auto">
-              <DialogHeader>
-                <DialogTitle>Add New Lead</DialogTitle>
-                <DialogDescription>
-                  Fill in the information for the new lead in the pipeline
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Contact name" />
-                  </div>
-                  <div>
-                    <Label htmlFor="company">Company</Label>
-                    <Input id="company" placeholder="Company name" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" placeholder="(11) 99999-9999" />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="email@example.com" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="value">Estimated Value</Label>
-                    <Input id="value" type="number" placeholder="15000" />
-                  </div>
-                  <div>
-                    <Label htmlFor="source">Source</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select source" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="website">Website</SelectItem>
-                        <SelectItem value="referral">Referral</SelectItem>
-                        <SelectItem value="google-ads">Google Ads</SelectItem>
-                        <SelectItem value="social-media">Social Media</SelectItem>
-                        <SelectItem value="cold-call">Cold Call</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="notes">Notes</Label>
-                  <Textarea id="notes" placeholder="Additional information about the lead" />
-                </div>
-                <div className="flex justify-end gap-2">
-                  <Button variant="outline" onClick={() => setIsAddingLead(false)}>
-                    Cancel
-                  </Button>
-                  <Button onClick={() => setIsAddingLead(false)}>
-                    Add Lead
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
+  const metrics = [
+    {
+      title: "Total Leads",
+      value: leads.length.toString(),
+      subtitle: "All active leads",
+      icon: Target
+    },
+    {
+      title: "Total Value",
+      value: formatCurrency(leads.reduce((sum, lead) => sum + lead.value, 0)),
+      subtitle: "Pipeline value",
+      icon: DollarSign
+    },
+    {
+      title: "Conversion Rate",
+      value: "25%",
+      subtitle: "Average conversion",
+      icon: TrendingUp
+    },
+    {
+      title: "Avg. Cycle",
+      value: "21 days",
+      subtitle: "Sales cycle time",
+      icon: Clock
+    }
+  ]
 
-      {/* Pipeline Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2">
-              <Target className="w-5 h-5 text-blue-500" />
-              <div>
-                <p className="text-sm text-muted-foreground">Total Leads</p>
-                <p className="text-2xl font-bold">{leads.length}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-green-500" />
-              <div>
-                <p className="text-sm text-muted-foreground">Total Value</p>
-                <p className="text-2xl font-bold">{formatCurrency(leads.reduce((sum, lead) => sum + lead.value, 0))}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-purple-500" />
-              <div>
-                <p className="text-sm text-muted-foreground">Conversion Rate</p>
-                <p className="text-2xl font-bold">25%</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-orange-500" />
-              <div>
-                <p className="text-sm text-muted-foreground">Avg. Cycle</p>
-                <p className="text-2xl font-bold">21 days</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+  return (
+    <CleanPageLayout
+      title="Sales Pipeline"
+      subtitle="Manage your leads and sales opportunities"
+      actionLabel="New Lead"
+      onActionClick={() => setIsAddingLead(true)}
+      metrics={metrics}
+    >
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+        <Button variant="outline" size="sm" className="w-full sm:w-auto">
+          <Filter className="w-4 h-4 mr-2" />
+          Filters
+        </Button>
       </div>
 
       {/* Pipeline Board */}
@@ -365,6 +272,73 @@ export function PipelineBoard() {
         </div>
       </div>
 
+      {/* Add Lead Modal */}
+      <Dialog open={isAddingLead} onOpenChange={setIsAddingLead}>
+        <DialogContent className="max-w-2xl mx-4 sm:mx-auto">
+          <DialogHeader>
+            <DialogTitle>Add New Lead</DialogTitle>
+            <DialogDescription>
+              Fill in the information for the new lead in the pipeline
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" placeholder="Contact name" />
+              </div>
+              <div>
+                <Label htmlFor="company">Company</Label>
+                <Input id="company" placeholder="Company name" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="phone">Phone</Label>
+                <Input id="phone" placeholder="(11) 99999-9999" />
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="email@example.com" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="value">Estimated Value</Label>
+                <Input id="value" type="number" placeholder="15000" />
+              </div>
+              <div>
+                <Label htmlFor="source">Source</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select source" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="website">Website</SelectItem>
+                    <SelectItem value="referral">Referral</SelectItem>
+                    <SelectItem value="google-ads">Google Ads</SelectItem>
+                    <SelectItem value="social-media">Social Media</SelectItem>
+                    <SelectItem value="cold-call">Cold Call</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="notes">Notes</Label>
+              <Textarea id="notes" placeholder="Additional information about the lead" />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setIsAddingLead(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => setIsAddingLead(false)}>
+                Add Lead
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Lead Details Modal */}
       {selectedLead && (
         <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
@@ -436,6 +410,6 @@ export function PipelineBoard() {
           </DialogContent>
         </Dialog>
       )}
-    </div>
+    </CleanPageLayout>
   )
 }

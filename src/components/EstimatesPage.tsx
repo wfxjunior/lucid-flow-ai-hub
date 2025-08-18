@@ -28,6 +28,7 @@ import { useBusinessData } from "@/hooks/useBusinessData"
 import { usePDFGeneration } from "@/hooks/usePDFGeneration"
 import { useDocumentEmail } from "@/hooks/useDocumentEmail"
 import { toast } from "sonner"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 
 type StatusFilter = "all" | "draft" | "sent" | "viewed" | "accepted" | "declined" | "expired" | "archived"
 
@@ -191,19 +192,12 @@ export function EstimatesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header - Mobile Responsive */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-foreground">List of Estimates</h1>
-        <Button 
-          onClick={() => setShowForm(true)} 
-          variant="outline"
-          className="w-full sm:w-auto"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          New Estimate
-        </Button>
-      </div>
+    <CleanPageLayout
+      title="List of Estimates"
+      subtitle="Manage your estimates and track acceptance"
+      actionLabel="New Estimate"
+      onActionClick={() => setShowForm(true)}
+    >
 
       {/* Control Bar - Mobile Responsive */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -425,6 +419,6 @@ export function EstimatesPage() {
         </div>
       </div>
 
-    </div>
+    </CleanPageLayout>
   )
 }
