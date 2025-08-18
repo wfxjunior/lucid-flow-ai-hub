@@ -177,7 +177,7 @@ export const LandingTestimonialsSection = () => {
       </section>
 
       {/* Features Mosaic */}
-      <section aria-label="Product highlights" className="py-16 sm:py-24 lg:py-32 bg-muted/20">
+      <section aria-label="Product highlights" className="py-16 sm:py-24 lg:py-32 bg-white border-t border-[#E9EEF5]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <header className={cn(
             "mb-10 sm:mb-14 text-center transition-all duration-700",

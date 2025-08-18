@@ -37,8 +37,8 @@ export const LandingFAQSection = () => {
   };
 
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 sm:py-24 lg:py-32 bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#E9EEF5]">
         
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -64,7 +64,7 @@ export const LandingFAQSection = () => {
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50/50 transition-colors"
               >
                 <h3 className="text-lg font-semibold text-gray-900 pr-4">
                   {faq.question}

@@ -17,9 +17,9 @@
 @layer base {
   :root {
     /* FeatherBiz Design System */
-    --fb-bg: 214 31% 97%;
+    --fb-bg: 0 0% 100%;
     --fb-surface: 0 0% 100%;
-    --fb-border: 221 21% 91%;
+    --fb-border: 215 16% 91%;
     --fb-text: 217 33% 17%;
     --fb-muted: 215 16% 47%;
     --fb-primary: 216 100% 53%;
@@ -170,7 +170,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-white text-foreground font-sans;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -183,6 +183,7 @@
   }
 
   html {
+    @apply bg-white;
     transition: background-color 0.3s ease;
     /* Prevent horizontal scroll on mobile */
     overflow-x: hidden;
@@ -191,6 +192,7 @@
   #root {
     min-height: 100vh;
     width: 100%;
+    background: white;
   }
 
   /* Improve touch targets on mobile */

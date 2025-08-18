@@ -8,7 +8,7 @@ export const LandingCTASection = () => {
   const navigate = useNavigate();
 
   return (
-    <section id="cta-section" className="py-24 lg:py-32 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden">
+    <section id="cta-section" className="py-24 lg:py-32 bg-white border-t border-[#E9EEF5] relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-black/[0.02] bg-grid-pattern" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />

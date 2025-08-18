@@ -39,7 +39,7 @@ export const LandingDashboardPreview = () => {
             </div>
             
             {/* Dashboard Content */}
-            <div className="p-8 bg-muted/30">
+            <div className="p-8 bg-white border-t border-[#E9EEF5]">
               
               {/* Header */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">

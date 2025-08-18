@@ -15,7 +15,7 @@ export const LandingFooter = () => {
   };
 
   return (
-    <footer className="bg-muted border-t border-border/20">
+    <footer className="bg-white border-t border-[#E9EEF5]">
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
           

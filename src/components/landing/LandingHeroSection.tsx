@@ -42,7 +42,7 @@ export const LandingHeroSection = () => {
   }, []);
 
   return (
-    <section id="hero_headline_v1" data-component-key="hero_headline_v1" className="relative bg-gradient-to-b from-background to-muted/20" style={{ paddingTop: 'var(--hero-pt)', paddingBottom: 'var(--hero-pb)' }}>
+    <section id="hero_headline_v1" data-component-key="hero_headline_v1" className="relative bg-white" style={{ paddingTop: 'var(--hero-pt)', paddingBottom: 'var(--hero-pb)' }}>
       {/* very subtle grid/halo background, disabled on mobile */}
       <div
         aria-hidden="true"

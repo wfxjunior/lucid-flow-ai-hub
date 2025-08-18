@@ -256,7 +256,7 @@ export const LandingHeader = () => {
   };
 
   return (
-    <header className="w-full border-b border-[#E9EEF5] bg-background/95 backdrop-blur-sm sticky top-0 z-50" style={{ height: 'var(--nav-h)' }}>
+    <header className="w-full border-b border-[#E9EEF5] bg-white/95 backdrop-blur-sm sticky top-0 z-50" style={{ height: 'var(--nav-h)' }}>
       <div className="max-w-[1200px] mx-auto flex items-center justify-between h-full" style={{ paddingLeft: '24px', paddingRight: '24px' }}>
         {/* Logo and Navigation */}
         <div className="flex items-center">

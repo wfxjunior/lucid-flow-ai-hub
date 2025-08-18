@@ -219,7 +219,7 @@ export const IntelligentNetworkGraph = () => {
   }, [setNodes]);
 
   return (
-    <section className="relative py-20 bg-gradient-to-b from-background via-muted/10 to-background overflow-hidden">
+    <section className="relative py-20 bg-white border-t border-[#E9EEF5] overflow-hidden">
       {/* Background pattern */}
       <div 
         className="absolute inset-0 opacity-30"
