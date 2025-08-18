@@ -11,7 +11,7 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ title, description, children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-sm mx-auto">
         <div className="text-center mb-12">
           <div className="mb-8">
