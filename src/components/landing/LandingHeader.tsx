@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, BookText, Compass, GraduationCap, Layers, Workflow, FileCode2, Code2, History, Activity, Users, Mail } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -39,6 +39,103 @@ const features = [
   { key: "pipeline", icon: "assignments", title: "Pipeline", desc: "Manage your sales funnel" },
   { key: "feather-tax", icon: "reporting", title: "FeatherTax", desc: "Tax management made easy" },
   { key: "work-orders", icon: "automations", title: "Work Orders", desc: "Streamline operations" },
+];
+
+const resourcesItems = [
+  // Learn & Support
+  { 
+    key: "help-center", 
+    icon: BookText, 
+    title: "Help Center / Docs", 
+    desc: "Documentation and guides",
+    href: "/docs",
+    section: "Learn & Support"
+  },
+  { 
+    key: "getting-started", 
+    icon: Compass, 
+    title: "FeatherBiz 101", 
+    desc: "Getting started guide",
+    href: "/docs/getting-started",
+    section: "Learn & Support"
+  },
+  { 
+    key: "academy", 
+    icon: GraduationCap, 
+    title: "Academy / Tutorials", 
+    desc: "Video tutorials and courses",
+    href: "/academy",
+    section: "Learn & Support"
+  },
+  { 
+    key: "templates", 
+    icon: Layers, 
+    title: "Templates Library", 
+    desc: "Quotes, invoices, contracts",
+    href: "/templates",
+    section: "Learn & Support"
+  },
+  { 
+    key: "playbooks", 
+    icon: Workflow, 
+    title: "Best Practices & Playbooks", 
+    desc: "Business process guides",
+    href: "/playbooks",
+    section: "Learn & Support"
+  },
+  // Developers
+  { 
+    key: "api-docs", 
+    icon: FileCode2, 
+    title: "API & Webhooks", 
+    desc: "Developer documentation",
+    href: "/developers/api",
+    section: "Developers"
+  },
+  { 
+    key: "github", 
+    icon: Code2, 
+    title: "SDKs & Examples", 
+    desc: "GitHub repositories",
+    href: "https://github.com/featherbiz",
+    external: true,
+    section: "Developers"
+  },
+  // Updates & Status
+  { 
+    key: "changelog", 
+    icon: History, 
+    title: "Changelog / What's New", 
+    desc: "Latest product updates",
+    href: "/changelog",
+    section: "Updates & Status"
+  },
+  { 
+    key: "status", 
+    icon: Activity, 
+    title: "System Status", 
+    desc: "Service availability",
+    href: "https://status.featherbiz.io",
+    external: true,
+    section: "Updates & Status"
+  },
+  // Community & Help
+  { 
+    key: "community", 
+    icon: Users, 
+    title: "Community", 
+    desc: "Forum and Discord",
+    href: "/community",
+    section: "Community & Help"
+  },
+  { 
+    key: "support", 
+    icon: Mail, 
+    title: "Contact Support", 
+    desc: "Get help from our team",
+    href: "/support",
+    section: "Community & Help"
+  },
 ];
 
 export const LandingHeader = () => {
@@ -82,37 +179,90 @@ export const LandingHeader = () => {
     </button>
   );
 
-  const RightColumn = ({ menuId, ready }: { menuId: 'header_megamenu_platform'|'header_megamenu_resources'; ready: boolean }) => (
-    <div className="flex flex-col gap-3">
-      {/* Get started links */}
-      <div className="grid grid-cols-1 gap-2" aria-label="Get started">
-        <button
-          type="button"
-          onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'get-started-101', locale })}
-          className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          aria-label="FeatherBiz 101"
-        >
-          <NavGlyph name="work" className="text-foreground/80" size={20} />
-          <span className="text-sm">FeatherBiz 101</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'hire-expert', locale })}
-          className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-          aria-label="Hire an expert"
-        >
-          <NavGlyph name="integrations" className="text-foreground/80" size={20} />
-          <span className="text-sm">Hire an expert</span>
-        </button>
-      </div>
-      {/* What's new card */}
-      {ready && (
-        <div onPointerEnter={() => track('nav_whatsnew_view', { menu_id: menuId, locale })}>
-          <WhatsNewCard menuId={menuId} locale={locale} />
+  const ResourcesItem = ({ item, menuId }: { item: typeof resourcesItems[number]; menuId: string }) => {
+    const IconComponent = item.icon;
+    
+    const handleClick = () => {
+      track('nav_megamenu_click', { menu_id: menuId, item_key: item.key, locale });
+    };
+
+    const linkProps = item.external 
+      ? { target: "_blank", rel: "noopener noreferrer" }
+      : {};
+
+    return (
+      <Link
+        to={item.href}
+        onClick={handleClick}
+        className="flex items-start gap-3 rounded-md p-3 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 no-underline"
+        aria-label={`${item.title} — ${item.desc}`}
+        {...linkProps}
+      >
+        <IconComponent className="shrink-0 text-foreground/80" size={22} strokeWidth={1.5} />
+        <span>
+          <span className="block text-sm font-semibold">{item.title}</span>
+          <span className="block text-xs text-muted-foreground">{item.desc}</span>
+        </span>
+      </Link>
+    );
+  };
+
+  const RightColumn = ({ menuId, ready }: { menuId: 'header_megamenu_platform'|'header_megamenu_resources'; ready: boolean }) => {
+    // For Platform menu, show both CTAs
+    if (menuId === 'header_megamenu_platform') {
+      return (
+        <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-1 gap-2" aria-label="Get started">
+            <button
+              type="button"
+              onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'get-started-101', locale })}
+              className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              aria-label="FeatherBiz 101"
+            >
+              <NavGlyph name="work" className="text-foreground/80" size={20} />
+              <span className="text-sm">FeatherBiz 101</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'hire-expert', locale })}
+              className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              aria-label="Hire an expert"
+            >
+              <NavGlyph name="integrations" className="text-foreground/80" size={20} />
+              <span className="text-sm">Hire an expert</span>
+            </button>
+          </div>
+          {ready && (
+            <div onPointerEnter={() => track('nav_whatsnew_view', { menu_id: menuId, locale })}>
+              <WhatsNewCard menuId={menuId} locale={locale} />
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+
+    // For Resources menu, only show FeatherBiz 101 CTA
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 gap-2" aria-label="Get started">
+          <Link
+            to="/docs/getting-started"
+            onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: 'featherbiz-101-cta', locale })}
+            className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 no-underline"
+            aria-label="FeatherBiz 101 - Getting Started"
+          >
+            <Compass className="text-foreground/80" size={20} strokeWidth={1.5} />
+            <span className="text-sm font-medium">FeatherBiz 101</span>
+          </Link>
+        </div>
+        {ready && (
+          <div onPointerEnter={() => track('nav_whatsnew_view', { menu_id: menuId, locale })}>
+            <WhatsNewCard menuId={menuId} locale={locale} />
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <header className="w-full border-b border-border/20 bg-background/80 backdrop-blur-md sticky top-0 z-50">
@@ -148,8 +298,8 @@ export const LandingHeader = () => {
                 <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_resources')}>
                   <div id="header_megamenu_resources" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
                     <div className="grid gap-1">
-                      {features.map((it) => (
-                        <FeatureItem key={it.key} item={it} menuId="header_megamenu_resources" />
+                      {resourcesItems.map((it) => (
+                        <ResourcesItem key={it.key} item={it} menuId="header_megamenu_resources" />
                       ))}
                     </div>
                     <RightColumn menuId="header_megamenu_resources" ready={resourcesReady} />
@@ -199,10 +349,14 @@ export const LandingHeader = () => {
                 <div>
                   <p className="text-sm font-medium text-muted-foreground mb-2">Resources</p>
                   <div className="grid gap-2">
-                    <SheetClose asChild><Link to="/landing#guides" className="text-foreground hover:underline">Guides & tutorials</Link></SheetClose>
-                    <SheetClose asChild><Link to="/landing#templates" className="text-foreground hover:underline">Templates</Link></SheetClose>
-                    <SheetClose asChild><Link to="/landing#help" className="text-foreground hover:underline">Help center</Link></SheetClose>
-                    <SheetClose asChild><Link to="/landing#api" className="text-foreground hover:underline">API docs</Link></SheetClose>
+                    <SheetClose asChild><Link to="/docs" className="text-foreground hover:underline">Help Center</Link></SheetClose>
+                    <SheetClose asChild><Link to="/docs/getting-started" className="text-foreground hover:underline">FeatherBiz 101</Link></SheetClose>
+                    <SheetClose asChild><Link to="/academy" className="text-foreground hover:underline">Academy</Link></SheetClose>
+                    <SheetClose asChild><Link to="/templates" className="text-foreground hover:underline">Templates</Link></SheetClose>
+                    <SheetClose asChild><Link to="/developers/api" className="text-foreground hover:underline">API Docs</Link></SheetClose>
+                    <SheetClose asChild><Link to="/changelog" className="text-foreground hover:underline">Changelog</Link></SheetClose>
+                    <SheetClose asChild><Link to="/community" className="text-foreground hover:underline">Community</Link></SheetClose>
+                    <SheetClose asChild><Link to="/support" className="text-foreground hover:underline">Support</Link></SheetClose>
                   </div>
                 </div>
                 <div className="grid gap-2">
