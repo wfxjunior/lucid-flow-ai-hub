@@ -4,7 +4,7 @@ import { MenuItem } from "./types"
 
 export const communication: MenuItem[] = [
   {
-    title: "Central de Emails",
+    title: "Email Center",
     icon: Mail,
     view: "email-center"
   },

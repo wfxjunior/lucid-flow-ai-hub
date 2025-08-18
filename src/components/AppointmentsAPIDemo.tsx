@@ -87,7 +87,7 @@ export function AppointmentsAPIDemo() {
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm('Tem certeza que deseja deletar este appointment?')) {
+    if (confirm('Are you sure you want to delete this appointment?')) {
       try {
         await deleteAppointment(id)
         loadAppointments()
@@ -128,20 +128,20 @@ export function AppointmentsAPIDemo() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="w-5 h-5" />
-            API de Appointments - Demo
+            Appointments API - Demo
           </CardTitle>
           <CardDescription>
-            Demonstração da API RESTful para gerenciar appointments
+            RESTful API demonstration for managing appointments
           </CardDescription>
         </CardHeader>
       </Card>
 
-      {/* Filtros */}
+      {/* Filters */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Search className="w-5 h-5" />
-            Filtros
+            Filters
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -150,25 +150,25 @@ export function AppointmentsAPIDemo() {
               <Label>Status</Label>
               <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Todos os status" />
+                  <SelectValue placeholder="All status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos</SelectItem>
-                  <SelectItem value="scheduled">Agendado</SelectItem>
-                  <SelectItem value="confirmed">Confirmado</SelectItem>
-                  <SelectItem value="completed">Concluído</SelectItem>
-                  <SelectItem value="cancelled">Cancelado</SelectItem>
+                  <SelectItem value="">All</SelectItem>
+                  <SelectItem value="scheduled">Scheduled</SelectItem>
+                  <SelectItem value="confirmed">Confirmed</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="cancelled">Cancelled</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Cliente</Label>
+              <Label>Client</Label>
               <Select value={filters.client_id} onValueChange={(value) => setFilters(prev => ({ ...prev, client_id: value }))}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Todos os clientes" />
+                  <SelectValue placeholder="All clients" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos</SelectItem>
+                  <SelectItem value="">All</SelectItem>
                   {allClients.map((client) => (
                     <SelectItem key={client.id} value={client.id}>
                       {client.name}
@@ -178,7 +178,7 @@ export function AppointmentsAPIDemo() {
               </Select>
             </div>
             <div>
-              <Label>Limite por página</Label>
+              <Label>Items per page</Label>
               <Select value={filters.limit.toString()} onValueChange={(value) => setFilters(prev => ({ ...prev, limit: parseInt(value) }))}>
                 <SelectTrigger>
                   <SelectValue />
@@ -195,22 +195,22 @@ export function AppointmentsAPIDemo() {
         </CardContent>
       </Card>
 
-      {/* Formulário */}
+      {/* Form */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Plus className="w-5 h-5" />
-            {isEditing ? 'Editar Appointment' : 'Criar Novo Appointment'}
+            {isEditing ? 'Edit Appointment' : 'Create New Appointment'}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="client">Cliente *</Label>
+                <Label htmlFor="client">Client *</Label>
                 <Select value={formData.client_id} onValueChange={(value) => setFormData(prev => ({ ...prev, client_id: value }))}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione um cliente" />
+                    <SelectValue placeholder="Select a client" />
                   </SelectTrigger>
                   <SelectContent>
                     {allClients.map((client) => (
@@ -222,17 +222,17 @@ export function AppointmentsAPIDemo() {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="title">Título *</Label>
+                <Label htmlFor="title">Title *</Label>
                 <Input
                   id="title"
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  placeholder="Título do appointment"
+                  placeholder="Appointment title"
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="appointment_date">Data e Hora *</Label>
+                <Label htmlFor="appointment_date">Date and Time *</Label>
                 <Input
                   id="appointment_date"
                   type="datetime-local"
@@ -242,7 +242,7 @@ export function AppointmentsAPIDemo() {
                 />
               </div>
               <div>
-                <Label htmlFor="duration">Duração (minutos)</Label>
+                <Label htmlFor="duration">Duration (minutes)</Label>
                 <Input
                   id="duration"
                   type="number"
@@ -252,12 +252,12 @@ export function AppointmentsAPIDemo() {
                 />
               </div>
               <div>
-                <Label htmlFor="location">Localização</Label>
+                <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
                   value={formData.location}
                   onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                  placeholder="Local do appointment"
+                  placeholder="Appointment location"
                 />
               </div>
               <div>
@@ -267,41 +267,41 @@ export function AppointmentsAPIDemo() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="scheduled">Agendado</SelectItem>
-                    <SelectItem value="confirmed">Confirmado</SelectItem>
-                    <SelectItem value="completed">Concluído</SelectItem>
-                    <SelectItem value="cancelled">Cancelado</SelectItem>
+                    <SelectItem value="scheduled">Scheduled</SelectItem>
+                    <SelectItem value="confirmed">Confirmed</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <div>
-              <Label htmlFor="description">Descrição</Label>
+              <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                placeholder="Descrição do appointment"
+                placeholder="Appointment description"
                 rows={3}
               />
             </div>
             <div>
-              <Label htmlFor="notes">Notas</Label>
+              <Label htmlFor="notes">Notes</Label>
               <Textarea
                 id="notes"
                 value={formData.notes}
                 onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-                placeholder="Notas internas"
+                placeholder="Internal notes"
                 rows={2}
               />
             </div>
             <div className="flex gap-2">
               <Button type="submit" disabled={loading}>
-                {loading ? 'Salvando...' : isEditing ? 'Atualizar' : 'Criar'}
+                {loading ? 'Saving...' : isEditing ? 'Update' : 'Create'}
               </Button>
               {isEditing && (
                 <Button type="button" variant="outline" onClick={resetForm}>
-                  Cancelar
+                  Cancel
                 </Button>
               )}
             </div>
@@ -309,18 +309,18 @@ export function AppointmentsAPIDemo() {
         </CardContent>
       </Card>
 
-      {/* Lista de Appointments */}
+      {/* Appointments List */}
       <Card>
         <CardHeader>
           <CardTitle>Appointments ({appointments.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="text-center py-4">Carregando...</div>
+            <div className="text-center py-4">Loading...</div>
           ) : appointments.length === 0 ? (
             <div className="text-center py-8">
               <Calendar className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-              <p className="text-gray-500">Nenhum appointment encontrado</p>
+              <p className="text-gray-500">No appointments found</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -375,7 +375,7 @@ export function AppointmentsAPIDemo() {
                     <p className="text-sm text-gray-600 mb-2">{appointment.description}</p>
                   )}
                   {appointment.notes && (
-                    <p className="text-xs text-gray-500 italic">Notas: {appointment.notes}</p>
+                    <p className="text-xs text-gray-500 italic">Notes: {appointment.notes}</p>
                   )}
                 </div>
               ))}
