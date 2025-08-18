@@ -39,7 +39,7 @@ export default function LandingPage() {
   }, [location]);
   
   return (
-    <div className="min-h-screen w-full flex flex-col bg-background">
+    <div className="min-h-screen w-full flex flex-col bg-white">
       <SEO
         title="FeatherBiz — AI business management platform"
         description="AI-native platform to build, scale and grow your business: data, automations, pipeline, productivity, reporting."
