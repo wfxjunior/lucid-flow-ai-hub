@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -257,94 +258,94 @@ export const LandingHeader = () => {
 
   return (
     <header className="w-full border-b border-[#E9EEF5] bg-white/95 backdrop-blur-sm sticky top-0 z-50" style={{ height: 'var(--nav-h)' }}>
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between h-full pl-3 pr-6">
-        {/* Logo and Navigation */}
-        <div className="flex items-center">
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between h-full px-4">
+        {/* Logo and Navigation - Left aligned like Attio */}
+        <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold text-[#111827] tracking-tight" aria-label="FeatherBiz home">
             FeatherBiz
           </Link>
 
-          {/* Navigation - Hidden on mobile */}
-          <nav className="hidden lg:flex items-center ml-5">
-          <NavigationMenu>
-            <NavigationMenuList className="gap-6">{/* Reduced from 36px to 24px */}
-              {/* Platform */}
-              <NavigationMenuItem>
-                <NavigationMenuTrigger 
-                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 focus:text-[#111827] bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-1 py-0 h-auto focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
-                  onPointerEnter={() => handleOpen('header_megamenu_platform')}
-                >
-                  Platform
-                </NavigationMenuTrigger>
-                <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_platform')}>
-                  <div id="header_megamenu_platform" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
-                    <div className="grid gap-1">
-                      {features.map((it) => (
-                        <FeatureItem key={it.key} item={it} menuId="header_megamenu_platform" />
-                      ))}
+          {/* Navigation - Hidden on mobile, tight spacing like Attio */}
+          <nav className="hidden lg:flex items-center">
+            <NavigationMenu>
+              <NavigationMenuList className="gap-4">
+                {/* Platform */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger 
+                    className="text-base font-medium text-[#111827] hover:text-[#111827]/90 focus:text-[#111827] bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-0 py-0 h-auto focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
+                    onPointerEnter={() => handleOpen('header_megamenu_platform')}
+                  >
+                    Platform
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_platform')}>
+                    <div id="header_megamenu_platform" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
+                      <div className="grid gap-1">
+                        {features.map((it) => (
+                          <FeatureItem key={it.key} item={it} menuId="header_megamenu_platform" />
+                        ))}
+                      </div>
+                      <RightColumn menuId="header_megamenu_platform" ready={platformReady} />
                     </div>
-                    <RightColumn menuId="header_megamenu_platform" ready={platformReady} />
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
 
-              {/* Resources */}
-              <NavigationMenuItem>
-                <NavigationMenuTrigger 
-                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 focus:text-[#111827] bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-1 py-0 h-auto focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
-                  onPointerEnter={() => handleOpen('header_megamenu_resources')}
-                >
-                  Resources
-                </NavigationMenuTrigger>
-                <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_resources')}>
-                  <div id="header_megamenu_resources" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
-                    <div className="grid gap-1">
-                      {resourcesItems.map((it) => (
-                        <ResourcesItem key={it.key} item={it} menuId="header_megamenu_resources" />
-                      ))}
+                {/* Resources */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger 
+                    className="text-base font-medium text-[#111827] hover:text-[#111827]/90 focus:text-[#111827] bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-0 py-0 h-auto focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
+                    onPointerEnter={() => handleOpen('header_megamenu_resources')}
+                  >
+                    Resources
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_resources')}>
+                    <div id="header_megamenu_resources" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
+                      <div className="grid gap-1">
+                        {resourcesItems.map((it) => (
+                          <ResourcesItem key={it.key} item={it} menuId="header_megamenu_resources" />
+                        ))}
+                      </div>
+                      <RightColumn menuId="header_megamenu_resources" ready={resourcesReady} />
                     </div>
-                    <RightColumn menuId="header_megamenu_resources" ready={resourcesReady} />
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
 
-              {/* Pricing */}
-              <NavigationMenuItem>
-                <Link 
-                  to="/landing#pricing" 
-                  onClick={onPricingClick} 
-                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
-                >
-                  Pricing
-                </Link>
-              </NavigationMenuItem>
+                {/* Pricing */}
+                <NavigationMenuItem>
+                  <Link 
+                    to="/landing#pricing" 
+                    onClick={onPricingClick} 
+                    className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors"
+                  >
+                    Pricing
+                  </Link>
+                </NavigationMenuItem>
 
-              {/* Blog */}
-              <NavigationMenuItem>
-                <Link 
-                  to="/blog" 
-                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
-                >
-                  Blog
-                </Link>
-              </NavigationMenuItem>
+                {/* Blog */}
+                <NavigationMenuItem>
+                  <Link 
+                    to="/blog" 
+                    className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors"
+                  >
+                    Blog
+                  </Link>
+                </NavigationMenuItem>
 
-              {/* Scale */}
-              <NavigationMenuItem>
-                <Link 
-                  to="/scale" 
-                  className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
-                >
-                  Scale
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+                {/* Scale */}
+                <NavigationMenuItem>
+                  <Link 
+                    to="/scale" 
+                    className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors"
+                  >
+                    Scale
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </nav>
         </div>
 
         {/* Right actions */}
-        <div className="flex items-center ml-auto">
+        <div className="flex items-center">
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
@@ -393,7 +394,7 @@ export const LandingHeader = () => {
           </Sheet>
 
           {/* Desktop CTAs */}
-          <div className="hidden sm:flex items-center gap-[14px]">
+          <div className="hidden sm:flex items-center gap-4">
             {isSubscribed ? (
               <Button
                 variant="default"
@@ -438,7 +439,7 @@ export const LandingHeader = () => {
             )}
             <button
               onClick={() => navigate('/auth')}
-              className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors px-1"
+              className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors"
             >
               Sign in
             </button>
