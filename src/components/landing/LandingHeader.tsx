@@ -265,7 +265,7 @@ export const LandingHeader = () => {
           </Link>
 
           {/* Navigation - Hidden on mobile */}
-          <nav className="hidden lg:flex items-center ml-12">
+          <nav className="hidden lg:flex items-center ml-6">
           <NavigationMenu>
             <NavigationMenuList style={{ gap: '36px' }} className="2xl:[gap:36px] xl:[gap:30px] lg:[gap:24px]">
               {/* Platform */}
@@ -405,7 +405,7 @@ export const LandingHeader = () => {
                   fontSize: 'var(--cta-fs)',
                   fontWeight: 'var(--cta-fw)'
                 }}
-                className="shadow-sm"
+                className="shadow-sm text-white"
               >
                 Manage Subscription
               </Button>
@@ -427,7 +427,7 @@ export const LandingHeader = () => {
                   fontSize: 'var(--cta-fs)',
                   fontWeight: 'var(--cta-fw)'
                 }}
-                className="shadow-sm"
+                className="shadow-sm text-white"
               >
                 Subscribe
               </Button>
