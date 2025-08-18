@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_2px_8px_rgba(0,0,0,0.12)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] border-0",
+        default: "bg-primary text-white hover:bg-primary/90 shadow-[0_2px_8px_rgba(0,0,0,0.12)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] border-0",
         destructive: "bg-danger text-white hover:bg-danger/90 shadow-[0_2px_8px_hsl(var(--fb-danger)/0.3)] hover:shadow-[0_4px_16px_hsl(var(--fb-danger)/0.4)] border-0",
         outline: "border border-border bg-card text-foreground hover:bg-accent hover:text-accent-foreground shadow-[0_1px_4px_rgba(0,0,0,0.08)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.12)]",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-[0_1px_4px_rgba(0,0,0,0.08)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.12)] border-0",
         ghost: "hover:bg-accent hover:text-accent-foreground border-0 shadow-none",
         link: "text-primary underline-offset-4 hover:underline border-0 shadow-none",
-        elevated: "bg-primary text-primary-foreground shadow-[0_4px_16px_hsl(var(--primary)/0.3)] hover:shadow-[0_8px_24px_hsl(var(--primary)/0.4)] hover:bg-primary/90 border-0",
+        elevated: "bg-primary text-white shadow-[0_4px_16px_hsl(var(--primary)/0.3)] hover:shadow-[0_8px_24px_hsl(var(--primary)/0.4)] hover:bg-primary/90 border-0",
         soft: "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/15 shadow-[0_1px_4px_rgba(0,0,0,0.08)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.12)]",
-        premium: "bg-gradient-to-r from-primary via-primary to-primary/80 text-primary-foreground shadow-[0_4px_20px_hsl(var(--primary)/0.4)] hover:shadow-[0_8px_32px_hsl(var(--primary)/0.5)] hover:scale-[1.02] border-0",
+        premium: "bg-gradient-to-r from-primary via-primary to-primary/80 text-white shadow-[0_4px_20px_hsl(var(--primary)/0.4)] hover:shadow-[0_8px_32px_hsl(var(--primary)/0.5)] hover:scale-[1.02] border-0",
         success: "bg-success text-white hover:bg-success/90 shadow-[0_2px_8px_hsl(var(--fb-success)/0.3)] hover:shadow-[0_4px_16px_hsl(var(--fb-success)/0.4)] border-0",
         warning: "bg-warning text-white hover:bg-warning/90 shadow-[0_2px_8px_hsl(var(--fb-warning)/0.3)] hover:shadow-[0_4px_16px_hsl(var(--fb-warning)/0.4)] border-0",
       },
