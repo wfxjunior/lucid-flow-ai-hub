@@ -110,18 +110,18 @@ export const LandingHeroSection = () => {
           </p>
 
           {/* CTA Buttons - Both visible, same small size */}
-          <div className="hero-ctas" data-lb="fix-ctas">
+          <div className="flex flex-wrap justify-center items-center gap-3 mb-8">
             <Button
-              data-analytics-id="hero_cta_start_click"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
+              size="sm"
               className="btn btn-primary btn-sm"
             >
               Start for free
             </Button>
             <Button
-              data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
+              size="sm"
               className="btn btn-outline btn-sm"
             >
               Talk to sales
