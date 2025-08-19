@@ -1,33 +1,31 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AppSidebar } from "@/components/AppSidebar"
+import { MainContent } from "@/components/MainContent"
+import { SidebarProvider } from "@/components/ui/sidebar"
 
-const Index = () => {
+export default function Index() {
+  const navigate = useNavigate()
+  const [activeView, setActiveView] = useState("dashboard")
+
+  const handleNavigate = (view: string) => {
+    setActiveView(view)
+  }
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-      <div className="text-center space-y-6">
-        <h1 className="text-4xl font-bold text-gray-900">
-          Bem-vindo ao FeatherBiz
-        </h1>
-        <p className="text-lg text-gray-600">
-          Escolha para onde deseja ir:
-        </p>
-        <div className="flex gap-4">
-          <Link to="/landing">
-            <Button size="lg">
-              Ver Landing Page
-            </Button>
-          </Link>
-          <Link to="/pricing">
-            <Button variant="outline" size="lg">
-              Ver Preços
-            </Button>
-          </Link>
+    <SidebarProvider>
+      <div className="w-full min-h-screen bg-background">
+        <div className="grid w-full min-h-screen max-w-none lg:grid-cols-[var(--sidebar-w)_1fr] lg:gap-[var(--shell-gap)] xl:gap-[var(--shell-gap)]">
+          <AppSidebar setActiveView={setActiveView} activeView={activeView} />
+          <main className="min-w-0 bg-background overflow-hidden lg:pr-0" 
+                style={{ maxWidth: 'var(--content-max)', width: '100%', marginInline: 'auto', paddingInline: 'var(--content-px)' }}>
+            <div className="h-screen overflow-y-auto">
+              <MainContent activeView={activeView} onNavigate={handleNavigate} />
+            </div>
+          </main>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default Index;
+    </SidebarProvider>
+  )
+}
