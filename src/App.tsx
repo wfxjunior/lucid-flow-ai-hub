@@ -1,14 +1,13 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster as HotToaster } from "react-hot-toast";
-import { AuthProvider } from "@/components/AuthProvider";
 import LandingPage from "./pages/LandingPage";
-import Dashboard from "./pages/Dashboard";
 import BlogIndex from "./pages/BlogIndex";
 import AdminBlog from "./pages/AdminBlog";
-import AdminGuard from "./components/AdminGuard";
+import { AdminGuard } from "./components/AdminGuard";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,30 +20,27 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Router>
-            <div className="min-h-screen bg-background font-sans antialiased">
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/landing" element={<LandingPage />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/blog" element={<BlogIndex />} />
-                <Route 
-                  path="/admin/blog" 
-                  element={
-                    <AdminGuard>
-                      <AdminBlog />
-                    </AdminGuard>
-                  } 
-                />
-              </Routes>
-            </div>
-          </Router>
-          <Toaster />
-          <HotToaster />
-        </TooltipProvider>
-      </AuthProvider>
+      <TooltipProvider>
+        <Router>
+          <div className="min-h-screen bg-background font-sans antialiased">
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/landing" element={<LandingPage />} />
+              <Route path="/blog" element={<BlogIndex />} />
+              <Route 
+                path="/admin/blog" 
+                element={
+                  <AdminGuard>
+                    <AdminBlog />
+                  </AdminGuard>
+                } 
+              />
+            </Routes>
+          </div>
+        </Router>
+        <Toaster />
+        <HotToaster />
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }
