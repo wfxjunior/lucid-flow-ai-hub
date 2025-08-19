@@ -154,7 +154,6 @@ export const LandingHeroSection = () => {
                 </span>
               ))}
             </div>
-            {/* Removed the overflow fade overlay */}
           </div>
 
         </div>
