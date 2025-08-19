@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { motion } from "framer-motion";
 import {
@@ -158,7 +159,9 @@ export default function TrialGrowthSection() {
                   strokeWidth={1}
                   strokeOpacity={0.6}
                   radius={[4, 4, 0, 0]}
-                  isAnimationActive
+                  animationBegin={0}
+                  animationDuration={1500}
+                  animationEasing="ease-out"
                 />
                 <Line
                   yAxisId="right"
@@ -169,19 +172,27 @@ export default function TrialGrowthSection() {
                   strokeWidth={3}
                   dot={{ fill: theme.secondary, strokeWidth: 2, r: 4 }}
                   activeDot={{ r: 6, stroke: theme.secondary, strokeWidth: 2 }}
-                  isAnimationActive
+                  animationBegin={800}
+                  animationDuration={1200}
+                  animationEasing="ease-out"
                 />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
 
           {/* pulses de pagamentos (micro-animação suave) */}
-          <div className="pointer-events-none absolute bottom-8 right-8 flex items-center gap-2">
+          <motion.div 
+            className="pointer-events-none absolute bottom-8 right-8 flex items-center gap-2"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 2, duration: 0.5 }}
+          >
             <span className="relative inline-block h-2.5 w-2.5 rounded-full bg-[color:var(--fb-primary)]">
               <span className="absolute inset-0 -m-1 rounded-full bg-[color:var(--fb-primary)]/40 blur-[2px] animate-ping" />
             </span>
             <span className="text-xs font-medium text-slate-600">new payment</span>
-          </div>
+          </motion.div>
         </motion.figure>
       </div>
     </section>
