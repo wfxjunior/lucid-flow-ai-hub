@@ -140,7 +140,7 @@ export const LandingHeroSection = () => {
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
-              className="w-full sm:w-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-white hover:text-primary"
               style={{
                 height: 'var(--cta-h)',
                 paddingLeft: 'var(--cta-px)',
