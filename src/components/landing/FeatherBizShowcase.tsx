@@ -91,7 +91,7 @@ const chartData = [
 
 const pieData = [
   { name: 'Plus', value: 328, fill: '#6B7280' },
-  { name: 'Pro', value: 570, fill: '#000000' },
+  { name: 'Pro', value: 570, fill: '#1E293B' },
   { name: 'Enterprise', value: 231, fill: '#3B82F6' }
 ];
 
@@ -153,7 +153,7 @@ export const FeatherBizShowcase = () => {
           <motion.p 
             variants={childVariant}
             className="text-base sm:text-lg max-w-2xl mx-auto px-4"
-            style={{ color: 'var(--fb-muted)' }}
+            style={{ color: '#4B5563' }}
           >
             See how FeatherBiz transforms the way you manage pipelines, automate workflows, and track business metrics.
           </motion.p>
@@ -457,12 +457,12 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
               <CartesianGrid strokeDasharray="3 3" stroke="#EEF2F7" />
               <XAxis 
                 dataKey="month"
-                tick={{ fill: 'var(--fb-muted)', fontSize: 12 }}
+                tick={{ fill: '#4B5563', fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis 
-                tick={{ fill: 'var(--fb-muted)', fontSize: 12 }}
+                tick={{ fill: '#4B5563', fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
               />
@@ -475,7 +475,7 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
                 }}
               />
               <Bar dataKey="Plus" fill="#6B7280" radius={8} />
-              <Bar dataKey="Pro" fill="#000000" radius={8} />
+              <Bar dataKey="Pro" fill="#1E293B" radius={8} />
               <Bar dataKey="Enterprise" fill="#3B82F6" radius={8} />
             </BarChart>
           </ResponsiveContainer>
@@ -517,7 +517,7 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
                 <div className="text-2xl font-bold" style={{ color: 'var(--fb-text)' }}>
                   <AnimatedNumber value={total} duration={900} />
                 </div>
-                <div className="text-sm" style={{ color: 'var(--fb-muted)' }}>
+                <div className="text-sm" style={{ color: '#4B5563' }}>
                   Total Users
                 </div>
               </div>
@@ -532,7 +532,7 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: entry.fill }}
                 />
-                <span className="text-sm" style={{ color: 'var(--fb-muted)' }}>
+                <span className="text-sm" style={{ color: '#4B5563' }}>
                   {entry.name}
                 </span>
               </div>
