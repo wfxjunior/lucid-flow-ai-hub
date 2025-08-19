@@ -118,11 +118,11 @@
     --nav-h: 56px;
     --hero-pt: 32px;
     --hero-pb: 32px;
-    --hero-h1-d: 32px;
-    --hero-h1-t: 36px;
-    --hero-h1-m: 28px;
-    --hero-h1-lh: 1.2;
-    --hero-h1-w: 700;
+    --hero-h1-d: 48px;
+    --hero-h1-t: 52px;
+    --hero-h1-m: 40px;
+    --hero-h1-lh: 1.1;
+    --hero-h1-w: 800;
     --hero-sub-fs-d: 16px;
     --hero-sub-fs-m: 14px;
     --hero-sub-lh: 1.5;
@@ -149,10 +149,10 @@
       --nav-h: 64px;
       --hero-pt: 48px;
       --hero-pb: 48px;
-      --hero-h1-d: 48px;
-      --hero-h1-t: 42px;
-      --hero-h1-lh: 1.15;
-      --hero-h1-w: 750;
+      --hero-h1-d: 64px;
+      --hero-h1-t: 58px;
+      --hero-h1-lh: 1.1;
+      --hero-h1-w: 800;
       --hero-sub-fs-d: 18px;
       --hero-sub-fs-m: 16px;
       --hero-gap-title-sub: 12px;
@@ -174,9 +174,9 @@
     :root {
       --hero-pt: 56px;
       --hero-pb: 56px;
-      --hero-h1-d: 56px;
-      --hero-h1-lh: 1.08;
-      --hero-h1-w: 800;
+      --hero-h1-d: 80px;
+      --hero-h1-lh: 1.05;
+      --hero-h1-w: 900;
       --hero-sub-fs-d: 18px;
       --cta-fs: 15.5px;
     }
