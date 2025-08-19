@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { SalesContactModal } from "@/components/SalesContactModal";
 import { useSubscription } from "@/hooks/useSubscription";
 import { track } from "@/lib/analytics";
+import { motion } from "framer-motion";
 import navglyphsUrl from "@/assets/navglyphs.svg";
 
 export const LandingHeroSection = () => {
@@ -55,27 +56,36 @@ export const LandingHeroSection = () => {
           `
         }}
       />
-      {/* Announcement Banner */}
-      <div className="text-center mb-8">
-        <div
-          className="gold-chip inline-flex items-center gap-2 cursor-pointer shadow-sm"
-          role="button"
-          aria-label="FeatherBiz Scale"
-          tabIndex={0}
+      {/* Announcement Banner - attio-like pill */}
+      <div className="flex justify-center mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
           onClick={() => navigate('/scale')}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/scale'); } }}
+          className="group h-7 px-3.5 rounded-full border cursor-pointer inline-flex items-center gap-2 transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5"
           style={{
-            height: '28px',
-            paddingLeft: '10px',
-            paddingRight: '10px',
-            borderRadius: '9999px',
+            borderColor: 'var(--fb-border)',
+            backgroundColor: 'var(--fb-bg)',
             fontSize: '13px',
             fontWeight: '500'
           }}
+          role="button"
+          aria-label="FeatherBiz Scale"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/scale'); } }}
         >
-          <span className="font-medium">FeatherBiz Scale</span>
-          <ArrowRight className="h-3 w-3" aria-hidden="true" />
-        </div>
+          <motion.div
+            animate={{ x: [0, 4, 0] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            className="w-2 h-2 rounded-full"
+            style={{ backgroundColor: 'hsl(var(--fb-primary))' }}
+          />
+          <span className="font-medium" style={{ color: 'var(--fb-text)' }}>
+            FeatherBiz Scale
+          </span>
+          <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" style={{ color: 'var(--fb-muted)' }} />
+        </motion.div>
       </div>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-4xl mx-auto">

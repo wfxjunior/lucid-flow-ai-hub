@@ -43,6 +43,26 @@
     --fb-border: 215 16% 91%;
     --fb-text: 217 33% 17%;
     --fb-muted: 215 16% 47%;
+    --fb-primary: var(--featherbiz-primary);
+    --fb-green: var(--featherbiz-green);
+    --fb-blue: var(--featherbiz-blue);
+    --fb-orange: var(--featherbiz-orange);
+    --fb-violet: var(--featherbiz-violet);
+    
+    /* Soft fills */
+    --fb-primary-10: color-mix(in srgb, hsl(var(--fb-primary)) 10%, #fff);
+    --fb-blue-10: color-mix(in srgb, hsl(var(--fb-blue)) 10%, #fff);
+    --fb-green-10: color-mix(in srgb, hsl(var(--fb-green)) 10%, #fff);
+    --fb-orange-10: color-mix(in srgb, hsl(var(--fb-orange)) 10%, #fff);
+    --fb-violet-10: color-mix(in srgb, hsl(var(--fb-violet)) 10%, #fff);
+    
+    /* Layout tokens */
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
+    --container: 1200px;
+    --px: 24px;
+    --section-y: 56px;
     --fb-primary: 216 100% 53%;
     --fb-primary-10: 216 100% 97%;
     --fb-success: 199 89% 48%;
