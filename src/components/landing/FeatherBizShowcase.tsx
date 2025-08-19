@@ -373,7 +373,7 @@ const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
   </motion.div>
 );
 
-// Notes Component  
+// Notes Component - Enhanced readability with improved opacity
 const NotesPreview = () => (
   <motion.div
     variants={staggerChildren}
@@ -387,7 +387,7 @@ const NotesPreview = () => (
   >
     <div className="max-w-[920px] mx-auto">
       <div className="mb-6">
-        <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--fb-text)' }}>
+        <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--fb-text)', opacity: 1 }}>
           Q3 Business Review
         </h3>
         <div className="flex flex-wrap gap-2 mb-4">
@@ -400,7 +400,8 @@ const NotesPreview = () => (
                 borderColor: 'var(--fb-border)',
                 backgroundColor: index === 0 ? 'var(--fb-green-10)' : 
                                 index === 1 ? 'var(--fb-blue-10)' : 'var(--fb-orange-10)',
-                color: 'var(--fb-text)'
+                color: 'var(--fb-text)',
+                opacity: 1
               }}
             >
               {tag}
@@ -409,8 +410,8 @@ const NotesPreview = () => (
         </div>
       </div>
       
-      <div className="prose prose-sm max-w-none" style={{ color: 'var(--fb-text)' }}>
-        <p style={{ color: 'var(--fb-muted)' }}>
+      <div className="prose prose-sm max-w-none">
+        <p style={{ color: 'var(--fb-text)', opacity: 0.85 }}>
           Our Q3 performance shows strong momentum across all key metrics. Revenue increased by 34% compared to last quarter, driven primarily by our Enterprise tier adoption...
         </p>
       </div>
@@ -421,8 +422,8 @@ const NotesPreview = () => (
         style={{ borderLeftColor: 'var(--fb-blue)' }}
       >
         <div className="flex items-center gap-2 mb-2">
-          <CheckCircle className="h-4 w-4" style={{ color: 'var(--fb-blue)' }} />
-          <span className="text-sm font-medium" style={{ color: 'var(--fb-text)' }}>
+          <CheckCircle className="h-4 w-4" style={{ color: 'var(--fb-blue)', opacity: 0.9 }} />
+          <span className="text-sm font-medium" style={{ color: 'var(--fb-text)', opacity: 1 }}>
             Attachment: Q3_Financial_Report.pdf
           </span>
         </div>
