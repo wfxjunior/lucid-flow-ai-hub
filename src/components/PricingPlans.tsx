@@ -1,18 +1,17 @@
 import { Crown, Zap, Gift, Building2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import { supabase } from "@/integrations/supabase/client"
 import { PricingHeader } from "./pricing/PricingHeader"
 import { PricingCard } from "./pricing/PricingCard"
 import { TrustIndicators } from "./pricing/TrustIndicators"
 import { PricingFeaturesDetails } from "./pricing/PricingFeaturesDetails"
 import { PricingFAQ } from "./pricing/PricingFAQ"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { Badge } from "@/components/ui/badge"
 import { Check, X } from "lucide-react"
 import { useState, useEffect } from "react"
 import pricingJson from "../../config/pricing.json"
 import entitlementsJson from "../../config/entitlements.json"
 import priceMapJson from "../../config/stripe.priceMap.json"
+import { useCheckout, CheckoutPlan } from "@/hooks/useCheckout"
 
 // Define pricing plans data
 const plans = {
@@ -315,6 +314,7 @@ const featureCategories = [
 
 export function PricingPlans() {
   const { toast } = useToast()
+  const { loading, redirectToCheckout } = useCheckout()
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly")
   const [remotePlans, setRemotePlans] = useState<typeof plans | null>(null)
   const [pricingConfig, setPricingConfig] = useState<any | null>(null)
@@ -420,172 +420,46 @@ export function PricingPlans() {
   }, [])
 
   const handlePlanSelection = async (plan: typeof plans.monthly[0]) => {
-    console.log('=== STRIPE CHECKOUT STARTED ===')
+    console.log('=== NEW CHECKOUT SYSTEM ===')
     console.log('Selected plan:', plan.name, plan.id)
-    console.log('Plan details:', { 
-      price: plan.stripePrice, 
-      recurring: plan.recurring,
-      annualBilling: (plan as any).annualBilling 
-    })
 
-    // Handle Enterprise plan - redirect to contact form
+    // Handle free plan
+    if (plan.id === 'free') {
+      toast({
+        title: "Free Plan Selected",
+        description: "Start creating your invoices with our free plan!",
+      })
+      // Navigate to signup or dashboard
+      window.location.href = '/auth'
+      return
+    }
+
+    // Handle Enterprise plan - redirect to contact
     if (plan.id === 'enterprise') {
-      // Navigate to contact form or sales form
       window.location.href = '/contact'
       return
     }
 
-    if (plan.stripePrice === null) {
-      console.log('Free plan selected - no payment needed')
-      toast({
-        title: "Free Plan Selected",
-        description: `You've selected the ${plan.name} plan. Start creating your invoices!`,
-      })
-      return
+    // Map plan IDs to checkout plans
+    let checkoutPlan: CheckoutPlan
+    if (plan.id === 'pro' && billingPeriod === 'monthly') {
+      checkoutPlan = 'monthly'
+    } else if (plan.id === 'pro' && billingPeriod === 'annual') {
+      checkoutPlan = 'yearly'
+    } else {
+      checkoutPlan = 'monthly' // fallback
     }
 
     try {
-      console.log('Checking user authentication...')
-      
-      // Get current user session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-      
-      if (sessionError) {
-        console.error('Session error:', sessionError)
-        toast({
-          title: "Authentication Error", 
-          description: "There was an issue with your session. Please log in again.",
-          variant: "destructive"
-        })
-        return
-      }
-      
-      if (!session) {
-        console.log('No user session found')
-        toast({
-          title: "Authentication Required",
-          description: "Please log in to subscribe to a paid plan.",
-          variant: "destructive"
-        })
-        return
-      }
-
-      console.log('User authenticated:', session.user.email)
-      console.log('Creating checkout session...')
-
-      // Prepare checkout data (prefer Stripe priceId if available)
-      const priceId = (plan as any).stripePriceId as string | undefined
-      const checkoutData = priceId ? {
-        priceId,
-        planName: plan.name,
-        planId: plan.id,
-        recurring: true,
-        trialPeriodDays: 7,
-        annualBilling: billingPeriod === 'annual'
-      } : {
-        priceAmount: plan.stripePrice,
-        planName: plan.name,
-        planId: plan.id,
-        recurring: plan.recurring || false,
-        trialPeriodDays: 7,
-        annualBilling: (plan as any).annualBilling || false
-      }
-
-
-      console.log('Checkout data:', checkoutData)
-
-      // Create checkout session with timeout
-      const checkoutPromise = supabase.functions.invoke('create-checkout', {
-        body: checkoutData,
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        }
-      })
-
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Checkout request timed out')), 30000)
-      })
-
-      const { data, error } = await Promise.race([checkoutPromise, timeoutPromise]) as any
-
-      console.log('Checkout response received')
-      console.log('Data:', data)
-      console.log('Error:', error)
-
-      if (error) {
-        console.error('Checkout error details:', error)
-        
-        // Provide user-friendly error messages
-        let errorMessage = "There was an error processing your request. Please try again."
-        if (error.message) {
-          if (error.message.includes('STRIPE_SECRET_KEY')) {
-            errorMessage = "Payment system configuration error. Please contact support."
-          } else if (error.message.includes('timeout')) {
-            errorMessage = "Request timed out. Please check your connection and try again."
-          } else if (error.message.includes('Customer not found')) {
-            errorMessage = "Account verification required. Please contact support."
-          } else {
-            errorMessage = `Payment error: ${error.message}`
-          }
-        }
-        
-        toast({
-          title: "Checkout Error",
-          description: errorMessage,
-          variant: "destructive"
-        })
-        return
-      }
-
-      if (data?.url) {
-        console.log('Redirecting to checkout URL:', data.url)
-        // Open Stripe checkout in a new tab
-        window.open(data.url, '_blank')
-        
-        toast({
-          title: "Redirecting to Payment",
-          description: "Opening Stripe checkout in a new tab...",
-        })
-      } else {
-        console.error('No checkout URL received')
-        toast({
-          title: "Checkout Error",
-          description: "No checkout URL received from server. Please try again.",
-          variant: "destructive"
-        })
-      }
-
+      console.log('Redirecting to checkout for plan:', checkoutPlan)
+      await redirectToCheckout({ plan: checkoutPlan })
     } catch (error) {
-      console.error('=== STRIPE CHECKOUT ERROR ===')
-      console.error('Error object:', error)
-      console.error('Error message:', error?.message)
-      console.error('Error details:', JSON.stringify(error, null, 2))
-      
-      // Provide more specific error messages
-      let errorMessage = "There was an error processing your request. Please try again."
-      
-      if (error && typeof error === 'object' && 'message' in error) {
-        const message = error.message as string
-        if (message.includes('secret_key_required') || message.includes('publishable API key')) {
-          errorMessage = "Payment system configuration error. Please contact support."
-        } else if (message.includes('Invalid API Key')) {
-          errorMessage = "Payment system configuration error. Please contact support."
-        } else if (message.includes('No such price')) {
-          errorMessage = "Invalid pricing configuration. Please contact support."
-        } else if (message.includes('network') || message.includes('fetch')) {
-          errorMessage = "Network error. Please check your connection and try again."
-        } else {
-          errorMessage = `Payment error: ${message}`
-        }
-      }
-      
+      console.error('Checkout error:', error)
       toast({
-        title: "Payment Error",
-        description: errorMessage,
+        title: "Checkout Error",
+        description: "Failed to start checkout process. Please try again.",
         variant: "destructive"
       })
-    } finally {
-      console.log('=== STRIPE CHECKOUT COMPLETED ===')
     }
   }
 
@@ -716,7 +590,8 @@ const currentPlans = displayPlans[billingPeriod]
               <div className="w-full">
                 <PricingCard 
                   plan={plan} 
-                  onPlanSelect={handlePlanSelection} 
+                  onPlanSelect={handlePlanSelection}
+                  loading={loading}
                 />
               </div>
             </div>
