@@ -5,6 +5,7 @@ import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingHeroSection } from "@/components/landing/LandingHeroSection";
 
 import { FeatherBizShowcase } from "@/components/landing/FeatherBizShowcase";
+import LogoMarquee from "@/components/LogoMarquee";
 import { LandingTestimonialsSection } from "@/components/landing/LandingTestimonialsSection";
 import { LandingNumbersSection } from "@/components/landing/LandingNumbersSection";
 
@@ -51,6 +52,7 @@ export default function LandingPage() {
         <LandingHeroSection />
         
         <FeatherBizShowcase />
+        <LogoMarquee className="mt-10" />
         <LandingTestimonialsSection />
         <LandingFreeTrialV2 />
         <LandingNumbersSection />
