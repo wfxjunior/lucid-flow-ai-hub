@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import './styles/buttons.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,6 +17,18 @@
 
 @layer base {
   :root {
+    /* FeatherBiz Button System Tokens */
+    --fb-primary: var(--featherbiz-primary, #1e63ff);
+    --fb-text: #0F172A;
+    --fb-muted: #64748B;
+    --fb-border: #E9EEF5;
+    --btn-h: 44px;            /* padrão fino/elegante */
+    --btn-h-lg: 56px;         /* CTA igual ao da imagem */
+    --btn-r: 9999px;          /* pill total */
+    --btn-f: 16px;            /* texto */
+    --btn-shadow: 0 10px 24px color-mix(in srgb, var(--fb-primary) 22%, transparent),
+                  0 2px 4px rgba(16,24,40,.08);
+
     /* Roomy Layout Tokens */
     --sidebar-w: 248px;
     --shell-gap: 28px;

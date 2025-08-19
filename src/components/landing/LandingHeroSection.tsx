@@ -114,8 +114,8 @@ export const LandingHeroSection = () => {
             <Button
               data-analytics-id="hero_cta_start_click"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              size="md"
-              className="w-full sm:w-auto min-w-[140px] justify-center"
+              size="lg"
+              className="w-full sm:w-auto min-w-[140px] justify-center btn btn-primary btn-lg"
             >
               Start for free
             </Button>
@@ -123,8 +123,8 @@ export const LandingHeroSection = () => {
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
-              size="md"
-              className="w-full sm:w-auto min-w-[140px] justify-center"
+              size="lg"
+              className="w-full sm:w-auto min-w-[140px] justify-center btn btn-outline btn-lg"
             >
               Talk to sales
             </Button>

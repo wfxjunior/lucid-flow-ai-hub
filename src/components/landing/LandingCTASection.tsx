@@ -31,7 +31,8 @@ export const LandingCTASection = () => {
           <div className="mb-8">
             <Button
               onClick={() => navigate('/auth')}
-              className="bg-foreground text-background hover:bg-foreground/90 px-12 py-4 rounded-lg font-medium text-lg"
+              size="lg"
+              className="btn btn-primary btn-lg px-12 py-4"
             >
               Start your free trial
             </Button>

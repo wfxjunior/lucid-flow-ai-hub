@@ -1,0 +1,148 @@
+
+/* FeatherBiz Global Button System - Pill Style */
+
+/* Reset suave para todos os botões conhecidos no projeto */
+button, [type="button"], [type="submit"], [role="button"],
+.btn, .Button, [class*="btn-"], [class*="Button--"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  height: var(--btn-h);
+  padding: 0 22px;
+  border-radius: var(--btn-r);
+  font-size: var(--btn-f);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 1;
+  border: 1.5px solid transparent;
+  background: transparent;
+  color: var(--fb-text);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease;
+  cursor: pointer;
+}
+
+/* PRIMARY (igual ao da imagem) */
+.btn-primary, .Button--primary, [data-variant="primary"] {
+  background: var(--fb-primary);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--btn-shadow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.05);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--fb-primary) 24%, transparent);
+}
+
+/* OUTLINE (igual ao da imagem) */
+.btn-outline, .Button--secondary, [data-variant="outline"] {
+  background: #fff;
+  color: var(--fb-primary);
+  border-color: var(--fb-primary);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.btn-outline:hover {
+  background: color-mix(in srgb, var(--fb-primary) 10%, #fff);
+}
+
+/* Tamanhos */
+.btn-sm {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.btn-md {
+  height: var(--btn-h);
+}
+
+.btn-lg {
+  height: var(--btn-h-lg);
+  padding: 0 28px;
+  font-size: 17px;
+}
+
+/* Estados de acessibilidade */
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--btn-shadow), 0 0 0 2px #fff, 0 0 0 4px var(--fb-primary);
+}
+
+.btn:disabled {
+  opacity: .55;
+  pointer-events: none;
+  transform: none;
+}
+
+/* Ícones */
+.btn > svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+/* Dark opcional */
+html.dark .btn-outline {
+  background: transparent;
+  color: #e5e7eb;
+  border-color: #3B82F6;
+}
+
+html.dark .btn-outline:hover {
+  background: rgba(255,255,255,.06);
+}
+
+/* Aplicar automaticamente aos componentes shadcn/ui Button */
+[data-component="button"] {
+  height: var(--btn-h);
+  border-radius: var(--btn-r);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  padding: 0 22px;
+  gap: .6rem;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease;
+}
+
+[data-component="button"][data-variant="default"] {
+  background: var(--fb-primary);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--btn-shadow);
+}
+
+[data-component="button"][data-variant="default"]:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.05);
+}
+
+[data-component="button"][data-variant="outline"] {
+  background: #fff;
+  color: var(--fb-primary);
+  border-color: var(--fb-primary);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+[data-component="button"][data-variant="outline"]:hover {
+  background: color-mix(in srgb, var(--fb-primary) 10%, #fff);
+}
+
+[data-component="button"][data-size="lg"] {
+  height: var(--btn-h-lg);
+  padding: 0 28px;
+  font-size: 17px;
+}
+
+[data-component="button"][data-size="sm"] {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 14px;
+}
