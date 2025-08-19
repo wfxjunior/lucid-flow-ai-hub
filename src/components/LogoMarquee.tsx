@@ -20,7 +20,7 @@ function InfiniteRow({ items, duration = 50, reverse = false }: { items: Logo[];
   return (
     <div className="relative w-full overflow-hidden">
       <motion.div
-        className="flex items-center gap-16 md:gap-24 will-change-transform"
+        className="flex items-center gap-12 md:gap-16 lg:gap-20 will-change-transform"
         animate={{
           x: reverse ? ["0%", "-33.333%"] : ["-33.333%", "0%"]
         }}
@@ -42,17 +42,18 @@ function InfiniteRow({ items, duration = 50, reverse = false }: { items: Logo[];
               loading="lazy"
               decoding="async"
               className={[
-                "h-12 md:h-16 lg:h-20 w-auto object-contain",
-                "filter grayscale opacity-50 hover:opacity-90 hover:grayscale-0",
+                "h-16 md:h-20 lg:h-24 xl:h-28 w-auto object-contain",
+                "filter grayscale opacity-60 hover:opacity-100 hover:grayscale-0",
                 "transition-all duration-500 ease-out",
-                "group-hover:scale-105",
-                "bg-white rounded-lg p-3 shadow-sm",
+                "group-hover:scale-110",
+                "bg-white rounded-xl p-4 shadow-sm hover:shadow-md",
+                "border border-border/20 hover:border-border/40",
                 logo.className ?? "",
               ].join(" ")}
               style={{ 
                 imageRendering: "crisp-edges",
-                maxWidth: "200px",
-                minHeight: "48px"
+                maxWidth: "240px",
+                minHeight: "64px"
               }}
             />
           </div>
@@ -66,22 +67,20 @@ export default function LogoMarquee({ className = "" }: { className?: string }) 
   return (
     <section
       aria-label="Trusted by leading companies"
-      className={["w-full py-16 md:py-24 bg-gradient-to-b from-background to-muted/20", className].join(" ")}
+      className={["w-full py-20 md:py-28 bg-gradient-to-b from-background via-muted/10 to-background", className].join(" ")}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
-          <p className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-[0.2em] mb-3">
+        <div className="text-center mb-16 md:mb-20">
+          <p className="text-base md:text-lg font-semibold text-muted-foreground uppercase tracking-[0.25em] mb-4">
             Trusted by modern teams
           </p>
-          <div className="w-12 h-px bg-gradient-to-r from-transparent via-border to-transparent mx-auto"></div>
+          <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-primary/60 to-transparent mx-auto"></div>
         </div>
 
-        <div className="space-y-8 md:space-y-12">
-          <InfiniteRow items={LOGOS} duration={60} />
-          <InfiniteRow items={LOGOS} duration={55} reverse={true} />
+        <div className="space-y-12 md:space-y-16">
+          <InfiniteRow items={LOGOS} duration={65} />
+          <InfiniteRow items={LOGOS} duration={60} reverse={true} />
         </div>
-        
-        {/* Removed the gradient overlays for fade effect */}
       </div>
 
       <style>{`
