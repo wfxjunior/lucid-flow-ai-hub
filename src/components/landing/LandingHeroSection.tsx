@@ -64,12 +64,13 @@ export const LandingHeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           onClick={() => navigate('/scale')}
-          className="group h-7 px-3.5 rounded-full border cursor-pointer inline-flex items-center gap-2 transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5"
+          className="group h-7 px-3.5 border cursor-pointer inline-flex items-center gap-2 transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5"
           style={{
             borderColor: 'var(--fb-border)',
             backgroundColor: 'var(--fb-bg)',
             fontSize: '13px',
-            fontWeight: '500'
+            fontWeight: '500',
+            borderRadius: '8px'
           }}
           role="button"
           aria-label="FeatherBiz Scale"
@@ -79,8 +80,8 @@ export const LandingHeroSection = () => {
           <motion.div
             animate={{ x: [0, 4, 0] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-            className="w-2 h-2 rounded-full"
-            style={{ backgroundColor: 'hsl(var(--fb-primary))' }}
+            className="w-2 h-2"
+            style={{ backgroundColor: 'hsl(var(--fb-primary))', borderRadius: '8px' }}
           />
           <span className="font-medium" style={{ color: 'var(--fb-text)' }}>
             FeatherBiz Scale
@@ -113,7 +114,7 @@ export const LandingHeroSection = () => {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 w-full px-4">
             <Button
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="w-full sm:w-auto btn btn-primary"
+              className="w-full sm:w-auto"
               size="lg"
             >
               Start for free
@@ -121,7 +122,7 @@ export const LandingHeroSection = () => {
             <Button
               onClick={() => setShowSalesModal(true)}
               variant="outline"
-              className="w-full sm:w-auto btn btn-outline"
+              className="w-full sm:w-auto"
               size="lg"
             >
               Talk to sales

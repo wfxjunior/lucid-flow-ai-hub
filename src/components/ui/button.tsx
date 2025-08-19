@@ -6,21 +6,21 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "btn inline-flex items-center justify-center whitespace-nowrap font-bold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 overflow-hidden",
+  "btn inline-flex items-center justify-center whitespace-nowrap font-bold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 overflow-hidden rounded-lg",
   {
     variants: {
       variant: {
-        default: "btn-primary",
-        destructive: "btn-primary bg-danger hover:bg-danger/90",
-        outline: "btn-outline",
-        secondary: "btn-outline",
-        ghost: "hover:bg-accent hover:text-accent-foreground border-0 shadow-none bg-transparent",
-        link: "text-primary underline-offset-4 hover:underline border-0 shadow-none bg-transparent h-auto p-0",
-        elevated: "btn-primary shadow-[0_8px_24px_hsl(var(--primary)/0.4)]",
-        soft: "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/15",
-        premium: "btn-primary bg-gradient-to-r from-primary via-primary to-primary/80",
-        success: "btn-primary bg-success hover:bg-success/90",
-        warning: "btn-primary bg-warning hover:bg-warning/90",
+        default: "btn-primary rounded-lg",
+        destructive: "btn-primary bg-danger hover:bg-danger/90 rounded-lg",
+        outline: "btn-outline rounded-lg",
+        secondary: "btn-outline rounded-lg",
+        ghost: "hover:bg-accent hover:text-accent-foreground border-0 shadow-none bg-transparent rounded-lg",
+        link: "text-primary underline-offset-4 hover:underline border-0 shadow-none bg-transparent h-auto p-0 rounded-lg",
+        elevated: "btn-primary shadow-[0_8px_24px_hsl(var(--primary)/0.4)] rounded-lg",
+        soft: "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/15 rounded-lg",
+        premium: "btn-primary bg-gradient-to-r from-primary via-primary to-primary/80 rounded-lg",
+        success: "btn-primary bg-success hover:bg-success/90 rounded-lg",
+        warning: "btn-primary bg-warning hover:bg-warning/90 rounded-lg",
       },
       size: {
         xs: "btn-sm h-8 px-3 text-xs gap-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5 rounded-lg",
@@ -61,6 +61,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-component="button"
         data-variant={variant}
         data-size={size}
+        style={{ borderRadius: '8px' }}
         {...props}
       />
     )
