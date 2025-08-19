@@ -90,9 +90,9 @@ const chartData = [
 ];
 
 const pieData = [
-  { name: 'Plus', value: 328, fill: 'var(--fb-orange)' },
-  { name: 'Pro', value: 570, fill: 'var(--fb-violet)' },
-  { name: 'Enterprise', value: 231, fill: 'var(--fb-blue)' }
+  { name: 'Plus', value: 328, fill: '#6B7280' },
+  { name: 'Pro', value: 570, fill: '#000000' },
+  { name: 'Enterprise', value: 231, fill: '#3B82F6' }
 ];
 
 const tabs = [
@@ -467,9 +467,9 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
                   borderRadius: '8px'
                 }}
               />
-              <Bar dataKey="Plus" fill="var(--fb-orange)" radius={8} />
-              <Bar dataKey="Pro" fill="var(--fb-violet)" radius={8} />
-              <Bar dataKey="Enterprise" fill="var(--fb-blue)" radius={8} />
+              <Bar dataKey="Plus" fill="#6B7280" radius={8} />
+              <Bar dataKey="Pro" fill="#000000" radius={8} />
+              <Bar dataKey="Enterprise" fill="#3B82F6" radius={8} />
             </BarChart>
           </ResponsiveContainer>
         </motion.div>
