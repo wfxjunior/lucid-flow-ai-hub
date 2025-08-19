@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -399,16 +398,8 @@ export const LandingHeader = () => {
               <Button
                 variant="default"
                 onClick={openCustomerPortal}
-                style={{ 
-                  height: 'var(--cta-h)', 
-                  paddingLeft: 'var(--cta-px)', 
-                  paddingRight: 'var(--cta-px)', 
-                  borderRadius: 'var(--cta-radius)',
-                  fontSize: 'var(--cta-fs)',
-                  fontWeight: 'var(--cta-fw)',
-                  color: 'white'
-                }}
-                className="shadow-sm"
+                className="h-9 px-4 text-base font-semibold transition-all duration-180 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary"
+                style={{ borderRadius: '8px' }}
               >
                 Manage Subscription
               </Button>
@@ -423,23 +414,15 @@ export const LandingHeader = () => {
                   }
                   navigate('/pricing');
                 }}
-                style={{ 
-                  height: 'var(--cta-h)', 
-                  paddingLeft: 'var(--cta-px)', 
-                  paddingRight: 'var(--cta-px)', 
-                  borderRadius: 'var(--cta-radius)',
-                  fontSize: 'var(--cta-fs)',
-                  fontWeight: 'var(--cta-fw)',
-                  color: 'white'
-                }}
-                className="shadow-sm"
+                className="h-9 px-4 text-base font-semibold transition-all duration-180 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary"
+                style={{ borderRadius: '8px' }}
               >
                 Subscribe
               </Button>
             )}
             <button
               onClick={() => navigate('/auth')}
-              className="text-base font-medium text-[#111827] hover:text-[#111827]/90 transition-colors"
+              className="text-base font-medium text-[#111827] hover:text-[#111827]/85 hover:underline transition-all duration-180 ml-1"
             >
               Sign in
             </button>

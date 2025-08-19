@@ -20,7 +20,7 @@ button, [type="button"], [type="submit"], [role="button"],
   border: 1.5px solid transparent;
   background: transparent;
   color: var(--fb-text);
-  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease, opacity .12s ease;
   cursor: pointer;
   overflow: hidden;
 }
@@ -122,31 +122,45 @@ html.dark .btn-outline:hover {
 /* Aplicar automaticamente aos componentes shadcn/ui Button */
 [data-component="button"] {
   height: var(--btn-h);
-  border-radius: 8px;
+  border-radius: 8px !important; /* Force override any pill styling */
   font-weight: 700;
   letter-spacing: -.01em;
   padding: 0 22px;
   gap: .6rem;
-  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease, opacity .18s ease;
   overflow: hidden;
 }
 
+/* Navbar specific CTA styling */
 [data-component="button"][data-variant="default"] {
   background: var(--fb-primary);
   color: #fff;
   border-color: transparent;
-  box-shadow: var(--btn-shadow);
-  border-radius: 8px;
+  box-shadow: none; /* Remove heavy shadow for navbar */
+  border-radius: 8px !important;
+  height: 36px; /* Navbar height */
+  padding: 0 16px; /* Moderate padding */
+  font-weight: 600; /* Match menu weight */
+  font-size: 16px; /* Match menu size */
 }
 
 [data-component="button"][data-variant="default"]:hover {
-  transform: translateY(-1px);
-  filter: saturate(1.05);
-  border-radius: 8px;
+  background: color-mix(in srgb, var(--fb-primary) 94%, black); /* Darken by ~6% */
+  transform: none; /* No translate for navbar */
+  border-radius: 8px !important;
+  opacity: 1;
 }
 
 [data-component="button"][data-variant="default"]:active {
-  border-radius: 8px;
+  background: color-mix(in srgb, var(--fb-primary) 88%, black); /* Slightly darker */
+  transform: none;
+  border-radius: 8px !important;
+}
+
+[data-component="button"][data-variant="default"]:focus-visible {
+  outline: 2px solid var(--fb-primary);
+  outline-offset: 3px;
+  border-radius: 8px !important;
 }
 
 [data-component="button"][data-variant="outline"] {
@@ -154,30 +168,30 @@ html.dark .btn-outline:hover {
   color: var(--fb-primary);
   border-color: var(--fb-primary);
   box-shadow: 0 0 0 rgba(0,0,0,0);
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 [data-component="button"][data-variant="outline"]:hover {
   background: color-mix(in srgb, var(--fb-primary) 10%, #fff);
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 [data-component="button"][data-variant="outline"]:active {
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 [data-component="button"][data-size="lg"] {
   height: var(--btn-h-lg);
   padding: 0 28px;
   font-size: 17px;
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 [data-component="button"][data-size="sm"] {
   height: 36px;
   padding: 0 16px;
   font-size: 14px;
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 /* Ensure pseudo-elements inherit border radius */
@@ -185,13 +199,13 @@ html.dark .btn-outline:hover {
 .btn::after,
 [data-component="button"]::before,
 [data-component="button"]::after {
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 /* Safari/Firefox compatibility */
 button, .btn, [data-component="button"] {
   -webkit-mask-image: -webkit-radial-gradient(white, black);
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 /* Focus visible for accessibility */
@@ -200,7 +214,13 @@ button:focus-visible,
 [data-component="button"]:focus-visible {
   outline-offset: 3px;
   outline: 2px solid var(--fb-primary);
-  border-radius: 8px;
+  border-radius: 8px !important;
+}
+
+/* Override any pill/rounded-full classes */
+.rounded-full[data-component="button"],
+.btn-pill {
+  border-radius: 8px !important;
 }
 
 /* Feature chips consistent styling */
