@@ -12,6 +12,7 @@ import pricingJson from "../../config/pricing.json"
 import entitlementsJson from "../../config/entitlements.json"
 import priceMapJson from "../../config/stripe.priceMap.json"
 import { useCheckout, CheckoutPlan } from "@/hooks/useCheckout"
+import { supabase } from "@/integrations/supabase/client"
 
 // Define pricing plans data
 const plans = {
