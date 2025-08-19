@@ -6,7 +6,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/' : '/',
+  base: '/', // Ensure root path
+  publicDir: 'public',
   server: {
     host: "::",
     port: 8080,
@@ -15,6 +16,27 @@ export default defineConfig(({ mode }) => ({
       'X-Frame-Options': 'DENY',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
+    },
+  },
+  preview: {
+    port: 8080,
+    // SPA fallback for preview mode
+    proxy: {
+      '^(?!/api|/assets|/_static).*': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        configure: (proxy, options) => {
+          proxy.on('error', (err, req, res) => {
+            console.log('proxy error', err);
+          });
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            // Handle SPA routing
+            if (req.url && !req.url.startsWith('/api') && !req.url.startsWith('/assets') && !req.url.startsWith('/_static')) {
+              proxyReq.path = '/';
+            }
+          });
+        },
+      },
     },
   },
   plugins: [
