@@ -23,18 +23,18 @@ const buttonVariants = cva(
         warning: "btn-primary bg-warning hover:bg-warning/90",
       },
       size: {
-        xs: "btn-sm h-8 px-3 text-xs gap-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5 rounded-full",
-        sm: "btn-sm rounded-full",
-        md: "btn-md rounded-full",
-        lg: "btn-lg rounded-full",
-        xl: "btn-lg h-14 px-6 text-lg gap-2.5 [&_svg]:h-5 [&_svg]:w-5 rounded-full",
-        icon: "h-9 w-9 rounded-full",
-        default: "btn-md rounded-full",
+        xs: "btn-sm h-8 px-3 text-xs gap-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5 rounded-lg",
+        sm: "btn-sm rounded-lg",
+        md: "btn-md rounded-lg",
+        lg: "btn-lg rounded-lg",
+        xl: "btn-lg h-14 px-6 text-lg gap-2.5 [&_svg]:h-5 [&_svg]:w-5 rounded-lg",
+        icon: "h-9 w-9 rounded-lg",
+        default: "btn-md rounded-lg",
       },
       shape: {
-        rounded: "rounded-full",
-        pill: "rounded-full",
-        square: "rounded-full", // Override square to be pill as requested
+        rounded: "rounded-lg",
+        pill: "rounded-lg", // Override pill to use moderate rounded
+        square: "rounded-lg", // Override square to use moderate rounded
       },
     },
     defaultVariants: {

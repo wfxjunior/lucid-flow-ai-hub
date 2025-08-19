@@ -1,5 +1,5 @@
 
-/* FeatherBiz Global Button System - Pill Style */
+/* FeatherBiz Global Button System - Moderate Rounded Style */
 
 /* Reset suave para todos os botões conhecidos no projeto */
 button, [type="button"], [type="submit"], [role="button"],
@@ -12,7 +12,7 @@ button, [type="button"], [type="submit"], [role="button"],
   gap: .6rem;
   height: var(--btn-h);
   padding: 0 22px;
-  border-radius: 9999px; /* Pill style */
+  border-radius: 8px; /* Moderate rounded style */
   font-size: var(--btn-f);
   font-weight: 700;
   letter-spacing: -.01em;
@@ -31,6 +31,7 @@ button, [type="button"], [type="submit"], [role="button"],
   color: #fff;
   border-color: transparent;
   box-shadow: var(--btn-shadow);
+  border-radius: 8px;
 }
 
 .btn-primary:hover {
@@ -49,6 +50,7 @@ button, [type="button"], [type="submit"], [role="button"],
   color: var(--fb-primary);
   border-color: var(--fb-primary);
   box-shadow: 0 0 0 rgba(0,0,0,0);
+  border-radius: 8px;
 }
 
 .btn-outline:hover {
@@ -60,19 +62,19 @@ button, [type="button"], [type="submit"], [role="button"],
   height: 36px;
   padding: 0 16px;
   font-size: 14px;
-  border-radius: 9999px;
+  border-radius: 8px;
 }
 
 .btn-md {
   height: var(--btn-h);
-  border-radius: 9999px;
+  border-radius: 8px;
 }
 
 .btn-lg {
   height: var(--btn-h-lg);
   padding: 0 28px;
   font-size: 17px;
-  border-radius: 9999px;
+  border-radius: 8px;
 }
 
 /* Estados de acessibilidade */
@@ -80,6 +82,7 @@ button, [type="button"], [type="submit"], [role="button"],
   outline: none;
   box-shadow: var(--btn-shadow), 0 0 0 2px #fff, 0 0 0 4px var(--fb-primary);
   outline-offset: 3px;
+  border-radius: 8px;
 }
 
 .btn:disabled {
@@ -109,7 +112,7 @@ html.dark .btn-outline:hover {
 /* Aplicar automaticamente aos componentes shadcn/ui Button */
 [data-component="button"] {
   height: var(--btn-h);
-  border-radius: 9999px;
+  border-radius: 8px;
   font-weight: 700;
   letter-spacing: -.01em;
   padding: 0 22px;
@@ -123,6 +126,7 @@ html.dark .btn-outline:hover {
   color: #fff;
   border-color: transparent;
   box-shadow: var(--btn-shadow);
+  border-radius: 8px;
 }
 
 [data-component="button"][data-variant="default"]:hover {
@@ -135,6 +139,7 @@ html.dark .btn-outline:hover {
   color: var(--fb-primary);
   border-color: var(--fb-primary);
   box-shadow: 0 0 0 rgba(0,0,0,0);
+  border-radius: 8px;
 }
 
 [data-component="button"][data-variant="outline"]:hover {
@@ -145,14 +150,14 @@ html.dark .btn-outline:hover {
   height: var(--btn-h-lg);
   padding: 0 28px;
   font-size: 17px;
-  border-radius: 9999px;
+  border-radius: 8px;
 }
 
 [data-component="button"][data-size="sm"] {
   height: 36px;
   padding: 0 16px;
   font-size: 14px;
-  border-radius: 9999px;
+  border-radius: 8px;
 }
 
 /* Ensure pseudo-elements inherit border radius */
@@ -174,5 +179,5 @@ button:focus-visible,
 [data-component="button"]:focus-visible {
   outline-offset: 3px;
   outline: 2px solid var(--fb-primary);
-  border-radius: 9999px;
+  border-radius: 8px;
 }

@@ -109,29 +109,23 @@ export const LandingHeroSection = () => {
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
-          {/* CTA Buttons - Fixed Responsive Layout */}
+          {/* CTA Buttons - Using consistent moderate rounded style */}
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 w-full px-4">
-            <button
+            <Button
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="w-full sm:w-auto inline-flex items-center justify-center h-11 px-8 rounded-full text-white font-semibold text-sm transition-all duration-200 hover:transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              style={{ 
-                backgroundColor: '#1e63ff',
-                boxShadow: '0 4px 14px 0 rgba(30, 99, 255, 0.4)'
-              }}
+              className="w-full sm:w-auto btn btn-primary"
+              size="lg"
             >
               Start for free
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setShowSalesModal(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center h-11 px-8 rounded-full border font-semibold text-sm transition-all duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              style={{ 
-                borderColor: '#1e63ff',
-                color: '#1e63ff',
-                backgroundColor: 'white'
-              }}
+              variant="outline"
+              className="w-full sm:w-auto btn btn-outline"
+              size="lg"
             >
               Talk to sales
-            </button>
+            </Button>
           </div>
 
           {/* Feature Pills Section - Stripe-like Redesign */}
