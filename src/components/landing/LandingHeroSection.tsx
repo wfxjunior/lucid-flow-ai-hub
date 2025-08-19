@@ -134,46 +134,47 @@ export const LandingHeroSection = () => {
             </button>
           </div>
 
-          {/* Feature Pills Section - Improved Layout */}
-          <div className="relative max-w-5xl mx-auto">
-            {/* Subtle background for pills container */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-muted/20 to-transparent rounded-2xl opacity-50"></div>
-            
+          {/* Feature Pills Section - Stripe-like Redesign */}
+          <div className="relative max-w-5xl mx-auto">            
             <div className="relative px-4 py-8">
-              <div className="text-center mb-6">
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+              <div className="text-center mb-8">
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
                   Powerful features included
                 </p>
-                <div className="w-12 h-px bg-gradient-to-r from-transparent via-border to-transparent mx-auto mt-2"></div>
+                <div className="w-12 h-px bg-gradient-to-r from-transparent via-border to-transparent mx-auto"></div>
               </div>
 
               <div
                 ref={pillsRef}
                 data-analytics-id="hero_pills_view"
-                className="flex flex-wrap justify-center items-center gap-3 sm:gap-4"
+                className="flex flex-wrap justify-center items-center gap-5 sm:gap-6"
+                style={{ rowGap: '16px', columnGap: '20px' }}
                 aria-label="FeatherBiz capabilities"
               >
                 {pillLabels.map((feature, index) => (
-                  <motion.span
+                  <motion.button
                     key={feature}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="inline-flex items-center text-muted-foreground border border-border/60 bg-background/80 backdrop-blur-sm hover:bg-primary/5 hover:border-primary/20 hover:text-primary transition-all duration-300 h-10 px-4 text-sm font-medium rounded-full gap-2.5 group cursor-pointer" 
-                    aria-label={`Capability: ${feature}`}
+                    className="feature-chip group"
+                    aria-label={`${feature} feature`}
+                    tabIndex={0}
                   >
-                    <svg
-                      aria-hidden="true"
-                      className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.75"
-                    >
-                      <use href={`${navglyphsUrl}#glyph-${pillIconMap[feature]}`} />
-                    </svg>
-                    <span className="font-medium">{feature}</span>
-                  </motion.span>
+                    <div className="feature-chip-icon">
+                      <svg
+                        aria-hidden="true"
+                        className="shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.75"
+                      >
+                        <use href={`${navglyphsUrl}#glyph-${pillIconMap[feature]}`} />
+                      </svg>
+                    </div>
+                    <span>{feature}</span>
+                  </motion.button>
                 ))}
               </div>
             </div>

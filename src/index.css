@@ -1,259 +1,101 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import './styles/buttons.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* FeatherBot Animations */
-@keyframes blink {
-  0%, 90%, 100% {
-    transform: scaleY(1);
-  }
-  95% {
-    transform: scaleY(0.1);
-  }
-}
-
 @layer base {
   :root {
-    /* FeatherBiz Button System Tokens */
-    --fb-primary: var(--featherbiz-primary, #1e63ff);
-    --fb-text: #0F172A;
-    --fb-muted: #64748B;
-    --fb-border: #E9EEF5;
-    --btn-h: 44px;            /* padrão fino/elegante */
-    --btn-h-lg: 56px;         /* CTA igual ao da imagem */
-    --btn-r: 9999px;          /* pill total */
-    --btn-f: 16px;            /* texto */
-    --btn-shadow: 0 10px 24px color-mix(in srgb, var(--fb-primary) 22%, transparent),
-                  0 2px 4px rgba(16,24,40,.08);
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Roomy Layout Tokens */
-    --sidebar-w: 248px;
-    --shell-gap: 28px;
-    --shell-gap-md: 24px;
-    --shell-gap-sm: 16px;
-    --content-max: 1180px;
-    --content-px: 24px;
-    --content-px-sm: 16px;
-    --section-gap-y: 20px;
-    
-    /* Navigation header tokens */
-    --nav-pl: 12px;
-    --nav-pl-md: 10px;
-    --nav-pl-sm: 8px;
-    --logo-gap: 22px;
-    --logo-gap-md: 18px;
-    --logo-gap-sm: 16px;
-    --links-gap: 28px;
-    --links-gap-md: 24px;
-    --links-gap-sm: 20px;
-
-    /* FeatherBiz Design System */
-    --fb-bg: 0 0% 100%;
-    --fb-surface: 0 0% 100%;
-    --fb-border: 215 16% 91%;
-    --fb-text: 217 33% 17%;
-    --fb-muted: 215 16% 47%;
-    --fb-primary: 216 100% 53%;
-    --fb-green: 142 71% 45%;
-    --fb-blue: 199 89% 48%;
-    --fb-orange: 32 95% 44%;
-    --fb-violet: 262 83% 67%;
-    
-    /* Soft fills */
-    --fb-primary-10: color-mix(in srgb, hsl(var(--fb-primary)) 10%, #fff);
-    --fb-blue-10: color-mix(in srgb, hsl(var(--fb-blue)) 10%, #fff);
-    --fb-green-10: color-mix(in srgb, hsl(var(--fb-green)) 10%, #fff);
-    --fb-orange-10: color-mix(in srgb, hsl(var(--fb-orange)) 10%, #fff);
-    --fb-violet-10: color-mix(in srgb, hsl(var(--fb-violet)) 10%, #fff);
-    
-    /* Layout tokens */
-    --radius-lg: 16px;
-    --radius-md: 12px;
-    --shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
-    --container: 1200px;
-    --px: 24px;
-    --section-y: 56px;
-    --fb-primary: 216 100% 53%;
-    --fb-primary-10: 216 100% 97%;
-    --fb-success: 199 89% 48%;
-    --fb-warning: 32 95% 44%;
+    /* FeatherBiz specific colors */
+    --fb-success: 142 71% 45%;
+    --fb-warning: 38 92% 50%;
     --fb-danger: 0 84% 60%;
 
-    /* Base tokens (compatible with existing) */
-    --background: var(--fb-bg);
-    --foreground: var(--fb-text);
+    /* Hero specific variables */
+    --hero-pt: 7rem;
+    --hero-pb: 6rem;
+    --hero-gap-title-sub: 1.5rem;
+    --hero-gap-sub-ctas: 3rem;
+    --hero-sub-fs-d: 1.25rem;
+    --hero-sub-lh: 1.75;
+    --hero-sub-color: 215.4 16.3% 46.9%;
 
-    --card: var(--fb-surface);
-    --card-foreground: var(--fb-text);
-
-    --popover: var(--fb-surface);
-    --popover-foreground: var(--fb-text);
-
-    --primary: var(--fb-primary);
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: var(--fb-primary-10);
-    --secondary-foreground: var(--fb-primary);
-
-    --muted: var(--fb-primary-10);
-    --muted-foreground: var(--fb-muted);
-
-    --accent: var(--fb-primary-10);
-    --accent-foreground: var(--fb-primary);
-
-    --destructive: var(--fb-danger);
-    --destructive-foreground: 0 0% 100%;
-
-    --border: var(--fb-border);
-    --input: var(--fb-border);
-    --ring: var(--fb-primary);
-
-    --radius: 1rem;
-
-    --sidebar-background: var(--fb-surface);
-    --sidebar-foreground: var(--fb-text);
-    --sidebar-primary: var(--fb-primary);
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: var(--fb-primary-10);
-    --sidebar-accent-foreground: var(--fb-primary);
-    --sidebar-border: var(--fb-border);
-    --sidebar-ring: var(--fb-primary);
-
-    /* Brand palette */
-    --brand-blue: var(--primary);
-    --brand-green: 142 71% 45%;
-    --brand-purple: 262 83% 67%;
-
-    /* Responsive Layout Tokens */
-    --nav-h: 56px;
-    --hero-pt: 32px;
-    --hero-pb: 32px;
-    --hero-h1-d: 56px;
-    --hero-h1-t: 52px;
-    --hero-h1-m: 40px;
-    --hero-h1-lh: 1.1;
-    --hero-h1-w: 800;
-    --hero-sub-fs-d: 16px;
-    --hero-sub-fs-m: 14px;
-    --hero-sub-lh: 1.5;
-    --hero-sub-color: var(--fb-muted);
-    --hero-gap-title-sub: 8px;
-    --hero-gap-sub-ctas: 16px;
-    --cta-h: 44px;
-    --cta-radius: 8px;
-    --cta-fs: 14px;
-    --cta-fw: 500;
-    --cta-px: 16px;
-    --cta-gap: 6px;
-    --chip-h: 28px;
-    --chip-radius: 8px;
-    --chip-fs: 12px;
-    --chip-px: 10px;
-    --chip-gap: 6px;
-
-    /* Tablet and Desktop overrides */
-  }
-
-  @media (min-width: 768px) {
-    :root {
-      --nav-h: 64px;
-      --hero-pt: 48px;
-      --hero-pb: 48px;
-      --hero-h1-d: 72px;
-      --hero-h1-t: 58px;
-      --hero-h1-lh: 1.1;
-      --hero-h1-w: 800;
-      --hero-sub-fs-d: 18px;
-      --hero-sub-fs-m: 16px;
-      --hero-gap-title-sub: 12px;
-      --hero-gap-sub-ctas: 20px;
-      --cta-h: 40px;
-      --cta-radius: 12px;
-      --cta-fs: 15px;
-      --cta-px: 18px;
-      --cta-gap: 8px;
-      --chip-h: 32px;
-      --chip-radius: 12px;
-      --chip-fs: 13px;
-      --chip-px: 12px;
-      --chip-gap: 8px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    :root {
-      --hero-pt: 56px;
-      --hero-pb: 56px;
-      --hero-h1-d: 96px;
-      --hero-h1-lh: 1.05;
-      --hero-h1-w: 900;
-      --hero-sub-fs-d: 18px;
-      --cta-fs: 15.5px;
-    }
-  }
-    
-  /* Enhanced gradient utilities */
-  :root {
-    --gradient-radial: radial-gradient(circle at center, var(--tw-gradient-stops));
+    /* Feature Chips Design Tokens */
+    --fb-bg: #FFFFFF;
+    --fb-text: #374151;
+    --fb-muted: #E6EBF1;
+    --fb-primary: #0A66FF;
+    --fb-primary-600: #084ACF;
+    --fb-shadow: rgba(15, 23, 42, 0.06);
+    --fb-border: rgba(230, 235, 241, 1);
   }
 
   .dark {
-    /* FeatherBiz Dark Mode */
-    --fb-bg: 217 33% 17%;
-    --fb-surface: 222 47% 11%;
-    --fb-border: 217 33% 24%;
-    --fb-text: 210 40% 98%;
-    --fb-muted: 215 20% 65%;
-    --fb-primary: 216 100% 60%;
-    --fb-primary-10: 217 33% 20%;
-    --fb-success: 199 89% 48%;
-    --fb-warning: 32 95% 44%;
-    --fb-danger: 0 84% 60%;
-
-    /* Base tokens (compatible with existing) */
-    --background: var(--fb-bg);
-    --foreground: var(--fb-text);
-
-    --card: var(--fb-surface);
-    --card-foreground: var(--fb-text);
-
-    --popover: var(--fb-surface);
-    --popover-foreground: var(--fb-text);
-
-    --primary: var(--fb-primary);
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: var(--fb-primary-10);
-    --secondary-foreground: var(--fb-primary);
-
-    --muted: var(--fb-primary-10);
-    --muted-foreground: var(--fb-muted);
-
-    --accent: var(--fb-primary-10);
-    --accent-foreground: var(--fb-primary);
-
-    --destructive: var(--fb-danger);
-    --destructive-foreground: 0 0% 100%;
-
-    --border: var(--fb-border);
-    --input: var(--fb-border);
-    --ring: var(--fb-primary);
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 216 100% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 224.3 76.3% 94.1%;
+    --sidebar-primary-foreground: 240 5.9% 10%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 216 100% 53%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Brand palette (dark) */
-    --brand-blue: var(--primary);
-    --brand-green: 142 71% 45%;
-    --brand-purple: 262 83% 67%;
+    /* Feature Chips Dark Mode Tokens */
+    --fb-bg: #0B1220;
+    --fb-text: #E5E7EB;
+    --fb-muted: #22314A;
+    --fb-primary: #0A66FF;
+    --fb-primary-600: #084ACF;
+    --fb-shadow: rgba(0, 0, 0, 0.25);
+    --fb-border: rgba(34, 49, 74, 1);
   }
 }
 
@@ -261,438 +103,89 @@
   * {
     @apply border-border;
   }
-
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
   body {
-    @apply bg-white text-foreground font-sans;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    /* Mobile touch optimizations */
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  html {
-    @apply bg-white;
-    transition: background-color 0.3s ease;
-    /* Prevent horizontal scroll on mobile */
-    overflow-x: hidden;
-  }
-
-  #root {
-    min-height: 100vh;
-    width: 100%;
-    background: white;
-  }
-
-  /* Improve touch targets on mobile */
-  @media (max-width: 768px) {
-    button, a, [role="button"] {
-      min-height: 44px;
-      min-width: 44px;
-    }
+    @apply bg-background text-foreground;
   }
 }
 
-@layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out forwards;
-    opacity: 0;
+/* Feature Chips Styles */
+.feature-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 9999px;
+  border: 1px solid var(--fb-border);
+  background: rgba(10, 102, 255, 0.03);
+  color: var(--fb-text);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all 180ms ease;
+  will-change: transform;
+}
+
+.feature-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px var(--fb-shadow);
+  background: rgba(10, 102, 255, 0.06);
+  border-color: rgba(10, 102, 255, 0.25);
+}
+
+.feature-chip:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px var(--fb-shadow);
+  background: rgba(10, 102, 255, 0.08);
+}
+
+.feature-chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--fb-primary) 60%, white), 0 0 0 6px color-mix(in srgb, var(--fb-primary) 18%, transparent);
+}
+
+.feature-chip-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--fb-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fb-bg);
+  transition: all 180ms ease;
+}
+
+.feature-chip-icon svg {
+  width: 16px;
+  height: 16px;
+  color: var(--fb-primary-600);
+  opacity: 0.8;
+  transition: opacity 180ms ease;
+}
+
+.feature-chip:hover .feature-chip-icon {
+  box-shadow: inset 0 0 0 1px rgba(10, 102, 255, 0.35);
+}
+
+.feature-chip:hover .feature-chip-icon svg {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-chip {
+    transition: background-color 180ms ease, border-color 180ms ease;
+    will-change: auto;
   }
   
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out forwards;
-    opacity: 0;
-  }
-  
-  .animate-scale-in {
-    animation: scaleIn 0.4s ease-out forwards;
-    opacity: 0;
-  }
-  
-  .animate-scroll-right {
-    animation: scrollRight 20s linear infinite;
-  }
-
-  /* FeatherBiz Typography */
-  .fb-title {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  .fb-subtitle {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  .fb-metric {
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 1.2;
-  }
-
-  .fb-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: hsl(var(--fb-muted));
-  }
-
-  /* Enhanced sidebar styling */
-  [data-sidebar="sidebar"] {
-    width: 240px;
-    background: hsl(var(--fb-surface));
-    border-right: 1px solid hsl(var(--fb-border));
-  }
-
-  [data-sidebar="menu-button"] {
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-  }
-
-  [data-sidebar="menu-button"]:hover {
-    background: hsl(var(--fb-primary-10));
-    color: hsl(var(--fb-primary));
-  }
-
-  [data-sidebar="menu-button"][data-active="true"] {
-    background: hsl(var(--fb-primary-10));
-    color: hsl(var(--fb-primary));
-    font-weight: 600;
-    border-left: 3px solid hsl(var(--fb-primary));
-    margin-left: -3px;
-  }
-
-  [data-sidebar="group-label"] {
-    font-size: 12px;
-    font-weight: 600;
-    color: hsl(var(--fb-muted));
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Mobile responsive utilities */
-  .mobile-scroll {
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-  }
-
-  .mobile-scroll::-webkit-scrollbar {
-    width: 3px;
-  }
-
-  .mobile-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .mobile-scroll::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 10px;
-  }
-
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Touch-friendly focus states */
-  @media (max-width: 768px) {
-    .focus\:ring-offset-2:focus {
-      outline: 2px solid hsl(var(--ring));
-      outline-offset: 2px;
-    }
-    
-    /* Better responsive padding and margins */
-    .responsive-section {
-      padding-top: 2rem;
-      padding-bottom: 2rem;
-    }
-
-    @media (min-width: 640px) {
-      .responsive-section {
-        padding-top: 3rem;
-        padding-bottom: 3rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .responsive-section {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-      }
-    }
-  }
-
-  /* Prevent zoom on input focus on iOS */
-  @media screen and (max-width: 768px) {
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="number"],
-    input[type="tel"],
-    input[type="url"],
-    input[type="search"],
-    textarea,
-    select {
-      font-size: 16px;
-    }
-  }
-
-  /* Hero CTA Styling - Fixed small size and visibility */
-  .hero-ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Force small buttons (40px) and prevent full width */
-  .hero-ctas .btn {
-    height: 40px !important;
-    padding: 0 18px !important;
-    font-size: 15px !important;
-    border-radius: 9999px;
-    width: auto !important;
-    min-width: unset !important;
-    display: inline-flex !important;
-  }
-
-  /* Remove any full width classes */
-  .hero-ctas .btn.w-full {
-    width: auto !important;
-  }
-
-  /* Ensure primary and outline variants work */
-  .hero-ctas .btn-primary {
-    background: var(--fb-primary);
-    color: #fff;
-    border: 1.5px solid transparent;
-    box-shadow: 0 10px 24px color-mix(in srgb, var(--fb-primary) 22%, transparent), 0 2px 4px rgba(16,24,40,.08);
-  }
-
-  .hero-ctas .btn-outline {
-    background: #fff;
-    color: var(--fb-primary);
-    border: 1.5px solid var(--fb-primary);
+  .feature-chip:hover {
+    transform: none;
     box-shadow: none;
   }
-
-  /* Accessibility */
-  .hero-ctas .btn:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--fb-primary);
-  }
-
-  /* Ensure Start for free is never hidden on mobile */
-  @media (max-width: 768px) {
-    .hero-ctas .btn.hidden,
-    .hero-ctas [class*="hidden"] {
-      display: inline-flex !important;
-    }
-  }
-
-  /* Remove any fade overlays globally */
-  .mask-fade,
-  .logo-marquee__fade,
-  [data-marquee="logos"]::before,
-  [data-marquee="logos"]::after,
-  .relative.isolate > .absolute.inset-y-0.left-0,
-  .relative.isolate > .absolute.inset-y-0.right-0 {
-    display: none !important;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes scrollRight {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-/* Floating Animation for Entrepreneurs */
-@keyframes float {
-  0%, 100% {
-    transform: translate(-50%, -50%) translateY(0px) rotate(0deg);
-  }
-  25% {
-    transform: translate(-50%, -50%) translateY(-10px) rotate(1deg);
-  }
-  50% {
-    transform: translate(-50%, -50%) translateY(-5px) rotate(-0.5deg);
-  }
-  75% {
-    transform: translate(-50%, -50%) translateY(-15px) rotate(0.5deg);
-  }
-}
-
-/* Subtle Pulse Animation */
-@keyframes pulse-subtle {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
-  }
-}
-
-/* Animation classes */
-.animate-float {
-  animation: float infinite ease-in-out;
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 2s infinite;
-}
-
-/* Gold button styles - static version without animations */
-@layer components {
-  .gold-chip {
-    position: relative;
-    color: hsl(var(--primary));
-    border: 1px solid hsl(var(--primary));
-    background-color: transparent;
-  }
   
-  /* Roomy Layout Utilities */
-  .roomy-container {
-    max-width: var(--content-max);
-    width: 100%;
-    margin-inline: auto;
-    padding-inline: var(--content-px);
-  }
-
-  .roomy-section-gap {
-    margin-top: var(--section-gap-y);
-  }
-
-  .roomy-grid-gap {
-    gap: 16px;
-  }
-
-  @media (min-width: 1024px) {
-    .roomy-grid-gap {
-      gap: 20px;
-    }
-  }
-  
-  /* Global scrollbar styling */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
-  }
-
-  /* Ensure proper responsive behavior */
-  .responsive-container {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-  }
-
-  /* Table responsive wrapper */
-  .table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Attio-like responsive typography */
-  @media (max-width: 1279px) and (min-width: 1024px) {
-    :root {
-      --shell-gap: var(--shell-gap-md);
-      --content-px: var(--content-px-sm);
-      --nav-pl: var(--nav-pl-md);
-      --logo-gap: var(--logo-gap-md);
-      --links-gap: var(--links-gap-md);
-    }
-  }
-
-  @media (max-width: 1024px) {
-    :root {
-      --hero-h1-d: 48px;
-      --nav-h: 60px;
-      --shell-gap: var(--shell-gap-sm);
-      --content-px: var(--content-px-sm);
-      --nav-pl: var(--nav-pl-sm);
-      --logo-gap: var(--logo-gap-sm);
-      --links-gap: var(--links-gap-sm);
-    }
-  }
-
-  @media (max-width: 640px) {
-    :root {
-      --hero-h1-d: 36px;
-      --hero-sub-fs-d: 16px;
-      --cta-h: 40px;
-      --cta-fs: 15px;
-      --cta-px: 16px;
-      --nav-h: 56px;
-    }
+  .feature-chip:active {
+    transform: none;
   }
 }
