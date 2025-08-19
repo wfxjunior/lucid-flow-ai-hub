@@ -142,17 +142,17 @@ export const FeatherBizShowcase = () => {
     >
       <div className="max-w-[var(--container)] mx-auto px-[var(--px)]">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <motion.h2 
             variants={childVariant}
-            className="text-[36px] leading-[1.15] md:text-[48px] font-extrabold mb-4"
+            className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight font-extrabold mb-3 sm:mb-4 px-4"
             style={{ color: 'var(--fb-text)' }}
           >
             Built for business growth
           </motion.h2>
           <motion.p 
             variants={childVariant}
-            className="text-[18px] max-w-2xl mx-auto"
+            className="text-base sm:text-lg max-w-2xl mx-auto px-4"
             style={{ color: 'var(--fb-muted)' }}
           >
             See how FeatherBiz transforms the way you manage pipelines, automate workflows, and track business metrics.
@@ -160,10 +160,10 @@ export const FeatherBizShowcase = () => {
         </div>
 
         {/* Tabs */}
-        <motion.div variants={childVariant} className="flex justify-center mb-8">
+        <motion.div variants={childVariant} className="flex justify-center mb-6 sm:mb-8 px-4">
           <div 
             role="tablist"
-            className="inline-flex p-1 rounded-xl border"
+            className="inline-flex p-1 rounded-xl border w-full max-w-md sm:w-auto overflow-x-auto scrollbar-hide"
             style={{ 
               backgroundColor: 'var(--fb-surface)',
               borderColor: 'var(--fb-border)'
@@ -178,7 +178,7 @@ export const FeatherBizShowcase = () => {
                 aria-controls={`panel-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
                 onKeyDown={(e) => handleKeyDown(e, tab.id)}
-                className={`px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200 min-h-[44px] ${
+                className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 min-h-[40px] sm:min-h-[44px] whitespace-nowrap ${
                   activeTab === tab.id 
                     ? 'bg-white shadow-sm' 
                     : 'hover:bg-gray-50'
@@ -305,10 +305,10 @@ const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
       backgroundSize: '16px 16px'
     }}
   >
-    <div className="grid md:grid-cols-2 gap-6">
+    <div className="space-y-3 sm:space-y-4">
       {/* Workflow Editor */}
-      <div className="space-y-4">
-        <h3 className="font-semibold mb-4" style={{ color: 'var(--fb-text)' }}>
+      <div className="space-y-3 sm:space-y-4">
+        <h3 className="font-semibold mb-3 sm:mb-4" style={{ color: 'var(--fb-text)' }}>
           Workflow Editor
         </h3>
         {[
@@ -319,7 +319,7 @@ const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
           <motion.div
             key={index}
             variants={childVariant}
-            className="p-4 rounded-xl border bg-white"
+            className="p-3 sm:p-4 rounded-xl border bg-white"
             style={{ borderColor: 'var(--fb-border)' }}
           >
             <div className="flex items-center justify-between">
@@ -341,15 +341,15 @@ const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
       </div>
 
       {/* Metrics Panel */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {metrics.map((metric, index) => (
           <motion.div
             key={index}
             variants={childVariant}
-            className="p-4 rounded-xl border bg-white text-center"
+            className="p-3 sm:p-4 rounded-xl border bg-white text-center"
             style={{ borderColor: 'var(--fb-border)' }}
           >
-            <div className="text-2xl font-bold mb-1" style={{ color: 'var(--fb-text)' }}>
+            <div className="text-lg sm:text-2xl font-bold mb-1" style={{ color: 'var(--fb-text)' }}>
               <AnimatedNumber 
                 value={metric.value} 
                 duration={900}

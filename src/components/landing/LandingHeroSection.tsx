@@ -56,8 +56,9 @@ export const LandingHeroSection = () => {
           `
         }}
       />
+      
       {/* Announcement Banner - attio-like pill */}
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-4 sm:mb-6">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -87,19 +88,12 @@ export const LandingHeroSection = () => {
           <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" style={{ color: 'var(--fb-muted)' }} />
         </motion.div>
       </div>
+      
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-4xl mx-auto">
           {/* Main Headline */}
           <h1 
-            className="font-bold text-foreground px-4"
-            style={{
-              fontSize: 'var(--hero-h1-d)',
-              lineHeight: 'var(--hero-h1-lh)',
-              fontWeight: 'var(--hero-h1-w)',
-              letterSpacing: '0',
-              marginTop: '0',
-              marginBottom: 'var(--hero-gap-title-sub)'
-            }}
+            className="font-bold text-foreground px-2 sm:px-4 text-[var(--hero-h1-d)] leading-[var(--hero-h1-lh)] font-[var(--hero-h1-w)] mb-[var(--hero-gap-title-sub)]"
           >
             Business management{" "}
             <span className="text-primary">magic.</span>
@@ -107,19 +101,16 @@ export const LandingHeroSection = () => {
 
           {/* Subtitle */}
           <p 
-            className="text-muted-foreground max-w-2xl mx-auto px-4"
+            className="text-muted-foreground max-w-2xl mx-auto px-2 sm:px-4 text-[var(--hero-sub-fs-d)] leading-[var(--hero-sub-lh)] mb-[var(--hero-gap-sub-ctas)]"
             style={{
-              fontSize: 'var(--hero-sub-fs-d)',
-              lineHeight: 'var(--hero-sub-lh)',
-              color: 'hsl(var(--hero-sub-color))',
-              marginBottom: 'var(--hero-gap-sub-ctas)'
+              color: 'hsl(var(--hero-sub-color))'
             }}
           >
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center items-center w-full sm:w-auto" style={{ gap: '12px', marginBottom: '20px' }}>
+          <div className="flex flex-col sm:flex-row justify-center items-center w-full sm:w-auto gap-3 mb-5">
             <Button
               data-analytics-id="hero_cta_start_click"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
@@ -141,27 +132,18 @@ export const LandingHeroSection = () => {
             <div
               ref={pillsRef}
               data-analytics-id="hero_pills_view"
-              className="flex flex-wrap justify-center items-center px-4"
+              className="flex flex-wrap justify-center items-center px-2 sm:px-4 gap-[var(--chip-gap)]"
               aria-label="FeatherBiz capabilities"
-              style={{ gap: 'var(--chip-gap)' }}
             >
               {pillLabels.map((feature) => (
                 <span 
                   key={feature} 
-                  className="inline-flex items-center text-muted-foreground border border-border bg-white hover:bg-primary/10" 
+                  className="inline-flex items-center text-muted-foreground border border-border bg-white hover:bg-primary/10 h-[var(--chip-h)] px-[var(--chip-px)] text-[var(--chip-fs)] rounded-[var(--chip-radius)] gap-[var(--chip-gap)]" 
                   aria-label={`Capability: ${feature}`}
-                  style={{
-                    height: 'var(--chip-h)',
-                    paddingLeft: 'var(--chip-px)',
-                    paddingRight: 'var(--chip-px)',
-                    borderRadius: 'var(--chip-radius)',
-                    fontSize: 'var(--chip-fs)',
-                    gap: 'var(--chip-gap)'
-                  }}
                 >
                   <svg
                     aria-hidden="true"
-                    className="w-4 h-4 shrink-0"
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"

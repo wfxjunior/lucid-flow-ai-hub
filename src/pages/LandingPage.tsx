@@ -40,7 +40,7 @@ export default function LandingPage() {
   }, [location]);
   
   return (
-    <div className="min-h-screen w-full flex flex-col bg-white">
+    <div className="min-h-screen w-full flex flex-col bg-white overflow-x-hidden">
       <SEO
         title="FeatherBiz — AI business management platform"
         description="AI-native platform to build, scale and grow your business: data, automations, pipeline, productivity, reporting."
@@ -48,20 +48,22 @@ export default function LandingPage() {
         ogImage="/og/landing-og.jpg"
       />
       <LandingHeader />
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col w-full">
         <LandingHeroSection />
         
-        <FeatherBizShowcase />
-        <LogoMarquee className="mt-10" />
-        <LandingTestimonialsSection />
-        <TrialGrowthSection />
-        <LandingNumbersSection />
-        
-        <LandingEntrepreneursSection />
-        <LandingDashboardPreview />
-        <LandingPricingSection />
-        
-        <LandingCTASection />
+        <div className="w-full">
+          <FeatherBizShowcase />
+          <LogoMarquee className="mt-6 sm:mt-10" />
+          <LandingTestimonialsSection />
+          <TrialGrowthSection />
+          <LandingNumbersSection />
+          
+          <LandingEntrepreneursSection />
+          <LandingDashboardPreview />
+          <LandingPricingSection />
+          
+          <LandingCTASection />
+        </div>
       </main>
       
       <LandingFooter />
