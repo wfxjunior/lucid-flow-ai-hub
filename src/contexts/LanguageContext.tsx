@@ -210,6 +210,20 @@ const translations = {
         title: "And More...",
         description: "Dozens of additional features designed to streamline your business workflow.",
       }
+    },
+    blog: {
+      title: "FeatherBiz Blog",
+      subtitle: "Business strategies & tips for small businesses",
+      searchPlaceholder: "Search articles",
+      newest: "Newest",
+      mostLiked: "Most liked",
+      all: "All",
+      loadMore: "Load more",
+      noPostsFound: "No posts found",
+      noPostsYet: "No posts published yet",
+      noPostsFoundMessage: "Try adjusting your search filters.",
+      createFirstPost: "Create first post",
+      manageblog: "Manage Blog"
     }
   },
   de: {

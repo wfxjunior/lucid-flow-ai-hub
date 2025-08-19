@@ -11,6 +11,7 @@ import { Heart, Calendar, Clock, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface BlogPost {
   id: string;
@@ -31,6 +32,7 @@ const TAGS = [
 export default function BlogIndex() {
   const navigate = useNavigate();
   const { isAdmin } = useUserRole();
+  const { t } = useLanguage();
   const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
@@ -90,13 +92,13 @@ export default function BlogIndex() {
         {/* Header with Admin Button */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Blog FeatherBiz</h1>
-            <p className="text-muted-foreground">Estratégias e dicas de negócios para pequenas empresas</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">{t('blog.title')}</h1>
+            <p className="text-muted-foreground">{t('blog.subtitle')}</p>
           </div>
           {isAdmin && (
             <Button onClick={() => navigate('/admin/blog')} className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
-              Gerenciar Blog
+              {t('blog.manageblog')}
             </Button>
           )}
         </div>
@@ -107,7 +109,7 @@ export default function BlogIndex() {
             <Input
               value={query}
               onChange={(e)=>{ setQuery(e.target.value); try { window.dispatchEvent(new CustomEvent('blog_search', { detail: { q: e.target.value }})); } catch {} }}
-              placeholder="Buscar artigos"
+              placeholder={t('blog.searchPlaceholder')}
               aria-label="Search blog"
             />
           </div>
@@ -118,15 +120,15 @@ export default function BlogIndex() {
               value={sort}
               onChange={(e)=> setSort(e.target.value as any)}
             >
-              <option value="new">Mais recentes</option>
-              <option value="liked">Mais curtidos</option>
+              <option value="new">{t('blog.newest')}</option>
+              <option value="liked">{t('blog.mostLiked')}</option>
             </select>
           </div>
         </div>
 
         {/* Tag filters */}
         <div className="mt-4 flex flex-wrap gap-2" data-analytics-id="blog_filters">
-          <Badge variant={tagFilter===null? 'default':'secondary'} className="cursor-pointer" onClick={()=> setTagFilter(null)} aria-label="Filter: All">Todos</Badge>
+          <Badge variant={tagFilter===null? 'default':'secondary'} className="cursor-pointer" onClick={()=> setTagFilter(null)} aria-label="Filter: All">{t('blog.all')}</Badge>
           {TAGS.map(t => (
             <Badge key={t} variant={tagFilter===t? 'default':'outline'} className="cursor-pointer" onClick={()=> { setTagFilter(t); try { window.dispatchEvent(new CustomEvent('blog_filter_used',{ detail: { tag: t }})); } catch {} }} aria-label={`Filter: ${t}`}>{t}</Badge>
           ))}
@@ -144,14 +146,14 @@ export default function BlogIndex() {
         {!loading && visiblePosts.length === 0 && (
           <div className="mt-12 text-center py-12">
             <h3 className="text-lg font-medium text-muted-foreground mb-2">
-              {allPosts.length === 0 ? 'Nenhum post encontrado' : 'Nenhum post corresponde aos filtros'}
+              {allPosts.length === 0 ? t('blog.noPostsYet') : t('blog.noPostsFound')}
             </h3>
             <p className="text-muted-foreground">
-              {allPosts.length === 0 ? 'Ainda não há posts publicados no blog.' : 'Tente ajustar os filtros de busca.'}
+              {allPosts.length === 0 ? t('blog.noPostsYet') : t('blog.noPostsFoundMessage')}
             </p>
             {isAdmin && allPosts.length === 0 && (
               <Button onClick={() => navigate('/admin/blog')} className="mt-4">
-                Criar primeiro post
+                {t('blog.createFirstPost')}
               </Button>
             )}
           </div>
@@ -175,7 +177,7 @@ export default function BlogIndex() {
                     </div>
                     <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
                       <div className="flex items-center gap-3">
-                        <span className="inline-flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> {post.published_at ? new Date(post.published_at).toLocaleDateString('pt-BR') : ''}</span>
+                        <span className="inline-flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> {post.published_at ? new Date(post.published_at).toLocaleDateString('en-US') : ''}</span>
                         <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {post.read_time_minutes || 5} min</span>
                       </div>
                       <span className="inline-flex items-center gap-1 text-primary"><Heart className="h-3.5 w-3.5" /> {post.likes_count || 0}</span>
@@ -187,7 +189,7 @@ export default function BlogIndex() {
 
             {filtered.length > visible && (
               <div className="mt-8 flex justify-center">
-                <Button onClick={()=> setVisible(v=> v+9)} variant="secondary">Carregar mais</Button>
+                <Button onClick={()=> setVisible(v=> v+9)} variant="secondary">{t('blog.loadMore')}</Button>
               </div>
             )}
           </>
