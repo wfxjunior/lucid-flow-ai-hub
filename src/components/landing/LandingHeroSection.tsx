@@ -110,11 +110,12 @@ export const LandingHeroSection = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center items-center w-full sm:w-auto gap-3 mb-5">
+          <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center w-full max-w-sm sm:max-w-none mx-auto gap-3 mb-5">
             <Button
               data-analytics-id="hero_cta_start_click"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="w-full sm:w-auto"
+              size="md"
+              className="w-full sm:w-auto min-w-[140px] justify-center"
             >
               Start for free
             </Button>
@@ -122,7 +123,8 @@ export const LandingHeroSection = () => {
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
-              className="w-full sm:w-auto"
+              size="md"
+              className="w-full sm:w-auto min-w-[140px] justify-center"
             >
               Talk to sales
             </Button>
