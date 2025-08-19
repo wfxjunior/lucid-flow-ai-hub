@@ -41,15 +41,17 @@ function InfiniteRow({ items, duration = 50, reverse = false }: { items: Logo[];
               loading="lazy"
               decoding="async"
               className={[
-                "h-8 md:h-12 lg:h-16 w-auto object-contain",
-                "filter grayscale opacity-40 hover:opacity-70 hover:grayscale-0",
+                "h-12 md:h-16 lg:h-20 w-auto object-contain",
+                "filter grayscale opacity-50 hover:opacity-90 hover:grayscale-0",
                 "transition-all duration-500 ease-out",
-                "group-hover:scale-110",
+                "group-hover:scale-105",
+                "bg-white rounded-lg p-3 shadow-sm",
                 logo.className ?? "",
               ].join(" ")}
               style={{ 
                 imageRendering: "crisp-edges",
-                maxWidth: "160px"
+                maxWidth: "200px",
+                minHeight: "48px"
               }}
             />
           </div>
