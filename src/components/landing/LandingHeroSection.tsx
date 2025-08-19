@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -109,7 +110,7 @@ export const LandingHeroSection = () => {
           </p>
 
           {/* CTA Buttons - Fixed Responsive Layout */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8 w-full px-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12 w-full px-4">
             <button
               onClick={() => navigate('/signup?trial=7d&source=hero')}
               className="w-full sm:w-auto inline-flex items-center justify-center h-11 px-8 rounded-full text-white font-semibold text-sm transition-all duration-200 hover:transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -133,31 +134,48 @@ export const LandingHeroSection = () => {
             </button>
           </div>
 
-          <div className="relative">
-            <div
-              ref={pillsRef}
-              data-analytics-id="hero_pills_view"
-              className="flex flex-wrap justify-center items-center px-2 sm:px-4 gap-[var(--chip-gap)]"
-              aria-label="FeatherBiz capabilities"
-            >
-              {pillLabels.map((feature) => (
-                <span 
-                  key={feature} 
-                  className="inline-flex items-center text-muted-foreground border border-border bg-white hover:bg-primary/10 h-[var(--chip-h)] px-[var(--chip-px)] text-[var(--chip-fs)] rounded-[var(--chip-radius)] gap-[var(--chip-gap)]" 
-                  aria-label={`Capability: ${feature}`}
-                >
-                  <svg
-                    aria-hidden="true"
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
+          {/* Feature Pills Section - Improved Layout */}
+          <div className="relative max-w-5xl mx-auto">
+            {/* Subtle background for pills container */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-muted/20 to-transparent rounded-2xl opacity-50"></div>
+            
+            <div className="relative px-4 py-8">
+              <div className="text-center mb-6">
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  Powerful features included
+                </p>
+                <div className="w-12 h-px bg-gradient-to-r from-transparent via-border to-transparent mx-auto mt-2"></div>
+              </div>
+
+              <div
+                ref={pillsRef}
+                data-analytics-id="hero_pills_view"
+                className="flex flex-wrap justify-center items-center gap-3 sm:gap-4"
+                aria-label="FeatherBiz capabilities"
+              >
+                {pillLabels.map((feature, index) => (
+                  <motion.span
+                    key={feature}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="inline-flex items-center text-muted-foreground border border-border/60 bg-background/80 backdrop-blur-sm hover:bg-primary/5 hover:border-primary/20 hover:text-primary transition-all duration-300 h-10 px-4 text-sm font-medium rounded-full gap-2.5 group cursor-pointer" 
+                    aria-label={`Capability: ${feature}`}
                   >
-                    <use href={`${navglyphsUrl}#glyph-${pillIconMap[feature]}`} />
-                  </svg>
-                  <span className="font-medium">{feature}</span>
-                </span>
-              ))}
+                    <svg
+                      aria-hidden="true"
+                      className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                    >
+                      <use href={`${navglyphsUrl}#glyph-${pillIconMap[feature]}`} />
+                    </svg>
+                    <span className="font-medium">{feature}</span>
+                  </motion.span>
+                ))}
+              </div>
             </div>
           </div>
 
