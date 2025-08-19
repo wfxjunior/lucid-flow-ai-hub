@@ -159,14 +159,14 @@ export const FeatherBizShowcase = () => {
           </motion.p>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs - Enhanced with better contrast */}
         <motion.div variants={childVariant} className="flex justify-center mb-6 sm:mb-8 px-4">
           <div 
             role="tablist"
             className="inline-flex p-1 rounded-xl border w-full max-w-md sm:w-auto overflow-x-auto scrollbar-hide"
             style={{ 
               backgroundColor: 'var(--fb-surface)',
-              borderColor: 'var(--fb-border)'
+              borderColor: 'var(--fb-border-enhanced)'
             }}
           >
             {tabs.map((tab) => (
@@ -184,7 +184,7 @@ export const FeatherBizShowcase = () => {
                     : 'hover:bg-gray-50'
                 }`}
                 style={{
-                  color: activeTab === tab.id ? 'var(--fb-text)' : 'var(--fb-muted)',
+                  color: activeTab === tab.id ? 'var(--fb-tab-active)' : 'var(--fb-tab-inactive)',
                   boxShadow: activeTab === tab.id ? 'var(--shadow-sm)' : 'none'
                 }}
               >
@@ -217,7 +217,7 @@ export const FeatherBizShowcase = () => {
   );
 };
 
-// Pipeline Component
+// Pipeline Component - Enhanced with better visual clarity
 const PipelinePreview = ({ data }: { data: any[] }) => (
   <motion.div
     variants={staggerChildren}
@@ -225,8 +225,8 @@ const PipelinePreview = ({ data }: { data: any[] }) => (
     animate="visible"
     className="bg-white rounded-[20px] border p-5 overflow-hidden"
     style={{ 
-      borderColor: 'var(--fb-border)',
-      boxShadow: 'var(--shadow-sm)'
+      borderColor: 'var(--fb-border-enhanced)',
+      boxShadow: 'var(--fb-card-shadow)'
     }}
   >
     <div className="flex gap-4 overflow-x-auto pb-4">
@@ -241,7 +241,7 @@ const PipelinePreview = ({ data }: { data: any[] }) => (
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: column.color }}
             />
-            <h3 className="font-semibold text-sm" style={{ color: 'var(--fb-text)' }}>
+            <h3 className="font-semibold text-sm" style={{ color: 'var(--fb-text-strong)' }}>
               {column.column}
             </h3>
             <span 
@@ -260,26 +260,33 @@ const PipelinePreview = ({ data }: { data: any[] }) => (
                 key={cardIndex}
                 variants={childVariant}
                 className="p-3 rounded-xl border bg-white hover:shadow-sm transition-all duration-200"
-                style={{ borderColor: 'var(--fb-border)' }}
+                style={{ 
+                  borderColor: 'var(--fb-border-enhanced)',
+                  boxShadow: 'var(--fb-card-shadow)'
+                }}
               >
-                <h4 className="font-medium text-sm mb-2" style={{ color: 'var(--fb-text)' }}>
+                <h4 className="font-medium text-sm mb-2" style={{ color: 'var(--fb-text-strong)' }}>
                   {card.title}
                 </h4>
                 <div className="flex items-center justify-between">
                   <span
                     className="text-xs px-2 py-1 rounded-full border"
                     style={{
-                      borderColor: 'var(--fb-border)',
-                      color: 'var(--fb-muted)'
+                      borderColor: 'var(--fb-border-enhanced)',
+                      color: 'var(--fb-text)',
+                      opacity: 0.8
                     }}
                   >
                     {card.type}
                   </span>
                   <div
                     className={`w-2 h-2 rounded-full ${
-                      card.priority === 'high' ? 'bg-red-400' :
-                      card.priority === 'medium' ? 'bg-yellow-400' : 'bg-green-400'
+                      card.priority === 'high' ? 'bg-red-500' :
+                      card.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
                     }`}
+                    style={{
+                      filter: 'saturate(1.15)'
+                    }}
                   />
                 </div>
               </motion.div>

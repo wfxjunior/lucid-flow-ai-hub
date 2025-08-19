@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "./styles/buttons.css";
 @tailwind base;
@@ -70,6 +69,13 @@
     --fb-primary-600: #084ACF;
     --fb-shadow: rgba(15, 23, 42, 0.06);
     --fb-border: rgba(230, 235, 241, 1);
+
+    /* Enhanced contrast tokens for Pipeline section */
+    --fb-text-strong: #111827;
+    --fb-border-enhanced: #D1D5DB;
+    --fb-card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+    --fb-tab-inactive: rgba(55, 65, 81, 0.85);
+    --fb-tab-active: #0A66FF;
   }
 
   .dark {
@@ -109,6 +115,13 @@
     --fb-primary-600: #084ACF;
     --fb-shadow: rgba(0, 0, 0, 0.25);
     --fb-border: rgba(34, 49, 74, 1);
+
+    /* Enhanced contrast tokens for Pipeline section - dark mode */
+    --fb-text-strong: #F9FAFB;
+    --fb-border-enhanced: #374151;
+    --fb-card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.1);
+    --fb-tab-inactive: rgba(229, 231, 235, 0.85);
+    --fb-tab-active: #3B82F6;
   }
 }
 
