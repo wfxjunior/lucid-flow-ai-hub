@@ -129,11 +129,9 @@ interface SafeHtmlProps {
 export function SafeHtml({ html, className = '', style }: SafeHtmlProps) {
   const sanitizedHtml = sanitizeHtml(html)
   
-  return (
-    <div
-      className={className}
-      style={style}
-      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-    />
-  )
+  return React.createElement('div', {
+    className,
+    style,
+    dangerouslySetInnerHTML: { __html: sanitizedHtml }
+  })
 }
