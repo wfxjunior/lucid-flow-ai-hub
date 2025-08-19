@@ -32,7 +32,7 @@ export const LandingCTASection = () => {
             <Button
               onClick={() => navigate('/auth')}
               size="lg"
-              className="btn btn-primary btn-lg px-12 py-4"
+              className="btn btn-primary btn-lg px-12 py-4 bg-primary text-white border-primary hover:bg-[#1D3557] hover:text-white hover:border-[#1D3557] transition-all duration-300 ease-in-out"
             >
               Start your free trial
             </Button>
