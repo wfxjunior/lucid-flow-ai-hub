@@ -1,10 +1,26 @@
 
-import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify'
+import React from 'react'
 
-/**
- * HTML Sanitization Utilities
- * Prevents XSS attacks by sanitizing user-generated content
- */
+let sanitizerHooksAdded = false
+
+function ensureDomPurifyHooks() {
+  if (sanitizerHooksAdded) return
+  DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+    const el = node as Element
+    if (el && el.tagName && el.tagName.toLowerCase() === 'a') {
+      const href = el.getAttribute('href') || ''
+      const allowed = /^(https?:|mailto:|tel:)/i.test(href)
+      if (!allowed) {
+        el.removeAttribute('href')
+      }
+      if (el.getAttribute('target')) {
+        el.setAttribute('rel', 'noopener noreferrer')
+      }
+    }
+  })
+  sanitizerHooksAdded = true
+}
 
 interface SanitizeOptions {
   allowedTags?: string[];
@@ -12,10 +28,20 @@ interface SanitizeOptions {
   stripTags?: boolean;
 }
 
-export const sanitizeHtml = (html: string, options: SanitizeOptions = {}): string => {
+/**
+ * Sanitizes HTML content to prevent XSS attacks
+ * @param html - The HTML string to sanitize
+ * @returns Sanitized HTML string
+ */
+export function sanitizeHtml(html: string, options: SanitizeOptions = {}): string {
+  ensureDomPurifyHooks()
+  
   const {
-    allowedTags = ['p', 'br', 'strong', 'em', 'u', 'ol', 'ul', 'li', 'h1', 'h2', 'h3'],
-    allowedAttributes = ['class'],
+    allowedTags = [
+      'p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'ul', 'ol', 'li', 'blockquote', 'a', 'span', 'div'
+    ],
+    allowedAttributes = ['href', 'target', 'rel', 'class'],
     stripTags = false
   } = options;
 
@@ -26,12 +52,35 @@ export const sanitizeHtml = (html: string, options: SanitizeOptions = {}): strin
   return DOMPurify.sanitize(html, {
     ALLOWED_TAGS: allowedTags,
     ALLOWED_ATTR: allowedAttributes,
+    ALLOWED_URI_REGEXP: /^(?:(?:https?):|mailto:|tel)/i,
     ALLOW_DATA_ATTR: false,
-    FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover'],
-    FORBID_TAGS: ['script', 'object', 'embed', 'form', 'input'],
-    USE_PROFILES: { html: true }
-  });
-};
+    FORBID_TAGS: ['script', 'object', 'embed', 'iframe', 'form', 'input'],
+    FORBID_ATTR: ['onclick', 'onerror', 'onload', 'onmouseover', 'style', 'onfocus', 'onblur'],
+    RETURN_DOM: false,
+    RETURN_DOM_FRAGMENT: false,
+    SANITIZE_DOM: true,
+    KEEP_CONTENT: false
+  })
+}
+
+/**
+ * Sanitizes text content for PDF generation
+ * @param text - The text string to sanitize
+ * @returns Sanitized text string
+ */
+export function sanitizeTextForPdf(text: string): string {
+  // Remove any HTML tags and decode entities
+  const withoutTags = text.replace(/<[^>]*>/g, '')
+  // Decode common HTML entities
+  return withoutTags
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&#x2F;/g, '/')
+    .trim()
+}
 
 export const sanitizeText = (text: string): string => {
   return text
@@ -67,3 +116,24 @@ export const sanitizePhoneNumber = (phone: string): string => {
   const sanitized = phone.replace(/[^\d\s\-\(\)\+]/g, '');
   return phoneRegex.test(sanitized) ? sanitized : '';
 };
+
+/**
+ * Safe component for rendering sanitized HTML
+ */
+interface SafeHtmlProps {
+  html: string
+  className?: string
+  style?: React.CSSProperties
+}
+
+export function SafeHtml({ html, className = '', style }: SafeHtmlProps) {
+  const sanitizedHtml = sanitizeHtml(html)
+  
+  return (
+    <div
+      className={className}
+      style={style}
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+    />
+  )
+}

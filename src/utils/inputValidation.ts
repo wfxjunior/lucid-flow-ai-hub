@@ -1,6 +1,5 @@
 
 import { sanitizeText, sanitizeEmail, sanitizeUrl, sanitizePhoneNumber } from './htmlSanitizer';
-import { securityEvent } from './security';
 
 interface ValidationResult {
   isValid: boolean;
@@ -15,6 +14,12 @@ interface ValidationOptions {
   pattern?: RegExp;
   customValidator?: (value: string) => boolean;
 }
+
+// Simple email validation function for compatibility
+export const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  return emailRegex.test(email.trim());
+};
 
 export const validateInput = (
   value: string,
@@ -84,8 +89,8 @@ export const validateInput = (
 
   // Log suspicious input attempts
   if (errors.length > 0 && (value.includes('<script') || value.includes('javascript:') || value.includes('on'))) {
-    securityEvent('Suspicious input detected', {
-      originalValue: value.slice(0, 100), // Log first 100 chars only
+    console.warn('Suspicious input detected:', {
+      originalValue: value.slice(0, 100),
       sanitizedValue: sanitizedValue.slice(0, 100),
       type,
       errors
@@ -137,7 +142,7 @@ export const checkClientRateLimit = (action: string, maxRequests = 10, windowMs 
   const current = actionCounts.get(key) || { count: 0, timestamp: now };
   
   if (current.count >= maxRequests) {
-    securityEvent('Client rate limit exceeded', { action, count: current.count });
+    console.warn('Client rate limit exceeded', { action, count: current.count });
     return false;
   }
   
