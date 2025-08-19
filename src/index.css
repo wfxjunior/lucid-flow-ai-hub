@@ -454,6 +454,71 @@
       font-size: 16px;
     }
   }
+
+  /* Hero CTA Styling - Fixed small size and visibility */
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Force small buttons (40px) and prevent full width */
+  .hero-ctas .btn {
+    height: 40px !important;
+    padding: 0 18px !important;
+    font-size: 15px !important;
+    border-radius: 9999px;
+    width: auto !important;
+    min-width: unset !important;
+    display: inline-flex !important;
+  }
+
+  /* Remove any full width classes */
+  .hero-ctas .btn.w-full {
+    width: auto !important;
+  }
+
+  /* Ensure primary and outline variants work */
+  .hero-ctas .btn-primary {
+    background: var(--fb-primary);
+    color: #fff;
+    border: 1.5px solid transparent;
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--fb-primary) 22%, transparent), 0 2px 4px rgba(16,24,40,.08);
+  }
+
+  .hero-ctas .btn-outline {
+    background: #fff;
+    color: var(--fb-primary);
+    border: 1.5px solid var(--fb-primary);
+    box-shadow: none;
+  }
+
+  /* Accessibility */
+  .hero-ctas .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--fb-primary);
+  }
+
+  /* Ensure Start for free is never hidden on mobile */
+  @media (max-width: 768px) {
+    .hero-ctas .btn.hidden,
+    .hero-ctas [class*="hidden"] {
+      display: inline-flex !important;
+    }
+  }
+
+  /* Remove any fade overlays globally */
+  .mask-fade,
+  .logo-marquee__fade,
+  [data-marquee="logos"]::before,
+  [data-marquee="logos"]::after,
+  .relative.isolate > .absolute.inset-y-0.left-0,
+  .relative.isolate > .absolute.inset-y-0.right-0 {
+    display: none !important;
+  }
 }
 
 @keyframes fadeIn {

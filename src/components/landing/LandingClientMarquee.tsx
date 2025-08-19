@@ -35,9 +35,7 @@ export const LandingClientMarquee: React.FC = () => {
         </h2>
 
           <div className="mt-8 relative rounded-2xl border bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/60 shadow-md p-4 sm:p-6">
-            {/* Edge fade masks */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background/90 to-transparent z-10" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background/90 to-transparent z-10" />
+            {/* Removed edge fade masks */}
 
             <div className="space-y-6">
               {/* Row 1 */}

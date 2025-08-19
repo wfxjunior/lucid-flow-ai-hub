@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { motion } from "framer-motion";
 
@@ -80,9 +81,7 @@ export default function LogoMarquee({ className = "" }: { className?: string }) 
           <InfiniteRow items={LOGOS} duration={55} reverse={true} />
         </div>
         
-        {/* Subtle gradient overlays for fade effect */}
-        <div className="absolute inset-y-0 left-0 w-24 md:w-32 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none"></div>
-        <div className="absolute inset-y-0 right-0 w-24 md:w-32 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none"></div>
+        {/* Removed the gradient overlays for fade effect */}
       </div>
 
       <style>{`

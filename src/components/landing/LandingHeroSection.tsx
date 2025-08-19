@@ -109,13 +109,12 @@ export const LandingHeroSection = () => {
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center w-full max-w-sm sm:max-w-none mx-auto gap-3 mb-5">
+          {/* CTA Buttons - Both visible, same small size */}
+          <div className="hero-ctas" data-lb="fix-ctas">
             <Button
               data-analytics-id="hero_cta_start_click"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              size="lg"
-              className="w-full sm:w-auto min-w-[140px] justify-center btn btn-primary btn-lg"
+              className="btn btn-primary btn-sm"
             >
               Start for free
             </Button>
@@ -123,8 +122,7 @@ export const LandingHeroSection = () => {
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
-              size="lg"
-              className="w-full sm:w-auto min-w-[140px] justify-center btn btn-outline btn-lg"
+              className="btn btn-outline btn-sm"
             >
               Talk to sales
             </Button>
@@ -156,13 +154,7 @@ export const LandingHeroSection = () => {
                 </span>
               ))}
             </div>
-            {pillsOverflow && (
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute top-0 right-0 h-full w-12"
-                style={{ background: 'linear-gradient(to right, transparent, hsl(var(--background)))' }}
-              />
-            )}
+            {/* Removed the overflow fade overlay */}
           </div>
 
         </div>
