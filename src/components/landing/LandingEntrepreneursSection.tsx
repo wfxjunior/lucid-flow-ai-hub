@@ -236,14 +236,14 @@ export const LandingEntrepreneursSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
             <Button
               onClick={() => navigate('/auth')}
-              className="bg-foreground text-background hover:bg-foreground/90 px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               Start for free
             </Button>
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={() => setShowSalesModal(true)}
-              className="text-muted-foreground hover:text-foreground px-8 py-3 font-medium border border-border/50 hover:border-border hover:bg-muted/30 transition-all duration-300"
+              className="text-primary border-primary hover:bg-primary hover:text-primary-foreground px-8 py-3 font-medium transition-all duration-300"
             >
               Talk to sales
             </Button>

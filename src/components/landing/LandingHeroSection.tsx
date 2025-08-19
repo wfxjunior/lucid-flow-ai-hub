@@ -140,7 +140,7 @@ export const LandingHeroSection = () => {
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
-              className="w-full sm:w-auto border-border hover:bg-primary/10 hover:text-primary"
+              className="w-full sm:w-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground"
               style={{
                 height: 'var(--cta-h)',
                 paddingLeft: 'var(--cta-px)',
@@ -148,8 +148,7 @@ export const LandingHeroSection = () => {
                 borderRadius: 'var(--cta-radius)',
                 fontSize: 'var(--cta-fs)',
                 fontWeight: 'var(--cta-fw)',
-                letterSpacing: '0',
-                backgroundColor: '#fff'
+                letterSpacing: '0'
               }}
             >
               <span>Talk to sales</span>
