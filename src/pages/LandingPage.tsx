@@ -12,7 +12,7 @@ import { LandingNumbersSection } from "@/components/landing/LandingNumbersSectio
 import { LandingEntrepreneursSection } from "@/components/landing/LandingEntrepreneursSection";
 import { LandingDashboardPreview } from "@/components/landing/LandingDashboardPreview";
 import { LandingPricingSection } from "@/components/landing/LandingPricingSection";
-import { LandingFreeTrialV2 } from "@/components/landing/LandingFreeTrialV2";
+import TrialGrowthSection from "@/components/TrialGrowthSection";
 
 import { LandingCTASection } from "@/components/landing/LandingCTASection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
@@ -54,7 +54,7 @@ export default function LandingPage() {
         <FeatherBizShowcase />
         <LogoMarquee className="mt-10" />
         <LandingTestimonialsSection />
-        <LandingFreeTrialV2 />
+        <TrialGrowthSection />
         <LandingNumbersSection />
         
         <LandingEntrepreneursSection />
