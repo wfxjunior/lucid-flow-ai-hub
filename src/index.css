@@ -43,11 +43,11 @@
     --fb-border: 215 16% 91%;
     --fb-text: 217 33% 17%;
     --fb-muted: 215 16% 47%;
-    --fb-primary: var(--featherbiz-primary);
-    --fb-green: var(--featherbiz-green);
-    --fb-blue: var(--featherbiz-blue);
-    --fb-orange: var(--featherbiz-orange);
-    --fb-violet: var(--featherbiz-violet);
+    --fb-primary: 216 100% 53%;
+    --fb-green: 142 71% 45%;
+    --fb-blue: 199 89% 48%;
+    --fb-orange: 32 95% 44%;
+    --fb-violet: 262 83% 67%;
     
     /* Soft fills */
     --fb-primary-10: color-mix(in srgb, hsl(var(--fb-primary)) 10%, #fff);

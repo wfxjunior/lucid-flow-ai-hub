@@ -21,26 +21,39 @@ const DATA = [
   { m: "Sep", payments: 128_400, growth: 14.9 },
 ];
 
-const getVar = (v: string, fb: string) =>
-  typeof window !== "undefined"
-    ? getComputedStyle(document.documentElement).getPropertyValue(v).trim() || fb
-    : fb;
+const getVar = (v: string) => {
+  if (typeof window === "undefined") return "";
+  const computed = getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  return computed;
+};
 
 export default function TrialGrowthSection() {
   const [theme, setTheme] = React.useState({
-    border: "#E9EEF5",
-    text: "#64748B",
-    primary: "#2563EB",
-    primary10: "rgba(37, 99, 235, .10)",
-    violet: "#7C3AED",
+    border: "hsl(215, 16%, 91%)",
+    text: "hsl(215, 16%, 47%)",
+    primary: "hsl(216, 100%, 53%)",
+    primaryLight: "hsl(216, 100%, 97%)",
+    violet: "hsl(262, 83%, 67%)",
+    green: "hsl(142, 71%, 45%)",
+    orange: "hsl(32, 95%, 44%)",
   });
+  
   React.useEffect(() => {
+    const fbPrimary = getVar("--fb-primary");
+    const fbBorder = getVar("--fb-border");
+    const fbMuted = getVar("--fb-muted");
+    const fbViolet = getVar("--fb-violet");
+    const fbGreen = getVar("--fb-green");
+    const fbOrange = getVar("--fb-orange");
+    
     setTheme({
-      border: getVar("--fb-border", "#E9EEF5"),
-      text: getVar("--fb-muted", "#64748B"),
-      primary: getVar("--fb-primary", "#2563EB"),
-      primary10: getVar("--fb-primary-10", "rgba(37,99,235,.10)"),
-      violet: getVar("--fb-violet", "#7C3AED"),
+      border: fbBorder ? `hsl(${fbBorder})` : "hsl(215, 16%, 91%)",
+      text: fbMuted ? `hsl(${fbMuted})` : "hsl(215, 16%, 47%)",
+      primary: fbPrimary ? `hsl(${fbPrimary})` : "hsl(216, 100%, 53%)",
+      primaryLight: fbPrimary ? `hsl(${fbPrimary} / 0.1)` : "hsl(216, 100%, 97%)",
+      violet: fbViolet ? `hsl(${fbViolet})` : "hsl(262, 83%, 67%)",
+      green: fbGreen ? `hsl(${fbGreen})` : "hsl(142, 71%, 45%)",
+      orange: fbOrange ? `hsl(${fbOrange})` : "hsl(32, 95%, 44%)",
     });
   }, []);
 
@@ -109,18 +122,28 @@ export default function TrialGrowthSection() {
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={DATA} margin={{ top: 10, right: 16, left: 8, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="barFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={theme.primary} stopOpacity={0.25} />
-                    <stop offset="100%" stopColor={theme.primary10} stopOpacity={1} />
+                  <linearGradient id="barFillPrimary" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={theme.primary} stopOpacity={0.8} />
+                    <stop offset="100%" stopColor={theme.primaryLight} stopOpacity={1} />
+                  </linearGradient>
+                  <linearGradient id="barFillGreen" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={theme.green} stopOpacity={0.8} />
+                    <stop offset="100%" stopColor={theme.green} stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid stroke="#EEF2F7" strokeDasharray="3 3" />
-                <XAxis dataKey="m" tick={{ fill: theme.text, fontSize: 12 }} axisLine={false} tickLine={false} />
+                <CartesianGrid stroke="hsl(215, 16%, 91%)" strokeDasharray="2 2" strokeOpacity={0.5} />
+                <XAxis 
+                  dataKey="m" 
+                  tick={{ fill: theme.text, fontSize: 12 }} 
+                  axisLine={false} 
+                  tickLine={false} 
+                />
                 <YAxis
                   yAxisId="left"
                   tick={{ fill: theme.text, fontSize: 12 }}
                   axisLine={false}
                   tickLine={false}
+                  tickFormatter={(value) => `$${(value / 1000)}k`}
                 />
                 <YAxis
                   yAxisId="right"
@@ -128,36 +151,49 @@ export default function TrialGrowthSection() {
                   tick={{ fill: theme.text, fontSize: 12 }}
                   axisLine={false}
                   tickLine={false}
-                  domain={[0, "dataMax + 4"]}
+                  domain={[0, "dataMax + 2"]}
                   unit="%"
                 />
                 <Tooltip
                   contentStyle={{
                     background: "#fff",
                     border: `1px solid ${theme.border}`,
-                    boxShadow: "0 1px 2px rgba(16,24,40,.04)",
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                    borderRadius: "8px",
+                  }}
+                  formatter={(value, name) => {
+                    if (name === "Payments (USD)") {
+                      return [`$${value.toLocaleString()}`, name];
+                    }
+                    return [`${value}%`, name];
                   }}
                 />
-                <Legend wrapperStyle={{ paddingTop: 8 }} />
+                <Legend 
+                  wrapperStyle={{ 
+                    paddingTop: 12,
+                    fontSize: "12px"
+                  }} 
+                />
                 <Bar
                   yAxisId="left"
                   dataKey="payments"
                   name="Payments (USD)"
-                  fill="url(#barFill)"
+                  fill="url(#barFillPrimary)"
                   stroke={theme.primary}
-                  strokeOpacity={0.4}
-                  radius={8}
+                  strokeWidth={1}
+                  strokeOpacity={0.6}
+                  radius={[4, 4, 0, 0]}
                   isAnimationActive
                 />
                 <Line
                   yAxisId="right"
                   type="monotone"
                   dataKey="growth"
-                  name="Growth (%)"
+                  name="Growth Rate (%)"
                   stroke={theme.violet}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 3 }}
+                  strokeWidth={3}
+                  dot={{ fill: theme.violet, strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, stroke: theme.violet, strokeWidth: 2 }}
                   isAnimationActive
                 />
               </ComposedChart>
