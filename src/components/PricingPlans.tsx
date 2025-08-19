@@ -65,7 +65,7 @@ const plans = {
       id: "pro",
       name: "Pro",
       description: "For growing businesses",
-      price: "$25",
+      price: "$26",
       period: "per month",
       icon: Crown,
       features: [
@@ -84,7 +84,7 @@ const plans = {
       popular: true,
       color: "green",
       bgGradient: "from-green-50 to-green-100",
-      stripePrice: 2500,
+      stripePrice: 2600,
       recurring: true
     },
     {
@@ -164,10 +164,10 @@ const plans = {
       id: "pro",
       name: "Pro",
       description: "For growing businesses",
-      price: "$20",
+      price: "$21",
       period: "per month, billed annually",
-      originalPrice: "$25",
-      savings: "Save 20%",
+      originalPrice: "$26",
+      savings: "Save 19%",
       icon: Crown,
        features: [
          "Work Orders",
@@ -185,7 +185,7 @@ const plans = {
        popular: true,
       color: "green",
       bgGradient: "from-green-50 to-green-100",
-      stripePrice: 2000,
+      stripePrice: 2100,
       recurring: true,
       annualBilling: true
     },
