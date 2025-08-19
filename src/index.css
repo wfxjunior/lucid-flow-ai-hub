@@ -118,7 +118,7 @@
     --nav-h: 56px;
     --hero-pt: 32px;
     --hero-pb: 32px;
-    --hero-h1-d: 48px;
+    --hero-h1-d: 56px;
     --hero-h1-t: 52px;
     --hero-h1-m: 40px;
     --hero-h1-lh: 1.1;
@@ -149,7 +149,7 @@
       --nav-h: 64px;
       --hero-pt: 48px;
       --hero-pb: 48px;
-      --hero-h1-d: 64px;
+      --hero-h1-d: 72px;
       --hero-h1-t: 58px;
       --hero-h1-lh: 1.1;
       --hero-h1-w: 800;
@@ -174,7 +174,7 @@
     :root {
       --hero-pt: 56px;
       --hero-pb: 56px;
-      --hero-h1-d: 80px;
+      --hero-h1-d: 96px;
       --hero-h1-lh: 1.05;
       --hero-h1-w: 900;
       --hero-sub-fs-d: 18px;
