@@ -109,23 +109,29 @@ export const LandingHeroSection = () => {
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
-          {/* CTA Buttons - Both visible, same small size */}
+          {/* CTA Buttons */}
           <div className="flex flex-wrap justify-center items-center gap-3 mb-8">
-            <Button
+            <button
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              size="sm"
-              className="btn btn-primary btn-sm"
+              className="inline-flex items-center justify-center h-11 px-6 rounded-full text-white font-semibold text-sm transition-all duration-200 hover:transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              style={{ 
+                backgroundColor: '#1e63ff',
+                boxShadow: '0 4px 14px 0 rgba(30, 99, 255, 0.4)'
+              }}
             >
               Start for free
-            </Button>
-            <Button
-              variant="outline"
+            </button>
+            <button
               onClick={() => setShowSalesModal(true)}
-              size="sm"
-              className="btn btn-outline btn-sm"
+              className="inline-flex items-center justify-center h-11 px-6 rounded-full border font-semibold text-sm transition-all duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              style={{ 
+                borderColor: '#1e63ff',
+                color: '#1e63ff',
+                backgroundColor: 'white'
+              }}
             >
               Talk to sales
-            </Button>
+            </button>
           </div>
 
           <div className="relative">
