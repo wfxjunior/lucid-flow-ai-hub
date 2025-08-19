@@ -109,11 +109,11 @@ export const LandingHeroSection = () => {
             FeatherBiz is the AI-native platform that builds, scales and grows your business to the next level.
           </p>
 
-          {/* CTA Buttons - Responsive */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-8 px-4">
+          {/* CTA Buttons - Fully Responsive */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-8 w-full max-w-md sm:max-w-none mx-auto px-4">
             <button
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="w-full sm:w-auto inline-flex items-center justify-center h-11 px-6 rounded-full text-white font-semibold text-sm transition-all duration-200 hover:transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="w-full sm:w-auto min-w-0 sm:min-w-[140px] inline-flex items-center justify-center h-11 px-6 rounded-full text-white font-semibold text-sm transition-all duration-200 hover:transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               style={{ 
                 backgroundColor: '#1e63ff',
                 boxShadow: '0 4px 14px 0 rgba(30, 99, 255, 0.4)'
@@ -123,7 +123,7 @@ export const LandingHeroSection = () => {
             </button>
             <button
               onClick={() => setShowSalesModal(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center h-11 px-6 rounded-full border font-semibold text-sm transition-all duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="w-full sm:w-auto min-w-0 sm:min-w-[140px] inline-flex items-center justify-center h-11 px-6 rounded-full border font-semibold text-sm transition-all duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               style={{ 
                 borderColor: '#1e63ff',
                 color: '#1e63ff',
