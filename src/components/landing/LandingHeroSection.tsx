@@ -93,7 +93,7 @@ export const LandingHeroSection = () => {
         <div className="text-center max-w-4xl mx-auto">
           {/* Main Headline */}
           <h1 
-            className="font-bold text-foreground px-2 sm:px-4 text-[var(--hero-h1-d)] leading-[var(--hero-h1-lh)] font-[var(--hero-h1-w)] mb-[var(--hero-gap-title-sub)]"
+            className="font-black text-foreground px-2 sm:px-4 text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-none mb-[var(--hero-gap-title-sub)]"
           >
             Business management{" "}
             <span className="text-primary">magic.</span>
