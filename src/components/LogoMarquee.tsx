@@ -11,110 +11,92 @@ const LOGOS: Logo[] = [
   { src: "/assets/logos/advicepay.png", alt: "AdvicePay" },
   { src: "/assets/logos/private-advisor-group.png", alt: "Private Advisor Group" },
   { src: "/assets/logos/pershingx.png", alt: "Pershing X / BNY Mellon" },
-  // adicione/repita conforme necessário
 ];
 
-function Row({ items, duration = 26 }: { items: Logo[]; duration?: number }) {
-  // Duplicamos a sequência para looping perfeito
-  const sequence = [...items, ...items];
+function InfiniteRow({ items, duration = 50, reverse = false }: { items: Logo[]; duration?: number; reverse?: boolean }) {
+  const sequence = [...items, ...items, ...items];
 
   return (
-    <div className="relative isolate w-full overflow-hidden py-4">
-      {/* fades nas bordas (suave) */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent dark:from-slate-950" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent dark:from-slate-950" />
-
+    <div className="relative w-full overflow-hidden">
       <motion.div
-        className="flex min-w-max items-center gap-10 will-change-transform"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration, ease: "linear", repeat: Infinity }}
+        className="flex items-center gap-16 md:gap-24 will-change-transform"
+        animate={{
+          x: reverse ? ["0%", "-33.333%"] : ["-33.333%", "0%"]
+        }}
+        transition={{ 
+          duration, 
+          ease: "linear", 
+          repeat: Infinity 
+        }}
+        style={{ width: "300%" }}
       >
         {sequence.map((logo, i) => (
-          <div key={i} className="shrink-0">
+          <div 
+            key={i} 
+            className="flex-shrink-0 flex items-center justify-center group"
+          >
             <img
               src={logo.src}
               alt={logo.alt}
               loading="lazy"
               decoding="async"
-              height={logo.height ?? 40}
               className={[
-                "h-12 md:h-16 w-auto object-contain",
-                // sem fundo branco: remove borda/sombra + integra com o fundo
-                "mix-blend-multiply dark:mix-blend-normal",
-                // aparência neutra: opacidade que "acende" no hover
-                "opacity-70 hover:opacity-100 transition-opacity duration-300",
+                "h-8 md:h-12 lg:h-16 w-auto object-contain",
+                "filter grayscale opacity-40 hover:opacity-70 hover:grayscale-0",
+                "transition-all duration-500 ease-out",
+                "group-hover:scale-110",
                 logo.className ?? "",
               ].join(" ")}
-              style={{ imageRendering: "auto" }}
+              style={{ 
+                imageRendering: "crisp-edges",
+                maxWidth: "160px"
+              }}
             />
           </div>
         ))}
       </motion.div>
-
-      <style>{`
-        @media (hover:hover) {
-          /* pausa a animação quando o usuário passa o mouse */
-          .relative:is(:hover) > div > div { animation-play-state: paused !important; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .relative > div { transform: none !important; animation: none !important; }
-        }
-      `}</style>
     </div>
   );
 }
 
 export default function LogoMarquee({ className = "" }: { className?: string }) {
-  // Quebra a lista em duas fileiras para mais volume e alterna sentido
-  const mid = Math.ceil(LOGOS.length / 2);
-  const rowA = LOGOS.slice(0, mid);
-  const rowB = LOGOS.slice(mid);
-
   return (
     <section
-      aria-label="Trusted by"
-      className={["w-full bg-transparent", className].join(" ")}
+      aria-label="Trusted by leading companies"
+      className={["w-full py-16 md:py-24 bg-gradient-to-b from-background to-muted/20", className].join(" ")}
     >
-      <div className="mx-auto max-w-[1200px] px-6">
-        <h3 className="mb-2 text-center text-sm font-medium uppercase tracking-wide text-slate-500">
-          Trusted by modern teams
-        </h3>
-
-        {/* linha 1 - direção normal */}
-        <Row items={rowA} duration={40} />
-        {/* linha 2 - direção reversa sincronizada */}
-        <div className="mt-2">
-          <div className="relative isolate w-full overflow-hidden py-4">
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent dark:from-slate-950" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent dark:from-slate-950" />
-            
-            <motion.div
-              className="flex min-w-max items-center gap-10 will-change-transform"
-              animate={{ x: ["-50%", "0%"] }}
-              transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-            >
-              {[...rowB, ...rowB].map((logo, i) => (
-                <div key={i} className="shrink-0">
-                  <img
-                    src={logo.src}
-                    alt={logo.alt}
-                    loading="lazy"
-                    decoding="async"
-                    height={logo.height ?? 40}
-                    className={[
-                      "h-12 md:h-16 w-auto object-contain",
-                      "mix-blend-multiply dark:mix-blend-normal",
-                      "opacity-70 hover:opacity-100 transition-opacity duration-300",
-                      logo.className ?? "",
-                    ].join(" ")}
-                    style={{ imageRendering: "auto" }}
-                  />
-                </div>
-              ))}
-            </motion.div>
-          </div>
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        <div className="text-center mb-12 md:mb-16">
+          <p className="text-sm md:text-base font-medium text-muted-foreground uppercase tracking-[0.2em] mb-3">
+            Trusted by modern teams
+          </p>
+          <div className="w-12 h-px bg-gradient-to-r from-transparent via-border to-transparent mx-auto"></div>
         </div>
+
+        <div className="space-y-8 md:space-y-12">
+          <InfiniteRow items={LOGOS} duration={60} />
+          <InfiniteRow items={LOGOS} duration={55} reverse={true} />
+        </div>
+        
+        {/* Subtle gradient overlays for fade effect */}
+        <div className="absolute inset-y-0 left-0 w-24 md:w-32 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-y-0 right-0 w-24 md:w-32 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none"></div>
       </div>
+
+      <style>{`
+        @media (hover: hover) {
+          .group:hover img { 
+            filter: grayscale(0%) !important; 
+            opacity: 1 !important; 
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .w-full > div { 
+            animation: none !important; 
+            transform: none !important; 
+          }
+        }
+      `}</style>
     </section>
   );
 }
