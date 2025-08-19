@@ -12,7 +12,7 @@ button, [type="button"], [type="submit"], [role="button"],
   gap: .6rem;
   height: var(--btn-h);
   padding: 0 22px;
-  border-radius: var(--btn-r);
+  border-radius: 9999px; /* Pill style */
   font-size: var(--btn-f);
   font-weight: 700;
   letter-spacing: -.01em;
@@ -22,6 +22,7 @@ button, [type="button"], [type="submit"], [role="button"],
   color: var(--fb-text);
   transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease;
   cursor: pointer;
+  overflow: hidden;
 }
 
 /* PRIMARY (igual ao da imagem) */
@@ -59,22 +60,26 @@ button, [type="button"], [type="submit"], [role="button"],
   height: 36px;
   padding: 0 16px;
   font-size: 14px;
+  border-radius: 9999px;
 }
 
 .btn-md {
   height: var(--btn-h);
+  border-radius: 9999px;
 }
 
 .btn-lg {
   height: var(--btn-h-lg);
   padding: 0 28px;
   font-size: 17px;
+  border-radius: 9999px;
 }
 
 /* Estados de acessibilidade */
 .btn:focus-visible {
   outline: none;
   box-shadow: var(--btn-shadow), 0 0 0 2px #fff, 0 0 0 4px var(--fb-primary);
+  outline-offset: 3px;
 }
 
 .btn:disabled {
@@ -104,12 +109,13 @@ html.dark .btn-outline:hover {
 /* Aplicar automaticamente aos componentes shadcn/ui Button */
 [data-component="button"] {
   height: var(--btn-h);
-  border-radius: var(--btn-r);
+  border-radius: 9999px;
   font-weight: 700;
   letter-spacing: -.01em;
   padding: 0 22px;
   gap: .6rem;
   transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, color .12s ease, border-color .12s ease;
+  overflow: hidden;
 }
 
 [data-component="button"][data-variant="default"] {
@@ -139,10 +145,34 @@ html.dark .btn-outline:hover {
   height: var(--btn-h-lg);
   padding: 0 28px;
   font-size: 17px;
+  border-radius: 9999px;
 }
 
 [data-component="button"][data-size="sm"] {
   height: 36px;
   padding: 0 16px;
   font-size: 14px;
+  border-radius: 9999px;
+}
+
+/* Ensure pseudo-elements inherit border radius */
+.btn::before,
+.btn::after,
+[data-component="button"]::before,
+[data-component="button"]::after {
+  border-radius: inherit;
+}
+
+/* Safari/Firefox compatibility */
+button, .btn, [data-component="button"] {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+/* Focus visible for accessibility */
+button:focus-visible,
+.btn:focus-visible,
+[data-component="button"]:focus-visible {
+  outline-offset: 3px;
+  outline: 2px solid var(--fb-primary);
+  border-radius: 9999px;
 }

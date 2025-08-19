@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "btn inline-flex items-center justify-center whitespace-nowrap font-bold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "btn inline-flex items-center justify-center whitespace-nowrap font-bold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 overflow-hidden",
   {
     variants: {
       variant: {
@@ -23,18 +23,18 @@ const buttonVariants = cva(
         warning: "btn-primary bg-warning hover:bg-warning/90",
       },
       size: {
-        xs: "btn-sm h-8 px-3 text-xs gap-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5",
-        sm: "btn-sm",
-        md: "btn-md",
-        lg: "btn-lg",
-        xl: "btn-lg h-14 px-6 text-lg gap-2.5 [&_svg]:h-5 [&_svg]:w-5",
-        icon: "h-9 w-9",
-        default: "btn-md",
+        xs: "btn-sm h-8 px-3 text-xs gap-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5 rounded-full",
+        sm: "btn-sm rounded-full",
+        md: "btn-md rounded-full",
+        lg: "btn-lg rounded-full",
+        xl: "btn-lg h-14 px-6 text-lg gap-2.5 [&_svg]:h-5 [&_svg]:w-5 rounded-full",
+        icon: "h-9 w-9 rounded-full",
+        default: "btn-md rounded-full",
       },
       shape: {
-        rounded: "",
-        pill: "",
-        square: "!rounded-lg",
+        rounded: "rounded-full",
+        pill: "rounded-full",
+        square: "rounded-full", // Override square to be pill as requested
       },
     },
     defaultVariants: {
