@@ -1,187 +1,154 @@
-import { sanitizeHtml, sanitizeTextForPdf } from './htmlSanitizer'
 
-/**
- * Validation utility functions for user inputs
- */
+import { sanitizeText, sanitizeEmail, sanitizeUrl, sanitizePhoneNumber } from './htmlSanitizer';
+import { securityEvent } from './security';
 
-export interface ValidationResult {
-  isValid: boolean
-  errors: string[]
-  sanitizedData?: any
+interface ValidationResult {
+  isValid: boolean;
+  sanitizedValue: string;
+  errors: string[];
 }
 
-/**
- * Validates and sanitizes text fields
- */
-export function validateAndSanitizeText(text: string, fieldName: string, maxLength = 1000): ValidationResult {
-  const errors: string[] = []
-  
-  if (!text || text.trim().length === 0) {
-    errors.push(`${fieldName} is required`)
-    return { isValid: false, errors }
-  }
-  
-  if (text.length > maxLength) {
-    errors.push(`${fieldName} must be less than ${maxLength} characters`)
-  }
-  
-  const sanitizedText = sanitizeHtml(text)
-  
-  return {
-    isValid: errors.length === 0,
-    errors,
-    sanitizedData: sanitizedText
-  }
+interface ValidationOptions {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+  customValidator?: (value: string) => boolean;
 }
 
-/**
- * Validates email format
- */
-export function validateEmail(email: string): ValidationResult {
-  const errors: string[] = []
-  
-  if (!email || email.trim().length === 0) {
-    errors.push('Email is required')
-    return { isValid: false, errors }
-  }
-  
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email)) {
-    errors.push('Invalid email format')
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors,
-    sanitizedData: email.trim().toLowerCase()
-  }
-}
+export const validateInput = (
+  value: string,
+  type: 'text' | 'email' | 'url' | 'phone' | 'number',
+  options: ValidationOptions = {}
+): ValidationResult => {
+  const errors: string[] = [];
+  let sanitizedValue = '';
 
-/**
- * Validates numeric fields
- */
-export function validateNumeric(value: any, fieldName: string, min?: number, max?: number): ValidationResult {
-  const errors: string[] = []
-  
-  const numValue = parseFloat(value)
-  
-  if (isNaN(numValue)) {
-    errors.push(`${fieldName} must be a valid number`)
-    return { isValid: false, errors }
-  }
-  
-  if (min !== undefined && numValue < min) {
-    errors.push(`${fieldName} must be at least ${min}`)
-  }
-  
-  if (max !== undefined && numValue > max) {
-    errors.push(`${fieldName} must be at most ${max}`)
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors,
-    sanitizedData: numValue
-  }
-}
-
-/**
- * Validates and sanitizes business data objects
- */
-export function validateBusinessData(data: any, type: 'client' | 'contract' | 'workorder' | 'estimate'): ValidationResult {
-  const errors: string[] = []
-  const sanitizedData: any = {}
-  
-  // Common validations
-  if (data.title) {
-    const titleValidation = validateAndSanitizeText(data.title, 'Title', 200)
-    if (!titleValidation.isValid) {
-      errors.push(...titleValidation.errors)
-    } else {
-      sanitizedData.title = titleValidation.sanitizedData
-    }
-  }
-  
-  if (data.description) {
-    const descValidation = validateAndSanitizeText(data.description, 'Description', 5000)
-    if (!descValidation.isValid) {
-      errors.push(...descValidation.errors)
-    } else {
-      sanitizedData.description = descValidation.sanitizedData
-    }
-  }
-  
-  // Type-specific validations
+  // Basic sanitization based on type
   switch (type) {
-    case 'client':
-      if (data.name) {
-        const nameValidation = validateAndSanitizeText(data.name, 'Name', 100)
-        if (!nameValidation.isValid) {
-          errors.push(...nameValidation.errors)
-        } else {
-          sanitizedData.name = nameValidation.sanitizedData
-        }
+    case 'email':
+      sanitizedValue = sanitizeEmail(value);
+      if (value && !sanitizedValue) {
+        errors.push('Invalid email format');
       }
-      
-      if (data.email) {
-        const emailValidation = validateEmail(data.email)
-        if (!emailValidation.isValid) {
-          errors.push(...emailValidation.errors)
-        } else {
-          sanitizedData.email = emailValidation.sanitizedData
-        }
+      break;
+    case 'url':
+      sanitizedValue = sanitizeUrl(value);
+      if (value && !sanitizedValue) {
+        errors.push('Invalid URL format');
       }
-      break
-      
-    case 'estimate':
-    case 'workorder':
-      if (data.amount) {
-        const amountValidation = validateNumeric(data.amount, 'Amount', 0, 1000000)
-        if (!amountValidation.isValid) {
-          errors.push(...amountValidation.errors)
-        } else {
-          sanitizedData.amount = amountValidation.sanitizedData
-        }
+      break;
+    case 'phone':
+      sanitizedValue = sanitizePhoneNumber(value);
+      if (value && !sanitizedValue) {
+        errors.push('Invalid phone number format');
       }
-      break
+      break;
+    case 'number':
+      const numValue = parseFloat(value);
+      if (value && (isNaN(numValue) || !isFinite(numValue))) {
+        errors.push('Invalid number format');
+        sanitizedValue = '';
+      } else {
+        sanitizedValue = numValue.toString();
+      }
+      break;
+    default:
+      sanitizedValue = sanitizeText(value);
   }
-  
-  // Copy other safe fields
-  const safeFields = ['status', 'priority', 'client_id', 'estimate_id', 'project_id']
-  safeFields.forEach(field => {
-    if (data[field] !== undefined) {
-      sanitizedData[field] = data[field]
-    }
-  })
-  
+
+  // Required validation
+  if (options.required && !sanitizedValue.trim()) {
+    errors.push('This field is required');
+  }
+
+  // Length validation
+  if (sanitizedValue && options.minLength && sanitizedValue.length < options.minLength) {
+    errors.push(`Minimum length is ${options.minLength} characters`);
+  }
+
+  if (sanitizedValue && options.maxLength && sanitizedValue.length > options.maxLength) {
+    errors.push(`Maximum length is ${options.maxLength} characters`);
+    sanitizedValue = sanitizedValue.slice(0, options.maxLength);
+  }
+
+  // Pattern validation
+  if (sanitizedValue && options.pattern && !options.pattern.test(sanitizedValue)) {
+    errors.push('Invalid format');
+  }
+
+  // Custom validation
+  if (sanitizedValue && options.customValidator && !options.customValidator(sanitizedValue)) {
+    errors.push('Invalid value');
+  }
+
+  // Log suspicious input attempts
+  if (errors.length > 0 && (value.includes('<script') || value.includes('javascript:') || value.includes('on'))) {
+    securityEvent('Suspicious input detected', {
+      originalValue: value.slice(0, 100), // Log first 100 chars only
+      sanitizedValue: sanitizedValue.slice(0, 100),
+      type,
+      errors
+    });
+  }
+
   return {
     isValid: errors.length === 0,
-    errors,
+    sanitizedValue,
+    errors
+  };
+};
+
+export const validateFormData = (formData: Record<string, any>, validationRules: Record<string, { type: 'text' | 'email' | 'url' | 'phone' | 'number'; options?: ValidationOptions }>) => {
+  const results: Record<string, ValidationResult> = {};
+  const sanitizedData: Record<string, any> = {};
+  let hasErrors = false;
+
+  Object.entries(formData).forEach(([key, value]) => {
+    const rule = validationRules[key];
+    if (rule) {
+      const result = validateInput(String(value || ''), rule.type, rule.options);
+      results[key] = result;
+      sanitizedData[key] = result.sanitizedValue;
+      
+      if (!result.isValid) {
+        hasErrors = true;
+      }
+    } else {
+      // Default sanitization for unknown fields
+      sanitizedData[key] = sanitizeText(String(value || ''));
+    }
+  });
+
+  return {
+    isValid: !hasErrors,
+    results,
     sanitizedData
-  }
-}
+  };
+};
 
-/**
- * Rate limiting check for client-side operations
- */
-const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
+// Rate limiting for client-side actions
+const actionCounts = new Map<string, { count: number; timestamp: number }>();
 
-export function checkClientRateLimit(action: string, maxRequests = 10, windowMs = 60000): boolean {
-  const now = Date.now()
-  const key = `${action}_${Math.floor(now / windowMs)}`
+export const checkClientRateLimit = (action: string, maxRequests = 10, windowMs = 300000): boolean => {
+  const now = Date.now();
+  const key = `${action}_${Math.floor(now / windowMs)}`;
   
-  const current = rateLimitStore.get(key) || { count: 0, resetTime: now + windowMs }
-  
-  if (now > current.resetTime) {
-    rateLimitStore.delete(key)
-    return true
-  }
+  const current = actionCounts.get(key) || { count: 0, timestamp: now };
   
   if (current.count >= maxRequests) {
-    return false
+    securityEvent('Client rate limit exceeded', { action, count: current.count });
+    return false;
   }
   
-  current.count++
-  rateLimitStore.set(key, current)
-  return true
-}
+  actionCounts.set(key, { count: current.count + 1, timestamp: now });
+  
+  // Cleanup old entries
+  Array.from(actionCounts.entries()).forEach(([k, v]) => {
+    if (now - v.timestamp > windowMs) {
+      actionCounts.delete(k);
+    }
+  });
+  
+  return true;
+};
