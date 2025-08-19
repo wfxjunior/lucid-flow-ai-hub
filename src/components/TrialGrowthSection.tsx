@@ -21,41 +21,16 @@ const DATA = [
   { m: "Sep", payments: 128_400, growth: 14.9 },
 ];
 
-const getVar = (v: string) => {
-  if (typeof window === "undefined") return "";
-  const computed = getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  return computed;
-};
-
 export default function TrialGrowthSection() {
-  const [theme, setTheme] = React.useState({
-    border: "hsl(215, 16%, 91%)",
-    text: "hsl(215, 16%, 47%)",
-    primary: "hsl(216, 100%, 53%)",
-    primaryLight: "hsl(216, 100%, 97%)",
-    violet: "hsl(262, 83%, 67%)",
-    green: "hsl(142, 71%, 45%)",
-    orange: "hsl(32, 95%, 44%)",
-  });
-  
-  React.useEffect(() => {
-    const fbPrimary = getVar("--fb-primary");
-    const fbBorder = getVar("--fb-border");
-    const fbMuted = getVar("--fb-muted");
-    const fbViolet = getVar("--fb-violet");
-    const fbGreen = getVar("--fb-green");
-    const fbOrange = getVar("--fb-orange");
-    
-    setTheme({
-      border: fbBorder ? `hsl(${fbBorder})` : "hsl(215, 16%, 91%)",
-      text: fbMuted ? `hsl(${fbMuted})` : "hsl(215, 16%, 47%)",
-      primary: fbPrimary ? `hsl(${fbPrimary})` : "hsl(216, 100%, 53%)",
-      primaryLight: fbPrimary ? `hsl(${fbPrimary} / 0.1)` : "hsl(216, 100%, 97%)",
-      violet: fbViolet ? `hsl(${fbViolet})` : "hsl(262, 83%, 67%)",
-      green: fbGreen ? `hsl(${fbGreen})` : "hsl(142, 71%, 45%)",
-      orange: fbOrange ? `hsl(${fbOrange})` : "hsl(32, 95%, 44%)",
-    });
-  }, []);
+  const theme = {
+    border: "hsl(220, 13%, 91%)",
+    text: "hsl(220, 9%, 46%)",
+    primary: "hsl(217, 91%, 60%)", // Blue
+    primaryLight: "hsl(217, 91%, 95%)",
+    secondary: "hsl(220, 9%, 20%)", // Black/Dark Grey
+    grey: "hsl(220, 9%, 70%)", // Grey
+    background: "hsl(0, 0%, 100%)",
+  };
 
   return (
     <section className="w-full bg-white py-16">
@@ -126,9 +101,9 @@ export default function TrialGrowthSection() {
                     <stop offset="0%" stopColor={theme.primary} stopOpacity={0.8} />
                     <stop offset="100%" stopColor={theme.primaryLight} stopOpacity={1} />
                   </linearGradient>
-                  <linearGradient id="barFillGreen" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={theme.green} stopOpacity={0.8} />
-                    <stop offset="100%" stopColor={theme.green} stopOpacity={0.1} />
+                  <linearGradient id="barFillSecondary" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={theme.secondary} stopOpacity={0.8} />
+                    <stop offset="100%" stopColor={theme.grey} stopOpacity={0.3} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid stroke="hsl(215, 16%, 91%)" strokeDasharray="2 2" strokeOpacity={0.5} />
@@ -190,10 +165,10 @@ export default function TrialGrowthSection() {
                   type="monotone"
                   dataKey="growth"
                   name="Growth Rate (%)"
-                  stroke={theme.violet}
+                  stroke={theme.secondary}
                   strokeWidth={3}
-                  dot={{ fill: theme.violet, strokeWidth: 2, r: 4 }}
-                  activeDot={{ r: 6, stroke: theme.violet, strokeWidth: 2 }}
+                  dot={{ fill: theme.secondary, strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, stroke: theme.secondary, strokeWidth: 2 }}
                   isAnimationActive
                 />
               </ComposedChart>
