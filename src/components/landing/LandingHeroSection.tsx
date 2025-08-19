@@ -123,35 +123,17 @@ export const LandingHeroSection = () => {
             <Button
               data-analytics-id="hero_cta_start_click"
               onClick={() => navigate('/signup?trial=7d&source=hero')}
-              className="group w-full sm:w-auto"
-              style={{
-                height: 'var(--cta-h)',
-                paddingLeft: 'var(--cta-px)',
-                paddingRight: 'var(--cta-px)',
-                borderRadius: 'var(--cta-radius)',
-                fontSize: 'var(--cta-fs)',
-                fontWeight: 'var(--cta-fw)',
-                letterSpacing: '0'
-              }}
+              className="w-full sm:w-auto"
             >
-              <span>Start for free</span>
+              Start for free
             </Button>
             <Button
               data-analytics-id="hero_cta_sales_click"
               variant="outline"
               onClick={() => setShowSalesModal(true)}
-              className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-white hover:text-primary"
-              style={{
-                height: 'var(--cta-h)',
-                paddingLeft: 'var(--cta-px)',
-                paddingRight: 'var(--cta-px)',
-                borderRadius: 'var(--cta-radius)',
-                fontSize: 'var(--cta-fs)',
-                fontWeight: 'var(--cta-fw)',
-                letterSpacing: '0'
-              }}
+              className="w-full sm:w-auto"
             >
-              <span>Talk to sales</span>
+              Talk to sales
             </Button>
           </div>
 
