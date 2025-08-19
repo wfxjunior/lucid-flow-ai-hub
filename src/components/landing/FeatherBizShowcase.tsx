@@ -90,9 +90,9 @@ const chartData = [
 ];
 
 const pieData = [
-  { name: 'Plus', value: 328, fill: 'hsl(var(--fb-orange))' },
-  { name: 'Pro', value: 570, fill: 'hsl(var(--fb-violet))' },
-  { name: 'Enterprise', value: 231, fill: 'hsl(var(--fb-blue))' }
+  { name: 'Plus', value: 328, fill: 'var(--fb-orange)' },
+  { name: 'Pro', value: 570, fill: 'var(--fb-violet)' },
+  { name: 'Enterprise', value: 231, fill: 'var(--fb-blue)' }
 ];
 
 const tabs = [
@@ -439,13 +439,13 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
         boxShadow: 'var(--shadow-sm)'
       }}
     >
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid gap-8 lg:grid-cols-2">
         {/* Bar Chart */}
         <motion.div variants={childVariant}>
           <h3 className="font-semibold mb-4" style={{ color: 'var(--fb-text)' }}>
             Growth by Plan
           </h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#EEF2F7" />
               <XAxis 
@@ -467,9 +467,9 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
                   borderRadius: '8px'
                 }}
               />
-              <Bar dataKey="Plus" fill="hsl(var(--fb-orange))" radius={8} />
-              <Bar dataKey="Pro" fill="hsl(var(--fb-violet))" radius={8} />
-              <Bar dataKey="Enterprise" fill="hsl(var(--fb-blue))" radius={8} />
+              <Bar dataKey="Plus" fill="var(--fb-orange)" radius={8} />
+              <Bar dataKey="Pro" fill="var(--fb-violet)" radius={8} />
+              <Bar dataKey="Enterprise" fill="var(--fb-blue)" radius={8} />
             </BarChart>
           </ResponsiveContainer>
         </motion.div>
@@ -480,14 +480,14 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
             Plan Distribution
           </h3>
           <div className="relative">
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={pieData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={120}
+                  innerRadius={50}
+                  outerRadius={100}
                   paddingAngle={2}
                   dataKey="value"
                 >
@@ -518,7 +518,7 @@ const MetricsPreview = ({ chartData, pieData }: { chartData: any[]; pieData: any
           </div>
           
           {/* Legend */}
-          <div className="flex justify-center gap-6 mt-4">
+          <div className="flex justify-center flex-wrap gap-4 mt-4">
             {pieData.map((entry) => (
               <div key={entry.name} className="flex items-center gap-2">
                 <div 
