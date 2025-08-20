@@ -1,7 +1,7 @@
 
 import React, { useState, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { FeaturesMegaMenu } from './FeaturesMegaMenu';
+import { ProductsMegaMenu } from './ProductsMegaMenu';
 
 export const ProductsDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +22,7 @@ export const ProductsDropdown: React.FC = () => {
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       
-      <FeaturesMegaMenu
+      <ProductsMegaMenu
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         triggerRef={triggerRef}
