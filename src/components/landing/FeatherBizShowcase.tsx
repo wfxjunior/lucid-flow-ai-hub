@@ -298,7 +298,7 @@ const PipelinePreview = ({ data }: { data: any[] }) => (
   </motion.div>
 );
 
-// Workflows Component
+// Workflows Component - Updated for better readability
 const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
   <motion.div
     variants={staggerChildren}
@@ -315,7 +315,7 @@ const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
     <div className="space-y-3 sm:space-y-4">
       {/* Workflow Editor */}
       <div className="space-y-3 sm:space-y-4">
-        <h3 className="font-semibold mb-3 sm:mb-4" style={{ color: 'var(--fb-text)' }}>
+        <h3 className="font-semibold mb-3 sm:mb-4" style={{ color: '#111827', opacity: 1 }}>
           Workflow Editor
         </h3>
         {[
@@ -330,14 +330,15 @@ const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
             style={{ borderColor: 'var(--fb-border)' }}
           >
             <div className="flex items-center justify-between">
-              <span className="font-medium text-sm" style={{ color: 'var(--fb-text)' }}>
+              <span className="font-medium text-sm" style={{ color: 'var(--fb-text)', opacity: 0.95 }}>
                 {block.title}
               </span>
               <span
                 className="text-xs px-2 py-1 rounded-full"
                 style={{
                   backgroundColor: block.color === 'var(--fb-muted)' ? 'var(--fb-border)' : `${block.color}20`,
-                  color: block.color
+                  color: '#1E293B',
+                  opacity: 1
                 }}
               >
                 {block.status}
@@ -356,14 +357,14 @@ const WorkflowsPreview = ({ metrics }: { metrics: any[] }) => (
             className="p-3 sm:p-4 rounded-xl border bg-white text-center"
             style={{ borderColor: 'var(--fb-border)' }}
           >
-            <div className="text-lg sm:text-2xl font-bold mb-1" style={{ color: 'var(--fb-text)' }}>
+            <div className="text-lg sm:text-2xl font-bold mb-1" style={{ color: '#111827', opacity: 1 }}>
               <AnimatedNumber 
                 value={metric.value} 
                 duration={900}
                 suffix={metric.label.includes('Rate') ? '%' : metric.label.includes('Time') ? 'h' : ''}
               />
             </div>
-            <div className="text-xs" style={{ color: 'var(--fb-muted)' }}>
+            <div className="text-xs" style={{ color: '#374151', opacity: 0.85 }}>
               {metric.label}
             </div>
           </motion.div>
