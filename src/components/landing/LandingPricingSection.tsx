@@ -1,13 +1,7 @@
 
 import React from "react";
-import { PricingPlans } from "@/components/PricingPlans";
+import { AttioPricingSection } from "@/components/pricing/AttioPricingSection";
 
 export const LandingPricingSection = () => {
-  return (
-    <section id="pricing" className="py-24 lg:py-32 bg-white">
-      <div>
-        <PricingPlans />
-      </div>
-    </section>
-  );
+  return <AttioPricingSection />;
 };
