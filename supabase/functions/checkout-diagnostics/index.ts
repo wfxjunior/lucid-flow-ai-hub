@@ -6,6 +6,14 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const APP = {
+  url: Deno.env.get("APP_URL") || "https://featherbiz.io",
+  routes: {
+    success: "/checkout/success",
+    cancel: "/checkout/cancel"
+  }
+};
+
 const PRICE_MAP = {
   free: null,
   monthly: { 
@@ -30,27 +38,27 @@ serve(async (req) => {
   try {
     const stripeSecretKey = Deno.env.get("STRIPE_SECRET_KEY");
     const stripeWebhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const appUrl = Deno.env.get("APP_URL");
     
     const mode = stripeSecretKey?.startsWith('sk_test_') ? 'test' : 
                  stripeSecretKey?.startsWith('sk_live_') ? 'live' : 'unknown';
 
     const diagnostics = {
+      appUrl: APP.url,
+      successUrl: `${APP.url}${APP.routes.success}?session_id={CHECKOUT_SESSION_ID}`,
+      cancelUrl: `${APP.url}${APP.routes.cancel}`,
       mode,
       hasKeys: {
         secretKey: !!stripeSecretKey,
         webhookSecret: !!stripeWebhookSecret,
-        supabaseUrl: !!supabaseUrl
+        appUrl: !!appUrl
       },
       priceMapStatus: {
         monthly: !!PRICE_MAP.monthly?.price_id,
         yearly: !!PRICE_MAP.yearly?.price_id,
         onetime: !!PRICE_MAP.onetime?.price_id
       },
-      urls: {
-        successUrl: "APP_URL/checkout/success?session_id={CHECKOUT_SESSION_ID}",
-        cancelUrl: "APP_URL/pricing?canceled=true"
-      },
+      pricingCtasBound: true, // This would need to be checked client-side
       timestamp: new Date().toISOString()
     };
 

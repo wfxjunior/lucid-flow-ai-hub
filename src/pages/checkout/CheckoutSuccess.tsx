@@ -1,9 +1,9 @@
 
 import { useEffect, useState } from "react"
-import { useSearchParams, useNavigate } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, Loader2 } from "lucide-react"
+import { CheckCircle, Loader2, AlertCircle } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 
 interface SessionData {
@@ -11,6 +11,7 @@ interface SessionData {
   customer_email: string;
   amount_total: number;
   currency: string;
+  status: string;
   metadata?: {
     plan?: string;
   };
@@ -18,7 +19,6 @@ interface SessionData {
 
 export default function CheckoutSuccess() {
   const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
   const [sessionData, setSessionData] = useState<SessionData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -32,7 +32,6 @@ export default function CheckoutSuccess() {
       return
     }
 
-    // Retrieve session data (you'll need to create this endpoint)
     const fetchSessionData = async () => {
       try {
         const { data, error } = await supabase.functions.invoke('get-checkout-session', {
@@ -54,7 +53,11 @@ export default function CheckoutSuccess() {
   }, [sessionId])
 
   const handleGoToDashboard = () => {
-    navigate('/')
+    window.location.assign('/')
+  }
+
+  const handleReturnToPricing = () => {
+    window.location.assign('/pricing')
   }
 
   if (loading) {
@@ -70,15 +73,28 @@ export default function CheckoutSuccess() {
     )
   }
 
-  if (error) {
+  if (error || !sessionId) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50">
         <Card className="w-full max-w-md text-center">
-          <CardContent className="pt-6">
-            <p className="text-red-600 mb-4">{error}</p>
-            <Button onClick={handleGoToDashboard}>
-              Go to Dashboard
-            </Button>
+          <CardHeader>
+            <div className="mx-auto mb-4 w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+              <AlertCircle className="h-8 w-8 text-red-600" />
+            </div>
+            <CardTitle className="text-red-600">Payment Error</CardTitle>
+            <CardDescription>
+              {error || "Invalid payment session"}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col gap-2">
+              <Button onClick={handleReturnToPricing} className="w-full">
+                Return to Pricing
+              </Button>
+              <Button onClick={handleGoToDashboard} variant="outline" className="w-full">
+                Go to Dashboard
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -106,7 +122,7 @@ export default function CheckoutSuccess() {
             <div className="bg-gray-50 rounded-lg p-4 text-left space-y-2">
               <div className="flex justify-between">
                 <span className="font-medium">Plan:</span>
-                <span>{sessionData.metadata?.plan || 'Professional'}</span>
+                <span className="capitalize">{sessionData.metadata?.plan || 'Professional'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-medium">Amount:</span>
@@ -121,12 +137,21 @@ export default function CheckoutSuccess() {
                 <span className="font-medium">Email:</span>
                 <span className="text-sm">{sessionData.customer_email}</span>
               </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Status:</span>
+                <span className="capitalize text-green-600">{sessionData.status}</span>
+              </div>
             </div>
           )}
           
-          <Button onClick={handleGoToDashboard} className="w-full">
-            Go to Dashboard
-          </Button>
+          <div className="flex flex-col gap-2">
+            <Button onClick={handleGoToDashboard} className="w-full">
+              Go to Dashboard
+            </Button>
+            <Button onClick={handleReturnToPricing} variant="outline" className="w-full">
+              Return to Pricing
+            </Button>
+          </div>
           
           <p className="text-xs text-muted-foreground">
             You will receive a confirmation email shortly.

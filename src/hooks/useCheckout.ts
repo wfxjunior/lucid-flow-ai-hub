@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { APP } from '@/config/app';
 
 export type CheckoutPlan = 'free' | 'monthly' | 'yearly' | 'onetime';
 
@@ -67,7 +68,8 @@ export const useCheckout = () => {
   const redirectToCheckout = async (options: CheckoutOptions) => {
     const url = await createCheckoutSession(options);
     if (url) {
-      window.location.href = url;
+      // Use window.location.assign for reliable redirect
+      window.location.assign(url);
     }
   };
 

@@ -1,11 +1,19 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+// Centralized configuration
+const APP = {
+  url: Deno.env.get("APP_URL") || "https://featherbiz.io",
+  routes: {
+    success: "/checkout/success",
+    cancel: "/checkout/cancel"
+  }
 };
 
 // Price mapping - single source of truth
@@ -29,13 +37,12 @@ type PlanType = keyof typeof PRICE_MAP;
 
 const validateEnvironment = () => {
   const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-  const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
   
   if (!stripeKey) {
     throw new Error("STRIPE_SECRET_KEY is not configured");
   }
   
-  return { stripeKey, webhookSecret };
+  return { stripeKey };
 };
 
 const validatePlan = (plan: string): plan is PlanType => {
@@ -90,7 +97,6 @@ serve(async (req) => {
     }
 
     const priceConfig = PRICE_MAP[plan];
-    const appUrl = req.headers.get("origin") || "https://featherbiz.io";
     
     // Initialize Stripe
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
@@ -101,7 +107,7 @@ serve(async (req) => {
       plan 
     });
 
-    // Create checkout session
+    // Create checkout session with absolute URLs
     const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       mode: priceConfig.mode,
       line_items: [
@@ -110,10 +116,9 @@ serve(async (req) => {
           quantity: quantity
         }
       ],
-      success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appUrl}/pricing?canceled=true`,
+      success_url: `${APP.url}${APP.routes.success}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${APP.url}${APP.routes.cancel}`,
       billing_address_collection: "auto",
-      customer_creation: "always",
       allow_promotion_codes: true,
       automatic_tax: { enabled: true },
       metadata: {
@@ -139,7 +144,9 @@ serve(async (req) => {
       url: session.url,
       plan,
       price_id: priceConfig.price_id,
-      mode: priceConfig.mode
+      mode: priceConfig.mode,
+      success_url: sessionConfig.success_url,
+      cancel_url: sessionConfig.cancel_url
     });
 
     return new Response(
