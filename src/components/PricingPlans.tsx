@@ -13,6 +13,7 @@ import entitlementsJson from "../../config/entitlements.json"
 import priceMapJson from "../../config/stripe.priceMap.json"
 import { useCheckout, CheckoutPlan } from "@/hooks/useCheckout"
 import { supabase } from "@/integrations/supabase/client"
+import { Button } from "@/components/ui/button"
 
 // Define pricing plans data
 const plans = {
@@ -31,7 +32,7 @@ const plans = {
         "File manager (100MB)",
         "Email support"
       ],
-      buttonText: "Get Started Free",
+      buttonText: "Start for free",
       popular: false,
       color: "blue",
       bgGradient: "from-blue-50 to-blue-100",
@@ -40,7 +41,7 @@ const plans = {
     },
     {
       id: "starter",
-      name: "Starter",
+      name: "Plus",
       description: "For small businesses",
       price: "$19",
       period: "per month",
@@ -54,7 +55,7 @@ const plans = {
         "File manager (5GB)",
         "Priority support"
       ],
-      buttonText: "Start Free Trial",
+      buttonText: "Continue with Plus",
       popular: false,
       color: "purple",
       bgGradient: "from-purple-50 to-purple-100",
@@ -80,7 +81,7 @@ const plans = {
         "Projects",
         "ESIGN"
       ],
-      buttonText: "Start Free Trial",
+      buttonText: "Continue with Pro",
       popular: true,
       color: "green",
       bgGradient: "from-green-50 to-green-100",
@@ -104,7 +105,7 @@ const plans = {
         "Custom training",
         "SLA guarantees"
       ],
-      buttonText: "Contact Sales",
+      buttonText: "Talk to sales",
       popular: false,
       color: "orange",
       bgGradient: "from-orange-50 to-orange-100",
@@ -127,7 +128,7 @@ const plans = {
         "File manager (100MB)",
         "Email support"
       ],
-      buttonText: "Get Started Free",
+      buttonText: "Start for free",
       popular: false,
       color: "blue",
       bgGradient: "from-blue-50 to-blue-100",
@@ -136,12 +137,12 @@ const plans = {
     },
     {
       id: "starter",
-      name: "Starter",
+      name: "Plus",
       description: "For small businesses",
       price: "$15",
       period: "per month, billed annually",
       originalPrice: "$19",
-      savings: "Save 21%",
+      savings: "Save 20%",
       icon: Zap,
       features: [
         "Everything in Free",
@@ -152,7 +153,7 @@ const plans = {
         "File manager (5GB)",
         "Priority support"
       ],
-      buttonText: "Start Free Trial",
+      buttonText: "Continue with Plus",
        popular: false,
       color: "purple",
       bgGradient: "from-purple-50 to-purple-100",
@@ -166,8 +167,6 @@ const plans = {
       description: "For growing businesses",
       price: "$21",
       period: "per month, billed annually",
-      originalPrice: "$26",
-      savings: "Save 19%",
       icon: Crown,
        features: [
          "Work Orders",
@@ -181,7 +180,7 @@ const plans = {
          "Projects",
          "ESIGN"
        ],
-      buttonText: "Start Free Trial",
+      buttonText: "Continue with Pro",
        popular: true,
       color: "green",
       bgGradient: "from-green-50 to-green-100",
@@ -206,7 +205,7 @@ const plans = {
         "Custom training",
         "SLA guarantees"
       ],
-      buttonText: "Contact Sales",
+      buttonText: "Talk to sales",
       popular: false,
       color: "orange",
       bgGradient: "from-orange-50 to-orange-100",
@@ -313,6 +312,12 @@ const featureCategories = [
   }
 ]
 
+// Utility function to format prices without decimals
+const formatPrice = (price: string): string => {
+  if (price === "Custom" || price === "$0") return price;
+  return price.replace(/\.00$/, '');
+};
+
 export function PricingPlans() {
   const { toast } = useToast()
   const { loading, redirectToCheckout } = useCheckout()
@@ -329,12 +334,13 @@ export function PricingPlans() {
         if (error) throw error
         if (!data?.products) return
 
-        const formatPrice = (amount?: number, currency?: string) => {
+        const formatStripePrice = (amount?: number, currency?: string) => {
           if (amount == null || currency == null) return null
           try {
-            return new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
+            const formatted = new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
+            return formatted.replace(/\.00$/, '') // Remove trailing .00
           } catch {
-            return `$${((amount || 0) / 100).toFixed(0)}`
+            return `$${Math.round((amount || 0) / 100)}`
           }
         }
 
@@ -350,7 +356,7 @@ export function PricingPlans() {
           if (!price) return base
           return {
             ...base,
-            price: formatPrice(price.unit_amount, price.currency) || base.price,
+            price: formatStripePrice(price.unit_amount, price.currency) || base.price,
             period: interval === 'year' ? (base.originalPrice ? 'per month, billed annually' : 'per month, billed annually') : base.period,
             stripePrice: null,
             recurring: interval !== undefined,
@@ -504,9 +510,10 @@ const proPopular = pricingConfig?.plans?.pro?.mostPopular ?? true
 const formatAmount = (amount?: number, currency?: string) => {
   if (!amount || !currency) return undefined
   try {
-    return new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
+    const formatted = new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
+    return formatted.replace(/\.00$/, '') // Remove trailing .00
   } catch {
-    return `$${((amount || 0) / 100).toFixed(0)}`
+    return `$${Math.round((amount || 0) / 100)}`
   }
 }
 
@@ -514,8 +521,8 @@ const monthly = basePlans.monthly.map((p) => {
   if (p.id === 'pro') {
     const cur = pricingConfig?.currency || 'USD'
     const priceStr = pricingConfig?.plans?.pro?.monthly
-      ? (formatAmount(pricingConfig.plans.pro.monthly, cur) || p.price)
-      : p.price
+      ? (formatAmount(pricingConfig.plans.pro.monthly, cur) || formatPrice(p.price))
+      : formatPrice(p.price)
     return {
       ...p,
       price: priceStr,
@@ -529,15 +536,17 @@ const monthly = basePlans.monthly.map((p) => {
   }
   // Ensure only PRO is marked popular
   if (proPopular && p.id !== 'pro') {
-    return { ...p, popular: false }
+    return { ...p, popular: false, price: formatPrice(p.price) }
   }
-  return p
+  return { ...p, price: formatPrice(p.price) }
 })
 
 const annual = basePlans.annual.map((p) => {
   if (p.id === 'pro') {
     return {
       ...p,
+      price: formatPrice(p.price),
+      originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined,
       popular: proPopular ? true : p.popular,
       features: (entitlements?.pro?.features ?? entitlementsJson.pro.features) || p.features,
       coreBusiness: (entitlements?.pro?.coreBusiness ?? entitlementsJson.pro.coreBusiness) || (p as any).coreBusiness || [],
@@ -545,9 +554,18 @@ const annual = basePlans.annual.map((p) => {
     }
   }
   if (proPopular && p.id !== 'pro') {
-    return { ...p, popular: false }
+    return { 
+      ...p, 
+      popular: false, 
+      price: formatPrice(p.price),
+      originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined
+    }
   }
-  return p
+  return { 
+    ...p, 
+    price: formatPrice(p.price),
+    originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined
+  }
 })
 
 const displayPlans = { monthly, annual }
