@@ -1,7 +1,11 @@
+
 import React, { useEffect } from "react";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingFooter } from "@/components/landing/LandingFooter";
+import { PricingHeader } from "@/components/pricing/PricingHeader";
 import { PricingPlans } from "@/components/PricingPlans";
+import { PricingComparison } from "@/components/pricing/PricingComparison";
+import { PricingFAQ } from "@/components/pricing/PricingFAQ";
 
 function setMeta(name: string, content: string) {
   let tag = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
@@ -33,19 +37,21 @@ export default function Pricing() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-background">
+    <div className="min-h-screen w-full flex flex-col bg-white">
       <LandingHeader />
       <main className="flex-1">
         <section className="py-16 sm:py-20">
-          <div className="max-w-6xl mx-auto px-4 text-center mb-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground animate-fade-in">
-              FeatherBiz Pricing Plans
-            </h1>
-            <p className="text-muted-foreground mt-3">
-              Simple, transparent pricing for every stage of your business.
+          <PricingHeader />
+          <PricingPlans />
+          <PricingComparison />
+          <PricingFAQ />
+          
+          {/* Legal microcopy */}
+          <div className="max-w-7xl mx-auto px-4 mt-12">
+            <p className="text-center text-xs text-gray-500">
+              Prices exclude tax where applicable.
             </p>
           </div>
-          <PricingPlans />
         </section>
       </main>
       <LandingFooter />

@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -12,38 +13,84 @@ const pricing = {
       id: "free",
       name: "Free",
       price: 0,
-      description: "Get started with the basics.",
-      features: ["Basic reporting", "Up to 5 users", "Basic support"],
-      cta: "Get started",
+      description: "Individuals and very small teams getting started.",
+      features: [
+        "Real-time contact syncing",
+        "SmartSchedule basic (single calendar)",
+        "EasyCalc (quick estimates)",
+        "Invoices (limited per month)",
+        "E-sign (limited docs per month)",
+        "Basic CRM (contacts, notes)",
+        "Limited users/seats"
+      ],
+      cta: "Start for free",
       featured: false,
     },
     {
       id: "professional-monthly",
-      name: "Professional",
+      name: "Plus",
       price: 26,
-      description: "Level up your business.",
-      features: ["Advanced reporting", "Up to 50 users", "Priority support"],
-      cta: "Choose monthly",
-      featured: true,
+      description: "Growing teams that need automation and collaboration.",
+      features: [
+        "Everything in Free, plus:",
+        "Unlimited invoices & estimates",
+        "SmartSchedule team",
+        "EasyCalc Pro (templates & cost libraries)",
+        "AI Voice (quotes & follow-ups)",
+        "Unlimited E-sign",
+        "Receipts & basic reports",
+        "Shared pipelines",
+        "Priority support (business hours)"
+      ],
+      cta: "Continue with Plus",
+      featured: false,
     },
     {
       id: "professional-annual",
-      name: "Professional",
+      name: "Pro",
       price: 252,
-      description: "Save 19% with annual billing.",
-      features: ["Advanced reporting", "Up to 50 users", "Priority support"],
-      cta: "Choose annual",
+      description: "Scaling businesses that want intelligence and speed.",
+      features: [
+        "Everything in Plus, plus:",
+        "Call Intelligence (summaries, action items)",
+        "Advanced data enrichment",
+        "Workflow automations",
+        "Custom fields & imports",
+        "Team roles & SSO",
+        "Advanced reports & dashboards",
+        "API access & webhooks",
+        "Priority support (fast lane)"
+      ],
+      cta: "Continue with Pro",
+      featured: true,
+    },
+    {
+      id: "enterprise",
+      name: "Enterprise",
+      price: null,
+      description: "Large organizations and regulated teams.",
+      features: [
+        "Unlimited objects",
+        "SAML/SSO and SCIM",
+        "Dedicated environments & audit logs",
+        "Custom workflows & approvals",
+        "Flexible invoicing",
+        "Dedicated CSM & onboarding"
+      ],
+      cta: "Talk to sales",
       featured: false,
     },
   ],
 }
 
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("en-US", {
+function formatPrice(price: number | null) {
+  if (price === null) return "Custom";
+  const formatted = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 0,
-  }).format(price)
+  }).format(price);
+  return formatted.replace('.00', '');
 }
 
 export function PricingPlans() {
@@ -51,21 +98,21 @@ export function PricingPlans() {
   const { redirectToCheckout, loading } = useCheckout()
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
 
-  const monthlyPlans = pricing.plans.filter((plan) => plan.id !== "professional-annual")
-  const annualPlans = pricing.plans.filter((plan) => plan.id !== "free" && plan.id !== "professional-monthly")
-
-  const currentPlans = billingPeriod === "monthly" ? monthlyPlans : annualPlans
-
   const handlePlanSelect = async (planId: string) => {
     if (planId === 'free') {
       window.location.assign('/auth')
       return
     }
 
+    if (planId === 'enterprise') {
+      // Handle enterprise contact
+      window.location.assign('/contact')
+      return
+    }
+
     setLoadingPlan(planId)
     
     try {
-      // Map plan IDs to checkout plans
       let checkoutPlan: 'monthly' | 'yearly' = 'monthly'
       if (planId.includes('annual') || billingPeriod === 'annual') {
         checkoutPlan = 'yearly'
@@ -84,75 +131,111 @@ export function PricingPlans() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex items-center justify-center space-x-4 pb-8">
-        <span className="text-gray-700">Monthly</span>
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            value=""
-            className="sr-only peer"
-            checked={billingPeriod === "annual"}
-            onChange={() =>
-              setBillingPeriod(billingPeriod === "monthly" ? "annual" : "monthly")
-            }
-          />
-          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-        </label>
-        <span className="text-gray-700">Annually</span>
-      </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-        {currentPlans.map((plan) => (
-          <Card
-            key={plan.id} 
-            className={`relative bg-white border rounded-[10px] p-7 transition-all duration-200 hover:border-[#D1D5DB] ${
-              plan.featured 
-                ? 'border-[#C7D2FE] shadow-[inset_0_0_0_1px_#C7D2FE,0_0_0_1px_#E0E7FF]' 
-                : 'border-[#E5E7EB]'
+      {/* Billing Toggle */}
+      <div className="flex items-center justify-center mb-12">
+        <div className="inline-flex items-center bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={() => setBillingPeriod("monthly")}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+              billingPeriod === "monthly"
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-600 hover:text-gray-900"
             }`}
           >
-            <div className="space-y-3">
-              {plan.featured && (
-                <Badge className="w-fit rounded-full px-2 py-1.5 text-xs font-medium uppercase bg-secondary text-secondary-foreground shadow-md">
-                  Featured
-                </Badge>
-              )}
-              <h3 className="text-2xl font-semibold">{plan.name}</h3>
-              <p className="text-muted-foreground">{plan.description}</p>
-              <div className="space-y-2">
-                <div className="text-3xl font-bold">
-                  {formatPrice(plan.price)}
-                  {plan.id !== "free" && (
-                    <span className="text-base font-medium text-gray-500">
-                      /
-                      {billingPeriod === "monthly" ? "mo" : "yr"}
-                    </span>
-                  )}
-                </div>
-                <ul className="space-y-1.5 text-sm">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="text-gray-700">
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            
-            <Button
-              onClick={() => handlePlanSelect(plan.id)}
-              disabled={loading || loadingPlan === plan.id}
-              variant={plan.id === 'free' ? 'outline' : 'default'}
-              className="w-full h-11 rounded-lg px-4 font-medium transition-all duration-180"
+            Monthly
+          </button>
+          <button
+            onClick={() => setBillingPeriod("annual")}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+              billingPeriod === "annual"
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            Annual
+          </button>
+        </div>
+      </div>
+      
+      {/* Plans Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {pricing.plans.map((plan) => {
+          const isAnnual = billingPeriod === "annual" && plan.id === "professional-annual";
+          const isMonthly = billingPeriod === "monthly" && plan.id === "professional-monthly";
+          const shouldShow = plan.id === "free" || plan.id === "enterprise" || isAnnual || isMonthly;
+          
+          if (!shouldShow) return null;
+
+          return (
+            <Card
+              key={plan.id} 
+              className={`relative bg-white transition-all duration-200 hover:border-gray-300 ${
+                plan.featured 
+                  ? 'border-blue-200 shadow-[inset_0_0_0_1px_#C7D2FE]' 
+                  : 'border-gray-200'
+              }`}
+              style={{ borderRadius: '10px', padding: '32px' }}
             >
-              {loadingPlan === plan.id ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                plan.cta
-              )}
-            </Button>
-          </Card>
-        ))}
+              <div className="space-y-6">
+                {/* Plan Header */}
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{plan.name}</h3>
+                  <div className="mb-4">
+                    <div className="flex items-baseline">
+                      <span className="text-4xl font-bold text-gray-900 tracking-tight">
+                        {formatPrice(plan.price)}
+                      </span>
+                      {plan.price !== null && plan.price > 0 && (
+                        <span className="text-gray-500 ml-1">
+                          /{billingPeriod === "monthly" ? "mo" : "yr"}
+                        </span>
+                      )}
+                    </div>
+                    {billingPeriod === "annual" && plan.price && (
+                      <div className="mt-2">
+                        <Badge variant="secondary" className="bg-blue-50 text-blue-600 text-xs">
+                          Save 20%
+                        </Badge>
+                      </div>
+                    )}
+                    {plan.price && plan.price > 0 && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        Per user/{billingPeriod === "monthly" ? "month" : "year"}{billingPeriod === "annual" ? ", billed annually" : ""}
+                      </p>
+                    )}
+                  </div>
+                  <p className="text-gray-600 text-sm mb-6">
+                    Best for: {plan.description}
+                  </p>
+                </div>
+
+                {/* Features */}
+                <div className="space-y-3">
+                  {plan.features.map((feature, index) => (
+                    <div key={index} className="text-sm text-gray-600">
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA Button */}
+                <Button
+                  onClick={() => handlePlanSelect(plan.id)}
+                  disabled={loading || loadingPlan === plan.id}
+                  variant={plan.id === 'free' || plan.id === 'enterprise' ? 'outline' : 'default'}
+                  className="w-full font-semibold"
+                  style={{ borderRadius: '8px', height: '44px' }}
+                >
+                  {loadingPlan === plan.id ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    plan.cta
+                  )}
+                </Button>
+              </div>
+            </Card>
+          )
+        })}
       </div>
     </div>
   )
