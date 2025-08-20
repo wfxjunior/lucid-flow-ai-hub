@@ -69,12 +69,16 @@ export function AttioPricingSection() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
   const handlePlanSelect = async (planId: string) => {
+    console.log('Plan selected:', planId);
+    
     if (planId === 'free') {
+      console.log('Redirecting to auth for free plan');
       window.location.assign('/auth');
       return;
     }
 
     if (planId === 'enterprise') {
+      console.log('Redirecting to contact for enterprise plan');
       window.location.assign('/contact');
       return;
     }
@@ -83,6 +87,7 @@ export function AttioPricingSection() {
       setLoadingPlan(planId);
       
       try {
+        console.log('Starting checkout for Plus plan');
         await redirectToCheckout({
           plan: 'monthly'
         });
@@ -96,7 +101,7 @@ export function AttioPricingSection() {
   };
 
   return (
-    <section className="py-24 lg:py-32 bg-white">
+    <section id="pricing" className="py-24 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -178,7 +183,7 @@ export function AttioPricingSection() {
                   variant={plan.popular ? 'default' : 'outline'}
                   className={`w-full font-semibold text-base ${
                     plan.popular 
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white border-0' 
                       : 'border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
                   }`}
                   style={{ 
