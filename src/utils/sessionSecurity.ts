@@ -8,12 +8,16 @@ interface DeviceFingerprint {
   platform: string;
   cookieEnabled: boolean;
   timestamp: number;
+  screenResolution: string;
+  timezone: string;
 }
 
 class SessionSecurityManager {
   private static instance: SessionSecurityManager;
   private sessionTimeout: number = 24 * 60 * 60 * 1000; // 24 hours
+  private warningTimeout: number = 23 * 60 * 60 * 1000; // 23 hours (1 hour before expiry)
   private checkInterval: NodeJS.Timeout | null = null;
+  private warningShown: boolean = false;
 
   static getInstance(): SessionSecurityManager {
     if (!SessionSecurityManager.instance) {
@@ -41,6 +45,7 @@ class SessionSecurityManager {
       clearInterval(this.checkInterval);
       this.checkInterval = null;
     }
+    this.warningShown = false;
   }
 
   async validateSession(): Promise<boolean> {
@@ -56,9 +61,10 @@ class SessionSecurityManager {
         return true; // No session is valid state
       }
 
-      // Check session expiration
+      // Check session expiration and show warning
       const expiresAt = new Date(session.expires_at || 0).getTime();
       const now = Date.now();
+      const timeUntilExpiry = expiresAt - now;
       
       if (expiresAt < now) {
         securityEvent('Session expired', { 
@@ -69,7 +75,13 @@ class SessionSecurityManager {
         return false;
       }
 
-      // Check for suspicious activity
+      // Show warning if session expires in less than 1 hour
+      if (timeUntilExpiry < 60 * 60 * 1000 && !this.warningShown) {
+        this.showSessionWarning(Math.floor(timeUntilExpiry / (60 * 1000)));
+        this.warningShown = true;
+      }
+
+      // Check for suspicious activity with enhanced fingerprinting
       if (this.detectSuspiciousActivity()) {
         securityEvent('Suspicious session activity detected', {
           userId: session.user.id,
@@ -100,7 +112,9 @@ class SessionSecurityManager {
       language: navigator.language,
       platform: navigator.platform,
       cookieEnabled: navigator.cookieEnabled,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      screenResolution: `${screen.width}x${screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
     };
 
     const storedFingerprint = localStorage.getItem('device_fingerprint');
@@ -111,7 +125,8 @@ class SessionSecurityManager {
         
         // Check for significant changes that might indicate session hijacking
         if (stored.userAgent !== currentFingerprint.userAgent ||
-            stored.platform !== currentFingerprint.platform) {
+            stored.platform !== currentFingerprint.platform ||
+            stored.timezone !== currentFingerprint.timezone) {
           return true;
         }
       } catch (error) {
@@ -124,6 +139,14 @@ class SessionSecurityManager {
     }
 
     return false;
+  }
+
+  private showSessionWarning(minutesRemaining: number) {
+    // Create a simple warning toast or modal
+    const warningEvent = new CustomEvent('sessionWarning', {
+      detail: { minutesRemaining }
+    });
+    window.dispatchEvent(warningEvent);
   }
 
   private async handleExpiredSession() {
@@ -151,12 +174,15 @@ class SessionSecurityManager {
       this.stopSessionMonitoring();
       localStorage.removeItem('device_fingerprint');
       
-      // Clear all auth-related storage
-      Object.keys(localStorage).forEach((key) => {
-        if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-          localStorage.removeItem(key);
-        }
-      });
+      // Enhanced cleanup - remove all potentially sensitive data
+      const keysToRemove = Object.keys(localStorage).filter(key => 
+        key.startsWith('supabase.auth.') || 
+        key.includes('sb-') ||
+        key.includes('session') ||
+        key.includes('token')
+      );
+      
+      keysToRemove.forEach(key => localStorage.removeItem(key));
 
       await supabase.auth.signOut({ scope: 'global' });
       
@@ -179,4 +205,9 @@ export const sessionSecurity = SessionSecurityManager.getInstance();
 // Auto-start session monitoring when module loads
 if (typeof window !== 'undefined') {
   sessionSecurity.startSessionMonitoring();
+  
+  // Apply security headers on load
+  import('./contentSecurityPolicy').then(({ applySecurityHeaders }) => {
+    applySecurityHeaders();
+  });
 }

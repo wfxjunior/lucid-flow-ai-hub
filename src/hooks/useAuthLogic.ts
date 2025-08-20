@@ -53,7 +53,7 @@ export function useAuthLogic() {
   }
 
   const validatePassword = (password: string) => {
-    return password.length >= 6
+    return password.length >= 8 // Standardized to 8 characters
   }
 
   const getRedirectUrl = () => {
@@ -74,7 +74,7 @@ export function useAuthLogic() {
     if (selectedCountry === 'br') {
       const messages = {
         'invalid_email': 'Por favor, insira um endereço de email válido',
-        'weak_password': 'A senha deve ter pelo menos 6 caracteres',
+        'weak_password': 'A senha deve ter pelo menos 8 caracteres',
         'invalid_credentials': 'Email ou senha inválidos. Verifique suas credenciais.',
         'email_not_confirmed': 'Por favor, verifique seu email e clique no link de confirmação antes de fazer login.',
         'password_mismatch': 'As senhas não coincidem',
@@ -89,7 +89,7 @@ export function useAuthLogic() {
     
     const messages = {
       'invalid_email': 'Please enter a valid email address',
-      'weak_password': 'Password must be at least 6 characters long',
+      'weak_password': 'Password must be at least 8 characters long',
       'invalid_credentials': 'Invalid email or password. Please check your credentials.',
       'email_not_confirmed': 'Please check your email and click the confirmation link before signing in.',
       'password_mismatch': 'Passwords do not match',

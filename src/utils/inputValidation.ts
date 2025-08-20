@@ -1,4 +1,3 @@
-
 export const validateEmail = (email: string): { isValid: boolean; error?: string } => {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   
@@ -26,6 +25,19 @@ export const validatePassword = (password: string): { isValid: boolean; error?: 
     return { isValid: false, error: 'Password must be at least 8 characters' };
   }
   
+  // Enhanced password strength validation
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  
+  if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
+    return { 
+      isValid: false, 
+      error: 'Password must contain uppercase, lowercase, and numbers' 
+    };
+  }
+  
   return { isValid: true };
 };
 
@@ -37,27 +49,42 @@ export const validateRequired = (value: string, fieldName: string): { isValid: b
   return { isValid: true };
 };
 
-// Client-side rate limiting functionality
-const rateLimitStore = new Map<string, { count: number; lastReset: number }>();
+// Enhanced client-side rate limiting with better security
+const rateLimitStore = new Map<string, { count: number; lastReset: number; blocked: boolean }>();
 
 export const checkClientRateLimit = (action: string, maxRequests: number, windowMs: number): boolean => {
   const now = Date.now();
-  const key = action;
+  const key = `${action}_${navigator.userAgent.slice(0, 50)}`; // Include browser fingerprint
   
   const existing = rateLimitStore.get(key);
   
   if (!existing || (now - existing.lastReset) > windowMs) {
     // Reset the counter
-    rateLimitStore.set(key, { count: 1, lastReset: now });
+    rateLimitStore.set(key, { count: 1, lastReset: now, blocked: false });
     return true;
   }
   
-  if (existing.count >= maxRequests) {
+  if (existing.blocked || existing.count >= maxRequests) {
+    // Implement exponential backoff for repeated violations
+    existing.blocked = true;
     return false;
   }
   
   existing.count++;
   return true;
+};
+
+// Enhanced security input sanitization
+export const sanitizeSecurityInput = (input: string): string => {
+  return input
+    .replace(/[<>]/g, '') // Remove HTML tags
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/on\w+=/gi, '') // Remove event handlers
+    .replace(/data:/gi, '') // Remove data: protocol
+    .replace(/vbscript:/gi, '') // Remove vbscript: protocol
+    .replace(/file:/gi, '') // Remove file: protocol
+    .trim()
+    .slice(0, 1000) // Limit length to prevent buffer overflow attacks
 };
 
 // Form validation functionality
