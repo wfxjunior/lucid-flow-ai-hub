@@ -11,10 +11,11 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { ProductsDropdown } from "@/components/navigation/ProductsDropdown";
 import navglyphsUrl from "@/assets/navglyphs.svg";
 import { WhatsNewCard } from "./WhatsNewCard";
 import { track } from "@/lib/analytics";
-import { useSubscription } from "@/hooks/useSubscription"
+import { useSubscription } from "@/hooks/useSubscription";
 
 // Helper: inline SVG symbol use
 const NavGlyph = ({ name, className = "", size = 24 }: { name: string; className?: string; size?: number }) => (
@@ -143,7 +144,7 @@ export const LandingHeader = () => {
   const location = useLocation();
   const locale = typeof navigator !== "undefined" ? navigator.language : "en";
 
-  const { isSubscribed, openCustomerPortal } = useSubscription()
+  const { isSubscribed, openCustomerPortal } = useSubscription();
 
   const onPricingClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const isLanding = location.pathname === '/landing' || location.pathname === '/';
@@ -155,29 +156,12 @@ export const LandingHeader = () => {
   };
 
   // Lazy render toggles for right column
-  const [platformReady, setPlatformReady] = useState(false);
   const [resourcesReady, setResourcesReady] = useState(false);
 
   const handleOpen = (menuId: string) => {
     track('nav_megamenu_open', { menu_id: menuId, locale });
-    if (menuId === 'header_megamenu_platform') setPlatformReady(true);
     if (menuId === 'header_megamenu_resources') setResourcesReady(true);
   };
-
-  const FeatureItem = ({ item, menuId }: { item: typeof features[number]; menuId: string }) => (
-    <button
-      type="button"
-      onClick={() => track('nav_megamenu_click', { menu_id: menuId, item_key: item.key, locale })}
-      className="flex items-start gap-3 rounded-md p-3 hover:bg-accent hover:text-accent-foreground text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-      aria-label={`${item.title} — ${item.desc}`}
-    >
-      <NavGlyph name={item.icon} className="shrink-0 text-foreground/80" size={24} />
-      <span>
-        <span className="block text-sm font-medium">{item.title}</span>
-        <span className="block text-xs text-muted-foreground">{item.desc}</span>
-      </span>
-    </button>
-  );
 
   const ResourcesItem = ({ item, menuId }: { item: typeof resourcesItems[number]; menuId: string }) => {
     const IconComponent = item.icon;
@@ -268,24 +252,9 @@ export const LandingHeader = () => {
           <nav className="hidden lg:flex items-center">
             <NavigationMenu>
               <NavigationMenuList className="gap-4">
-                {/* Platform */}
+                {/* Products - New mega menu */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger 
-                    className="text-base font-medium text-[#111827] hover:text-[#111827]/90 focus:text-[#111827] bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-0 py-0 h-auto focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-primary"
-                    onPointerEnter={() => handleOpen('header_megamenu_platform')}
-                  >
-                    Platform
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent onPointerEnter={() => handleOpen('header_megamenu_platform')}>
-                    <div id="header_megamenu_platform" className="grid w-[520px] gap-2 p-4 md:w-[720px] md:grid-cols-[1fr_320px]">
-                      <div className="grid gap-1">
-                        {features.map((it) => (
-                          <FeatureItem key={it.key} item={it} menuId="header_megamenu_platform" />
-                        ))}
-                      </div>
-                      <RightColumn menuId="header_megamenu_platform" ready={platformReady} />
-                    </div>
-                  </NavigationMenuContent>
+                  <ProductsDropdown />
                 </NavigationMenuItem>
 
                 {/* Resources */}
@@ -355,14 +324,18 @@ export const LandingHeader = () => {
             <SheetContent side="right" className="w-full sm:max-w-sm">
               <nav className="mt-6 space-y-6">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-2">Platform</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-2">Products</p>
                   <div className="grid gap-2">
-                    <SheetClose asChild><Link to="/landing#features" className="text-foreground hover:underline">Features overview</Link></SheetClose>
-                    <SheetClose asChild><Link to="/landing#automation" className="text-foreground hover:underline">Automation & AI</Link></SheetClose>
-                    <SheetClose asChild><Link to="/landing#integrations" className="text-foreground hover:underline">Integrations</Link></SheetClose>
-                    <SheetClose asChild><Link to="/landing#security" className="text-foreground hover:underline">Security & permissions</Link></SheetClose>
+                    <SheetClose asChild><Link to="/features/ai-voice" className="text-foreground hover:underline">AI Voice</Link></SheetClose>
+                    <SheetClose asChild><Link to="/features/invoices" className="text-foreground hover:underline">Invoices</Link></SheetClose>
+                    <SheetClose asChild><Link to="/features/estimates" className="text-foreground hover:underline">Estimates</Link></SheetClose>
+                    <SheetClose asChild><Link to="/features/easycalc" className="text-foreground hover:underline">EasyCalc</Link></SheetClose>
+                    <SheetClose asChild><Link to="/features/pipeline" className="text-foreground hover:underline">Pipeline</Link></SheetClose>
+                    <SheetClose asChild><Link to="/features/feathertax" className="text-foreground hover:underline">FeatherTax</Link></SheetClose>
+                    <SheetClose asChild><Link to="/features/work-orders" className="text-foreground hover:underline">Work Orders</Link></SheetClose>
                   </div>
                 </div>
+                
                 <div>
                   <p className="text-sm font-medium text-muted-foreground mb-2">Resources</p>
                   <div className="grid gap-2">
