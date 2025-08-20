@@ -36,3 +36,169 @@ export const validateRequired = (value: string, fieldName: string): { isValid: b
   
   return { isValid: true };
 };
+
+// Client-side rate limiting functionality
+const rateLimitStore = new Map<string, { count: number; lastReset: number }>();
+
+export const checkClientRateLimit = (action: string, maxRequests: number, windowMs: number): boolean => {
+  const now = Date.now();
+  const key = action;
+  
+  const existing = rateLimitStore.get(key);
+  
+  if (!existing || (now - existing.lastReset) > windowMs) {
+    // Reset the counter
+    rateLimitStore.set(key, { count: 1, lastReset: now });
+    return true;
+  }
+  
+  if (existing.count >= maxRequests) {
+    return false;
+  }
+  
+  existing.count++;
+  return true;
+};
+
+// Form validation functionality
+interface ValidationRule {
+  type: 'text' | 'email' | 'url' | 'phone' | 'number';
+  options?: {
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    pattern?: RegExp;
+    customValidator?: (value: string) => boolean;
+  };
+}
+
+interface ValidationResult {
+  isValid: boolean;
+  sanitizedValue: any;
+  errors: string[];
+}
+
+interface FormValidationResult {
+  isValid: boolean;
+  sanitizedData: Record<string, any>;
+  results: Record<string, ValidationResult>;
+}
+
+const sanitizeHtml = (html: string): string => {
+  // Basic HTML sanitization - remove script tags and dangerous attributes
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/on\w+="[^"]*"/g, '')
+    .replace(/javascript:/gi, '');
+};
+
+const validateField = (value: any, rule: ValidationRule): ValidationResult => {
+  const errors: string[] = [];
+  let sanitizedValue = value;
+  
+  // Required validation
+  if (rule.options?.required && (!value || value.toString().trim().length === 0)) {
+    errors.push('This field is required');
+    return { isValid: false, sanitizedValue: value, errors };
+  }
+  
+  // Skip other validations if field is empty and not required
+  if (!value || value.toString().trim().length === 0) {
+    return { isValid: true, sanitizedValue: '', errors: [] };
+  }
+  
+  // Type-specific validation and sanitization
+  switch (rule.type) {
+    case 'email':
+      const emailValidation = validateEmail(value.toString());
+      if (!emailValidation.isValid) {
+        errors.push(emailValidation.error || 'Invalid email format');
+      }
+      sanitizedValue = value.toString().toLowerCase().trim();
+      break;
+      
+    case 'text':
+      sanitizedValue = sanitizeHtml(value.toString().trim());
+      break;
+      
+    case 'number':
+      const numValue = Number(value);
+      if (isNaN(numValue)) {
+        errors.push('Must be a valid number');
+      } else {
+        sanitizedValue = numValue;
+      }
+      break;
+      
+    case 'url':
+      try {
+        new URL(value.toString());
+        sanitizedValue = value.toString().trim();
+      } catch {
+        errors.push('Must be a valid URL');
+      }
+      break;
+      
+    case 'phone':
+      const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
+      if (!phoneRegex.test(value.toString())) {
+        errors.push('Must be a valid phone number');
+      }
+      sanitizedValue = value.toString().replace(/[^\d+]/g, '');
+      break;
+  }
+  
+  // Length validation
+  if (rule.options?.minLength && sanitizedValue.toString().length < rule.options.minLength) {
+    errors.push(`Must be at least ${rule.options.minLength} characters`);
+  }
+  
+  if (rule.options?.maxLength && sanitizedValue.toString().length > rule.options.maxLength) {
+    errors.push(`Must be no more than ${rule.options.maxLength} characters`);
+    sanitizedValue = sanitizedValue.toString().substring(0, rule.options.maxLength);
+  }
+  
+  // Pattern validation
+  if (rule.options?.pattern && !rule.options.pattern.test(sanitizedValue.toString())) {
+    errors.push('Invalid format');
+  }
+  
+  // Custom validation
+  if (rule.options?.customValidator && !rule.options.customValidator(sanitizedValue.toString())) {
+    errors.push('Validation failed');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    sanitizedValue,
+    errors
+  };
+};
+
+export const validateFormData = (
+  data: Record<string, any>, 
+  rules: Record<string, ValidationRule>
+): FormValidationResult => {
+  const results: Record<string, ValidationResult> = {};
+  const sanitizedData: Record<string, any> = {};
+  let isValid = true;
+  
+  // Validate each field
+  Object.entries(rules).forEach(([fieldName, rule]) => {
+    const fieldValue = data[fieldName];
+    const result = validateField(fieldValue, rule);
+    
+    results[fieldName] = result;
+    sanitizedData[fieldName] = result.sanitizedValue;
+    
+    if (!result.isValid) {
+      isValid = false;
+    }
+  });
+  
+  return {
+    isValid,
+    sanitizedData,
+    results
+  };
+};
