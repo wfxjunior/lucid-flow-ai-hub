@@ -8,7 +8,7 @@ export function PricingHeader() {
       <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-4">
         Designed for every stage of your journey. Start today, no credit card required.
       </p>
-      <p className="text-base text-gray-500 leading-relaxed opacity-100" style={{ color: '#6B7280', lineHeight: '1.5' }}>
+      <p className="text-base leading-relaxed" style={{ color: '#6B7280', lineHeight: '1.5' }}>
         No credit card required. Cancel anytime. All features included.
       </p>
     </div>
