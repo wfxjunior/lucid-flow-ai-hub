@@ -1,11 +1,9 @@
-import { Crown, Zap, Gift, Building2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { PricingHeader } from "./pricing/PricingHeader"
 import { PricingCard } from "./pricing/PricingCard"
 import { TrustIndicators } from "./pricing/TrustIndicators"
 import { PricingFeaturesDetails } from "./pricing/PricingFeaturesDetails"
 import { PricingFAQ } from "./pricing/PricingFAQ"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Check, X } from "lucide-react"
 import { useState, useEffect } from "react"
 import pricingJson from "../../config/pricing.json"
@@ -13,7 +11,6 @@ import entitlementsJson from "../../config/entitlements.json"
 import priceMapJson from "../../config/stripe.priceMap.json"
 import { useCheckout, CheckoutPlan } from "@/hooks/useCheckout"
 import { supabase } from "@/integrations/supabase/client"
-import { Button } from "@/components/ui/button"
 
 // Define pricing plans data
 const plans = {
@@ -23,8 +20,7 @@ const plans = {
       name: "Free",
       description: "Perfect for getting started",
       price: "$0",
-      period: "Forever free",
-      icon: Gift,
+      period: "month",
       features: [
         "Dashboard overview",
         "Up to 5 customers",
@@ -34,8 +30,6 @@ const plans = {
       ],
       buttonText: "Start for free",
       popular: false,
-      color: "blue",
-      bgGradient: "from-blue-50 to-blue-100",
       stripePrice: null,
       recurring: false
     },
@@ -44,8 +38,7 @@ const plans = {
       name: "Plus",
       description: "For small businesses",
       price: "$19",
-      period: "per month",
-      icon: Zap,
+      period: "month",
       features: [
         "Everything in Free",
         "Unlimited customers",
@@ -57,8 +50,6 @@ const plans = {
       ],
       buttonText: "Continue with Plus",
       popular: false,
-      color: "purple",
-      bgGradient: "from-purple-50 to-purple-100",
       stripePrice: 1900,
       recurring: true
     },
@@ -67,8 +58,7 @@ const plans = {
       name: "Pro",
       description: "For growing businesses",
       price: "$26",
-      period: "per month",
-      icon: Crown,
+      period: "month",
       features: [
         "Work Orders",
         "EasyCalc",
@@ -83,8 +73,6 @@ const plans = {
       ],
       buttonText: "Continue with Pro",
       popular: true,
-      color: "green",
-      bgGradient: "from-green-50 to-green-100",
       stripePrice: 2600,
       recurring: true
     },
@@ -93,8 +81,7 @@ const plans = {
       name: "Enterprise",
       description: "For large organizations",
       price: "Custom",
-      period: "Contact for pricing",
-      icon: Building2,
+      period: "",
       features: [
         "Everything in Pro",
         "Unlimited users & storage",
@@ -107,8 +94,6 @@ const plans = {
       ],
       buttonText: "Talk to sales",
       popular: false,
-      color: "orange",
-      bgGradient: "from-orange-50 to-orange-100",
       stripePrice: null,
       recurring: false
     }
@@ -119,8 +104,7 @@ const plans = {
       name: "Free",
       description: "Perfect for getting started",
       price: "$0",
-      period: "Forever free",
-      icon: Gift,
+      period: "month",
       features: [
         "Dashboard overview",
         "Up to 5 customers",
@@ -130,8 +114,6 @@ const plans = {
       ],
       buttonText: "Start for free",
       popular: false,
-      color: "blue",
-      bgGradient: "from-blue-50 to-blue-100",
       stripePrice: null,
       recurring: false
     },
@@ -140,10 +122,9 @@ const plans = {
       name: "Plus",
       description: "For small businesses",
       price: "$15",
-      period: "per month, billed annually",
+      period: "month",
       originalPrice: "$19",
       savings: "Save 20%",
-      icon: Zap,
       features: [
         "Everything in Free",
         "Unlimited customers",
@@ -154,9 +135,7 @@ const plans = {
         "Priority support"
       ],
       buttonText: "Continue with Plus",
-       popular: false,
-      color: "purple",
-      bgGradient: "from-purple-50 to-purple-100",
+      popular: false,
       stripePrice: 1500,
       recurring: true,
       annualBilling: true
@@ -166,24 +145,21 @@ const plans = {
       name: "Pro",
       description: "For growing businesses",
       price: "$21",
-      period: "per month, billed annually",
-      icon: Crown,
-       features: [
-         "Work Orders",
-         "EasyCalc",
-         "MatTrack",
-         "CarRental",
-         "SmartSchedule",
-         "Bids",
-         "CrewControl",
-         "FeatherBudget",
-         "Projects",
-         "ESIGN"
-       ],
+      period: "month",
+      features: [
+        "Work Orders",
+        "EasyCalc",
+        "MatTrack",
+        "CarRental",
+        "SmartSchedule",
+        "Bids",
+        "CrewControl",
+        "FeatherBudget",
+        "Projects",
+        "ESIGN"
+      ],
       buttonText: "Continue with Pro",
-       popular: true,
-      color: "green",
-      bgGradient: "from-green-50 to-green-100",
+      popular: true,
       stripePrice: 2100,
       recurring: true,
       annualBilling: true
@@ -193,8 +169,7 @@ const plans = {
       name: "Enterprise",
       description: "For large organizations",
       price: "Custom",
-      period: "Contact for pricing",
-      icon: Building2,
+      period: "",
       features: [
         "Everything in Pro",
         "Unlimited users & storage",
@@ -207,8 +182,6 @@ const plans = {
       ],
       buttonText: "Talk to sales",
       popular: false,
-      color: "orange",
-      bgGradient: "from-orange-50 to-orange-100",
       stripePrice: null,
       recurring: false
     }
@@ -503,117 +476,116 @@ const getCategoryDescription = (title: string) => {
   }
 };
 
-const basePlans = (remotePlans ?? plans)
+  const basePlans = (remotePlans ?? plans)
 
-const proPopular = pricingConfig?.plans?.pro?.mostPopular ?? true
+  const proPopular = pricingConfig?.plans?.pro?.mostPopular ?? true
 
-const formatAmount = (amount?: number, currency?: string) => {
-  if (!amount || !currency) return undefined
-  try {
-    const formatted = new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
-    return formatted.replace(/\.00$/, '') // Remove trailing .00
-  } catch {
-    return `$${Math.round((amount || 0) / 100)}`
-  }
-}
-
-const monthly = basePlans.monthly.map((p) => {
-  if (p.id === 'pro') {
-    const cur = pricingConfig?.currency || 'USD'
-    const priceStr = pricingConfig?.plans?.pro?.monthly
-      ? (formatAmount(pricingConfig.plans.pro.monthly, cur) || formatPrice(p.price))
-      : formatPrice(p.price)
-    return {
-      ...p,
-      price: priceStr,
-      period: 'per month',
-      popular: proPopular ? true : p.popular,
-      features: (entitlements?.pro?.features ?? entitlementsJson.pro.features) || p.features,
-      coreBusiness: (entitlements?.pro?.coreBusiness ?? entitlementsJson.pro.coreBusiness) || [],
-      stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
-      currency: pricingConfig?.currency ? cur.toLowerCase() : (p as any).currency,
+  const formatAmount = (amount?: number, currency?: string) => {
+    if (!amount || !currency) return undefined
+    try {
+      const formatted = new Intl.NumberFormat(undefined, { style: 'currency', currency: currency.toUpperCase() }).format((amount || 0) / 100)
+      return formatted.replace(/\.00$/, '') // Remove trailing .00
+    } catch {
+      return `$${Math.round((amount || 0) / 100)}`
     }
   }
-  // Ensure only PRO is marked popular
-  if (proPopular && p.id !== 'pro') {
-    return { ...p, popular: false, price: formatPrice(p.price) }
-  }
-  return { ...p, price: formatPrice(p.price) }
-})
 
-const annual = basePlans.annual.map((p) => {
-  if (p.id === 'pro') {
-    return {
-      ...p,
-      price: formatPrice(p.price),
-      originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined,
-      popular: proPopular ? true : p.popular,
-      features: (entitlements?.pro?.features ?? entitlementsJson.pro.features) || p.features,
-      coreBusiness: (entitlements?.pro?.coreBusiness ?? entitlementsJson.pro.coreBusiness) || (p as any).coreBusiness || [],
-      stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
+  const monthly = basePlans.monthly.map((p) => {
+    if (p.id === 'pro') {
+      const cur = pricingConfig?.currency || 'USD'
+      const priceStr = pricingConfig?.plans?.pro?.monthly
+        ? (formatAmount(pricingConfig.plans.pro.monthly, cur) || formatPrice(p.price))
+        : formatPrice(p.price)
+      return {
+        ...p,
+        price: priceStr,
+        period: 'month',
+        popular: proPopular ? true : p.popular,
+        features: (entitlements?.pro?.features ?? entitlementsJson.pro.features) || p.features,
+        coreBusiness: (entitlements?.pro?.coreBusiness ?? entitlementsJson.pro.coreBusiness) || [],
+        stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
+        currency: pricingConfig?.currency ? cur.toLowerCase() : (p as any).currency,
+      }
     }
-  }
-  if (proPopular && p.id !== 'pro') {
+    // Ensure only PRO is marked popular
+    if (proPopular && p.id !== 'pro') {
+      return { ...p, popular: false, price: formatPrice(p.price) }
+    }
+    return { ...p, price: formatPrice(p.price) }
+  })
+
+  const annual = basePlans.annual.map((p) => {
+    if (p.id === 'pro') {
+      return {
+        ...p,
+        price: formatPrice(p.price),
+        originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined,
+        popular: proPopular ? true : p.popular,
+        features: (entitlements?.pro?.features ?? entitlementsJson.pro.features) || p.features,
+        coreBusiness: (entitlements?.pro?.coreBusiness ?? entitlementsJson.pro.coreBusiness) || (p as any).coreBusiness || [],
+        stripePriceId: priceMap?.pro?.priceId || (p as any).stripePriceId || null,
+      }
+    }
+    if (proPopular && p.id !== 'pro') {
+      return { 
+        ...p, 
+        popular: false, 
+        price: formatPrice(p.price),
+        originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined
+      }
+    }
     return { 
       ...p, 
-      popular: false, 
       price: formatPrice(p.price),
       originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined
     }
-  }
-  return { 
-    ...p, 
-    price: formatPrice(p.price),
-    originalPrice: p.originalPrice ? formatPrice(p.originalPrice) : undefined
-  }
-})
+  })
 
-const displayPlans = { monthly, annual }
-
-const currentPlans = displayPlans[billingPeriod]
+  const displayPlans = { monthly, annual }
+  const currentPlans = displayPlans[billingPeriod]
 
   return (
-    <div className="py-6 sm:py-8 lg:py-10 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="py-12 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <PricingHeader />
         
         {/* Billing Period Toggle */}
-        <div className="flex justify-center mb-8 sm:mb-12">
-          <div className="bg-muted/50 rounded-full p-1 shadow-sm border max-w-sm mx-auto">
-            <ToggleGroup
-              type="single"
-              value={billingPeriod}
-              onValueChange={(value) => value && setBillingPeriod(value as "monthly" | "annual")}
-              className="grid grid-cols-2 gap-1 w-full"
-            >
-              <ToggleGroupItem
-                value="monthly"
-                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-sm data-[state=off]:text-muted-foreground data-[state=off]:bg-transparent transition-all"
+        <div className="flex justify-center mb-12">
+          <div className="bg-slate-100 rounded-lg p-1 max-w-xs mx-auto">
+            <div className="grid grid-cols-2 gap-1 w-full">
+              <button
+                onClick={() => setBillingPeriod("monthly")}
+                className={`px-6 py-2.5 text-sm font-medium rounded-md transition-all duration-200 ${
+                  billingPeriod === "monthly"
+                    ? 'bg-white text-slate-800 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-800'
+                }`}
               >
                 Monthly
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="annual"
-                className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium rounded-full data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-sm data-[state=off]:text-muted-foreground data-[state=off]:bg-transparent transition-all"
+              </button>
+              <button
+                onClick={() => setBillingPeriod("annual")}
+                className={`px-6 py-2.5 text-sm font-medium rounded-md transition-all duration-200 ${
+                  billingPeriod === "annual"
+                    ? 'bg-white text-slate-800 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-800'
+                }`}
               >
                 Annual
-              </ToggleGroupItem>
-            </ToggleGroup>
+              </button>
+            </div>
           </div>
         </div>
         
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
           {currentPlans.map((plan) => (
-            <div key={plan.id} className="flex justify-center">
-              <div className="w-full">
-                <PricingCard 
-                  plan={plan} 
-                  onPlanSelect={handlePlanSelection}
-                  loading={loading}
-                />
-              </div>
-            </div>
+            <PricingCard 
+              key={plan.id}
+              plan={plan} 
+              onPlanSelect={handlePlanSelection}
+              loading={loading}
+            />
           ))}
         </div>
 
