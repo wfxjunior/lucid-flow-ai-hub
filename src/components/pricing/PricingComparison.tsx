@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, Info } from 'lucide-react';
 import {
@@ -17,135 +16,443 @@ import {
 
 const FEATURE_MATRIX = [
   {
-    group: "Core",
+    group: "Core Business Management",
     items: [
       {
-        id: "contact_sync",
-        label: "Real-time contact syncing",
-        desc: "Sync contacts and company records in real time across devices.",
-        free: "✓",
-        pro: "✓",
-        plus: "✓",
-        ent: "✓"
+        id: "dashboard",
+        label: "Dashboard",
+        desc: "Business overview with analytics and key metrics.",
+        free: "Basic",
+        pro: "Advanced",
+        plus: "Advanced + custom widgets",
+        ent: "Full customization"
+      },
+      {
+        id: "customers",
+        label: "Customer Management",
+        desc: "Complete CRM with contact sync and customer tracking.",
+        free: "Up to 100 customers",
+        pro: "Up to 1,000 customers",
+        plus: "Unlimited customers",
+        ent: "Unlimited + custom fields"
+      },
+      {
+        id: "projects",
+        label: "Project Management",
+        desc: "Track projects, milestones, and deliverables.",
+        free: "Up to 3 projects",
+        pro: "Up to 25 projects",
+        plus: "Unlimited projects",
+        ent: "Unlimited + templates"
+      },
+      {
+        id: "pipeline",
+        label: "Sales Pipeline",
+        desc: "Visual sales funnel with deal tracking.",
+        free: "Basic pipeline",
+        pro: "Custom stages",
+        plus: "Multiple pipelines",
+        ent: "Advanced automation"
       },
       {
         id: "smart_schedule",
         label: "SmartSchedule",
-        desc: "Automated scheduling with conflict detection and buffers.",
+        desc: "AI-powered scheduling with conflict detection.",
         free: "Basic (1 calendar)",
         pro: "Team (up to 5)",
         plus: "Team (unlimited)",
-        ent: "Org-wide (admin controls)"
-      },
-      {
-        id: "easycalc",
-        label: "EasyCalc",
-        desc: "Fast estimating with reusable templates and cost libraries.",
-        free: "Quick estimates",
-        pro: "Templates",
-        plus: "Templates + libraries",
-        ent: "Advanced rules"
-      },
+        ent: "Org-wide + admin controls"
+      }
+    ]
+  },
+  {
+    group: "Financial Tools",
+    items: [
       {
         id: "invoices",
         label: "Invoices",
         desc: "Create, send, and track invoices with reminders.",
-        free: "Limited / mo",
+        free: "5 per month",
         pro: "Unlimited",
-        plus: "Unlimited",
+        plus: "Unlimited + recurring",
         ent: "Unlimited + custom fields"
       },
       {
-        id: "esign",
-        label: "E-sign",
-        desc: "Legally binding signatures with audit trail.",
-        free: "Limited / mo",
-        pro: "Up to 50 / mo",
-        plus: "Unlimited",
-        ent: "Unlimited + SSO"
+        id: "estimates",
+        label: "Estimates & Quotes",
+        desc: "Professional quotes with approval workflows.",
+        free: "5 per month",
+        pro: "Unlimited",
+        plus: "Unlimited + templates",
+        ent: "Advanced approval flows"
       },
+      {
+        id: "payments",
+        label: "Payment Processing",
+        desc: "Accept payments online with multiple gateways.",
+        free: "—",
+        pro: "Basic payment links",
+        plus: "Multiple gateways",
+        ent: "Custom payment flows"
+      },
+      {
+        id: "easycalc",
+        label: "EasyCalc",
+        desc: "Smart pricing calculator with cost libraries.",
+        free: "Basic calculations",
+        pro: "Templates + formulas",
+        plus: "Cost libraries",
+        ent: "Advanced rules engine"
+      },
+      {
+        id: "receipts",
+        label: "Receipt Management",
+        desc: "Digital receipt creation and tracking.",
+        free: "Manual entry",
+        pro: "Automated generation",
+        plus: "Bulk operations",
+        ent: "Custom templates"
+      },
+      {
+        id: "accounting",
+        label: "Accounting Tools",
+        desc: "Basic bookkeeping and financial reporting.",
+        free: "—",
+        pro: "Basic reports",
+        plus: "Advanced reports",
+        ent: "Full accounting suite"
+      },
+      {
+        id: "featherbudget",
+        label: "FeatherBudget",
+        desc: "AI-powered personal finance and budget tracking.",
+        free: "—",
+        pro: "Basic budgeting",
+        plus: "AI insights",
+        ent: "Team budgets + forecasting"
+      },
+      {
+        id: "feathertax",
+        label: "FeatherTax",
+        desc: "Tax management and compliance tools.",
+        free: "—",
+        pro: "—",
+        plus: "Basic tax tools",
+        ent: "Full tax compliance"
+      }
     ]
   },
   {
-    group: "Automation & Intelligence",
+    group: "Operations & Workflow",
+    items: [
+      {
+        id: "work_orders",
+        label: "Work Orders",
+        desc: "Service order management and tracking.",
+        free: "—",
+        pro: "Basic work orders",
+        plus: "Advanced scheduling",
+        ent: "Resource optimization"
+      },
+      {
+        id: "appointments",
+        label: "Appointment Booking",
+        desc: "Online booking system with calendar integration.",
+        free: "Manual scheduling",
+        pro: "Online booking",
+        plus: "Automated reminders",
+        ent: "Advanced booking rules"
+      },
+      {
+        id: "crew_control",
+        label: "Crew Control",
+        desc: "Team management and workforce scheduling.",
+        free: "—",
+        pro: "—",
+        plus: "Basic team management",
+        ent: "Advanced workforce tools"
+      },
+      {
+        id: "mattrack",
+        label: "MatTrack",
+        desc: "Material and inventory tracking system.",
+        free: "—",
+        pro: "—",
+        plus: "Basic inventory",
+        ent: "Advanced inventory + forecasting"
+      },
+      {
+        id: "car_rental",
+        label: "Car Rental Management",
+        desc: "Fleet management for rental businesses.",
+        free: "—",
+        pro: "—",
+        plus: "—",
+        ent: "Full fleet management"
+      },
+      {
+        id: "automations",
+        label: "Workflow Automations",
+        desc: "Custom workflows and process automation.",
+        free: "—",
+        pro: "Basic workflows",
+        plus: "Advanced automations",
+        ent: "Custom automation engine"
+      }
+    ]
+  },
+  {
+    group: "AI & Intelligence",
     items: [
       {
         id: "ai_voice",
-        label: "AI Voice",
-        desc: "Transcribe calls and auto-extract action items.",
+        label: "AI Voice Assistant",
+        desc: "Voice transcription and action item extraction.",
         free: "—",
         pro: "Quotes only",
         plus: "Quotes + follow-ups",
-        ent: "Full + custom models"
+        ent: "Full AI + custom models"
       },
       {
-        id: "workflows",
-        label: "Custom workflows",
-        desc: "Trigger sequences, approvals, and multi-step automations.",
+        id: "analytics",
+        label: "Business Analytics",
+        desc: "Advanced reporting and business intelligence.",
+        free: "Basic reports",
+        pro: "Standard analytics",
+        plus: "Advanced dashboards",
+        ent: "Custom BI + forecasting"
+      },
+      {
+        id: "growth",
+        label: "Growth Insights",
+        desc: "Business growth analytics and recommendations.",
         free: "—",
-        pro: "Basic",
-        plus: "Advanced",
-        ent: "Advanced + SLAs"
+        pro: "Basic insights",
+        plus: "Growth recommendations",
+        ent: "Predictive analytics"
       }
     ]
   },
   {
-    group: "Collaboration",
+    group: "Documents & Communication",
     items: [
       {
-        id: "shared_pipelines",
-        label: "Shared pipelines",
-        desc: "Kanban pipelines shared across teams.",
+        id: "esign",
+        label: "E-Signatures",
+        desc: "Legally binding digital signatures with audit trail.",
+        free: "3 per month",
+        pro: "Up to 50 per month",
+        plus: "Unlimited",
+        ent: "Unlimited + SSO integration"
+      },
+      {
+        id: "contracts",
+        label: "Contract Management",
+        desc: "Contract creation, tracking, and renewal management.",
+        free: "—",
+        pro: "Basic templates",
+        plus: "Advanced templates",
+        ent: "Custom contract flows"
+      },
+      {
+        id: "featherforms",
+        label: "FeatherForms",
+        desc: "Custom form builder with advanced logic.",
+        free: "Basic forms",
+        pro: "Advanced forms",
+        plus: "Conditional logic",
+        ent: "Enterprise integrations"
+      },
+      {
+        id: "proposals",
+        label: "Business Proposals",
+        desc: "Professional proposal creation and tracking.",
+        free: "—",
+        pro: "Basic proposals",
+        plus: "Advanced templates",
+        ent: "Custom branding + workflows"
+      },
+      {
+        id: "email_center",
+        label: "Email Center",
+        desc: "Email campaigns and customer communication.",
+        free: "Basic email",
+        pro: "Email campaigns",
+        plus: "Advanced automation",
+        ent: "Full email marketing suite"
+      },
+      {
+        id: "messages",
+        label: "Internal Messaging",
+        desc: "Team communication and collaboration tools.",
+        free: "Basic messaging",
+        pro: "Team channels",
+        plus: "Advanced collaboration",
+        ent: "Enterprise communication"
+      }
+    ]
+  },
+  {
+    group: "Productivity Tools",
+    items: [
+      {
+        id: "meetings",
+        label: "Meeting Management",
+        desc: "Schedule, track, and follow up on meetings.",
+        free: "Basic scheduling",
+        pro: "Meeting templates",
+        plus: "Advanced integration",
+        ent: "Enterprise meeting tools"
+      },
+      {
+        id: "todo",
+        label: "Todo Lists",
+        desc: "Task management and productivity tracking.",
+        free: "Personal tasks",
+        pro: "Team tasks",
+        plus: "Project integration",
+        ent: "Advanced task automation"
+      },
+      {
+        id: "notes",
+        label: "Notes & Documentation",
+        desc: "Centralized note-taking and knowledge management.",
+        free: "Basic notes",
+        pro: "Organized notebooks",
+        plus: "Advanced search",
+        ent: "Knowledge base + collaboration"
+      },
+      {
+        id: "aftercare",
+        label: "AfterCare",
+        desc: "Customer follow-up and relationship management.",
+        free: "—",
+        pro: "Basic follow-ups",
+        plus: "Automated sequences",
+        ent: "Advanced relationship tools"
+      }
+    ]
+  },
+  {
+    group: "Specialized Features",
+    items: [
+      {
+        id: "bids",
+        label: "Bidding System",
+        desc: "Manage bids and tenders for projects.",
         free: "—",
         pro: "—",
-        plus: "✓",
-        ent: "✓"
+        plus: "Basic bidding",
+        ent: "Advanced bid management"
       },
       {
-        id: "reports",
-        label: "Reports",
-        desc: "Dashboards and exports for revenue and ops metrics.",
-        free: "Basic",
-        pro: "Basic",
-        plus: "Advanced",
-        ent: "Advanced + audit"
+        id: "sales_orders",
+        label: "Sales Orders",
+        desc: "Process and track sales orders efficiently.",
+        free: "—",
+        pro: "Basic orders",
+        plus: "Advanced processing",
+        ent: "Enterprise order management"
+      },
+      {
+        id: "tours",
+        label: "Tours & Visits",
+        desc: "Manage business tours and site visits.",
+        free: "—",
+        pro: "—",
+        plus: "Basic tour management",
+        ent: "Advanced scheduling + resources"
+      },
+      {
+        id: "earnsync",
+        label: "EarnSync",
+        desc: "Earnings synchronization and financial tracking.",
+        free: "—",
+        pro: "—",
+        plus: "Basic sync",
+        ent: "Advanced financial sync"
+      },
+      {
+        id: "referrals",
+        label: "Referral Program",
+        desc: "Manage customer referrals and rewards.",
+        free: "—",
+        pro: "Basic referrals",
+        plus: "Advanced tracking",
+        ent: "Custom referral programs"
       }
     ]
   },
   {
-    group: "Security & Admin",
+    group: "Security & Administration",
     items: [
+      {
+        id: "admin_panel",
+        label: "Admin Panel",
+        desc: "Advanced administrative controls and user management.",
+        free: "—",
+        pro: "—",
+        plus: "Basic admin",
+        ent: "Full admin suite"
+      },
       {
         id: "sso_saml",
         label: "SSO / SAML",
-        desc: "Enterprise authentication and provisioning.",
+        desc: "Enterprise authentication and single sign-on.",
         free: "—",
         pro: "—",
         plus: "—",
-        ent: "✓ + SCIM"
+        ent: "✓ + SCIM provisioning"
       },
       {
         id: "audit_logs",
-        label: "Audit logs",
-        desc: "Track changes and access across the organization.",
+        label: "Audit Logs",
+        desc: "Track all system changes and user activities.",
         free: "—",
         pro: "—",
         plus: "—",
-        ent: "✓"
+        ent: "✓ + compliance reporting"
+      },
+      {
+        id: "settings",
+        label: "Advanced Settings",
+        desc: "Comprehensive system configuration options.",
+        free: "Basic settings",
+        pro: "Advanced config",
+        plus: "Team settings",
+        ent: "Enterprise configuration"
       }
     ]
   },
   {
-    group: "Support",
+    group: "Support & Resources",
     items: [
       {
         id: "support",
-        label: "Support",
-        desc: "Business-hours email support; dedicated options on Enterprise.",
-        free: "Community",
-        pro: "Standard",
-        plus: "Priority",
-        ent: "Dedicated CSM"
+        label: "Customer Support",
+        desc: "Help desk and technical support access.",
+        free: "Community support",
+        pro: "Email support",
+        plus: "Priority support",
+        ent: "Dedicated success manager"
+      },
+      {
+        id: "help_faq",
+        label: "Help & Documentation",
+        desc: "Comprehensive help center and documentation.",
+        free: "✓",
+        pro: "✓",
+        plus: "✓ + video tutorials",
+        ent: "✓ + custom training"
+      },
+      {
+        id: "feedback",
+        label: "Feedback System",
+        desc: "Direct feedback and feature request system.",
+        free: "✓",
+        pro: "✓",
+        plus: "✓ + priority feedback",
+        ent: "✓ + product roadmap access"
       }
     ]
   }
@@ -186,7 +493,7 @@ const getCellValue = (value: string) => {
 };
 
 export function PricingComparison() {
-  const [openGroups, setOpenGroups] = useState<string[]>(['Core']);
+  const [openGroups, setOpenGroups] = useState<string[]>(['Core Business Management']);
 
   const toggleGroup = (group: string) => {
     setOpenGroups(prev =>
@@ -349,8 +656,9 @@ export function PricingComparison() {
         {/* Footer Notes */}
         <div className="mt-12 text-center">
           <div className="text-sm text-gray-500 space-y-1">
-            <p>[1] "Limited / mo" means workspace-defined limits apply.</p>
-            <p>[2] "Team (up to 5)" refers to 5 connected calendars maximum.</p>
+            <p>[1] Feature limits apply per workspace on Free and Pro plans.</p>
+            <p>[2] "Team" features support multiple users with role-based permissions.</p>
+            <p>[3] Enterprise plans include dedicated support and custom integrations.</p>
           </div>
         </div>
       </div>
