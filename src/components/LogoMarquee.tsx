@@ -1,150 +1,150 @@
 
 import * as React from "react";
 
-// SVG Components for each logo in monochrome style - matching reference size and quality
-const GranolaLogo = ({ className }: { className?: string }) => (
+// SVG Components for each logo based on uploaded images
+const PershingLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <text x="10" y="28" fontSize="18" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
-      granola
+    <text x="10" y="28" fontSize="14" fontWeight="700" fontFamily="system-ui, -apple-system, sans-serif">
+      PERSHING
     </text>
-    <rect x="95" y="20" width="2" height="16" fill="currentColor" />
-  </svg>
-);
-
-const CocaColaLogo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <text x="10" y="28" fontSize="16" fontWeight="400" fontFamily="Georgia, serif" fontStyle="italic">
-      Coca-Cola
+    <text x="85" y="28" fontSize="12" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
+      X
     </text>
-  </svg>
-);
-
-const FlatfileLogo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <rect x="10" y="15" width="8" height="8" fill="currentColor" />
-    <rect x="10" y="25" width="8" height="8" fill="currentColor" />
-    <text x="25" y="28" fontSize="16" fontWeight="500" fontFamily="system-ui, -apple-system, sans-serif">
-      Flatfile
+    <text x="10" y="35" fontSize="8" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
+      / BNY MELLON
     </text>
   </svg>
 );
 
-const ModalLogo = ({ className }: { className?: string }) => (
+const AddeparLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <path d="M10 15 L18 15 L22 25 L18 35 L10 35 Z" fill="currentColor" />
-    <path d="M14 15 L22 15 L26 25 L22 35 L14 35 Z" fill="currentColor" opacity="0.7" />
-    <text x="35" y="28" fontSize="16" fontWeight="500" fontFamily="system-ui, -apple-system, sans-serif">
-      Modal
+    <path d="M10 15 L20 10 L30 15 L20 20 Z" fill="currentColor" />
+    <text x="35" y="22" fontSize="16" fontWeight="700" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="2px">
+      ADDEPAR
     </text>
   </svg>
 );
 
-const UnionSquareLogo = ({ className }: { className?: string }) => (
+const PrivateAdvisorGroupLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <rect x="10" y="15" width="25" height="18" fill="currentColor" />
-    <text x="40" y="22" fontSize="10" fontWeight="700" fontFamily="system-ui, -apple-system, sans-serif" fill="white">
-      USV
+    <rect x="10" y="15" width="12" height="8" fill="currentColor" />
+    <rect x="10" y="25" width="12" height="8" fill="currentColor" />
+    <text x="28" y="22" fontSize="12" fontWeight="500" fontFamily="system-ui, -apple-system, sans-serif">
+      Private
     </text>
-    <text x="40" y="32" fontSize="8" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
-      Union Square Ventures
+    <text x="28" y="32" fontSize="12" fontWeight="500" fontFamily="system-ui, -apple-system, sans-serif">
+      Advisor Group
     </text>
   </svg>
 );
 
-const ReplicateLogo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <text x="10" y="28" fontSize="16" fontWeight="300" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="1px">
-      Replicate
-    </text>
-  </svg>
-);
-
-const BravadoLogo = ({ className }: { className?: string }) => (
+const AdvicePayLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
     <path d="M10 20 L15 15 L20 20 L15 25 Z" fill="currentColor" />
-    <text x="30" y="28" fontSize="16" fontWeight="700" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="2px">
-      BRAVADO
+    <text x="25" y="24" fontSize="14" fontWeight="500" fontFamily="system-ui, -apple-system, sans-serif">
+      AP
+    </text>
+    <text x="45" y="24" fontSize="14" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
+      AdvicePay
     </text>
   </svg>
 );
 
-const LegoraLogo = ({ className }: { className?: string }) => (
+const CarsonLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <text x="10" y="28" fontSize="16" fontWeight="400" fontFamily="serif" letterSpacing="3px">
-      LEGORA
+    <path d="M10 15 L15 20 L20 15 L25 20 L20 25 L15 20 L10 25 Z" fill="currentColor" />
+    <text x="35" y="28" fontSize="16" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="3px">
+      CARSON
     </text>
   </svg>
 );
 
-const RailwayLogo = ({ className }: { className?: string }) => (
+const OrionLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <circle cx="15" cy="20" r="8" fill="currentColor" />
-    <circle cx="15" cy="20" r="4" fill="white" />
-    <text x="30" y="28" fontSize="16" fontWeight="500" fontFamily="system-ui, -apple-system, sans-serif">
-      Railway
+    <path d="M10 20 L14 16 L18 20 L22 16 L26 20 L22 24 L18 20 L14 24 Z" fill="currentColor" />
+    <text x="35" y="28" fontSize="18" fontWeight="700" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="2px">
+      ORION
     </text>
   </svg>
 );
 
-const PublicLogo = ({ className }: { className?: string }) => (
+const EnvestnetLogo = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 140 40" className={className} fill="currentColor">
+    <path d="M10 15 L12 15 L14 17 L16 15 L18 15 L18 25 L16 25 L14 23 L12 25 L10 25 Z" fill="currentColor" />
+    <text x="25" y="28" fontSize="16" fontWeight="700" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="1px">
+      ENVESTNET
+    </text>
+  </svg>
+);
+
+const DynastyLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
     <circle cx="15" cy="20" r="6" fill="currentColor" />
-    <text x="28" y="28" fontSize="16" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
-      public.com
+    <circle cx="20" cy="20" r="4" fill="currentColor" opacity="0.7" />
+    <text x="30" y="22" fontSize="16" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
+      dynasty
+    </text>
+    <text x="30" y="32" fontSize="10" fontWeight="300" fontFamily="system-ui, -apple-system, sans-serif">
+      FINANCIAL PARTNERS
     </text>
   </svg>
 );
 
-const PlainLogo = ({ className }: { className?: string }) => (
+const MorningstarLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <text x="10" y="28" fontSize="18" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
-      Plain.
+    <text x="10" y="28" fontSize="16" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="2px">
+      MORNINGSTAR
     </text>
   </svg>
 );
 
-const PassionfrootLogo = ({ className }: { className?: string }) => (
+const SanctuaryLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 140 40" className={className} fill="currentColor">
-    <text x="10" y="28" fontSize="14" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
-      passionfroot
+    <circle cx="15" cy="20" r="8" fill="currentColor" />
+    <text x="15" y="25" fontSize="12" fontWeight="700" fontFamily="serif" fill="white" textAnchor="middle">
+      S
+    </text>
+    <text x="30" y="22" fontSize="14" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
+      SANCTUARY
+    </text>
+    <text x="30" y="32" fontSize="10" fontWeight="300" fontFamily="system-ui, -apple-system, sans-serif">
+      WEALTH
     </text>
   </svg>
 );
 
 const logos = [
-  { name: "Granola", Component: GranolaLogo },
-  { name: "Coca-Cola", Component: CocaColaLogo },
-  { name: "Flatfile", Component: FlatfileLogo },
-  { name: "Modal", Component: ModalLogo },
-  { name: "Union Square Ventures", Component: UnionSquareLogo },
-  { name: "Replicate", Component: ReplicateLogo },
-  { name: "Bravado", Component: BravadoLogo },
-  { name: "Legora", Component: LegoraLogo },
-  { name: "Railway", Component: RailwayLogo },
-  { name: "Public.com", Component: PublicLogo },
-  { name: "Plain", Component: PlainLogo },
-  { name: "Passionfroot", Component: PassionfrootLogo },
+  { name: "Pershing", Component: PershingLogo },
+  { name: "Addepar", Component: AddeparLogo },
+  { name: "Private Advisor Group", Component: PrivateAdvisorGroupLogo },
+  { name: "AdvicePay", Component: AdvicePayLogo },
+  { name: "Carson", Component: CarsonLogo },
+  { name: "Orion", Component: OrionLogo },
+  { name: "Envestnet", Component: EnvestnetLogo },
+  { name: "Dynasty Financial Partners", Component: DynastyLogo },
+  { name: "Morningstar", Component: MorningstarLogo },
+  { name: "Sanctuary Wealth", Component: SanctuaryLogo },
 ];
 
 export default function LogoMarquee({ className = "" }: { className?: string }) {
   return (
     <section
-      aria-label="Trusted by leading companies"
+      aria-label="Trusted by leading financial companies"
       className={["w-full py-16 bg-white", className].join(" ")}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
         <div className="text-center mb-12">
           <h2 className="text-2xl font-semibold mb-4" style={{ color: '#111827' }}>
-            Trusted by Modern Teams
+            Trusted by Leading Financial Partners
           </h2>
           <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-primary/60 to-transparent mx-auto"></div>
         </div>
 
         {/* Two-row grid layout matching the reference */}
         <div className="space-y-12">
-          {/* First row - 6 logos */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 lg:gap-12 items-center justify-items-center">
-            {logos.slice(0, 6).map((logo, index) => (
+          {/* First row - 5 logos */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 lg:gap-12 items-center justify-items-center">
+            {logos.slice(0, 5).map((logo, index) => (
               <div 
                 key={index}
                 className="flex items-center justify-center group cursor-pointer p-3"
@@ -158,11 +158,11 @@ export default function LogoMarquee({ className = "" }: { className?: string }) 
             ))}
           </div>
 
-          {/* Second row - 6 logos */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 lg:gap-12 items-center justify-items-center">
-            {logos.slice(6, 12).map((logo, index) => (
+          {/* Second row - 5 logos */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 lg:gap-12 items-center justify-items-center">
+            {logos.slice(5, 10).map((logo, index) => (
               <div 
-                key={index + 6}
+                key={index + 5}
                 className="flex items-center justify-center group cursor-pointer p-3"
                 aria-label={logo.name}
                 role="img"
