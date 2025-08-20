@@ -1,6 +1,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { securityEvent, secureError } from './security';
+import { secureStorage } from './secureStorage';
 
 interface DeviceFingerprint {
   userAgent: string;
@@ -82,14 +83,14 @@ class SessionSecurityManager {
       }
 
       // Check for suspicious activity with enhanced fingerprinting
-      if (this.detectSuspiciousActivity()) {
+      if (await this.detectSuspiciousActivity()) {
         securityEvent('Suspicious session activity detected', {
           userId: session.user.id,
           timestamp: new Date().toISOString()
         });
       }
 
-      // Call server-side validation
+      // Call enhanced server-side validation
       const { data: isValid } = await supabase.rpc('validate_session_security');
       
       if (!isValid) {
@@ -106,7 +107,7 @@ class SessionSecurityManager {
     }
   }
 
-  detectSuspiciousActivity(): boolean {
+  async detectSuspiciousActivity(): Promise<boolean> {
     const currentFingerprint: DeviceFingerprint = {
       userAgent: navigator.userAgent,
       language: navigator.language,
@@ -117,25 +118,31 @@ class SessionSecurityManager {
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
     };
 
-    const storedFingerprint = localStorage.getItem('device_fingerprint');
+    const storedFingerprint = await secureStorage.getItem('device_fingerprint', true);
     
     if (storedFingerprint) {
       try {
-        const stored: DeviceFingerprint = JSON.parse(storedFingerprint);
-        
         // Check for significant changes that might indicate session hijacking
-        if (stored.userAgent !== currentFingerprint.userAgent ||
-            stored.platform !== currentFingerprint.platform ||
-            stored.timezone !== currentFingerprint.timezone) {
+        if (storedFingerprint.userAgent !== currentFingerprint.userAgent ||
+            storedFingerprint.platform !== currentFingerprint.platform ||
+            storedFingerprint.timezone !== currentFingerprint.timezone) {
+          
+          securityEvent('Device fingerprint mismatch', {
+            stored: storedFingerprint,
+            current: currentFingerprint
+          });
+          
           return true;
         }
       } catch (error) {
-        // Invalid stored fingerprint, create new one
-        localStorage.setItem('device_fingerprint', JSON.stringify(currentFingerprint));
+        secureError('Fingerprint comparison failed', { error });
       }
     } else {
-      // Store fingerprint for future checks
-      localStorage.setItem('device_fingerprint', JSON.stringify(currentFingerprint));
+      // Store encrypted fingerprint for future checks
+      await secureStorage.setItem('device_fingerprint', currentFingerprint, { 
+        encrypt: true,
+        expiry: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+      });
     }
 
     return false;
@@ -147,13 +154,14 @@ class SessionSecurityManager {
       detail: { minutesRemaining }
     });
     window.dispatchEvent(warningEvent);
+    
+    securityEvent('Session expiry warning shown', { minutesRemaining });
   }
 
   private async handleExpiredSession() {
     try {
-      await supabase.auth.signOut();
-      localStorage.removeItem('device_fingerprint');
-      window.location.href = '/auth';
+      securityEvent('Handling expired session');
+      await this.enhancedSignOut();
     } catch (error) {
       secureError('Failed to handle expired session', { error });
     }
@@ -161,9 +169,8 @@ class SessionSecurityManager {
 
   private async handleInvalidSession() {
     try {
-      await supabase.auth.signOut({ scope: 'global' });
-      localStorage.removeItem('device_fingerprint');
-      window.location.href = '/auth';
+      securityEvent('Handling invalid session');
+      await this.enhancedSignOut();
     } catch (error) {
       secureError('Failed to handle invalid session', { error });
     }
@@ -172,7 +179,9 @@ class SessionSecurityManager {
   async enhancedSignOut() {
     try {
       this.stopSessionMonitoring();
-      localStorage.removeItem('device_fingerprint');
+      
+      // Enhanced cleanup with secure storage
+      await secureStorage.emergencyClear();
       
       // Enhanced cleanup - remove all potentially sensitive data
       const keysToRemove = Object.keys(localStorage).filter(key => 
@@ -186,6 +195,8 @@ class SessionSecurityManager {
 
       await supabase.auth.signOut({ scope: 'global' });
       
+      securityEvent('Enhanced sign out completed');
+      
       // Force redirect after cleanup
       setTimeout(() => {
         window.location.href = '/auth';
@@ -196,6 +207,28 @@ class SessionSecurityManager {
       setTimeout(() => {
         window.location.href = '/auth';
       }, 100);
+    }
+  }
+
+  // Enhanced session refresh with security checks
+  async refreshSession(): Promise<boolean> {
+    try {
+      const { data, error } = await supabase.auth.refreshSession();
+      
+      if (error) {
+        securityEvent('Session refresh failed', { error: error.message });
+        return false;
+      }
+      
+      if (data.session) {
+        securityEvent('Session refreshed successfully');
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      secureError('Session refresh error', { error });
+      return false;
     }
   }
 }
@@ -209,5 +242,11 @@ if (typeof window !== 'undefined') {
   // Apply security headers on load
   import('./contentSecurityPolicy').then(({ applySecurityHeaders }) => {
     applySecurityHeaders();
+  });
+  
+  // Set up session warning listener
+  window.addEventListener('sessionWarning', (event: CustomEvent) => {
+    console.warn(`Session expires in ${event.detail.minutesRemaining} minutes`);
+    // You can integrate with your toast/notification system here
   });
 }
