@@ -21,12 +21,18 @@ import RouteDebug from "./pages/RouteDebug";
 import ScalePage from "./pages/ScalePage";
 import FeaturesOverview from "./pages/FeaturesOverview";
 
-// Feature demo pages
+// Public Feature Demo Pages (no auth required)
 import AIVoicePage from "./pages/features/AIVoicePage";
 import InvoicesPage from "./pages/features/InvoicesPage";
 import EstimatesPage from "./pages/features/EstimatesPage";
 import EasyCalcPage from "./pages/features/EasyCalcPage";
 import PipelinePage from "./pages/features/PipelinePage";
+import FeatherTaxPage from "./pages/features/FeatherTaxPage";
+import WorkOrdersPage from "./pages/features/WorkOrdersPage";
+
+// Public Guide Pages (no auth required)
+import GettingStartedPage from "./pages/GettingStartedPage";
+import ChangelogPage from "./pages/ChangelogPage";
 
 const queryClient = new QueryClient();
 
@@ -53,18 +59,18 @@ const App = () => (
             <Route path="/health" element={<HealthCheck />} />
             <Route path="/_debug/routes" element={<RouteDebug />} />
             
-            {/* Feature demo pages */}
+            {/* Public Feature Demo Pages - no auth required */}
             <Route path="/features/ai-voice" element={<AIVoicePage />} />
             <Route path="/features/invoices" element={<InvoicesPage />} />
             <Route path="/features/estimates" element={<EstimatesPage />} />
             <Route path="/features/easycalc" element={<EasyCalcPage />} />
             <Route path="/features/pipeline" element={<PipelinePage />} />
+            <Route path="/features/feathertax" element={<FeatherTaxPage />} />
+            <Route path="/features/work-orders" element={<WorkOrdersPage />} />
             
-            {/* Placeholder routes for remaining features */}
-            <Route path="/features/feathertax" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">FeatherTax</h1><p className="text-[#6B7280]">Coming soon</p></div></div>} />
-            <Route path="/features/work-orders" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">Work Orders</h1><p className="text-[#6B7280]">Coming soon</p></div></div>} />
-            <Route path="/guides/getting-started" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">FeatherBiz 101</h1><p className="text-[#6B7280]">Getting started guide coming soon</p></div></div>} />
-            <Route path="/changelog" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">What's New</h1><p className="text-[#6B7280]">Changelog coming soon</p></div></div>} />
+            {/* Public Guide Pages - no auth required */}
+            <Route path="/guides/getting-started" element={<GettingStartedPage />} />
+            <Route path="/changelog" element={<ChangelogPage />} />
             
             {/* Protected routes - auth required */}
             <Route path="/dashboard" element={

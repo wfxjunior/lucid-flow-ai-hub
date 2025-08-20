@@ -2,8 +2,21 @@
 import React from 'react';
 import { DemoPageLayout } from '@/components/demo/DemoPageLayout';
 import { Card } from '@/components/ui/card';
+import { demoData } from '@/data/demoData';
 
 export default function InvoicesPage() {
+  const { recentInvoices, monthlyRevenue, mrr } = demoData.invoices;
+
+  const getStatusBadge = (status: string) => {
+    const styles = {
+      paid: 'bg-green-100 text-green-800',
+      pending: 'bg-yellow-100 text-yellow-800',
+      overdue: 'bg-red-100 text-red-800',
+      draft: 'bg-gray-100 text-gray-800'
+    };
+    return styles[status as keyof typeof styles] || styles.draft;
+  };
+
   return (
     <DemoPageLayout
       title="Smart Invoicing"
@@ -16,13 +29,13 @@ export default function InvoicesPage() {
             <h2 className="text-2xl font-semibold text-[#111827] mb-6">Overview</h2>
             <div className="space-y-4 text-[#374151]">
               <p>
-                Professional invoicing made simple. Create branded invoices in seconds, track payment status, and get paid faster with integrated payment processing.
+                • Professional invoicing made simple with branded templates, payment tracking, and integrated processing
               </p>
               <p>
-                Automated reminders ensure you never chase late payments manually. Set up recurring invoices for ongoing services and subscriptions.
+                • Automated reminders and recurring billing ensure you never chase late payments manually
               </p>
               <p>
-                Real-time analytics help you understand cash flow patterns and optimize your billing process for better business outcomes.
+                • Real-time analytics help you understand cash flow patterns and optimize billing processes
               </p>
             </div>
           </div>
@@ -34,41 +47,31 @@ export default function InvoicesPage() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center mb-4">
                   <h4 className="font-medium text-[#111827]">Recent Invoices</h4>
-                  <div className="text-sm text-[#6B7280]">MRR: $12,450</div>
+                  <div className="text-sm text-[#6B7280]">MRR: ${mrr.toLocaleString()}</div>
                 </div>
                 
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
-                    <div>
-                      <div className="font-medium text-[#111827]">INV-2024-001</div>
-                      <div className="text-sm text-[#6B7280]">Johnson Construction</div>
+                  {recentInvoices.slice(0, 3).map((invoice) => (
+                    <div key={invoice.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                      <div>
+                        <div className="font-medium text-[#111827]">{invoice.id}</div>
+                        <div className="text-sm text-[#6B7280]">{invoice.client}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-medium text-[#111827]">${invoice.amount.toLocaleString()}</div>
+                        <span className={`inline-block px-2 py-1 text-xs rounded-full ${getStatusBadge(invoice.status)}`}>
+                          {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-medium text-[#111827]">$2,450</div>
-                      <span className="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Paid</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
-                    <div>
-                      <div className="font-medium text-[#111827]">INV-2024-002</div>
-                      <div className="text-sm text-[#6B7280]">Metro Realty</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-medium text-[#111827]">$1,890</div>
-                      <span className="inline-block px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg">
-                    <div>
-                      <div className="font-medium text-[#111827]">INV-2024-003</div>
-                      <div className="text-sm text-[#6B7280]">Green Valley HOA</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-medium text-[#111827]">$3,200</div>
-                      <span className="inline-block px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Overdue</span>
-                    </div>
+                  ))}
+                </div>
+
+                <div className="text-center mt-4">
+                  <div className="inline-flex items-center px-3 py-1 text-xs bg-amber-50 text-amber-700 rounded-full border border-amber-200"
+                       title="Demo (read-only)"
+                       aria-describedby="demo-tooltip">
+                    Demo content only
                   </div>
                 </div>
               </div>

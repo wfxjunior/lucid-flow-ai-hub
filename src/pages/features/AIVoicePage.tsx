@@ -2,11 +2,14 @@
 import React from 'react';
 import { DemoPageLayout } from '@/components/demo/DemoPageLayout';
 import { Card } from '@/components/ui/card';
+import { demoData } from '@/data/demoData';
 
 export default function AIVoicePage() {
+  const { transcript, actionItems, callMetrics } = demoData.aiVoice;
+
   return (
     <DemoPageLayout
-      title="AI Voice"
+      title="AI Voice Assistant"
       subtitle="Transform phone calls into actionable tasks and insights with advanced AI voice processing"
       badge="New"
     >
@@ -17,13 +20,13 @@ export default function AIVoicePage() {
             <h2 className="text-2xl font-semibold text-[#111827] mb-6">Overview</h2>
             <div className="space-y-4 text-[#374151]">
               <p>
-                AI Voice automatically transcribes and analyzes your business calls, extracting key information and generating actionable insights.
+                • AI Voice automatically transcribes and analyzes your business calls, extracting key information and generating actionable insights
               </p>
               <p>
-                Never miss important details from client conversations. Our AI identifies follow-up tasks, deadlines, and commitments automatically.
+                • Never miss important details from client conversations with automatic follow-up task creation and deadline identification
               </p>
               <p>
-                Seamlessly integrates with your existing workflow, creating tasks, calendar events, and project updates based on call content.
+                • Seamlessly integrates with your existing workflow, creating tasks, calendar events, and project updates based on call content
               </p>
             </div>
           </div>
@@ -36,25 +39,33 @@ export default function AIVoicePage() {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                   <span className="text-sm font-medium text-[#111827]">Call with Johnson Construction</span>
-                  <span className="text-xs text-[#6B7280]">15:32</span>
+                  <span className="text-xs text-[#6B7280]">{callMetrics.duration}</span>
                 </div>
                 
-                <div className="bg-white rounded-lg p-4 space-y-3">
-                  <div className="text-sm">
-                    <span className="font-medium text-[#111827]">Client:</span> "We need the deck project completed by March 15th for the spring party."
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-medium text-[#111827]">You:</span> "Absolutely, I'll send the updated timeline today."
-                  </div>
+                <div className="bg-white rounded-lg p-4 space-y-3 max-h-48 overflow-y-auto">
+                  {transcript.map((item, index) => (
+                    <div key={index} className="text-sm">
+                      <span className="font-medium text-[#111827]">{item.speaker}:</span>
+                      <span className="text-[#6B7280] ml-1">"{item.text}"</span>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="border-t border-[#E5E7EB] pt-4">
                   <h4 className="font-medium text-[#111827] mb-2">Action Items Generated:</h4>
                   <ul className="space-y-2 text-sm text-[#374151]">
-                    <li>• Update project timeline for Johnson deck</li>
-                    <li>• Set deadline reminder for March 15th</li>
-                    <li>• Send timeline document to client</li>
+                    {actionItems.map((item, index) => (
+                      <li key={index}>• {item}</li>
+                    ))}
                   </ul>
+                </div>
+
+                <div className="text-center">
+                  <div className="inline-flex items-center px-3 py-1 text-xs bg-amber-50 text-amber-700 rounded-full border border-amber-200"
+                       title="Demo (read-only)"
+                       aria-describedby="demo-tooltip">
+                    Demo content only
+                  </div>
                 </div>
               </div>
             </Card>
