@@ -2,7 +2,7 @@ import React from 'react'
 import { GenericView } from './GenericView'
 import { 
   BarChart3, Shield, Briefcase, Gift, Lightbulb, HelpCircle, 
-  MessageSquare, Crown, Signature, Calendar, Pipeline, 
+  MessageSquare, Crown, Signature, Calendar, GitBranch, 
   Clock, DollarSign, Calculator, Receipt, Building, 
   Car, Package, Users, Headphones, Clipboard, ShoppingCart,
   FileText, Target, StickyNote, MapPin, TrendingUp, Bot
@@ -122,7 +122,7 @@ export function PipelineView() {
     <GenericView
       title="Pipeline"
       description="Sales pipeline management"
-      icon={Pipeline}
+      icon={GitBranch}
     />
   )
 }
