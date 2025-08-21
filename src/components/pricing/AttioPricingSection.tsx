@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -6,9 +7,33 @@ import { useCheckout } from "@/hooks/useCheckout";
 import { toast } from "sonner";
 import { PricingComparison } from "./PricingComparison";
 
+// Single source of truth for pricing (in cents)
+const PRICES = {
+  free: { monthly: 0, annual: 0 },
+  pro: { monthly: 1900, annual: 19000 }, // $19/mo vs $190/yr
+  plus: { monthly: 2600, annual: 26000 }, // $26/mo vs $260/yr  
+  enterprise: { monthly: null, annual: null }
+};
+
+// Calculate annual discount percentage
+function calcAnnualDiscountPct(planKey: keyof typeof PRICES): number {
+  const p = PRICES[planKey];
+  if (!p || !p.monthly || !p.annual) return 0;
+  const fullYear = p.monthly * 12;
+  const pct = 100 * (1 - (p.annual / fullYear));
+  // Round to nearest 5%, minimum 5%
+  const rounded = Math.round(pct / 5) * 5;
+  return Math.max(0, rounded);
+}
+
+// Format price from cents to display value
+function formatPrice(cents: number | null): string {
+  if (cents === null) return "Custom";
+  return `$${Math.floor(cents / 100)}`;
+}
+
 const PRICING_COPY = {
   free: {
-    price: "$0",
     blurb: "Best for individuals and very small teams getting started.",
     features: [
       "Real-time contact syncing",
@@ -21,8 +46,6 @@ const PRICING_COPY = {
     ]
   },
   pro: {
-    monthlyPrice: "$19",
-    annualPrice: "$190",
     blurb: "Best for small teams that need automation and collaboration.",
     features: [
       "Everything in Free, plus:",
@@ -35,8 +58,6 @@ const PRICING_COPY = {
     ]
   },
   plus: {
-    monthlyPrice: "$26",
-    annualPrice: "$260",
     blurb: "For growing teams that need scale and advanced tooling.",
     features: [
       "Everything in Pro, plus:",
@@ -48,7 +69,6 @@ const PRICING_COPY = {
     ]
   },
   enterprise: {
-    price: "Custom",
     blurb: "For large organizations and regulated teams.",
     features: [
       "Unlimited objects",
@@ -111,22 +131,24 @@ export function AttioPricingSection() {
     }
   };
 
-  const getPrice = (plan: keyof typeof PRICING_COPY) => {
-    if (plan === 'free' || plan === 'enterprise') {
-      return PRICING_COPY[plan].price;
-    }
+  const getPrice = (plan: keyof typeof PRICES) => {
+    const planData = PRICES[plan];
+    if (planData.monthly === null) return "Custom";
     
-    const planData = PRICING_COPY[plan];
-    return billingPeriod === 'monthly' 
-      ? planData.monthlyPrice 
-      : planData.annualPrice;
+    const price = billingPeriod === 'monthly' ? planData.monthly : planData.annual;
+    return formatPrice(price);
   };
 
-  const getPeriodLabel = (plan: keyof typeof PRICING_COPY) => {
-    if (plan === 'free' || plan === 'enterprise') {
-      return '';
-    }
+  const getPeriodLabel = (plan: keyof typeof PRICES) => {
+    if (PRICES[plan].monthly === null) return '';
     return billingPeriod === 'monthly' ? '/mo' : '/yr';
+  };
+
+  const shouldShowDiscountBadge = (plan: keyof typeof PRICES): boolean => {
+    if (billingPeriod !== 'annual') return false;
+    if (plan === 'free' || plan === 'enterprise') return false;
+    const discount = calcAnnualDiscountPct(plan);
+    return discount >= 5;
   };
 
   const plans = [
@@ -219,13 +241,22 @@ export function AttioPricingSection() {
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">{plan.name}</h3>
                     <div className="mb-4">
-                      <div className="flex items-baseline">
+                      <div className="price-row flex items-center gap-2 flex-wrap">
                         <span className="text-4xl font-black text-gray-900 tracking-tight">
                           {getPrice(plan.id)}
                         </span>
-                        <span className="text-gray-500 ml-1 text-lg">
+                        <span className="suffix text-gray-500 ml-0.5 text-lg font-semibold">
                           {getPeriodLabel(plan.id)}
                         </span>
+                        {shouldShowDiscountBadge(plan.id) && (
+                          <span 
+                            className="badge-annual inline-block bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full text-xs font-semibold"
+                            role="status"
+                            aria-label={`Save ${calcAnnualDiscountPct(plan.id)}% on annual billing`}
+                          >
+                            Save {calcAnnualDiscountPct(plan.id)}%
+                          </span>
+                        )}
                       </div>
                     </div>
                     <p className="plan-blurb text-gray-600 text-sm leading-relaxed opacity-100">

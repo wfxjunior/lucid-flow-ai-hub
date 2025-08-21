@@ -1,5 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import "./styles/buttons.css";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,70 +15,25 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* FeatherBiz specific colors */
-    --fb-success: 142 71% 45%;
-    --fb-warning: 38 92% 50%;
-    --fb-danger: 0 84% 60%;
-
-    /* Button system tokens */
-    --btn-h: 44px;
-    --btn-h-lg: 50px;
-    --btn-f: 16px;
-    --btn-shadow: 0 8px 20px rgba(30, 99, 255, 0.25);
-    --cta-h: 44px;
-    --cta-px: 24px;
-    --cta-radius: 9999px;
-    --cta-fs: 16px;
-    --cta-fw: 700;
-    --nav-h: 72px;
-
-    /* Hero specific variables */
-    --hero-pt: 7rem;
-    --hero-pb: 6rem;
-    --hero-gap-title-sub: 1.5rem;
-    --hero-gap-sub-ctas: 3rem;
-    --hero-sub-fs-d: 1.25rem;
-    --hero-sub-lh: 1.75;
-    --hero-sub-color: 215.4 16.3% 46.9%;
-
-    /* Feature Chips Design Tokens */
-    --fb-bg: #FFFFFF;
-    --fb-text: #374151;
-    --fb-muted: #E6EBF1;
-    --fb-primary: #0A66FF;
-    --fb-primary-600: #084ACF;
-    --fb-shadow: rgba(15, 23, 42, 0.06);
-    --fb-border: rgba(230, 235, 241, 1);
-
-    /* Enhanced contrast tokens for Pipeline section */
-    --fb-text-strong: #111827;
-    --fb-border-enhanced: #D1D5DB;
-    --fb-card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-    --fb-tab-inactive: rgba(55, 65, 81, 0.85);
-    --fb-tab-active: #0A66FF;
   }
 
   .dark {
@@ -85,43 +43,24 @@
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 94.1%;
-    --sidebar-primary-foreground: 240 5.9% 10%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* Feature Chips Dark Mode Tokens */
-    --fb-bg: #0B1220;
-    --fb-text: #E5E7EB;
-    --fb-muted: #22314A;
-    --fb-primary: #0A66FF;
-    --fb-primary-600: #084ACF;
-    --fb-shadow: rgba(0, 0, 0, 0.25);
-    --fb-border: rgba(34, 49, 74, 1);
-
-    /* Enhanced contrast tokens for Pipeline section - dark mode */
-    --fb-text-strong: #F9FAFB;
-    --fb-border-enhanced: #374151;
-    --fb-card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.1);
-    --fb-tab-inactive: rgba(229, 231, 235, 0.85);
-    --fb-tab-active: #3B82F6;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -131,87 +70,36 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Inter", sans-serif;
   }
 }
 
-/* Feature Chips Styles */
-.feature-chip {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  height: 46px;
-  padding: 0 18px;
+/* Discount badge styles */
+.badge-annual {
+  background: #EEF2FF;
+  color: #3B82F6;
   border-radius: 9999px;
-  border: 1px solid var(--fb-border);
-  background: rgba(10, 102, 255, 0.03);
-  color: var(--fb-text);
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  transition: all 180ms ease;
-  will-change: transform;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 2px 8px;
+  line-height: 1.3;
 }
 
-.feature-chip:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px var(--fb-shadow);
-  background: rgba(10, 102, 255, 0.06);
-  border-color: rgba(10, 102, 255, 0.25);
-}
-
-.feature-chip:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 8px var(--fb-shadow);
-  background: rgba(10, 102, 255, 0.08);
-}
-
-.feature-chip:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--fb-primary) 60%, white), 0 0 0 6px color-mix(in srgb, var(--fb-primary) 18%, transparent);
-}
-
-.feature-chip-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid var(--fb-muted);
+.price-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: var(--fb-bg);
-  transition: all 180ms ease;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.feature-chip-icon svg {
-  width: 16px;
-  height: 16px;
-  color: var(--fb-primary-600);
-  opacity: 0.8;
-  transition: opacity 180ms ease;
+.suffix {
+  margin-left: 2px;
+  color: var(--muted, #6B7280);
+  font-weight: 600;
 }
 
-.feature-chip:hover .feature-chip-icon {
-  box-shadow: inset 0 0 0 1px rgba(10, 102, 255, 0.35);
-}
-
-.feature-chip:hover .feature-chip-icon svg {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .feature-chip {
-    transition: background-color 180ms ease, border-color 180ms ease;
-    will-change: auto;
-  }
-  
-  .feature-chip:hover {
-    transform: none;
-    box-shadow: none;
-  }
-  
-  .feature-chip:active {
-    transform: none;
+@media (max-width: 640px) {
+  .badge-annual {
+    margin-top: 4px;
   }
 }
