@@ -1,15 +1,16 @@
+
 import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
 // Lazy load pages for better performance
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const Index = lazy(() => import("./pages/Index"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
@@ -52,8 +53,8 @@ function App() {
               >
                 <Routes>
                   {/* Public routes */}
-                  <Route path="/" element={<Index />} />
-                  <Route path="/landing" element={<LandingPage />} />
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/app" element={<Index />} />
                   <Route path="/signin" element={<SignInPage />} />
                   <Route path="/signup" element={<SignUpPage />} />
                   <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -64,15 +65,12 @@ function App() {
                   <Route path="/about" element={<AboutPage />} />
                   
                   {/* Protected routes */}
-                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/dashboard" element={<Index />} />
                   <Route path="/upgrade" element={<UpgradePage />} />
                   <Route path="/payment-success" element={<PaymentSuccess />} />
                   <Route path="/payment-canceled" element={<PaymentCanceled />} />
                   <Route path="/billing-portal" element={<BillingPortal />} />
                   <Route path="/callback" element={<CallbackPage />} />
-                  
-                  {/* Redirect any unknown routes to home */}
-                  <Route path="*" element={<Index />} />
                 </Routes>
               </Suspense>
             </BrowserRouter>

@@ -82,7 +82,7 @@ export default function LandingPage() {
             clientes, faturas, agendamentos e muito mais.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => navigate('/')}>
+            <Button size="lg" onClick={() => navigate('/app')}>
               Acessar Dashboard
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -126,7 +126,7 @@ export default function LandingPage() {
           <p className="text-muted-foreground mb-8">
             Junte-se a milhares de empresas que já usam FeatherBiz
           </p>
-          <Button size="lg" onClick={() => navigate('/')}>
+          <Button size="lg" onClick={() => navigate('/app')}>
             Começar Agora
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
