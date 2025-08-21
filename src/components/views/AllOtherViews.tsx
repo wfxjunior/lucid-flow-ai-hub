@@ -1,20 +1,24 @@
 
 import React from 'react'
-import { 
-  BarChart3, Shield, Users, Star, Grid, HelpCircle, MessageCircleQuestion,
-  CircleDollarSign, Signature, ListTodo, TrendingUp, Calendar, PiggyBank,
-  FileCheck, Receipt, Banknote, Truck, Boxes, UserCheck, DollarSign,
-  Heart, ClipboardList, Store, Building2, Zap, StickyNote, Target,
-  TrendingUp as Growth, Bot
-} from 'lucide-react'
 import { GenericView } from './GenericView'
+import { 
+  BarChart3, Shield, Briefcase, Gift, Lightbulb, HelpCircle, 
+  MessageSquare, Crown, Signature, Calendar, PipelinIcon, 
+  Clock, DollarSign, Calculator, Receipt, Building, 
+  Car, Package, Users, Headphones, FileForm, ShoppingCart,
+  FileText, Target, StickyNote, MapPin, TrendingUp, Bot
+} from 'lucide-react'
+import { ProjectTimelinePage } from '@/components/pages/ProjectTimelinePage'
+import { FinancePage } from '@/components/pages/FinancePage'
+import { GrowthPage } from '@/components/pages/GrowthPage'
+import { ToursPage } from '@/components/pages/ToursPage'
 
 // Analytics View
 export function AnalyticsView() {
   return (
     <GenericView
       title="Analytics"
-      description="Business performance analytics"
+      description="Business insights and reporting"
       icon={BarChart3}
     />
   )
@@ -25,7 +29,7 @@ export function AdminPanelView() {
   return (
     <GenericView
       title="Admin Panel"
-      description="Administrative controls and settings"
+      description="System administration tools"
       icon={Shield}
     />
   )
@@ -36,8 +40,8 @@ export function CareersView() {
   return (
     <GenericView
       title="Careers"
-      description="Join our team"
-      icon={Users}
+      description="Job postings and career opportunities"
+      icon={Briefcase}
     />
   )
 }
@@ -47,8 +51,8 @@ export function ReferralsView() {
   return (
     <GenericView
       title="Referrals"
-      description="Refer friends and earn rewards"
-      icon={Star}
+      description="Manage referral programs"
+      icon={Gift}
     />
   )
 }
@@ -58,8 +62,8 @@ export function FeaturesView() {
   return (
     <GenericView
       title="Features"
-      description="Explore all available features"
-      icon={Grid}
+      description="Product features and capabilities"
+      icon={Lightbulb}
     />
   )
 }
@@ -69,7 +73,7 @@ export function FAQHelpView() {
   return (
     <GenericView
       title="FAQ & Help"
-      description="Get help and find answers"
+      description="Frequently asked questions and support"
       icon={HelpCircle}
     />
   )
@@ -80,8 +84,8 @@ export function FeedbackView() {
   return (
     <GenericView
       title="Feedback"
-      description="Share your feedback with us"
-      icon={MessageCircleQuestion}
+      description="Customer feedback and reviews"
+      icon={MessageSquare}
     />
   )
 }
@@ -91,8 +95,8 @@ export function PricingView() {
   return (
     <GenericView
       title="Pricing"
-      description="View pricing plans"
-      icon={CircleDollarSign}
+      description="Pricing plans and billing"
+      icon={Crown}
     />
   )
 }
@@ -102,21 +106,15 @@ export function ESignaturesView() {
   return (
     <GenericView
       title="E-Signatures"
-      description="Electronic document signing"
+      description="Digital signature management"
       icon={Signature}
     />
   )
 }
 
-// Project Timeline View
-export function ProjectTimelineView() {
-  return (
-    <GenericView
-      title="Project Timeline"
-      description="Track project progress over time"
-      icon={ListTodo}
-    />
-  )
+// Project Timeline View (using existing page component)
+export function ProjectTimelineView({ onNavigate }: { onNavigate?: (view: string) => void }) {
+  return <ProjectTimelinePage onNavigate={onNavigate || (() => {})} />
 }
 
 // Pipeline View
@@ -124,8 +122,8 @@ export function PipelineView() {
   return (
     <GenericView
       title="Pipeline"
-      description="Sales and project pipeline"
-      icon={TrendingUp}
+      description="Sales pipeline management"
+      icon={PipelinIcon}
     />
   )
 }
@@ -135,41 +133,41 @@ export function SmartScheduleView() {
   return (
     <GenericView
       title="Smart Schedule"
-      description="AI-powered scheduling"
-      icon={Calendar}
+      description="Intelligent scheduling system"
+      icon={Clock}
     />
   )
 }
 
-// FeatherBudget View
+// Feather Budget View
 export function FeatherBudgetView() {
   return (
     <GenericView
-      title="FeatherBudget"
-      description="Budget planning and management"
-      icon={PiggyBank}
+      title="Feather Budget"
+      description="Budget planning and tracking"
+      icon={DollarSign}
     />
   )
 }
 
-// FeatherTax View
+// Feather Tax View
 export function FeatherTaxView() {
   return (
     <GenericView
-      title="FeatherTax"
+      title="Feather Tax"
       description="Tax preparation and filing"
-      icon={FileCheck}
+      icon={Calculator}
     />
   )
 }
 
-// EasyCalc View
+// Easy Calc View
 export function EasyCalcView() {
   return (
     <GenericView
-      title="EasyCalc"
-      description="Business calculations made easy"
-      icon={Receipt}
+      title="Easy Calc"
+      description="Business calculations made simple"
+      icon={Calculator}
     />
   )
 }
@@ -179,7 +177,7 @@ export function ReceiptsView() {
   return (
     <GenericView
       title="Receipts"
-      description="Manage business receipts"
+      description="Receipt management and tracking"
       icon={Receipt}
     />
   )
@@ -190,8 +188,8 @@ export function AccountingView() {
   return (
     <GenericView
       title="Accounting"
-      description="Complete accounting solution"
-      icon={Banknote}
+      description="Financial accounting and bookkeeping"
+      icon={DollarSign}
     />
   )
 }
@@ -201,8 +199,8 @@ export function QuotesView() {
   return (
     <GenericView
       title="Quotes"
-      description="Create and manage quotes"
-      icon={FileCheck}
+      description="Price quotes and estimates"
+      icon={FileText}
     />
   )
 }
@@ -213,18 +211,18 @@ export function CarRentalView() {
     <GenericView
       title="Car Rental"
       description="Vehicle rental management"
-      icon={Truck}
+      icon={Car}
     />
   )
 }
 
-// MatTrack View
+// Mat Track View
 export function MatTrackView() {
   return (
     <GenericView
-      title="MatTrack"
+      title="Mat Track"
       description="Material tracking system"
-      icon={Boxes}
+      icon={Package}
     />
   )
 }
@@ -234,41 +232,41 @@ export function CrewControlView() {
   return (
     <GenericView
       title="Crew Control"
-      description="Workforce management"
-      icon={UserCheck}
+      description="Team management and coordination"
+      icon={Users}
     />
   )
 }
 
-// EarnSync View
+// Earn Sync View
 export function EarnSyncView() {
   return (
     <GenericView
-      title="EarnSync"
+      title="Earn Sync"
       description="Earnings synchronization"
-      icon={DollarSign}
+      icon={TrendingUp}
     />
   )
 }
 
-// AfterCare View
+// After Care View
 export function AfterCareView() {
   return (
     <GenericView
-      title="AfterCare"
-      description="Customer aftercare services"
-      icon={Heart}
+      title="After Care"
+      description="Customer support and maintenance"
+      icon={Headphones}
     />
   )
 }
 
-// FeatherForms View
+// Feather Forms View
 export function FeatherFormsView() {
   return (
     <GenericView
-      title="FeatherForms"
+      title="Feather Forms"
       description="Custom form builder"
-      icon={ClipboardList}
+      icon={FileForm}
     />
   )
 }
@@ -278,8 +276,8 @@ export function SalesOrdersView() {
   return (
     <GenericView
       title="Sales Orders"
-      description="Manage sales orders"
-      icon={Store}
+      description="Sales order management"
+      icon={ShoppingCart}
     />
   )
 }
@@ -289,8 +287,8 @@ export function BusinessProposalsView() {
   return (
     <GenericView
       title="Business Proposals"
-      description="Create professional proposals"
-      icon={Building2}
+      description="Create and manage business proposals"
+      icon={FileText}
     />
   )
 }
@@ -300,8 +298,8 @@ export function BidsView() {
   return (
     <GenericView
       title="Bids"
-      description="Manage project bids"
-      icon={Zap}
+      description="Bidding and procurement management"
+      icon={Target}
     />
   )
 }
@@ -311,8 +309,8 @@ export function TodoListView() {
   return (
     <GenericView
       title="Todo List"
-      description="Manage your tasks"
-      icon={ListTodo}
+      description="Task management and tracking"
+      icon={Target}
     />
   )
 }
@@ -322,43 +320,25 @@ export function NotesView() {
   return (
     <GenericView
       title="Notes"
-      description="Take and organize notes"
+      description="Personal and business notes"
       icon={StickyNote}
     />
   )
 }
 
-// Tours View
-export function ToursView() {
-  return (
-    <GenericView
-      title="Tours"
-      description="Product tours and onboarding"
-      icon={Target}
-    />
-  )
+// Tours View (using existing page component)
+export function ToursView({ onNavigate }: { onNavigate?: (view: string) => void }) {
+  return <ToursPage onNavigate={onNavigate || (() => {})} />
 }
 
-// Finance View
-export function FinanceView() {
-  return (
-    <GenericView
-      title="Finance"
-      description="Financial management"
-      icon={Banknote}
-    />
-  )
+// Finance View (using existing page component)
+export function FinanceView({ onNavigate }: { onNavigate?: (view: string) => void }) {
+  return <FinancePage onNavigate={onNavigate || (() => {})} />
 }
 
-// Growth View
-export function GrowthView() {
-  return (
-    <GenericView
-      title="Growth"
-      description="Business growth tools"
-      icon={Growth}
-    />
-  )
+// Growth View (using existing page component)
+export function GrowthView({ onNavigate }: { onNavigate?: (view: string) => void }) {
+  return <GrowthPage onNavigate={onNavigate || (() => {})} />
 }
 
 // Automations View
@@ -366,7 +346,7 @@ export function AutomationsView() {
   return (
     <GenericView
       title="Automations"
-      description="Automate your workflows"
+      description="Workflow automation and AI tools"
       icon={Bot}
     />
   )

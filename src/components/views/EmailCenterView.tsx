@@ -7,7 +7,7 @@ export function EmailCenterView() {
   return (
     <GenericView
       title="Email Center"
-      description="Send emails to clients and manage communications"
+      description="Manage email communications"
       icon={Mail}
     />
   )
