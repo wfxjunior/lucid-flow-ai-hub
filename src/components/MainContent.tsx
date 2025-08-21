@@ -1,4 +1,3 @@
-
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailCenterPage } from "@/components/EmailCenterPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -192,7 +191,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <FeedbackPage />
       case "pricing":
       case "upgrade":
-        return <Upgrade onNavigate={onNavigate} />
+        return <Upgrade />
       case "settings":
         return <SettingsPage />
       case "payment-success":
