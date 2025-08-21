@@ -15,40 +15,42 @@ import { MeetingsView } from '@/components/views/MeetingsView'
 import { SettingsView } from '@/components/views/SettingsView'
 import { MessagesView } from '@/components/views/MessagesView'
 import { EmailCenterView } from '@/components/views/EmailCenterView'
-import { AnalyticsView } from '@/components/views/AnalyticsView'
-import { AdminPanelView } from '@/components/views/AdminPanelView'
-import { CareersView } from '@/components/views/CareersView'
-import { ReferralsView } from '@/components/views/ReferralsView'
-import { FeaturesView } from '@/components/views/FeaturesView'
-import { FAQHelpView } from '@/components/views/FAQHelpView'
-import { FeedbackView } from '@/components/views/FeedbackView'
-import { PricingView } from '@/components/views/PricingView'
 import { AIVoiceView } from '@/components/views/AIVoiceView'
-import { ESignaturesView } from '@/components/views/ESignaturesView'
-import { ProjectTimelineView } from '@/components/views/ProjectTimelineView'
-import { PipelineView } from '@/components/views/PipelineView'
-import { SmartScheduleView } from '@/components/views/SmartScheduleView'
-import { FeatherBudgetView } from '@/components/views/FeatherBudgetView'
-import { FeatherTaxView } from '@/components/views/FeatherTaxView'
-import { EasyCalcView } from '@/components/views/EasyCalcView'
-import { ReceiptsView } from '@/components/views/ReceiptsView'
-import { AccountingView } from '@/components/views/AccountingView'
-import { QuotesView } from '@/components/views/QuotesView'
-import { CarRentalView } from '@/components/views/CarRentalView'
-import { MatTrackView } from '@/components/views/MatTrackView'
-import { CrewControlView } from '@/components/views/CrewControlView'
-import { EarnSyncView } from '@/components/views/EarnSyncView'
-import { AfterCareView } from '@/components/views/AfterCareView'
-import { FeatherFormsView } from '@/components/views/FeatherFormsView'
-import { SalesOrdersView } from '@/components/views/SalesOrdersView'
-import { BusinessProposalsView } from '@/components/views/BusinessProposalsView'
-import { BidsView } from '@/components/views/BidsView'
-import { TodoListView } from '@/components/views/TodoListView'
-import { NotesView } from '@/components/views/NotesView'
-import { ToursView } from '@/components/views/ToursView'
-import { FinanceView } from '@/components/views/FinanceView'
-import { GrowthView } from '@/components/views/GrowthView'
-import { AutomationsView } from '@/components/views/AutomationsView'
+import {
+  AnalyticsView,
+  AdminPanelView,
+  CareersView,
+  ReferralsView,
+  FeaturesView,
+  FAQHelpView,
+  FeedbackView,
+  PricingView,
+  ESignaturesView,
+  ProjectTimelineView,
+  PipelineView,
+  SmartScheduleView,
+  FeatherBudgetView,
+  FeatherTaxView,
+  EasyCalcView,
+  ReceiptsView,
+  AccountingView,
+  QuotesView,
+  CarRentalView,
+  MatTrackView,
+  CrewControlView,
+  EarnSyncView,
+  AfterCareView,
+  FeatherFormsView,
+  SalesOrdersView,
+  BusinessProposalsView,
+  BidsView,
+  TodoListView,
+  NotesView,
+  ToursView,
+  FinanceView,
+  GrowthView,
+  AutomationsView
+} from '@/components/views/AllOtherViews'
 
 interface MainContentProps {
   activeView: string
