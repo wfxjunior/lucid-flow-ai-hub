@@ -10,6 +10,7 @@ import PricingPage from '@/pages/PricingPage';
 import ContactPage from '@/pages/ContactPage';
 import AboutPage from '@/pages/AboutPage';
 import SignInPage from '@/pages/SignInPage';
+import SignUpPage from '@/pages/SignUpPage';
 import PaymentSuccessPage from '@/pages/PaymentSuccessPage';
 import PaymentCancelledPage from '@/pages/PaymentCancelledPage';
 import BlogPage from '@/pages/BlogPage';
@@ -44,6 +45,8 @@ const App = () => (
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
             <Route path="/payment-cancelled" element={<PaymentCancelledPage />} />
             <Route path="/blog" element={<BlogPage />} />

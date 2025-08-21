@@ -1,220 +1,125 @@
-import { 
+
+import React from "react"
+import { Home, Users, FileText, Calculator, Settings, CreditCard, Building, Wrench, PlusCircle, LogOut } from "lucide-react"
+import {
   Sidebar,
   SidebarContent,
-  SidebarSeparator,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { useUserRole } from "@/hooks/useUserRole"
 import { useLanguage } from "@/contexts/LanguageContext"
-import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
-import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
-import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
-import { AllFeaturesDialog } from "@/components/AllFeaturesDialog"
-import { HelpCenter } from "@/components/HelpCenter"
-import { 
-  LayoutDashboard, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
-  Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
-  Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
-  DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
-  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt, Mail,
-  Building2, Banknote, Target, CircleDollarSign, Bot, Boxes
-} from "lucide-react"
+import { AuthLinks } from "@/components/navigation/AuthLinks"
 
 interface AppSidebarProps {
-  activeView: string
-  setActiveView: (view: string) => void
+  setActiveView: (view: string) => void;
+  activeView: string;
 }
 
-export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
-  const { t } = useLanguage()
-  const { isAdmin } = useUserRole()
-  
-  const handleMenuClick = (view: string) => {
-    setActiveView(view)
-  }
+export function AppSidebar({ setActiveView, activeView }: AppSidebarProps) {
+  const { language } = useLanguage()
 
-  // Main Features
-  const mainFeatures = [
-    { title: t("sidebar.mainFeatures.dashboard", "Dashboard"), view: "dashboard", icon: LayoutDashboard },
-    { title: t("sidebar.mainFeatures.aiVoice", "AI Voice"), view: "ai-voice", icon: Mic },
-    { title: t("sidebar.mainFeatures.invoices", "Invoices"), view: "invoices", icon: FileText },
-    { title: t("sidebar.mainFeatures.estimates", "Estimates"), view: "estimates", icon: Calculator },
-    { title: t("sidebar.mainFeatures.payments", "Payments"), view: "payments" },
-    { title: t("sidebar.mainFeatures.esignatures", "E-Signatures"), view: "e-signatures", icon: Signature },
+  const menuItems = [
+    { 
+      id: "dashboard", 
+      icon: Home, 
+      label: language === 'pt' ? "Painel" : "Dashboard" 
+    },
+    { 
+      id: "clients", 
+      icon: Users, 
+      label: language === 'pt' ? "Clientes" : "Clients" 
+    },
+    { 
+      id: "estimates", 
+      icon: FileText, 
+      label: language === 'pt' ? "Orçamentos" : "Estimates" 
+    },
+    { 
+      id: "invoices", 
+      icon: Calculator, 
+      label: language === 'pt' ? "Faturas" : "Invoices" 
+    },
+    { 
+      id: "workorders", 
+      icon: Wrench, 
+      label: language === 'pt' ? "Ordens de Serviço" : "Work Orders" 
+    },
+    { 
+      id: "contracts", 
+      icon: Building, 
+      label: language === 'pt' ? "Contratos" : "Contracts" 
+    },
+    { 
+      id: "featherbudget", 
+      icon: PlusCircle, 
+      label: language === 'pt' ? "Orçamento FeatherBudget" : "FeatherBudget" 
+    },
   ]
 
-  // Core Business
-  const coreBusinessItems = [
-    { title: t("sidebar.coreBusiness.customers", "Customers"), view: "customers", icon: Users },
-    { title: t("sidebar.coreBusiness.projects", "Projects"), view: "projects", icon: Briefcase },
-    // Use ListTodo for Project Timeline
-    { title: t("sidebar.coreBusiness.projectTimeline", "Project Timeline"), view: "project-timeline", icon: ListTodo },
-    { title: t("sidebar.coreBusiness.pipeline", "Pipeline"), view: "pipeline", icon: TrendingUp },
-    { title: t("sidebar.coreBusiness.smartSchedule", "Smart Schedule"), view: "smart-schedule", icon: Calendar },
-  ]
-
-  // Financial Tools
-  const financialItems = [
-    { title: t("sidebar.financialTools.featherBudget", "FeatherBudget"), view: "feather-budget", icon: PiggyBank },
-    { title: t("sidebar.financialTools.featherTax", "FeatherTax"), view: "feather-tax", icon: FileCheck },
-    { title: t("sidebar.financialTools.easyCalc", "EasyCalc"), view: "easy-calc", icon: Calculator },
-    { title: t("sidebar.financialTools.receipts", "Receipts"), view: "receipts", icon: Receipt },
-    { title: t("sidebar.financialTools.accounting", "Accounting"), view: "accounting", icon: Banknote },
-    { title: t("sidebar.financialTools.quotes", "Quotes"), view: "quotes", icon: FileText },
-  ]
-
-  // Operations
-  const operationsItems = [
-    { title: t("sidebar.operations.carRental", "Car Rental"), view: "car-rental", icon: Truck },
-    { title: t("sidebar.operations.workOrders", "Work Orders"), view: "work-orders", icon: Wrench },
-    { title: t("sidebar.operations.matTrack", "MatTrack"), view: "mat-track", icon: Boxes },
-    { title: t("sidebar.operations.crewControl", "Crew Control"), view: "crew-control", icon: UserCheck },
-    { title: t("sidebar.operations.earnsync", "EarnSync"), view: "earnsync", icon: DollarSign },
-    { title: t("sidebar.operations.aftercare", "AfterCare"), view: "aftercare", icon: Heart },
-  ]
-
-  // Documents & Forms
-  const documentsItems = [
-    { title: t("sidebar.documents.featherForms", "FeatherForms"), view: "feather-forms", icon: ClipboardList },
-    { title: t("sidebar.documents.salesOrders", "Sales Orders"), view: "sales-orders", icon: Store },
-    { title: t("sidebar.documents.businessProposals", "Business Proposals"), view: "business-proposals", icon: Building2 },
-    { title: t("sidebar.documents.bids", "Bids"), view: "bids", icon: Zap },
-    { title: t("sidebar.documents.contracts", "Contracts"), view: "contracts", icon: File },
-  ]
-
-  // Productivity
-  const productivityItems = [
-    { title: t("sidebar.productivity.meetings", "Meetings"), view: "meetings", icon: Video },
-    { title: t("sidebar.productivity.todoList", "Todo List"), view: "todo-list", icon: ListTodo },
-    { title: t("sidebar.productivity.notes", "Notes"), view: "notes", icon: StickyNote },
-    { title: t("sidebar.productivity.appointments", "Appointments"), view: "appointments", icon: Calendar },
-  ]
-
-  // Communication
-  const communicationItems = [
-    { title: t("sidebar.communication.messages", "Messages"), view: "messages", icon: MessageSquare },
-    { title: t("sidebar.communication.emailCenter", "Email Center"), view: "email-center", icon: Mail },
-  ]
-
-  // Business Growth & Management
-  const businessGrowthItems = [
-    { title: "Tours", view: "tours", icon: Calendar },
-    { title: "Finance", view: "finance", icon: Banknote },
-    { title: "Growth", view: "growth", icon: TrendingUp },
-    { title: "Automations", view: "automations", icon: Zap },
-  ]
-
-  // Analytics - Only show Admin Panel to admin users
-  const analyticsItems = [
-    { title: t("sidebar.analytics.analytics", "Analytics"), view: "analytics", icon: BarChart3 },
-    ...(isAdmin ? [{ title: t("sidebar.analytics.adminPanel", "Admin Panel"), view: "admin-panel", icon: Shield }] : [])
-  ]
-
-  // General & Support
-  const generalItems = [
-    { title: t("sidebar.general.careers", "Careers"), view: "careers", icon: Users },
-    { title: t("sidebar.general.referrals", "Referrals"), view: "referrals", icon: Star },
-    { title: t("sidebar.general.features", "Features"), view: "features", icon: Grid },
-    { title: t("sidebar.general.faqHelp", "FAQ & Help"), view: "faq-help", icon: HelpCircle },
-    { title: t("sidebar.general.feedback", "Feedback"), view: "feedback", icon: MessageCircleQuestion },
-    { title: t("sidebar.general.pricing", "Pricing"), view: "pricing", icon: CircleDollarSign },
-    { title: t("sidebar.general.settings", "Settings"), view: "settings", icon: Settings },
+  const bottomMenuItems = [
+    { 
+      id: "settings", 
+      icon: Settings, 
+      label: language === 'pt' ? "Configurações" : "Settings" 
+    },
+    { 
+      id: "upgrade", 
+      icon: CreditCard, 
+      label: language === 'pt' ? "Atualizar Plano" : "Upgrade" 
+    },
   ]
 
   return (
-    <Sidebar className="border-r">
-      <SidebarContent className="gap-0">
-        <SidebarHeader />
-        <div className="px-4 py-2">
-          <AllFeaturesDialog 
-            trigger={
-              <button className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2">
-                <Grid className="h-4 w-4" />
-                {t("sidebar.allFeatures", "View All Features")}
-              </button>
-            }
-          />
+    <Sidebar>
+      <SidebarHeader className="border-b px-6 py-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">FeatherBiz</h2>
+          <AuthLinks />
         </div>
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={mainFeatures} 
-          sectionTitle={t("sidebarSections.mainFeatures", "Main Features")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={coreBusinessItems} 
-          sectionTitle={t("sidebarSections.coreBusiness", "Core Business")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={financialItems} 
-          sectionTitle={t("sidebarSections.financialTools", "Financial Tools")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={operationsItems} 
-          sectionTitle={t("sidebarSections.operations", "Operations")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={documentsItems} 
-          sectionTitle={t("sidebarSections.documentsAndForms", "Documents & Forms")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={productivityItems} 
-          sectionTitle={t("sidebarSections.productivity", "Productivity")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={communicationItems} 
-          sectionTitle={t("sidebarSections.communication", "Communication")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={businessGrowthItems} 
-          sectionTitle="Business Growth"
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={analyticsItems} 
-          sectionTitle={t("sidebarSections.analytics", "Analytics")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={generalItems} 
-          sectionTitle={t("sidebarSections.generalSupport", "General & Support")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <div className="px-4 pt-3 pb-4">
-          <HelpCenter 
-            variant="outline"
-            size="default"
-            className="w-full justify-start mb-1"
-          />
-        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>
+            {language === 'pt' ? 'Menu Principal' : 'Main Menu'}
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => setActiveView(item.id)}
+                    isActive={activeView === item.id}
+                  >
+                    <item.icon className="mr-2 h-4 w-4" />
+                    {item.label}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
-      
-      <SidebarFooter />
+      <SidebarFooter className="border-t">
+        <SidebarMenu>
+          {bottomMenuItems.map((item) => (
+            <SidebarMenuItem key={item.id}>
+              <SidebarMenuButton
+                onClick={() => setActiveView(item.id)}
+                isActive={activeView === item.id}
+              >
+                <item.icon className="mr-2 h-4 w-4" />
+                {item.label}
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }
