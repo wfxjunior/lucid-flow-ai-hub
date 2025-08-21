@@ -2,8 +2,11 @@
 import React from 'react';
 import { DemoPageLayout } from '@/components/demo/DemoPageLayout';
 import { Card } from '@/components/ui/card';
+import { demoData } from '@/data/demoData';
 
 export default function EasyCalcPage() {
+  const { calculations, templates } = demoData.easyCalc;
+
   return (
     <DemoPageLayout
       title="EasyCalc"
@@ -16,13 +19,13 @@ export default function EasyCalcPage() {
             <h2 className="text-2xl font-semibold text-[#111827] mb-6">Overview</h2>
             <div className="space-y-4 text-[#374151]">
               <p>
-                Never second-guess your pricing again. EasyCalc provides instant calculations for margins, markups, discounts, and complex project costs.
+                • Never second-guess your pricing with instant calculations for margins, markups, discounts, and complex project costs
               </p>
               <p>
-                Built-in templates for common business scenarios help you price services accurately while maintaining profitable margins.
+                • Built-in templates for common business scenarios help you price services accurately while maintaining profitable margins
               </p>
               <p>
-                Save calculation templates for recurring use and share pricing models across your team for consistent estimates.
+                • Save calculation templates for recurring use and share pricing models across your team for consistent estimates
               </p>
             </div>
           </div>
@@ -38,37 +41,61 @@ export default function EasyCalcPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium text-[#111827]">Cost</label>
-                      <div className="mt-1 p-2 bg-[#F8FAFC] rounded border text-[#111827]">$2,500</div>
+                      <div className="mt-1 p-2 bg-[#F8FAFC] rounded border text-[#111827]">
+                        ${calculations[0].cost.toLocaleString()}
+                      </div>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-[#111827]">Markup %</label>
-                      <div className="mt-1 p-2 bg-[#F8FAFC] rounded border text-[#111827]">45%</div>
+                      <div className="mt-1 p-2 bg-[#F8FAFC] rounded border text-[#111827]">
+                        {calculations[0].markup}%
+                      </div>
                     </div>
                   </div>
                   
                   <div className="border-t border-[#E5E7EB] pt-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-[#6B7280]">Markup Amount:</span>
-                      <span className="font-medium text-[#111827]">$1,125</span>
+                      <span className="font-medium text-[#111827]">
+                        ${(calculations[0].sellingPrice - calculations[0].cost).toLocaleString()}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-[#6B7280]">Selling Price:</span>
-                      <span className="font-medium text-[#111827]">$3,625</span>
+                      <span className="font-medium text-[#111827]">
+                        ${calculations[0].sellingPrice.toLocaleString()}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-[#6B7280]">Profit Margin:</span>
-                      <span className="font-medium text-green-600">31.0%</span>
+                      <span className="font-medium text-green-600">{calculations[0].margin}%</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex gap-2">
-                  <button className="flex-1 px-3 py-2 text-sm bg-[#111827] text-white rounded hover:bg-[#111827]/90">
+                  <button 
+                    className="flex-1 px-3 py-2 text-sm bg-[#111827] text-white rounded hover:bg-[#111827]/90 disabled:opacity-50 disabled:cursor-not-allowed" 
+                    disabled
+                    title="Demo (read-only)"
+                  >
                     Save Template
                   </button>
-                  <button className="flex-1 px-3 py-2 text-sm border border-[#E5E7EB] text-[#111827] rounded hover:bg-[#F8FAFC]">
+                  <button 
+                    className="flex-1 px-3 py-2 text-sm border border-[#E5E7EB] text-[#111827] rounded hover:bg-[#F8FAFC] disabled:opacity-50 disabled:cursor-not-allowed" 
+                    disabled
+                    title="Demo (read-only)"
+                  >
                     Export
                   </button>
+                </div>
+
+                <div className="text-center">
+                  <div className="inline-flex items-center px-3 py-1 text-xs bg-amber-50 text-amber-700 rounded-full border border-amber-200"
+                       title="Demo (read-only)"
+                       aria-describedby="demo-tooltip">
+                    Demo content only
+                  </div>
                 </div>
               </div>
             </Card>

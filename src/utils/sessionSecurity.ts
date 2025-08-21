@@ -1,6 +1,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { securityEvent, secureError } from './security';
+import { secureStorage } from './secureStorage';
 
 interface DeviceFingerprint {
   userAgent: string;
@@ -8,12 +9,16 @@ interface DeviceFingerprint {
   platform: string;
   cookieEnabled: boolean;
   timestamp: number;
+  screenResolution: string;
+  timezone: string;
 }
 
 class SessionSecurityManager {
   private static instance: SessionSecurityManager;
   private sessionTimeout: number = 24 * 60 * 60 * 1000; // 24 hours
+  private warningTimeout: number = 23 * 60 * 60 * 1000; // 23 hours (1 hour before expiry)
   private checkInterval: NodeJS.Timeout | null = null;
+  private warningShown: boolean = false;
 
   static getInstance(): SessionSecurityManager {
     if (!SessionSecurityManager.instance) {
@@ -41,6 +46,7 @@ class SessionSecurityManager {
       clearInterval(this.checkInterval);
       this.checkInterval = null;
     }
+    this.warningShown = false;
   }
 
   async validateSession(): Promise<boolean> {
@@ -56,9 +62,10 @@ class SessionSecurityManager {
         return true; // No session is valid state
       }
 
-      // Check session expiration
+      // Check session expiration and show warning
       const expiresAt = new Date(session.expires_at || 0).getTime();
       const now = Date.now();
+      const timeUntilExpiry = expiresAt - now;
       
       if (expiresAt < now) {
         securityEvent('Session expired', { 
@@ -69,15 +76,21 @@ class SessionSecurityManager {
         return false;
       }
 
-      // Check for suspicious activity
-      if (this.detectSuspiciousActivity()) {
+      // Show warning if session expires in less than 1 hour
+      if (timeUntilExpiry < 60 * 60 * 1000 && !this.warningShown) {
+        this.showSessionWarning(Math.floor(timeUntilExpiry / (60 * 1000)));
+        this.warningShown = true;
+      }
+
+      // Check for suspicious activity with enhanced fingerprinting
+      if (await this.detectSuspiciousActivity()) {
         securityEvent('Suspicious session activity detected', {
           userId: session.user.id,
           timestamp: new Date().toISOString()
         });
       }
 
-      // Call server-side validation
+      // Call enhanced server-side validation
       const { data: isValid } = await supabase.rpc('validate_session_security');
       
       if (!isValid) {
@@ -94,43 +107,61 @@ class SessionSecurityManager {
     }
   }
 
-  detectSuspiciousActivity(): boolean {
+  async detectSuspiciousActivity(): Promise<boolean> {
     const currentFingerprint: DeviceFingerprint = {
       userAgent: navigator.userAgent,
       language: navigator.language,
       platform: navigator.platform,
       cookieEnabled: navigator.cookieEnabled,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      screenResolution: `${screen.width}x${screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
     };
 
-    const storedFingerprint = localStorage.getItem('device_fingerprint');
+    const storedFingerprint = await secureStorage.getItem('device_fingerprint', true);
     
     if (storedFingerprint) {
       try {
-        const stored: DeviceFingerprint = JSON.parse(storedFingerprint);
-        
         // Check for significant changes that might indicate session hijacking
-        if (stored.userAgent !== currentFingerprint.userAgent ||
-            stored.platform !== currentFingerprint.platform) {
+        if (storedFingerprint.userAgent !== currentFingerprint.userAgent ||
+            storedFingerprint.platform !== currentFingerprint.platform ||
+            storedFingerprint.timezone !== currentFingerprint.timezone) {
+          
+          securityEvent('Device fingerprint mismatch', {
+            stored: storedFingerprint,
+            current: currentFingerprint
+          });
+          
           return true;
         }
       } catch (error) {
-        // Invalid stored fingerprint, create new one
-        localStorage.setItem('device_fingerprint', JSON.stringify(currentFingerprint));
+        secureError('Fingerprint comparison failed', { error });
       }
     } else {
-      // Store fingerprint for future checks
-      localStorage.setItem('device_fingerprint', JSON.stringify(currentFingerprint));
+      // Store encrypted fingerprint for future checks
+      await secureStorage.setItem('device_fingerprint', currentFingerprint, { 
+        encrypt: true,
+        expiry: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+      });
     }
 
     return false;
   }
 
+  private showSessionWarning(minutesRemaining: number) {
+    // Create a simple warning toast or modal
+    const warningEvent = new CustomEvent('sessionWarning', {
+      detail: { minutesRemaining }
+    });
+    window.dispatchEvent(warningEvent);
+    
+    securityEvent('Session expiry warning shown', { minutesRemaining });
+  }
+
   private async handleExpiredSession() {
     try {
-      await supabase.auth.signOut();
-      localStorage.removeItem('device_fingerprint');
-      window.location.href = '/auth';
+      securityEvent('Handling expired session');
+      await this.enhancedSignOut();
     } catch (error) {
       secureError('Failed to handle expired session', { error });
     }
@@ -138,9 +169,8 @@ class SessionSecurityManager {
 
   private async handleInvalidSession() {
     try {
-      await supabase.auth.signOut({ scope: 'global' });
-      localStorage.removeItem('device_fingerprint');
-      window.location.href = '/auth';
+      securityEvent('Handling invalid session');
+      await this.enhancedSignOut();
     } catch (error) {
       secureError('Failed to handle invalid session', { error });
     }
@@ -149,16 +179,23 @@ class SessionSecurityManager {
   async enhancedSignOut() {
     try {
       this.stopSessionMonitoring();
-      localStorage.removeItem('device_fingerprint');
       
-      // Clear all auth-related storage
-      Object.keys(localStorage).forEach((key) => {
-        if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-          localStorage.removeItem(key);
-        }
-      });
+      // Enhanced cleanup with secure storage
+      await secureStorage.emergencyClear();
+      
+      // Enhanced cleanup - remove all potentially sensitive data
+      const keysToRemove = Object.keys(localStorage).filter(key => 
+        key.startsWith('supabase.auth.') || 
+        key.includes('sb-') ||
+        key.includes('session') ||
+        key.includes('token')
+      );
+      
+      keysToRemove.forEach(key => localStorage.removeItem(key));
 
       await supabase.auth.signOut({ scope: 'global' });
+      
+      securityEvent('Enhanced sign out completed');
       
       // Force redirect after cleanup
       setTimeout(() => {
@@ -172,6 +209,28 @@ class SessionSecurityManager {
       }, 100);
     }
   }
+
+  // Enhanced session refresh with security checks
+  async refreshSession(): Promise<boolean> {
+    try {
+      const { data, error } = await supabase.auth.refreshSession();
+      
+      if (error) {
+        securityEvent('Session refresh failed', { error: error.message });
+        return false;
+      }
+      
+      if (data.session) {
+        securityEvent('Session refreshed successfully');
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      secureError('Session refresh error', { error });
+      return false;
+    }
+  }
 }
 
 export const sessionSecurity = SessionSecurityManager.getInstance();
@@ -179,4 +238,15 @@ export const sessionSecurity = SessionSecurityManager.getInstance();
 // Auto-start session monitoring when module loads
 if (typeof window !== 'undefined') {
   sessionSecurity.startSessionMonitoring();
+  
+  // Apply security headers on load
+  import('./contentSecurityPolicy').then(({ applySecurityHeaders }) => {
+    applySecurityHeaders();
+  });
+  
+  // Set up session warning listener
+  window.addEventListener('sessionWarning', (event: CustomEvent) => {
+    console.warn(`Session expires in ${event.detail.minutesRemaining} minutes`);
+    // You can integrate with your toast/notification system here
+  });
 }

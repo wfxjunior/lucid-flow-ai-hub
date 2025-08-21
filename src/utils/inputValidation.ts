@@ -1,204 +1,268 @@
 
-export const validateEmail = (email: string): { isValid: boolean; error?: string } => {
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-  
-  if (!email) {
-    return { isValid: false, error: 'Email is required' };
-  }
-  
-  if (!emailRegex.test(email)) {
-    return { isValid: false, error: 'Invalid email format' };
-  }
-  
-  if (email.length > 254) {
-    return { isValid: false, error: 'Email too long' };
-  }
-  
-  return { isValid: true };
-};
+// Enhanced Input Validation and Sanitization utilities
+import DOMPurify from 'dompurify'
+import { securityEvent, secureError } from './security'
 
-export const validatePassword = (password: string): { isValid: boolean; error?: string } => {
-  if (!password) {
-    return { isValid: false, error: 'Password is required' };
-  }
-  
-  if (password.length < 8) {
-    return { isValid: false, error: 'Password must be at least 8 characters' };
-  }
-  
-  return { isValid: true };
-};
+// Enhanced input length limits for security
+const INPUT_LIMITS = {
+  text: 1000,
+  email: 254,
+  phone: 20,
+  url: 2048,
+  password: 128,
+  textarea: 5000,
+  name: 100,
+  title: 200,
+  description: 2000
+} as const
 
-export const validateRequired = (value: string, fieldName: string): { isValid: boolean; error?: string } => {
-  if (!value || value.trim().length === 0) {
-    return { isValid: false, error: `${fieldName} is required` };
-  }
-  
-  return { isValid: true };
-};
-
-// Client-side rate limiting functionality
-const rateLimitStore = new Map<string, { count: number; lastReset: number }>();
+// Client-side rate limiting
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
 
 export const checkClientRateLimit = (action: string, maxRequests: number, windowMs: number): boolean => {
-  const now = Date.now();
-  const key = action;
+  const now = Date.now()
+  const key = `${action}_${Math.floor(now / windowMs)}`
+  const current = rateLimitStore.get(key) || { count: 0, resetTime: now + windowMs }
   
-  const existing = rateLimitStore.get(key);
-  
-  if (!existing || (now - existing.lastReset) > windowMs) {
-    // Reset the counter
-    rateLimitStore.set(key, { count: 1, lastReset: now });
-    return true;
+  if (now > current.resetTime) {
+    rateLimitStore.delete(key)
+    rateLimitStore.set(key, { count: 1, resetTime: now + windowMs })
+    return true
   }
   
-  if (existing.count >= maxRequests) {
-    return false;
+  if (current.count >= maxRequests) {
+    securityEvent('Client rate limit exceeded', { action, count: current.count })
+    return false
   }
   
-  existing.count++;
-  return true;
-};
-
-// Form validation functionality
-interface ValidationRule {
-  type: 'text' | 'email' | 'url' | 'phone' | 'number';
-  options?: {
-    required?: boolean;
-    minLength?: number;
-    maxLength?: number;
-    pattern?: RegExp;
-    customValidator?: (value: string) => boolean;
-  };
+  current.count++
+  rateLimitStore.set(key, current)
+  return true
 }
 
-interface ValidationResult {
-  isValid: boolean;
-  sanitizedValue: any;
-  errors: string[];
-}
-
-interface FormValidationResult {
-  isValid: boolean;
-  sanitizedData: Record<string, any>;
-  results: Record<string, ValidationResult>;
-}
-
-const sanitizeHtml = (html: string): string => {
-  // Basic HTML sanitization - remove script tags and dangerous attributes
-  return html
+// Enhanced input sanitization with length limits
+export const sanitizeInput = (input: string, type: keyof typeof INPUT_LIMITS = 'text'): string => {
+  if (!input) return ''
+  
+  const limit = INPUT_LIMITS[type]
+  let sanitized = input.trim()
+  
+  // Apply length limit
+  if (sanitized.length > limit) {
+    sanitized = sanitized.substring(0, limit)
+    securityEvent('Input truncated due to length limit', { type, originalLength: input.length, limit })
+  }
+  
+  // Enhanced sanitization
+  sanitized = DOMPurify.sanitize(sanitized, { 
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+    KEEP_CONTENT: true
+  })
+  
+  // Remove potentially dangerous patterns
+  sanitized = sanitized
+    .replace(/javascript:/gi, '')
+    .replace(/vbscript:/gi, '')
+    .replace(/data:/gi, '')
+    .replace(/on\w+=/gi, '')
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/on\w+="[^"]*"/g, '')
-    .replace(/javascript:/gi, '');
-};
+    
+  return sanitized
+}
 
-const validateField = (value: any, rule: ValidationRule): ValidationResult => {
-  const errors: string[] = [];
-  let sanitizedValue = value;
+// Enhanced validation with security logging
+export const validateInput = (
+  value: string, 
+  type: 'text' | 'email' | 'url' | 'phone' | 'password',
+  options: { required?: boolean; minLength?: number; maxLength?: number } = {}
+): { isValid: boolean; errors: string[]; sanitizedValue: string } => {
+  const errors: string[] = []
+  const sanitizedValue = sanitizeInput(value, type)
   
   // Required validation
-  if (rule.options?.required && (!value || value.toString().trim().length === 0)) {
-    errors.push('This field is required');
-    return { isValid: false, sanitizedValue: value, errors };
-  }
-  
-  // Skip other validations if field is empty and not required
-  if (!value || value.toString().trim().length === 0) {
-    return { isValid: true, sanitizedValue: '', errors: [] };
-  }
-  
-  // Type-specific validation and sanitization
-  switch (rule.type) {
-    case 'email':
-      const emailValidation = validateEmail(value.toString());
-      if (!emailValidation.isValid) {
-        errors.push(emailValidation.error || 'Invalid email format');
-      }
-      sanitizedValue = value.toString().toLowerCase().trim();
-      break;
-      
-    case 'text':
-      sanitizedValue = sanitizeHtml(value.toString().trim());
-      break;
-      
-    case 'number':
-      const numValue = Number(value);
-      if (isNaN(numValue)) {
-        errors.push('Must be a valid number');
-      } else {
-        sanitizedValue = numValue;
-      }
-      break;
-      
-    case 'url':
-      try {
-        new URL(value.toString());
-        sanitizedValue = value.toString().trim();
-      } catch {
-        errors.push('Must be a valid URL');
-      }
-      break;
-      
-    case 'phone':
-      const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
-      if (!phoneRegex.test(value.toString())) {
-        errors.push('Must be a valid phone number');
-      }
-      sanitizedValue = value.toString().replace(/[^\d+]/g, '');
-      break;
+  if (options.required && !sanitizedValue) {
+    errors.push('This field is required')
   }
   
   // Length validation
-  if (rule.options?.minLength && sanitizedValue.toString().length < rule.options.minLength) {
-    errors.push(`Must be at least ${rule.options.minLength} characters`);
+  if (options.minLength && sanitizedValue.length < options.minLength) {
+    errors.push(`Minimum length is ${options.minLength} characters`)
   }
   
-  if (rule.options?.maxLength && sanitizedValue.toString().length > rule.options.maxLength) {
-    errors.push(`Must be no more than ${rule.options.maxLength} characters`);
-    sanitizedValue = sanitizedValue.toString().substring(0, rule.options.maxLength);
+  if (options.maxLength && sanitizedValue.length > options.maxLength) {
+    errors.push(`Maximum length is ${options.maxLength} characters`)
   }
   
-  // Pattern validation
-  if (rule.options?.pattern && !rule.options.pattern.test(sanitizedValue.toString())) {
-    errors.push('Invalid format');
+  // Type-specific validation
+  switch (type) {
+    case 'email':
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (sanitizedValue && !emailRegex.test(sanitizedValue)) {
+        errors.push('Please enter a valid email address')
+      }
+      break
+      
+    case 'url':
+      try {
+        if (sanitizedValue) {
+          const url = new URL(sanitizedValue)
+          if (!['http:', 'https:'].includes(url.protocol)) {
+            errors.push('URL must use HTTP or HTTPS protocol')
+          }
+        }
+      } catch {
+        errors.push('Please enter a valid URL')
+      }
+      break
+      
+    case 'phone':
+      const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/
+      if (sanitizedValue && !phoneRegex.test(sanitizedValue)) {
+        errors.push('Please enter a valid phone number')
+      }
+      break
+      
+    case 'password':
+      if (sanitizedValue.length < 8) {
+        errors.push('Password must be at least 8 characters long')
+      }
+      if (!/(?=.*[a-z])/.test(sanitizedValue)) {
+        errors.push('Password must contain at least one lowercase letter')
+      }
+      if (!/(?=.*[A-Z])/.test(sanitizedValue)) {
+        errors.push('Password must contain at least one uppercase letter')
+      }
+      if (!/(?=.*\d)/.test(sanitizedValue)) {
+        errors.push('Password must contain at least one number')
+      }
+      break
   }
   
-  // Custom validation
-  if (rule.options?.customValidator && !rule.options.customValidator(sanitizedValue.toString())) {
-    errors.push('Validation failed');
+  // Log validation failures for security monitoring
+  if (errors.length > 0) {
+    securityEvent('Input validation failed', { 
+      type, 
+      errorCount: errors.length,
+      valueLength: value.length,
+      sanitizedLength: sanitizedValue.length
+    })
   }
   
   return {
     isValid: errors.length === 0,
-    sanitizedValue,
-    errors
-  };
-};
+    errors,
+    sanitizedValue
+  }
+}
 
+// Comprehensive form data validation
 export const validateFormData = (
-  data: Record<string, any>, 
-  rules: Record<string, ValidationRule>
-): FormValidationResult => {
-  const results: Record<string, ValidationResult> = {};
-  const sanitizedData: Record<string, any> = {};
-  let isValid = true;
-  
-  // Validate each field
-  Object.entries(rules).forEach(([fieldName, rule]) => {
-    const fieldValue = data[fieldName];
-    const result = validateField(fieldValue, rule);
-    
-    results[fieldName] = result;
-    sanitizedData[fieldName] = result.sanitizedValue;
-    
-    if (!result.isValid) {
-      isValid = false;
+  formData: Record<string, any>,
+  validationRules: Record<string, {
+    type: 'text' | 'email' | 'url' | 'phone' | 'password' | 'number'
+    options?: {
+      required?: boolean
+      minLength?: number
+      maxLength?: number
+      pattern?: RegExp
+      customValidator?: (value: string) => boolean
     }
-  });
+  }>
+): {
+  isValid: boolean
+  sanitizedData: Record<string, any>
+  results: Record<string, { isValid: boolean; errors: string[]; sanitizedValue: any }>
+} => {
+  const results: Record<string, { isValid: boolean; errors: string[]; sanitizedValue: any }> = {}
+  const sanitizedData: Record<string, any> = {}
+  let overallValid = true
+  
+  for (const [key, rule] of Object.entries(validationRules)) {
+    const value = formData[key]
+    
+    if (rule.type === 'number') {
+      const numValue = Number(value)
+      const isValidNumber = !isNaN(numValue) && isFinite(numValue)
+      results[key] = {
+        isValid: isValidNumber,
+        errors: isValidNumber ? [] : ['Please enter a valid number'],
+        sanitizedValue: isValidNumber ? numValue : 0
+      }
+      sanitizedData[key] = results[key].sanitizedValue
+    } else {
+      const validation = validateInput(String(value || ''), rule.type, rule.options)
+      
+      // Custom validation
+      if (validation.isValid && rule.options?.customValidator) {
+        if (!rule.options.customValidator(validation.sanitizedValue)) {
+          validation.isValid = false
+          validation.errors.push('Invalid value')
+        }
+      }
+      
+      // Pattern validation
+      if (validation.isValid && rule.options?.pattern) {
+        if (!rule.options.pattern.test(validation.sanitizedValue)) {
+          validation.isValid = false
+          validation.errors.push('Invalid format')
+        }
+      }
+      
+      results[key] = validation
+      sanitizedData[key] = validation.sanitizedValue
+    }
+    
+    if (!results[key].isValid) {
+      overallValid = false
+    }
+  }
   
   return {
-    isValid,
+    isValid: overallValid,
     sanitizedData,
     results
-  };
-};
+  }
+}
+
+// File upload validation
+export const validateFileUpload = (file: File, options: {
+  maxSize?: number // in bytes
+  allowedTypes?: string[]
+  allowedExtensions?: string[]
+}): { isValid: boolean; errors: string[] } => {
+  const errors: string[] = []
+  
+  // Size validation
+  if (options.maxSize && file.size > options.maxSize) {
+    errors.push(`File size must be less than ${Math.round(options.maxSize / (1024 * 1024))}MB`)
+  }
+  
+  // Type validation
+  if (options.allowedTypes && !options.allowedTypes.includes(file.type)) {
+    errors.push(`File type ${file.type} is not allowed`)
+  }
+  
+  // Extension validation
+  if (options.allowedExtensions) {
+    const extension = file.name.split('.').pop()?.toLowerCase()
+    if (!extension || !options.allowedExtensions.includes(extension)) {
+      errors.push(`File extension must be one of: ${options.allowedExtensions.join(', ')}`)
+    }
+  }
+  
+  // Log potentially malicious uploads
+  if (errors.length > 0) {
+    securityEvent('File upload validation failed', {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      errors
+    })
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors
+  }
+}

@@ -2,8 +2,21 @@
 import React from 'react';
 import { DemoPageLayout } from '@/components/demo/DemoPageLayout';
 import { Card } from '@/components/ui/card';
+import { demoData } from '@/data/demoData';
 
 export default function PipelinePage() {
+  const { stages, activeDeals, conversionRates } = demoData.pipeline;
+
+  const getStageColor = (color: string) => {
+    const colors = {
+      blue: 'bg-blue-100 text-blue-800',
+      yellow: 'bg-yellow-100 text-yellow-800',
+      orange: 'bg-orange-100 text-orange-800',
+      green: 'bg-green-100 text-green-800'
+    };
+    return colors[color as keyof typeof colors] || colors.blue;
+  };
+
   return (
     <DemoPageLayout
       title="Sales Pipeline"
@@ -16,13 +29,13 @@ export default function PipelinePage() {
             <h2 className="text-2xl font-semibold text-[#111827] mb-6">Overview</h2>
             <div className="space-y-4 text-[#374151]">
               <p>
-                Visual pipeline management helps you track every opportunity from initial contact to closed deal. Never lose track of potential revenue again.
+                • Visual pipeline management helps you track every opportunity from initial contact to closed deal
               </p>
               <p>
-                Automated stage progression and follow-up reminders ensure no lead falls through the cracks. Customize stages to match your unique sales process.
+                • Automated stage progression and follow-up reminders ensure no lead falls through the cracks
               </p>
               <p>
-                Real-time forecasting and conversion analytics help you make data-driven decisions about resource allocation and growth planning.
+                • Real-time forecasting and conversion analytics help you make data-driven decisions about resource allocation
               </p>
             </div>
           </div>
@@ -35,51 +48,37 @@ export default function PipelinePage() {
                 <h4 className="font-medium text-[#111827] mb-4">Sales Pipeline</h4>
                 
                 <div className="grid grid-cols-4 gap-2 text-xs">
-                  <div className="text-center">
-                    <div className="bg-blue-100 text-blue-800 p-2 rounded">
-                      <div className="font-medium">Leads</div>
-                      <div>8 deals</div>
-                      <div>$45K</div>
+                  {stages.map((stage, index) => (
+                    <div key={index} className="text-center">
+                      <div className={`p-2 rounded ${getStageColor(stage.color)}`}>
+                        <div className="font-medium">{stage.name}</div>
+                        <div>{stage.deals} deals</div>
+                        <div>${(stage.value / 1000).toFixed(0)}K</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="bg-yellow-100 text-yellow-800 p-2 rounded">
-                      <div className="font-medium">Qualified</div>
-                      <div>5 deals</div>
-                      <div>$32K</div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="bg-orange-100 text-orange-800 p-2 rounded">
-                      <div className="font-medium">Proposal</div>
-                      <div>3 deals</div>
-                      <div>$28K</div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="bg-green-100 text-green-800 p-2 rounded">
-                      <div className="font-medium">Closed</div>
-                      <div>2 deals</div>
-                      <div>$18K</div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
 
                 <div className="bg-white rounded-lg p-4 mt-4">
                   <h5 className="font-medium text-[#111827] mb-3">Active Opportunities</h5>
                   <div className="space-y-2">
-                    <div className="flex justify-between items-center p-2 bg-[#F8FAFC] rounded">
-                      <span className="text-sm font-medium text-[#111827]">Downtown Office Complex</span>
-                      <span className="text-sm text-[#6B7280]">$15K</span>
-                    </div>
-                    <div className="flex justify-between items-center p-2 bg-[#F8FAFC] rounded">
-                      <span className="text-sm font-medium text-[#111827]">Residential Renovation</span>
-                      <span className="text-sm text-[#6B7280]">$8K</span>
-                    </div>
-                    <div className="flex justify-between items-center p-2 bg-[#F8FAFC] rounded">
-                      <span className="text-sm font-medium text-[#111827]">Shopping Center Repair</span>
-                      <span className="text-sm text-[#6B7280]">$5K</span>
-                    </div>
+                    {activeDeals.map((deal, index) => (
+                      <div key={index} className="flex justify-between items-center p-2 bg-[#F8FAFC] rounded">
+                        <div>
+                          <span className="text-sm font-medium text-[#111827]">{deal.name}</span>
+                          <div className="text-xs text-[#6B7280]">{deal.stage} • {deal.probability}% probability</div>
+                        </div>
+                        <span className="text-sm text-[#6B7280]">${(deal.value / 1000).toFixed(0)}K</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <div className="inline-flex items-center px-3 py-1 text-xs bg-amber-50 text-amber-700 rounded-full border border-amber-200"
+                       title="Demo (read-only)"
+                       aria-describedby="demo-tooltip">
+                    Demo content only
                   </div>
                 </div>
               </div>
