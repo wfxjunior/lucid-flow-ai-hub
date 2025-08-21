@@ -5,7 +5,7 @@ interface LanguageContextType {
   language: string
   currentLanguage: string
   setLanguage: (lang: string) => void
-  t: (key: string, fallback?: string) => string
+  t: (key: string, params?: string | Record<string, string>) => string
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
@@ -28,6 +28,12 @@ const translations = {
     'dashboard.noTasks': 'No upcoming tasks',
     'dashboardHeader.title': 'Dashboard',
     'dashboardHeader.welcome': 'Overview of your business performance',
+    'userGreeting.welcome': 'Welcome to FeatherBiz',
+    'userGreeting.signIn': 'Sign In',
+    'userGreeting.profile': 'Profile',
+    'userGreeting.signOut': 'Sign Out',
+    'userGreeting.signingOut': 'Signing out...',
+    'userGreeting.hello': 'Hello, {{name}}!',
     'sidebar.allFeatures': 'View All Features',
     'sidebar.mainFeatures.dashboard': 'Dashboard',
     'sidebar.mainFeatures.aiVoice': 'AI Voice',
@@ -98,9 +104,23 @@ const translations = {
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [currentLanguage, setCurrentLanguage] = useState('en-US')
 
-  const t = (key: string, fallback?: string): string => {
+  const t = (key: string, params?: string | Record<string, string>): string => {
     const translation = translations[currentLanguage as keyof typeof translations]?.[key as keyof typeof translations['en-US']]
-    return translation || fallback || key
+    let result = translation || key
+
+    if (params) {
+      if (typeof params === 'string') {
+        // If params is a string, use it as fallback
+        result = translation || params
+      } else {
+        // If params is an object, interpolate the values
+        Object.keys(params).forEach(paramKey => {
+          result = result.replace(new RegExp(`\\{\\{${paramKey}\\}\\}`, 'g'), params[paramKey])
+        })
+      }
+    }
+
+    return result
   }
 
   const setLanguage = (lang: string) => {
