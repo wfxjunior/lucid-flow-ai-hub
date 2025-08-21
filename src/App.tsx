@@ -1,93 +1,84 @@
 
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster as Sonner } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LanguageProvider } from "@/contexts/LanguageContext";
-import { AuthGuard } from "@/components/AuthGuard";
 import Index from "./pages/Index";
-import LandingPage from "./pages/LandingPage";
-import Pricing from "./pages/Pricing";
-import BlogIndex from "./pages/BlogIndex";
-import BlogPost from "./pages/BlogPost";
-import PaymentSuccess from "./pages/PaymentSuccess";
-import PaymentCanceled from "./pages/PaymentCanceled";
-import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
-import CheckoutCancel from "./pages/checkout/CheckoutCancel";
-import TestCheckout from "./pages/checkout/TestCheckout";
-import HealthCheck from "./pages/HealthCheck";
-import RouteDebug from "./pages/RouteDebug";
-import ScalePage from "./pages/ScalePage";
-import FeaturesOverview from "./pages/FeaturesOverview";
+import ErrorBoundary from "./components/ErrorBoundary";
 
-// Public Feature Demo Pages (no auth required)
-import AIVoicePage from "./pages/features/AIVoicePage";
-import InvoicesPage from "./pages/features/InvoicesPage";
-import EstimatesPage from "./pages/features/EstimatesPage";
-import EasyCalcPage from "./pages/features/EasyCalcPage";
-import PipelinePage from "./pages/features/PipelinePage";
-import FeatherTaxPage from "./pages/features/FeatherTaxPage";
-import WorkOrdersPage from "./pages/features/WorkOrdersPage";
+// Lazy load pages for better performance
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const SignInPage = lazy(() => import("./pages/SignInPage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
+const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const UpgradePage = lazy(() => import("./pages/Upgrade"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const PaymentCanceled = lazy(() => import("./pages/PaymentCanceled"));
+const BillingPortal = lazy(() => import("./pages/BillingPortal"));
+const CallbackPage = lazy(() => import("./pages/CallbackPage"));
 
-// Public Guide Pages (no auth required)
-import GettingStartedPage from "./pages/GettingStartedPage";
-import ChangelogPage from "./pages/ChangelogPage";
+// Marketing pages
+const PricingPage = lazy(() => import("./pages/PricingPage"));
+const FeaturesPage = lazy(() => import("./pages/FeaturesPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Public routes - no auth required */}
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/landing" element={<LandingPage />} />
-            <Route path="/scale" element={<ScalePage />} />
-            <Route path="/features" element={<FeaturesOverview />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/blog" element={<BlogIndex />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/payment-canceled" element={<PaymentCanceled />} />
-            <Route path="/checkout/success" element={<CheckoutSuccess />} />
-            <Route path="/checkout/cancel" element={<CheckoutCancel />} />
-            <Route path="/health" element={<HealthCheck />} />
-            <Route path="/_debug/routes" element={<RouteDebug />} />
-            
-            {/* Public Feature Demo Pages - no auth required */}
-            <Route path="/features/ai-voice" element={<AIVoicePage />} />
-            <Route path="/features/invoices" element={<InvoicesPage />} />
-            <Route path="/features/estimates" element={<EstimatesPage />} />
-            <Route path="/features/easycalc" element={<EasyCalcPage />} />
-            <Route path="/features/pipeline" element={<PipelinePage />} />
-            <Route path="/features/feathertax" element={<FeatherTaxPage />} />
-            <Route path="/features/work-orders" element={<WorkOrdersPage />} />
-            
-            {/* Public Guide Pages - no auth required */}
-            <Route path="/guides/getting-started" element={<GettingStartedPage />} />
-            <Route path="/changelog" element={<ChangelogPage />} />
-            
-            {/* Protected routes - auth required */}
-            <Route path="/dashboard" element={
-              <AuthGuard>
-                <Index />
-              </AuthGuard>
-            } />
-            <Route path="/pricing/test-checkout" element={
-              <AuthGuard>
-                <TestCheckout />
-              </AuthGuard>
-            } />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </LanguageProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center min-h-screen">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              }
+            >
+              <Routes>
+                {/* Public routes */}
+                <Route path="/" element={<Index />} />
+                <Route path="/landing" element={<LandingPage />} />
+                <Route path="/signin" element={<SignInPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                
+                {/* Marketing pages */}
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/features" element={<FeaturesPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                
+                {/* Protected routes */}
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/upgrade" element={<UpgradePage />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/payment-canceled" element={<PaymentCanceled />} />
+                <Route path="/billing-portal" element={<BillingPortal />} />
+                <Route path="/callback" element={<CallbackPage />} />
+                
+                {/* Redirect any unknown routes to home */}
+                <Route path="*" element={<Index />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+}
 
 export default App;
