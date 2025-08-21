@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 // Lazy load pages for better performance
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -36,46 +37,48 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Suspense
-              fallback={
-                <div className="flex items-center justify-center min-h-screen">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              }
-            >
-              <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/landing" element={<LandingPage />} />
-                <Route path="/signin" element={<SignInPage />} />
-                <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                
-                {/* Marketing pages */}
-                <Route path="/pricing" element={<PricingPage />} />
-                <Route path="/features" element={<FeaturesPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                
-                {/* Protected routes */}
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/upgrade" element={<UpgradePage />} />
-                <Route path="/payment-success" element={<PaymentSuccess />} />
-                <Route path="/payment-canceled" element={<PaymentCanceled />} />
-                <Route path="/billing-portal" element={<BillingPortal />} />
-                <Route path="/callback" element={<CallbackPage />} />
-                
-                {/* Redirect any unknown routes to home */}
-                <Route path="*" element={<Index />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
+      <LanguageProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Suspense
+                fallback={
+                  <div className="flex items-center justify-center min-h-screen">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                  </div>
+                }
+              >
+                <Routes>
+                  {/* Public routes */}
+                  <Route path="/" element={<Index />} />
+                  <Route path="/landing" element={<LandingPage />} />
+                  <Route path="/signin" element={<SignInPage />} />
+                  <Route path="/signup" element={<SignUpPage />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  
+                  {/* Marketing pages */}
+                  <Route path="/pricing" element={<PricingPage />} />
+                  <Route path="/features" element={<FeaturesPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  
+                  {/* Protected routes */}
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/upgrade" element={<UpgradePage />} />
+                  <Route path="/payment-success" element={<PaymentSuccess />} />
+                  <Route path="/payment-canceled" element={<PaymentCanceled />} />
+                  <Route path="/billing-portal" element={<BillingPortal />} />
+                  <Route path="/callback" element={<CallbackPage />} />
+                  
+                  {/* Redirect any unknown routes to home */}
+                  <Route path="*" element={<Index />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </LanguageProvider>
     </ErrorBoundary>
   );
 }
