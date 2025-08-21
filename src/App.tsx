@@ -1,84 +1,66 @@
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Toaster } from 'sonner'
+import { QueryClient } from 'react-query'
 
-import { Suspense, lazy } from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import ErrorBoundary from "./components/ErrorBoundary";
-
-// Lazy load pages for better performance
-const LandingPage = lazy(() => import("./pages/LandingPage"));
-const SignInPage = lazy(() => import("./pages/SignInPage"));
-const SignUpPage = lazy(() => import("./pages/SignUpPage"));
-const ForgotPasswordPage = lazy(() => import("./pages/ForgotPasswordPage"));
-const DashboardPage = lazy(() => import("./pages/DashboardPage"));
-const UpgradePage = lazy(() => import("./pages/Upgrade"));
-const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
-const PaymentCanceled = lazy(() => import("./pages/PaymentCanceled"));
-const BillingPortal = lazy(() => import("./pages/BillingPortal"));
-const CallbackPage = lazy(() => import("./pages/CallbackPage"));
-
-// Marketing pages
-const PricingPage = lazy(() => import("./pages/PricingPage"));
-const FeaturesPage = lazy(() => import("./pages/FeaturesPage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      retry: 1,
-    },
-  },
-});
+import LandingPage from '@/pages/LandingPage'
+import PricingPage from '@/pages/PricingPage'
+import ContactPage from '@/pages/ContactPage'
+import AboutPage from '@/pages/AboutPage'
+import AuthPage from '@/pages/Auth'
+import PaymentSuccessPage from '@/pages/PaymentSuccessPage'
+import PaymentCancelledPage from '@/pages/PaymentCancelledPage'
+import BlogPage from '@/pages/BlogPage'
+import BlogPostPage from '@/pages/BlogPostPage'
+import MainApp from '@/pages/MainApp'
+import AuthGuard from '@/components/AuthGuard'
+import { SecurityDashboard } from '@/components/security/SecurityDashboard'
+import SignInPage from '@/pages/SignInPage'
+import SignUpPage from '@/pages/SignUpPage'
+import { SecurityAuditLogger } from '@/components/security/SecurityAuditLogger'
 
 function App() {
   return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Suspense
-              fallback={
-                <div className="flex items-center justify-center min-h-screen">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              }
-            >
+    <QueryClient>
+      <BrowserRouter>
+        <AuthGuard>
+          <SecurityAuditLogger>
+            <div className="min-h-screen bg-gray-50">
               <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/landing" element={<LandingPage />} />
+                {/* Public Routes */}
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/auth" element={<AuthPage />} />
                 <Route path="/signin" element={<SignInPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/payment-success" element={<PaymentSuccessPage />} />
+                <Route path="/payment-canceled" element={<PaymentCancelledPage />} />
+                <Route path="/health" element={<div>OK</div>} />
                 
-                {/* Marketing pages */}
-                <Route path="/pricing" element={<PricingPage />} />
-                <Route path="/features" element={<FeaturesPage />} />
-                <Route path="/about" element={<AboutPage />} />
+                {/* Protected Routes */}
+                <Route path="/app" element={<MainApp />} />
+                <Route path="/dashboard" element={<MainApp />} />
                 
-                {/* Protected routes */}
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/upgrade" element={<UpgradePage />} />
-                <Route path="/payment-success" element={<PaymentSuccess />} />
-                <Route path="/payment-canceled" element={<PaymentCanceled />} />
-                <Route path="/billing-portal" element={<BillingPortal />} />
-                <Route path="/callback" element={<CallbackPage />} />
+                {/* Blog Routes */}
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:slug" element={<BlogPostPage />} />
                 
-                {/* Redirect any unknown routes to home */}
-                <Route path="*" element={<Index />} />
+                {/* Admin Routes */}
+                <Route path="/admin/security" element={
+                  <div className="p-6">
+                    <SecurityDashboard />
+                  </div>
+                } />
               </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </ErrorBoundary>
-  );
+            </div>
+          </SecurityAuditLogger>
+        </AuthGuard>
+        <Toaster />
+      </BrowserRouter>
+    </QueryClient>
+  )
 }
 
-export default App;
+export default App
