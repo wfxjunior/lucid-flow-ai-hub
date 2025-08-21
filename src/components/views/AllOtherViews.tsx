@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { GenericView } from './GenericView'
 import { 
@@ -8,6 +7,88 @@ import {
   Car, Package, Users, Headphones, FileText, ShoppingCart,
   Target, StickyNote, MapPin, TrendingUp, Bot, FormInput
 } from 'lucide-react'
+
+interface AllOtherViewsProps {
+  activeView: string
+  onNavigate: (view: string) => void
+}
+
+export function AllOtherViews({ activeView, onNavigate }: AllOtherViewsProps) {
+  const renderView = () => {
+    switch (activeView) {
+      case "analytics":
+        return <AnalyticsView />
+      case "admin-panel":
+        return <AdminPanelView />
+      case "careers":
+        return <CareersView />
+      case "referrals":
+        return <ReferralsView />
+      case "features":
+        return <FeaturesView />
+      case "faq-help":
+        return <FAQHelpView />
+      case "feedback":
+        return <FeedbackView />
+      case "pricing":
+        return <PricingView />
+      case "e-signatures":
+        return <ESignaturesView />
+      case "project-timeline":
+        return <ProjectTimelineView />
+      case "pipeline":
+        return <PipelineView />
+      case "smart-schedule":
+        return <SmartScheduleView />
+      case "featherbudget":
+        return <FeatherBudgetView />
+      case "feathertax":
+        return <FeatherTaxView />
+      case "easycalc":
+        return <EasyCalcView />
+      case "receipts":
+        return <ReceiptsView />
+      case "accounting":
+        return <AccountingView />
+      case "quotes":
+        return <QuotesView />
+      case "car-rental":
+        return <CarRentalView />
+      case "mattrack":
+        return <MatTrackView />
+      case "crew-control":
+        return <CrewControlView />
+      case "earnsync":
+        return <EarnSyncView />
+      case "aftercare":
+        return <AfterCareView />
+      case "featherforms":
+        return <FeatherFormsView />
+      case "sales-orders":
+        return <SalesOrdersView />
+      case "business-proposals":
+        return <BusinessProposalsView />
+      case "bids":
+        return <BidsView />
+      case "todo-list":
+        return <TodoListView />
+      case "notes":
+        return <NotesView />
+      case "tours":
+        return <ToursView />
+      case "finance":
+        return <FinanceView />
+      case "growth":
+        return <GrowthView />
+      case "automations":
+        return <AutomationsView />
+      default:
+        return <div className="p-8 text-center">Vista não encontrada: {activeView}</div>
+    }
+  }
+
+  return renderView()
+}
 
 export function AnalyticsView() {
   return (
