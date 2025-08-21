@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingFooter } from "@/components/landing/LandingFooter";
@@ -14,25 +15,36 @@ import { FeatherBot } from "@/components/FeatherBot";
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState<Date>(new Date());
+  
   useEffect(() => {
+    console.log("Setting up countdown interval for target:", target);
     const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
+    return () => {
+      console.log("Cleaning up countdown interval");
+      clearInterval(id);
+    };
+  }, [target]);
+  
   const total = Math.max(target.getTime() - now.getTime(), 0);
   const days = Math.floor(total / (1000 * 60 * 60 * 24));
   const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((total / (1000 * 60)) % 60);
   const seconds = Math.floor((total / 1000) % 60);
+  
   return { total, days, hours, minutes, seconds };
 }
 
 export default function ScalePage() {
+  console.log("ScalePage component rendering");
+  
   const target = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() + 14);
     d.setHours(16, 0, 0, 0);
+    console.log("Countdown target date:", d);
     return d;
   }, []);
+  
   const { days, hours, minutes, seconds } = useCountdown(target);
 
   const [email, setEmail] = useState("");
@@ -41,12 +53,17 @@ export default function ScalePage() {
 
   const onJoinWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Join waitlist form submitted with:", { email, name });
+    
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.log("Invalid email:", email);
       toast.error("Enter a valid email.");
       return;
     }
+    
     setLoading(true);
     try {
+      console.log("Calling waitlist-join function");
       const { data, error } = await supabase.functions.invoke('waitlist-join', {
         body: {
           email,
@@ -55,9 +72,16 @@ export default function ScalePage() {
         }
       });
 
-      if (error) throw error;
-      if (!data.success) throw new Error(data.error || 'Failed to join waitlist');
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw error;
+      }
+      if (!data.success) {
+        console.error("Waitlist join failed:", data.error);
+        throw new Error(data.error || 'Failed to join waitlist');
+      }
 
+      console.log("Waitlist join successful:", data);
       toast.success(data.message || "Welcome to FeatherBiz Scale! You're now on our exclusive waitlist. Check your email for confirmation and be the first to know when we launch!");
       setEmail("");
       setName("");
@@ -85,8 +109,11 @@ export default function ScalePage() {
   };
 
   useEffect(() => {
+    console.log("Setting document title");
     document.title = "FeatherBiz Scale | FeatherBiz";
   }, []);
+
+  console.log("Rendering ScalePage with countdown:", { days, hours, minutes, seconds });
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-background">
@@ -119,7 +146,12 @@ export default function ScalePage() {
                   type="button"
                   className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border border-border hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring transform-gpu transition-all duration-500 overflow-hidden"
                   aria-label="FeatherBiz Scale — Early access"
-                  onClick={(e) => { e.preventDefault(); const form = document.querySelector('form'); form?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
+                  onClick={(e) => { 
+                    e.preventDefault(); 
+                    console.log("Early access button clicked");
+                    const form = document.querySelector('form'); 
+                    form?.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+                  }}
                 >
                   {/* Gradient background effect contained within button - slower animation */}
                   <div 

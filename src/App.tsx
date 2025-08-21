@@ -18,6 +18,15 @@ import CheckoutCancel from "./pages/checkout/CheckoutCancel";
 import TestCheckout from "./pages/checkout/TestCheckout";
 import HealthCheck from "./pages/HealthCheck";
 import RouteDebug from "./pages/RouteDebug";
+import ScalePage from "./pages/ScalePage";
+import FeaturesOverview from "./pages/FeaturesOverview";
+
+// Feature demo pages
+import AIVoicePage from "./pages/features/AIVoicePage";
+import InvoicesPage from "./pages/features/InvoicesPage";
+import EstimatesPage from "./pages/features/EstimatesPage";
+import EasyCalcPage from "./pages/features/EasyCalcPage";
+import PipelinePage from "./pages/features/PipelinePage";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +40,9 @@ const App = () => (
           <Routes>
             {/* Public routes - no auth required */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/scale" element={<ScalePage />} />
+            <Route path="/features" element={<FeaturesOverview />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/blog" element={<BlogIndex />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
@@ -40,6 +52,19 @@ const App = () => (
             <Route path="/checkout/cancel" element={<CheckoutCancel />} />
             <Route path="/health" element={<HealthCheck />} />
             <Route path="/_debug/routes" element={<RouteDebug />} />
+            
+            {/* Feature demo pages */}
+            <Route path="/features/ai-voice" element={<AIVoicePage />} />
+            <Route path="/features/invoices" element={<InvoicesPage />} />
+            <Route path="/features/estimates" element={<EstimatesPage />} />
+            <Route path="/features/easycalc" element={<EasyCalcPage />} />
+            <Route path="/features/pipeline" element={<PipelinePage />} />
+            
+            {/* Placeholder routes for remaining features */}
+            <Route path="/features/feathertax" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">FeatherTax</h1><p className="text-[#6B7280]">Coming soon</p></div></div>} />
+            <Route path="/features/work-orders" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">Work Orders</h1><p className="text-[#6B7280]">Coming soon</p></div></div>} />
+            <Route path="/guides/getting-started" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">FeatherBiz 101</h1><p className="text-[#6B7280]">Getting started guide coming soon</p></div></div>} />
+            <Route path="/changelog" element={<div className="min-h-screen flex items-center justify-center"><div className="text-center"><h1 className="text-2xl font-bold text-[#111827] mb-2">What's New</h1><p className="text-[#6B7280]">Changelog coming soon</p></div></div>} />
             
             {/* Protected routes - auth required */}
             <Route path="/dashboard" element={
