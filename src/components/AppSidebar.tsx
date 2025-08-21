@@ -22,43 +22,43 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ setActiveView, activeView }: AppSidebarProps) {
-  const { language } = useLanguage()
+  const { currentLanguage } = useLanguage()
 
   const menuItems = [
     { 
       id: "dashboard", 
       icon: Home, 
-      label: language === 'pt' ? "Painel" : "Dashboard" 
+      label: currentLanguage === 'pt' ? "Painel" : "Dashboard" 
     },
     { 
       id: "clients", 
       icon: Users, 
-      label: language === 'pt' ? "Clientes" : "Clients" 
+      label: currentLanguage === 'pt' ? "Clientes" : "Clients" 
     },
     { 
       id: "estimates", 
       icon: FileText, 
-      label: language === 'pt' ? "Orçamentos" : "Estimates" 
+      label: currentLanguage === 'pt' ? "Orçamentos" : "Estimates" 
     },
     { 
       id: "invoices", 
       icon: Calculator, 
-      label: language === 'pt' ? "Faturas" : "Invoices" 
+      label: currentLanguage === 'pt' ? "Faturas" : "Invoices" 
     },
     { 
       id: "workorders", 
       icon: Wrench, 
-      label: language === 'pt' ? "Ordens de Serviço" : "Work Orders" 
+      label: currentLanguage === 'pt' ? "Ordens de Serviço" : "Work Orders" 
     },
     { 
       id: "contracts", 
       icon: Building, 
-      label: language === 'pt' ? "Contratos" : "Contracts" 
+      label: currentLanguage === 'pt' ? "Contratos" : "Contracts" 
     },
     { 
       id: "featherbudget", 
       icon: PlusCircle, 
-      label: language === 'pt' ? "Orçamento FeatherBudget" : "FeatherBudget" 
+      label: currentLanguage === 'pt' ? "Orçamento FeatherBudget" : "FeatherBudget" 
     },
   ]
 
@@ -66,12 +66,12 @@ export function AppSidebar({ setActiveView, activeView }: AppSidebarProps) {
     { 
       id: "settings", 
       icon: Settings, 
-      label: language === 'pt' ? "Configurações" : "Settings" 
+      label: currentLanguage === 'pt' ? "Configurações" : "Settings" 
     },
     { 
       id: "upgrade", 
       icon: CreditCard, 
-      label: language === 'pt' ? "Atualizar Plano" : "Upgrade" 
+      label: currentLanguage === 'pt' ? "Atualizar Plano" : "Upgrade" 
     },
   ]
 
@@ -86,7 +86,7 @@ export function AppSidebar({ setActiveView, activeView }: AppSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>
-            {language === 'pt' ? 'Menu Principal' : 'Main Menu'}
+            {currentLanguage === 'pt' ? 'Menu Principal' : 'Main Menu'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
