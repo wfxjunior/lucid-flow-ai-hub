@@ -1,11 +1,10 @@
-
 import React from 'react'
 import { GenericView } from './GenericView'
 import { 
   BarChart3, Shield, Briefcase, Gift, Lightbulb, HelpCircle, 
-  MessageSquare, Crown, Signature, Calendar, PipelinIcon, 
+  MessageSquare, Crown, Signature, Calendar, Pipeline, 
   Clock, DollarSign, Calculator, Receipt, Building, 
-  Car, Package, Users, Headphones, FileForm, ShoppingCart,
+  Car, Package, Users, Headphones, Clipboard, ShoppingCart,
   FileText, Target, StickyNote, MapPin, TrendingUp, Bot
 } from 'lucide-react'
 import { ProjectTimelinePage } from '@/components/pages/ProjectTimelinePage'
@@ -123,7 +122,7 @@ export function PipelineView() {
     <GenericView
       title="Pipeline"
       description="Sales pipeline management"
-      icon={PipelinIcon}
+      icon={Pipeline}
     />
   )
 }
@@ -266,7 +265,7 @@ export function FeatherFormsView() {
     <GenericView
       title="Feather Forms"
       description="Custom form builder"
-      icon={FileForm}
+      icon={Clipboard}
     />
   )
 }
