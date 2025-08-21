@@ -1,3 +1,4 @@
+
 import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -7,7 +8,7 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import PricingPage from '@/pages/PricingPage';
 import ContactPage from '@/pages/ContactPage';
 import AboutPage from '@/pages/AboutPage';
-import { SignInPage } from '@/pages/SignInPage';
+import SignInPage from '@/pages/SignInPage';
 import PaymentSuccessPage from '@/pages/PaymentSuccessPage';
 import PaymentCancelledPage from '@/pages/PaymentCancelledPage';
 import BlogPage from '@/pages/BlogPage';
