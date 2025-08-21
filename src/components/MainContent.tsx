@@ -1,61 +1,54 @@
-import { MessagesPage } from "@/components/MessagesPage"
-import { EmailCenterPage } from "@/components/EmailCenterPage"
-import { CareersPage } from "@/components/CareersPage"
-import { ImprovedDashboard } from "@/components/ImprovedDashboard"
-import { PaymentsPage } from "@/components/PaymentsPage"
-import { ESignaturesPage } from "@/components/ESignaturesPage"
-import { FeatherBudgetPage } from "@/components/FeatherBudgetPage"
-import { SmartSchedulePage } from "@/components/SmartSchedulePage"
-import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
-import { CustomerManagement } from "@/components/CustomerManagement"
-import { ProjectsPage } from "@/components/ProjectsPage"
-// import { ProjectTimelinePage } from "@/components/ProjectTimelinePage" // Commented out old version
-import { PipelineBoard } from "@/components/PipelineBoard"
-import { FeatherTaxPage } from "@/components/FeatherTaxPage"
-import { EasyCalcPage } from "@/components/EasyCalcPage"
-import { AccountingPage } from "@/components/AccountingPage"
-import { QuotesPage } from "@/components/QuotesPage"
-import { EstimatesPage } from "@/components/EstimatesPage"
-import { CarRentalPage } from "@/components/CarRentalPage"
-import { WorkOrdersPage } from "@/components/WorkOrdersPage"
-import { ResponsiveMatTrackPage } from "@/components/ResponsiveMatTrackPage"
-import { CrewControlPage } from "@/components/CrewControlPage"
-import { EarnSyncPage } from "@/components/EarnSyncPage"
-import { AfterCarePage } from "@/components/AfterCarePage"
-import { FeatherFormsPage } from "@/components/FeatherFormsPage"
-import { SalesOrdersPage } from "@/components/SalesOrdersPage"
-import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
-import { BidsPage } from "@/components/BidsPage"
-import { ContractsPage } from "@/components/ContractsPage"
-import { MeetingsPage } from "@/components/MeetingsPage"
-import { TodoListPage } from "@/components/TodoListPage"
-import { NotesPage } from "@/components/NotesPage"
-import { AppointmentsPage } from "@/components/AppointmentsPage"
-import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
-import { AdminDashboard } from "@/components/AdminDashboard"
-import { useUserRole } from "@/hooks/useUserRole"
-import { ReceiptsPage } from "@/components/ReceiptsPage"
-import { InvoiceCreator } from "@/components/InvoiceCreator"
-import { InvoicesPage } from "@/components/InvoicesPage"
-import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
-import { ReferralsPage } from "@/components/ReferralsPage"
-import { FeaturesPage } from "@/components/FeaturesPage"
-import { FAQPage } from "@/components/FAQPage"
-import { FeedbackPage } from "@/components/FeedbackPage"
-import { PricingPlans } from "@/components/PricingPlans"
-import { SettingsPage } from "@/components/SettingsPage"
-import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
-import { EnhancedAIVoice } from "@/components/EnhancedAIVoice"
-import Upgrade from "@/pages/Upgrade"
-import PaymentSuccess from "@/pages/PaymentSuccess"
-import PaymentCanceled from "@/pages/PaymentCanceled"
 
-// New Clean Pages
-import { ProjectTimelinePage } from "@/components/pages/ProjectTimelinePage"
-import { ToursPage } from "@/components/pages/ToursPage"
-import { FinancePage } from "@/components/pages/FinancePage"
-import { GrowthPage } from "@/components/pages/GrowthPage"
-import { AutomationsPage } from "@/components/pages/AutomationsPage"
+import React from 'react'
+import { UserGreeting } from '@/components/UserGreeting'
+import { DashboardView } from '@/components/views/DashboardView'
+import { CustomersView } from '@/components/views/CustomersView'
+import { InvoicesView } from '@/components/views/InvoicesView'
+import { AppointmentsView } from '@/components/views/AppointmentsView'
+import { ProjectsView } from '@/components/views/ProjectsView'
+import { WorkOrdersView } from '@/components/views/WorkOrdersView'
+import { EstimatesView } from '@/components/views/EstimatesView'
+import { PaymentsView } from '@/components/views/PaymentsView'
+import { ContractsView } from '@/components/views/ContractsView'
+import { DocumentsView } from '@/components/views/DocumentsView'
+import { MeetingsView } from '@/components/views/MeetingsView'
+import { SettingsView } from '@/components/views/SettingsView'
+import { MessagesView } from '@/components/views/MessagesView'
+import { EmailCenterView } from '@/components/views/EmailCenterView'
+import { AnalyticsView } from '@/components/views/AnalyticsView'
+import { AdminPanelView } from '@/components/views/AdminPanelView'
+import { CareersView } from '@/components/views/CareersView'
+import { ReferralsView } from '@/components/views/ReferralsView'
+import { FeaturesView } from '@/components/views/FeaturesView'
+import { FAQHelpView } from '@/components/views/FAQHelpView'
+import { FeedbackView } from '@/components/views/FeedbackView'
+import { PricingView } from '@/components/views/PricingView'
+import { AIVoiceView } from '@/components/views/AIVoiceView'
+import { ESignaturesView } from '@/components/views/ESignaturesView'
+import { ProjectTimelineView } from '@/components/views/ProjectTimelineView'
+import { PipelineView } from '@/components/views/PipelineView'
+import { SmartScheduleView } from '@/components/views/SmartScheduleView'
+import { FeatherBudgetView } from '@/components/views/FeatherBudgetView'
+import { FeatherTaxView } from '@/components/views/FeatherTaxView'
+import { EasyCalcView } from '@/components/views/EasyCalcView'
+import { ReceiptsView } from '@/components/views/ReceiptsView'
+import { AccountingView } from '@/components/views/AccountingView'
+import { QuotesView } from '@/components/views/QuotesView'
+import { CarRentalView } from '@/components/views/CarRentalView'
+import { MatTrackView } from '@/components/views/MatTrackView'
+import { CrewControlView } from '@/components/views/CrewControlView'
+import { EarnSyncView } from '@/components/views/EarnSyncView'
+import { AfterCareView } from '@/components/views/AfterCareView'
+import { FeatherFormsView } from '@/components/views/FeatherFormsView'
+import { SalesOrdersView } from '@/components/views/SalesOrdersView'
+import { BusinessProposalsView } from '@/components/views/BusinessProposalsView'
+import { BidsView } from '@/components/views/BidsView'
+import { TodoListView } from '@/components/views/TodoListView'
+import { NotesView } from '@/components/views/NotesView'
+import { ToursView } from '@/components/views/ToursView'
+import { FinanceView } from '@/components/views/FinanceView'
+import { GrowthView } from '@/components/views/GrowthView'
+import { AutomationsView } from '@/components/views/AutomationsView'
 
 interface MainContentProps {
   activeView: string
@@ -63,169 +56,124 @@ interface MainContentProps {
 }
 
 export function MainContent({ activeView, onNavigate }: MainContentProps) {
-  const { isAdmin, loading } = useUserRole()
-  
-  const renderContent = () => {
+  const renderView = () => {
     switch (activeView) {
-      case "dashboard":
-        return <ImprovedDashboard onNavigate={onNavigate} />
-      case "ai-voice":
-        return <EnhancedAIVoice />
-      case "invoice-creator":
-        return <InvoiceCreator />
-      case "estimates":
-        return <EstimatesPage />
-      case "payments":
-        return <ResponsivePaymentsPage />
-      case "e-signatures":
-        return <ESignaturesPage />
-      
-      // Core Business Tools
-      case "customers":
-      case "customer-management":
-        return <CustomerManagement />
-      case "projects":
-        return <ProjectsPage />
-      case "project-timeline":
-        return <ProjectTimelinePage onNavigate={onNavigate} />
-      case "tours":
-        return <ToursPage onNavigate={onNavigate} />
-      case "growth":
-        return <GrowthPage onNavigate={onNavigate} />
-      case "automations":
-        return <AutomationsPage onNavigate={onNavigate} />
-      case "pipeline":
-        return <PipelineBoard />
-      case "smart-schedule":
-        return <SmartSchedulePage />
-      
-      // Financial Tools
-      case "finance":
-        return <FinancePage onNavigate={onNavigate} />
-      case "feather-budget":
-        return <FeatherBudgetPage />
-      case "feather-tax":
-        return <FeatherTaxPage />
-      case "easy-calc":
-        return <EasyCalcPage />
-      case "receipts":
-        return <ReceiptsPage />
-      case "accounting":
-        return <AccountingPage />
-      case "quotes":
-        return <QuotesPage />
-      
-      // Operations Tools
-      case "car-rental":
-        return <CarRentalPage />
-      case "work-orders":
-        return <WorkOrdersPage />
-      case "mat-track":
-        return <ResponsiveMatTrackPage onNavigate={onNavigate} />
-      case "crew-control":
-        return <CrewControlPage />
-      case "earnsync":
-        return <EarnSyncPage />
-      case "aftercare":
-        return <AfterCarePage />
-      
-      // Documents & Forms
-      case "feather-forms":
-        return <FeatherFormsPage />
-      case "sales-orders":
-        return <SalesOrdersPage />
-      case "business-proposals":
-        return <BusinessProposalsPage />
-      case "bids":
-        return <BidsPage />
-      case "contracts":
-        return <ContractsPage />
-      
-      // Productivity Tools
-      case "meetings":
-        return <MeetingsPage />
-      case "todo-list":
-        return <TodoListPage />
-      case "notes":
-        return <NotesPage />
-      case "appointments":
-        return <AppointmentsPage />
-      
-      // Communication
-      case "messages":
-        return <MessagesPage />
-      case "email-center":
-        return <EmailCenterPage />
-      
-      // Analytics
-      case "analytics":
-        return <AnalyticsDashboard />
-      case "admin-panel":
-        if (loading) {
-          return <div className="p-6">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="text-center mt-4">Checking permissions...</p>
-          </div>
-        }
-        if (!isAdmin) {
-          return <div className="p-6">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <h2 className="text-lg font-semibold text-red-800 mb-2">Access Denied</h2>
-              <p className="text-red-600">You don't have permission to access the administrative panel.</p>
-              <p className="text-red-600 text-sm mt-2">Contact an administrator to obtain access.</p>
-            </div>
-          </div>
-        }
-        return <AdminDashboard />
-      
-      // General & Support
-      case "careers":
-        return <CareersPage />
-      case "referrals":
-        return <ReferralsPage />
-      case "features":
-        return <FeaturesPage />
-      case "faq-help":
-        return <FAQPage />
-      case "feedback":
-        return <FeedbackPage />
-      case "pricing":
-      case "upgrade":
-        return <Upgrade />
-      case "settings":
-        return <SettingsPage />
-      case "payment-success":
-        return <PaymentSuccess />
-      case "payment-canceled":
-      case "payment-cancel":
-        return <PaymentCanceled />
-      case "cancel":
-        return <PaymentCanceled />
-      
-      // Legacy routes for compatibility
-      case "invoices":
-        return <InvoicesPage />
-      case "products":
-        return <AccountingPage />
-      case "expenses":
-        return <AccountingPage />
-      case "esignature-templates":
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
-          <p>Document templates coming soon...</p>
-        </div>
-        
+      case 'dashboard':
+        return <DashboardView />
+      case 'ai-voice':
+        return <AIVoiceView />
+      case 'customers':
+        return <CustomersView />
+      case 'projects':
+        return <ProjectsView />
+      case 'project-timeline':
+        return <ProjectTimelineView />
+      case 'pipeline':
+        return <PipelineView />
+      case 'smart-schedule':
+        return <SmartScheduleView />
+      case 'invoices':
+        return <InvoicesView />
+      case 'estimates':
+        return <EstimatesView />
+      case 'payments':
+        return <PaymentsView />
+      case 'e-signatures':
+        return <ESignaturesView />
+      case 'feather-budget':
+        return <FeatherBudgetView />
+      case 'feather-tax':
+        return <FeatherTaxView />
+      case 'easy-calc':
+        return <EasyCalcView />
+      case 'receipts':
+        return <ReceiptsView />
+      case 'accounting':
+        return <AccountingView />
+      case 'quotes':
+        return <QuotesView />
+      case 'car-rental':
+        return <CarRentalView />
+      case 'work-orders':
+        return <WorkOrdersView />
+      case 'mat-track':
+        return <MatTrackView />
+      case 'crew-control':
+        return <CrewControlView />
+      case 'earnsync':
+        return <EarnSyncView />
+      case 'aftercare':
+        return <AfterCareView />
+      case 'feather-forms':
+        return <FeatherFormsView />
+      case 'sales-orders':
+        return <SalesOrdersView />
+      case 'business-proposals':
+        return <BusinessProposalsView />
+      case 'bids':
+        return <BidsView />
+      case 'contracts':
+        return <ContractsView />
+      case 'meetings':
+        return <MeetingsView />
+      case 'todo-list':
+        return <TodoListView />
+      case 'notes':
+        return <NotesView />
+      case 'appointments':
+        return <AppointmentsView />
+      case 'messages':
+        return <MessagesView />
+      case 'email-center':
+        return <EmailCenterView />
+      case 'tours':
+        return <ToursView />
+      case 'finance':
+        return <FinanceView />
+      case 'growth':
+        return <GrowthView />
+      case 'automations':
+        return <AutomationsView />
+      case 'analytics':
+        return <AnalyticsView />
+      case 'admin-panel':
+        return <AdminPanelView />
+      case 'careers':
+        return <CareersView />
+      case 'referrals':
+        return <ReferralsView />
+      case 'features':
+        return <FeaturesView />
+      case 'faq-help':
+        return <FAQHelpView />
+      case 'feedback':
+        return <FeedbackView />
+      case 'pricing':
+        return <PricingView />
+      case 'settings':
+        return <SettingsView />
+      case 'esignatures':
+        return <DocumentsView />
+      case 'esignature-templates':
+        return <DocumentsView />
       default:
-        return <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Page not found</h1>
-          <p>The page "{activeView}" was not found.</p>
-        </div>
+        return <DashboardView />
     }
   }
 
   return (
-    <div className="w-full h-full">
-      {renderContent()}
+    <div className="flex-1 flex flex-col min-h-screen">
+      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex h-14 items-center px-4">
+          <UserGreeting onNavigate={onNavigate} />
+        </div>
+      </header>
+      
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full p-6">
+          {renderView()}
+        </div>
+      </div>
     </div>
   )
 }
