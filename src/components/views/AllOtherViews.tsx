@@ -1,106 +1,94 @@
+
 import React from 'react'
 import { GenericView } from './GenericView'
 import { 
   BarChart3, Shield, Briefcase, Gift, Lightbulb, HelpCircle, 
   MessageSquare, Crown, Signature, Calendar, GitBranch, 
   Clock, DollarSign, Calculator, Receipt, Building, 
-  Car, Package, Users, Headphones, Clipboard, ShoppingCart,
-  FileText, Target, StickyNote, MapPin, TrendingUp, Bot
+  Car, Package, Users, Headphones, FileText, ShoppingCart,
+  Target, StickyNote, MapPin, TrendingUp, Bot, FormInput
 } from 'lucide-react'
-import { ProjectTimelinePage } from '@/components/pages/ProjectTimelinePage'
-import { FinancePage } from '@/components/pages/FinancePage'
-import { GrowthPage } from '@/components/pages/GrowthPage'
-import { ToursPage } from '@/components/pages/ToursPage'
 
-// Analytics View
 export function AnalyticsView() {
   return (
     <GenericView
       title="Analytics"
-      description="Business insights and reporting"
+      description="Business analytics and insights"
       icon={BarChart3}
     />
   )
 }
 
-// Admin Panel View
 export function AdminPanelView() {
   return (
     <GenericView
       title="Admin Panel"
-      description="System administration tools"
+      description="System administration"
       icon={Shield}
     />
   )
 }
 
-// Careers View
 export function CareersView() {
   return (
     <GenericView
       title="Careers"
-      description="Job postings and career opportunities"
+      description="Join our team"
       icon={Briefcase}
     />
   )
 }
 
-// Referrals View
 export function ReferralsView() {
   return (
     <GenericView
       title="Referrals"
-      description="Manage referral programs"
+      description="Refer friends and earn rewards"
       icon={Gift}
     />
   )
 }
 
-// Features View
 export function FeaturesView() {
   return (
     <GenericView
       title="Features"
-      description="Product features and capabilities"
+      description="Explore all features"
       icon={Lightbulb}
     />
   )
 }
 
-// FAQ & Help View
 export function FAQHelpView() {
   return (
     <GenericView
       title="FAQ & Help"
-      description="Frequently asked questions and support"
+      description="Get help and support"
       icon={HelpCircle}
     />
   )
 }
 
-// Feedback View
 export function FeedbackView() {
   return (
     <GenericView
       title="Feedback"
-      description="Customer feedback and reviews"
+      description="Share your feedback"
       icon={MessageSquare}
     />
   )
 }
 
-// Pricing View
 export function PricingView() {
   return (
     <GenericView
       title="Pricing"
-      description="Pricing plans and billing"
+      description="Choose your plan"
       icon={Crown}
     />
   )
 }
 
-// E-Signatures View
 export function ESignaturesView() {
   return (
     <GenericView
@@ -111,12 +99,16 @@ export function ESignaturesView() {
   )
 }
 
-// Project Timeline View (using existing page component)
-export function ProjectTimelineView({ onNavigate }: { onNavigate?: (view: string) => void }) {
-  return <ProjectTimelinePage onNavigate={onNavigate || (() => {})} />
+export function ProjectTimelineView() {
+  return (
+    <GenericView
+      title="Project Timeline"
+      description="Track project progress and milestones"
+      icon={Calendar}
+    />
+  )
 }
 
-// Pipeline View
 export function PipelineView() {
   return (
     <GenericView
@@ -127,84 +119,76 @@ export function PipelineView() {
   )
 }
 
-// Smart Schedule View
 export function SmartScheduleView() {
   return (
     <GenericView
       title="Smart Schedule"
-      description="Intelligent scheduling system"
+      description="AI-powered scheduling"
       icon={Clock}
     />
   )
 }
 
-// Feather Budget View
 export function FeatherBudgetView() {
   return (
     <GenericView
-      title="Feather Budget"
-      description="Budget planning and tracking"
+      title="FeatherBudget"
+      description="Budget management tool"
       icon={DollarSign}
     />
   )
 }
 
-// Feather Tax View
 export function FeatherTaxView() {
   return (
     <GenericView
-      title="Feather Tax"
-      description="Tax preparation and filing"
+      title="FeatherTax"
+      description="Tax management system"
       icon={Calculator}
     />
   )
 }
 
-// Easy Calc View
 export function EasyCalcView() {
   return (
     <GenericView
-      title="Easy Calc"
-      description="Business calculations made simple"
+      title="EasyCalc"
+      description="Easy calculation tool"
       icon={Calculator}
     />
   )
 }
 
-// Receipts View
 export function ReceiptsView() {
   return (
     <GenericView
       title="Receipts"
-      description="Receipt management and tracking"
+      description="Receipt management"
       icon={Receipt}
     />
   )
 }
 
-// Accounting View
 export function AccountingView() {
   return (
     <GenericView
       title="Accounting"
-      description="Financial accounting and bookkeeping"
-      icon={DollarSign}
+      description="Full accounting suite"
+      icon={Receipt}
     />
   )
 }
 
-// Quotes View
 export function QuotesView() {
   return (
     <GenericView
       title="Quotes"
-      description="Price quotes and estimates"
+      description="Create and manage quotes"
       icon={FileText}
     />
   )
 }
 
-// Car Rental View
 export function CarRentalView() {
   return (
     <GenericView
@@ -215,137 +199,141 @@ export function CarRentalView() {
   )
 }
 
-// Mat Track View
 export function MatTrackView() {
   return (
     <GenericView
-      title="Mat Track"
+      title="MatTrack"
       description="Material tracking system"
       icon={Package}
     />
   )
 }
 
-// Crew Control View
 export function CrewControlView() {
   return (
     <GenericView
       title="Crew Control"
-      description="Team management and coordination"
+      description="Team management system"
       icon={Users}
     />
   )
 }
 
-// Earn Sync View
 export function EarnSyncView() {
   return (
     <GenericView
-      title="Earn Sync"
+      title="EarnSync"
       description="Earnings synchronization"
-      icon={TrendingUp}
+      icon={DollarSign}
     />
   )
 }
 
-// After Care View
 export function AfterCareView() {
   return (
     <GenericView
-      title="After Care"
-      description="Customer support and maintenance"
+      title="AfterCare"
+      description="Customer aftercare service"
       icon={Headphones}
     />
   )
 }
 
-// Feather Forms View
 export function FeatherFormsView() {
   return (
     <GenericView
-      title="Feather Forms"
-      description="Custom form builder"
-      icon={Clipboard}
+      title="FeatherForms"
+      description="Dynamic form builder"
+      icon={FormInput}
     />
   )
 }
 
-// Sales Orders View
 export function SalesOrdersView() {
   return (
     <GenericView
       title="Sales Orders"
-      description="Sales order management"
+      description="Manage sales orders"
       icon={ShoppingCart}
     />
   )
 }
 
-// Business Proposals View
 export function BusinessProposalsView() {
   return (
     <GenericView
       title="Business Proposals"
-      description="Create and manage business proposals"
+      description="Create business proposals"
+      icon={Building}
+    />
+  )
+}
+
+export function BidsView() {
+  return (
+    <GenericView
+      title="Bids"
+      description="Manage project bids"
+      icon={Target}
+    />
+  )
+}
+
+export function TodoListView() {
+  return (
+    <GenericView
+      title="Todo List"
+      description="Task management"
       icon={FileText}
     />
   )
 }
 
-// Bids View
-export function BidsView() {
-  return (
-    <GenericView
-      title="Bids"
-      description="Bidding and procurement management"
-      icon={Target}
-    />
-  )
-}
-
-// Todo List View
-export function TodoListView() {
-  return (
-    <GenericView
-      title="Todo List"
-      description="Task management and tracking"
-      icon={Target}
-    />
-  )
-}
-
-// Notes View
 export function NotesView() {
   return (
     <GenericView
       title="Notes"
-      description="Personal and business notes"
+      description="Take and organize notes"
       icon={StickyNote}
     />
   )
 }
 
-// Tours View (using existing page component)
-export function ToursView({ onNavigate }: { onNavigate?: (view: string) => void }) {
-  return <ToursPage onNavigate={onNavigate || (() => {})} />
+export function ToursView() {
+  return (
+    <GenericView
+      title="Tours"
+      description="Schedule and manage tours"
+      icon={MapPin}
+    />
+  )
 }
 
-// Finance View (using existing page component)
-export function FinanceView({ onNavigate }: { onNavigate?: (view: string) => void }) {
-  return <FinancePage onNavigate={onNavigate || (() => {})} />
+export function FinanceView() {
+  return (
+    <GenericView
+      title="Finance"
+      description="Financial management"
+      icon={DollarSign}
+    />
+  )
 }
 
-// Growth View (using existing page component)
-export function GrowthView({ onNavigate }: { onNavigate?: (view: string) => void }) {
-  return <GrowthPage onNavigate={onNavigate || (() => {})} />
+export function GrowthView() {
+  return (
+    <GenericView
+      title="Growth"
+      description="Business growth analytics"
+      icon={TrendingUp}
+    />
+  )
 }
 
-// Automations View
 export function AutomationsView() {
   return (
     <GenericView
       title="Automations"
-      description="Workflow automation and AI tools"
+      description="Business process automation"
       icon={Bot}
     />
   )

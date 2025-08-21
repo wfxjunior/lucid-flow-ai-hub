@@ -7,38 +7,53 @@ interface GenericViewProps {
   title: string
   description: string
   icon: LucideIcon
-  children?: React.ReactNode
 }
 
-export function GenericView({ title, description, icon: Icon, children }: GenericViewProps) {
+export function GenericView({ title, description, icon: Icon }: GenericViewProps) {
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="p-2 bg-primary/10 rounded-lg">
-          <Icon className="h-6 w-6 text-primary" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          <p className="text-muted-foreground">{description}</p>
-        </div>
+      <div className="text-center">
+        <Icon className="h-12 w-12 text-primary mx-auto mb-4" />
+        <h1 className="text-3xl font-bold text-foreground">{title}</h1>
+        <p className="text-muted-foreground mt-2">{description}</p>
       </div>
-      
+
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Icon className="h-5 w-5" />
-            {title}
-          </CardTitle>
+          <CardTitle>Bem-vindo ao {title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8">
-            <Icon className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">{title} Coming Soon</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This feature is currently under development. We're working hard to bring you {description.toLowerCase()}.
-            </p>
+          <p className="text-muted-foreground mb-4">
+            Esta funcionalidade está sendo desenvolvida. Em breve você terá acesso a todas as ferramentas necessárias.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 border rounded-lg">
+              <h3 className="font-semibold mb-2">Funcionalidades planejadas:</h3>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Interface intuitiva e fácil de usar</li>
+                <li>• Integração com outras ferramentas</li>
+                <li>• Relatórios detalhados</li>
+                <li>• Suporte completo</li>
+              </ul>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h3 className="font-semibold mb-2">Status do desenvolvimento:</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between">
+                  <span>Interface básica</span>
+                  <span className="text-green-600">✓ Concluído</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Funcionalidades core</span>
+                  <span className="text-yellow-600">⏳ Em desenvolvimento</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Testes e refinamento</span>
+                  <span className="text-gray-400">⏸ Planejado</span>
+                </div>
+              </div>
+            </div>
           </div>
-          {children}
         </CardContent>
       </Card>
     </div>
