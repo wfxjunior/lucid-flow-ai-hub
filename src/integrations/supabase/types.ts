@@ -2949,10 +2949,6 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
-      enhanced_cleanup_security_logs: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
       enhanced_rate_limit_check: {
         Args: {
           action: string
@@ -3015,10 +3011,6 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
-      get_security_metrics: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
       get_security_status: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -3078,10 +3070,6 @@ export type Database = {
           p_title: string
         }
         Returns: undefined
-      }
-      validate_session_security: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
       }
       validate_user_session: {
         Args: Record<PropertyKey, never>

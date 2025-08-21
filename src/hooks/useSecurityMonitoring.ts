@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useUserRole } from './useUserRole'
 import { securityEvent, secureError } from '@/utils/security'
+import { checkClientRateLimit } from '@/utils/inputValidation'
 
 interface SecurityEvent {
   id: string
@@ -29,7 +30,6 @@ interface SecurityMetrics {
   total_events_24h: number
   suspicious_events_24h: number
   failed_logins_1h: number
-  admin_actions_24h: number
   last_updated: string
 }
 
@@ -44,6 +44,11 @@ export function useSecurityMonitoring() {
   // Enhanced rate limiting function with security monitoring
   const checkRateLimit = async (action: string, maxRequests = 10, windowMinutes = 60) => {
     try {
+      // Client-side rate limiting first
+      if (!checkClientRateLimit(action, maxRequests, windowMinutes * 60 * 1000)) {
+        return false;
+      }
+
       const { data, error } = await supabase.functions.invoke('security-middleware', {
         body: {
           action,
@@ -85,6 +90,12 @@ export function useSecurityMonitoring() {
   // Enhanced template access logging with security monitoring
   const logTemplateAccess = async (templateId: string, accessType: 'view' | 'download' | 'copy') => {
     try {
+      // Check rate limit for template access
+      if (!checkClientRateLimit('template_access', 20, 300000)) { // 20 per 5 minutes
+        securityEvent('Template access rate limited', { templateId, accessType });
+        return;
+      }
+
       await supabase.rpc('log_template_access', {
         template_id_param: templateId,
         access_type_param: accessType,
@@ -108,34 +119,22 @@ export function useSecurityMonitoring() {
     }
   }
 
-  // Fetch enhanced security metrics using the new database function
+  // Fetch security metrics
   const fetchSecurityMetrics = async () => {
     try {
-      if (!isAdmin) return
-
-      const { data, error } = await supabase.rpc('get_security_metrics')
+      const { data, error } = await supabase.rpc('get_security_metrics');
       
       if (error) {
-        secureError('Error fetching security metrics', { error: error.message })
-        setError('Failed to load security metrics')
+        secureError('Error fetching security metrics', { error: error.message });
       } else {
-        setSecurityMetrics(data)
-        setError(null)
+        setSecurityMetrics(data);
       }
     } catch (error) {
       secureError('Security metrics fetch error', { 
         error: error instanceof Error ? error.message : 'Unknown error' 
-      })
-      setError('Failed to load security metrics')
+      });
     }
-  }
-
-  const refreshMetrics = async () => {
-    if (!isAdmin) return
-    setLoading(true)
-    await fetchSecurityMetrics()
-    setLoading(false)
-  }
+  };
 
   useEffect(() => {
     if (!isAdmin) {
@@ -173,8 +172,8 @@ export function useSecurityMonitoring() {
           setTemplateAccessLogs(accessLogs || [])
         }
 
-        // Fetch enhanced security metrics
-        await fetchSecurityMetrics()
+        // Fetch security metrics
+        await fetchSecurityMetrics();
 
       } catch (error) {
         secureError('Security monitoring error', { 
@@ -201,7 +200,7 @@ export function useSecurityMonitoring() {
         (payload) => {
           setSecurityEvents(prev => [payload.new as SecurityEvent, ...prev.slice(0, 99)])
           // Refresh metrics when new events come in
-          fetchSecurityMetrics()
+          fetchSecurityMetrics();
         }
       )
       .subscribe()
@@ -232,7 +231,7 @@ export function useSecurityMonitoring() {
   }
 
   const getRecentSuspiciousActivity = () => {
-    const suspiciousTypes = ['RATE_LIMIT_EXCEEDED', 'SUSPICIOUS_ACTIVITY', 'SECURITY_FIX', 'INVALID_USER_SESSION', 'CRITICAL_ADMIN_ASSIGNMENT']
+    const suspiciousTypes = ['RATE_LIMIT_EXCEEDED', 'SUSPICIOUS_ACTIVITY', 'SECURITY_FIX', 'INVALID_USER_SESSION']
     return securityEvents.filter(event => suspiciousTypes.includes(event.operation))
   }
 
@@ -261,6 +260,6 @@ export function useSecurityMonitoring() {
     getSecurityEventsByType,
     getRecentSuspiciousActivity,
     getTemplateAccessStats,
-    refreshMetrics
+    refreshMetrics: fetchSecurityMetrics
   }
 }

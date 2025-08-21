@@ -1,6 +1,6 @@
 
 /**
- * Enhanced Content Security Policy utilities
+ * Content Security Policy utilities
  */
 
 // Generate nonce for inline scripts (if needed)
@@ -10,7 +10,7 @@ export const generateNonce = (): string => {
   return btoa(String.fromCharCode(...array));
 };
 
-// Enhanced CSP directives for secure content loading
+// CSP directives for secure content loading
 export const getCSPDirectives = (nonce?: string) => {
   const directives = {
     'default-src': ["'self'"],
@@ -51,8 +51,7 @@ export const getCSPDirectives = (nonce?: string) => {
     'base-uri': ["'self'"],
     'form-action': ["'self'"],
     'frame-ancestors': ["'none'"],
-    'block-all-mixed-content': [],
-    'upgrade-insecure-requests': []
+    'block-all-mixed-content': []
   };
 
   if (nonce) {
@@ -72,7 +71,7 @@ export const buildCSPHeader = (directives: Record<string, string[]>): string => 
     .join('; ');
 };
 
-// Enhanced security headers for the application
+// Security headers for the application
 export const getSecurityHeaders = () => {
   const cspDirectives = getCSPDirectives();
   
@@ -81,48 +80,7 @@ export const getSecurityHeaders = () => {
     'X-Frame-Options': 'DENY',
     'X-Content-Type-Options': 'nosniff',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
-    'Permissions-Policy': 'camera=(), microphone=(), location=(), payment=(), usb=()',
-    'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
-    'X-Permitted-Cross-Domain-Policies': 'none',
-    'Cross-Origin-Embedder-Policy': 'require-corp',
-    'Cross-Origin-Opener-Policy': 'same-origin',
-    'Cross-Origin-Resource-Policy': 'same-origin'
+    'Permissions-Policy': 'camera=(), microphone=(), location=()',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
   };
-};
-
-// Apply security headers to the document
-export const applySecurityHeaders = () => {
-  const headers = getSecurityHeaders();
-  
-  // Apply CSP via meta tag if not set by server
-  if (!document.querySelector('meta[http-equiv="Content-Security-Policy"]')) {
-    const cspMeta = document.createElement('meta');
-    cspMeta.httpEquiv = 'Content-Security-Policy';
-    cspMeta.content = headers['Content-Security-Policy'];
-    document.head.appendChild(cspMeta);
-  }
-  
-  // Add other security-related meta tags
-  const securityMetas = [
-    { name: 'referrer', content: 'strict-origin-when-cross-origin' },
-    { httpEquiv: 'X-Content-Type-Options', content: 'nosniff' },
-    { httpEquiv: 'X-Frame-Options', content: 'DENY' }
-  ];
-  
-  securityMetas.forEach(meta => {
-    const existingMeta = document.querySelector(
-      `meta[${meta.name ? 'name' : 'http-equiv'}="${meta.name || meta.httpEquiv}"]`
-    );
-    
-    if (!existingMeta) {
-      const metaElement = document.createElement('meta');
-      if (meta.name) {
-        metaElement.name = meta.name;
-      } else if (meta.httpEquiv) {
-        metaElement.httpEquiv = meta.httpEquiv;
-      }
-      metaElement.content = meta.content;
-      document.head.appendChild(metaElement);
-    }
-  });
 };

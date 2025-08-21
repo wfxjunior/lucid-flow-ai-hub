@@ -4,11 +4,6 @@ import { UserGreeting } from "@/components/UserGreeting"
 import { AdminGuard } from "@/components/auth/AdminGuard"
 
 const AdminPage = () => {
-  const handleNavigate = (view: string) => {
-    // Admin page navigation logic can be implemented here
-    console.log('Navigate to:', view)
-  }
-
   return (
     <AdminGuard>
       <div className="min-h-screen bg-gray-50">
@@ -21,7 +16,7 @@ const AdminPage = () => {
                 <span className="ml-2 text-sm text-gray-500">Admin Panel</span>
               </div>
               <div className="flex items-center gap-4">
-                <UserGreeting onNavigate={handleNavigate} />
+                <UserGreeting />
               </div>
             </div>
           </div>
