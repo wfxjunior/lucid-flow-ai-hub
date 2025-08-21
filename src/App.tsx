@@ -32,9 +32,9 @@ const Settings = lazy(() => import("@/pages/Settings"));
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <SessionContextProvider supabaseClient={supabase}>
-      <LanguageProvider>
+  <LanguageProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionContextProvider supabaseClient={supabase}>
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -51,9 +51,9 @@ const App = () => (
             <Route path="/app" element={<AuthGuard><MainApp /></AuthGuard>} />
           </Routes>
         </BrowserRouter>
-      </LanguageProvider>
-    </SessionContextProvider>
-  </QueryClientProvider>
+      </SessionContextProvider>
+    </QueryClientProvider>
+  </LanguageProvider>
 );
 
 export default App;
