@@ -17,6 +17,7 @@ import Blog from '@/pages/Blog';
 import BlogPostDetail from '@/pages/BlogPostDetail';
 import AdminBlog from '@/pages/AdminBlog';
 import MainApp from '@/pages/MainApp';
+import Dashboard from '@/pages/Dashboard';
 import { AuthGuard } from '@/components/AuthGuard';
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
@@ -54,7 +55,8 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogPostDetail />} />
             <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/app" element={<AuthGuard><MainApp /></AuthGuard>} />
-            <Route path="/dashboard" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><MainApp /></Suspense></AuthGuard>} />
+            <Route path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
+            <Route path="/dashboard/*" element={<AuthGuard><Dashboard /></AuthGuard>} />
             <Route path="/upgrade" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Upgrade /></Suspense></AuthGuard>} />
             <Route path="/clients" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Clients /></Suspense></AuthGuard>} />
             <Route path="/invoices" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Invoices /></Suspense></AuthGuard>} />
