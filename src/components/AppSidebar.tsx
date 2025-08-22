@@ -296,7 +296,7 @@ export function AppSidebar({ setActiveView, activeView }: AppSidebarProps) {
   return (
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col space-y-3">
           <h2 className="text-lg font-semibold">FeatherBiz</h2>
           <AuthLinks />
         </div>
