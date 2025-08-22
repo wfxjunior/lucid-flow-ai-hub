@@ -1,62 +1,123 @@
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { Toaster } from "sonner";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./utils/queryClient";
+import { Auth } from "./pages/Auth";
+import { AuthGuard } from "./components/AuthGuard";
+import { Dashboard } from "./pages/Dashboard";
+import { ClientsPage } from "./components/ClientsPage";
+import { ContractsPage } from "./pages/ContractsPage";
+import { WorkOrdersPage } from "./pages/WorkOrdersPage";
+import { InvoicesPage } from "./pages/InvoicesPage";
+import { EstimatesPage } from "./pages/EstimatesPage";
+import { MeetingsPage } from "./pages/MeetingsPage";
+import { BusinessSettings } from "./pages/BusinessSettings";
+import { ProfilePage } from "./pages/ProfilePage";
+import { useEffect } from "react";
+import { QueryClient } from "@tanstack/react-query";
+import { ErrorBoundary } from '@/components/security/ErrorBoundary';
+import { SessionTimeoutManager } from '@/components/security/SessionTimeoutManager';
+import { SecurityAuditLogger } from '@/components/security/SecurityAuditLogger';
 
-import { Suspense, lazy } from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
-import { LanguageProvider } from "@/contexts/LanguageContext";
-import PricingPage from '@/pages/PricingPage';
-import ContactPage from '@/pages/ContactPage';
-import AboutPage from '@/pages/AboutPage';
-import SignInPage from '@/pages/SignInPage';
-import SignUpPage from '@/pages/SignUpPage';
-import PaymentSuccessPage from '@/pages/PaymentSuccessPage';
-import PaymentCancelledPage from '@/pages/PaymentCancelledPage';
-import BlogPage from '@/pages/BlogPage';
-import BlogPostPage from '@/pages/BlogPostPage';
-import MainApp from '@/pages/MainApp';
-import { AuthGuard } from '@/components/AuthGuard';
-import { supabase } from "@/integrations/supabase/client";
-import Index from "./pages/Index";
+function App() {
+  // Apply security headers on app load
+  useEffect(() => {
+    import('@/utils/contentSecurityPolicy').then(({ applySecurityHeaders }) => {
+      applySecurityHeaders();
+    });
+  }, []);
 
-const Auth = lazy(() => import("@/pages/Auth"));
-const Upgrade = lazy(() => import("@/pages/Upgrade"));
-const Clients = lazy(() => import("@/pages/Clients"));
-const Invoices = lazy(() => import("@/pages/Invoices"));
-const WorkOrders = lazy(() => import("@/pages/WorkOrders"));
-const Estimates = lazy(() => import("@/pages/Estimates"));
-const Contracts = lazy(() => import("@/pages/Contracts"));
-const FeatherBudget = lazy(() => import("@/pages/FeatherBudget"));
-const Settings = lazy(() => import("@/pages/Settings"));
-
-const queryClient = new QueryClient();
-
-const App = () => (
-  <LanguageProvider>
-    <QueryClientProvider client={queryClient}>
-      <SessionContextProvider supabaseClient={supabase}>
-        <Toaster />
-        <Sonner />
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/signin" element={<SignInPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/payment-success" element={<PaymentSuccessPage />} />
-            <Route path="/payment-cancelled" element={<PaymentCancelledPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/:slug" element={<BlogPostPage />} />
-            <Route path="/app" element={<AuthGuard><MainApp /></AuthGuard>} />
-          </Routes>
+          <SecurityAuditLogger>
+            <Routes>
+              <Route path="/auth" element={<Auth />} />
+              <Route
+                path="/"
+                element={
+                  <AuthGuard>
+                    <Dashboard />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/clients"
+                element={
+                  <AuthGuard>
+                    <ClientsPage />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/contracts"
+                element={
+                  <AuthGuard>
+                    <ContractsPage />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/work-orders"
+                element={
+                  <AuthGuard>
+                    <WorkOrdersPage />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/invoices"
+                element={
+                  <AuthGuard>
+                    <InvoicesPage />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/estimates"
+                element={
+                  <AuthGuard>
+                    <EstimatesPage />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/meetings"
+                element={
+                  <AuthGuard>
+                    <MeetingsPage />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <AuthGuard>
+                    <BusinessSettings />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <AuthGuard>
+                    <ProfilePage />
+                  </AuthGuard>
+                }
+              />
+            </Routes>
+            <SessionTimeoutManager />
+            <Toaster />
+          </SecurityAuditLogger>
         </BrowserRouter>
-      </SessionContextProvider>
-    </QueryClientProvider>
-  </LanguageProvider>
-);
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+}
 
 export default App;
