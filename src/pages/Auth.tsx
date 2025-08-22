@@ -12,7 +12,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, [user, navigate]);
 
@@ -21,7 +21,7 @@ export default function Auth() {
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Welcome to LeaseSwift
+            Welcome to FeatherBiz
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             Sign in to your account or create a new one
@@ -42,7 +42,7 @@ export default function Auth() {
               },
             }}
             providers={['google', 'github']}
-            redirectTo={window.location.origin}
+            redirectTo={`${window.location.origin}/dashboard`}
           />
         </div>
       </div>

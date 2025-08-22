@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./utils/queryClient";
 import Auth from "./pages/Auth";
+import LandingPage from "./pages/LandingPage";
 import { AuthGuard } from "./components/AuthGuard";
 import { Dashboard } from "./pages/Dashboard";
 import { ClientsPage } from "./components/ClientsPage";
@@ -37,9 +38,10 @@ function App() {
         <BrowserRouter>
           <SecurityAuditLogger>
             <Routes>
+              <Route path="/" element={<LandingPage />} />
               <Route path="/auth" element={<Auth />} />
               <Route
-                path="/"
+                path="/dashboard"
                 element={
                   <AuthGuard>
                     <Dashboard />
