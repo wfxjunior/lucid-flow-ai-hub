@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useUserRole } from './useUserRole'
@@ -30,6 +29,7 @@ interface SecurityMetrics {
   suspicious_events_24h: number
   failed_logins_1h: number
   admin_actions_24h: number
+  securityScore: number
   last_updated: string
 }
 
@@ -108,6 +108,26 @@ export function useSecurityMonitoring() {
     }
   }
 
+  // Calculate security score based on metrics
+  const calculateSecurityScore = (metrics: Omit<SecurityMetrics, 'securityScore' | 'last_updated'>): number => {
+    let score = 100
+    
+    // Deduct points for suspicious activity
+    if (metrics.suspicious_events_24h > 10) score -= 30
+    else if (metrics.suspicious_events_24h > 5) score -= 15
+    else if (metrics.suspicious_events_24h > 0) score -= 5
+    
+    // Deduct points for failed logins
+    if (metrics.failed_logins_1h > 20) score -= 25
+    else if (metrics.failed_logins_1h > 10) score -= 10
+    else if (metrics.failed_logins_1h > 5) score -= 5
+    
+    // Deduct points for high admin activity (potential compromise)
+    if (metrics.admin_actions_24h > 100) score -= 10
+    
+    return Math.max(0, Math.min(100, score))
+  }
+
   // Fetch enhanced security metrics using the new database function
   const fetchSecurityMetrics = async () => {
     try {
@@ -118,8 +138,15 @@ export function useSecurityMonitoring() {
       if (error) {
         secureError('Error fetching security metrics', { error: error.message })
         setError('Failed to load security metrics')
-      } else {
-        setSecurityMetrics(data)
+      } else if (data) {
+        // Calculate security score and add it to metrics
+        const securityScore = calculateSecurityScore(data)
+        const metricsWithScore: SecurityMetrics = {
+          ...data,
+          securityScore,
+          last_updated: new Date().toISOString()
+        }
+        setSecurityMetrics(metricsWithScore)
         setError(null)
       }
     } catch (error) {
