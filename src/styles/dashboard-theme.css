@@ -1,0 +1,198 @@
+
+/* Dashboard-only design system - Clean Stripe/Attio aesthetic */
+[data-scope="dashboard"] {
+  --fg-strong: #0F172A;   /* headings/numbers */
+  --fg-default: #111827;  /* body */
+  --fg-muted: #475569;    /* labels/meta */
+  --fg-subtle: #6B7280;   /* helper */
+  
+  --bg-card: #FFFFFF;
+  --bg-muted: #F8FAFC;
+  
+  --bd-soft: #E5E7EB;
+  --bd-strong: #CBD5E1;
+  
+  --brand-600: #2563EB;
+  --brand-700: #1D4ED8;
+  --brand-50: #EEF2FF;
+}
+
+/* Typography - De-bold numbers and headings */
+[data-scope="dashboard"] .dashboard-number {
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+  color: var(--fg-strong);
+}
+
+[data-scope="dashboard"] h1 {
+  font-weight: 600 !important;
+  color: var(--fg-strong);
+}
+
+[data-scope="dashboard"] h2 {
+  font-weight: 600 !important;
+  color: var(--fg-strong);
+}
+
+[data-scope="dashboard"] h3 {
+  font-weight: 500 !important;
+  color: var(--fg-default);
+}
+
+/* Cards & Panels */
+[data-scope="dashboard"] .dashboard-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--bd-soft) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+[data-scope="dashboard"] .dashboard-card:hover {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+/* KPI Blocks */
+[data-scope="dashboard"] .kpi-number {
+  font-size: 1.75rem !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+  color: var(--fg-strong);
+}
+
+[data-scope="dashboard"] .kpi-label {
+  color: var(--fg-muted) !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+
+/* Buttons */
+[data-scope="dashboard"] .btn-primary {
+  height: 40px !important;
+  padding: 0 18px !important;
+  border-radius: 8px !important;
+  background: var(--brand-600) !important;
+  color: white !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+[data-scope="dashboard"] .btn-primary:hover {
+  background: var(--brand-700) !important;
+}
+
+[data-scope="dashboard"] .btn-primary:focus {
+  outline: 2px solid var(--brand-600) !important;
+  outline-offset: 2px !important;
+}
+
+[data-scope="dashboard"] .btn-outline {
+  height: 40px !important;
+  padding: 0 18px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--bd-strong) !important;
+  color: var(--fg-default) !important;
+  background: transparent !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+[data-scope="dashboard"] .btn-outline:hover {
+  background: var(--bg-muted) !important;
+  border-color: var(--bd-strong) !important;
+}
+
+[data-scope="dashboard"] .btn-ghost {
+  height: 40px !important;
+  padding: 0 18px !important;
+  border-radius: 8px !important;
+  color: var(--fg-default) !important;
+  background: transparent !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+[data-scope="dashboard"] .btn-ghost:hover {
+  background: var(--bg-muted) !important;
+}
+
+/* Stats Cards */
+[data-scope="dashboard"] .stats-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--bd-soft) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+[data-scope="dashboard"] .stats-card:hover {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+/* Icons */
+[data-scope="dashboard"] .dashboard-icon {
+  color: #475569 !important;
+}
+
+[data-scope="dashboard"] .dashboard-icon:hover {
+  color: #1e293b !important;
+}
+
+/* Tables */
+[data-scope="dashboard"] th {
+  color: #374151 !important;
+  font-weight: 600 !important;
+}
+
+[data-scope="dashboard"] td {
+  color: #1f2937 !important;
+  font-weight: 500 !important;
+}
+
+[data-scope="dashboard"] .table-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+[data-scope="dashboard"] tr {
+  border-bottom: 1px solid var(--bd-soft) !important;
+}
+
+[data-scope="dashboard"] tbody tr:hover {
+  background: #f8fafc !important;
+}
+
+/* Charts */
+[data-scope="dashboard"] .recharts-cartesian-grid line {
+  stroke: var(--bd-soft) !important;
+}
+
+[data-scope="dashboard"] .recharts-text {
+  fill: var(--fg-muted) !important;
+}
+
+[data-scope="dashboard"] .recharts-tooltip-wrapper {
+  background: white !important;
+  border: 1px solid var(--bd-soft) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1) !important;
+}
+
+/* Focus states */
+[data-scope="dashboard"] button:focus,
+[data-scope="dashboard"] input:focus,
+[data-scope="dashboard"] select:focus {
+  outline: 2px solid var(--brand-600) !important;
+  outline-offset: 2px !important;
+}
+
+/* Remove text shadows */
+[data-scope="dashboard"] * {
+  text-shadow: none !important;
+}
+
+/* Hover states */
+[data-scope="dashboard"] .hover-clean:hover {
+  background: #f8fafc !important;
+  transform: none !important;
+  scale: none !important;
+}

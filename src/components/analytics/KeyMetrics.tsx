@@ -1,5 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { TrendingUp, Users, DollarSign, FileText } from "lucide-react"
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { 
+  DollarSign, 
+  Users, 
+  CheckCircle2,
+  TrendingUp
+} from "lucide-react"
 
 interface KeyMetricsProps {
   totalRevenue: number
@@ -8,59 +14,54 @@ interface KeyMetricsProps {
 }
 
 export function KeyMetrics({ totalRevenue, activeClients, completedWorkOrders }: KeyMetricsProps) {
+  const metrics = [
+    {
+      title: "Total Revenue",
+      value: `$${totalRevenue.toLocaleString()}`,
+      description: "This month",
+      icon: DollarSign,
+      trend: "+12.5%"
+    },
+    {
+      title: "Active Clients",
+      value: activeClients.toString(),
+      description: "Currently active",
+      icon: Users,
+      trend: "+3.2%"
+    },
+    {
+      title: "Completed Jobs",
+      value: completedWorkOrders.toString(),
+      description: "This month",
+      icon: CheckCircle2,
+      trend: "+8.1%"
+    }
+  ]
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-      <Card className="p-4 sm:p-6">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
-          <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent className="p-0 pt-2">
-          <div className="text-xl sm:text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
-          <p className="text-xs text-muted-foreground">
-            {totalRevenue > 0 ? <span className="text-green-600">+20.1%</span> : "No data"} from last month
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="p-4 sm:p-6">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
-          <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent className="p-0 pt-2">
-          <div className="text-xl sm:text-2xl font-bold">{activeClients}</div>
-          <p className="text-xs text-muted-foreground">
-            {activeClients > 0 ? <span className="text-green-600">+12%</span> : "No data"} from last month
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="p-4 sm:p-6">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
-          <CardTitle className="text-sm font-medium">Work Orders</CardTitle>
-          <FileText className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent className="p-0 pt-2">
-          <div className="text-xl sm:text-2xl font-bold">{completedWorkOrders}</div>
-          <p className="text-xs text-muted-foreground">
-            {completedWorkOrders > 0 ? <span className="text-green-600">+8%</span> : "No data"} from last month
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="p-4 sm:p-6">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
-          <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent className="p-0 pt-2">
-          <div className="text-xl sm:text-2xl font-bold">-</div>
-          <p className="text-xs text-muted-foreground">
-            No data available
-          </p>
-        </CardContent>
-      </Card>
+    <div className="grid gap-4 md:grid-cols-3">
+      {metrics.map((metric, index) => (
+        <Card key={index} className="dashboard-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="kpi-label">
+              {metric.title}
+            </CardTitle>
+            <metric.icon className="h-4 w-4 dashboard-icon" />
+          </CardHeader>
+          <CardContent>
+            <div className="dashboard-number kpi-number">{metric.value}</div>
+            <p className="text-xs mt-1" style={{ color: 'var(--fg-subtle)' }}>
+              {metric.description}
+            </p>
+            <div className="flex items-center mt-2">
+              <TrendingUp className="h-3 w-3 mr-1" style={{ color: '#10b981' }} />
+              <span className="text-xs font-medium" style={{ color: '#10b981' }}>
+                {metric.trend}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   )
 }

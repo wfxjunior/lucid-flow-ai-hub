@@ -54,7 +54,7 @@ export function DashboardStats({ stats, loading }: DashboardStatsProps) {
     return (
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {[1, 2, 3, 4].map((i) => (
-          <Card key={i}>
+          <Card key={i} className="dashboard-card">
             <CardContent className="pt-6">
               <div className="animate-pulse space-y-2">
                 <div className="h-4 bg-gray-200 rounded w-3/4"></div>

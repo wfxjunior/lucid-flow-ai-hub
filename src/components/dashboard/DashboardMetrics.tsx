@@ -9,46 +9,46 @@ import {
 export function DashboardMetrics() {
   return (
     <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-      <Card className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/60 hover:shadow-md transition">
+      <Card className="dashboard-card hover-clean transition">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xs sm:text-sm font-medium">
+          <CardTitle className="kpi-label">
             Active Projects
           </CardTitle>
-          <AlertCircle className="h-4 w-4 text-muted-foreground" />
+          <AlertCircle className="h-4 w-4 dashboard-icon" />
         </CardHeader>
         <CardContent>
-          <div className="text-xl sm:text-2xl font-bold">0</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="dashboard-number kpi-number">0</div>
+          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>
             No active projects
           </p>
         </CardContent>
       </Card>
 
-      <Card className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/60 hover:shadow-md transition">
+      <Card className="dashboard-card hover-clean transition">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xs sm:text-sm font-medium">
+          <CardTitle className="kpi-label">
             Conversion Rate
           </CardTitle>
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          <TrendingUp className="h-4 w-4 dashboard-icon" />
         </CardHeader>
         <CardContent>
-          <div className="text-xl sm:text-2xl font-bold">-</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="dashboard-number kpi-number">-</div>
+          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>
             No data available
           </p>
         </CardContent>
       </Card>
 
-      <Card className="md:col-span-2 xl:col-span-1 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/60 hover:shadow-md transition">
+      <Card className="md:col-span-2 xl:col-span-1 dashboard-card hover-clean transition">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xs sm:text-sm font-medium">
+          <CardTitle className="kpi-label">
             Average Deal Size
           </CardTitle>
-          <DollarSign className="h-4 w-4 text-muted-foreground" />
+          <DollarSign className="h-4 w-4 dashboard-icon" />
         </CardHeader>
         <CardContent>
-          <div className="text-xl sm:text-2xl font-bold">$0</div>
-          <p className="text-xs text-muted-foreground">
+          <div className="dashboard-number kpi-number">$0</div>
+          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>
             No deals completed
           </p>
         </CardContent>

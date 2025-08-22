@@ -54,18 +54,18 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
   const changeColor = trend === "up" ? "text-success" : trend === "down" ? "text-destructive" : "text-muted-foreground"
 
   return (
-    <Card className="bg-card border border-border rounded-2xl p-6 transition-all duration-200 hover:shadow-sm">
+    <Card className="dashboard-card stats-card p-6 transition-all duration-200 hover-clean">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="p-2 bg-accent rounded-lg">
-            <Icon className="h-5 w-5 text-accent-foreground" />
+            <Icon className="h-5 w-5 dashboard-icon" />
           </div>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-semibold text-foreground mb-1">
+          <div className="dashboard-number kpi-number mb-1">
             {displayValue}
           </div>
-          <p className="text-xs text-muted-foreground mb-1">
+          <p className="kpi-label mb-1">
             {title}
           </p>
           <p className={`text-xs font-medium ${changeColor}`}>

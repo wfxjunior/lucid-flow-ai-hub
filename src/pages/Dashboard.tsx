@@ -10,7 +10,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" data-scope="dashboard">
       <MainContent activeView={activeView} onNavigate={handleNavigate} />
     </div>
   )
