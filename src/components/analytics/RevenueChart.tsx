@@ -4,51 +4,51 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } fro
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
 const monthlyData = [
-  { month: 'Jan', revenue: 0, color: '#3b82f6' },
-  { month: 'Feb', revenue: 0, color: '#3b82f6' },
-  { month: 'Mar', revenue: 0, color: '#3b82f6' },
-  { month: 'Apr', revenue: 0, color: '#3b82f6' },
-  { month: 'May', revenue: 0, color: '#3b82f6' },
-  { month: 'Jun', revenue: 0, color: '#3b82f6' },
+  { month: 'Jan', revenue: 0 },
+  { month: 'Feb', revenue: 0 },
+  { month: 'Mar', revenue: 0 },
+  { month: 'Apr', revenue: 0 },
+  { month: 'May', revenue: 0 },
+  { month: 'Jun', revenue: 0 },
 ]
 
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "#3b82f6",
+    color: "#2563EB",
   },
 }
 
 export function RevenueChart() {
   return (
-    <Card className="w-full">
-      <CardHeader className="p-3 sm:p-6">
-        <CardTitle className="text-base sm:text-lg">Monthly Revenue</CardTitle>
-        <CardDescription className="text-xs sm:text-sm">Revenue trends over the last 6 months</CardDescription>
+    <Card className="w-full bg-white border border-slate-200 rounded-xl">
+      <CardHeader className="p-6">
+        <CardTitle className="text-lg font-semibold text-slate-900">Monthly Revenue</CardTitle>
+        <CardDescription className="text-sm text-slate-500">Revenue trends over the last 6 months</CardDescription>
       </CardHeader>
-      <CardContent className="p-3 sm:p-6 pt-0">
-        <ChartContainer config={chartConfig} className="h-[250px] sm:h-[300px] w-full">
+      <CardContent className="p-6 pt-0">
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={monthlyData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
               <XAxis 
                 dataKey="month" 
-                tick={{ fontSize: 10, fill: '#6b7280' }}
-                axisLine={{ stroke: '#6b7280' }}
+                tick={{ fontSize: 12, fill: '#475569' }}
+                axisLine={{ stroke: '#475569' }}
                 interval={0}
               />
               <YAxis 
-                tick={{ fontSize: 10, fill: '#6b7280' }}
-                axisLine={{ stroke: '#6b7280' }}
-                width={40}
+                tick={{ fontSize: 12, fill: '#475569' }}
+                axisLine={{ stroke: '#475569' }}
+                width={50}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Line 
                 type="monotone" 
                 dataKey="revenue" 
-                stroke="#3b82f6" 
+                stroke="#2563EB" 
                 strokeWidth={2}
-                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
+                dot={{ fill: '#2563EB', strokeWidth: 2, r: 4 }}
               />
             </LineChart>
           </ResponsiveContainer>
