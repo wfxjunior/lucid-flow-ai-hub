@@ -30,6 +30,10 @@ user = "resend"
 admin_email = "hello@featherbiz.io"
 sender_name = "FeatherBiz"
 
+[auth.hook.send_email]
+enabled = true
+uri = "https://tvdromfazjzargvesruq.supabase.co/functions/v1/send-auth-email"
+
 [auth.sms]
 enable_signup = false
 enable_confirmations = false
