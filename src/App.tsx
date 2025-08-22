@@ -13,8 +13,9 @@ import SignInPage from '@/pages/SignInPage';
 import SignUpPage from '@/pages/SignUpPage';
 import PaymentSuccessPage from '@/pages/PaymentSuccessPage';
 import PaymentCancelledPage from '@/pages/PaymentCancelledPage';
-import BlogPage from '@/pages/BlogPage';
-import BlogPostPage from '@/pages/BlogPostPage';
+import Blog from '@/pages/Blog';
+import BlogPostDetail from '@/pages/BlogPostDetail';
+import AdminBlog from '@/pages/AdminBlog';
 import MainApp from '@/pages/MainApp';
 import { AuthGuard } from '@/components/AuthGuard';
 import { supabase } from "@/integrations/supabase/client";
@@ -49,9 +50,19 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
             <Route path="/payment-cancelled" element={<PaymentCancelledPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPostDetail />} />
+            <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/app" element={<AuthGuard><MainApp /></AuthGuard>} />
+            <Route path="/dashboard" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><MainApp /></Suspense></AuthGuard>} />
+            <Route path="/upgrade" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Upgrade /></Suspense></AuthGuard>} />
+            <Route path="/clients" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Clients /></Suspense></AuthGuard>} />
+            <Route path="/invoices" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Invoices /></Suspense></AuthGuard>} />
+            <Route path="/work-orders" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><WorkOrders /></Suspense></AuthGuard>} />
+            <Route path="/estimates" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Estimates /></Suspense></AuthGuard>} />
+            <Route path="/contracts" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Contracts /></Suspense></AuthGuard>} />
+            <Route path="/budget" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><FeatherBudget /></Suspense></AuthGuard>} />
+            <Route path="/settings" element={<AuthGuard><Suspense fallback={<div>Loading...</div>}><Settings /></Suspense></AuthGuard>} />
           </Routes>
         </BrowserRouter>
       </SessionContextProvider>
