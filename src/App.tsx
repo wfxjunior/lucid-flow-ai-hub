@@ -7,14 +7,15 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { LanguageProvider } from "@/contexts/LanguageContext"
 import { useEffect, useState } from "react"
 import { supabase } from "@/integrations/supabase/client"
+import { User, Session } from '@supabase/supabase-js'
 import Dashboard from "./pages/Dashboard"
 import Auth from "./pages/Auth"
-import "./styles/dashboard-theme.css"
 
 const queryClient = new QueryClient()
 
 function AuthenticatedApp() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function AuthenticatedApp() {
     const getSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession()
       console.log('Initial session:', session, error)
+      setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
     }
@@ -32,6 +34,7 @@ function AuthenticatedApp() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session)
+        setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)
       }
@@ -42,10 +45,10 @@ function AuthenticatedApp() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex items-center space-x-2">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-          <span>Loading...</span>
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+          <span className="text-gray-600">Loading...</span>
         </div>
       </div>
     )
@@ -73,7 +76,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <TooltipProvider>
-          <div className="min-h-screen bg-background">
+          <div className="min-h-screen bg-white">
             <AuthenticatedApp />
           </div>
           <Toaster />
