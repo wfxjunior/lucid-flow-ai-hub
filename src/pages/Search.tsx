@@ -75,7 +75,7 @@ export default function Search() {
     e.preventDefault();
     performSearch(query);
     // Update URL without navigation
-    const newUrl = new URL(window.location);
+    const newUrl = new URL(window.location.href);
     newUrl.searchParams.set('q', query);
     window.history.pushState({}, '', newUrl);
   };
