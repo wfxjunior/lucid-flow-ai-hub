@@ -1,4 +1,3 @@
-
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailCenterPage } from "@/components/EmailCenterPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -10,7 +9,6 @@ import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { ProjectsPage } from "@/components/ProjectsPage"
-// import { ProjectTimelinePage } from "@/components/ProjectTimelinePage" // Commented out old version
 import { PipelineBoard } from "@/components/PipelineBoard"
 import { FeatherTaxPage } from "@/components/FeatherTaxPage"
 import { EasyCalcPage } from "@/components/EasyCalcPage"
