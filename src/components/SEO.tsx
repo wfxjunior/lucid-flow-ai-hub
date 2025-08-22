@@ -6,9 +6,10 @@ interface SEOProps {
   description: string;
   canonicalPath: string;
   type?: string;
+  ogImage?: string;
 }
 
-export const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath, type = 'website' }) => {
+export const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath, type = 'website', ogImage }) => {
   useEffect(() => {
     // Update document title
     document.title = `${title} | FeatherBiz`;
@@ -55,7 +56,18 @@ export const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath, typ
       document.head.appendChild(ogType);
     }
     ogType.content = type;
-  }, [title, description, canonicalPath, type]);
+
+    // Update Open Graph image if provided
+    if (ogImage) {
+      let ogImageTag = document.querySelector('meta[property="og:image"]') as HTMLMetaElement;
+      if (!ogImageTag) {
+        ogImageTag = document.createElement('meta');
+        ogImageTag.setAttribute('property', 'og:image');
+        document.head.appendChild(ogImageTag);
+      }
+      ogImageTag.content = ogImage;
+    }
+  }, [title, description, canonicalPath, type, ogImage]);
 
   return null;
 };
