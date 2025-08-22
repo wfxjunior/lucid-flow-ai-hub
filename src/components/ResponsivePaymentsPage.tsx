@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Plus, DollarSign, TrendingUp, Clock, Check } from "lucide-react"
+import { CreditCard, Plus, DollarSign, TrendingUp, Clock, Check } from "lucide-react"
 import { toast } from "sonner"
 
 export function ResponsivePaymentsPage() {
@@ -40,7 +40,8 @@ export function ResponsivePaymentsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+            <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
             Payments
           </h1>
           <p className="text-muted-foreground mt-1">
@@ -99,6 +100,7 @@ export function ResponsivePaymentsPage() {
           </CardContent>
         </Card>
       </div>
+
 
       {/* Payments List */}
       <Card>

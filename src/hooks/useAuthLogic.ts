@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { cleanupAuthState, secureSignIn, secureSignOut, logSecurityEvent } from '@/utils/authSecurity'
-import { validateInput, checkClientRateLimit } from '@/utils/inputValidation'
+import { validateEmail as validateEmailUtil, checkClientRateLimit } from '@/utils/inputValidation'
 
 type AuthMode = 'signin' | 'signup' | 'forgot-password'
 
@@ -49,7 +48,7 @@ export function useAuthLogic() {
   const addError = (error: string) => setErrors(prev => [...prev, error])
 
   const validateEmail = (email: string) => {
-    const validation = validateInput(email, 'email', { required: true })
+    const validation = validateEmailUtil(email)
     return validation.isValid
   }
 

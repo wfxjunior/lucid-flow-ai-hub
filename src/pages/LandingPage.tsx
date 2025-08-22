@@ -19,7 +19,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 
 import { CookieConsent } from "@/components/landing/CookieConsent";
 import { FeatherBot } from "@/components/FeatherBot";
-import { SEO } from "@/components/SEO";
+import SEO from "@/components/SEO";
 
 export default function LandingPage() {
   const location = useLocation();

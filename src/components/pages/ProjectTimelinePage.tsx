@@ -1,167 +1,174 @@
-
-import React, { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Calendar, Clock, Users, MapPin, CheckCircle2, AlertCircle, Plus } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { 
+  Target, 
+  CheckCircle, 
+  Clock, 
+  AlertTriangle,
+  Calendar,
+  User,
+  Tag
+} from "lucide-react"
+
+const metrics = [
+  {
+    title: "Total Milestones",
+    value: "3",
+    subtitle: "Across all projects",
+    icon: Target
+  },
+  {
+    title: "Completed",
+    value: "1",
+    subtitle: "33% complete",
+    icon: CheckCircle
+  },
+  {
+    title: "In Progress",
+    value: "1",
+    subtitle: "Active milestones",
+    icon: Clock
+  },
+  {
+    title: "Overdue",
+    value: "0",
+    subtitle: "Need attention",
+    icon: AlertTriangle
+  }
+]
+
+const milestones = [
+  {
+    id: 1,
+    title: "Project Kickoff",
+    description: "Initial project meeting and requirement gathering",
+    due: "1/14/2024",
+    assignee: "John Smith",
+    project: "Website Redesign",
+    status: "completed",
+    icon: CheckCircle,
+    iconColor: "text-success"
+  },
+  {
+    id: 2,
+    title: "Design Phase",
+    description: "Create wireframes and mockups",
+    due: "1/24/2024",
+    assignee: "Jane Doe",
+    project: "Website Redesign",
+    status: "in-progress",
+    icon: Clock,
+    iconColor: "text-primary"
+  },
+  {
+    id: 3,
+    title: "Development Start",
+    description: "Begin coding and implementation",
+    due: "1/31/2024",
+    assignee: "Mike Johnson",
+    project: "Website Redesign",
+    status: "pending",
+    icon: AlertTriangle,
+    iconColor: "text-warning"
+  }
+]
 
 interface ProjectTimelinePageProps {
   onNavigate: (view: string) => void
 }
 
 export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
-  const [projects] = useState([
-    {
-      id: 1,
-      name: "Silva House - Complete Renovation",
-      client: "John Silva",
-      status: "In Progress",
-      progress: 65,
-      startDate: "2024-01-15",
-      endDate: "2024-03-30",
-      location: "New York, NY",
-      team: ["Carlos", "Maria", "José"],
-      tasks: [
-        { name: "Demolition", status: "completed", date: "2024-01-20" },
-        { name: "Foundation", status: "completed", date: "2024-02-10" },
-        { name: "Structure", status: "in-progress", date: "2024-02-25" },
-        { name: "Finishing", status: "pending", date: "2024-03-15" }
-      ]
-    },
-    {
-      id: 2,
-      name: "Tech Office - Fit Out",
-      client: "TechCorp",
-      status: "Starting",
-      progress: 20,
-      startDate: "2024-02-01",
-      endDate: "2024-04-15",
-      location: "Los Angeles, CA",
-      team: ["Ana", "Pedro", "Lucas"],
-      tasks: [
-        { name: "Planning", status: "completed", date: "2024-02-05" },
-        { name: "Material Purchase", status: "in-progress", date: "2024-02-12" },
-        { name: "Installation", status: "pending", date: "2024-02-20" },
-        { name: "Completion", status: "pending", date: "2024-04-10" }
-      ]
-    }
-  ])
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "completed": return "bg-green-500"
-      case "in-progress": return "bg-blue-500"
-      case "pending": return "bg-gray-300"
-      default: return "bg-gray-300"
-    }
-  }
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "completed": return <CheckCircle2 className="h-4 w-4 text-green-600" />
-      case "in-progress": return <Clock className="h-4 w-4 text-blue-600" />
-      case "pending": return <AlertCircle className="h-4 w-4 text-gray-500" />
-      default: return <AlertCircle className="h-4 w-4 text-gray-500" />
-    }
+  const handleAddMilestone = () => {
+    console.log("Add milestone clicked")
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
+    <CleanPageLayout
+      title="Project Timeline"
+      subtitle="Track project milestones and progress"
+      actionLabel="Add Milestone"
+      onActionClick={handleAddMilestone}
+      metrics={metrics}
+    >
+      {/* Project Milestones Section */}
+      <div className="space-y-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Project Timeline</h1>
-          <p className="text-muted-foreground mt-2">Track the progress of all your projects</p>
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-2">
+            Project Milestones
+          </h2>
+          <p className="text-sm md:text-base text-muted-foreground">
+            Track progress of your project milestones
+          </p>
         </div>
-        <Button onClick={() => onNavigate('projects')} className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          New Project
-        </Button>
-      </div>
 
-      <div className="grid gap-6">
-        {projects.map((project) => (
-          <Card key={project.id} className="overflow-hidden">
-            <CardHeader className="pb-4">
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-xl">{project.name}</CardTitle>
-                  <CardDescription className="flex items-center gap-4 mt-2">
-                    <span className="flex items-center gap-1">
-                      <Users className="h-4 w-4" />
-                      {project.client}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-4 w-4" />
-                      {project.location}
-                    </span>
-                  </CardDescription>
-                </div>
-                <Badge variant={project.status === "In Progress" ? "default" : "secondary"}>
-                  {project.status}
-                </Badge>
-              </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-6">
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">Overall Progress</span>
-                  <span className="text-sm text-muted-foreground">{project.progress}%</span>
-                </div>
-                <Progress value={project.progress} className="h-2" />
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold mb-3">Schedule</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span>Start: {new Date(project.startDate).toLocaleDateString('en-US')}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span>Expected: {new Date(project.endDate).toLocaleDateString('en-US')}</span>
-                    </div>
+        <div className="space-y-4">
+          {milestones.map((milestone) => (
+            <Card key={milestone.id} className="bg-card border border-border rounded-2xl">
+              <CardContent className="p-4 md:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div className={`p-2 rounded-lg bg-muted flex-shrink-0`}>
+                    <milestone.icon className={`h-4 md:h-5 w-4 md:w-5 ${milestone.iconColor}`} />
                   </div>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-3">Team</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {project.team.map((member, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {member}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="font-semibold mb-3">Project Stages</h4>
-                <div className="space-y-3">
-                  {project.tasks.map((task, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
-                      <div className={`w-3 h-3 rounded-full ${getStatusColor(task.status)}`} />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          {getStatusIcon(task.status)}
-                          <span className="font-medium">{task.name}</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {new Date(task.date).toLocaleDateString('en-US')}
+                  
+                  <div className="flex-1 space-y-3 min-w-0">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+                      <div className="space-y-1 min-w-0 flex-1">
+                        <h3 className="font-medium text-foreground text-sm md:text-base break-words">
+                          {milestone.title}
+                        </h3>
+                        <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+                          {milestone.description}
                         </p>
                       </div>
+                      
+                      <div className="flex flex-wrap items-center gap-2 lg:flex-shrink-0">
+                        {milestone.status === 'completed' && (
+                          <Badge variant="success" className="text-xs">completed</Badge>
+                        )}
+                        {milestone.status === 'in-progress' && (
+                          <Badge variant="default" className="text-xs">in progress</Badge>
+                        )}
+                        {milestone.status === 'pending' && (
+                          <Badge variant="warning" className="text-xs">pending</Badge>
+                        )}
+                        
+                        {milestone.status === 'in-progress' && (
+                          <Button variant="outline" size="sm" className="text-xs">
+                            Complete
+                          </Button>
+                        )}
+                        
+                        {milestone.status === 'pending' && (
+                          <Button variant="outline" size="sm" className="text-xs">
+                            Start
+                          </Button>
+                        )}
+                      </div>
                     </div>
-                  ))}
+                    
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs md:text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span>Due: {milestone.due}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <User className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span className="truncate">{milestone.assignee}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Tag className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span className="truncate">{milestone.project}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
-    </div>
+    </CleanPageLayout>
   )
 }

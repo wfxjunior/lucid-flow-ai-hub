@@ -1,264 +1,197 @@
-
-import React, { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Play, Clock, Users, Star, MapPin, Calendar } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { 
+  Calendar, 
+  CheckCircle, 
+  Clock, 
+  Target,
+  Search,
+  MapPin,
+  User,
+  TrendingUp
+} from "lucide-react"
+
+const metrics = [
+  {
+    title: "Total Tours Requested",
+    value: "127",
+    subtitle: "This month",
+    icon: Calendar
+  },
+  {
+    title: "Tours Approved",
+    value: "98",
+    subtitle: "77% approval rate",
+    icon: CheckCircle
+  },
+  {
+    title: "Tours Completed",
+    value: "85",
+    subtitle: "87% completion rate",
+    icon: Target
+  },
+  {
+    title: "Conversion Rate",
+    value: "23.5%",
+    subtitle: "Tours to lease",
+    icon: TrendingUp
+  }
+]
+
+const tourRequests = [
+  {
+    id: 1,
+    propertyName: "Sunset Apartments - Unit 3B",
+    tenantName: "Sarah Johnson",
+    date: "7/14/2024",
+    time: "14:00",
+    tourType: "In-person",
+    status: "pending"
+  },
+  {
+    id: 2,
+    propertyName: "Downtown Loft - Studio 12",
+    tenantName: "Michael Chen",
+    date: "7/15/2024",
+    time: "10:30",
+    tourType: "Virtual",
+    status: "approved"
+  },
+  {
+    id: 3,
+    propertyName: "Garden View Complex - 2A",
+    tenantName: "Emma Rodriguez",
+    date: "7/13/2024",
+    time: "16:00",
+    tourType: "Video",
+    status: "declined"
+  }
+]
 
 interface ToursPageProps {
   onNavigate: (view: string) => void
 }
 
 export function ToursPage({ onNavigate }: ToursPageProps) {
-  const [tours] = useState([
-    {
-      id: 1,
-      title: 'Getting Started with FeatherBiz',
-      description: 'Complete walkthrough of the platform basics and setup',
-      duration: '15 minutes',
-      participants: 1240,
-      rating: 4.8,
-      category: 'basics',
-      featured: true,
-      thumbnail: '/lovable-uploads/tour-1.jpg',
-      modules: [
-        'Dashboard Overview',
-        'Setting Up Your Profile',
-        'Creating Your First Invoice',
-        'Managing Customers'
-      ]
-    },
-    {
-      id: 2,
-      title: 'Advanced Invoice Management',
-      description: 'Master invoice creation, automation, and payment tracking',
-      duration: '25 minutes',
-      participants: 890,
-      rating: 4.9,
-      category: 'invoicing',
-      featured: false,
-      thumbnail: '/lovable-uploads/tour-2.jpg',
-      modules: [
-        'Custom Invoice Templates',
-        'Automated Reminders',
-        'Payment Processing',
-        'Reports and Analytics'
-      ]
-    },
-    {
-      id: 3,
-      title: 'Customer Relationship Management',
-      description: 'Build stronger relationships and track customer interactions',
-      duration: '20 minutes',
-      participants: 675,
-      rating: 4.7,
-      category: 'crm',
-      featured: false,
-      thumbnail: '/lovable-uploads/tour-3.jpg',
-      modules: [
-        'Customer Profiles',
-        'Communication History',
-        'Follow-up Scheduling',
-        'Customer Segmentation'
-      ]
-    },
-    {
-      id: 4,
-      title: 'Project Management Essentials',
-      description: 'Organize projects, track progress, and manage deadlines',
-      duration: '30 minutes',
-      participants: 524,
-      rating: 4.6,
-      category: 'projects',
-      featured: false,
-      thumbnail: '/lovable-uploads/tour-4.jpg',
-      modules: [
-        'Creating Projects',
-        'Task Management',
-        'Timeline View',
-        'Team Collaboration'
-      ]
-    },
-    {
-      id: 5,
-      title: 'Financial Analytics and Reporting',
-      description: 'Understand your business performance with detailed analytics',
-      duration: '22 minutes',
-      participants: 432,
-      rating: 4.8,
-      category: 'analytics',
-      featured: true,
-      thumbnail: '/lovable-uploads/tour-5.jpg',
-      modules: [
-        'Revenue Tracking',
-        'Expense Management',
-        'Profit Analysis',
-        'Custom Reports'
-      ]
-    }
-  ])
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'basics': return 'bg-blue-100 text-blue-800'
-      case 'invoicing': return 'bg-green-100 text-green-800'
-      case 'crm': return 'bg-purple-100 text-purple-800'
-      case 'projects': return 'bg-orange-100 text-orange-800'
-      case 'analytics': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
-
-  const getCategoryName = (category: string) => {
-    switch (category) {
-      case 'basics': return 'Basics'
-      case 'invoicing': return 'Invoicing'
-      case 'crm': return 'CRM'
-      case 'projects': return 'Projects'
-      case 'analytics': return 'Analytics'
-      default: return 'General'
-    }
+  const handleScheduleTour = () => {
+    console.log("Schedule tour clicked")
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Interactive Tours</h1>
-          <p className="text-muted-foreground mt-2">Learn FeatherBiz with guided, interactive tutorials</p>
+    <CleanPageLayout
+      title="Tour Requests"
+      subtitle="Manage and approve upcoming property visit requests"
+      actionLabel="Schedule Tour"
+      onActionClick={handleScheduleTour}
+      metrics={metrics}
+    >
+      {/* Filters and Search */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <Button 
+            variant="secondary" 
+            size="sm"
+            className="bg-accent text-accent-foreground rounded-full px-3 md:px-4 py-2 text-xs md:text-sm"
+          >
+            All
+          </Button>
+          <Button variant="ghost" size="sm" className="rounded-full px-3 md:px-4 py-2 text-xs md:text-sm">
+            Pending
+          </Button>
+          <Button variant="ghost" size="sm" className="rounded-full px-3 md:px-4 py-2 text-xs md:text-sm">
+            Approved
+          </Button>
+          <Button variant="ghost" size="sm" className="rounded-full px-3 md:px-4 py-2 text-xs md:text-sm">
+            Declined
+          </Button>
         </div>
-        <Button className="flex items-center gap-2">
-          <Calendar className="h-4 w-4" />
-          Schedule Live Demo
-        </Button>
-      </div>
-
-      {/* Featured Tours */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Featured Tours</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {tours.filter(tour => tour.featured).map((tour) => (
-            <Card key={tour.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                <Play className="h-12 w-12 text-blue-600" />
-              </div>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg">{tour.title}</CardTitle>
-                    <CardDescription className="mt-2">{tour.description}</CardDescription>
-                  </div>
-                  <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                    Featured
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    {tour.duration}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Users className="h-4 w-4" />
-                    {tour.participants.toLocaleString()} learners
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-current text-yellow-500" />
-                    {tour.rating}
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <h4 className="font-medium text-sm">What you'll learn:</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    {tour.modules.slice(0, 3).map((module, index) => (
-                      <li key={index}>• {module}</li>
-                    ))}
-                    {tour.modules.length > 3 && (
-                      <li>• +{tour.modules.length - 3} more modules</li>
-                    )}
-                  </ul>
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
-                  <Badge className={getCategoryColor(tour.category)}>
-                    {getCategoryName(tour.category)}
-                  </Badge>
-                  <Button className="flex items-center gap-2">
-                    <Play className="h-4 w-4" />
-                    Start Tour
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        
+        <div className="relative w-full max-w-xs lg:max-w-64">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Search by property or tenant..."
+            className="w-full pl-10 pr-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          />
         </div>
       </div>
 
-      {/* All Tours */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold">All Tours</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tours.filter(tour => !tour.featured).map((tour) => (
-            <Card key={tour.id} className="hover:shadow-lg transition-shadow">
-              <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <Play className="h-8 w-8 text-gray-600" />
-              </div>
-              <CardHeader className="pb-4">
-                <CardTitle className="text-base">{tour.title}</CardTitle>
-                <CardDescription className="text-sm">{tour.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {tour.duration}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-3 w-3 fill-current text-yellow-500" />
-                    {tour.rating}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <Badge className={getCategoryColor(tour.category)} variant="secondary">
-                    {getCategoryName(tour.category)}
-                  </Badge>
-                  <Button size="sm" className="flex items-center gap-1">
-                    <Play className="h-3 w-3" />
-                    Start
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Getting Help */}
-      <Card className="bg-muted/50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MapPin className="h-5 w-5" />
-            Need More Help?
-          </CardTitle>
-          <CardDescription>
-            Can't find what you're looking for? Our support team is here to help.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex gap-3">
-          <Button variant="outline">
-            Contact Support
-          </Button>
-          <Button variant="outline">
-            Schedule 1-on-1 Demo
-          </Button>
-          <Button variant="outline" onClick={() => onNavigate('faq-help')}>
-            View FAQ
-          </Button>
+      {/* Tour Requests Table */}
+      <Card className="bg-card border border-border rounded-2xl">
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <thead className="border-b border-border">
+                <tr>
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
+                    Property Name
+                  </th>
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
+                    Tenant Name
+                  </th>
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
+                    Date
+                  </th>
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
+                    Time
+                  </th>
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
+                    Tour Type
+                  </th>
+                  <th className="text-left py-3 md:py-4 px-3 md:px-6 text-xs md:text-sm font-semibold text-muted-foreground">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {tourRequests.map((request, index) => (
+                  <tr 
+                    key={request.id} 
+                    className={`${index % 2 === 1 ? 'bg-muted/50' : ''} hover:bg-muted/30 transition-colors`}
+                  >
+                    <td className="py-3 md:py-4 px-3 md:px-6">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="font-medium text-foreground text-xs md:text-sm truncate">
+                          {request.propertyName}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3 md:py-4 px-3 md:px-6">
+                      <div className="flex items-center gap-2">
+                        <User className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="text-foreground text-xs md:text-sm truncate">{request.tenantName}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 md:py-4 px-3 md:px-6 text-foreground text-xs md:text-sm">
+                      {request.date}
+                    </td>
+                    <td className="py-3 md:py-4 px-3 md:px-6 text-foreground text-xs md:text-sm">
+                      {request.time}
+                    </td>
+                    <td className="py-3 md:py-4 px-3 md:px-6 text-foreground text-xs md:text-sm">
+                      {request.tourType}
+                    </td>
+                    <td className="py-4 px-6">
+                      {request.status === 'pending' && (
+                        <Badge variant="pending">Pending</Badge>
+                      )}
+                      {request.status === 'approved' && (
+                        <Badge variant="approved">Approved</Badge>
+                      )}
+                      {request.status === 'declined' && (
+                        <Badge variant="declined">Declined</Badge>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </CardContent>
       </Card>
-    </div>
+    </CleanPageLayout>
   )
 }

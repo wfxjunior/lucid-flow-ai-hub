@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
@@ -16,8 +17,6 @@ interface BusinessToolsAnalyticsProps {
   activeClients: number
 }
 
-const CHART_COLORS = ['#2563EB', '#64748B', '#0EA5E9', '#94A3B8', '#6366F1']
-
 export function BusinessToolsAnalytics({
   completedWorkOrders,
   workOrders,
@@ -32,52 +31,52 @@ export function BusinessToolsAnalytics({
 
   const businessToolsData = {
     "work-orders": [
-      { name: 'Completed', value: completedWorkOrders, color: CHART_COLORS[0], fill: CHART_COLORS[0] },
-      { name: 'In Progress', value: workOrders?.filter(wo => wo.status === 'in_progress').length || 0, color: CHART_COLORS[1], fill: CHART_COLORS[1] },
-      { name: 'Pending', value: workOrders?.filter(wo => wo.status === 'pending').length || 0, color: CHART_COLORS[2], fill: CHART_COLORS[2] },
+      { name: 'Completed', value: completedWorkOrders, color: '#10b981', fill: '#10b981' },
+      { name: 'In Progress', value: workOrders?.filter(wo => wo.status === 'in_progress').length || 0, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Pending', value: workOrders?.filter(wo => wo.status === 'pending').length || 0, color: '#6b7280', fill: '#6b7280' },
     ],
     "estimates": [
-      { name: 'Approved', value: estimates?.filter(est => est.status === 'approved').length || 0, color: CHART_COLORS[0], fill: CHART_COLORS[0] },
-      { name: 'Sent', value: estimatesSent, color: CHART_COLORS[1], fill: CHART_COLORS[1] },
-      { name: 'Draft', value: estimates?.filter(est => est.status === 'draft').length || 0, color: CHART_COLORS[2], fill: CHART_COLORS[2] },
+      { name: 'Approved', value: estimates?.filter(est => est.status === 'approved').length || 0, color: '#10b981', fill: '#10b981' },
+      { name: 'Sent', value: estimatesSent, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Draft', value: estimates?.filter(est => est.status === 'draft').length || 0, color: '#6b7280', fill: '#6b7280' },
     ],
     "contracts": [
-      { name: 'Active', value: contractsSigned, color: CHART_COLORS[0], fill: CHART_COLORS[0] },
-      { name: 'Pending', value: contracts?.filter(c => c.status === 'pending').length || 0, color: CHART_COLORS[1], fill: CHART_COLORS[1] },
-      { name: 'Expired', value: contracts?.filter(c => c.status === 'expired').length || 0, color: CHART_COLORS[2], fill: CHART_COLORS[2] },
+      { name: 'Active', value: contractsSigned, color: '#10b981', fill: '#10b981' },
+      { name: 'Pending', value: contracts?.filter(c => c.status === 'pending').length || 0, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Expired', value: contracts?.filter(c => c.status === 'expired').length || 0, color: '#6b7280', fill: '#6b7280' },
     ],
     "customers": [
-      { name: 'Active', value: activeClients, color: CHART_COLORS[0], fill: CHART_COLORS[0] },
-      { name: 'Inactive', value: clients?.filter(c => c.status === 'inactive').length || 0, color: CHART_COLORS[1], fill: CHART_COLORS[1] },
-      { name: 'Prospective', value: clients?.filter(c => c.status === 'prospect').length || 0, color: CHART_COLORS[2], fill: CHART_COLORS[2] },
+      { name: 'Active', value: activeClients, color: '#10b981', fill: '#10b981' },
+      { name: 'Inactive', value: clients?.filter(c => c.status === 'inactive').length || 0, color: '#6b7280', fill: '#6b7280' },
+      { name: 'Prospective', value: clients?.filter(c => c.status === 'prospect').length || 0, color: '#3b82f6', fill: '#3b82f6' },
     ],
     "invoices": [
-      { name: 'Paid', value: 65, color: CHART_COLORS[0], fill: CHART_COLORS[0] },
-      { name: 'Pending', value: 25, color: CHART_COLORS[1], fill: CHART_COLORS[1] },
-      { name: 'Overdue', value: 10, color: CHART_COLORS[2], fill: CHART_COLORS[2] },
+      { name: 'Paid', value: 65, color: '#10b981', fill: '#10b981' },
+      { name: 'Pending', value: 25, color: '#3b82f6', fill: '#3b82f6' },
+      { name: 'Overdue', value: 10, color: '#6b7280', fill: '#6b7280' },
     ]
   }
 
   const chartConfig = {
     revenue: {
       label: "Revenue",
-      color: "#2563EB",
+      color: "#3b82f6",
     },
   }
 
   return (
-    <Card className="bg-white border border-slate-200 rounded-xl">
+    <Card>
       <CardHeader className="pb-4">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="space-y-1">
-            <CardTitle className="text-xl font-semibold text-slate-900">Business Tools Analytics</CardTitle>
-            <CardDescription className="text-sm text-slate-500">
+            <CardTitle className="text-xl sm:text-2xl">Business Tools Analytics</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
               Performance metrics for your business tools
             </CardDescription>
           </div>
           <div className="flex items-center justify-center sm:justify-end">
             <Select value={selectedBusinessTool} onValueChange={setSelectedBusinessTool}>
-              <SelectTrigger className="w-full sm:w-[200px] h-9 bg-white border-slate-300 text-slate-700">
+              <SelectTrigger className="w-full sm:w-[200px]">
                 <SelectValue placeholder="Select tool" />
               </SelectTrigger>
               <SelectContent>
@@ -105,10 +104,10 @@ export function BusinessToolsAnalytics({
                     outerRadius={80}
                     dataKey="value"
                     label
-                    fontSize={12}
+                    fontSize={10}
                   >
                     {businessToolsData[selectedBusinessTool as keyof typeof businessToolsData].map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
                   </Pie>
                   <ChartTooltip content={<ChartTooltipContent />} />
@@ -119,29 +118,29 @@ export function BusinessToolsAnalytics({
 
           {/* Legend and Stats */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-slate-900 capitalize">
+            <h4 className="text-lg font-semibold capitalize">
               {selectedBusinessTool.replace('-', ' ')} Overview
             </h4>
             <div className="space-y-3">
               {businessToolsData[selectedBusinessTool as keyof typeof businessToolsData].map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-3">
                     <div 
                       className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: CHART_COLORS[index % CHART_COLORS.length] }}
+                      style={{ backgroundColor: item.color }}
                     />
-                    <span className="font-medium text-slate-700">{item.name}</span>
+                    <span className="font-medium">{item.name}</span>
                   </div>
-                  <span className="text-lg font-semibold text-slate-900 tracking-tight" style={{ fontVariantNumeric: 'tabular-nums' }}>{item.value}</span>
+                  <span className="text-lg font-bold">{item.value}</span>
                 </div>
               ))}
             </div>
-            <div className="mt-4 p-4 bg-slate-50 rounded-lg">
+            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
               <div className="flex items-center space-x-2">
-                <BarChart3 className="h-5 w-5 text-slate-700" />
-                <span className="font-medium text-slate-700">Total Items</span>
+                <BarChart3 className="h-5 w-5 text-blue-600" />
+                <span className="font-medium text-blue-800">Total Items</span>
               </div>
-              <span className="text-2xl font-semibold text-slate-900 tracking-tight" style={{ fontVariantNumeric: 'tabular-nums' }}>
+              <span className="text-2xl font-bold text-blue-900">
                 {businessToolsData[selectedBusinessTool as keyof typeof businessToolsData].reduce((sum, item) => sum + item.value, 0)}
               </span>
             </div>

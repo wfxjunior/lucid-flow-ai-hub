@@ -1,13 +1,6 @@
 
-import React from 'react';
+import { AuthContainer } from '@/components/auth/AuthContainer'
 
 export default function Auth() {
-  return (
-    <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold text-center mb-8">Authentication</h1>
-        <p className="text-center text-gray-600">Authentication page.</p>
-      </div>
-    </div>
-  );
+  return <AuthContainer />
 }

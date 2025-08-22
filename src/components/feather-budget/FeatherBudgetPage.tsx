@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { TrendingUp, Target, Brain } from "lucide-react"
+import { PiggyBank, TrendingUp, Target, Brain, AlertTriangle } from "lucide-react"
 import { ExpenseTracker } from './ExpenseTracker'
 import { SavingsGoals } from './SavingsGoals'
 import { BudgetInsights } from './BudgetInsights'
@@ -17,8 +17,11 @@ export function FeatherBudgetPage() {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
+          <div className="p-3 bg-emerald-100 dark:bg-emerald-900/20 rounded-lg">
+            <PiggyBank className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+          </div>
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Personal Budget Manager</h1>
+            <h1 className="text-3xl font-bold text-foreground">FeatherBudget AI</h1>
             <p className="text-muted-foreground">Smart personal finance tracking with AI insights</p>
           </div>
         </div>
@@ -48,6 +51,7 @@ export function FeatherBudgetPage() {
           <Card>
             <CardContent className="p-4">
               <div className="flex items-center gap-2">
+                <PiggyBank className="h-4 w-4 text-green-500" />
                 <span className="text-sm font-medium">Savings</span>
               </div>
               <p className="text-2xl font-bold">$2,345.00</p>

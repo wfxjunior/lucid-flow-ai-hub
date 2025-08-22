@@ -1,113 +1,87 @@
-
+import { PricingPlans } from "@/components/PricingPlans"
+import { SubscriptionStatus } from "@/components/pricing/SubscriptionStatus"
+import { useSubscription } from "@/hooks/useSubscription"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Check, Crown } from "lucide-react"
+import { Crown, Star, Zap } from "lucide-react"
 
 interface UpgradeProps {
   onNavigate?: (view: string) => void
 }
 
 export default function Upgrade({ onNavigate }: UpgradeProps) {
-  const handleUpgrade = () => {
-    console.log("Upgrade clicked")
-    // Handle upgrade logic here
-  }
-
-  const handleBackToDashboard = () => {
-    if (onNavigate) {
-      onNavigate('dashboard')
-    }
-  }
-
-  const features = [
-    "Unlimited invoices and estimates",
-    "AI voice assistant", 
-    "Advanced analytics and reporting",
-    "Priority customer support",
-    "Custom branding",
-    "Multiple team members"
-  ]
+  const { isSubscribed, planName } = useSubscription()
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="text-center mb-8">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Crown className="h-8 w-8 text-yellow-500" />
-          <h1 className="text-3xl font-bold">Upgrade to Professional</h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-6 sm:mb-8 px-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+            {isSubscribed ? "Manage Subscription" : "Upgrade Plan"}
+          </h1>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            {isSubscribed 
+              ? "Manage your subscription and enjoy all premium FeatherBiz features"
+              : "Unlock the full potential of FeatherBiz with our premium plans"
+            }
+          </p>
         </div>
-        <p className="text-lg text-muted-foreground">
-          Unlock all premium features and take your business to the next level
-        </p>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Current Plan */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Badge variant="secondary">Current</Badge>
-              Free Plan
-            </CardTitle>
-            <CardDescription>
-              Basic features for getting started
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold mb-4">$0<span className="text-lg font-normal">/month</span></div>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-green-500" />
-                Up to 5 invoices per month
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-green-500" />
-                Basic customer management
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-green-500" />
-                Email support
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
+        {/* Current Subscription Status */}
+        <div className="max-w-2xl mx-auto mb-8 sm:mb-12 px-2">
+          <SubscriptionStatus onNavigate={onNavigate} />
+        </div>
 
-        {/* Professional Plan */}
-        <Card className="border-2 border-blue-500">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Badge className="bg-blue-500">
-                <Crown className="h-3 w-3 mr-1" />
-                Recommended
-              </Badge>
-              Professional Plan
-            </CardTitle>
-            <CardDescription>
-              Everything you need to run your business
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold mb-4">$29<span className="text-lg font-normal">/month</span></div>
-            <ul className="space-y-2 text-sm mb-6">
-              {features.map((feature, index) => (
-                <li key={index} className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-green-500" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <Button onClick={handleUpgrade} className="w-full" size="lg">
-              <Crown className="h-4 w-4 mr-2" />
-              Upgrade Now
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+        {/* Features Overview */}
+        {!isSubscribed && (
+          <div className="max-w-4xl mx-auto mb-8 sm:mb-12 px-2">
+            <Card>
+              <CardHeader className="text-center sm:text-left">
+                <CardTitle className="flex items-center justify-center sm:justify-start gap-2 text-lg sm:text-xl">
+                  <Crown className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-500" />
+                  Why upgrade to Professional?
+                </CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  See everything you get with the Professional plan
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  <div className="text-center">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                      <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                    </div>
+                    <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Unlimited Resources</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Invoices, estimates, contracts and projects without limits
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                      <Star className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
+                    </div>
+                    <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">AI Assistant</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Voice AI assistant to automate tasks
+                    </p>
+                  </div>
+                  <div className="text-center sm:col-span-2 lg:col-span-1">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                      <Crown className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
+                    </div>
+                    <h3 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Premium Support</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Priority support and all integrations
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
-      <div className="text-center mt-8">
-        <Button variant="outline" onClick={handleBackToDashboard}>
-          Back to Dashboard
-        </Button>
+        {/* Pricing Plans */}
+        <PricingPlans />
       </div>
     </div>
   )

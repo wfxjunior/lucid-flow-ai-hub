@@ -51,30 +51,28 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
     return () => clearTimeout(timer)
   }, [delay, value, title, t])
 
-  const changeColor = trend === "up" ? "text-slate-700" : trend === "down" ? "text-slate-700" : "text-slate-500"
+  const changeColor = trend === "up" ? "text-success" : trend === "down" ? "text-destructive" : "text-muted-foreground"
 
   return (
-    <Card className="bg-white border border-slate-200 rounded-xl hover:shadow-sm transition-shadow duration-200">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-slate-50 rounded-lg">
-              <Icon className="h-5 w-5 text-slate-700" />
-            </div>
-          </div>
-          <div className="text-right">
-            <div className="text-2xl font-semibold text-slate-900 mb-1 tracking-tight" style={{ fontVariantNumeric: 'tabular-nums' }}>
-              {displayValue}
-            </div>
-            <p className="text-sm text-slate-500 font-medium mb-1">
-              {title}
-            </p>
-            <p className={`text-sm font-medium ${changeColor}`}>
-              {change === "--" ? `+12%` : change}
-            </p>
+    <Card className="bg-card border border-border rounded-2xl p-6 transition-all duration-200 hover:shadow-sm">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-accent rounded-lg">
+            <Icon className="h-5 w-5 text-accent-foreground" />
           </div>
         </div>
-      </CardContent>
+        <div className="text-right">
+          <div className="text-2xl font-semibold text-foreground mb-1">
+            {displayValue}
+          </div>
+          <p className="text-xs text-muted-foreground mb-1">
+            {title}
+          </p>
+          <p className={`text-xs font-medium ${changeColor}`}>
+            {change === "--" ? `+12%` : change}
+          </p>
+        </div>
+      </div>
     </Card>
   )
 }
