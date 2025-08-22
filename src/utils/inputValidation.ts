@@ -1,4 +1,3 @@
-
 // Enhanced Input Validation and Sanitization utilities
 import DOMPurify from 'dompurify'
 import { securityEvent, secureError } from './security'
@@ -71,6 +70,23 @@ export const sanitizeInput = (input: string, type: keyof typeof INPUT_LIMITS = '
   return sanitized
 }
 
+// Enhanced email validation - export this function
+export const validateEmail = (email: string): { isValid: boolean; error?: string } => {
+  if (!email) return { isValid: false, error: 'Email is required' }
+  
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+  
+  if (!emailRegex.test(email)) {
+    return { isValid: false, error: 'Please enter a valid email address' }
+  }
+  
+  if (email.length > 254) {
+    return { isValid: false, error: 'Email address is too long' }
+  }
+  
+  return { isValid: true }
+}
+
 // Enhanced validation with security logging
 export const validateInput = (
   value: string, 
@@ -97,9 +113,11 @@ export const validateInput = (
   // Type-specific validation
   switch (type) {
     case 'email':
-      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-      if (sanitizedValue && !emailRegex.test(sanitizedValue)) {
-        errors.push('Please enter a valid email address')
+      if (sanitizedValue) {
+        const emailValidation = validateEmail(sanitizedValue)
+        if (!emailValidation.isValid && emailValidation.error) {
+          errors.push(emailValidation.error)
+        }
       }
       break
       
