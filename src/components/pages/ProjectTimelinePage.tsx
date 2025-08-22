@@ -14,36 +14,36 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
   const [projects] = useState([
     {
       id: 1,
-      name: "Casa Silva - Reforma Completa",
-      client: "João Silva",
-      status: "Em Andamento",
+      name: "Silva House - Complete Renovation",
+      client: "John Silva",
+      status: "In Progress",
       progress: 65,
       startDate: "2024-01-15",
       endDate: "2024-03-30",
-      location: "São Paulo, SP",
+      location: "New York, NY",
       team: ["Carlos", "Maria", "José"],
       tasks: [
-        { name: "Demolição", status: "completed", date: "2024-01-20" },
-        { name: "Fundação", status: "completed", date: "2024-02-10" },
-        { name: "Estrutura", status: "in-progress", date: "2024-02-25" },
-        { name: "Acabamento", status: "pending", date: "2024-03-15" }
+        { name: "Demolition", status: "completed", date: "2024-01-20" },
+        { name: "Foundation", status: "completed", date: "2024-02-10" },
+        { name: "Structure", status: "in-progress", date: "2024-02-25" },
+        { name: "Finishing", status: "pending", date: "2024-03-15" }
       ]
     },
     {
       id: 2,
-      name: "Escritório Tech - Fit Out",
+      name: "Tech Office - Fit Out",
       client: "TechCorp",
-      status: "Iniciando",
+      status: "Starting",
       progress: 20,
       startDate: "2024-02-01",
       endDate: "2024-04-15",
-      location: "Rio de Janeiro, RJ",
+      location: "Los Angeles, CA",
       team: ["Ana", "Pedro", "Lucas"],
       tasks: [
-        { name: "Planejamento", status: "completed", date: "2024-02-05" },
-        { name: "Compra de Materiais", status: "in-progress", date: "2024-02-12" },
-        { name: "Instalação", status: "pending", date: "2024-02-20" },
-        { name: "Finalização", status: "pending", date: "2024-04-10" }
+        { name: "Planning", status: "completed", date: "2024-02-05" },
+        { name: "Material Purchase", status: "in-progress", date: "2024-02-12" },
+        { name: "Installation", status: "pending", date: "2024-02-20" },
+        { name: "Completion", status: "pending", date: "2024-04-10" }
       ]
     }
   ])
@@ -70,12 +70,12 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Timeline de Projetos</h1>
-          <p className="text-muted-foreground mt-2">Acompanhe o progresso de todos os seus projetos</p>
+          <h1 className="text-3xl font-bold text-foreground">Project Timeline</h1>
+          <p className="text-muted-foreground mt-2">Track the progress of all your projects</p>
         </div>
         <Button onClick={() => onNavigate('projects')} className="flex items-center gap-2">
           <Plus className="h-4 w-4" />
-          Novo Projeto
+          New Project
         </Button>
       </div>
 
@@ -97,7 +97,7 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
                     </span>
                   </CardDescription>
                 </div>
-                <Badge variant={project.status === "Em Andamento" ? "default" : "secondary"}>
+                <Badge variant={project.status === "In Progress" ? "default" : "secondary"}>
                   {project.status}
                 </Badge>
               </div>
@@ -106,7 +106,7 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
             <CardContent className="space-y-6">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">Progresso Geral</span>
+                  <span className="text-sm font-medium">Overall Progress</span>
                   <span className="text-sm text-muted-foreground">{project.progress}%</span>
                 </div>
                 <Progress value={project.progress} className="h-2" />
@@ -114,21 +114,21 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-semibold mb-3">Cronograma</h4>
+                  <h4 className="font-semibold mb-3">Schedule</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span>Início: {new Date(project.startDate).toLocaleDateString('pt-BR')}</span>
+                      <span>Start: {new Date(project.startDate).toLocaleDateString('en-US')}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span>Previsão: {new Date(project.endDate).toLocaleDateString('pt-BR')}</span>
+                      <span>Expected: {new Date(project.endDate).toLocaleDateString('en-US')}</span>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="font-semibold mb-3">Equipe</h4>
+                  <h4 className="font-semibold mb-3">Team</h4>
                   <div className="flex flex-wrap gap-1">
                     {project.team.map((member, index) => (
                       <Badge key={index} variant="outline" className="text-xs">
@@ -140,7 +140,7 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-3">Etapas do Projeto</h4>
+                <h4 className="font-semibold mb-3">Project Stages</h4>
                 <div className="space-y-3">
                   {project.tasks.map((task, index) => (
                     <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
@@ -151,7 +151,7 @@ export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
                           <span className="font-medium">{task.name}</span>
                         </div>
                         <p className="text-sm text-muted-foreground mt-1">
-                          {new Date(task.date).toLocaleDateString('pt-BR')}
+                          {new Date(task.date).toLocaleDateString('en-US')}
                         </p>
                       </div>
                     </div>

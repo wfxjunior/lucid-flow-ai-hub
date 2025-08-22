@@ -2,8 +2,9 @@
 import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { TrendingUp, TrendingDown, DollarSign, CreditCard, PieChart, BarChart3, Plus, Eye } from 'lucide-react'
+import { DollarSign, TrendingUp, CreditCard, Receipt, Plus, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 
 interface FinancePageProps {
   onNavigate: (view: string) => void
@@ -11,217 +12,163 @@ interface FinancePageProps {
 
 export function FinancePage({ onNavigate }: FinancePageProps) {
   const [financialData] = useState({
-    totalReceita: 125000,
-    totalDespesas: 85000,
-    lucroLiquido: 40000,
-    contasReceber: 35000,
-    contasPagar: 22000,
-    fluxoCaixa: 13000,
-    crescimentoMensal: 8.5,
-    margemLucro: 32
+    totalRevenue: 45780,
+    monthlyGrowth: 12.5,
+    totalExpenses: 23450,
+    netProfit: 22330,
+    pendingInvoices: 8920,
+    paidInvoices: 36860,
+    recentTransactions: [
+      { id: 1, type: 'income', description: 'Payment from TechCorp', amount: 5000, date: '2024-02-15', status: 'completed' },
+      { id: 2, type: 'expense', description: 'Office rent', amount: 2500, date: '2024-02-14', status: 'completed' },
+      { id: 3, type: 'income', description: 'Consulting services', amount: 3200, date: '2024-02-13', status: 'completed' },
+      { id: 4, type: 'expense', description: 'Equipment purchase', amount: 1800, date: '2024-02-12', status: 'pending' }
+    ]
   })
 
-  const [transacoes] = useState([
-    { id: 1, tipo: "Receita", descricao: "Pagamento - Casa Silva", valor: 15000, data: "2024-02-15", status: "Confirmado" },
-    { id: 2, tipo: "Despesa", descricao: "Compra de Materiais", valor: -8500, data: "2024-02-14", status: "Pago" },
-    { id: 3, tipo: "Receita", descricao: "Sinal - Projeto TechCorp", valor: 25000, data: "2024-02-12", status: "Pendente" },
-    { id: 4, tipo: "Despesa", descricao: "Salários da Equipe", valor: -12000, data: "2024-02-10", status: "Pago" },
-    { id: 5, tipo: "Receita", descricao: "Consultoria Arquitetônica", valor: 5500, data: "2024-02-08", status: "Confirmado" }
-  ])
+  const getTransactionIcon = (type: string) => {
+    return type === 'income' ? (
+      <ArrowUpRight className="h-4 w-4 text-green-600" />
+    ) : (
+      <ArrowDownRight className="h-4 w-4 text-red-600" />
+    )
+  }
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(Math.abs(value))
+  const getTransactionColor = (type: string) => {
+    return type === 'income' ? 'text-green-600' : 'text-red-600'
   }
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Centro Financeiro</h1>
-          <p className="text-muted-foreground mt-2">Visão completa das suas finanças empresariais</p>
+          <h1 className="text-3xl font-bold text-foreground">Financial Overview</h1>
+          <p className="text-muted-foreground mt-2">Track your business finances and performance</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => onNavigate('feather-budget')}>
-            <PieChart className="h-4 w-4 mr-2" />
-            Orçamentos
+          <Button onClick={() => onNavigate('invoices')} variant="outline" className="flex items-center gap-2">
+            <Receipt className="h-4 w-4" />
+            View Invoices
           </Button>
-          <Button onClick={() => onNavigate('accounting')}>
-            <Plus className="h-4 w-4 mr-2" />
-            Nova Transação
+          <Button onClick={() => onNavigate('invoice-creator')} className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            New Invoice
           </Button>
         </div>
       </div>
 
-      {/* Cards de Resumo Financeiro */}
+      {/* Financial Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Receita Total</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">
-              {formatCurrency(financialData.totalReceita)}
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
-              +{financialData.crescimentoMensal}% este mês
+            <div className="text-2xl font-bold">${financialData.totalRevenue.toLocaleString()}</div>
+            <div className="flex items-center text-xs text-green-600 mt-1">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              +{financialData.monthlyGrowth}% from last month
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Despesas Totais</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">
-              {formatCurrency(financialData.totalDespesas)}
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <TrendingDown className="h-3 w-3 mr-1 text-red-500" />
-              -2.1% este mês
-            </div>
+            <div className="text-2xl font-bold">${financialData.totalExpenses.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Operational costs this month
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Lucro Líquido</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">
-              {formatCurrency(financialData.lucroLiquido)}
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              Margem: {financialData.margemLucro}%
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Fluxo de Caixa</CardTitle>
+            <CardTitle className="text-sm font-medium">Net Profit</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-emerald-600">
-              {formatCurrency(financialData.fluxoCaixa)}
-            </div>
-            <div className="text-xs text-muted-foreground mt-1">
-              Saldo disponível
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Seção de Contas a Receber e Pagar */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-green-600">Contas a Receber</CardTitle>
-            <CardDescription>Valores pendentes de clientes</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold mb-4">
-              {formatCurrency(financialData.contasReceber)}
-            </div>
-            <Progress value={75} className="mb-2" />
-            <p className="text-sm text-muted-foreground">75% previsto para este mês</p>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="mt-4"
-              onClick={() => onNavigate('payments')}
-            >
-              <Eye className="h-4 w-4 mr-2" />
-              Ver Detalhes
-            </Button>
+            <div className="text-2xl font-bold text-green-600">${financialData.netProfit.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              After all expenses
+            </p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-red-600">Contas a Pagar</CardTitle>
-            <CardDescription>Compromissos financeiros pendentes</CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
+            <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold mb-4">
-              {formatCurrency(financialData.contasPagar)}
-            </div>
-            <Progress value={60} className="mb-2" />
-            <p className="text-sm text-muted-foreground">60% vence este mês</p>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="mt-4"
-              onClick={() => onNavigate('expenses')}
-            >
-              <Eye className="h-4 w-4 mr-2" />
-              Ver Detalhes
-            </Button>
+            <div className="text-2xl font-bold text-orange-600">${financialData.pendingInvoices.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Awaiting payment
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Transações Recentes */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Transações Recentes</CardTitle>
-          <CardDescription>Últimas movimentações financeiras</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {transacoes.map((transacao) => (
-              <div key={transacao.id} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="flex items-center gap-4">
-                  <div className={`w-3 h-3 rounded-full ${
-                    transacao.tipo === 'Receita' ? 'bg-green-500' : 'bg-red-500'
-                  }`} />
-                  <div>
-                    <p className="font-medium">{transacao.descricao}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(transacao.data).toLocaleDateString('pt-BR')} • {transacao.status}
+      {/* Payment Status Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Payment Status</CardTitle>
+            <CardDescription>Overview of invoice payments</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Paid Invoices</span>
+                <span className="font-medium">${financialData.paidInvoices.toLocaleString()}</span>
+              </div>
+              <Progress value={80} className="h-2" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Pending Invoices</span>
+                <span className="font-medium">${financialData.pendingInvoices.toLocaleString()}</span>
+              </div>
+              <Progress value={20} className="h-2" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Transactions</CardTitle>
+            <CardDescription>Latest financial activities</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {financialData.recentTransactions.map((transaction) => (
+                <div key={transaction.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                  <div className="flex items-center gap-3">
+                    {getTransactionIcon(transaction.type)}
+                    <div>
+                      <p className="font-medium text-sm">{transaction.description}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(transaction.date).toLocaleDateString('en-US')}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className={`font-medium ${getTransactionColor(transaction.type)}`}>
+                      {transaction.type === 'income' ? '+' : '-'}${transaction.amount.toLocaleString()}
                     </p>
+                    <Badge variant={transaction.status === 'completed' ? 'default' : 'secondary'} className="text-xs">
+                      {transaction.status}
+                    </Badge>
                   </div>
                 </div>
-                <div className={`text-lg font-bold ${
-                  transacao.valor > 0 ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {transacao.valor > 0 ? '+' : ''}{formatCurrency(transacao.valor)}
-                </div>
-              </div>
-            ))}
-          </div>
-          <Button variant="outline" className="w-full mt-4" onClick={() => onNavigate('accounting')}>
-            Ver Todas as Transações
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* Links Rápidos */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Button variant="outline" onClick={() => onNavigate('feather-tax')} className="h-20 flex-col">
-          <div className="text-2xl mb-1">📊</div>
-          <span>FeatherTax</span>
-        </Button>
-        <Button variant="outline" onClick={() => onNavigate('receipts')} className="h-20 flex-col">
-          <div className="text-2xl mb-1">🧾</div>
-          <span>Recibos</span>
-        </Button>
-        <Button variant="outline" onClick={() => onNavigate('easy-calc')} className="h-20 flex-col">
-          <div className="text-2xl mb-1">🧮</div>
-          <span>EasyCalc</span>
-        </Button>
-        <Button variant="outline" onClick={() => onNavigate('quotes')} className="h-20 flex-col">
-          <div className="text-2xl mb-1">💰</div>
-          <span>Cotações</span>
-        </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
