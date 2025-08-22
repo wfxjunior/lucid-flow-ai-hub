@@ -1,6 +1,9 @@
 
 import { BusinessDashboard } from '@/components/BusinessDashboard';
+import { useNavigate } from 'react-router-dom';
 
 export function Dashboard() {
-  return <BusinessDashboard />;
+  const navigate = useNavigate();
+
+  return <BusinessDashboard onNavigate={(path) => navigate(path)} />;
 }

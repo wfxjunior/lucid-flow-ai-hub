@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Routes,
@@ -6,7 +7,7 @@ import {
 import { Toaster } from "sonner";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./utils/queryClient";
-import { Auth } from "./pages/Auth";
+import Auth from "./pages/Auth";
 import { AuthGuard } from "./components/AuthGuard";
 import { Dashboard } from "./pages/Dashboard";
 import { ClientsPage } from "./components/ClientsPage";
@@ -18,7 +19,6 @@ import { MeetingsPage } from "./pages/MeetingsPage";
 import { BusinessSettings } from "./pages/BusinessSettings";
 import { ProfilePage } from "./pages/ProfilePage";
 import { useEffect } from "react";
-import { QueryClient } from "@tanstack/react-query";
 import { ErrorBoundary } from '@/components/security/ErrorBoundary';
 import { SessionTimeoutManager } from '@/components/security/SessionTimeoutManager';
 import { SecurityAuditLogger } from '@/components/security/SecurityAuditLogger';
