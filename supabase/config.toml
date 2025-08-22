@@ -1,3 +1,4 @@
+
 project_id = "tvdromfazjzargvesruq"
 
 [api]
@@ -26,7 +27,7 @@ enable_confirmations = false
 host = "smtp.resend.com"
 port = 587
 user = "resend"
-admin_email = "admin@featherbiz.io"
+admin_email = "hello@featherbiz.io"
 sender_name = "FeatherBiz"
 
 [auth.sms]
