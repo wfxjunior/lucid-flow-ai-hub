@@ -1,70 +1,78 @@
 
-// Content Security Policy and Security Headers
-
+// Content Security Policy and security headers
 export const applySecurityHeaders = () => {
-  // Apply CSP via meta tag since we can't modify server headers directly
-  const existingMeta = document.querySelector('meta[http-equiv="Content-Security-Policy"]')
-  if (!existingMeta) {
-    const meta = document.createElement('meta')
-    meta.httpEquiv = 'Content-Security-Policy'
-    meta.content = [
+  // Apply CSP via meta tag if not already set by server
+  if (!document.querySelector('meta[http-equiv="Content-Security-Policy"]')) {
+    const cspMeta = document.createElement('meta')
+    cspMeta.httpEquiv = 'Content-Security-Policy'
+    cspMeta.content = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://apis.google.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://checkout.stripe.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "connect-src 'self' https://*.supabase.co https://api.openai.com https://api.stripe.com wss://*.supabase.co",
-      "frame-src 'self' https://js.stripe.com",
-      "object-src 'none'",
+      "connect-src 'self' https://api.stripe.com https://*.supabase.co wss://*.supabase.co",
+      "frame-src 'self' https://js.stripe.com https://checkout.stripe.com",
+      "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'"
     ].join('; ')
-    document.head.appendChild(meta)
+    
+    document.head.appendChild(cspMeta)
   }
 
-  // Apply additional security headers via meta tags where possible
+  // Apply additional security headers via meta tags
   const securityMetas = [
     { httpEquiv: 'X-Content-Type-Options', content: 'nosniff' },
     { httpEquiv: 'X-Frame-Options', content: 'DENY' },
-    { httpEquiv: 'Referrer-Policy', content: 'strict-origin-when-cross-origin' }
+    { httpEquiv: 'Referrer-Policy', content: 'strict-origin-when-cross-origin' },
+    { httpEquiv: 'Permissions-Policy', content: 'camera=(), microphone=(), location=(), payment=()' }
   ]
 
-  securityMetas.forEach(({ httpEquiv, content }) => {
-    if (!document.querySelector(`meta[http-equiv="${httpEquiv}"]`)) {
-      const meta = document.createElement('meta')
-      meta.httpEquiv = httpEquiv
-      meta.content = content
-      document.head.appendChild(meta)
+  securityMetas.forEach(meta => {
+    if (!document.querySelector(`meta[http-equiv="${meta.httpEquiv}"]`)) {
+      const metaElement = document.createElement('meta')
+      metaElement.httpEquiv = meta.httpEquiv
+      metaElement.content = meta.content
+      document.head.appendChild(metaElement)
     }
   })
 }
 
-// Validate external URLs before navigation
-export const validateExternalUrl = (url: string): boolean => {
-  try {
-    const urlObj = new URL(url)
-    
-    // Block dangerous protocols
-    const allowedProtocols = ['http:', 'https:', 'mailto:', 'tel:']
-    if (!allowedProtocols.includes(urlObj.protocol)) {
-      return false
-    }
-    
-    // Block suspicious patterns
-    const suspiciousPatterns = [
-      /javascript:/i,
-      /vbscript:/i,
-      /data:/i,
-      /file:/i
-    ]
-    
-    return !suspiciousPatterns.some(pattern => pattern.test(url))
-  } catch {
+// Validate that we're running on expected domain
+export const validateDomain = () => {
+  const allowedDomains = [
+    'localhost',
+    '127.0.0.1',
+    'featherbiz.io',
+    'www.featherbiz.io',
+    'lovable.app'
+  ]
+
+  const currentDomain = window.location.hostname
+  
+  if (!allowedDomains.some(domain => 
+    currentDomain === domain || currentDomain.endsWith(`.${domain}`)
+  )) {
+    console.warn('Application running on unexpected domain:', currentDomain)
     return false
   }
+
+  return true
 }
 
-// Secure iframe sandbox attributes
-export const getSecureIframeSandbox = (): string => {
-  return 'allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox'
+// XSS protection utilities
+export const sanitizeHTML = (html: string): string => {
+  const div = document.createElement('div')
+  div.textContent = html
+  return div.innerHTML
+}
+
+export const escapeHTML = (unsafe: string): string => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
 }

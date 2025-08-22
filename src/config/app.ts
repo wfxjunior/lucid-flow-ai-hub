@@ -1,4 +1,3 @@
-
 export const APP = {
   url: import.meta.env.VITE_APP_URL || "https://featherbiz.io",
   www: "https://www.featherbiz.io",
@@ -11,9 +10,10 @@ export const APP = {
   },
   stripe: {
     mode: import.meta.env.VITE_STRIPE_MODE || "test",
+    // Only keep public key in frontend - secret keys moved to backend
     pk: import.meta.env.VITE_STRIPE_PUBLIC_KEY,
-    sk: import.meta.env.VITE_STRIPE_SECRET_KEY,
-    wh: import.meta.env.VITE_STRIPE_WEBHOOK_SECRET,
+    // SECURITY FIX: Removed hardcoded secret keys from frontend
+    // These are now handled securely in Supabase edge functions
   }
 };
 
