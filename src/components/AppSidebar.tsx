@@ -1,220 +1,181 @@
-import { 
+
+import React from "react"
+import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
+import {
   Sidebar,
   SidebarContent,
-  SidebarSeparator,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
 } from "@/components/ui/sidebar"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { useUserRole } from "@/hooks/useUserRole"
-import { useLanguage } from "@/contexts/LanguageContext"
-import { SidebarHeader } from "@/components/sidebar/SidebarHeader"
-import { SidebarMenuSection } from "@/components/sidebar/SidebarMenuSection"
-import { SidebarFooter } from "@/components/sidebar/SidebarFooter"
-import { AllFeaturesDialog } from "@/components/AllFeaturesDialog"
-import { HelpCenter } from "@/components/HelpCenter"
-import { 
-  LayoutDashboard, Users, Calendar, FileText, ListTodo, MessageSquare, Settings, 
-  Store, PiggyBank, Wallet, File, CheckCircle, ClipboardList, Mic, CreditCard, 
-  Signature, Calculator, BarChart3, Grid, Truck, Wrench, Package, UserCheck,
-  DollarSign, Heart, FileCheck, Building, Briefcase, StickyNote, Video,
-  TrendingUp, Shield, HelpCircle, MessageCircleQuestion, Star, Zap, Receipt, Mail,
-  Building2, Banknote, Target, CircleDollarSign, Bot, Boxes
-} from "lucide-react"
+import { SidebarMenuSection } from "./sidebar/SidebarMenuSection"
+import { MenuItem } from "./sidebar/types"
 
 interface AppSidebarProps {
   activeView: string
   setActiveView: (view: string) => void
 }
 
+// Define menu sections with their items
+const generalItems: MenuItem[] = [
+  { title: "Dashboard", icon: Home, view: "dashboard" },
+  { title: "Careers", icon: Users, view: "careers" }
+]
+
+const coreBusinessItems: MenuItem[] = [
+  { title: "Customers", icon: Users, view: "customers" },
+  { title: "Projects", icon: Briefcase, view: "projects" },
+  { title: "Project Timeline", icon: Calendar, view: "project-timeline" },
+  { title: "Tours", icon: Building, view: "tours" },
+  { title: "Growth", icon: TrendingUp, view: "growth" },
+  { title: "Automations", icon: Zap, view: "automations" },
+  { title: "Pipeline", icon: Target, view: "pipeline" },
+  { title: "Smart Schedule", icon: Clock, view: "smart-schedule" }
+]
+
+const financialItems: MenuItem[] = [
+  { title: "Finance", icon: PiggyBank, view: "finance" },
+  { title: "FeatherBudget AI", icon: PiggyBank, view: "feather-budget" },
+  { title: "FeatherTax", icon: Calculator, view: "feather-tax" },
+  { title: "EasyCalc", icon: Calculator, view: "easy-calc" },
+  { title: "Receipts", icon: Receipt, view: "receipts" },
+  { title: "Accounting", icon: FileSpreadsheet, view: "accounting" },
+  { title: "Quotes", icon: Clipboard, view: "quotes" }
+]
+
+const operationsItems: MenuItem[] = [
+  { title: "Car Rental", icon: Car, view: "car-rental" },
+  { title: "Work Orders", icon: Package, view: "work-orders" },
+  { title: "MatTrack", icon: Package, view: "mat-track" },
+  { title: "CrewControl", icon: UserCheck, view: "crew-control" },
+  { title: "EarnSync", icon: DollarSign, view: "earnsync" },
+  { title: "AfterCare", icon: Heart, view: "aftercare" }
+]
+
+const documentsItems: MenuItem[] = [
+  { title: "FeatherForms", icon: FileText, view: "feather-forms" },
+  { title: "Sales Orders", icon: TrendingUp, view: "sales-orders" },
+  { title: "Business Proposals", icon: Clipboard, view: "business-proposals" },
+  { title: "Bids", icon: DollarSign, view: "bids" },
+  { title: "Contracts", icon: PenTool, view: "contracts" }
+]
+
+const productivityItems: MenuItem[] = [
+  { title: "Meetings", icon: Video, view: "meetings" },
+  { title: "Todo List", icon: CheckSquare, view: "todo-list" },
+  { title: "Notes", icon: StickyNote, view: "notes" },
+  { title: "Appointments", icon: Calendar, view: "appointments" }
+]
+
+const communicationItems: MenuItem[] = [
+  { title: "Messages", icon: MessageSquare, view: "messages" },
+  { title: "Email Center", icon: Mail, view: "email-center" }
+]
+
+const analyticsItems: MenuItem[] = [
+  { title: "Analytics", icon: BarChart3, view: "analytics" }
+]
+
+const systemItems: MenuItem[] = [
+  { title: "Settings", icon: Settings, view: "settings" },
+  { title: "Admin Panel", icon: Settings, view: "admin-panel" }
+]
+
 export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
-  const { t } = useLanguage()
-  const { isAdmin } = useUserRole()
-  
   const handleMenuClick = (view: string) => {
+    console.log('Sidebar: Navigating to', view)
     setActiveView(view)
   }
 
-  // Main Features
-  const mainFeatures = [
-    { title: t("sidebar.mainFeatures.dashboard", "Dashboard"), view: "dashboard", icon: LayoutDashboard },
-    { title: t("sidebar.mainFeatures.aiVoice", "AI Voice"), view: "ai-voice", icon: Mic },
-    { title: t("sidebar.mainFeatures.invoices", "Invoices"), view: "invoices", icon: FileText },
-    { title: t("sidebar.mainFeatures.estimates", "Estimates"), view: "estimates", icon: Calculator },
-    { title: t("sidebar.mainFeatures.payments", "Payments"), view: "payments" },
-    { title: t("sidebar.mainFeatures.esignatures", "E-Signatures"), view: "e-signatures", icon: Signature },
-  ]
-
-  // Core Business
-  const coreBusinessItems = [
-    { title: t("sidebar.coreBusiness.customers", "Customers"), view: "customers", icon: Users },
-    { title: t("sidebar.coreBusiness.projects", "Projects"), view: "projects", icon: Briefcase },
-    // Use ListTodo for Project Timeline
-    { title: t("sidebar.coreBusiness.projectTimeline", "Project Timeline"), view: "project-timeline", icon: ListTodo },
-    { title: t("sidebar.coreBusiness.pipeline", "Pipeline"), view: "pipeline", icon: TrendingUp },
-    { title: t("sidebar.coreBusiness.smartSchedule", "Smart Schedule"), view: "smart-schedule", icon: Calendar },
-  ]
-
-  // Financial Tools
-  const financialItems = [
-    { title: t("sidebar.financialTools.featherBudget", "FeatherBudget"), view: "feather-budget", icon: PiggyBank },
-    { title: t("sidebar.financialTools.featherTax", "FeatherTax"), view: "feather-tax", icon: FileCheck },
-    { title: t("sidebar.financialTools.easyCalc", "EasyCalc"), view: "easy-calc", icon: Calculator },
-    { title: t("sidebar.financialTools.receipts", "Receipts"), view: "receipts", icon: Receipt },
-    { title: t("sidebar.financialTools.accounting", "Accounting"), view: "accounting", icon: Banknote },
-    { title: t("sidebar.financialTools.quotes", "Quotes"), view: "quotes", icon: FileText },
-  ]
-
-  // Operations
-  const operationsItems = [
-    { title: t("sidebar.operations.carRental", "Car Rental"), view: "car-rental", icon: Truck },
-    { title: t("sidebar.operations.workOrders", "Work Orders"), view: "work-orders", icon: Wrench },
-    { title: t("sidebar.operations.matTrack", "MatTrack"), view: "mat-track", icon: Boxes },
-    { title: t("sidebar.operations.crewControl", "Crew Control"), view: "crew-control", icon: UserCheck },
-    { title: t("sidebar.operations.earnsync", "EarnSync"), view: "earnsync", icon: DollarSign },
-    { title: t("sidebar.operations.aftercare", "AfterCare"), view: "aftercare", icon: Heart },
-  ]
-
-  // Documents & Forms
-  const documentsItems = [
-    { title: t("sidebar.documents.featherForms", "FeatherForms"), view: "feather-forms", icon: ClipboardList },
-    { title: t("sidebar.documents.salesOrders", "Sales Orders"), view: "sales-orders", icon: Store },
-    { title: t("sidebar.documents.businessProposals", "Business Proposals"), view: "business-proposals", icon: Building2 },
-    { title: t("sidebar.documents.bids", "Bids"), view: "bids", icon: Zap },
-    { title: t("sidebar.documents.contracts", "Contracts"), view: "contracts", icon: File },
-  ]
-
-  // Productivity
-  const productivityItems = [
-    { title: t("sidebar.productivity.meetings", "Meetings"), view: "meetings", icon: Video },
-    { title: t("sidebar.productivity.todoList", "Todo List"), view: "todo-list", icon: ListTodo },
-    { title: t("sidebar.productivity.notes", "Notes"), view: "notes", icon: StickyNote },
-    { title: t("sidebar.productivity.appointments", "Appointments"), view: "appointments", icon: Calendar },
-  ]
-
-  // Communication
-  const communicationItems = [
-    { title: t("sidebar.communication.messages", "Messages"), view: "messages", icon: MessageSquare },
-    { title: t("sidebar.communication.emailCenter", "Email Center"), view: "email-center", icon: Mail },
-  ]
-
-  // Business Growth & Management
-  const businessGrowthItems = [
-    { title: "Tours", view: "tours", icon: Calendar },
-    { title: "Finance", view: "finance", icon: Banknote },
-    { title: "Growth", view: "growth", icon: TrendingUp },
-    { title: "Automations", view: "automations", icon: Zap },
-  ]
-
-  // Analytics - Only show Admin Panel to admin users
-  const analyticsItems = [
-    { title: t("sidebar.analytics.analytics", "Analytics"), view: "analytics", icon: BarChart3 },
-    ...(isAdmin ? [{ title: t("sidebar.analytics.adminPanel", "Admin Panel"), view: "admin-panel", icon: Shield }] : [])
-  ]
-
-  // General & Support
-  const generalItems = [
-    { title: t("sidebar.general.careers", "Careers"), view: "careers", icon: Users },
-    { title: t("sidebar.general.referrals", "Referrals"), view: "referrals", icon: Star },
-    { title: t("sidebar.general.features", "Features"), view: "features", icon: Grid },
-    { title: t("sidebar.general.faqHelp", "FAQ & Help"), view: "faq-help", icon: HelpCircle },
-    { title: t("sidebar.general.feedback", "Feedback"), view: "feedback", icon: MessageCircleQuestion },
-    { title: t("sidebar.general.pricing", "Pricing"), view: "pricing", icon: CircleDollarSign },
-    { title: t("sidebar.general.settings", "Settings"), view: "settings", icon: Settings },
-  ]
-
   return (
-    <Sidebar className="border-r">
-      <SidebarContent className="gap-0">
-        <SidebarHeader />
-        <div className="px-4 py-2">
-          <AllFeaturesDialog 
-            trigger={
-              <button className="w-full text-left text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2">
-                <Grid className="h-4 w-4" />
-                {t("sidebar.allFeatures", "View All Features")}
-              </button>
-            }
-          />
+    <Sidebar variant="inset">
+      <SidebarHeader>
+        <div className="flex items-center gap-2 px-4 py-2">
+          <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-lg">
+            <span className="text-primary-foreground font-bold text-sm">FB</span>
+          </div>
+          <span className="font-semibold text-foreground">FeatherBiz</span>
         </div>
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={mainFeatures} 
-          sectionTitle={t("sidebarSections.mainFeatures", "Main Features")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={coreBusinessItems} 
-          sectionTitle={t("sidebarSections.coreBusiness", "Core Business")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={financialItems} 
-          sectionTitle={t("sidebarSections.financialTools", "Financial Tools")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={operationsItems} 
-          sectionTitle={t("sidebarSections.operations", "Operations")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={documentsItems} 
-          sectionTitle={t("sidebarSections.documentsAndForms", "Documents & Forms")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={productivityItems} 
-          sectionTitle={t("sidebarSections.productivity", "Productivity")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={communicationItems} 
-          sectionTitle={t("sidebarSections.communication", "Communication")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={businessGrowthItems} 
-          sectionTitle="Business Growth"
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
-        <SidebarMenuSection 
-          items={analyticsItems} 
-          sectionTitle={t("sidebarSections.analytics", "Analytics")}
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        <SidebarSeparator />
+      </SidebarHeader>
+      
+      <SidebarContent>
         <SidebarMenuSection 
           items={generalItems} 
-          sectionTitle={t("sidebarSections.generalSupport", "General & Support")}
+          sectionTitle="General" 
           activeView={activeView}
           onMenuClick={handleMenuClick}
         />
-        <div className="px-4 pt-3 pb-4">
-          <HelpCenter 
-            variant="outline"
-            size="default"
-            className="w-full justify-start mb-1"
-          />
-        </div>
+        
+        <SidebarMenuSection 
+          items={coreBusinessItems} 
+          sectionTitle="Core Business" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarMenuSection 
+          items={financialItems} 
+          sectionTitle="Financial Tools" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarMenuSection 
+          items={operationsItems} 
+          sectionTitle="Operations" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarMenuSection 
+          items={documentsItems} 
+          sectionTitle="Documents & Forms" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarMenuSection 
+          items={productivityItems} 
+          sectionTitle="Productivity" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarMenuSection 
+          items={communicationItems} 
+          sectionTitle="Communication" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarMenuSection 
+          items={analyticsItems} 
+          sectionTitle="Analytics" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
+        
+        <SidebarMenuSection 
+          items={systemItems} 
+          sectionTitle="System Tools" 
+          activeView={activeView}
+          onMenuClick={handleMenuClick}
+        />
       </SidebarContent>
       
-      <SidebarFooter />
+      <SidebarFooter>
+        <div className="px-4 py-2 text-xs text-muted-foreground">
+          FeatherBiz v1.0
+        </div>
+      </SidebarFooter>
+      
+      <SidebarRail />
     </Sidebar>
   )
 }
