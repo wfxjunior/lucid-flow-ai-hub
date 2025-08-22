@@ -25,15 +25,18 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const payload: AuthEmailPayload = await req.json();
     console.log(`Processing auth email for type: ${payload.type}, email: ${payload.email}`);
+    console.log(`Token: ${payload.token ? 'Present' : 'Missing'}`);
+    console.log(`Redirect URL: ${payload.redirect_to || 'Not provided'}`);
 
     let subject = '';
     let htmlContent = '';
     let textContent = '';
     
     // Build the confirmation URL with the token
-    const confirmationUrl = payload.redirect_to 
-      ? `${payload.redirect_to}#access_token=${payload.token}&type=${payload.type}`
-      : `https://featherbiz.io/auth/confirm?token=${payload.token}&type=${payload.type}`;
+    const baseUrl = payload.redirect_to || 'https://featherbiz.io';
+    const confirmationUrl = `${baseUrl}/auth/confirm?token=${payload.token}&type=${payload.type}`;
+
+    console.log(`Generated confirmation URL: ${confirmationUrl}`);
 
     switch (payload.type) {
       case 'signup':
@@ -61,7 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
             <div style="background-color: #1f2937; padding: 20px 30px; text-align: center;">
               <p style="color: #9ca3af; margin: 0; font-size: 14px;">
-                © 2024 FeatherBiz - Plataforma de Automação Empresarial com IA
+                © 2025 FeatherBiz - Plataforma de Automação Empresarial com IA
               </p>
             </div>
           </div>
@@ -70,11 +73,11 @@ const handler = async (req: Request): Promise<Response> => {
         break;
 
       case 'magiclink':
-        subject = 'Your FeatherBiz Login Link';
+        subject = 'Your FeatherBiz Magic Link';
         htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: white;">
             <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 40px 30px; text-align: center;">
-              <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">🔐 FeatherBiz Login</h1>
+              <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">🔐 FeatherBiz Sign In</h1>
               <p style="color: #d1fae5; margin: 15px 0 0 0; font-size: 16px;">Secure Access to Your Account</p>
             </div>
             <div style="padding: 40px 30px; text-align: center;">
@@ -96,7 +99,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
             <div style="background-color: #1f2937; padding: 20px 30px; text-align: center;">
               <p style="color: #9ca3af; margin: 0; font-size: 14px;">
-                © 2024 FeatherBiz - Secure Business Automation Platform
+                © 2025 FeatherBiz - Secure Business Automation Platform
               </p>
             </div>
           </div>
@@ -131,7 +134,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
             <div style="background-color: #1f2937; padding: 20px 30px; text-align: center;">
               <p style="color: #9ca3af; margin: 0; font-size: 14px;">
-                © 2024 FeatherBiz - Secure Business Automation Platform
+                © 2025 FeatherBiz - Secure Business Automation Platform
               </p>
             </div>
           </div>
@@ -163,7 +166,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
             <div style="background-color: #1f2937; padding: 20px 30px; text-align: center;">
               <p style="color: #9ca3af; margin: 0; font-size: 14px;">
-                © 2024 FeatherBiz - Secure Business Automation Platform
+                © 2025 FeatherBiz - Secure Business Automation Platform
               </p>
             </div>
           </div>
@@ -195,7 +198,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
             <div style="background-color: #1f2937; padding: 20px 30px; text-align: center;">
               <p style="color: #9ca3af; margin: 0; font-size: 14px;">
-                © 2024 FeatherBiz - Secure Business Automation Platform
+                © 2025 FeatherBiz - Secure Business Automation Platform
               </p>
             </div>
           </div>
@@ -204,8 +207,11 @@ const handler = async (req: Request): Promise<Response> => {
         break;
 
       default:
+        console.error(`Unknown email type: ${payload.type}`);
         throw new Error(`Unknown email type: ${payload.type}`);
     }
+
+    console.log(`Attempting to send email with subject: ${subject}`);
 
     const emailResponse = await resend.emails.send({
       from: "FeatherBiz <hello@featherbiz.io>",
@@ -215,12 +221,13 @@ const handler = async (req: Request): Promise<Response> => {
       text: textContent,
     });
 
-    console.log(`${payload.type} email sent successfully:`, emailResponse);
+    console.log(`Email sent successfully:`, emailResponse);
 
     return new Response(JSON.stringify({ 
       success: true, 
       emailId: emailResponse.data?.id,
-      type: payload.type
+      type: payload.type,
+      email: payload.email
     }), {
       status: 200,
       headers: {
@@ -231,10 +238,20 @@ const handler = async (req: Request): Promise<Response> => {
 
   } catch (error: any) {
     console.error(`Error in send-auth-email function:`, error);
+    
+    // More detailed error logging
+    if (error.message) {
+      console.error(`Error message: ${error.message}`);
+    }
+    if (error.stack) {
+      console.error(`Error stack: ${error.stack}`);
+    }
+    
     return new Response(
       JSON.stringify({ 
-        error: error.message,
-        success: false 
+        error: error.message || 'Unknown error occurred',
+        success: false,
+        details: error.stack || 'No stack trace available'
       }),
       {
         status: 500,
