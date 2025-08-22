@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Routes,
@@ -23,6 +22,7 @@ import { useEffect } from "react";
 import { ErrorBoundary } from '@/components/security/ErrorBoundary';
 import { SessionTimeoutManager } from '@/components/security/SessionTimeoutManager';
 import { SecurityAuditLogger } from '@/components/security/SecurityAuditLogger';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 function App() {
   // Apply security headers on app load
@@ -34,90 +34,92 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <SecurityAuditLogger>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <AuthGuard>
-                    <Dashboard />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/clients"
-                element={
-                  <AuthGuard>
-                    <ClientsPage />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/contracts"
-                element={
-                  <AuthGuard>
-                    <ContractsPage />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/work-orders"
-                element={
-                  <AuthGuard>
-                    <WorkOrdersPage />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/invoices"
-                element={
-                  <AuthGuard>
-                    <InvoicesPage />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/estimates"
-                element={
-                  <AuthGuard>
-                    <EstimatesPage />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/meetings"
-                element={
-                  <AuthGuard>
-                    <MeetingsPage />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/settings"
-                element={
-                  <AuthGuard>
-                    <BusinessSettings />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <AuthGuard>
-                    <ProfilePage />
-                  </AuthGuard>
-                }
-              />
-            </Routes>
-            <SessionTimeoutManager />
-            <Toaster />
-          </SecurityAuditLogger>
-        </BrowserRouter>
-      </QueryClientProvider>
+      <LanguageProvider>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <SecurityAuditLogger>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <AuthGuard>
+                      <Dashboard />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/clients"
+                  element={
+                    <AuthGuard>
+                      <ClientsPage />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/contracts"
+                  element={
+                    <AuthGuard>
+                      <ContractsPage />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/work-orders"
+                  element={
+                    <AuthGuard>
+                      <WorkOrdersPage />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/invoices"
+                  element={
+                    <AuthGuard>
+                      <InvoicesPage />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/estimates"
+                  element={
+                    <AuthGuard>
+                      <EstimatesPage />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/meetings"
+                  element={
+                    <AuthGuard>
+                      <MeetingsPage />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <AuthGuard>
+                      <BusinessSettings />
+                    </AuthGuard>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <AuthGuard>
+                      <ProfilePage />
+                    </AuthGuard>
+                  }
+                />
+              </Routes>
+              <SessionTimeoutManager />
+              <Toaster />
+            </SecurityAuditLogger>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </LanguageProvider>
     </ErrorBoundary>
   );
 }
