@@ -37,12 +37,18 @@ export const sanitizeInput = (input: string): string => {
   return input.trim().replace(/[<>]/g, '')
 }
 
+export const validateEmail = (email: string): boolean => {
+  if (!email || typeof email !== 'string') return false
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email.trim().toLowerCase())
+}
+
 export const validateInput = (input: string, type: 'email' | 'text' | 'url' = 'text'): boolean => {
   if (!input || typeof input !== 'string') return false
   
   switch (type) {
     case 'email':
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.trim())
+      return validateEmail(input)
     case 'url':
       try {
         new URL(input)
