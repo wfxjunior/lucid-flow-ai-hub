@@ -21,10 +21,10 @@ export function DashboardHeader({ onNavigate, onRefresh, loading, error }: Dashb
       <div className="flex items-center justify-between pb-6 border-b border-border">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">
-            {t("dashboardHeader.title", "Dashboard")}
+            {t("dashboardHeader.title") || "Dashboard"}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {t("dashboardHeader.welcome", "Overview of your business performance")}
+            {t("dashboardHeader.welcome") || "Overview of your business performance"}
           </p>
         </div>
         
