@@ -10,7 +10,6 @@ import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
 import { CustomerManagement } from "@/components/CustomerManagement"
 import { ProjectsPage } from "@/components/ProjectsPage"
-// import { ProjectTimelinePage } from "@/components/ProjectTimelinePage" // Commented out old version
 import { PipelineBoard } from "@/components/PipelineBoard"
 import { FeatherTaxPage } from "@/components/FeatherTaxPage"
 import { EasyCalcPage } from "@/components/EasyCalcPage"
@@ -58,6 +57,15 @@ import { FinancePage } from "@/components/pages/FinancePage"
 import { GrowthPage } from "@/components/pages/GrowthPage"
 import { AutomationsPage } from "@/components/pages/AutomationsPage"
 
+// Feature Pages
+import AIVoicePage from "@/pages/features/AIVoicePage"
+import InvoicesFeaturePage from "@/pages/features/InvoicesPage"
+import EstimatesFeaturePage from "@/pages/features/EstimatesPage"
+import PipelineFeaturePage from "@/pages/features/PipelinePage"
+import FeatherTaxFeaturePage from "@/pages/features/FeatherTaxPage"
+import EasyCalcFeaturePage from "@/pages/features/EasyCalcPage"
+import WorkOrdersFeaturePage from "@/pages/features/WorkOrdersPage"
+
 interface MainContentProps {
   activeView: string
   onNavigate: (view: string) => void
@@ -72,10 +80,14 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <ImprovedDashboard onNavigate={onNavigate} />
       case "ai-voice":
         return <EnhancedAIVoice />
+      case "ai-voice-feature":
+        return <AIVoicePage />
       case "invoice-creator":
         return <InvoiceCreator />
       case "estimates":
         return <EstimatesPage />
+      case "estimates-feature":
+        return <EstimatesFeaturePage />
       case "payments":
         return <ResponsivePaymentsPage />
       case "e-signatures":
@@ -97,6 +109,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <AutomationsPage onNavigate={onNavigate} />
       case "pipeline":
         return <PipelineBoard />
+      case "pipeline-feature":
+        return <PipelineFeaturePage />
       case "smart-schedule":
         return <SmartSchedulePage />
       
@@ -107,8 +121,12 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <FeatherBudgetPage />
       case "feather-tax":
         return <FeatherTaxPage />
+      case "feather-tax-feature":
+        return <FeatherTaxFeaturePage />
       case "easy-calc":
         return <EasyCalcPage />
+      case "easy-calc-feature":
+        return <EasyCalcFeaturePage />
       case "receipts":
         return <ReceiptsPage />
       case "accounting":
@@ -121,6 +139,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <CarRentalPage />
       case "work-orders":
         return <WorkOrdersPage />
+      case "work-orders-feature":
+        return <WorkOrdersFeaturePage />
       case "mat-track":
         return <ResponsiveMatTrackPage onNavigate={onNavigate} />
       case "crew-control":
@@ -206,6 +226,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       // Legacy routes for compatibility
       case "invoices":
         return <InvoicesPage />
+      case "invoices-feature":
+        return <InvoicesFeaturePage />
       case "products":
         return <AccountingPage />
       case "expenses":
