@@ -1,160 +1,91 @@
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { Shield, AlertTriangle, Activity, Users, RefreshCw } from 'lucide-react'
+import { Shield, AlertTriangle, Eye, Activity, RefreshCw } from 'lucide-react'
 import { useSecurityMonitoring } from '@/hooks/useSecurityMonitoring'
-
-interface SecurityMetrics {
-  total_events_24h: number
-  suspicious_events_24h: number
-  failed_logins_1h: number
-  admin_actions_24h: number
-  last_updated: string
-}
+import { formatDistanceToNow } from 'date-fns'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export function SecurityMonitoringDashboard() {
-  const { securityMetrics, loading, refreshMetrics, isAdmin } = useSecurityMonitoring()
-  const [autoRefresh, setAutoRefresh] = useState(true)
-
-  useEffect(() => {
-    if (!autoRefresh || !isAdmin) return
-
-    const interval = setInterval(() => {
-      refreshMetrics()
-    }, 30000) // Refresh every 30 seconds
-
-    return () => clearInterval(interval)
-  }, [autoRefresh, isAdmin, refreshMetrics])
+  const {
+    securityMetrics,
+    securityEvents,
+    loading,
+    error,
+    isAdmin,
+    getRecentSuspiciousActivity,
+    refreshMetrics
+  } = useSecurityMonitoring()
 
   if (!isAdmin) {
     return (
-      <Card>
-        <CardContent className="p-6">
-          <div className="text-center">
-            <Shield className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Access Restricted</h3>
-            <p className="text-muted-foreground">Admin privileges required to view security metrics.</p>
-          </div>
-        </CardContent>
-      </Card>
+      <Alert>
+        <Shield className="h-4 w-4" />
+        <AlertDescription>
+          Access denied. Admin privileges required to view security monitoring dashboard.
+        </AlertDescription>
+      </Alert>
     )
   }
 
-  const getSecurityScore = (metrics: SecurityMetrics | null) => {
-    if (!metrics) return 0
-    
-    const base = 100
-    const suspiciousPenalty = Math.min(metrics.suspicious_events_24h * 5, 50)
-    const failedLoginPenalty = Math.min(metrics.failed_logins_1h * 10, 30)
-    
-    return Math.max(0, base - suspiciousPenalty - failedLoginPenalty)
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Activity className="h-6 w-6 animate-spin" />
+        <span className="ml-2">Loading security metrics...</span>
+      </div>
+    )
   }
 
-  const securityScore = getSecurityScore(securityMetrics)
-  
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    )
+  }
+
+  const suspiciousActivity = getRecentSuspiciousActivity()
+  const securityScore = securityMetrics?.securityScore || 0
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600'
     if (score >= 60) return 'text-yellow-600'
     return 'text-red-600'
   }
 
-  const getScoreBadgeVariant = (score: number): "default" | "secondary" | "destructive" | "outline" => {
-    if (score >= 80) return 'default'
-    if (score >= 60) return 'secondary'
-    return 'destructive'
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Security Monitoring</h2>
-          <p className="text-muted-foreground">
-            Real-time security metrics and threat detection
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={refreshMetrics}
-            disabled={loading}
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-          <Button
-            variant={autoRefresh ? "default" : "outline"}
-            size="sm"
-            onClick={() => setAutoRefresh(!autoRefresh)}
-          >
-            <Activity className="h-4 w-4 mr-2" />
-            {autoRefresh ? 'Auto-Refresh On' : 'Auto-Refresh Off'}
-          </Button>
-        </div>
+        <h2 className="text-2xl font-bold">Security Monitoring</h2>
+        <Button onClick={refreshMetrics} variant="outline" size="sm">
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Refresh
+        </Button>
       </div>
 
-      {/* Security Score */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
-            Security Score
-          </CardTitle>
-          <CardDescription>
-            Overall security health based on recent activity
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-4">
-            <div className={`text-4xl font-bold ${getScoreColor(securityScore)}`}>
-              {securityScore}
-            </div>
-            <div className="flex-1">
-              <Badge variant={getScoreBadgeVariant(securityScore)}>
-                {securityScore >= 80 ? 'Excellent' : 
-                 securityScore >= 60 ? 'Good' : 'Needs Attention'}
-              </Badge>
-              <p className="text-sm text-muted-foreground mt-1">
-                Last updated: {securityMetrics?.last_updated ? 
-                  new Date(securityMetrics.last_updated).toLocaleString() : 'Never'}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Alerts */}
-      {securityMetrics && securityMetrics.suspicious_events_24h > 10 && (
-        <Alert variant="destructive">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>High Suspicious Activity Detected</AlertTitle>
-          <AlertDescription>
-            {securityMetrics.suspicious_events_24h} suspicious events in the last 24 hours. 
-            Please review security logs immediately.
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {securityMetrics && securityMetrics.failed_logins_1h > 5 && (
-        <Alert variant="destructive">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Multiple Failed Login Attempts</AlertTitle>
-          <AlertDescription>
-            {securityMetrics.failed_logins_1h} failed login attempts in the last hour. 
-            Consider implementing additional security measures.
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Metrics Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {/* Security Score Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Events (24h)</CardTitle>
+            <CardTitle className="text-sm font-medium">Security Score</CardTitle>
+            <Shield className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className={`text-2xl font-bold ${getScoreColor(securityScore)}`}>
+              {securityScore}/100
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Overall security health
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Events (24h)</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -162,22 +93,22 @@ export function SecurityMonitoringDashboard() {
               {securityMetrics?.total_events_24h || 0}
             </div>
             <p className="text-xs text-muted-foreground">
-              All security events logged
+              Total security events
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Suspicious Events (24h)</CardTitle>
+            <CardTitle className="text-sm font-medium">Suspicious (24h)</CardTitle>
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">
+            <div className="text-2xl font-bold text-orange-600">
               {securityMetrics?.suspicious_events_24h || 0}
             </div>
             <p className="text-xs text-muted-foreground">
-              Rate limits, invalid sessions
+              Suspicious activities
             </p>
           </CardContent>
         </Card>
@@ -185,10 +116,10 @@ export function SecurityMonitoringDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Failed Logins (1h)</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <Eye className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">
+            <div className="text-2xl font-bold text-red-600">
               {securityMetrics?.failed_logins_1h || 0}
             </div>
             <p className="text-xs text-muted-foreground">
@@ -196,37 +127,77 @@ export function SecurityMonitoringDashboard() {
             </p>
           </CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Admin Actions (24h)</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {securityMetrics?.admin_actions_24h || 0}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Administrative operations
-            </p>
-          </CardContent>
-        </Card>
       </div>
 
-      {/* Recent Activity (placeholder for future enhancement) */}
+      {/* Recent Suspicious Activity */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Suspicious Activity</CardTitle>
+          <CardDescription>
+            Security events that require attention
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {suspiciousActivity.length === 0 ? (
+            <p className="text-muted-foreground">No suspicious activity detected recently.</p>
+          ) : (
+            <div className="space-y-3">
+              {suspiciousActivity.slice(0, 10).map((event) => (
+                <div key={event.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <AlertTriangle className="h-4 w-4 text-orange-500" />
+                    <div>
+                      <p className="font-medium">{event.operation}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Table: {event.table_name}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="outline">
+                      {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
+                    </Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Recent Security Events */}
       <Card>
         <CardHeader>
           <CardTitle>Recent Security Events</CardTitle>
           <CardDescription>
-            Latest security-related activities and alerts
+            Latest security-related activities in the system
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-muted-foreground">
-            <Activity className="h-8 w-8 mx-auto mb-2" />
-            <p>Security event details will be displayed here</p>
-            <p className="text-sm">Feature coming soon...</p>
-          </div>
+          {securityEvents.length === 0 ? (
+            <p className="text-muted-foreground">No recent security events.</p>
+          ) : (
+            <div className="space-y-3">
+              {securityEvents.slice(0, 15).map((event) => (
+                <div key={event.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <Activity className="h-4 w-4 text-blue-500" />
+                    <div>
+                      <p className="font-medium">{event.operation}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {event.table_name} {event.record_id && `• ID: ${event.record_id.substring(0, 8)}...`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="secondary">
+                      {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
+                    </Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

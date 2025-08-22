@@ -3080,6 +3080,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      emergency_security_lockdown: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       enhanced_cleanup_security_logs: {
         Args: Record<PropertyKey, never>
         Returns: undefined
