@@ -1,43 +1,50 @@
 
-export const useAuthValidation = () => {
+import { validateEmail, validatePassword, validateRequired } from '@/utils/inputValidation'
+
+export function useAuthValidation() {
   const validateForm = (
-    email: string, 
-    password: string, 
-    confirmPassword?: string, 
-    isSignUp: boolean = false,
-    isForgotPassword: boolean = false
-  ) => {
-    const newErrors: string[] = []
-    
-    if (!email) {
-      newErrors.push('Email is required')
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.push('Email must have a valid format')
+    email: string,
+    password: string,
+    confirmPassword?: string,
+    isSignUp = false,
+    isForgotPassword = false
+  ): string[] => {
+    const errors: string[] = []
+
+    // Email validation
+    const emailError = validateRequired(email, 'Email')
+    if (emailError) {
+      errors.push(emailError)
+    } else if (!validateEmail(email)) {
+      errors.push('Please enter a valid email address')
     }
-    
+
+    // Password validation (not for forgot password)
     if (!isForgotPassword) {
-      if (!password) {
-        newErrors.push('Password is required')
-      } else if (password.length < 8) {
-        newErrors.push('Password must be at least 8 characters')
+      const passwordError = validateRequired(password, 'Password')
+      if (passwordError) {
+        errors.push(passwordError)
       } else if (isSignUp) {
-        // Enhanced password validation for sign up
-        const hasUpperCase = /[A-Z]/.test(password);
-        const hasLowerCase = /[a-z]/.test(password);
-        const hasNumbers = /\d/.test(password);
-        
-        if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
-          newErrors.push('Password must contain uppercase, lowercase, and numbers');
+        const passwordValidation = validatePassword(password)
+        if (!passwordValidation.isValid) {
+          errors.push(...passwordValidation.errors)
         }
       }
-      
-      if (isSignUp && password !== confirmPassword) {
-        newErrors.push('Passwords do not match')
+
+      // Confirm password validation (only for sign up)
+      if (isSignUp && confirmPassword !== undefined) {
+        if (!confirmPassword) {
+          errors.push('Please confirm your password')
+        } else if (password !== confirmPassword) {
+          errors.push('Passwords do not match')
+        }
       }
     }
-    
-    return newErrors
+
+    return errors
   }
 
-  return { validateForm }
+  return {
+    validateForm
+  }
 }

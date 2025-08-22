@@ -1,16 +1,14 @@
 
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useAuthState } from './useAuthState'
 import { useAuthValidation } from './useAuthValidation'
-import { securityEvent, secureError } from '@/utils/security'
-import { validateEmail } from '@/utils/inputValidation'
+import { securityEvent } from '@/utils/security'
 import { secureSignIn, secureSignOut } from '@/utils/authSecurity'
 
 export function useAuthLogic() {
   const { user, session, loading } = useAuthState()
   const { validateForm } = useAuthValidation()
-  const [isInitialized, setIsInitialized] = useState(false)
   
   // Form state
   const [mode, setMode] = useState<'signin' | 'signup' | 'forgot-password'>('signin')
@@ -20,29 +18,25 @@ export function useAuthLogic() {
   const [errors, setErrors] = useState<string[]>([])
   const [selectedCountry, setSelectedCountry] = useState('')
 
-  useEffect(() => {
-    if (!loading) {
-      setIsInitialized(true)
-    }
-  }, [loading])
+  const isInitialized = !loading
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     try {
       await secureSignOut()
     } catch (error) {
-      secureError('Sign out error', { error: error instanceof Error ? error.message : 'Unknown error' })
+      console.error('Sign out error:', error)
     }
-  }
+  }, [])
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = useCallback(async (email: string, password: string) => {
     try {
       return await secureSignIn(email, password)
     } catch (error) {
       throw error
     }
-  }
+  }, [])
 
-  const handleSignIn = async (e: React.FormEvent) => {
+  const handleSignIn = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     const validationErrors = validateForm(email, password, undefined, false, false)
     
@@ -58,9 +52,9 @@ export function useAuthLogic() {
       const errorMessage = error instanceof Error ? error.message : 'Sign in failed'
       setErrors([errorMessage])
     }
-  }
+  }, [email, password, validateForm, signIn])
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     const validationErrors = validateForm(email, password, confirmPassword, true, false)
     
@@ -94,9 +88,9 @@ export function useAuthLogic() {
       const errorMessage = error instanceof Error ? error.message : 'Sign up failed'
       setErrors([errorMessage])
     }
-  }
+  }, [email, password, confirmPassword, validateForm])
 
-  const handleForgotPassword = async (e: React.FormEvent) => {
+  const handleForgotPassword = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     const validationErrors = validateForm(email, '', undefined, false, true)
     
@@ -124,9 +118,9 @@ export function useAuthLogic() {
       const errorMessage = error instanceof Error ? error.message : 'Password reset failed'
       setErrors([errorMessage])
     }
-  }
+  }, [email, validateForm])
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = useCallback(async () => {
     try {
       setErrors([])
       securityEvent('Google sign in attempt')
@@ -146,7 +140,7 @@ export function useAuthLogic() {
       const errorMessage = error instanceof Error ? error.message : 'Google sign in failed'
       setErrors([errorMessage])
     }
-  }
+  }, [])
 
   return {
     user,

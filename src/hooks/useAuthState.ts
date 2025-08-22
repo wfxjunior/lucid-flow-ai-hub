@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/integrations/supabase/client'
 import { User, Session } from '@supabase/supabase-js'
+import { supabase } from '@/integrations/supabase/client'
 
 export function useAuthState() {
   const [user, setUser] = useState<User | null>(null)
@@ -9,70 +9,58 @@ export function useAuthState() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    console.log('useAuthState: Setting up auth state listener');
-    let isMounted = true;
-    let sessionCheckTimeout: NodeJS.Timeout;
-    
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        console.log('Auth state changed:', event, !!session);
-        
-        if (!isMounted) return;
-        
-        // Update state synchronously
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-        
-        // Handle specific events
-        if (event === 'SIGNED_OUT') {
-          console.log('User signed out, clearing state');
-          setUser(null);
-          setSession(null);
-        } else if (event === 'TOKEN_REFRESHED') {
-          console.log('Token refreshed successfully');
-        } else if (event === 'SIGNED_IN') {
-          console.log('User signed in successfully');
-        }
-      }
-    );
+    let mounted = true
 
-    // THEN check for existing session with debouncing
-    const checkSession = async () => {
-      if (!isMounted) return;
-      
+    const initializeAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const { data: { session: currentSession }, error } = await supabase.auth.getSession()
         
-        if (error) {
-          console.error('Error getting session:', error);
-          if (isMounted) setLoading(false);
-          return;
-        }
-        
-        console.log('Initial session check:', !!session);
-        if (isMounted) {
-          setSession(session);
-          setUser(session?.user ?? null);
-          setLoading(false);
+        if (mounted) {
+          if (error) {
+            console.error('Error getting session:', error)
+            setSession(null)
+            setUser(null)
+          } else {
+            setSession(currentSession)
+            setUser(currentSession?.user ?? null)
+          }
+          setLoading(false)
         }
       } catch (error) {
-        console.error('Error in session check:', error);
-        if (isMounted) setLoading(false);
+        console.error('Auth initialization error:', error)
+        if (mounted) {
+          setSession(null)
+          setUser(null)
+          setLoading(false)
+        }
       }
-    };
+    }
 
-    // Debounced session check to prevent multiple rapid calls
-    sessionCheckTimeout = setTimeout(checkSession, 200);
+    initializeAuth()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (mounted) {
+        setSession(session)
+        setUser(session?.user ?? null)
+        
+        if (event === 'SIGNED_OUT') {
+          setSession(null)
+          setUser(null)
+        }
+      }
+    })
 
     return () => {
-      console.log('Cleaning up auth listener');
-      isMounted = false;
-      if (sessionCheckTimeout) clearTimeout(sessionCheckTimeout);
-      subscription.unsubscribe();
-    };
-  }, []);
+      mounted = false
+      subscription.unsubscribe()
+    }
+  }, [])
 
-  return { user, session, loading }
+  return {
+    user,
+    session,
+    loading
+  }
 }
