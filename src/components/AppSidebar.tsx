@@ -110,7 +110,7 @@ export function AppSidebar({ setActiveView, activeView }: AppSidebarProps) {
     { 
       view: "feather-budget", 
       icon: PlusCircle, 
-      title: currentLanguage === 'pt' ? "FeatherBudget" : "FeatherBudget" 
+      title: currentLanguage === 'pt' ? "Personal Budget Manager" : "Personal Budget Manager" 
     },
     { 
       view: "feather-tax", 
@@ -294,15 +294,15 @@ export function AppSidebar({ setActiveView, activeView }: AppSidebarProps) {
   ]
 
   return (
-    <Sidebar>
-      <SidebarHeader className="border-b px-6 py-4">
-        <div className="flex flex-col space-y-3">
-          <h2 className="text-lg font-semibold">FeatherBiz</h2>
+    <Sidebar className="bg-sidebar-background border-r border-sidebar-border">
+      <SidebarHeader className="border-b border-sidebar-border px-6 py-6">
+        <div className="flex flex-col space-y-4">
+          <h2 className="text-xl font-bold text-primary">FeatherBiz</h2>
           <AuthLinks />
         </div>
       </SidebarHeader>
       
-      <SidebarContent className="px-2">
+      <SidebarContent className="px-3 py-4">
         <SidebarMenuSection 
           items={mainFeatures}
           sectionTitle={currentLanguage === 'pt' ? 'Recursos Principais' : 'Main Features'}
