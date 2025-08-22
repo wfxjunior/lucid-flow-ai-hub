@@ -19,7 +19,7 @@ export default function Dashboard() {
       <div className="flex h-screen w-full bg-slate-50">
         <AppSidebar setActiveView={setActiveView} activeView={activeView} />
         <SidebarInset className="flex-1 overflow-hidden">
-          <div className="h-full overflow-y-auto bg-white">
+          <div className="h-full overflow-y-auto bg-white p-6">
             <DashboardContent activeView={activeView} onNavigate={handleNavigate} />
           </div>
         </SidebarInset>
