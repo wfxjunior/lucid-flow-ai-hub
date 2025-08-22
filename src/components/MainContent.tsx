@@ -1,3 +1,4 @@
+
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailCenterPage } from "@/components/EmailCenterPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -223,7 +224,7 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full p-4">
       {renderContent()}
     </div>
   )
