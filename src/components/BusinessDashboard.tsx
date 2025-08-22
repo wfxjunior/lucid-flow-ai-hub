@@ -1,153 +1,173 @@
 
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
-import { Users, FileText, Calendar, DollarSign } from 'lucide-react';
+// React import removed - using new JSX transform
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { QuickActions } from "@/components/QuickActions"
+import {
+  Banknote,
+  BarChart3,
+  FileText,
+  HelpCircle,
+  LineChart,
+  PieChart,
+  Settings,
+  ShoppingCart,
+  Users,
+  Zap
+} from "lucide-react"
 
 interface BusinessDashboardProps {
-  onNavigate?: (path: string) => void;
+  onNavigate: (view: string) => void
 }
 
 export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
-  const navigate = useNavigate();
-
-  const handleNavigation = (path: string) => {
-    if (onNavigate) {
-      onNavigate(path);
-    } else {
-      navigate(path);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Business Dashboard</h1>
-          <p className="text-muted-foreground">Manage your business operations from one place</p>
-        </div>
+    <div className="space-y-6">
+      {/* Overview */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Overview</CardTitle>
+          <CardDescription>You made $3,400 this month.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <div className="border p-4 rounded-md">
+            <div className="font-medium">Total Revenue</div>
+            <div className="text-2xl font-bold">$3,400</div>
+            <div className="text-sm text-gray-500">+19% from last month</div>
+          </div>
+          <div className="border p-4 rounded-md">
+            <div className="font-medium">New Customers</div>
+            <div className="text-2xl font-bold">12</div>
+            <div className="text-sm text-gray-500">+23% from last month</div>
+          </div>
+          <div className="border p-4 rounded-md">
+            <div className="font-medium">Active Projects</div>
+            <div className="text-2xl font-bold">4</div>
+            <div className="text-sm text-gray-500">-3% from last month</div>
+          </div>
+          <div className="border p-4 rounded-md">
+            <div className="font-medium">Open Support Tickets</div>
+            <div className="text-2xl font-bold">2</div>
+            <div className="text-sm text-gray-500">No change from last month</div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Clients</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">Active clients</p>
-            </CardContent>
-          </Card>
+      {/* Charts */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <LineChart className="w-5 h-5" />
+              Revenue
+            </CardTitle>
+            <CardDescription>Monthly revenue trend</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* Placeholder for revenue chart */}
+            <div className="h-40 bg-gray-100 rounded-md flex items-center justify-center text-gray-500">
+              Revenue Chart
+            </div>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Contracts</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">Active contracts</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Meetings</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">Scheduled meetings</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$0</div>
-              <p className="text-xs text-muted-foreground">This month</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Clients</CardTitle>
-              <CardDescription>Manage your client relationships</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => handleNavigation('/clients')} className="w-full">
-                View Clients
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Contracts</CardTitle>
-              <CardDescription>Create and manage contracts</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => handleNavigation('/contracts')} className="w-full">
-                View Contracts
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Work Orders</CardTitle>
-              <CardDescription>Track your work orders</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => handleNavigation('/work-orders')} className="w-full">
-                View Work Orders
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Invoices</CardTitle>
-              <CardDescription>Manage billing and invoices</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => handleNavigation('/invoices')} className="w-full">
-                View Invoices
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Estimates</CardTitle>
-              <CardDescription>Create project estimates</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => handleNavigation('/estimates')} className="w-full">
-                View Estimates
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Meetings</CardTitle>
-              <CardDescription>Schedule and manage meetings</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => handleNavigation('/meetings')} className="w-full">
-                View Meetings
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <PieChart className="w-5 h-5" />
+              Expenses
+            </CardTitle>
+            <CardDescription>Expense distribution</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* Placeholder for expenses chart */}
+            <div className="h-40 bg-gray-100 rounded-md flex items-center justify-center text-gray-500">
+              Expenses Chart
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Quick Actions - Using the new component */}
+      <QuickActions onActionClick={onNavigate} />
+
+      {/* Recent Activity */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BarChart3 className="w-5 h-5" />
+            Recent Activity
+          </CardTitle>
+          <CardDescription>Your recent business activities</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div>
+              <p className="font-medium">New invoice created</p>
+              <p className="text-sm text-gray-500">2 hours ago</p>
+            </div>
+            <Banknote className="w-5 h-5 text-green-500" />
+          </div>
+
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div>
+              <p className="font-medium">Customer "John Doe" added</p>
+              <p className="text-sm text-gray-500">1 day ago</p>
+            </div>
+            <Users className="w-5 h-5 text-blue-500" />
+          </div>
+
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div>
+              <p className="font-medium">New order received</p>
+              <p className="text-sm text-gray-500">3 days ago</p>
+            </div>
+            <ShoppingCart className="w-5 h-5 text-purple-500" />
+          </div>
+
+          <Button variant="link" className="w-full">
+            View All
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Support */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <HelpCircle className="w-5 h-5" />
+            Support
+          </CardTitle>
+          <CardDescription>Need help? Contact our support team</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-500">
+            If you have any questions or need assistance, please don't hesitate to reach out to our support team.
+          </p>
+          <Button variant="outline" className="mt-4">
+            Contact Support
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Settings */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Settings className="w-5 h-5" />
+            Settings
+          </CardTitle>
+          <CardDescription>Manage your business settings</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-500">
+            Customize your business settings to fit your needs.
+          </p>
+          <Button variant="outline" className="mt-4" onClick={() => onNavigate('settings')}>
+            Go to Settings
+          </Button>
+        </CardContent>
+      </Card>
     </div>
-  );
+  )
 }

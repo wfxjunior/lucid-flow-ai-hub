@@ -47,13 +47,13 @@ export const LandingHeader = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/auth')}
+              onClick={() => navigate('/signin')}
             >
               Sign In
             </Button>
             <Button
               size="sm"
-              onClick={() => navigate('/auth')}
+              onClick={() => navigate('/signup')}
             >
               Get Started
             </Button>
@@ -98,7 +98,7 @@ export const LandingHeader = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  navigate('/auth');
+                  navigate('/signin');
                   setIsMenuOpen(false);
                 }}
                 className="justify-start"
@@ -108,7 +108,7 @@ export const LandingHeader = () => {
               <Button
                 size="sm"
                 onClick={() => {
-                  navigate('/auth');
+                  navigate('/signup');
                   setIsMenuOpen(false);
                 }}
                 className="justify-start"

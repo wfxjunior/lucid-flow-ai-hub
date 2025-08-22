@@ -51,26 +51,26 @@ export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }
     return () => clearTimeout(timer)
   }, [delay, value, title, t])
 
-  const changeColor = trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-gray-500"
-  const iconBgColor = trend === "up" ? "bg-green-50" : trend === "down" ? "bg-red-50" : "bg-gray-50"
-  const iconColor = trend === "up" ? "text-green-600" : trend === "down" ? "text-red-600" : "text-gray-600"
+  const changeColor = trend === "up" ? "text-success" : trend === "down" ? "text-destructive" : "text-muted-foreground"
 
   return (
-    <Card className="stripe-metric-card stripe-fade-in">
+    <Card className="bg-card border border-border rounded-2xl p-6 transition-all duration-200 hover:shadow-sm">
       <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600 mb-2">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-accent rounded-lg">
+            <Icon className="h-5 w-5 text-accent-foreground" />
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-2xl font-semibold text-foreground mb-1">
+            {displayValue}
+          </div>
+          <p className="text-xs text-muted-foreground mb-1">
             {title}
           </p>
-          <p className="text-3xl font-semibold text-gray-900 mb-1">
-            {displayValue}
-          </p>
-          <p className={`text-sm font-medium ${changeColor}`}>
+          <p className={`text-xs font-medium ${changeColor}`}>
             {change === "--" ? `+12%` : change}
           </p>
-        </div>
-        <div className={`p-3 rounded-lg ${iconBgColor}`}>
-          <Icon className={`h-6 w-6 ${iconColor}`} />
         </div>
       </div>
     </Card>
