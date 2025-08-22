@@ -18,7 +18,11 @@ export function useAdminEmails() {
       console.log(`Sending ${type} email...`, { to, data })
       
       const { data: response, error } = await supabase.functions.invoke('send-admin-emails', {
-        body: { type, to, data }
+        body: { 
+          type, 
+          to: to || 'juniorxavierusa@gmail.com', // Use your admin email as default
+          data 
+        }
       })
 
       if (error) {

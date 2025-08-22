@@ -20,23 +20,23 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const getEmailConfig = (type: string) => {
   const configs = {
     welcome: {
-      from: "FeatherBiz <welcome@featherbiz.io>",
+      from: "FeatherBiz <hello@featherbiz.io>",
       subject: "🎉 Bem-vindo ao FeatherBiz!"
     },
     order: {
-      from: "FeatherBiz Orders <orders@featherbiz.io>",
+      from: "FeatherBiz Orders <hello@featherbiz.io>",
       subject: "🧾 Recibo do seu pedido - FeatherBiz"
     },
     support: {
-      from: "FeatherBiz Support <support@featherbiz.io>",
+      from: "FeatherBiz Support <hello@featherbiz.io>",
       subject: "📝 Recebemos seu feedback - FeatherBiz"
     },
     notification: {
-      from: "FeatherBiz <noreply@featherbiz.io>",
+      from: "FeatherBiz <hello@featherbiz.io>",
       subject: "🔔 Notificação - FeatherBiz"
     },
     career: {
-      from: "FeatherBiz Careers <careers@featherbiz.io>",
+      from: "FeatherBiz Careers <hello@featherbiz.io>",
       subject: "💼 Obrigado pelo seu interesse - FeatherBiz"
     }
   };
@@ -362,8 +362,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: emailConfig.from,
-      to: to ? [to] : ['admin@featherbiz.io'],
-      bcc: ['wearefeatherbiz@gmail.com'],
+      to: to ? [to] : ['juniorxavierusa@gmail.com'], // Use your admin email as default
+      bcc: ['juniorxavierusa@gmail.com'], // Always BCC to your admin email
       subject: emailConfig.subject,
       html: html,
     });
