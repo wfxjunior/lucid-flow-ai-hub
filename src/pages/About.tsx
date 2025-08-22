@@ -1,55 +1,81 @@
 
-import React from "react";
-import { MarketingPageLayout } from "@/components/landing/MarketingPageLayout";
-import { Card } from "@/components/ui/card";
-import t1 from "@/assets/entrepreneurs/entrepreneur-04.jpg";
-import t2 from "@/assets/entrepreneurs/entrepreneur-05.jpg";
-import t3 from "@/assets/entrepreneurs/entrepreneur-06.jpg";
-import t4 from "@/assets/entrepreneurs/entrepreneur-07.jpg";
-import t5 from "@/assets/entrepreneurs/entrepreneur-08.jpg";
-import t6 from "@/assets/entrepreneurs/entrepreneur-09.jpg";
-import lauraImg from "@/assets/leaders/laura-monteiro.jpg";
-import marcoImg from "@/assets/leaders/marco-rossi-male.jpg";
-import matheusImg from "@/assets/leaders/matheus-ribeiro.jpg";
+import { useEffect } from 'react';
+import { LandingHeader } from '@/components/landing/LandingHeader';
+import { LandingFooter } from '@/components/landing/LandingFooter';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function About() {
+  useEffect(() => {
+    document.title = 'About Us - FeatherBiz';
+  }, []);
+
   return (
-    <MarketingPageLayout title="About" description="Learn more about FeatherBiz." canonical="/about">
-      <section className="grid md:grid-cols-3 gap-6">
-        <Card className="p-5 md:col-span-2">
-          <h3 className="font-semibold">Mission & Vision</h3>
-          <p className="text-sm text-muted-foreground mt-2">We empower entrepreneurs with an AI‑native platform to run their business end‑to‑end, securely and beautifully.</p>
-          <p className="text-sm text-muted-foreground mt-2">Our vision is a world where small teams operate with enterprise superpowers.</p>
-        </Card>
-        <Card className="p-5">
-          <h3 className="font-semibold">Values</h3>
-          <ul className="text-sm text-muted-foreground mt-2 space-y-2 list-disc pl-5">
-            <li>Customer obsession</li>
-            <li>Security by design</li>
-            <li>Simple is better</li>
-          </ul>
-        </Card>
-      </section>
-      <section className="mt-8">
-        <h3 className="font-semibold">Company history</h3>
-        <ul className="mt-3 text-sm text-muted-foreground space-y-2">
-          <li><span className="text-foreground font-medium">2022</span> — FeatherBiz founded, first prototype launched.</li>
-          <li><span className="text-foreground font-medium">2023</span> — Public beta, payments and documents released.</li>
-          <li><span className="text-foreground font-medium">2024</span> — SOC 2 journey started, analytics module shipped.</li>
-        </ul>
-      </section>
-      <section className="mt-8">
-        <h3 className="font-semibold">Leadership</h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
-          <Card className="p-4 flex items-center gap-4"><img src="/lovable-uploads/82014c46-fa4a-414a-b545-e5f6b7856a3c.png" alt="Wilson Junior - Founder and CEO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Wilson Junior</p><p className="text-sm text-muted-foreground">Founder & CEO</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={lauraImg} alt="Laura Monteiro - CTO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Laura Monteiro</p><p className="text-sm text-muted-foreground">CTO</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={t3} alt="Rebekah Muller - Head of Marketing" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Rebekah Muller</p><p className="text-sm text-muted-foreground">Head of Marketing</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={t4} alt="Ethan Clarke - CFO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Ethan Clarke</p><p className="text-sm text-muted-foreground">CFO</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={t5} alt="Sofia Andersson - CPO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Sofia Andersson</p><p className="text-sm text-muted-foreground">CPO</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={marcoImg} alt="Marco Rossi - COO" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Marco Rossi</p><p className="text-sm text-muted-foreground">COO</p></div></Card>
-          <Card className="p-4 flex items-center gap-4"><img src={matheusImg} alt="Matheus Ribeiro - CMO (Chief Marketing Officer)" className="w-16 h-16 rounded-full object-cover" /><div><p className="font-medium">Matheus Ribeiro</p><p className="text-sm text-muted-foreground">CMO</p></div></Card>
+    <div className="min-h-screen w-full flex flex-col bg-white">
+      <LandingHeader />
+      <main className="flex-1 container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">About FeatherBiz</h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              AI-native platform to build, scale and grow your business with data, automations, pipeline, productivity, and reporting.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <Card>
+              <CardHeader>
+                <CardTitle>Our Mission</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  To empower businesses of all sizes with intelligent automation and data-driven insights that drive growth and efficiency.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Our Vision</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  A world where every business can leverage AI to streamline operations, enhance productivity, and achieve sustainable growth.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Why Choose FeatherBiz?</CardTitle>
+              <CardDescription>Built for modern businesses that value efficiency and growth</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div>
+                  <h3 className="font-semibold mb-2">AI-Powered</h3>
+                  <p className="text-sm text-gray-600">
+                    Leverage artificial intelligence to automate repetitive tasks and gain insights from your data.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2">All-in-One</h3>
+                  <p className="text-sm text-gray-600">
+                    Manage invoices, estimates, projects, teams, and more from a single platform.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2">Scalable</h3>
+                  <p className="text-sm text-gray-600">
+                    Grow from startup to enterprise with features that scale with your business needs.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </section>
-    </MarketingPageLayout>
+      </main>
+      <LandingFooter />
+    </div>
   );
 }
