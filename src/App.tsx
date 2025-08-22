@@ -5,7 +5,8 @@ import { Toaster } from "@/components/ui/toaster"
 import { Toaster as Sonner } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { LanguageProvider } from "@/contexts/LanguageContext"
-import { useAuthState } from "@/hooks/useAuthState"
+import { useEffect, useState } from "react"
+import { supabase } from "@/integrations/supabase/client"
 import Dashboard from "./pages/Dashboard"
 import Auth from "./pages/Auth"
 import "./styles/dashboard-theme.css"
@@ -13,7 +14,31 @@ import "./styles/dashboard-theme.css"
 const queryClient = new QueryClient()
 
 function AuthenticatedApp() {
-  const { user, loading } = useAuthState()
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Get initial session
+    const getSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession()
+      console.log('Initial session:', session, error)
+      setUser(session?.user ?? null)
+      setLoading(false)
+    }
+
+    getSession()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event, session)
+        setUser(session?.user ?? null)
+        setLoading(false)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   if (loading) {
     return (
