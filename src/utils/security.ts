@@ -1,3 +1,4 @@
+
 // Enhanced security utility functions
 
 const isDevelopment = process.env.NODE_ENV === 'development'
@@ -40,6 +41,13 @@ export const secureError = (message: string, metadata?: Record<string, any>) => 
   
   // Log as security event as well
   securityEvent(`ERROR: ${message}`, sanitizedMetadata)
+}
+
+export const secureLog = (message: string, data?: any) => {
+  if (isDevelopment) {
+    console.log(`[SECURE LOG] ${message}`, data)
+  }
+  securityEvent(`LOG: ${message}`, data)
 }
 
 // Sanitize log data to prevent PII leakage
@@ -107,6 +115,62 @@ export const generateSecureToken = (length = 32): string => {
   const array = new Uint8Array(length)
   crypto.getRandomValues(array)
   return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('')
+}
+
+// Debounce function for performance optimization
+export const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  wait: number,
+  immediate?: boolean
+): ((...args: Parameters<T>) => void) => {
+  let timeout: NodeJS.Timeout | null = null
+
+  return (...args: Parameters<T>) => {
+    const later = () => {
+      timeout = null
+      if (!immediate) func(...args)
+    }
+
+    const callNow = immediate && !timeout
+    
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+    
+    if (callNow) func(...args)
+  }
+}
+
+// Performance monitoring utility
+export const performanceMonitor = {
+  mark: (name: string) => {
+    if (typeof performance !== 'undefined' && performance.mark) {
+      performance.mark(name)
+    }
+  },
+  
+  measure: (name: string, startMark: string, endMark?: string) => {
+    if (typeof performance !== 'undefined' && performance.measure) {
+      try {
+        performance.measure(name, startMark, endMark)
+        const entries = performance.getEntriesByName(name)
+        if (entries.length > 0) {
+          const duration = entries[entries.length - 1].duration
+          secureLog(`Performance: ${name}`, { duration: `${duration.toFixed(2)}ms` })
+          return duration
+        }
+      } catch (error) {
+        secureError('Performance measurement failed', { name, error })
+      }
+    }
+    return 0
+  },
+  
+  clear: () => {
+    if (typeof performance !== 'undefined' && performance.clearMarks) {
+      performance.clearMarks()
+      performance.clearMeasures()
+    }
+  }
 }
 
 // Content Security Policy helper
