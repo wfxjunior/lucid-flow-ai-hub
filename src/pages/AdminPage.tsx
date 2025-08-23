@@ -1,7 +1,7 @@
-
 import { AdminDashboard } from "@/components/AdminDashboard"
 import { UserGreeting } from "@/components/UserGreeting"
 import { AdminGuard } from "@/components/auth/AdminGuard"
+import { FeatherBizLogo } from "@/components/FeatherBizLogo"
 
 const AdminPage = () => {
   return (
@@ -12,12 +12,7 @@ const AdminPage = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center gap-2">
-                <img 
-                  src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
-                  alt="FeatherBiz" 
-                  className="h-8 w-auto object-contain"
-                  style={{ width: '32px', height: '51px', objectFit: 'contain' }}
-                />
+                <FeatherBizLogo />
                 <h1 className="text-2xl font-bold text-primary">FeatherBiz</h1>
                 <span className="ml-2 text-sm text-gray-500">Admin Panel</span>
               </div>

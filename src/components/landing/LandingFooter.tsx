@@ -1,6 +1,6 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
+import { FeatherBizLogo } from "@/components/FeatherBizLogo";
 
 export const LandingFooter = () => {
   return (
@@ -10,12 +10,7 @@ export const LandingFooter = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <img 
-                src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
-                alt="FeatherBiz" 
-                className="h-8 w-auto object-contain"
-                style={{ width: '32px', height: '51px', objectFit: 'contain' }}
-              />
+              <FeatherBizLogo />
               <span className="text-xl font-bold">FeatherBiz</span>
             </div>
             <p className="text-gray-400 mb-4">

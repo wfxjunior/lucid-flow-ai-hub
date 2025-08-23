@@ -15,34 +15,12 @@ import {
 } from "@/components/ui/sidebar"
 import { SidebarMenuSection } from "./sidebar/SidebarMenuSection"
 import { MenuItem } from "./sidebar/types"
+import { FeatherBizLogo } from "./FeatherBizLogo"
 
 interface AppSidebarProps {
   activeView: string
   setActiveView: (view: string) => void
 }
-
-// Logo SVG Component
-const FeatherBizLogo = () => (
-  <svg
-    width="32"
-    height="51"
-    viewBox="0 0 32 51"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-8 h-auto object-contain"
-  >
-    {/* Sua logo SVG aqui - substituir pelo conteúdo real da sua logo */}
-    <path
-      d="M16 5L8 12V25L16 32L24 25V12L16 5Z"
-      fill="currentColor"
-      fillOpacity="0.8"
-    />
-    <path
-      d="M16 15L12 18V28L16 31L20 28V18L16 15Z"
-      fill="currentColor"
-    />
-  </svg>
-)
 
 // Define menu sections with their items
 const generalItems: MenuItem[] = [
