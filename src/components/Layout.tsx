@@ -1,4 +1,5 @@
 
+import { useState } from "react"
 import { Toaster } from "@/components/ui/sonner"
 import { AppSidebar } from "@/components/AppSidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
@@ -11,11 +12,16 @@ import { useAuthState } from "@/hooks/useAuthState"
 export function Layout() {
   const { user } = useAuthState()
   const isPremiumUser = user?.email === 'juniorxavierusa@gmail.com'
+  const [activeView, setActiveView] = useState("dashboard")
+
+  const handleNavigate = (view: string) => {
+    setActiveView(view)
+  }
 
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
-        <AppSidebar />
+        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
         <SidebarInset className="flex-1">
           {/* Header */}
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -40,7 +46,7 @@ export function Layout() {
 
           {/* Main Content */}
           <main className="flex-1 overflow-auto">
-            <MainContent />
+            <MainContent activeView={activeView} onNavigate={handleNavigate} />
           </main>
         </SidebarInset>
       </div>
