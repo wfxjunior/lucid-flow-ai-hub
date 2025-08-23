@@ -94,15 +94,15 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="fb-sidebar border-r border-border h-screen">
-      <SidebarHeader className="px-4 py-3 border-b border-border">
+    <Sidebar variant="inset" className="fb-sidebar border-r border-border h-screen w-[280px]">
+      <SidebarHeader className="px-6 py-4 border-b border-border">
         <div className="flex items-center gap-3">
           <FeatherBizLogo />
           <span className="fb-text-lg font-semibold text-foreground">FeatherBiz</span>
         </div>
       </SidebarHeader>
       
-      <SidebarContent className="px-2 py-4 flex-1 overflow-y-auto">
+      <SidebarContent className="px-3 py-4 flex-1 overflow-y-auto">
         <SidebarMenuSection 
           items={generalItems} 
           sectionTitle="General" 
@@ -167,7 +167,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         />
       </SidebarContent>
       
-      <SidebarFooter className="px-4 py-3 border-t border-border mt-auto">
+      <SidebarFooter className="px-6 py-4 border-t border-border mt-auto">
         <div className="fb-text-xs text-muted-foreground">
           FeatherBiz v1.0
         </div>

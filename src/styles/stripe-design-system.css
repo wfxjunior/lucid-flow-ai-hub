@@ -26,11 +26,11 @@
   --space-10: 40px;
   --space-12: 48px;
   
-  /* Sidebar Dimensions */
-  --sidebar-width-expanded: 256px;
-  --sidebar-width-tablet: 236px;
+  /* Sidebar Dimensions - Increased for Stripe-like width */
+  --sidebar-width-expanded: 280px;
+  --sidebar-width-tablet: 260px;
   --sidebar-width-collapsed: 72px;
-  --sidebar-content-gap: 16px;
+  --sidebar-content-gap: 20px;
   
   /* Component Spacing */
   --card-padding: 20px;
@@ -112,7 +112,7 @@
   padding-right: var(--space-8);
 }
 
-/* Sidebar Styles */
+/* Sidebar Styles - Updated for wider Stripe-like appearance */
 .fb-sidebar {
   width: var(--sidebar-width-expanded);
 }

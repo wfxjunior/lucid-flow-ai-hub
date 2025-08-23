@@ -24,7 +24,7 @@ export function SidebarMenuSection({
 }: SidebarMenuSectionProps) {
   return (
     <SidebarGroup className="mb-6">
-      <SidebarGroupLabel className="fb-text-xs font-medium text-muted-foreground px-3 py-2 uppercase tracking-wider">
+      <SidebarGroupLabel className="fb-text-xs font-medium text-muted-foreground px-4 py-2 uppercase tracking-wider">
         {sectionTitle}
       </SidebarGroupLabel>
       <SidebarGroupContent>
@@ -35,7 +35,7 @@ export function SidebarMenuSection({
                 onClick={() => onMenuClick(item.view)}
                 isActive={activeView === item.view}
                 className={`
-                  w-full justify-start px-3 py-2 fb-text-sm font-medium rounded-lg 
+                  w-full justify-start px-4 py-3 fb-text-sm font-medium rounded-lg 
                   transition-all duration-200 hover:bg-accent hover:text-accent-foreground 
                   ${activeView === item.view 
                     ? 'fb-sidebar-active font-semibold' 
