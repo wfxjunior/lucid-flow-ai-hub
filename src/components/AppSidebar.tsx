@@ -1,3 +1,4 @@
+
 import React from "react"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
 import {
@@ -37,7 +38,6 @@ const coreBusinessItems: MenuItem[] = [
 ]
 
 const financialItems: MenuItem[] = [
-  { title: "Finance", icon: PiggyBank, view: "finance" },
   { title: "FeatherBudget AI", icon: PiggyBank, view: "feather-budget" },
   { title: "FeatherTax", icon: Calculator, view: "feather-tax" },
   { title: "EasyCalc", icon: Calculator, view: "easy-calc" },

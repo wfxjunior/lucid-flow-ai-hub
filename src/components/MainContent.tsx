@@ -1,4 +1,3 @@
-
 import { MessagesPage } from "@/components/MessagesPage"
 import { EmailCenterPage } from "@/components/EmailCenterPage"
 import { CareersPage } from "@/components/CareersPage"
@@ -53,7 +52,6 @@ import PaymentCanceled from "@/pages/PaymentCanceled"
 // New Clean Pages
 import { ProjectTimelinePage } from "@/components/pages/ProjectTimelinePage"
 import { ToursPage } from "@/components/pages/ToursPage"
-import { FinancePage } from "@/components/pages/FinancePage"
 import { GrowthPage } from "@/components/pages/GrowthPage"
 import { AutomationsPage } from "@/components/pages/AutomationsPage"
 
@@ -115,8 +113,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <SmartSchedulePage />
       
       // Financial Tools
-      case "finance":
-        return <FinancePage onNavigate={onNavigate} />
       case "feather-budget":
         return <FeatherBudgetPage />
       case "feather-tax":
