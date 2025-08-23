@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button"
 import { AppIcon } from '@/components/ui/AppIcon'
 
 export function FinalCTA() {
+  const handleApplyNow = () => {
+    window.open('mailto:careers@featherbiz.io')
+  }
+
   const handleTalentNetwork = () => {
     const subject = 'Talent Network - FeatherBiz'
     const body = `Hi FeatherBiz team,\n\nI'm interested in joining your talent network to stay updated on future opportunities.\n\nName:\nEmail:\nLinkedIn:\nArea of Interest:\n\nBest regards`
@@ -21,14 +25,21 @@ export function FinalCTA() {
       </div>
       
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <Button size="lg" asChild>
-          <a href="mailto:careers@featherbiz.io">
-            <AppIcon name="Mail" size="sm" className="mr-2" aria-hidden={true} />
-            Email us directly
-          </a>
+        <Button 
+          size="lg" 
+          onClick={handleApplyNow}
+          className="h-12 px-6 font-medium text-[15px] bg-primary text-primary-foreground hover:bg-primary/90 border-0 shadow-none transition-all duration-200 rounded-lg"
+        >
+          <AppIcon name="Mail" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
+          Apply now
         </Button>
-        <Button variant="outline" size="lg" onClick={handleTalentNetwork}>
-          <AppIcon name="Users" size="sm" className="mr-2" aria-hidden={true} />
+        <Button 
+          variant="outline" 
+          size="lg" 
+          onClick={handleTalentNetwork}
+          className="h-12 px-6 font-medium text-[15px] bg-transparent text-foreground border border-border hover:bg-muted/50 shadow-none transition-all duration-200 rounded-lg"
+        >
+          <AppIcon name="Users" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
           Join talent network
         </Button>
       </div>
