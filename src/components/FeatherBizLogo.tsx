@@ -1,27 +1,13 @@
 
-import React from "react"
+import React from 'react'
 
-interface FeatherBizLogoProps {
-  className?: string
-  width?: number
-  height?: number
+export function FeatherBizLogo() {
+  return (
+    <img 
+      src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+      alt="FeatherBiz" 
+      className="h-8 w-auto"
+      style={{ width: '32px', height: '51px', objectFit: 'contain' }}
+    />
+  )
 }
-
-export const FeatherBizLogo: React.FC<FeatherBizLogoProps> = ({ 
-  className = "w-8 h-8", 
-  width = 32, 
-  height = 32 
-}) => (
-  <img 
-    src="/lovable-uploads/4dcd8d1d-64ea-4f64-ba18-43f649e98a62.png" 
-    alt="FeatherBiz" 
-    className={className}
-    width={width}
-    height={height}
-    style={{ 
-      width: `${width}px`, 
-      height: `${height}px`, 
-      objectFit: 'contain' 
-    }}
-  />
-)

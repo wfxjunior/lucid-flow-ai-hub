@@ -1,36 +1,18 @@
 
 import { useEffect } from 'react'
-import { applyEnhancedSecurityHeaders, validateDomainSecurity, monitorClientSideThreats } from '@/utils/enhancedContentSecurityPolicy'
-import { securityEvent } from '@/utils/security'
 
 export function EnhancedSecurityHeaders() {
   useEffect(() => {
-    // Apply enhanced security headers
-    applyEnhancedSecurityHeaders()
-
-    // Validate domain security
-    const domainValidation = validateDomainSecurity()
-    if (!domainValidation.isValid) {
-      securityEvent('Domain security validation failed', {
-        warnings: domainValidation.warnings,
-        domain: window.location.hostname
-      })
-    }
-
-    // Start client-side threat monitoring
-    const stopMonitoring = monitorClientSideThreats()
-
-    // Log security initialization
-    securityEvent('Enhanced security headers applied', {
-      domain: window.location.hostname,
-      protocol: window.location.protocol,
-      userAgent: navigator.userAgent
-    })
+    // Set security headers via meta tags where possible
+    const meta = document.createElement('meta')
+    meta.httpEquiv = 'X-Content-Type-Options'
+    meta.content = 'nosniff'
+    document.head.appendChild(meta)
 
     return () => {
-      stopMonitoring()
+      document.head.removeChild(meta)
     }
   }, [])
 
-  return null // This component only applies security headers
+  return null
 }

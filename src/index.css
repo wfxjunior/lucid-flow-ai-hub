@@ -1,5 +1,8 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "./styles/buttons.css";
+@import "./styles/dashboard-theme.css";
+@import "./styles/stripe-layout.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -41,24 +44,24 @@
     --fb-danger: 0 84% 60%;
 
     /* Button system tokens */
-    --btn-h: 44px;
-    --btn-h-lg: 50px;
-    --btn-f: 16px;
-    --btn-shadow: 0 8px 20px rgba(30, 99, 255, 0.25);
-    --cta-h: 44px;
-    --cta-px: 24px;
-    --cta-radius: 9999px;
-    --cta-fs: 16px;
-    --cta-fw: 700;
-    --nav-h: 72px;
+    --btn-h: 36px;
+    --btn-h-lg: 40px;
+    --btn-f: 14px;
+    --btn-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --cta-h: 36px;
+    --cta-px: 16px;
+    --cta-radius: 8px;
+    --cta-fs: 14px;
+    --cta-fw: 500;
+    --nav-h: 60px;
 
     /* Hero specific variables */
-    --hero-pt: 7rem;
-    --hero-pb: 6rem;
-    --hero-gap-title-sub: 1.5rem;
-    --hero-gap-sub-ctas: 3rem;
-    --hero-sub-fs-d: 1.25rem;
-    --hero-sub-lh: 1.75;
+    --hero-pt: 6rem;
+    --hero-pb: 5rem;
+    --hero-gap-title-sub: 1rem;
+    --hero-gap-sub-ctas: 2rem;
+    --hero-sub-fs-d: 1.125rem;
+    --hero-sub-lh: 1.6;
     --hero-sub-color: 215.4 16.3% 46.9%;
 
     /* Feature Chips Design Tokens */
@@ -131,23 +134,26 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
   }
 }
 
-/* Feature Chips Styles */
+/* Feature Chips Styles - Keep existing */
 .feature-chip {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  height: 46px;
-  padding: 0 18px;
-  border-radius: 9999px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
   border: 1px solid var(--fb-border);
   background: rgba(10, 102, 255, 0.03);
   color: var(--fb-text);
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: -0.01em;
   cursor: pointer;
   transition: all 180ms ease;
@@ -173,8 +179,8 @@
 }
 
 .feature-chip-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 1px solid var(--fb-muted);
   display: flex;
@@ -185,8 +191,8 @@
 }
 
 .feature-chip-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   color: var(--fb-primary-600);
   opacity: 0.8;
   transition: opacity 180ms ease;
