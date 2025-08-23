@@ -1,4 +1,3 @@
-
 import React from "react"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
 import {
@@ -21,6 +20,29 @@ interface AppSidebarProps {
   activeView: string
   setActiveView: (view: string) => void
 }
+
+// Logo SVG Component
+const FeatherBizLogo = () => (
+  <svg
+    width="32"
+    height="51"
+    viewBox="0 0 32 51"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-8 h-auto object-contain"
+  >
+    {/* Sua logo SVG aqui - substituir pelo conteúdo real da sua logo */}
+    <path
+      d="M16 5L8 12V25L16 32L24 25V12L16 5Z"
+      fill="currentColor"
+      fillOpacity="0.8"
+    />
+    <path
+      d="M16 15L12 18V28L16 31L20 28V18L16 15Z"
+      fill="currentColor"
+    />
+  </svg>
+)
 
 // Define menu sections with their items
 const generalItems: MenuItem[] = [
@@ -97,12 +119,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     <Sidebar variant="inset">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-4 py-2">
-          <img 
-            src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
-            alt="FeatherBiz" 
-            className="w-8 h-8 object-contain"
-            style={{ width: '32px', height: '51px', objectFit: 'contain' }}
-          />
+          <FeatherBizLogo />
           <span className="font-semibold text-foreground">FeatherBiz</span>
         </div>
       </SidebarHeader>
