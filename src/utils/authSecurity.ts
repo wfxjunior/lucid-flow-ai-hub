@@ -1,217 +1,193 @@
 
 import { supabase } from '@/integrations/supabase/client'
 import { securityEvent, secureError } from './security'
+import { validateEmail } from './security'
 
-// Enhanced auth cleanup utility
-export const cleanupAuthState = () => {
+// Enhanced authentication security utilities
+export const cleanupAuthState = async () => {
   try {
-    // Remove standard auth tokens
-    localStorage.removeItem('supabase.auth.token')
+    // Clear all Supabase auth keys
+    const keysToRemove = Object.keys(localStorage).filter(key => 
+      key.startsWith('supabase.auth.') || 
+      key.includes('sb-') ||
+      key.includes('session') ||
+      key.includes('token')
+    )
     
-    // Remove all Supabase auth keys from localStorage
-    Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-        localStorage.removeItem(key)
-      }
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key)
+      sessionStorage.removeItem(key) // Also clear from session storage
     })
-    
-    // Remove from sessionStorage if in use
-    if (typeof sessionStorage !== 'undefined') {
-      Object.keys(sessionStorage).forEach((key) => {
-        if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-          sessionStorage.removeItem(key)
+
+    // Clear any cached auth data
+    if ('caches' in window) {
+      const cacheNames = await caches.keys()
+      for (const cacheName of cacheNames) {
+        if (cacheName.includes('auth') || cacheName.includes('supabase')) {
+          await caches.delete(cacheName)
         }
-      })
+      }
     }
-    
-    securityEvent('Auth state cleaned up', { timestamp: new Date().toISOString() })
+
+    securityEvent('Auth state cleaned up')
   } catch (error) {
-    secureError('Auth cleanup failed', { error: error instanceof Error ? error.message : 'Unknown error' })
+    secureError('Failed to cleanup auth state', { error })
   }
 }
 
-// Enhanced secure sign in with validation
 export const secureSignIn = async (email: string, password: string) => {
   try {
-    // Clean up existing state first
-    cleanupAuthState()
-    
-    // Attempt global sign out to ensure clean state
+    // Validate input
+    if (!validateEmail(email)) {
+      throw new Error('Invalid email format')
+    }
+
+    if (!password || password.length < 8) {
+      throw new Error('Password must be at least 8 characters')
+    }
+
+    // Clean up any existing auth state first
+    await cleanupAuthState()
+
+    // Attempt global sign out first
     try {
       await supabase.auth.signOut({ scope: 'global' })
     } catch (err) {
       // Continue even if this fails
-      console.warn('Global signout failed, continuing with signin')
+      console.log('Global signout failed, continuing...', err)
     }
-    
-    // Validate inputs
-    if (!email || !password) {
-      throw new Error('Email and password are required')
-    }
-    
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      throw new Error('Invalid email format')
-    }
-    
-    securityEvent('Sign in attempt', { 
-      email: email.toLowerCase(),
-      timestamp: new Date().toISOString()
-    })
-    
-    // Sign in with email/password
+
+    // Sign in with enhanced security
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.toLowerCase().trim(),
-      password,
+      password
     })
-    
+
     if (error) {
       securityEvent('Sign in failed', { 
-        email: email.toLowerCase(),
+        email, 
         error: error.message,
         timestamp: new Date().toISOString()
       })
-      throw error
+      
+      // Map common auth errors to user-friendly messages
+      if (error.message.includes('Invalid login credentials')) {
+        throw new Error('Invalid email or password. Please check your credentials.')
+      } else if (error.message.includes('Email not confirmed')) {
+        throw new Error('Please check your email and click the confirmation link before signing in.')
+      } else if (error.message.includes('Too many requests')) {
+        throw new Error('Too many sign-in attempts. Please try again in a few minutes.')
+      } else {
+        throw new Error('Sign in failed. Please try again.')
+      }
     }
-    
+
     if (data.user) {
-      securityEvent('Sign in successful', { 
+      securityEvent('Secure sign in successful', { 
         userId: data.user.id,
-        email: data.user.email,
+        email,
         timestamp: new Date().toISOString()
       })
-      
-      // Validate session after signin
-      setTimeout(async () => {
-        try {
-          const { data: sessionData } = await supabase.rpc('validate_session_security')
-          if (!sessionData) {
-            secureError('Session validation failed after signin', { userId: data.user.id })
-            await secureSignOut()
-          }
-        } catch (error) {
-          secureError('Session validation error', { error: error instanceof Error ? error.message : 'Unknown error' })
-        }
-      }, 1000)
-      
+
       // Force page reload for clean state
       setTimeout(() => {
         window.location.href = '/'
-      }, 500)
+      }, 100)
     }
-    
+
     return data
   } catch (error) {
-    secureError('Secure sign in failed', { 
-      email: email.toLowerCase(),
-      error: error instanceof Error ? error.message : 'Unknown error'
+    secureError('Secure sign in error', { 
+      email, 
+      error: error instanceof Error ? error.message : 'Unknown error' 
     })
     throw error
   }
 }
 
-// Enhanced secure sign out
 export const secureSignOut = async () => {
   try {
-    securityEvent('Sign out attempt', { timestamp: new Date().toISOString() })
+    securityEvent('Secure sign out initiated')
     
     // Clean up auth state first
-    cleanupAuthState()
+    await cleanupAuthState()
     
     // Attempt global sign out
     try {
       await supabase.auth.signOut({ scope: 'global' })
     } catch (err) {
       // Continue even if this fails
-      console.warn('Global signout failed')
+      console.log('Global signout failed, continuing...', err)
     }
     
-    securityEvent('Sign out completed', { timestamp: new Date().toISOString() })
+    securityEvent('Secure sign out completed')
     
-    // Force page reload for clean state
+    // Force redirect after cleanup
     setTimeout(() => {
       window.location.href = '/auth'
     }, 100)
   } catch (error) {
-    secureError('Secure sign out failed', { 
-      error: error instanceof Error ? error.message : 'Unknown error'
+    secureError('Secure sign out error', { 
+      error: error instanceof Error ? error.message : 'Unknown error' 
     })
     
-    // Force cleanup and redirect even if signout fails
-    cleanupAuthState()
-    window.location.href = '/auth'
+    // Force redirect even on error
+    setTimeout(() => {
+      window.location.href = '/auth'
+    }, 100)
   }
 }
 
-// Session validation utility
-export const validateCurrentSession = async (): Promise<boolean> => {
+export const logSecurityEvent = (event: string, metadata?: Record<string, any>) => {
+  securityEvent(`Auth: ${event}`, {
+    ...metadata,
+    userAgent: navigator.userAgent,
+    timestamp: new Date().toISOString(),
+    url: window.location.href
+  })
+}
+
+// Session validation with enhanced security
+export const validateSessionSecurity = async (): Promise<boolean> => {
   try {
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { session }, error } = await supabase.auth.getSession()
     
-    if (!session) {
+    if (error) {
+      securityEvent('Session validation error', { error: error.message })
       return false
     }
-    
-    // Check if session is expired
-    const now = Date.now()
-    const expiresAt = session.expires_at ? session.expires_at * 1000 : 0
-    
-    if (expiresAt <= now) {
-      securityEvent('Session expired', { expiresAt, now })
+
+    if (!session?.user) {
+      return true // No session is valid
+    }
+
+    // Check session expiration
+    const expiresAt = new Date(session.expires_at || 0).getTime()
+    if (expiresAt < Date.now()) {
+      securityEvent('Expired session detected', { 
+        expiresAt: session.expires_at,
+        userId: session.user.id 
+      })
       await secureSignOut()
       return false
     }
-    
-    // Check session integrity with database
-    const { data: isValid } = await supabase.rpc('validate_session_security')
+
+    // Validate with server-side check
+    const { data: isValid } = await supabase.rpc('validate_user_session')
     
     if (!isValid) {
-      securityEvent('Session integrity check failed')
+      securityEvent('Invalid session detected by server', { 
+        userId: session.user.id 
+      })
       await secureSignOut()
       return false
     }
-    
+
     return true
   } catch (error) {
     secureError('Session validation failed', { 
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error' 
     })
     return false
-  }
-}
-
-// Auto session timeout (24 hours)
-export const setupSessionTimeout = () => {
-  const SESSION_TIMEOUT = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
-  
-  let timeoutId: NodeJS.Timeout
-  
-  const resetTimeout = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-    }
-    
-    timeoutId = setTimeout(async () => {
-      securityEvent('Session timeout reached')
-      await secureSignOut()
-    }, SESSION_TIMEOUT)
-  }
-  
-  // Reset timeout on user activity
-  const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart']
-  
-  events.forEach(event => {
-    document.addEventListener(event, resetTimeout, { passive: true })
-  })
-  
-  // Initial timeout setup
-  resetTimeout()
-  
-  return () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-    }
-    events.forEach(event => {
-      document.removeEventListener(event, resetTimeout)
-    })
   }
 }

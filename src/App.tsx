@@ -1,49 +1,28 @@
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Home from "@/pages/Home";
-import Auth from "@/pages/Auth";
-import Pricing from "@/pages/Pricing";
-import About from "@/pages/About";
-import Contact from "@/pages/Contact";
-import Dashboard from "@/pages/Dashboard";
-import Company from "@/pages/Company";
-import FeatherBot from "@/pages/FeatherBot";
-import Security from "@/pages/Security";
-import NotFound from "@/pages/NotFound";
-import { SecurityProvider } from '@/contexts/SecurityContext'
-import { EnhancedSecurityHeaders } from '@/components/security/EnhancedSecurityHeaders'
+import { BrowserRouter } from "react-router-dom";
+import { EnhancedSecurityHeaders } from "@/components/security/EnhancedSecurityHeaders";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AppRoutes } from "./AppRoutes";
 
 const queryClient = new QueryClient();
 
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <SecurityProvider>
-        <EnhancedSecurityHeaders />
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <LanguageProvider>
+      <TooltipProvider>
         <BrowserRouter>
-          <div className="min-h-screen bg-background">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/company" element={<Company />} />
-              <Route path="/featherbot" element={<FeatherBot />} />
-              <Route path="/security" element={<Security />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
+          <EnhancedSecurityHeaders />
+          <AppRoutes />
+          <Toaster />
+          <Sonner />
         </BrowserRouter>
-      </SecurityProvider>
-    </QueryClientProvider>
-  )
-}
+      </TooltipProvider>
+    </LanguageProvider>
+  </QueryClientProvider>
+);
 
-export default App
+export default App;
