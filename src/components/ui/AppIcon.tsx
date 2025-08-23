@@ -4,7 +4,7 @@ import * as LucideIcons from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xl'
-export type IconTone = 'default' | 'primary'
+export type IconTone = 'default' | 'primary' | 'success' | 'danger' | 'warning'
 
 interface AppIconProps {
   name: keyof typeof LucideIcons
@@ -26,6 +26,9 @@ const sizeMap: Record<IconSize, number> = {
 const toneMap: Record<IconTone, string> = {
   default: 'text-muted-foreground',
   primary: 'text-foreground',
+  success: 'text-green-600',
+  danger: 'text-red-600',
+  warning: 'text-amber-600',
 }
 
 export function AppIcon({
