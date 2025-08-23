@@ -1,29 +1,29 @@
 
-import { Mail, MessageSquare, Send } from "lucide-react"
+import { QuickAction } from './quickActionsUtils'
 
-export const communicationActions = [
+export const communicationActions: QuickAction[] = [
   {
-    id: "email-center",
-    title: "Email Center",
-    description: "Manage emails",
-    icon: Mail,
-    color: "bg-blue-600",
-    hoverColor: "hover:bg-blue-700"
+    id: "email-templates",
+    title: "Email Templates",
+    description: "Professional email templates",
+    icon: "Mail",
+    color: "bg-blue-500",
+    hoverColor: "hover:bg-blue-600"
   },
   {
-    id: "messages",
-    title: "Messages",
-    description: "Chat messages",
-    icon: MessageSquare,
-    color: "bg-green-600",
-    hoverColor: "hover:bg-green-700"
+    id: "notifications",
+    title: "Notifications",
+    description: "Manage notifications",
+    icon: "Bell",
+    color: "bg-yellow-500",
+    hoverColor: "hover:bg-yellow-600"
   },
   {
-    id: "communication-hub",
-    title: "Communication Hub",
-    description: "Unified communications",
-    icon: Send,
-    color: "bg-purple-600",
-    hoverColor: "hover:bg-purple-700"
+    id: "client-portal",
+    title: "Client Portal",
+    description: "Client communication hub",
+    icon: "MessageSquare",
+    color: "bg-emerald-500",
+    hoverColor: "hover:bg-emerald-600"
   }
 ]

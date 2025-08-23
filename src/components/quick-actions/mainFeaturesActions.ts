@@ -1,70 +1,36 @@
 
-import { 
-  Home, FileText, Calendar, CreditCard, Signature, Mic, Heart, Clock
-} from "lucide-react"
+import { QuickAction } from './quickActionsUtils'
 
-export const mainFeaturesActions = [
-  {
-    id: "dashboard",
-    title: "Dashboard",
-    description: "View business overview",
-    icon: Home,
-    color: "bg-blue-500",
-    hoverColor: "hover:bg-blue-600"
-  },
-  {
-    id: "smart-schedule",
-    title: "Smart Schedule",
-    description: "Manage your schedule intelligently",
-    icon: Clock,
-    color: "bg-purple-500",
-    hoverColor: "hover:bg-purple-600"
-  },
-  {
-    id: "ai-voice",
-    title: "AI Voice Assistant",
-    description: "Voice commands and assistance",
-    icon: Mic,
-    color: "bg-cyan-500",
-    hoverColor: "hover:bg-cyan-600"
-  },
-  {
-    id: "aftercare",
-    title: "AfterCare",
-    description: "Client feedback & relationships",
-    icon: Heart,
-    color: "bg-rose-500",
-    hoverColor: "hover:bg-rose-600"
-  },
+export const mainFeaturesActions: QuickAction[] = [
   {
     id: "invoice-creator",
-    title: "Invoices",
-    description: "Generate a new invoice",
-    icon: FileText,
+    title: "Invoice Creator",
+    description: "Create professional invoices",
+    icon: "FileText",
     color: "bg-blue-500",
     hoverColor: "hover:bg-blue-600"
   },
   {
-    id: "appointments",
-    title: "Appointments",
-    description: "Book an appointment",
-    icon: Calendar,
+    id: "customers",
+    title: "Customer Management",
+    description: "Manage your client database",
+    icon: "Users",
     color: "bg-green-500",
     hoverColor: "hover:bg-green-600"
   },
   {
-    id: "payments",
-    title: "Process Payment",
-    description: "Handle transactions",
-    icon: CreditCard,
-    color: "bg-emerald-500",
-    hoverColor: "hover:bg-emerald-600"
+    id: "projects",
+    title: "Project Tracker",
+    description: "Track project progress",
+    icon: "Briefcase",
+    color: "bg-purple-500",
+    hoverColor: "hover:bg-purple-600"
   },
   {
-    id: "e-signatures",
-    title: "Sign Document",
-    description: "Electronic signatures",
-    icon: Signature,
+    id: "appointments",
+    title: "Appointment Scheduler",
+    description: "Schedule and manage appointments",
+    icon: "Calendar",
     color: "bg-indigo-500",
     hoverColor: "hover:bg-indigo-600"
   }

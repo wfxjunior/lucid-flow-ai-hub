@@ -1,11 +1,9 @@
 
-import { LucideIcon } from "lucide-react"
-
 export interface QuickAction {
   id: string
   title: string
   description: string
-  icon: LucideIcon
+  icon: keyof typeof import('lucide-react')
   color: string
   hoverColor: string
 }

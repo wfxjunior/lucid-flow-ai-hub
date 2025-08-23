@@ -1,17 +1,4 @@
 
-import { 
-  FileText, 
-  Users, 
-  CreditCard, 
-  Calculator,
-  Calendar,
-  Briefcase,
-  Clock,
-  GanttChart,
-  FilePlus,
-  DollarSign,
-  HeartHandshake
-} from "lucide-react"
 import { QuickAction } from "./quickActionsUtils"
 
 export const limitedQuickActions: QuickAction[] = [
@@ -20,7 +7,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "invoice-creator",
     title: "Invoices",
     description: "Generate new invoice",
-    icon: FileText,
+    icon: "FileText",
     color: "bg-blue-500",
     hoverColor: "hover:bg-blue-600"
   },
@@ -28,7 +15,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "customers",
     title: "Customers",
     description: "Manage customer data",
-    icon: Users,
+    icon: "Users",
     color: "bg-green-500",
     hoverColor: "hover:bg-green-600"
   },
@@ -36,7 +23,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "payments",
     title: "Payments",
     description: "Track payment status",
-    icon: CreditCard,
+    icon: "CreditCard",
     color: "bg-purple-500",
     hoverColor: "hover:bg-purple-600"
   },
@@ -44,7 +31,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "estimates",
     title: "Estimates",
     description: "Create cost estimates",
-    icon: Calculator,
+    icon: "Calculator",
     color: "bg-orange-500",
     hoverColor: "hover:bg-orange-600"
   },
@@ -53,7 +40,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "appointments",
     title: "Appointments",
     description: "Schedule appointments",
-    icon: Calendar,
+    icon: "Calendar",
     color: "bg-indigo-500",
     hoverColor: "hover:bg-indigo-600"
   },
@@ -61,7 +48,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "projects",
     title: "Projects",
     description: "Manage projects",
-    icon: Briefcase,
+    icon: "Briefcase",
     color: "bg-teal-500",
     hoverColor: "hover:bg-teal-600"
   },
@@ -69,7 +56,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "smart-schedule",
     title: "SmartSchedule",
     description: "AI-powered scheduling",
-    icon: Clock,
+    icon: "Clock",
     color: "bg-pink-500",
     hoverColor: "hover:bg-pink-600"
   },
@@ -77,7 +64,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "project-timeline",
     title: "Project Timeline",
     description: "Track project progress",
-    icon: GanttChart,
+    icon: "GanttChart",
     color: "bg-cyan-500",
     hoverColor: "hover:bg-cyan-600"
   },
@@ -86,7 +73,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "invoices",
     title: "Invoice List",
     description: "View all invoices",
-    icon: FilePlus,
+    icon: "FilePlus",
     color: "bg-emerald-500",
     hoverColor: "hover:bg-emerald-600"
   },
@@ -94,7 +81,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "easy-calc",
     title: "EasyCalc",
     description: "Simple calculations",
-    icon: Calculator,
+    icon: "Calculator",
     color: "bg-amber-500",
     hoverColor: "hover:bg-amber-600"
   },
@@ -102,7 +89,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "earnsync",
     title: "EarnSync",
     description: "Sync earnings data",
-    icon: DollarSign,
+    icon: "DollarSign",
     color: "bg-lime-500",
     hoverColor: "hover:bg-lime-600"
   },
@@ -110,7 +97,7 @@ export const limitedQuickActions: QuickAction[] = [
     id: "aftercare",
     title: "AfterCare",
     description: "Customer follow-up",
-    icon: HeartHandshake,
+    icon: "HeartHandshake",
     color: "bg-rose-500",
     hoverColor: "hover:bg-rose-600"
   }
