@@ -10,6 +10,7 @@ export default function Index() {
   const [activeView, setActiveView] = useState("dashboard")
 
   const handleNavigate = (view: string) => {
+    console.log('Index: Navigating to', view)
     setActiveView(view)
   }
 
@@ -17,7 +18,7 @@ export default function Index() {
     <SidebarProvider>
       <div className="w-full h-screen bg-background flex">
         <AppSidebar setActiveView={setActiveView} activeView={activeView} />
-        <main className="flex-1 h-full overflow-hidden ml-4">
+        <main className="flex-1 h-full overflow-hidden">
           <MainContent activeView={activeView} onNavigate={handleNavigate} />
         </main>
       </div>
