@@ -1,6 +1,6 @@
 
 import React from "react"
-import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Heart, Mic, Signature } from "lucide-react"
+import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Heart, Mic, Signature, ChevronLeft } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -13,10 +13,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { SidebarMenuSection } from "./sidebar/SidebarMenuSection"
 import { MenuItem } from "./sidebar/types"
 import { FeatherBizLogo } from "./FeatherBizLogo"
+import { Button } from "@/components/ui/button"
 
 interface AppSidebarProps {
   activeView: string
@@ -94,11 +96,14 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="fb-sidebar border-r border-border h-screen w-[280px]">
+    <Sidebar variant="inset" className="fb-sidebar border-r border-border">
       <SidebarHeader className="px-6 py-4 border-b border-border">
-        <div className="flex items-center gap-3">
-          <FeatherBizLogo />
-          <span className="fb-text-lg font-semibold text-foreground">FeatherBiz</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <FeatherBizLogo />
+            <span className="fb-text-lg font-semibold text-foreground">FeatherBiz</span>
+          </div>
+          <SidebarTrigger className="h-6 w-6 hover:bg-accent hover:text-accent-foreground" />
         </div>
       </SidebarHeader>
       
