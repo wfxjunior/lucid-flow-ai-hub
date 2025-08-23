@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -247,7 +246,7 @@ export const LandingHeader = () => {
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center hover:opacity-80 transition-opacity" aria-label="FeatherBiz home">
             <img 
-              src="/lovable-uploads/6670f9f6-835f-4a84-8dae-2354ddecb733.png" 
+              src="/lovable-uploads/72c320c3-26d7-40fd-862e-f1c3270c013f.png" 
               alt="FeatherBiz" 
               className="h-10 w-auto"
             />

@@ -16,7 +16,7 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
         <div className="text-center mb-12">
           <div className="mb-8">
             <img 
-              src="/lovable-uploads/6670f9f6-835f-4a84-8dae-2354ddecb733.png" 
+              src="/lovable-uploads/72c320c3-26d7-40fd-862e-f1c3270c013f.png" 
               alt="FeatherBiz" 
               className="h-12 w-auto mx-auto"
             />

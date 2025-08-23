@@ -83,7 +83,11 @@ export default function Auth() {
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
       {/* Logo */}
       <div className="mb-20">
-        <h1 className="text-3xl font-medium text-black tracking-tight">FeatherBiz</h1>
+        <img 
+          src="/lovable-uploads/72c320c3-26d7-40fd-862e-f1c3270c013f.png" 
+          alt="FeatherBiz" 
+          className="h-16 w-auto"
+        />
       </div>
 
       {/* Main content */}
