@@ -1,4 +1,3 @@
-
 import { securityEvent } from './security'
 
 interface SecurityHeaders {
@@ -73,8 +72,8 @@ export function validateDomainSecurity(): DomainValidationResult {
     warnings.push('Domain uses potentially suspicious TLD')
   }
   
-  // Check for mixed content
-  const scripts = Array.from(document.querySelectorAll('script[src]'))
+  // Check for mixed content - Fixed TypeScript error by casting to HTMLScriptElement
+  const scripts = Array.from(document.querySelectorAll('script[src]')) as HTMLScriptElement[]
   const httpScripts = scripts.filter(script => 
     script.src && script.src.startsWith('http:')
   )
