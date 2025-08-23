@@ -1,226 +1,111 @@
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { supabase } from "@/integrations/supabase/client"
-import { useNavigate } from "react-router-dom"
-import { HelpCenter } from "@/components/HelpCenter"
-import { User, LogOut } from "lucide-react"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { toast } from "sonner"
-import { useLanguage } from "@/contexts/LanguageContext"
+import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Sparkles, Clock, Users, Target } from "lucide-react";
 
-interface UserGreetingProps {
-  onNavigate?: (view: string) => void
-}
-
-// Auth cleanup utility
-const cleanupAuthState = () => {
-  console.log('Cleaning up auth state on sign out')
-  
-  // Remove standard auth tokens
-  localStorage.removeItem('supabase.auth.token')
-  
-  // Remove all Supabase auth keys from localStorage
-  Object.keys(localStorage).forEach((key) => {
-    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-      localStorage.removeItem(key)
-    }
-  })
-  
-  // Remove from sessionStorage if in use
-  Object.keys(sessionStorage || {}).forEach((key) => {
-    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
-      sessionStorage.removeItem(key)
-    }
-  })
-}
-
-export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
-  const [userEmail, setUserEmail] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const navigate = useNavigate()
-  const { t } = useLanguage()
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { data: { user }, error } = await supabase.auth.getUser()
-        
-        if (error) {
-          console.error('Error getting user:', error)
-          return
-        }
-        
-        if (user?.email) {
-          setUserEmail(user.email)
-          console.log('User loaded in UserGreeting:', user.email)
-        }
-      } catch (error) {
-        console.error('Error in getUser:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    getUser()
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('UserGreeting: Auth state changed:', event, !!session)
-        if (event === 'SIGNED_OUT' || !session) {
-          setUserEmail(null)
-          // Don't automatically redirect here, let the main auth handler do it
-        } else if (session?.user?.email) {
-          setUserEmail(session.user.email)
-        }
-        setIsLoading(false)
-      }
-    )
-
-    return () => subscription.unsubscribe()
-  }, [navigate])
-
-  const handleSignOut = async () => {
-    try {
-      setIsLoading(true)
-      
-      console.log('Starting sign out process')
-      
-      // Clean up auth state first
-      cleanupAuthState()
-      
-      // Attempt global sign out
-      const { error } = await supabase.auth.signOut({ scope: 'global' })
-      
-      if (error) {
-        console.error('Sign out error:', error)
-        toast.error('Erro ao sair. Tente novamente.')
-      } else {
-        console.log('Sign out successful')
-        toast.success('Logout realizado com sucesso!')
-        // Use controlled redirect with delay to prevent loops
-        setTimeout(() => {
-          window.location.href = '/auth'
-        }, 100)
-      }
-    } catch (error) {
-      console.error('Unexpected sign out error:', error)
-      toast.error('Erro inesperado ao sair.')
-      // Force redirect even on error with delay
-      setTimeout(() => {
-        window.location.href = '/auth'
-      }, 100)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const getUserInitials = (email: string) => {
-    return email.substring(0, 2).toUpperCase()
-  }
-
-  const getUserDisplayName = (email: string) => {
-    return email.split('@')[0]
-  }
-
-  const handleProfileClick = () => {
-    if (onNavigate) {
-      onNavigate('settings')
-    } else {
-      navigate('/')
-    }
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
-        <div className="flex items-center gap-2 sm:gap-4">
-          <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
-          <div className="h-6 w-6 sm:h-8 sm:w-8 bg-gray-200 rounded-full animate-pulse"></div>
-          <div className="h-3 w-16 sm:h-4 sm:w-24 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
-        </div>
-        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-          <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
-        </div>
-      </div>
-    )
-  }
-
-  if (!userEmail) {
-    return (
-      <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
-        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-          <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
-          <div className="text-sm sm:text-lg lg:text-xl font-semibold truncate">{t("userGreeting.welcome")}</div>
-        </div>
-        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => navigate('/auth')}
-            className="h-8 text-xs sm:h-auto sm:text-sm px-2 sm:px-3"
-          >
-            {t("userGreeting.signIn")}
-          </Button>
-          <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
-        </div>
-      </div>
-    )
-  }
+export function UserGreeting() {
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="flex items-center justify-between w-full gap-2 sm:gap-4 min-w-0">
-      <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-        <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-6 w-6 sm:h-8 sm:w-8 rounded-full p-0 flex-shrink-0">
-              <Avatar className="h-6 w-6 sm:h-8 sm:w-8">
-                <AvatarFallback className="bg-blue-500 text-white text-xs">
-                  {getUserInitials(userEmail)}
-                </AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {getUserDisplayName(userEmail)}
-                </p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  {userEmail}
-                </p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleProfileClick}>
-              <User className="mr-2 h-4 w-4" />
-              <span>{t("userGreeting.profile")}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>{isLoading ? t("userGreeting.signingOut") : t("userGreeting.signOut")}</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <span className="text-xs sm:text-sm lg:text-base text-muted-foreground truncate min-w-0">
-          {t("userGreeting.hello", { name: getUserDisplayName(userEmail) })}
-        </span>
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+      <div className="flex items-start justify-between">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Good morning! 👋
+            </h2>
+            <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+              <Sparkles className="w-3 h-3 mr-1" />
+              New
+            </Badge>
+          </div>
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
+            Welcome to FeatherBiz! Ready to streamline your business operations? 
+            Let's get you set up with our powerful automation tools.
+          </p>
+        </div>
+        <div className="hidden sm:block">
+          <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
+            <Users className="w-8 h-8 text-white" />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <Clock className="w-5 h-5 text-blue-600" />
+              <CardTitle className="text-sm font-medium">Quick Setup</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <CardDescription className="text-xs">
+              Get started in under 5 minutes
+            </CardDescription>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <Target className="w-5 h-5 text-green-600" />
+              <CardTitle className="text-sm font-medium">AI-Powered</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <CardDescription className="text-xs">
+              Smart automation for your business
+            </CardDescription>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-purple-600" />
+              <CardTitle className="text-sm font-medium">All-in-One</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <CardDescription className="text-xs">
+              Everything you need in one place
+            </CardDescription>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="mt-6">
+        <Button 
+          onClick={() => setShowModal(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+        >
+          Get Started
+        </Button>
       </div>
       
-      <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-        <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
-      </div>
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Welcome to FeatherBiz!</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Let's get you started with setting up your business profile and exploring our features.
+            </p>
+            <div className="flex gap-2">
+              <Button className="flex-1" onClick={() => setShowModal(false)}>
+                Start Setup
+              </Button>
+              <Button variant="outline" onClick={() => setShowModal(false)}>
+                Later
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
-  )
+  );
 }
