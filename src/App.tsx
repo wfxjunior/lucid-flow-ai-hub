@@ -1,19 +1,20 @@
+
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Home } from "@/pages/Home";
-import { Auth } from "@/pages/Auth";
-import { Pricing } from "@/pages/Pricing";
-import { About } from "@/pages/About";
-import { Contact } from "@/pages/Contact";
-import { Dashboard } from "@/pages/Dashboard";
-import { Company } from "@/pages/Company";
-import { FeatherBot } from "@/pages/FeatherBot";
-import { Security } from "@/pages/Security";
-import { NotFound } from "@/pages/NotFound";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Home from "@/pages/Home";
+import Auth from "@/pages/Auth";
+import Pricing from "@/pages/Pricing";
+import About from "@/pages/About";
+import Contact from "@/pages/Contact";
+import Dashboard from "@/pages/Dashboard";
+import Company from "@/pages/Company";
+import FeatherBot from "@/pages/FeatherBot";
+import Security from "@/pages/Security";
+import NotFound from "@/pages/NotFound";
 import { SecurityProvider } from '@/contexts/SecurityContext'
 import { EnhancedSecurityHeaders } from '@/components/security/EnhancedSecurityHeaders'
 

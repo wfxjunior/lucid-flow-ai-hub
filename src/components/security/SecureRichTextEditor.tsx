@@ -111,8 +111,8 @@ export function SecureRichTextEditor({
         />
         
         {currentValidation.warnings.length > 0 && (
-          <div className="absolute top-2 right-2">
-            <Shield className="h-4 w-4 text-amber-500" title="Content was sanitized for security" />
+          <div className="absolute top-2 right-2" title="Content was sanitized for security">
+            <Shield className="h-4 w-4 text-amber-500" />
           </div>
         )}
       </div>
