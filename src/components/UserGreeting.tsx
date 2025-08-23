@@ -1,276 +1,226 @@
-
-import React, { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut, Star, MessageSquare, Trophy, Target, TrendingUp, Calendar, Clock, Gift } from 'lucide-react'
-import { toast } from 'sonner'
+import { supabase } from "@/integrations/supabase/client"
+import { useNavigate } from "react-router-dom"
+import { HelpCenter } from "@/components/HelpCenter"
+import { User, LogOut } from "lucide-react"
+import { SidebarTrigger } from "@/components/ui/sidebar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { toast } from "sonner"
+import { useLanguage } from "@/contexts/LanguageContext"
 
-export function UserGreeting() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [feedbackOpen, setFeedbackOpen] = useState(false)
-  const [feedback, setFeedback] = useState({ rating: '', message: '', category: '' })
+interface UserGreetingProps {
+  onNavigate?: (view: string) => void
+}
 
-  const handleFeedbackSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Feedback submitted:', feedback)
-    toast.success('Thank you for your feedback!')
-    setFeedback({ rating: '', message: '', category: '' })
-    setFeedbackOpen(false)
+// Auth cleanup utility
+const cleanupAuthState = () => {
+  console.log('Cleaning up auth state on sign out')
+  
+  // Remove standard auth tokens
+  localStorage.removeItem('supabase.auth.token')
+  
+  // Remove all Supabase auth keys from localStorage
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      localStorage.removeItem(key)
+    }
+  })
+  
+  // Remove from sessionStorage if in use
+  Object.keys(sessionStorage || {}).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      sessionStorage.removeItem(key)
+    }
+  })
+}
+
+export const UserGreeting = ({ onNavigate }: UserGreetingProps = {}) => {
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
+  const { t } = useLanguage()
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser()
+        
+        if (error) {
+          console.error('Error getting user:', error)
+          return
+        }
+        
+        if (user?.email) {
+          setUserEmail(user.email)
+          console.log('User loaded in UserGreeting:', user.email)
+        }
+      } catch (error) {
+        console.error('Error in getUser:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    getUser()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('UserGreeting: Auth state changed:', event, !!session)
+        if (event === 'SIGNED_OUT' || !session) {
+          setUserEmail(null)
+          // Don't automatically redirect here, let the main auth handler do it
+        } else if (session?.user?.email) {
+          setUserEmail(session.user.email)
+        }
+        setIsLoading(false)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [navigate])
+
+  const handleSignOut = async () => {
+    try {
+      setIsLoading(true)
+      
+      console.log('Starting sign out process')
+      
+      // Clean up auth state first
+      cleanupAuthState()
+      
+      // Attempt global sign out
+      const { error } = await supabase.auth.signOut({ scope: 'global' })
+      
+      if (error) {
+        console.error('Sign out error:', error)
+        toast.error('Erro ao sair. Tente novamente.')
+      } else {
+        console.log('Sign out successful')
+        toast.success('Logout realizado com sucesso!')
+        // Use controlled redirect with delay to prevent loops
+        setTimeout(() => {
+          window.location.href = '/auth'
+        }, 100)
+      }
+    } catch (error) {
+      console.error('Unexpected sign out error:', error)
+      toast.error('Erro inesperado ao sair.')
+      // Force redirect even on error with delay
+      setTimeout(() => {
+        window.location.href = '/auth'
+      }, 100)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const user = {
-    name: 'Alex Johnson',
-    email: 'alex@example.com',
-    avatar: '/placeholder.svg',
-    initials: 'AJ',
-    plan: 'Pro',
-    streak: 7,
-    points: 2840,
-    achievements: [
-      { id: 1, name: 'Early Adopter', icon: Trophy, earned: true },
-      { id: 2, name: 'Power User', icon: Star, earned: true },
-      { id: 3, name: 'Goal Crusher', icon: Target, earned: false }
-    ]
+  const getUserInitials = (email: string) => {
+    return email.substring(0, 2).toUpperCase()
+  }
+
+  const getUserDisplayName = (email: string) => {
+    return email.split('@')[0]
+  }
+
+  const handleProfileClick = () => {
+    if (onNavigate) {
+      onNavigate('settings')
+    } else {
+      navigate('/')
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
+          <div className="h-6 w-6 sm:h-8 sm:w-8 bg-gray-200 rounded-full animate-pulse"></div>
+          <div className="h-3 w-16 sm:h-4 sm:w-24 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
+        </div>
+      </div>
+    )
+  }
+
+  if (!userEmail) {
+    return (
+      <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
+          <div className="text-sm sm:text-lg lg:text-xl font-semibold truncate">{t("userGreeting.welcome")}</div>
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => navigate('/auth')}
+            className="h-8 text-xs sm:h-auto sm:text-sm px-2 sm:px-3"
+          >
+            {t("userGreeting.signIn")}
+          </Button>
+          <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
+        </div>
+      </div>
+    )
   }
 
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback>{user.initials}</AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-80" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{user.name}</p>
-              <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-              <div className="flex items-center gap-2 mt-2">
-                <Badge variant="secondary" className="text-xs">{user.plan}</Badge>
-                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Star className="h-3 w-3 fill-current text-yellow-500" />
-                  {user.points}
-                </div>
-              </div>
-            </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setIsOpen(true)}>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setFeedbackOpen(true)}>
-            <MessageSquare className="mr-2 h-4 w-4" />
-            <span>Feedback</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Log out</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>User Profile</DialogTitle>
-            <DialogDescription>
-              Your profile information and achievements
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-6">
-            {/* User Info */}
-            <div className="flex items-center space-x-4">
-              <Avatar className="h-16 w-16">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="text-lg">{user.initials}</AvatarFallback>
+    <div className="flex items-center justify-between w-full gap-2 sm:gap-4 min-w-0">
+      <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+        <SidebarTrigger className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0" />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-6 w-6 sm:h-8 sm:w-8 rounded-full p-0 flex-shrink-0">
+              <Avatar className="h-6 w-6 sm:h-8 sm:w-8">
+                <AvatarFallback className="bg-blue-500 text-white text-xs">
+                  {getUserInitials(userEmail)}
+                </AvatarFallback>
               </Avatar>
-              <div>
-                <h3 className="text-lg font-semibold">{user.name}</h3>
-                <p className="text-sm text-muted-foreground">{user.email}</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <Badge variant="outline">{user.plan} Plan</Badge>
-                  <div className="flex items-center gap-1 text-sm">
-                    <TrendingUp className="h-3 w-3 text-green-500" />
-                    <span>{user.streak} day streak</span>
-                  </div>
-                </div>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {getUserDisplayName(userEmail)}
+                </p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {userEmail}
+                </p>
               </div>
-            </div>
-
-            {/* Stats Cards */}
-            <div className="grid grid-cols-3 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Star className="h-5 w-5 text-yellow-500" />
-                  </div>
-                  <div className="text-2xl font-bold">{user.points}</div>
-                  <div className="text-xs text-muted-foreground">Points</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Calendar className="h-5 w-5 text-blue-500" />
-                  </div>
-                  <div className="text-2xl font-bold">{user.streak}</div>
-                  <div className="text-xs text-muted-foreground">Day Streak</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Trophy className="h-5 w-5 text-orange-500" />
-                  </div>
-                  <div className="text-2xl font-bold">
-                    {user.achievements.filter(a => a.earned).length}
-                  </div>
-                  <div className="text-xs text-muted-foreground">Achievements</div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Achievements */}
-            <div>
-              <h4 className="text-sm font-medium mb-3">Achievements</h4>
-              <div className="space-y-2">
-                {user.achievements.map((achievement) => (
-                  <div
-                    key={achievement.id}
-                    className={`flex items-center gap-3 p-2 rounded-lg ${
-                      achievement.earned 
-                        ? 'bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800' 
-                        : 'bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800'
-                    }`}
-                  >
-                    <achievement.icon 
-                      className={`h-5 w-5 ${
-                        achievement.earned 
-                          ? 'text-green-600 dark:text-green-400' 
-                          : 'text-gray-400'
-                      }`} 
-                    />
-                    <span className={`text-sm ${
-                      achievement.earned 
-                        ? 'text-green-700 dark:text-green-300' 
-                        : 'text-gray-500'
-                    }`}>
-                      {achievement.name}
-                    </span>
-                    {achievement.earned && (
-                      <Badge variant="secondary" className="ml-auto text-xs">
-                        Earned
-                      </Badge>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div>
-              <h4 className="text-sm font-medium mb-3">Recent Activity</h4>
-              <div className="space-y-2">
-                <div className="flex items-center gap-3 text-sm">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span>Completed onboarding</span>
-                  <span className="text-muted-foreground ml-auto">2 hours ago</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm">
-                  <Gift className="h-4 w-4 text-muted-foreground" />
-                  <span>Earned "Early Adopter" badge</span>
-                  <span className="text-muted-foreground ml-auto">1 day ago</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={feedbackOpen} onOpenChange={setFeedbackOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Send Feedback</DialogTitle>
-            <DialogDescription>
-              Help us improve FeatherBiz with your feedback
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleFeedbackSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
-              <Select 
-                value={feedback.category} 
-                onValueChange={(value) => setFeedback(prev => ({ ...prev, category: value }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="feature">Feature Request</SelectItem>
-                  <SelectItem value="bug">Bug Report</SelectItem>
-                  <SelectItem value="improvement">Improvement</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="rating">Rating</Label>
-              <Select 
-                value={feedback.rating} 
-                onValueChange={(value) => setFeedback(prev => ({ ...prev, rating: value }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Rate your experience" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="5">⭐⭐⭐⭐⭐ Excellent</SelectItem>
-                  <SelectItem value="4">⭐⭐⭐⭐ Good</SelectItem>
-                  <SelectItem value="3">⭐⭐⭐ Average</SelectItem>
-                  <SelectItem value="2">⭐⭐ Poor</SelectItem>
-                  <SelectItem value="1">⭐ Very Poor</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                placeholder="Tell us about your experience..."
-                value={feedback.message}
-                onChange={(e) => setFeedback(prev => ({ ...prev, message: e.target.value }))}
-                rows={4}
-              />
-            </div>
-
-            <div className="flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={() => setFeedbackOpen(false)}>
-                Cancel
-              </Button>
-              <Button type="submit">Send Feedback</Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleProfileClick}>
+              <User className="mr-2 h-4 w-4" />
+              <span>{t("userGreeting.profile")}</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>{isLoading ? t("userGreeting.signingOut") : t("userGreeting.signOut")}</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <span className="text-xs sm:text-sm lg:text-base text-muted-foreground truncate min-w-0">
+          {t("userGreeting.hello", { name: getUserDisplayName(userEmail) })}
+        </span>
+      </div>
+      
+      <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+        <HelpCenter variant="outline" size="sm" className="h-8 sm:h-auto text-xs sm:text-sm px-2 sm:px-3 min-w-fit" />
+      </div>
+    </div>
   )
 }
