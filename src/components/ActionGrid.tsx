@@ -22,7 +22,7 @@ export function ActionGrid({ actions, onActionClick, searchTerm }: ActionGridPro
     return (
       <div className="text-center py-12">
         <div className="text-muted-foreground space-y-2">
-          <AppIcon name="Search" size="xl" tone="default" className="mx-auto opacity-50" aria-hidden="true" />
+          <AppIcon name="Search" size="xl" tone="default" className="mx-auto opacity-50" aria-hidden={true} />
           <p>No actions found matching "{searchTerm}"</p>
           <p className="text-sm">Try adjusting your search terms</p>
         </div>

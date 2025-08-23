@@ -1,12 +1,6 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { StatsCard } from "@/components/StatsCard"
-import { 
-  DollarSign, 
-  Users, 
-  FileText, 
-  Target
-} from "lucide-react"
 
 interface DashboardStatsProps {
   stats: {
@@ -24,28 +18,28 @@ export function DashboardStats({ stats, loading }: DashboardStatsProps) {
       title: "Monthly Revenue",
       value: `$${stats.monthlyRevenue.toLocaleString()}`,
       change: "+12.5%",
-      icon: DollarSign,
+      icon: "DollarSign" as keyof typeof import('lucide-react'),
       trend: "up" as const
     },
     {
       title: "Active Customers",
       value: stats.activeCustomers.toString(),
       change: "+5.2%",
-      icon: Users,
+      icon: "Users" as keyof typeof import('lucide-react'),
       trend: "up" as const
     },
     {
       title: "Pending Invoices",
       value: stats.pendingInvoices.toString(),
       change: "-8.1%",
-      icon: FileText,
+      icon: "FileText" as keyof typeof import('lucide-react'),
       trend: "down" as const
     },
     {
       title: "Monthly Goals",
       value: `${stats.monthlyGoals}%`,
       change: "+15.3%",
-      icon: Target,
+      icon: "Target" as keyof typeof import('lucide-react'),
       trend: "up" as const
     }
   ]

@@ -14,7 +14,6 @@ interface AppIconProps {
   withContainer?: boolean
   'aria-hidden'?: boolean
   'aria-label'?: string
-  title?: string
 }
 
 const sizeMap: Record<IconSize, number> = {
@@ -40,7 +39,6 @@ export function AppIcon({
   withContainer = false,
   'aria-hidden': ariaHidden = true,
   'aria-label': ariaLabel,
-  title,
   ...props
 }: AppIconProps) {
   const IconComponent = LucideIcons[name] as React.ComponentType<LucideIcons.LucideProps>
@@ -59,7 +57,6 @@ export function AppIcon({
       className={cn(toneMap[tone], className)}
       aria-hidden={ariaHidden}
       aria-label={ariaLabel}
-      title={title}
       {...props}
     />
   )

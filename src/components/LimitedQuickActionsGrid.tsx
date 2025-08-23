@@ -2,14 +2,13 @@
 import { useState } from "react"
 import { QuickActionCard } from "@/components/QuickActionCard"
 import { Button } from "@/components/ui/button"
-import { Search, ChevronDown, ChevronUp, Grid3X3 } from "lucide-react"
-import { LucideIcon } from "lucide-react"
+import { AppIcon } from "@/components/ui/AppIcon"
 
 interface QuickAction {
   id: string
   title: string
   description: string
-  icon: LucideIcon
+  icon: keyof typeof import('lucide-react')
   color: string
   hoverColor: string
 }
@@ -36,7 +35,7 @@ export function LimitedQuickActionsGrid({ actions, onActionClick, searchTerm }: 
       <div className="text-center py-16">
         <div className="text-muted-foreground space-y-4">
           <div className="p-4 rounded-full bg-muted/20 w-16 h-16 mx-auto flex items-center justify-center">
-            <Search className="h-8 w-8 opacity-50" />
+            <AppIcon name="Search" size="xl" tone="default" />
           </div>
           <div>
             <p className="text-lg font-medium">No actions found</p>
@@ -51,7 +50,7 @@ export function LimitedQuickActionsGrid({ actions, onActionClick, searchTerm }: 
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Grid3X3 className="h-4 w-4" />
+        <AppIcon name="Grid3X3" size="sm" />
         <span>Quick Actions Grid</span>
       </div>
 
@@ -80,12 +79,12 @@ export function LimitedQuickActionsGrid({ actions, onActionClick, searchTerm }: 
           >
             {showAll ? (
               <>
-                <ChevronUp className="h-4 w-4" />
+                <AppIcon name="ChevronUp" size="sm" />
                 Show Less
               </>
             ) : (
               <>
-                <ChevronDown className="h-4 w-4" />
+                <AppIcon name="ChevronDown" size="sm" />
                 Show All ({actions.length - maxVisibleActions} more)
               </>
             )}

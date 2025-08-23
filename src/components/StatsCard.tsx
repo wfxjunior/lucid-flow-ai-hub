@@ -20,14 +20,14 @@ export function StatsCard({ title, value, change, icon, trend }: StatsCardProps)
         <CardTitle className="kpi-label text-sm font-medium">
           {title}
         </CardTitle>
-        <AppIcon name={icon} size="sm" tone="default" aria-hidden="true" />
+        <AppIcon name={icon} size="sm" tone="default" aria-hidden={true} />
       </CardHeader>
       <CardContent className="flex flex-col justify-between flex-1">
         <div className="dashboard-number kpi-number text-2xl font-semibold">
           {value}
         </div>
         <div className="flex items-center mt-2">
-          <AppIcon name={trendIconName as keyof typeof import('lucide-react')} size="sm" tone={trendTone} className="mr-1" aria-hidden="true" />
+          <AppIcon name={trendIconName as keyof typeof import('lucide-react')} size="sm" tone={trendTone} className="mr-1" aria-hidden={true} />
           <span className={`text-xs font-medium ${trend === "up" ? "text-green-600" : "text-red-600"}`}>
             {change}
           </span>

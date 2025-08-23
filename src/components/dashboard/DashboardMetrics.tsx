@@ -10,7 +10,7 @@ export function DashboardMetrics() {
           <CardTitle className="kpi-label">
             Active Projects
           </CardTitle>
-          <AppIcon name="AlertCircle" size="sm" tone="default" aria-hidden="true" />
+          <AppIcon name="AlertCircle" size="sm" tone="default" aria-hidden={true} />
         </CardHeader>
         <CardContent>
           <div className="dashboard-number kpi-number">0</div>
@@ -25,7 +25,7 @@ export function DashboardMetrics() {
           <CardTitle className="kpi-label">
             Conversion Rate
           </CardTitle>
-          <AppIcon name="TrendingUp" size="sm" tone="success" aria-hidden="true" />
+          <AppIcon name="TrendingUp" size="sm" tone="success" aria-hidden={true} />
         </CardHeader>
         <CardContent>
           <div className="dashboard-number kpi-number">-</div>
@@ -40,7 +40,7 @@ export function DashboardMetrics() {
           <CardTitle className="kpi-label">
             Average Deal Size
           </CardTitle>
-          <AppIcon name="DollarSign" size="sm" tone="warning" aria-hidden="true" />
+          <AppIcon name="DollarSign" size="sm" tone="warning" aria-hidden={true} />
         </CardHeader>
         <CardContent>
           <div className="dashboard-number kpi-number">$0</div>

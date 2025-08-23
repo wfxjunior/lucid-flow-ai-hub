@@ -45,7 +45,7 @@ export function Customers() {
           </p>
         </div>
         <Button className="w-full sm:w-auto shrink-0">
-          <AppIcon name="Plus" size="sm" className="mr-2" aria-hidden="true" />
+          <AppIcon name="Plus" size="sm" className="mr-2" aria-hidden={true} />
           <span className="hidden xs:inline">Add Customer</span>
           <span className="xs:hidden">Add</span>
         </Button>
@@ -54,7 +54,7 @@ export function Customers() {
       {/* Search */}
       <div className="w-full">
         <div className="relative">
-          <AppIcon name="Search" size="sm" className="absolute left-3 top-1/2 -translate-y-1/2" aria-hidden="true" />
+          <AppIcon name="Search" size="sm" className="absolute left-3 top-1/2 -translate-y-1/2" aria-hidden={true} />
           <Input 
             placeholder="Search customers..." 
             className="pl-10 w-full"
@@ -85,7 +85,7 @@ export function Customers() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <AppIcon name="MoreVertical" size="sm" aria-hidden="true" />
+                        <AppIcon name="MoreVertical" size="sm" aria-hidden={true} />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -99,11 +99,11 @@ export function Customers() {
                 {/* Contact Information */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <AppIcon name="Mail" size="sm" aria-hidden="true" />
+                    <AppIcon name="Mail" size="sm" aria-hidden={true} />
                     <span className="break-all">{customer.email}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <AppIcon name="Phone" size="sm" aria-hidden="true" />
+                    <AppIcon name="Phone" size="sm" aria-hidden={true} />
                     <span>{customer.phone}</span>
                   </div>
                 </div>
@@ -132,11 +132,11 @@ export function Customers() {
                   
                   <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-6">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground min-w-0">
-                      <AppIcon name="Mail" size="sm" aria-hidden="true" />
+                      <AppIcon name="Mail" size="sm" aria-hidden={true} />
                       <span className="truncate">{customer.email}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <AppIcon name="Phone" size="sm" aria-hidden="true" />
+                      <AppIcon name="Phone" size="sm" aria-hidden={true} />
                       <span>{customer.phone}</span>
                     </div>
                   </div>
@@ -172,7 +172,7 @@ export function Customers() {
         <Card className="p-8 sm:p-12 text-center">
           <div className="space-y-4">
             <div className="mx-auto w-12 h-12 bg-muted rounded-full flex items-center justify-center">
-              <AppIcon name="Plus" size="lg" tone="default" aria-hidden="true" />
+              <AppIcon name="Plus" size="lg" tone="default" aria-hidden={true} />
             </div>
             <div className="space-y-2">
               <h3 className="text-lg font-semibold">No customers yet</h3>
@@ -181,7 +181,7 @@ export function Customers() {
               </p>
             </div>
             <Button>
-              <AppIcon name="Plus" size="sm" className="mr-2" aria-hidden="true" />
+              <AppIcon name="Plus" size="sm" className="mr-2" aria-hidden={true} />
               Add Your First Customer
             </Button>
           </div>
