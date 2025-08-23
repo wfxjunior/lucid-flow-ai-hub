@@ -17,7 +17,7 @@ export default function Index() {
     <SidebarProvider>
       <div className="w-full h-screen bg-background flex">
         <AppSidebar setActiveView={setActiveView} activeView={activeView} />
-        <main className="flex-1 h-full overflow-hidden">
+        <main className="flex-1 h-full overflow-hidden ml-4">
           <MainContent activeView={activeView} onNavigate={handleNavigate} />
         </main>
       </div>

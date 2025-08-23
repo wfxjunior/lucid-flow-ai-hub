@@ -8,8 +8,8 @@ import {
 
 export function DashboardMetrics() {
   return (
-    <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-      <Card className="dashboard-card hover-clean transition">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <Card className="dashboard-card hover-clean transition h-32">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="kpi-label">
             Active Projects
@@ -24,7 +24,7 @@ export function DashboardMetrics() {
         </CardContent>
       </Card>
 
-      <Card className="dashboard-card hover-clean transition">
+      <Card className="dashboard-card hover-clean transition h-32">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="kpi-label">
             Conversion Rate
@@ -39,7 +39,7 @@ export function DashboardMetrics() {
         </CardContent>
       </Card>
 
-      <Card className="md:col-span-2 xl:col-span-1 dashboard-card hover-clean transition">
+      <Card className="md:col-span-2 xl:col-span-1 dashboard-card hover-clean transition h-32">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="kpi-label">
             Average Deal Size

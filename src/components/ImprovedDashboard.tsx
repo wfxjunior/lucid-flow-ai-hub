@@ -39,7 +39,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
 
   if (error) {
     return (
-      <div className="w-full h-full flex items-center justify-center" style={{ paddingInline: 'var(--content-px)' }}>
+      <div className="w-full h-full flex items-center justify-center px-8">
         <div className="text-center">
           <h2 className="text-xl font-semibold mb-2 text-destructive">Dashboard Error</h2>
           <p className="text-muted-foreground mb-4">{error}</p>
@@ -55,12 +55,8 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   }
 
   return (
-    <div className="w-full h-full overflow-y-auto" style={{ paddingInline: 'var(--content-px)' }}>
-      <div className="w-full mx-auto pb-8 space-y-4 lg:space-y-6" 
-           style={{ 
-             maxWidth: 'var(--content-max)', 
-             gap: 'var(--section-gap-y)'
-           }}>
+    <div className="w-full h-full overflow-y-auto pl-4 pr-8">
+      <div className="w-full max-w-[1280px] mx-auto pb-8 space-y-6">
         {/* Header */}
         <DashboardHeader 
           onNavigate={handleNavigateInternal} 

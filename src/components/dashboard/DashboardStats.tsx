@@ -52,9 +52,9 @@ export function DashboardStats({ stats, loading }: DashboardStatsProps) {
 
   if (loading) {
     return (
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[1, 2, 3, 4].map((i) => (
-          <Card key={i} className="dashboard-card">
+          <Card key={i} className="dashboard-card h-32">
             <CardContent className="pt-6">
               <div className="animate-pulse space-y-2">
                 <div className="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -68,16 +68,17 @@ export function DashboardStats({ stats, loading }: DashboardStatsProps) {
   }
 
   return (
-    <div className="grid gap-2 sm:gap-3 lg:gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {statsCards.map((stat, index) => (
-        <StatsCard
-          key={index}
-          title={stat.title}
-          value={stat.value}
-          change={stat.change}
-          icon={stat.icon}
-          trend={stat.trend}
-        />
+        <div key={index} className="h-32">
+          <StatsCard
+            title={stat.title}
+            value={stat.value}
+            change={stat.change}
+            icon={stat.icon}
+            trend={stat.trend}
+          />
+        </div>
       ))}
     </div>
   )

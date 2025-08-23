@@ -1,78 +1,38 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LucideIcon } from "lucide-react"
-import { useEffect, useState } from "react"
-import { useLanguage } from "@/contexts/LanguageContext"
+import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react"
 
 interface StatsCardProps {
   title: string
-  value: string | number
+  value: string
   change: string
-  trend: "up" | "down" | "neutral"
   icon: LucideIcon
-  delay?: number
+  trend: "up" | "down"
 }
 
-export function StatsCard({ title, value, change, trend, icon: Icon, delay = 0 }: StatsCardProps) {
-  const [isVisible, setIsVisible] = useState(false)
-  const [displayValue, setDisplayValue] = useState<string | number>(value)
-  const { t } = useLanguage()
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-      // If value is "Loading...", replace with actual number
-      if (value === "Loading...") {
-        switch (title) {
-          case "Total Customers":
-          case t("dashboard.totalCustomers"):
-            setDisplayValue("1,234")
-            break
-          case "Active Projects":
-          case t("dashboard.activeProjects"):
-            setDisplayValue("12")
-            break
-          case "Monthly Revenue":
-          case t("dashboard.monthlyRevenue"):
-            setDisplayValue("$12,345")
-            break
-          case "Conversion Rate":
-          case t("dashboard.conversionRate"):
-            setDisplayValue("87%")
-            break
-          default:
-            setDisplayValue("--")
-        }
-      } else {
-        setDisplayValue(value)
-      }
-    }, delay)
-
-    return () => clearTimeout(timer)
-  }, [delay, value, title, t])
-
-  const changeColor = trend === "up" ? "text-success" : trend === "down" ? "text-destructive" : "text-muted-foreground"
+export function StatsCard({ title, value, change, icon: Icon, trend }: StatsCardProps) {
+  const TrendIcon = trend === "up" ? TrendingUp : TrendingDown
+  const trendColor = trend === "up" ? "text-green-600" : "text-red-600"
 
   return (
-    <Card className="dashboard-card stats-card p-6 transition-all duration-200 hover-clean">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-accent rounded-lg">
-            <Icon className="h-5 w-5 dashboard-icon" />
-          </div>
+    <Card className="dashboard-card hover-clean transition h-full">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="kpi-label text-sm font-medium">
+          {title}
+        </CardTitle>
+        <Icon className="h-4 w-4 dashboard-icon" />
+      </CardHeader>
+      <CardContent className="flex flex-col justify-between flex-1">
+        <div className="dashboard-number kpi-number text-2xl font-semibold">
+          {value}
         </div>
-        <div className="text-right">
-          <div className="dashboard-number kpi-number mb-1">
-            {displayValue}
-          </div>
-          <p className="kpi-label mb-1">
-            {title}
-          </p>
-          <p className={`text-xs font-medium ${changeColor}`}>
-            {change === "--" ? `+12%` : change}
-          </p>
+        <div className="flex items-center mt-2">
+          <TrendIcon className={`h-3 w-3 mr-1 ${trendColor}`} />
+          <span className={`text-xs font-medium ${trendColor}`}>
+            {change}
+          </span>
         </div>
-      </div>
+      </CardContent>
     </Card>
   )
 }
