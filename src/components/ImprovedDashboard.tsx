@@ -55,9 +55,9 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   }
 
   return (
-    <div className="flex-1 w-full overflow-hidden" data-scope="dashboard">
-      <div className="h-full overflow-y-auto">
-        <div className="max-w-[1280px] mx-auto px-8 py-6">
+    <div className="w-full h-full min-h-screen bg-background" data-scope="dashboard">
+      <div className="w-full h-full">
+        <div className="w-full max-w-none px-6 py-6">
           <div className="space-y-6">
             {/* Header */}
             <DashboardHeader 
