@@ -1,4 +1,3 @@
-
 import React from "react"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Heart, Mic, Signature, ChevronLeft } from "lucide-react"
 import {
@@ -43,6 +42,7 @@ const coreBusinessItems: MenuItem[] = [
 
 const financialItems: MenuItem[] = [
   { title: "Finance", icon: PiggyBank, view: "finance" },
+  { title: "Invoices", icon: Receipt, view: "invoices" },
   { title: "FeatherBudget AI", icon: PiggyBank, view: "feather-budget" },
   { title: "FeatherTax", icon: Calculator, view: "feather-tax" },
   { title: "EasyCalc", icon: Calculator, view: "easy-calc" },
@@ -96,7 +96,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="fb-sidebar border-r border-border">
+    <Sidebar variant="inset" className="fb-sidebar border-r border-border" collapsible="icon">
       <SidebarHeader className="px-6 py-4 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
