@@ -20,47 +20,39 @@ export const FeatherBizLogo: React.FC<FeatherBizLogoProps> = ({
     xmlns="http://www.w3.org/2000/svg"
     className={className}
   >
-    <g transform="translate(40, 20)">
-      {/* Main feather shape */}
+    <g transform="translate(50, 30)">
+      {/* Main feather shape - elegant and elongated */}
       <path
-        d="M60 20 C90 15, 110 25, 115 50 C118 70, 110 90, 100 110 C95 120, 85 130, 75 140 C65 150, 50 155, 40 150 C35 148, 32 145, 30 140 L35 135 L25 130 L30 125 L20 120 L25 115 L15 110 L20 105 L10 100 L15 95 L8 90 L12 85 L5 80 L10 75 L60 20 Z"
+        d="M50 20 C70 15, 85 25, 90 45 C92 65, 88 85, 82 105 C78 125, 70 140, 60 150 C50 160, 35 165, 25 160 C20 158, 18 155, 16 150 L20 145 L10 140 L15 135 L5 130 L10 125 L0 120 L5 115 L50 20 Z"
         fill="currentColor"
-        stroke="currentColor"
-        strokeWidth="1"
+        strokeWidth="0"
       />
       
-      {/* Feather vanes/barbs - left side */}
+      {/* Central spine/rachis - the main shaft of the feather */}
       <path
-        d="M30 140 L45 130 M25 130 L50 115 M20 120 L55 100 M15 110 L60 85 M10 100 L65 70 M8 90 L70 55 M5 80 L75 40 M10 75 L60 20"
+        d="M50 20 L30 150"
         stroke="currentColor"
-        strokeWidth="1.2"
+        strokeWidth="1.5"
         fill="none"
-        opacity="0.8"
+        opacity="0.3"
       />
       
-      {/* Feather vanes/barbs - right side */}
+      {/* Left barbs - simplified */}
       <path
-        d="M75 140 L60 130 M80 130 L65 115 M85 120 L70 100 M90 110 L75 85 M95 100 L80 70 M100 90 L85 55 M105 80 L90 40 M100 75 L60 20"
+        d="M16 150 L35 140 M10 140 L40 125 M5 130 L45 110 M0 120 L48 95 M5 115 L50 80 M8 110 L52 65 M12 105 L54 50 M16 100 L50 20"
         stroke="currentColor"
-        strokeWidth="1.2"
+        strokeWidth="0.8"
         fill="none"
-        opacity="0.8"
+        opacity="0.4"
       />
       
-      {/* Central rachis/spine */}
+      {/* Right barbs - simplified */}
       <path
-        d="M60 20 L45 140"
+        d="M60 150 L45 140 M65 140 L50 125 M70 130 L55 110 M75 120 L58 95 M72 115 L56 80 M68 110 L54 65 M64 105 L52 50 M60 100 L50 20"
         stroke="currentColor"
-        strokeWidth="2.5"
+        strokeWidth="0.8"
         fill="none"
-      />
-      
-      {/* Feather tip detail */}
-      <circle
-        cx="60"
-        cy="20"
-        r="2"
-        fill="currentColor"
+        opacity="0.4"
       />
     </g>
   </svg>
