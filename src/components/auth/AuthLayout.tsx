@@ -16,9 +16,10 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
         <div className="text-center mb-12">
           <div className="mb-8">
             <img 
-              src="/lovable-uploads/ee7c952e-739a-4ed5-89d9-f10317d79177.png" 
+              src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
               alt="FeatherBiz" 
               className="h-12 w-auto mx-auto"
+              style={{ width: '48px', height: '77px', objectFit: 'contain' }}
             />
           </div>
           <div className="space-y-2">

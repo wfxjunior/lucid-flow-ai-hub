@@ -1,102 +1,51 @@
 
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { LanguageSelector } from "@/components/LanguageSelector";
-import { Instagram, Facebook, Twitter, Linkedin, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const LandingFooter = () => {
-  const location = useLocation();
-  const handlePricingClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (location.pathname === '/landing' || location.pathname === '/') {
-      e.preventDefault();
-      const el = document.getElementById('pricing');
-      el?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <footer className="bg-white border-t border-[#E9EEF5]">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
-          
-          {/* Company Info */}
-          <div className="space-y-4 col-span-2 md:col-span-1">
-            <h3 className="text-2xl font-bold text-foreground">FeatherBiz</h3>
-            <div className="pt-4">
-              <LanguageSelector />
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Logo and Description */}
+          <div className="col-span-1 md:col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <img 
+                src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+                alt="FeatherBiz" 
+                className="h-8 w-auto object-contain"
+                style={{ width: '32px', height: '51px', objectFit: 'contain' }}
+              />
+              <span className="text-xl font-bold">FeatherBiz</span>
             </div>
+            <p className="text-gray-400 mb-4">
+              All-in-one business platform for modern entrepreneurs. Organize, send, and grow your business.
+            </p>
           </div>
 
-          {/* Link Groups - force 2 columns on mobile, 3 on md+ */}
-          <nav aria-label="Footer navigation" className="col-span-2 md:col-span-3">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
-            <div className="space-y-3 md:space-y-4">
-              <h4 className="text-sm font-semibold text-muted-foreground md:text-base">Platform</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
-                <li><Link to={location.pathname === '/landing' || location.pathname === '/' ? '#pricing' : '/landing#pricing'} onClick={handlePricingClick} className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Pricing</Link></li>
-                <li><Link to="/features" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Features</Link></li>
-                <li><Link to="/integrations" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Integrations</Link></li>
-                <li><Link to="/api" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">API</Link></li>
-                <li><Link to="/security" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Security</Link></li>
-              </ul>
-            </div>
-            
-            <div className="space-y-3 md:space-y-4">
-              <h4 className="text-sm font-semibold text-muted-foreground md:text-base">Support</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
-                <li><Link to="/help-center" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Help Center</Link></li>
-                <li><Link to="/documentation" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Documentation</Link></li>
-                <li><Link to="/guides" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Guides</Link></li>
-                <li><Link to="/community" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Community</Link></li>
-              </ul>
-            </div>
-            
-            <div className="space-y-3 md:space-y-4">
-              <h4 className="text-sm font-semibold text-muted-foreground md:text-base">Company</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground md:text-base">
-                <li><Link to="/about" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">About</Link></li>
-                <li><Link to="/careers" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Careers</Link></li>
-                <li><Link to="/press" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Press</Link></li>
-                <li><Link to="/partners" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Partners</Link></li>
-                <li><Link to="/investors" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Investors</Link></li>
-                <li><Link to="/blog" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Blog</Link></li>
-              </ul>
-            </div>
+          {/* Product Links */}
+          <div>
+            <h3 className="font-semibold mb-4">Product</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#features" className="hover:text-white">Features</a></li>
+              <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
+              <li><a href="#testimonials" className="hover:text-white">Testimonials</a></li>
+            </ul>
           </div>
-          </nav>
-        </div>
-        
-        {/* Bottom Section */}
-        <div className="border-t border-border/20 mt-12 pt-8 flex flex-col items-center gap-4 text-center">
-          <div className="text-sm text-muted-foreground">
-            © 2025 FeatherBiz. By XSenSys
-          </div>
-          
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Instagram">
-              <Instagram className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Facebook">
-              <Facebook className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="Twitter">
-              <Twitter className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="LinkedIn">
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-foreground/80 hover:text-primary transition-colors transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-full" aria-label="YouTube">
-              <Youtube className="h-5 w-5" />
-            </a>
+
+          {/* Company Links */}
+          <div>
+            <h3 className="font-semibold mb-4">Company</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><Link to="/about" className="hover:text-white">About</Link></li>
+              <li><Link to="/careers" className="hover:text-white">Careers</Link></li>
+              <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+            </ul>
           </div>
         </div>
-        
-        {/* Legal Links */}
-        <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm text-muted-foreground">
-          <Link to="/privacy-policy" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Privacy Policy</Link>
-          <Link to="/terms-of-service" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Terms of Service</Link>
-          <Link to="/feedback" className="text-foreground/90 hover:text-primary hover:underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-sm">Feedback</Link>
+
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; 2025 FeatherBiz. All rights reserved.</p>
         </div>
       </div>
     </footer>

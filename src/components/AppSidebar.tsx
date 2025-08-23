@@ -97,9 +97,12 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
     <Sidebar variant="inset">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-4 py-2">
-          <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-lg">
-            <span className="text-primary-foreground font-bold text-sm">FB</span>
-          </div>
+          <img 
+            src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+            alt="FeatherBiz" 
+            className="w-8 h-8 object-contain"
+            style={{ width: '32px', height: '51px', objectFit: 'contain' }}
+          />
           <span className="font-semibold text-foreground">FeatherBiz</span>
         </div>
       </SidebarHeader>
