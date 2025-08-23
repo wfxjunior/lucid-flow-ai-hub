@@ -1,160 +1,263 @@
-import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 import { 
-  Building, 
+  TrendingUp, 
   Users, 
-  Target, 
+  Target,
+  BarChart3,
+  Zap,
+  Star,
+  ArrowRight,
+  Plus,
   Calendar,
-  TrendingUp,
-  ArrowUpRight
+  DollarSign
 } from "lucide-react"
-
-const metrics = [
-  {
-    title: "Active Listings",
-    value: "8",
-    subtitle: "+2 this week",
-    icon: Building
-  },
-  {
-    title: "Qualified Leads",
-    value: "24",
-    subtitle: "+15% this month",
-    icon: Users
-  },
-  {
-    title: "Conversion Rate",
-    value: "18%",
-    subtitle: "+3% improved",
-    icon: Target
-  },
-  {
-    title: "Avg Days to Lease",
-    value: "12 days",
-    subtitle: "-4 days faster",
-    icon: Calendar
-  }
-]
-
-const activeListings = [
-  {
-    id: 1,
-    name: "Sunset Apartments #204",
-    platforms: ["Zillow", "Apartments.com", "Rent.com"],
-    views: 247,
-    leads: 8,
-    price: "$1,850/mo",
-    status: "Active"
-  },
-  {
-    id: 2,
-    name: "Oak View Complex #105",
-    platforms: ["Zillow", "Craigslist"],
-    views: 189,
-    leads: 5,
-    price: "$2,100/mo",
-    status: "Active"
-  },
-  {
-    id: 3,
-    name: "Pine Street Building #301",
-    platforms: ["Apartments.com", "Rent.com", "Facebook"],
-    views: 156,
-    leads: 3,
-    price: "$1,750/mo",
-    status: "Pending"
-  }
-]
 
 interface GrowthPageProps {
   onNavigate: (view: string) => void
 }
 
 export function GrowthPage({ onNavigate }: GrowthPageProps) {
-  const handleCreateCampaign = () => {
-    console.log("Create campaign clicked")
+  const growthMetrics = [
+    {
+      title: "Monthly Growth Rate",
+      value: "23.5%",
+      change: "+5.2%",
+      icon: TrendingUp,
+      color: "green"
+    },
+    {
+      title: "New Customers",
+      value: "456",
+      change: "+8.1%",
+      icon: Users,
+      color: "blue"
+    },
+    {
+      title: "Conversion Rate",
+      value: "4.2%",
+      change: "-1.5%",
+      icon: Target,
+      color: "yellow"
+    },
+    {
+      title: "Website Traffic",
+      value: "12,345",
+      change: "+3.7%",
+      icon: BarChart3,
+      color: "purple"
+    }
+  ]
+
+  const growthGoals = [
+    {
+      id: 1,
+      title: "Increase Customer Base",
+      target: "500 customers",
+      current: 342,
+      progress: 68,
+      deadline: "Q4 2024",
+      status: "on-track"
+    },
+    {
+      id: 2,
+      title: "Improve Conversion Rate",
+      target: "5%",
+      current: 4.2,
+      progress: 84,
+      deadline: "Q3 2024",
+      status: "at-risk"
+    },
+    {
+      id: 3,
+      title: "Boost Website Traffic",
+      target: "15,000 visits",
+      current: 12345,
+      progress: 82,
+      deadline: "Q4 2024",
+      status: "on-track"
+    }
+  ]
+
+  const growthInitiatives = [
+    {
+      id: 1,
+      title: "Content Marketing Campaign",
+      description: "Launch blog and social media content strategy",
+      impact: "High",
+      effort: "Medium",
+      status: "in-progress",
+      icon: Star
+    },
+    {
+      id: 2,
+      title: "Referral Program",
+      description: "Incentivize existing customers to refer new ones",
+      impact: "Medium",
+      effort: "Low",
+      status: "planned",
+      icon: Users
+    },
+    {
+      id: 3,
+      title: "Marketing Automation",
+      description: "Automate email and social media marketing tasks",
+      impact: "High",
+      effort: "High",
+      status: "planned",
+      icon: Zap
+    }
+  ]
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'on-track':
+        return <Badge variant="secondary" className="bg-green-100 text-green-800">On Track</Badge>
+      case 'at-risk':
+        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">At Risk</Badge>
+      case 'behind':
+        return <Badge variant="destructive">Behind</Badge>
+      case 'completed':
+        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">Completed</Badge>
+      case 'in-progress':
+        return <Badge variant="outline">In Progress</Badge>
+      case 'planned':
+        return <Badge variant="secondary">Planned</Badge>
+      default:
+        return <Badge variant="secondary">{status}</Badge>
+    }
   }
 
   return (
     <CleanPageLayout
-      title="Growth Engine"
-      subtitle="Listings, lead management, and marketing campaigns"
-      actionLabel="Create Campaign"
-      onActionClick={handleCreateCampaign}
-      metrics={metrics}
+      title="Growth Strategy"
+      subtitle="Track your business growth and strategic initiatives"
+      actionLabel="New Initiative"
+      onActionClick={() => {}}
     >
-      {/* Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mb-6 md:mb-8">
-        <Button 
-          variant="secondary" 
-          size="sm"
-          className="bg-accent text-accent-foreground rounded-full px-4 md:px-6 py-2 text-xs md:text-sm"
-        >
-          Listings & Syndication
-        </Button>
-        <Button variant="ghost" size="sm" className="rounded-full px-4 md:px-6 py-2 text-xs md:text-sm">
-          Leads & CRM
-        </Button>
-        <Button variant="ghost" size="sm" className="rounded-full px-4 md:px-6 py-2 text-xs md:text-sm">
-          Campaigns
-        </Button>
+      {/* Overview Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {growthMetrics.map((metric) => (
+          <Card key={metric.title} className="border-none shadow-sm">
+            <CardBody metric={metric} />
+          </Card>
+        ))}
       </div>
 
-      {/* Active Property Listings */}
-      <div className="space-y-4">
-        <div>
-          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-2">
-            Active Property Listings
-          </h2>
-        </div>
-
-        <div className="space-y-4">
-          {activeListings.map((listing) => (
-            <Card key={listing.id} className="bg-card border border-border rounded-2xl">
-              <CardContent className="p-4 md:p-6">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-3">
-                      <h3 className="text-base md:text-lg font-semibold text-foreground break-words">
-                        {listing.name}
-                      </h3>
-                      <div className="flex items-center gap-3 sm:text-right">
-                        <div className="text-lg md:text-xl font-semibold text-foreground">
-                          {listing.price}
-                        </div>
-                        <Badge 
-                          variant={listing.status === 'Active' ? 'success' : 'warning'}
-                        >
-                          {listing.status}
-                        </Badge>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-4">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground flex-shrink-0" />
-                        <span className="text-xs md:text-sm text-muted-foreground">
-                          {listing.views} views • {listing.leads} leads
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-wrap items-center gap-2">
-                      {listing.platforms.map((platform, index) => (
-                        <Badge key={index} variant="outline" className="bg-muted/50 text-xs">
-                          {platform}
-                        </Badge>
-                      ))}
-                    </div>
+      {/* Growth Goals */}
+      <Card className="mb-6">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Growth Goals</CardTitle>
+              <CardDescription>Key objectives for business expansion</CardDescription>
+            </div>
+            <Button variant="outline" size="sm">
+              View All
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {growthGoals.map((goal) => (
+              <div key={goal.id} className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-medium">{goal.title}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {goal.current} / {goal.target}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <Progress value={goal.progress} className="h-2 mb-1" />
+                  <div className="flex items-center justify-end gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {goal.deadline}
+                    </span>
+                    {getStatusBadge(goal.status)}
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Growth Initiatives */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Growth Initiatives</CardTitle>
+              <CardDescription>Strategic projects to drive business growth</CardDescription>
+            </div>
+            <Button variant="outline" size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Initiative
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {growthInitiatives.map((initiative) => (
+              <div key={initiative.id} className="p-4 rounded-lg border">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <initiative.icon className="h-5 w-5 text-primary" />
+                    <div>
+                      <h4 className="font-medium">{initiative.title}</h4>
+                      <p className="text-sm text-muted-foreground">{initiative.description}</p>
+                    </div>
+                  </div>
+                  {getStatusBadge(initiative.status)}
+                </div>
+                <div className="flex items-center gap-4 text-sm">
+                  <div className="flex items-center gap-1">
+                    <span className="text-muted-foreground">Impact:</span>
+                    <Badge variant={initiative.impact === 'High' ? 'secondary' : 'outline'}>
+                      {initiative.impact}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-muted-foreground">Effort:</span>
+                    <Badge variant="outline">{initiative.effort}</Badge>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </CleanPageLayout>
   )
+}
+
+interface CardBodyProps {
+  metric: {
+    title: string;
+    value: string;
+    change: string;
+    icon: any;
+    color: string;
+  };
+}
+
+function CardBody({ metric }: CardBodyProps) {
+  return (
+    <CardContent className="flex flex-col gap-2 p-4">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-muted-foreground">
+          {metric.title}
+        </span>
+        <metric.icon className={`h-4 w-4 text-${metric.color}-500`} />
+      </div>
+      <div className="text-2xl font-semibold tracking-tight">{metric.value}</div>
+      <div className="text-sm text-muted-foreground">
+        <TrendingUp className="inline-block h-4 w-4 align-middle mr-1" />
+        {metric.change}
+      </div>
+    </CardContent>
+  );
 }

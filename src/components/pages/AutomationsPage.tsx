@@ -1,241 +1,287 @@
-import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
+import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
 import { 
   Zap, 
+  Mail, 
   MessageSquare, 
-  Clock, 
-  CheckCircle,
-  DollarSign,
-  Mail,
-  Smartphone,
-  CreditCard
+  Calendar, 
+  FileText, 
+  DollarSign, 
+  Users, 
+  Clock,
+  Play,
+  Pause,
+  Settings,
+  Plus,
+  TrendingUp,
+  AlertCircle
 } from "lucide-react"
-
-const metrics = [
-  {
-    title: "Active Automations",
-    value: "2",
-    subtitle: "Currently running",
-    icon: Zap
-  },
-  {
-    title: "Messages Sent Today",
-    value: "47",
-    subtitle: "Across all channels",
-    icon: MessageSquare
-  },
-  {
-    title: "Avg Response Time",
-    value: "2.3min",
-    subtitle: "Average response time",
-    icon: Clock
-  },
-  {
-    title: "Success Rate",
-    value: "89%",
-    subtitle: "Automation success",
-    icon: CheckCircle
-  }
-]
-
-const automations = [
-  {
-    id: 1,
-    title: "Late Payment Playbook",
-    description: "Automated reminder sequence for overdue rent with payment plan options",
-    trigger: "invoice.due_at + 1d AND status!=paid",
-    steps: [
-      { step: "D+1", action: "Send friendly reminder (SMS+Email)" },
-      { step: "D+3", action: "Offer one-click payment plan" },
-      { step: "D+5", action: "Apply late fee if policy allows" },
-      { step: "D+7", action: "Notify owner; flag as 'at-risk'" },
-      { step: "D+10", action: "Generate Pay or Quit draft via Copilot" }
-    ],
-    metrics: [
-      { label: "On-time %", value: "94%" },
-      { label: "Promise-to-Pay conversions", value: "67%" },
-      { label: "Avg days past due", value: "4.2" }
-    ],
-    channels: ["SMS", "Email", "Stripe"],
-    isActive: true,
-    status: "Active"
-  },
-  {
-    id: 2,
-    title: "New Lead → Tour Booking",
-    description: "Convert incoming leads into scheduled tours automatically",
-    trigger: "lead.source=website AND lead.interest=tour",
-    steps: [
-      { step: "D+0", action: "Welcome message + availability" },
-      { step: "D+1", action: "Follow-up with calendar link" },
-      { step: "D+3", action: "Property highlights + virtual tour" },
-      { step: "D+7", action: "Special offer if no response" }
-    ],
-    metrics: [
-      { label: "Tour booking rate", value: "78%" },
-      { label: "Response time", value: "1.2min" },
-      { label: "Conversion to lease", value: "23%" }
-    ],
-    channels: ["SMS", "Email"],
-    isActive: true,
-    status: "Active"
-  }
-]
 
 interface AutomationsPageProps {
   onNavigate: (view: string) => void
 }
 
 export function AutomationsPage({ onNavigate }: AutomationsPageProps) {
-  const handleCreateAutomation = () => {
-    console.log("Create automation clicked")
-  }
+  const automations = [
+    {
+      id: 1,
+      name: "Welcome Email Sequence",
+      description: "Send a series of welcome emails to new customers",
+      category: "Email Marketing",
+      status: "active",
+      triggers: 125,
+      lastRun: "2 hours ago",
+      icon: Mail,
+      color: "blue"
+    },
+    {
+      id: 2,
+      name: "Invoice Reminders",
+      description: "Automatically remind customers about overdue invoices",
+      category: "Billing",
+      status: "paused",
+      triggers: 68,
+      lastRun: "1 day ago",
+      icon: FileText,
+      color: "orange"
+    },
+    {
+      id: 3,
+      name: "Appointment Confirmation",
+      description: "Confirm upcoming appointments with clients via SMS",
+      category: "Customer Service",
+      status: "active",
+      triggers: 210,
+      lastRun: "30 minutes ago",
+      icon: MessageSquare,
+      color: "green"
+    },
+    {
+      id: 4,
+      name: "Lead Follow-up",
+      description: "Follow up with new leads after form submission",
+      category: "Sales",
+      status: "draft",
+      triggers: 0,
+      lastRun: "Never",
+      icon: Users,
+      color: "purple"
+    }
+  ]
 
-  const handleToggleAutomation = (id: number, active: boolean) => {
-    console.log(`Toggle automation ${id} to ${active}`)
+  const automationTemplates = [
+    {
+      id: 1,
+      name: "Lead Nurturing",
+      description: "Automatically nurture leads with targeted content",
+      category: "Sales",
+      icon: Users,
+      popular: true
+    },
+    {
+      id: 2,
+      name: "Customer Onboarding",
+      description: "Guide new customers through product setup",
+      category: "Customer Service",
+      icon: Star,
+      popular: true
+    },
+    {
+      id: 3,
+      name: "Abandoned Cart Recovery",
+      description: "Send emails to customers who left items in their cart",
+      category: "E-commerce",
+      icon: DollarSign,
+      popular: false
+    },
+    {
+      id: 4,
+      name: "Event Promotion",
+      description: "Promote upcoming events and webinars",
+      category: "Marketing",
+      icon: Calendar,
+      popular: false
+    }
+  ]
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'active':
+        return <Badge variant="secondary" className="bg-green-100 text-green-800">Active</Badge>
+      case 'paused':
+        return <Badge variant="secondary">Paused</Badge>
+      case 'draft':
+        return <Badge variant="outline">Draft</Badge>
+      default:
+        return <Badge variant="secondary">{status}</Badge>
+    }
   }
 
   return (
     <CleanPageLayout
-      title="Automations & Playbooks"
-      subtitle="Intelligent workflows that run on autopilot"
-      actionLabel="Autopilot"
-      onActionClick={handleCreateAutomation}
-      metrics={metrics}
+      title="Automations"
+      subtitle="Streamline your business processes with intelligent automation"
+      actionLabel="Create Automation"
+      onActionClick={() => {}}
     >
-      {/* Active Playbooks Section */}
-      <div className="space-y-4 md:space-y-6">
-        <div>
-          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-2">
-            Active Playbooks
-          </h2>
-        </div>
+      {/* Overview Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5" />
+              Active Automations
+            </CardTitle>
+            <CardDescription>Running automations</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-blue-600">8</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              +12% from last month
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className="space-y-4 md:space-y-6">
-          {automations.map((automation) => (
-            <Card key={automation.id} className="bg-card border border-border rounded-2xl">
-              <CardContent className="p-4 md:p-6">
-                <div className="space-y-4 md:space-y-6">
-                  {/* Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div className="flex flex-col sm:flex-row sm:items-start gap-3 md:gap-4 min-w-0 flex-1">
-                      <div className="p-2 md:p-3 bg-muted rounded-xl flex-shrink-0">
-                        <DollarSign className="h-5 md:h-6 w-5 md:w-6 text-muted-foreground" />
-                      </div>
-                      
-                      <div className="space-y-2 min-w-0 flex-1">
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 md:gap-3">
-                          <h3 className="text-base md:text-lg font-semibold text-foreground break-words">
-                            {automation.title}
-                          </h3>
-                          <Badge 
-                            variant={automation.status === 'Active' ? 'success' : 'secondary'}
-                            className="text-xs w-fit"
-                          >
-                            ▶ {automation.status}
-                          </Badge>
-                        </div>
-                        
-                        <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-                          {automation.description}
-                        </p>
-                        
-                        <div className="text-xs font-mono text-muted-foreground bg-muted/50 px-2 md:px-3 py-1 rounded-lg inline-block break-all">
-                          Trigger: {automation.trigger}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex-shrink-0">
-                      <Switch 
-                        checked={automation.isActive}
-                        onCheckedChange={(checked) => handleToggleAutomation(automation.id, checked)}
-                        className="data-[state=checked]:bg-primary"
-                      />
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Total Triggers
+            </CardTitle>
+            <CardDescription>Automation events</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-green-600">1,256</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              +8% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5" />
+              Errors & Issues
+            </CardTitle>
+            <CardDescription>Potential problems</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-red-600">2</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              Check automation logs
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Clock className="h-5 w-5" />
+              Avg. Run Time
+            </CardTitle>
+            <CardDescription>Automation speed</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-orange-600">0.3s</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              Optimize for faster runs
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Active Automations */}
+      <Card className="mb-6">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Active Automations</CardTitle>
+              <CardDescription>Manage your running automations</CardDescription>
+            </div>
+            <Button variant="outline" size="sm">
+              View All
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {automations.map((automation) => (
+              <div key={automation.id} className="p-4 rounded-lg border">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <automation.icon className={`h-6 w-6 text-${automation.color}-500`} />
+                    <div>
+                      <h4 className="font-medium">{automation.name}</h4>
+                      <p className="text-sm text-muted-foreground">{automation.description}</p>
                     </div>
                   </div>
+                  {getStatusBadge(automation.status)}
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                    <span>{automation.triggers} triggers</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-muted-foreground" />
+                    <span>Last run {automation.lastRun}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Switch id={`automation-${automation.id}`} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-                  {/* Content Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    {/* Automation Steps */}
-                    <div className="md:col-span-2 lg:col-span-1">
-                      <h4 className="text-xs md:text-sm font-semibold text-foreground mb-3">
-                        Automation Steps
-                      </h4>
-                      <div className="space-y-2">
-                        {automation.steps.map((step, index) => (
-                          <div key={index} className="flex items-start gap-2 md:gap-3 text-xs md:text-sm">
-                            <Badge variant="outline" className="text-xs font-mono shrink-0 bg-muted">
-                              {step.step}
-                            </Badge>
-                            <span className="text-foreground leading-relaxed">{step.action}</span>
-                          </div>
-                        ))}
-                      </div>
+      {/* Automation Templates */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Zap className="h-5 w-5" />
+            Automation Templates
+          </CardTitle>
+          <CardDescription>
+            Get started quickly with pre-built automation templates
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {automationTemplates.map((template) => (
+              <Card key={template.id} className="hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <template.icon className="h-6 w-6 text-primary" />
+                      {template.popular && (
+                        <Badge variant="secondary">Popular</Badge>
+                      )}
                     </div>
-
-                    {/* Key Metrics */}
-                    <div className="lg:col-span-1">
-                      <h4 className="text-xs md:text-sm font-semibold text-foreground mb-3">
-                        Key Metrics
-                      </h4>
-                      <div className="space-y-3">
-                        {automation.metrics.map((metric, index) => (
-                          <div key={index} className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                            <span className="text-xs md:text-sm text-foreground min-w-0 flex-1">{metric.label}</span>
-                            <span className="text-xs md:text-sm font-semibold text-primary flex-shrink-0">
-                              {metric.value}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
+                    <div>
+                      <h4 className="font-medium">{template.name}</h4>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {template.description}
+                      </p>
                     </div>
-
-                    {/* Communication Channels */}
-                    <div className="lg:col-span-1">
-                      <h4 className="text-xs md:text-sm font-semibold text-foreground mb-3">
-                        Communication Channels
-                      </h4>
-                      <div className="space-y-2">
-                        {automation.channels.map((channel, index) => {
-                          const getChannelIcon = (channel: string) => {
-                            switch (channel.toLowerCase()) {
-                              case 'sms': return <Smartphone className="h-3 md:h-4 w-3 md:w-4" />
-                              case 'email': return <Mail className="h-3 md:h-4 w-3 md:w-4" />
-                              case 'stripe': return <CreditCard className="h-3 md:h-4 w-3 md:w-4" />
-                              default: return <MessageSquare className="h-3 md:h-4 w-3 md:w-4" />
-                            }
-                          }
-                          
-                          return (
-                            <div key={index} className="flex items-center gap-2 text-xs md:text-sm">
-                              {getChannelIcon(channel)}
-                              <span className="text-foreground">{channel}</span>
-                            </div>
-                          )
-                        })}
-                      </div>
-                      
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="w-full mt-4 text-xs md:text-sm"
-                        onClick={() => console.log('View analytics')}
-                      >
-                        View Analytics
+                    <div className="flex items-center justify-between">
+                      <Badge variant="outline">{template.category}</Badge>
+                      <Button size="sm" variant="outline">
+                        Use Template
                       </Button>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </CleanPageLayout>
   )
 }

@@ -25,6 +25,7 @@ interface AppSidebarProps {
 // Define menu sections with their items
 const generalItems: MenuItem[] = [
   { title: "Dashboard", icon: Home, view: "dashboard" },
+  { title: "AI Voice", icon: Mic, view: "ai-voice" },
   { title: "Careers", icon: Users, view: "careers" }
 ]
 
@@ -41,6 +42,10 @@ const coreBusinessItems: MenuItem[] = [
 
 const financialItems: MenuItem[] = [
   { title: "Finance", icon: PiggyBank, view: "finance" },
+  { title: "Invoices", icon: FileText, view: "invoices" },
+  { title: "Estimates", icon: Calculator, view: "estimates" },
+  { title: "Payments", icon: CreditCard, view: "payments" },
+  { title: "E-Signatures", icon: Signature, view: "e-signatures" },
   { title: "FeatherBudget AI", icon: PiggyBank, view: "feather-budget" },
   { title: "FeatherTax", icon: Calculator, view: "feather-tax" },
   { title: "EasyCalc", icon: Calculator, view: "easy-calc" },
