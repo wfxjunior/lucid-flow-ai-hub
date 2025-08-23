@@ -1,0 +1,221 @@
+
+/* Stripe/Attio-inspired Design System for FeatherBiz */
+:root {
+  /* Typography Scale - Reduced for density */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 22px;
+  --text-3xl: 28px;
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.75;
+  
+  /* Spacing Scale - Compact */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  
+  /* Sidebar Dimensions */
+  --sidebar-width-expanded: 256px;
+  --sidebar-width-tablet: 236px;
+  --sidebar-width-collapsed: 72px;
+  --sidebar-content-gap: 16px;
+  
+  /* Component Spacing */
+  --card-padding: 20px;
+  --card-gap: 24px;
+  --table-row-height: 44px;
+  --table-cell-padding-y: 12px;
+  --table-cell-padding-x: 16px;
+  --button-padding-y: 12px;
+  --button-padding-x: 20px;
+  --button-radius: 8px;
+  
+  /* Icon Sizes */
+  --icon-sm: 20px;
+  --icon-md: 24px;
+  --icon-lg: 28px;
+  
+  /* Typography Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  
+  /* Focus Ring */
+  --focus-ring: 2px solid hsl(var(--primary));
+  --focus-offset: 2px;
+}
+
+/* Base Typography */
+.fb-text-xs { font-size: var(--text-xs); }
+.fb-text-sm { font-size: var(--text-sm); }
+.fb-text-base { font-size: var(--text-base); line-height: var(--leading-normal); }
+.fb-text-lg { font-size: var(--text-lg); }
+.fb-text-xl { font-size: var(--text-xl); }
+.fb-text-2xl { font-size: var(--text-2xl); }
+.fb-text-3xl { font-size: var(--text-3xl); }
+
+/* Headings */
+.fb-h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-4);
+  color: hsl(var(--foreground));
+}
+
+.fb-h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-3);
+  color: hsl(var(--foreground));
+}
+
+.fb-h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-2);
+  color: hsl(var(--foreground));
+}
+
+/* Body Text */
+.fb-body {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: hsl(var(--foreground));
+}
+
+.fb-body-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: hsl(var(--muted-foreground));
+}
+
+/* Container */
+.fb-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: var(--space-8);
+  padding-right: var(--space-8);
+}
+
+/* Sidebar Styles */
+.fb-sidebar {
+  width: var(--sidebar-width-expanded);
+}
+
+.fb-sidebar-collapsed {
+  width: var(--sidebar-width-collapsed);
+}
+
+@media (max-width: 1024px) {
+  .fb-sidebar {
+    width: var(--sidebar-width-tablet);
+  }
+}
+
+.fb-sidebar-content-gap {
+  margin-left: var(--sidebar-content-gap);
+}
+
+/* Cards */
+.fb-card {
+  padding: var(--card-padding);
+  border-radius: var(--button-radius);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+}
+
+.fb-card-grid {
+  gap: var(--card-gap);
+}
+
+/* Tables */
+.fb-table-row {
+  height: var(--table-row-height);
+}
+
+.fb-table-cell {
+  padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+  font-size: var(--text-sm);
+}
+
+.fb-table-numeric {
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Buttons */
+.fb-button {
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: var(--button-radius);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  transition: all 0.2s ease;
+}
+
+.fb-button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* Icons */
+.fb-icon-sm {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  stroke-width: 1.75;
+}
+
+.fb-icon-md {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  stroke-width: 1.75;
+}
+
+.fb-icon-lg {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+  stroke-width: 1.75;
+}
+
+/* Spacing Utilities */
+.fb-space-y-4 > * + * { margin-top: var(--space-4); }
+.fb-space-y-5 > * + * { margin-top: var(--space-5); }
+.fb-space-y-6 > * + * { margin-top: var(--space-6); }
+
+.fb-mb-4 { margin-bottom: var(--space-4); }
+.fb-mb-5 { margin-bottom: var(--space-5); }
+.fb-mb-6 { margin-bottom: var(--space-6); }
+
+/* Active States */
+.fb-sidebar-active {
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+/* Metrics */
+.fb-metric-value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-tight);
+}
+
+.fb-metric-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: hsl(var(--muted-foreground));
+}

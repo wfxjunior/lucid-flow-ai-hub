@@ -1,12 +1,10 @@
 
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { MainContent } from "@/components/MainContent"
-import { SidebarProvider } from "@/components/ui/sidebar"
 
 export default function Index() {
-  const navigate = useNavigate()
   const [activeView, setActiveView] = useState("dashboard")
 
   const handleNavigate = (view: string) => {
@@ -18,7 +16,7 @@ export default function Index() {
     <SidebarProvider>
       <div className="w-full h-screen bg-background flex">
         <AppSidebar setActiveView={setActiveView} activeView={activeView} />
-        <main className="flex-1 h-full overflow-hidden">
+        <main className="flex-1 h-full overflow-hidden fb-sidebar-content-gap">
           <MainContent activeView={activeView} onNavigate={handleNavigate} />
         </main>
       </div>
