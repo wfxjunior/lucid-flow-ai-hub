@@ -3,7 +3,7 @@ import React from 'react'
 import * as LucideIcons from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-export type IconSize = 'sm' | 'md' | 'lg' | 'xl'
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type IconTone = 'default' | 'primary' | 'success' | 'danger' | 'warning'
 
 interface AppIconProps {
@@ -17,6 +17,7 @@ interface AppIconProps {
 }
 
 const sizeMap: Record<IconSize, number> = {
+  xs: 16,
   sm: 20,
   md: 24,
   lg: 28,
