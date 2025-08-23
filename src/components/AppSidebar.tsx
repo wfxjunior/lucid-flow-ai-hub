@@ -32,6 +32,8 @@ const coreBusinessItems: MenuItem[] = [
   { title: "Customers", icon: Users, view: "customers" },
   { title: "Projects", icon: Briefcase, view: "projects" },
   { title: "Project Timeline", icon: Calendar, view: "project-timeline" },
+  { title: "Invoices", icon: Receipt, view: "invoices" },
+  { title: "Estimates", icon: Calculator, view: "estimates" },
   { title: "Tours", icon: Building, view: "tours" },
   { title: "Growth", icon: TrendingUp, view: "growth" },
   { title: "Automations", icon: Zap, view: "automations" },
