@@ -30,42 +30,42 @@ export function CleanPageLayout({
 }: CleanPageLayoutProps) {
   return (
     <div className="w-full h-full min-h-screen bg-background">
-      <div className="w-full max-w-none px-6 py-6">
-        <div className="space-y-6">
-          {/* Header */}
-          <div className="flex items-center justify-between">
+      <div className="w-full max-w-none px-4 py-4">
+        <div className="space-y-4">
+          {/* Header - Compact */}
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-semibold text-foreground">{title}</h1>
-              <p className="text-muted-foreground mt-1">{subtitle}</p>
+              <h1 className="text-xl font-semibold text-foreground">{title}</h1>
+              <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
             </div>
             {actionLabel && onActionClick && (
-              <Button onClick={onActionClick}>
+              <Button onClick={onActionClick} size="sm" className="text-sm">
                 {actionLabel}
               </Button>
             )}
           </div>
 
-          {/* Metrics */}
+          {/* Metrics - More Compact Grid */}
           {metrics.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-4">
               {metrics.map((metric, index) => {
                 const Icon = metric.icon
                 return (
-                  <Card key={index}>
-                    <CardContent className="p-6">
+                  <Card key={index} className="border border-border">
+                    <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-muted-foreground">
+                          <p className="text-xs font-medium text-muted-foreground">
                             {metric.title}
                           </p>
-                          <p className="text-2xl font-bold text-foreground">
+                          <p className="text-xl font-bold text-foreground mt-1">
                             {metric.value}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {metric.subtitle}
                           </p>
                         </div>
-                        <Icon className="h-8 w-8 text-muted-foreground" />
+                        <Icon className="h-6 w-6 text-muted-foreground" />
                       </div>
                     </CardContent>
                   </Card>
@@ -75,7 +75,9 @@ export function CleanPageLayout({
           )}
 
           {/* Main Content */}
-          {children}
+          <div className="flex-1 min-h-0">
+            {children}
+          </div>
         </div>
       </div>
     </div>
