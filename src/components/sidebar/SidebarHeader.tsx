@@ -6,7 +6,7 @@ export function SidebarHeader() {
     <div className="p-4 border-b">
       <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary rounded">
         <img 
-          src="/lovable-uploads/72c320c3-26d7-40fd-862e-f1c3270c013f.png" 
+          src="/lovable-uploads/ee7c952e-739a-4ed5-89d9-f10317d79177.png" 
           alt="FeatherBiz" 
           className="h-8 w-auto"
         />
