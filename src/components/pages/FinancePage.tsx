@@ -1,243 +1,244 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
-import { 
-  DollarSign, 
-  TrendingUp, 
-  TrendingDown,
-  Calculator,
-  Receipt,
-  FileText,
-  CreditCard,
-  PiggyBank,
-  BarChart3,
-  ArrowRight,
-  Plus
-} from "lucide-react"
+import React, { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Progress } from '@/components/ui/progress'
+import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { DollarSign, TrendingUp, CreditCard, PiggyBank, AlertTriangle, Plus, Download, Filter } from 'lucide-react'
 
-interface FinancePageProps {
-  onNavigate: (view: string) => void
+interface DataItem {
+  name: string
+  value: number
 }
 
-export function FinancePage({ onNavigate }: FinancePageProps) {
-  const financialMetrics = [
-    {
-      title: "Total Revenue",
-      value: "$124,500",
-      change: "+12.5%",
-      trend: "up",
-      icon: DollarSign
-    },
-    {
-      title: "Net Profit",
-      value: "$35,200",
-      change: "-3.2%",
-      trend: "down",
-      icon: TrendingUp
-    },
-    {
-      title: "Expenses",
-      value: "$89,300",
-      change: "+8.7%",
-      trend: "up",
-      icon: TrendingDown
-    },
-    {
-      title: "Cash Flow",
-      value: "$42,800",
-      change: "+6.1%",
-      trend: "up",
-      icon: Calculator
-    }
-  ]
+const lineChartData: DataItem[] = [
+  { name: "Jan", value: 4000 },
+  { name: "Feb", value: 3000 },
+  { name: "Mar", value: 2000 },
+  { name: "Apr", value: 2780 },
+  { name: "May", value: 1890 },
+  { name: "Jun", value: 2390 },
+  { name: "Jul", value: 3490 },
+  { name: "Aug", value: 2210 },
+  { name: "Sep", value: 3800 },
+  { name: "Oct", value: 4300 },
+  { name: "Nov", value: 5000 },
+  { name: "Dec", value: 4000 },
+]
 
-  const quickActions = [
-    {
-      title: "Create Invoice",
-      description: "Generate and send professional invoices",
-      icon: FileText,
-      action: () => onNavigate("invoices"),
-      color: "blue"
-    },
-    {
-      title: "Record Payment",
-      description: "Log incoming payments from clients",
-      icon: CreditCard,
-      action: () => {},
-      color: "green"
-    },
-    {
-      title: "Add Expense",
-      description: "Track business expenses and costs",
-      icon: Receipt,
-      action: () => {},
-      color: "red"
-    },
-    {
-      title: "Set Budget",
-      description: "Create and manage financial budgets",
-      icon: PiggyBank,
-      action: () => {},
-      color: "yellow"
-    }
-  ]
+const areaChartData: DataItem[] = [
+  { name: "Jan", value: 2400 },
+  { name: "Feb", value: 1398 },
+  { name: "Mar", value: 9800 },
+  { name: "Apr", value: 3908 },
+  { name: "May", value: 4800 },
+  { name: "Jun", value: 3800 },
+  { name: "Jul", value: 4300 },
+  { name: "Aug", value: 2800 },
+  { name: "Sep", value: 5908 },
+  { name: "Oct", value: 7800 },
+  { name: "Nov", value: 6800 },
+  { name: "Dec", value: 5400 },
+]
 
-  const recentTransactions = [
-    {
-      id: 1,
-      type: "income",
-      description: "Payment from ABC Corp",
-      amount: "+$2,500",
-      date: "Today",
-      status: "completed"
-    },
-    {
-      id: 2,
-      type: "expense",
-      description: "Office Supplies",
-      amount: "-$150",
-      date: "Yesterday",
-      status: "completed"
-    },
-    {
-      id: 3,
-      type: "income",
-      description: "Consulting Fee",
-      amount: "+$1,200",
-      date: "2 days ago",
-      status: "pending"
-    },
-    {
-      id: 4,
-      type: "expense",
-      description: "Marketing Campaign",
-      amount: "-$500",
-      date: "3 days ago",
-      status: "completed"
-    },
-    {
-      id: 5,
-      type: "income",
-      description: "Sale of Product X",
-      amount: "+$800",
-      date: "4 days ago",
-      status: "failed"
-    }
-  ]
+const barChartData: DataItem[] = [
+  { name: "Jan", value: 200 },
+  { name: "Feb", value: 300 },
+  { name: "Mar", value: 400 },
+  { name: "Apr", value: 600 },
+  { name: "May", value: 500 },
+  { name: "Jun", value: 400 },
+  { name: "Jul", value: 300 },
+  { name: "Aug", value: 200 },
+  { name: "Sep", value: 400 },
+  { name: "Oct", value: 600 },
+  { name: "Nov", value: 800 },
+  { name: "Dec", value: 700 },
+]
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return <Badge variant="secondary" className="bg-green-100 text-green-800">Completed</Badge>
-      case 'pending':
-        return <Badge variant="outline">Pending</Badge>
-      case 'failed':
-        return <Badge variant="destructive">Failed</Badge>
-      default:
-        return <Badge variant="secondary">{status}</Badge>
-    }
+interface PieChartData {
+  name: string
+  value: number
+  color: string
+}
+
+const pieChartData: PieChartData[] = [
+  { name: "Services", value: 400, color: "#0088FE" },
+  { name: "Products", value: 300, color: "#00C49F" },
+  { name: "Subscriptions", value: 300, color: "#FFBB28" },
+  { name: "Other", value: 200, color: "#FF8042" },
+]
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]
+
+const metrics = [
+  {
+    title: "Total Revenue",
+    value: "$124,500",
+    change: "+12.5%",
+    trend: "up",
+    icon: DollarSign,
+    color: "text-green-600"
+  },
+  {
+    title: "Expenses",
+    value: "$38,200",
+    change: "-5.2%",
+    trend: "down",
+    icon: CreditCard,
+    color: "text-red-600"
+  },
+  {
+    title: "Net Profit",
+    value: "$86,300",
+    change: "+18.3%",
+    trend: "up",
+    icon: TrendingUp,
+    color: "text-blue-600"
+  },
+  {
+    title: "Cash Flow",
+    value: "$42,100",
+    change: "+7.8%",
+    trend: "up",
+    icon: PiggyBank,
+    color: "text-purple-600"
   }
+]
+
+export function FinancePage() {
+  const [activeTab, setActiveTab] = useState("dashboard")
 
   return (
-    <CleanPageLayout
-      title="Finance Overview"
-      subtitle="Monitor your financial performance and manage transactions"
-      actionLabel="Add Transaction"
-      onActionClick={() => {}}
-    >
-      {/* Financial Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {financialMetrics.map((metric) => (
-          <Card key={metric.title} className="border-2 border-muted-foreground">
+    <div className="container mx-auto p-6 space-y-6">
+      <div className="flex items-center space-x-3">
+        <DollarSign className="h-8 w-8 text-primary" />
+        <div>
+          <h1 className="text-3xl font-bold">Finance Dashboard</h1>
+          <p className="text-muted-foreground">Track your financial performance and manage your business finances</p>
+        </div>
+      </div>
+
+      <Tabs defaultValue="dashboard" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-1 md:grid-cols-4">
+          <TabsTrigger value="dashboard" onClick={() => setActiveTab("dashboard")}>Dashboard</TabsTrigger>
+          <TabsTrigger value="reports" onClick={() => setActiveTab("reports")}>Reports</TabsTrigger>
+          <TabsTrigger value="budgeting" onClick={() => setActiveTab("budgeting")}>Budgeting</TabsTrigger>
+          <TabsTrigger value="forecasting" onClick={() => setActiveTab("forecasting")}>Forecasting</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="dashboard" className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {metrics.map((metric) => (
+              <Card key={metric.title}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">{metric.title}</CardTitle>
+                  <metric.icon className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{metric.value}</div>
+                  <div className="text-sm text-muted-foreground">
+                    <span className={metric.trend === "up" ? "text-green-500" : "text-red-500"}>
+                      {metric.change}
+                    </span>
+                    &nbsp;
+                    {metric.trend === "up" ? "increase" : "decrease"} from last month
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Card className="col-span-1 lg:col-span-2">
+              <CardHeader>
+                <CardTitle>Revenue Chart</CardTitle>
+                <CardDescription>A visual representation of your revenue over time</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={lineChartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                    <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="value" stroke="#8884d8" name="Revenue" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="reports" className="space-y-4">
+          <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-semibold">{metric.title}</CardTitle>
-                <metric.icon className={`h-5 w-5 text-${metric.color || 'blue'}-500`} />
-              </div>
+              <CardTitle>Financial Reports</CardTitle>
+              <CardDescription>Generate and download detailed financial reports</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{metric.value}</div>
-              <div className={`text-sm ${metric.trend === 'up' ? 'text-green-600' : 'text-red-600'} flex items-center`}>
-                {metric.change}
-                <ArrowRight className="h-4 w-4 ml-1" />
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold">Income Statement</h3>
+                  <p className="text-sm text-muted-foreground">View a summary of your income and expenses over a period of time.</p>
+                  <Button variant="outline" className="mt-2">
+                    Generate Report <Download className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Balance Sheet</h3>
+                  <p className="text-sm text-muted-foreground">View a snapshot of your assets, liabilities, and equity at a specific point in time.</p>
+                  <Button variant="outline" className="mt-2">
+                    Generate Report <Download className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Cash Flow Statement</h3>
+                  <p className="text-sm text-muted-foreground">View the movement of cash both into and out of your business.</p>
+                  <Button variant="outline" className="mt-2">
+                    Generate Report <Download className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Custom Report</h3>
+                  <p className="text-sm text-muted-foreground">Create a custom financial report based on your specific needs.</p>
+                  <Button variant="outline" className="mt-2">
+                    Create Custom Report <Filter className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
+        </TabsContent>
 
-      {/* Quick Actions */}
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>Jump to frequently used tasks</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {quickActions.map((action) => (
-              <Button
-                key={action.title}
-                variant="outline"
-                className="flex flex-col items-start p-4 rounded-lg hover:bg-accent"
-                onClick={action.action}
-              >
-                <action.icon className={`h-5 w-5 text-${action.color || 'blue'}-500 mb-2`} />
-                <div className="text-sm font-medium">{action.title}</div>
-                <div className="text-xs text-muted-foreground mt-1">{action.description}</div>
-              </Button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        <TabsContent value="budgeting" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Budgeting Tools</CardTitle>
+              <CardDescription>Create and manage your business budget</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <AlertTriangle className="h-6 w-6" />
+              <p className="text-sm text-muted-foreground">This feature is under development and will be available soon.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      {/* Recent Transactions */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Recent Transactions</CardTitle>
-              <CardDescription>Your latest financial activities</CardDescription>
-            </div>
-            <Button variant="outline" size="sm">
-              View All
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {recentTransactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between p-3 rounded-lg border">
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-full ${
-                    transaction.type === 'income' ? 'bg-green-100' : 'bg-red-100'
-                  }`}>
-                    {transaction.type === 'income' ? (
-                      <TrendingUp className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <TrendingDown className="h-4 w-4 text-red-600" />
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-medium">{transaction.description}</p>
-                    <p className="text-sm text-muted-foreground">{transaction.date}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  {getStatusBadge(transaction.status)}
-                  <span className={`font-medium ${
-                    transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    {transaction.amount}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </CleanPageLayout>
+        <TabsContent value="forecasting" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Financial Forecasting</CardTitle>
+              <CardDescription>Predict your future financial performance</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <AlertTriangle className="h-6 w-6" />
+              <p className="text-sm text-muted-foreground">This feature is under development and will be available soon.</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }

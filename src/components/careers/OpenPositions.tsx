@@ -1,299 +1,379 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin, Clock, DollarSign, Search, Filter } from "lucide-react"
-import { JobDetailsDrawer } from "./JobDetailsDrawer"
+import React, { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { MapPin, Clock, DollarSign, Users, Briefcase, Search, Filter } from 'lucide-react'
+import { JobDetailsDrawer } from './JobDetailsDrawer'
 
 interface Job {
-  id: number
+  id: string
   title: string
-  location: string
   department: string
+  location: string
   type: string
+  level: string
   salary: string
   description: string
   requirements: string[]
+  responsibilities: string[]
   benefits: string[]
-  postedDate: string
-  urgent?: boolean
+  posted: string
+  applications: number
 }
 
-const mockJobs: Job[] = [
+const jobs: Job[] = [
   {
-    id: 1,
-    title: "Frontend Developer",
-    location: "San Francisco, CA",
+    id: "1",
+    title: "Senior Frontend Developer",
     department: "Engineering",
-    type: "Full-time",
-    salary: "$120,000 - $150,000",
-    description:
-      "We are looking for a skilled frontend developer to join our team. You will be responsible for developing and maintaining the user interface of our web applications.",
-    requirements: [
-      "3+ years of frontend development experience",
-      "Proficiency in React, JavaScript, and HTML/CSS",
-      "Experience with responsive design",
-    ],
-    benefits: ["Health insurance", "Paid time off", "401k"],
-    postedDate: "2 days ago",
-    urgent: true,
-  },
-  {
-    id: 2,
-    title: "Backend Developer",
-    location: "New York, NY",
-    department: "Engineering",
-    type: "Full-time",
-    salary: "$130,000 - $160,000",
-    description:
-      "We are looking for a skilled backend developer to join our team. You will be responsible for developing and maintaining the server-side logic of our web applications.",
-    requirements: [
-      "3+ years of backend development experience",
-      "Proficiency in Node.js, Python, or Java",
-      "Experience with databases such as PostgreSQL or MongoDB",
-    ],
-    benefits: ["Health insurance", "Paid time off", "401k"],
-    postedDate: "3 days ago",
-  },
-  {
-    id: 3,
-    title: "UI/UX Designer",
-    location: "Austin, TX",
-    department: "Design",
-    type: "Full-time",
-    salary: "$100,000 - $130,000",
-    description:
-      "We are looking for a talented UI/UX designer to join our team. You will be responsible for designing the user interface and user experience of our web applications.",
-    requirements: [
-      "3+ years of UI/UX design experience",
-      "Proficiency in Figma, Sketch, or Adobe XD",
-      "Experience with user research and usability testing",
-    ],
-    benefits: ["Health insurance", "Paid time off", "401k"],
-    postedDate: "4 days ago",
-  },
-  {
-    id: 4,
-    title: "Marketing Manager",
     location: "Remote",
-    department: "Marketing",
     type: "Full-time",
+    level: "Senior",
+    salary: "$120,000 - $150,000",
+    description: "We're looking for a Senior Frontend Developer to join our growing engineering team...",
+    requirements: [
+      "5+ years of React development experience",
+      "Strong TypeScript skills",
+      "Experience with modern build tools",
+      "Understanding of responsive design principles"
+    ],
+    responsibilities: [
+      "Build and maintain user-facing features",
+      "Collaborate with design and backend teams",
+      "Optimize applications for performance",
+      "Mentor junior developers"
+    ],
+    benefits: [
+      "Remote-first culture",
+      "Health, dental, and vision insurance",
+      "Unlimited PTO",
+      "Professional development budget"
+    ],
+    posted: "2 days ago",
+    applications: 24
+  },
+  {
+    id: "2",
+    title: "Backend Engineer (Node.js)",
+    department: "Engineering",
+    location: "New York, NY",
+    type: "Full-time",
+    level: "Mid-Level",
+    salary: "$110,000 - $140,000",
+    description: "Join our backend team to build scalable APIs and services using Node.js...",
+    requirements: [
+      "3+ years of Node.js development experience",
+      "Experience with Express.js and PostgreSQL",
+      "Understanding of RESTful API design",
+      "Experience with testing frameworks"
+    ],
+    responsibilities: [
+      "Design and implement backend services",
+      "Write unit and integration tests",
+      "Participate in code reviews",
+      "Deploy and monitor applications"
+    ],
+    benefits: [
+      "Competitive salary",
+      "Medical, dental, and vision insurance",
+      "401(k) with company match",
+      "Paid time off and holidays"
+    ],
+    posted: "5 days ago",
+    applications: 18
+  },
+  {
+    id: "3",
+    title: "Data Scientist",
+    department: "Data Science",
+    location: "San Francisco, CA",
+    type: "Full-time",
+    level: "Senior",
+    salary: "$130,000 - $170,000",
+    description: "We are seeking a Data Scientist to help us analyze and interpret complex data...",
+    requirements: [
+      "Master's or Ph.D. in Statistics, Mathematics, or related field",
+      "5+ years of experience in data science",
+      "Proficiency in Python and SQL",
+      "Experience with machine learning algorithms"
+    ],
+    responsibilities: [
+      "Develop and implement machine learning models",
+      "Analyze large datasets to identify trends",
+      "Communicate findings to stakeholders",
+      "Collaborate with engineering teams"
+    ],
+    benefits: [
+      "Health, dental, and vision insurance",
+      "Generous PTO policy",
+      "Professional development opportunities",
+      "Stock options"
+    ],
+    posted: "1 week ago",
+    applications: 32
+  },
+  {
+    id: "4",
+    title: "Product Manager",
+    department: "Product",
+    location: "Remote",
+    type: "Full-time",
+    level: "Mid-Level",
+    salary: "$110,000 - $140,000",
+    description: "We are looking for a Product Manager to define and execute our product strategy...",
+    requirements: [
+      "3+ years of product management experience",
+      "Strong analytical and problem-solving skills",
+      "Excellent communication skills",
+      "Experience with Agile methodologies"
+    ],
+    responsibilities: [
+      "Define product requirements and roadmaps",
+      "Work closely with engineering and design teams",
+      "Conduct market research and competitive analysis",
+      "Track and analyze product performance"
+    ],
+    benefits: [
+      "Competitive salary",
+      "Medical, dental, and vision insurance",
+      "401(k) with company match",
+      "Paid time off and holidays"
+    ],
+    posted: "1 week ago",
+    applications: 26
+  },
+  {
+    id: "5",
+    title: "UX Designer",
+    department: "Design",
+    location: "San Francisco, CA",
+    type: "Full-time",
+    level: "Senior",
+    salary: "$120,000 - $150,000",
+    description: "We are seeking a talented UX Designer to create intuitive and engaging user experiences...",
+    requirements: [
+      "5+ years of UX design experience",
+      "Proficiency in Figma or Sketch",
+      "Strong portfolio of design projects",
+      "Experience with user research and testing"
+    ],
+    responsibilities: [
+      "Design user interfaces and prototypes",
+      "Conduct user research and usability testing",
+      "Collaborate with product and engineering teams",
+      "Ensure designs are accessible and user-friendly"
+    ],
+    benefits: [
+      "Health, dental, and vision insurance",
+      "Generous PTO policy",
+      "Professional development opportunities",
+      "Stock options"
+    ],
+    posted: "2 weeks ago",
+    applications: 41
+  },
+  {
+    id: "6",
+    title: "Marketing Manager",
+    department: "Marketing",
+    location: "Remote",
+    type: "Full-time",
+    level: "Mid-Level",
     salary: "$90,000 - $120,000",
-    description:
-      "We are looking for a results-driven marketing manager to join our team. You will be responsible for developing and executing marketing strategies to promote our products and services.",
+    description: "We are looking for a Marketing Manager to develop and execute marketing campaigns...",
     requirements: [
       "3+ years of marketing experience",
-      "Experience with digital marketing, social media marketing, and email marketing",
-      "Strong analytical and problem-solving skills",
+      "Strong understanding of digital marketing channels",
+      "Excellent communication and writing skills",
+      "Experience with marketing automation tools"
     ],
-    benefits: ["Health insurance", "Paid time off", "401k"],
-    postedDate: "5 days ago",
+    responsibilities: [
+      "Develop and execute marketing campaigns",
+      "Manage social media and email marketing",
+      "Track and analyze campaign performance",
+      "Collaborate with sales and product teams"
+    ],
+    benefits: [
+      "Competitive salary",
+      "Medical, dental, and vision insurance",
+      "401(k) with company match",
+      "Paid time off and holidays"
+    ],
+    posted: "3 weeks ago",
+    applications: 35
   },
   {
-    id: 5,
-    title: "Sales Representative",
-    location: "San Francisco, CA",
-    department: "Sales",
+    id: "7",
+    title: "Customer Support Specialist",
+    department: "Customer Support",
+    location: "Remote",
     type: "Full-time",
-    salary: "$80,000 - $110,000",
-    description:
-      "We are looking for a motivated sales representative to join our team. You will be responsible for generating leads, closing sales, and building relationships with customers.",
+    level: "Entry-Level",
+    salary: "$50,000 - $70,000",
+    description: "We are seeking a Customer Support Specialist to provide excellent customer service...",
     requirements: [
-      "3+ years of sales experience",
-      "Excellent communication and interpersonal skills",
-      "Strong negotiation and closing skills",
+      "1+ years of customer support experience",
+      "Excellent communication and problem-solving skills",
+      "Ability to work independently",
+      "Experience with CRM software"
     ],
-    benefits: ["Health insurance", "Paid time off", "401k"],
-    postedDate: "6 days ago",
-  },
-  {
-    id: 6,
-    title: "Operations Manager",
-    location: "New York, NY",
-    department: "Operations",
-    type: "Full-time",
-    salary: "$100,000 - $130,000",
-    description:
-      "We are looking for a detail-oriented operations manager to join our team. You will be responsible for overseeing the day-to-day operations of our company.",
-    requirements: [
-      "3+ years of operations experience",
-      "Strong organizational and problem-solving skills",
-      "Excellent communication and interpersonal skills",
+    responsibilities: [
+      "Respond to customer inquiries via email, phone, and chat",
+      "Troubleshoot technical issues",
+      "Escalate complex issues to senior support staff",
+      "Document customer interactions"
     ],
-    benefits: ["Health insurance", "Paid time off", "401k"],
-    postedDate: "7 days ago",
-  },
+    benefits: [
+      "Competitive salary",
+      "Medical, dental, and vision insurance",
+      "401(k) with company match",
+      "Paid time off and holidays"
+    ],
+    posted: "1 month ago",
+    applications: 52
+  }
 ]
 
-export function OpenPositions() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [locationFilter, setLocationFilter] = useState("all")
-  const [departmentFilter, setDepartmentFilter] = useState("all")
-  const [typeFilter, setTypeFilter] = useState("all")
+interface OpenPositionsProps {
+  onApply?: (jobId: string) => void
+}
 
-  const filteredJobs = mockJobs.filter((job) => {
-    const searchRegex = new RegExp(searchTerm, "i")
+export function OpenPositions({ onApply }: OpenPositionsProps) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedLocation, setSelectedLocation] = useState('All')
+  const [selectedDepartment, setSelectedDepartment] = useState('All')
+  const [open, setOpen] = useState(false)
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null)
+
+  const handleJobClick = (job: Job) => {
+    setSelectedJob(job)
+    setOpen(true)
+  }
+
+  const handleCloseDrawer = () => {
+    setOpen(false)
+  }
+
+  const locations = ['All', ...new Set(jobs.map((job) => job.location))]
+  const departments = ['All', ...new Set(jobs.map((job) => job.department))]
+
+  const filteredJobs = jobs.filter((job) => {
+    const searchMatch =
+      job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      job.description.toLowerCase().includes(searchTerm.toLowerCase())
+
     const locationMatch =
-      locationFilter === "all" || job.location.toLowerCase().includes(locationFilter)
-    const departmentMatch =
-      departmentFilter === "all" || job.department.toLowerCase().includes(departmentFilter)
-    const typeMatch = typeFilter === "all" || job.type.toLowerCase().includes(typeFilter)
+      selectedLocation === 'All' || job.location === selectedLocation
 
-    return (
-      searchRegex.test(job.title) && locationMatch && departmentMatch && typeMatch
-    )
+    const departmentMatch =
+      selectedDepartment === 'All' || job.department === selectedDepartment
+
+    return searchMatch && locationMatch && departmentMatch
   })
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold tracking-tight">Open Positions</h2>
-        <p className="text-muted-foreground mt-2">
-          Find your next opportunity with us
-        </p>
-      </div>
-
-      {/* Search and Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Search className="h-5 w-5" />
-            Search & Filter Jobs
-          </CardTitle>
+          <CardTitle className="text-2xl font-bold">Open Positions</CardTitle>
+          <CardDescription>
+            Explore our current job openings and find the perfect fit for your
+            skills and experience.
+          </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {/* Search Input */}
-            <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search by job title, skills, or keywords..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-
-            {/* Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Select value={locationFilter} onValueChange={setLocationFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Location" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Locations</SelectItem>
-                  <SelectItem value="remote">Remote</SelectItem>
-                  <SelectItem value="san-francisco">San Francisco, CA</SelectItem>
-                  <SelectItem value="new-york">New York, NY</SelectItem>
-                  <SelectItem value="austin">Austin, TX</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Departments</SelectItem>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="design">Design</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="sales">Sales</SelectItem>
-                  <SelectItem value="operations">Operations</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={typeFilter} onValueChange={setTypeFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Job Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Types</SelectItem>
-                  <SelectItem value="full-time">Full-time</SelectItem>
-                  <SelectItem value="part-time">Part-time</SelectItem>
-                  <SelectItem value="contract">Contract</SelectItem>
-                  <SelectItem value="internship">Internship</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Input
+              type="text"
+              placeholder="Search by job title or keyword..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Select value={selectedLocation} onValueChange={setSelectedLocation}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Location" />
+              </SelectTrigger>
+              <SelectContent>
+                {locations.map((location) => (
+                  <SelectItem key={location} value={location}>
+                    {location}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select
+              value={selectedDepartment}
+              onValueChange={setSelectedDepartment}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Department" />
+              </SelectTrigger>
+              <SelectContent>
+                {departments.map((department) => (
+                  <SelectItem key={department} value={department}>
+                    {department}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
+          {filteredJobs.length === 0 ? (
+            <div className="text-center py-8">
+              <Search className="h-6 w-6 mx-auto text-gray-400 mb-2" />
+              <p className="text-gray-500">
+                No matching jobs found. Try adjusting your search criteria.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredJobs.map((job) => (
+                <Card key={job.id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle>{job.title}</CardTitle>
+                    <CardDescription>{job.department}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <MapPin className="h-4 w-4" />
+                      <span>{job.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Clock className="h-4 w-4" />
+                      <span>Posted {job.posted}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <DollarSign className="h-4 w-4" />
+                      <span>{job.salary}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Users className="h-4 w-4" />
+                      <span>{job.applications} Applications</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Briefcase className="h-4 w-4" />
+                      <span>{job.type}</span>
+                    </div>
+                    <Button
+                      variant="secondary"
+                      className="w-full mt-4"
+                      onClick={() => handleJobClick(job)}
+                    >
+                      View Details
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
-
-      {/* Results Count */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          {filteredJobs.length} position{filteredJobs.length !== 1 ? 's' : ''} found
-        </p>
-        <Button variant="outline" size="sm">
-          <Filter className="h-4 w-4 mr-2" />
-          More Filters
-        </Button>
-      </div>
-
-      {/* Job Listings */}
-      <div className="grid gap-4">
-        {filteredJobs.length === 0 ? (
-          <Card>
-            <CardContent className="py-8 text-center">
-              <p className="text-muted-foreground">No positions match your search criteria.</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Try adjusting your filters or search terms.
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          filteredJobs.map((job) => (
-            <JobDetailsDrawer key={job.id} job={job}>
-              <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-1">
-                        <h3 className="font-semibold text-lg">{job.title}</h3>
-                        <p className="text-muted-foreground">{job.department}</p>
-                      </div>
-                      <Badge variant={job.urgent ? "destructive" : "secondary"}>
-                        {job.urgent ? "Urgent" : "Open"}
-                      </Badge>
-                    </div>
-
-                    <p className="text-muted-foreground line-clamp-2">
-                      {job.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {job.location}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        {job.type}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <DollarSign className="h-4 w-4" />
-                        {job.salary}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2">
-                      <div className="text-xs text-muted-foreground">
-                        Posted {job.postedDate}
-                      </div>
-                      <Button variant="outline" size="sm">
-                        View Details
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </JobDetailsDrawer>
-          ))
-        )}
-      </div>
+      <JobDetailsDrawer
+        open={open}
+        onClose={handleCloseDrawer}
+        job={selectedJob}
+      />
     </div>
   )
 }
