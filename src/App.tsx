@@ -5,20 +5,23 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
 import { EnhancedSecurityHeaders } from "@/components/security/EnhancedSecurityHeaders";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AppRoutes } from "./AppRoutes";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <BrowserRouter>
-        <EnhancedSecurityHeaders />
-        <AppRoutes />
-        <Toaster />
-        <Sonner />
-      </BrowserRouter>
-    </TooltipProvider>
+    <LanguageProvider>
+      <TooltipProvider>
+        <BrowserRouter>
+          <EnhancedSecurityHeaders />
+          <AppRoutes />
+          <Toaster />
+          <Sonner />
+        </BrowserRouter>
+      </TooltipProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 
