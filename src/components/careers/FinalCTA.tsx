@@ -1,16 +1,46 @@
 
 import React from 'react'
 import { Button } from "@/components/ui/button"
-import { AppIcon } from '@/components/ui/AppIcon'
+import { Mail, Users } from 'lucide-react'
 
 export function FinalCTA() {
   const handleApplyNow = () => {
-    window.open('mailto:careers@featherbiz.io')
+    const subject = 'Job Application - FeatherBiz'
+    const body = `Dear FeatherBiz Hiring Team,
+
+I am interested in applying for a position at FeatherBiz. Please find my information below:
+
+Name: [Your Name]
+Email: [Your Email]
+Phone: [Your Phone]
+Position of Interest: [Position]
+LinkedIn Profile: [Your LinkedIn]
+
+I have attached my resume and look forward to hearing from you.
+
+Best regards,
+[Your Name]`
+    
+    window.open(`mailto:careers@featherbiz.io?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`)
   }
 
   const handleTalentNetwork = () => {
     const subject = 'Talent Network - FeatherBiz'
-    const body = `Hi FeatherBiz team,\n\nI'm interested in joining your talent network to stay updated on future opportunities.\n\nName:\nEmail:\nLinkedIn:\nArea of Interest:\n\nBest regards`
+    const body = `Hi FeatherBiz team,
+
+I'm interested in joining your talent network to stay updated on future opportunities.
+
+Name: [Your Name]
+Email: [Your Email]
+LinkedIn: [Your LinkedIn Profile]
+Area of Interest: [Your Area of Interest]
+Experience Level: [Junior/Mid/Senior]
+
+Please add me to your talent network for future opportunities.
+
+Best regards,
+[Your Name]`
+    
     window.open(`mailto:careers@featherbiz.io?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`)
   }
 
@@ -30,7 +60,7 @@ export function FinalCTA() {
           onClick={handleApplyNow}
           className="h-12 px-6 font-medium text-[15px] bg-primary text-primary-foreground hover:bg-primary/90 border-0 shadow-none transition-all duration-200 rounded-lg"
         >
-          <AppIcon name="Mail" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
+          <Mail className="mr-2 w-4 h-4" />
           Apply now
         </Button>
         <Button 
@@ -39,7 +69,7 @@ export function FinalCTA() {
           onClick={handleTalentNetwork}
           className="h-12 px-6 font-medium text-[15px] bg-transparent text-foreground border border-border hover:bg-muted/50 shadow-none transition-all duration-200 rounded-lg"
         >
-          <AppIcon name="Users" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
+          <Users className="mr-2 w-4 h-4" />
           Join talent network
         </Button>
       </div>
