@@ -1,4 +1,3 @@
-
 import React from "react"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
 import {
@@ -34,10 +33,6 @@ const coreBusinessItems: MenuItem[] = [
   { title: "Project Timeline", icon: Calendar, view: "project-timeline" },
   { title: "Invoices", icon: Receipt, view: "invoices" },
   { title: "Estimates", icon: Calculator, view: "estimates" },
-  { title: "Tours", icon: Building, view: "tours" },
-  { title: "Growth", icon: TrendingUp, view: "growth" },
-  { title: "Automations", icon: Zap, view: "automations" },
-  { title: "Pipeline", icon: Target, view: "pipeline" },
   { title: "Smart Schedule", icon: Clock, view: "smart-schedule" }
 ]
 
