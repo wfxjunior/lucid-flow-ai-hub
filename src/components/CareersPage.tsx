@@ -70,9 +70,9 @@ export function CareersPage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-8 py-12 space-y-16">
+    <div className="max-w-[1280px] mx-auto px-8 py-8 space-y-12">
       {/* Header - Reduced spacing for Stripe-like density */}
-      <div className="text-center space-y-4">
+      <div className="text-center space-y-3">
         <h1 className="text-4xl font-bold tracking-tight text-foreground">
           Careers at FeatherBiz
         </h1>
@@ -152,6 +152,48 @@ export function CareersPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+      </div>
+
+      {/* Benefits Section */}
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-foreground mb-2">Why Work With Us?</h2>
+          <p className="text-muted-foreground">What makes FeatherBiz a great place to work</p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <AppIcon name="Home" size="lg" tone="default" aria-hidden={true} />
+            </div>
+            <h4 className="font-semibold text-foreground">Remote First</h4>
+            <p className="text-sm text-muted-foreground">Work from anywhere in the world</p>
+          </div>
+          
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <AppIcon name="Clock" size="lg" tone="default" aria-hidden={true} />
+            </div>
+            <h4 className="font-semibold text-foreground">Flexible Hours</h4>
+            <p className="text-sm text-muted-foreground">Choose your own schedule</p>
+          </div>
+          
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <AppIcon name="GraduationCap" size="lg" tone="default" aria-hidden={true} />
+            </div>
+            <h4 className="font-semibold text-foreground">Learning Budget</h4>
+            <p className="text-sm text-muted-foreground">$2000 annual learning allowance</p>
+          </div>
+          
+          <div className="text-center space-y-3">
+            <div className="flex justify-center">
+              <AppIcon name="Heart" size="lg" tone="default" aria-hidden={true} />
+            </div>
+            <h4 className="font-semibold text-foreground">Health Coverage</h4>
+            <p className="text-sm text-muted-foreground">Comprehensive health insurance</p>
+          </div>
         </div>
       </div>
 
@@ -249,6 +291,52 @@ export function CareersPage() {
           </form>
         </CardContent>
       </Card>
+
+      {/* Company Culture Section */}
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-foreground mb-2">Our Culture</h2>
+          <p className="text-muted-foreground">What it's like to work at FeatherBiz</p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="border border-border bg-card">
+            <CardContent className="p-6">
+              <div className="mb-4">
+                <AppIcon name="Trophy" size="lg" tone="default" aria-hidden={true} />
+              </div>
+              <h4 className="font-semibold mb-2 text-foreground">Excellence</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                We strive for excellence in everything we do, from code quality to customer service.
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border border-border bg-card">
+            <CardContent className="p-6">
+              <div className="mb-4">
+                <AppIcon name="Lightbulb" size="lg" tone="default" aria-hidden={true} />
+              </div>
+              <h4 className="font-semibold mb-2 text-foreground">Creativity</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                We encourage creative thinking and innovative solutions to complex problems.
+              </p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border border-border bg-card">
+            <CardContent className="p-6">
+              <div className="mb-4">
+                <AppIcon name="Shield" size="lg" tone="default" aria-hidden={true} />
+              </div>
+              <h4 className="font-semibold mb-2 text-foreground">Transparency</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                We believe in open communication and transparency at all levels.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
 
       {/* Contact Info */}
       <div className="text-center space-y-4 bg-muted/30 p-8 rounded-lg border border-border">
