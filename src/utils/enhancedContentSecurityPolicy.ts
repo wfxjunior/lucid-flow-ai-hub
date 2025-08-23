@@ -1,5 +1,13 @@
 
 // Enhanced Content Security Policy utilities
+
+// Extend Window interface to include gtag
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 export const applyEnhancedSecurityHeaders = (): void => {
   // Create a more restrictive CSP
   const cspDirectives = {
@@ -127,7 +135,7 @@ export const monitorClientSideThreats = (): (() => void) => {
             threatPatterns.forEach((pattern) => {
               if (pattern.test(content)) {
                 console.warn('Potential security threat detected:', content.substring(0, 100))
-                // Log to security monitoring
+                // Log to security monitoring if gtag is available
                 if (window.gtag) {
                   window.gtag('event', 'security_threat_detected', {
                     threat_type: 'client_side_injection',
