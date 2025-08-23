@@ -1,6 +1,6 @@
 
 import React, { useCallback, useMemo } from 'react'
-import { sanitizeHtml, validateRichTextContent } from '@/utils/xssProtection'
+import { validateAndSanitizeInput, validateRichTextContent } from '@/utils/enhancedXssProtection'
 import { securityEvent } from '@/utils/security'
 import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -26,14 +26,15 @@ export function SecureRichTextEditor({
   const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value
 
-    // Validate and sanitize content
+    // Enhanced validation and sanitization
     const validation = validateRichTextContent(newValue)
     
-    if (!validation.isValid) {
+    if (!validation.isValid || validation.warnings.length > 0) {
       setShowSecurityWarning(true)
       securityEvent('Potentially dangerous content blocked in rich text editor', {
         contentLength: newValue.length,
-        sanitizedLength: validation.sanitizedContent.length
+        sanitizedLength: validation.sanitizedContent.length,
+        warnings: validation.warnings
       })
       
       // Use sanitized content instead
@@ -47,8 +48,9 @@ export function SecureRichTextEditor({
     }
   }, [onChange])
 
-  const sanitizedValue = useMemo(() => {
-    return sanitizeHtml(value, true)
+  // Sanitize current value for display
+  const currentValidation = useMemo(() => {
+    return validateRichTextContent(value)
   }, [value])
 
   return (
@@ -63,7 +65,7 @@ export function SecureRichTextEditor({
       )}
       
       <Textarea
-        value={sanitizedValue}
+        value={currentValidation.sanitizedContent}
         onChange={handleChange}
         placeholder={placeholder}
         className={className}
@@ -71,7 +73,12 @@ export function SecureRichTextEditor({
       />
       
       <div className="text-xs text-muted-foreground">
-        {sanitizedValue.length}/{maxLength} characters
+        {currentValidation.sanitizedContent.length}/{maxLength} characters
+        {currentValidation.warnings.length > 0 && (
+          <span className="text-destructive ml-2">
+            • Content was sanitized for security
+          </span>
+        )}
       </div>
     </div>
   )
