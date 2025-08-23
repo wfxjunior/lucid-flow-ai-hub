@@ -39,7 +39,7 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
 
   if (error) {
     return (
-      <div className="w-full h-full flex items-center justify-center px-8">
+      <div className="flex items-center justify-center min-h-[400px] px-8">
         <div className="text-center">
           <h2 className="text-xl font-semibold mb-2 text-destructive">Dashboard Error</h2>
           <p className="text-muted-foreground mb-4">{error}</p>
@@ -55,28 +55,32 @@ export function ImprovedDashboard({ onNavigate }: ImprovedDashboardProps) {
   }
 
   return (
-    <div className="w-full h-full overflow-y-auto pl-4 pr-8">
-      <div className="w-full max-w-[1280px] mx-auto pb-8 space-y-6">
-        {/* Header */}
-        <DashboardHeader 
-          onNavigate={handleNavigateInternal} 
-          onRefresh={refreshData}
-          loading={loading}
-          error={error}
-        />
+    <div className="flex-1 w-full overflow-hidden" data-scope="dashboard">
+      <div className="h-full overflow-y-auto">
+        <div className="max-w-[1280px] mx-auto px-8 py-6">
+          <div className="space-y-6">
+            {/* Header */}
+            <DashboardHeader 
+              onNavigate={handleNavigateInternal} 
+              onRefresh={refreshData}
+              loading={loading}
+              error={error}
+            />
 
-        {/* Stats Cards */}
-        <DashboardStats stats={stats} loading={loading} />
+            {/* Stats Cards */}
+            <DashboardStats stats={stats} loading={loading} />
 
-        {/* Main Content Tabs */}
-        <DashboardTabs 
-          stats={stats}
-          onActionClick={handleQuickAction}
-          onNavigate={handleNavigateInternal}
-        />
+            {/* Main Content Tabs */}
+            <DashboardTabs 
+              stats={stats}
+              onActionClick={handleQuickAction}
+              onNavigate={handleNavigateInternal}
+            />
 
-        {/* Bottom Section - Key Metrics */}
-        <DashboardMetrics />
+            {/* Bottom Section - Key Metrics */}
+            <DashboardMetrics />
+          </div>
+        </div>
       </div>
     </div>
   )
