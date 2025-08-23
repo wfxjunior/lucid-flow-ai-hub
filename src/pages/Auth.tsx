@@ -84,7 +84,7 @@ export default function Auth() {
       {/* Logo */}
       <div className="mb-20">
         <img 
-          src="/lovable-uploads/72c320c3-26d7-40fd-862e-f1c3270c013f.png" 
+          src="/lovable-uploads/ee7c952e-739a-4ed5-89d9-f10317d79177.png" 
           alt="FeatherBiz" 
           className="h-16 w-auto"
         />
