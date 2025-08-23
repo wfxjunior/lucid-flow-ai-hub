@@ -1,10 +1,70 @@
 
-import React from 'react'
-import { DashboardView } from './dashboard/DashboardView'
-import { CareersView } from './views/CareersView'
-import { CustomersView } from './views/CustomersView'
-import { ProjectsView } from './views/ProjectsView'
-import { FinanceView } from './views/FinanceView'
+import { MessagesPage } from "@/components/MessagesPage"
+import { EmailCenterPage } from "@/components/EmailCenterPage"
+import { CareersPage } from "@/components/CareersPage"
+import { ImprovedDashboard } from "@/components/ImprovedDashboard"
+import { PaymentsPage } from "@/components/PaymentsPage"
+import { ESignaturesPage } from "@/components/ESignaturesPage"
+import { FeatherBudgetPage } from "@/components/FeatherBudgetPage"
+import { SmartSchedulePage } from "@/components/SmartSchedulePage"
+import { ResponsiveSmartSchedulePage } from "@/components/ResponsiveSmartSchedulePage"
+import { CustomerManagement } from "@/components/CustomerManagement"
+import { ProjectsPage } from "@/components/ProjectsPage"
+import { PipelineBoard } from "@/components/PipelineBoard"
+import { FeatherTaxPage } from "@/components/FeatherTaxPage"
+import { EasyCalcPage } from "@/components/EasyCalcPage"
+import { AccountingPage } from "@/components/AccountingPage"
+import { QuotesPage } from "@/components/QuotesPage"
+import { EstimatesPage } from "@/components/EstimatesPage"
+import { CarRentalPage } from "@/components/CarRentalPage"
+import { WorkOrdersPage } from "@/components/WorkOrdersPage"
+import { ResponsiveMatTrackPage } from "@/components/ResponsiveMatTrackPage"
+import { CrewControlPage } from "@/components/CrewControlPage"
+import { EarnSyncPage } from "@/components/EarnSyncPage"
+import { AfterCarePage } from "@/components/AfterCarePage"
+import { FeatherFormsPage } from "@/components/FeatherFormsPage"
+import { SalesOrdersPage } from "@/components/SalesOrdersPage"
+import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
+import { BidsPage } from "@/components/BidsPage"
+import { ContractsPage } from "@/components/ContractsPage"
+import { MeetingsPage } from "@/components/MeetingsPage"
+import { TodoListPage } from "@/components/TodoListPage"
+import { NotesPage } from "@/components/NotesPage"
+import { AppointmentsPage } from "@/components/AppointmentsPage"
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
+import { AdminDashboard } from "@/components/AdminDashboard"
+import { useUserRole } from "@/hooks/useUserRole"
+import { ReceiptsPage } from "@/components/ReceiptsPage"
+import { InvoiceCreator } from "@/components/InvoiceCreator"
+import { InvoicesPage } from "@/components/InvoicesPage"
+import { ResponsivePaymentsPage } from "@/components/ResponsivePaymentsPage"
+import { ReferralsPage } from "@/components/ReferralsPage"
+import { FeaturesPage } from "@/components/FeaturesPage"
+import { FAQPage } from "@/components/FAQPage"
+import { FeedbackPage } from "@/components/FeedbackPage"
+import { PricingPlans } from "@/components/PricingPlans"
+import { SettingsPage } from "@/components/SettingsPage"
+import { AIVoiceAssistant } from "@/components/AIVoiceAssistant"
+import { EnhancedAIVoice } from "@/components/EnhancedAIVoice"
+import Upgrade from "@/pages/Upgrade"
+import PaymentSuccess from "@/pages/PaymentSuccess"
+import PaymentCanceled from "@/pages/PaymentCanceled"
+
+// New Clean Pages
+import { ProjectTimelinePage } from "@/components/pages/ProjectTimelinePage"
+import { ToursPage } from "@/components/pages/ToursPage"
+import { FinancePage } from "@/components/pages/FinancePage"
+import { GrowthPage } from "@/components/pages/GrowthPage"
+import { AutomationsPage } from "@/components/pages/AutomationsPage"
+
+// Feature Pages
+import AIVoicePage from "@/pages/features/AIVoicePage"
+import InvoicesFeaturePage from "@/pages/features/InvoicesPage"
+import EstimatesFeaturePage from "@/pages/features/EstimatesPage"
+import PipelineFeaturePage from "@/pages/features/PipelinePage"
+import FeatherTaxFeaturePage from "@/pages/features/FeatherTaxPage"
+import EasyCalcFeaturePage from "@/pages/features/EasyCalcPage"
+import WorkOrdersFeaturePage from "@/pages/features/WorkOrdersPage"
 
 interface MainContentProps {
   activeView: string
@@ -12,26 +72,183 @@ interface MainContentProps {
 }
 
 export function MainContent({ activeView, onNavigate }: MainContentProps) {
-  const renderView = () => {
+  const { isAdmin, loading } = useUserRole()
+  
+  const renderContent = () => {
     switch (activeView) {
-      case 'dashboard':
-        return <DashboardView onNavigate={onNavigate} />
-      case 'careers':
-        return <CareersView />
-      case 'customers':
-        return <CustomersView />
-      case 'projects':
-        return <ProjectsView />
-      case 'finance':
-        return <FinanceView />
+      case "dashboard":
+        return <ImprovedDashboard onNavigate={onNavigate} />
+      case "ai-voice":
+        return <EnhancedAIVoice />
+      case "ai-voice-feature":
+        return <AIVoicePage />
+      case "invoice-creator":
+        return <InvoiceCreator />
+      case "estimates":
+        return <EstimatesPage />
+      case "estimates-feature":
+        return <EstimatesFeaturePage />
+      case "payments":
+        return <ResponsivePaymentsPage />
+      case "e-signatures":
+        return <ESignaturesPage />
+      
+      // Core Business Tools
+      case "customers":
+      case "customer-management":
+        return <CustomerManagement />
+      case "projects":
+        return <ProjectsPage />
+      case "project-timeline":
+        return <ProjectTimelinePage onNavigate={onNavigate} />
+      case "tours":
+        return <ToursPage onNavigate={onNavigate} />
+      case "growth":
+        return <GrowthPage onNavigate={onNavigate} />
+      case "automations":
+        return <AutomationsPage onNavigate={onNavigate} />
+      case "pipeline":
+        return <PipelineBoard />
+      case "pipeline-feature":
+        return <PipelineFeaturePage />
+      case "smart-schedule":
+        return <SmartSchedulePage />
+      
+      // Financial Tools
+      case "finance":
+        return <FinancePage onNavigate={onNavigate} />
+      case "feather-budget":
+        return <FeatherBudgetPage />
+      case "feather-tax":
+        return <FeatherTaxPage />
+      case "feather-tax-feature":
+        return <FeatherTaxFeaturePage />
+      case "easy-calc":
+        return <EasyCalcPage />
+      case "easy-calc-feature":
+        return <EasyCalcFeaturePage />
+      case "receipts":
+        return <ReceiptsPage />
+      case "accounting":
+        return <AccountingPage />
+      case "quotes":
+        return <QuotesPage />
+      
+      // Operations Tools
+      case "car-rental":
+        return <CarRentalPage />
+      case "work-orders":
+        return <WorkOrdersPage />
+      case "work-orders-feature":
+        return <WorkOrdersFeaturePage />
+      case "mat-track":
+        return <ResponsiveMatTrackPage onNavigate={onNavigate} />
+      case "crew-control":
+        return <CrewControlPage />
+      case "earnsync":
+        return <EarnSyncPage />
+      case "aftercare":
+        return <AfterCarePage />
+      
+      // Documents & Forms
+      case "feather-forms":
+        return <FeatherFormsPage />
+      case "sales-orders":
+        return <SalesOrdersPage />
+      case "business-proposals":
+        return <BusinessProposalsPage />
+      case "bids":
+        return <BidsPage />
+      case "contracts":
+        return <ContractsPage />
+      
+      // Productivity Tools
+      case "meetings":
+        return <MeetingsPage />
+      case "todo-list":
+        return <TodoListPage />
+      case "notes":
+        return <NotesPage />
+      case "appointments":
+        return <AppointmentsPage />
+      
+      // Communication
+      case "messages":
+        return <MessagesPage />
+      case "email-center":
+        return <EmailCenterPage />
+      
+      // Analytics
+      case "analytics":
+        return <AnalyticsDashboard />
+      case "admin-panel":
+        if (loading) {
+          return <div className="p-6">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="text-center mt-4">Checking permissions...</p>
+          </div>
+        }
+        if (!isAdmin) {
+          return <div className="p-6">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h2 className="text-lg font-semibold text-red-800 mb-2">Access Denied</h2>
+              <p className="text-red-600">You don't have permission to access the administrative panel.</p>
+              <p className="text-red-600 text-sm mt-2">Contact an administrator to obtain access.</p>
+            </div>
+          </div>
+        }
+        return <AdminDashboard />
+      
+      // General & Support
+      case "careers":
+        return <CareersPage />
+      case "referrals":
+        return <ReferralsPage />
+      case "features":
+        return <FeaturesPage />
+      case "faq-help":
+        return <FAQPage />
+      case "feedback":
+        return <FeedbackPage />
+      case "pricing":
+      case "upgrade":
+        return <Upgrade onNavigate={onNavigate} />
+      case "settings":
+        return <SettingsPage />
+      case "payment-success":
+        return <PaymentSuccess />
+      case "payment-canceled":
+      case "payment-cancel":
+        return <PaymentCanceled />
+      case "cancel":
+        return <PaymentCanceled />
+      
+      // Legacy routes for compatibility
+      case "invoices":
+        return <InvoicesPage />
+      case "invoices-feature":
+        return <InvoicesFeaturePage />
+      case "products":
+        return <AccountingPage />
+      case "expenses":
+        return <AccountingPage />
+      case "esignature-templates":
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">E-Signature Templates</h1>
+          <p>Document templates coming soon...</p>
+        </div>
+        
       default:
-        return <DashboardView onNavigate={onNavigate} />
+        return <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">Page not found</h1>
+          <p>The page "{activeView}" was not found.</p>
+        </div>
     }
   }
 
   return (
-    <div className="stripe-layout-content p-6">
-      {renderView()}
+    <div className="w-full h-full">
+      {renderContent()}
     </div>
   )
 }

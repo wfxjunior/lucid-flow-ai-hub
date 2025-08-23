@@ -1,4 +1,3 @@
-
 import React from "react"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
 import {
@@ -95,15 +94,15 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="stripe-sidebar">
-      <SidebarHeader className="border-b border-border px-4 py-3">
-        <div className="flex items-center gap-3">
+    <Sidebar variant="inset">
+      <SidebarHeader>
+        <div className="flex items-center gap-2 px-4 py-2">
           <FeatherBizLogo />
-          <span className="stripe-h3 text-foreground">FeatherBiz</span>
+          <span className="font-semibold text-foreground">FeatherBiz</span>
         </div>
       </SidebarHeader>
       
-      <SidebarContent className="px-2 py-4">
+      <SidebarContent>
         <SidebarMenuSection 
           items={generalItems} 
           sectionTitle="General" 
@@ -168,8 +167,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         />
       </SidebarContent>
       
-      <SidebarFooter className="border-t border-border px-4 py-3">
-        <div className="stripe-meta">
+      <SidebarFooter>
+        <div className="px-4 py-2 text-xs text-muted-foreground">
           FeatherBiz v1.0
         </div>
       </SidebarFooter>
