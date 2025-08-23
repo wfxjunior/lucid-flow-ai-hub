@@ -10,16 +10,36 @@ interface SubscriptionData {
   current_period_end: string | null;
 }
 
+// Email com acesso premium ilimitado
+const PREMIUM_USERS = ['juniorxavierusa@gmail.com'];
+
 export const useSubscription = () => {
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
 
   const checkSubscription = async () => {
-    console.log('useSubscription: Setting default free plan (edge function disabled)');
+    console.log('useSubscription: Checking subscription status');
     try {
       setLoading(true);
       
-      // Always set to free plan since edge functions are not available
+      // Verificar se o usuário está logado
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user && PREMIUM_USERS.includes(user.email || '')) {
+        console.log('useSubscription: Premium user detected:', user.email);
+        // Usuário premium com acesso ilimitado
+        setSubscription({
+          subscribed: true,
+          plan_id: 'professional-unlimited',
+          plan_name: 'Professional Unlimited',
+          current_period_end: null // Acesso ilimitado sem expiração
+        });
+        console.log('useSubscription: Premium unlimited access granted');
+        return;
+      }
+      
+      // Para outros usuários, definir como free plan
+      console.log('useSubscription: Setting default free plan');
       setSubscription({
         subscribed: false,
         plan_id: 'free',
@@ -29,7 +49,7 @@ export const useSubscription = () => {
       
       console.log('useSubscription: Free plan set successfully');
     } catch (error) {
-      console.error('useSubscription: Error setting subscription state:', error);
+      console.error('useSubscription: Error checking subscription:', error);
       setSubscription({
         subscribed: false,
         plan_id: 'free',
