@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -244,8 +245,12 @@ export const LandingHeader = () => {
       <div className="max-w-[1200px] mx-auto flex items-center justify-between h-full px-4">
         {/* Logo and Navigation - Left aligned like Attio */}
         <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-bold text-[#111827] tracking-tight" aria-label="FeatherBiz home">
-            FeatherBiz
+          <Link to="/" className="flex items-center hover:opacity-80 transition-opacity" aria-label="FeatherBiz home">
+            <img 
+              src="/lovable-uploads/6670f9f6-835f-4a84-8dae-2354ddecb733.png" 
+              alt="FeatherBiz" 
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Navigation - Hidden on mobile, tight spacing like Attio */}
