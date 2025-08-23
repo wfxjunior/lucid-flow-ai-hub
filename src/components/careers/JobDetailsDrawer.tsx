@@ -1,118 +1,121 @@
-import { useState } from "react"
+
+import React from 'react'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
-import { MapPin, Clock, DollarSign, Users, Calendar, Building } from "lucide-react"
-
-interface Job {
-  id: string
-  title: string
-  location: string
-  type: string
-  salary: string
-  department: string
-  description: string
-  requirements: string[]
-  benefits: string[]
-  postedDate: string
-  urgent: boolean
-}
+import { AppIcon } from '@/components/ui/AppIcon'
 
 interface JobDetailsDrawerProps {
-  job: Job
-  children: React.ReactNode
+  job: any | null
+  isOpen: boolean
+  onClose: () => void
+  onApply: (job: any) => void
 }
 
-export function JobDetailsDrawer({ job, children }: JobDetailsDrawerProps) {
-  const [isOpen, setIsOpen] = useState(false)
+export function JobDetailsDrawer({ job, isOpen, onClose, onApply }: JobDetailsDrawerProps) {
+  if (!job) return null
 
   return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <DrawerTrigger asChild>
-        {children}
-      </DrawerTrigger>
-      <DrawerContent className="max-h-[85vh]">
-        <DrawerHeader>
-          <DrawerTitle className="text-left">{job.title}</DrawerTitle>
-        </DrawerHeader>
-        <div className="px-4 pb-4 overflow-y-auto">
-          <div className="space-y-6">
-            {/* Job Overview */}
-            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                {job.location}
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent className="w-full sm:max-w-2xl overflow-y-auto">
+        <SheetHeader className="space-y-4 pb-6">
+          <div className="flex items-start gap-4">
+            <AppIcon 
+              name={job.icon as keyof typeof import('lucide-react')} 
+              size="lg" 
+              tone="primary" 
+              aria-hidden={true}
+            />
+            <div className="space-y-2 flex-1">
+              <SheetTitle className="text-2xl font-bold">{job.title}</SheetTitle>
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="secondary">
+                  <AppIcon name="MapPin" size="xs" className="mr-1" aria-hidden={true} />
+                  {job.location}
+                </Badge>
+                <Badge variant="outline">{job.type}</Badge>
+                <Badge variant="outline">{job.team}</Badge>
               </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                {job.type}
-              </div>
-              <div className="flex items-center gap-1">
-                <DollarSign className="h-4 w-4" />
-                {job.salary}
-              </div>
-              <div className="flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                {job.department}
-              </div>
-            </div>
-
-            {/* Job Description */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Job Description</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
-                  {job.description}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Requirements */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Requirements</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {job.requirements.map((req, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-muted-foreground">{req}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Benefits */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Benefits</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {job.benefits.map((benefit, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-muted-foreground">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Apply Button */}
-            <div className="pt-4">
-              <Button className="w-full" size="lg">
-                Apply for this position
-              </Button>
             </div>
           </div>
+          <SheetDescription className="text-base">
+            {job.description}
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/30 rounded-lg">
+            <div className="text-center">
+              <div className="font-semibold text-foreground">Compensation</div>
+              <div className="text-sm text-muted-foreground">{job.compensation}</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-foreground">Location</div>
+              <div className="text-sm text-muted-foreground">{job.location}</div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-foreground">Employment</div>
+              <div className="text-sm text-muted-foreground">{job.type}</div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-foreground">About the role</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Join our {job.team.toLowerCase()} team and help build the next generation of business automation tools. 
+                You'll work with cutting-edge technologies and collaborate with a passionate team to deliver impactful solutions.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Key Responsibilities</h3>
+              <ul className="space-y-2">
+                {job.responsibilities.map((responsibility: string, index: number) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <AppIcon name="Check" size="sm" tone="success" className="mt-0.5 flex-shrink-0" aria-hidden={true} />
+                    <span className="text-muted-foreground">{responsibility}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Requirements</h3>
+              <ul className="space-y-2">
+                {job.requirements.map((requirement: string, index: number) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <AppIcon name="Dot" size="sm" tone="default" className="mt-0.5 flex-shrink-0" aria-hidden={true} />
+                    <span className="text-muted-foreground">{requirement}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Nice to Have</h3>
+              <ul className="space-y-2">
+                {job.niceToHave.map((item: string, index: number) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <AppIcon name="Plus" size="sm" tone="default" className="mt-0.5 flex-shrink-0" aria-hidden={true} />
+                    <span className="text-muted-foreground">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="flex gap-3 pt-6 border-t border-border">
+            <Button className="flex-1" onClick={() => onApply(job)}>
+              <AppIcon name="Mail" size="sm" className="mr-2" aria-hidden={true} />
+              Apply by email
+            </Button>
+            <Button variant="outline" onClick={onClose}>
+              Close
+            </Button>
+          </div>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   )
 }

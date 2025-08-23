@@ -33,7 +33,7 @@ export function CareersPage() {
       <KeyBenefits />
       
       <div ref={positionsRef}>
-        <OpenPositions />
+        <OpenPositions onApply={handleApply} />
       </div>
       
       <HiringProcess />

@@ -1,279 +1,174 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { CleanPageLayout } from "@/components/layouts/CleanPageLayout"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { 
-  Calendar, 
+  Target, 
+  CheckCircle, 
   Clock, 
-  Users, 
-  CheckCircle,
-  AlertCircle,
-  Play,
-  Pause,
-  Plus,
-  Filter,
-  MoreHorizontal
+  AlertTriangle,
+  Calendar,
+  User,
+  Tag
 } from "lucide-react"
+
+const metrics = [
+  {
+    title: "Total Milestones",
+    value: "3",
+    subtitle: "Across all projects",
+    icon: Target
+  },
+  {
+    title: "Completed",
+    value: "1",
+    subtitle: "33% complete",
+    icon: CheckCircle
+  },
+  {
+    title: "In Progress",
+    value: "1",
+    subtitle: "Active milestones",
+    icon: Clock
+  },
+  {
+    title: "Overdue",
+    value: "0",
+    subtitle: "Need attention",
+    icon: AlertTriangle
+  }
+]
+
+const milestones = [
+  {
+    id: 1,
+    title: "Project Kickoff",
+    description: "Initial project meeting and requirement gathering",
+    due: "1/14/2024",
+    assignee: "John Smith",
+    project: "Website Redesign",
+    status: "completed",
+    icon: CheckCircle,
+    iconColor: "text-success"
+  },
+  {
+    id: 2,
+    title: "Design Phase",
+    description: "Create wireframes and mockups",
+    due: "1/24/2024",
+    assignee: "Jane Doe",
+    project: "Website Redesign",
+    status: "in-progress",
+    icon: Clock,
+    iconColor: "text-primary"
+  },
+  {
+    id: 3,
+    title: "Development Start",
+    description: "Begin coding and implementation",
+    due: "1/31/2024",
+    assignee: "Mike Johnson",
+    project: "Website Redesign",
+    status: "pending",
+    icon: AlertTriangle,
+    iconColor: "text-warning"
+  }
+]
 
 interface ProjectTimelinePageProps {
   onNavigate: (view: string) => void
 }
 
 export function ProjectTimelinePage({ onNavigate }: ProjectTimelinePageProps) {
-  const projects = [
-    {
-      id: 1,
-      name: "Website Redesign",
-      client: "TechCorp Inc.",
-      progress: 75,
-      status: "in-progress",
-      startDate: "2024-01-15",
-      endDate: "2024-03-15",
-      team: ["John", "Sarah", "Mike"],
-      priority: "high"
-    },
-    {
-      id: 2,
-      name: "Mobile App Development",
-      client: "Innovate Solutions",
-      progress: 40,
-      status: "on-hold",
-      startDate: "2023-11-01",
-      endDate: "2024-02-28",
-      team: ["Emily", "David"],
-      priority: "medium"
-    },
-    {
-      id: 3,
-      name: "Marketing Campaign",
-      client: "Global Brands Ltd.",
-      progress: 90,
-      status: "completed",
-      startDate: "2023-09-01",
-      endDate: "2023-12-31",
-      team: ["Alice", "Bob", "Charlie"],
-      priority: "low"
-    },
-    {
-      id: 4,
-      name: "New Product Launch",
-      client: "Acme Corp",
-      progress: 20,
-      status: "planned",
-      startDate: "2024-04-01",
-      endDate: "2024-06-30",
-      team: ["John", "Emily"],
-      priority: "high"
-    }
-  ]
-
-  const upcomingMilestones = [
-    {
-      id: 1,
-      title: "Design Review",
-      project: "Website Redesign",
-      date: "2024-02-28",
-      status: "upcoming"
-    },
-    {
-      id: 2,
-      title: "Beta Release",
-      project: "Mobile App Development",
-      date: "2024-03-15",
-      status: "upcoming"
-    },
-    {
-      id: 3,
-      title: "Final Report",
-      project: "Marketing Campaign",
-      date: "2024-01-15",
-      status: "completed"
-    },
-    {
-      id: 4,
-      title: "Market Research",
-      project: "New Product Launch",
-      date: "2024-02-15",
-      status: "upcoming"
-    }
-  ]
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return <Badge variant="secondary" className="bg-green-100 text-green-800">Completed</Badge>
-      case 'in-progress':
-        return <Badge variant="secondary" className="bg-blue-100 text-blue-800">In Progress</Badge>
-      case 'on-hold':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">On Hold</Badge>
-      case 'cancelled':
-        return <Badge variant="destructive">Cancelled</Badge>
-      default:
-        return <Badge variant="secondary">{status}</Badge>
-    }
-  }
-
-  const getPriorityBadge = (priority: string) => {
-    switch (priority) {
-      case 'high':
-        return <Badge variant="destructive">High</Badge>
-      case 'medium':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Medium</Badge>
-      case 'low':
-        return <Badge variant="outline">Low</Badge>
-      default:
-        return <Badge variant="outline">{priority}</Badge>
-    }
+  const handleAddMilestone = () => {
+    console.log("Add milestone clicked")
   }
 
   return (
     <CleanPageLayout
       title="Project Timeline"
-      subtitle="Track project progress and manage deadlines"
-      actionLabel="New Project"
-      onActionClick={() => onNavigate("projects")}
+      subtitle="Track project milestones and progress"
+      actionLabel="Add Milestone"
+      onActionClick={handleAddMilestone}
+      metrics={metrics}
     >
-      {/* Overview Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Active Projects</CardTitle>
-            <CardDescription>Projects currently in progress</CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-between">
-            <div className="space-y-1">
-              <div className="text-2xl font-bold">3</div>
-              <p className="text-muted-foreground text-sm">Out of 4 total</p>
-            </div>
-            <Clock className="h-6 w-6 text-blue-500" />
-          </CardContent>
-        </Card>
+      {/* Project Milestones Section */}
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-2">
+            Project Milestones
+          </h2>
+          <p className="text-sm md:text-base text-muted-foreground">
+            Track progress of your project milestones
+          </p>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Completed Projects</CardTitle>
-            <CardDescription>Projects successfully finished</CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-between">
-            <div className="space-y-1">
-              <div className="text-2xl font-bold">1</div>
-              <p className="text-muted-foreground text-sm">Last month</p>
-            </div>
-            <CheckCircle className="h-6 w-6 text-green-500" />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>On-Hold Projects</CardTitle>
-            <CardDescription>Projects temporarily paused</CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center justify-between">
-            <div className="space-y-1">
-              <div className="text-2xl font-bold">1</div>
-              <p className="text-muted-foreground text-sm">Awaiting resources</p>
-            </div>
-            <AlertCircle className="h-6 w-6 text-yellow-500" />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Team Utilization</CardTitle>
-            <CardDescription>Overall team workload</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="text-2xl font-bold">75%</div>
-            <Progress value={75} />
-            <p className="text-muted-foreground text-sm">Average across all projects</p>
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          {milestones.map((milestone) => (
+            <Card key={milestone.id} className="bg-card border border-border rounded-2xl">
+              <CardContent className="p-4 md:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div className={`p-2 rounded-lg bg-muted flex-shrink-0`}>
+                    <milestone.icon className={`h-4 md:h-5 w-4 md:w-5 ${milestone.iconColor}`} />
+                  </div>
+                  
+                  <div className="flex-1 space-y-3 min-w-0">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+                      <div className="space-y-1 min-w-0 flex-1">
+                        <h3 className="font-medium text-foreground text-sm md:text-base break-words">
+                          {milestone.title}
+                        </h3>
+                        <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+                          {milestone.description}
+                        </p>
+                      </div>
+                      
+                      <div className="flex flex-wrap items-center gap-2 lg:flex-shrink-0">
+                        {milestone.status === 'completed' && (
+                          <Badge variant="success" className="text-xs">completed</Badge>
+                        )}
+                        {milestone.status === 'in-progress' && (
+                          <Badge variant="default" className="text-xs">in progress</Badge>
+                        )}
+                        {milestone.status === 'pending' && (
+                          <Badge variant="warning" className="text-xs">pending</Badge>
+                        )}
+                        
+                        {milestone.status === 'in-progress' && (
+                          <Button variant="outline" size="sm" className="text-xs">
+                            Complete
+                          </Button>
+                        )}
+                        
+                        {milestone.status === 'pending' && (
+                          <Button variant="outline" size="sm" className="text-xs">
+                            Start
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs md:text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span>Due: {milestone.due}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <User className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span className="truncate">{milestone.assignee}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Tag className="h-3 md:h-4 w-3 md:w-4 flex-shrink-0" />
+                        <span className="truncate">{milestone.project}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
-
-      {/* Project List */}
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Current Projects</CardTitle>
-              <CardDescription>Track the progress of ongoing projects</CardDescription>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-              <Button variant="outline" size="sm">
-                <MoreHorizontal className="h-4 w-4 mr-2" />
-                More
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {projects.map((project) => (
-              <div key={project.id} className="p-4 rounded-lg border">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h4 className="font-medium">{project.name}</h4>
-                    <p className="text-sm text-muted-foreground">{project.client}</p>
-                  </div>
-                  {getStatusBadge(project.status)}
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="w-2/3">
-                    <Progress value={project.progress} />
-                  </div>
-                  <span className="ml-3">{project.progress}%</span>
-                </div>
-                <div className="flex items-center justify-between mt-3 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span>{project.startDate} - {project.endDate}</span>
-                  </div>
-                  {getPriorityBadge(project.priority)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Upcoming Milestones */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Upcoming Milestones</CardTitle>
-              <CardDescription>Important deadlines and project milestones</CardDescription>
-            </div>
-            <Button variant="outline" size="sm">
-              View Calendar
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {upcomingMilestones.map((milestone) => (
-              <div key={milestone.id} className="flex items-center justify-between p-3 rounded-lg border">
-                <div className="flex items-center gap-3">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">{milestone.title}</p>
-                    <p className="text-sm text-muted-foreground">{milestone.project}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">{milestone.date}</span>
-                  <Badge variant="outline">{milestone.status}</Badge>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </CleanPageLayout>
   )
 }
