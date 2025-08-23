@@ -52,7 +52,6 @@ import PaymentCanceled from "@/pages/PaymentCanceled"
 
 // New Clean Pages
 import { ProjectTimelinePage } from "@/components/pages/ProjectTimelinePage"
-import { ToursPage } from "@/components/pages/ToursPage"
 import { FinancePage } from "@/components/pages/FinancePage"
 import { GrowthPage } from "@/components/pages/GrowthPage"
 import { AutomationsPage } from "@/components/pages/AutomationsPage"
@@ -101,8 +100,6 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
         return <ProjectsPage />
       case "project-timeline":
         return <ProjectTimelinePage onNavigate={onNavigate} />
-      case "tours":
-        return <ToursPage onNavigate={onNavigate} />
       case "growth":
         return <GrowthPage onNavigate={onNavigate} />
       case "automations":

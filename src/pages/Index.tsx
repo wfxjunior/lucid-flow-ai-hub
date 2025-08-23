@@ -2,42 +2,42 @@
 import React, { useState, useEffect } from "react"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
-import { DashboardPage } from "@/components/pages/DashboardPage"
-import { CustomersPage } from "@/components/pages/CustomersPage"
-import { ProjectsPage } from "@/components/pages/ProjectsPage"
-import { CareersPage } from "@/components/pages/CareersPage"
+import { ImprovedDashboard } from "@/components/ImprovedDashboard"
+import { CustomerManagement } from "@/components/CustomerManagement"
+import { ProjectsPage } from "@/components/ProjectsPage"
+import { CareersPage } from "@/components/CareersPage"
 import { ProjectTimelinePage } from "@/components/pages/ProjectTimelinePage"
 import { GrowthPage } from "@/components/pages/GrowthPage"
 import { AutomationsPage } from "@/components/pages/AutomationsPage"
-import { PipelinePage } from "@/components/pages/PipelinePage"
-import { SmartSchedulePage } from "@/components/pages/SmartSchedulePage"
+import { PipelineBoard } from "@/components/PipelineBoard"
+import { SmartSchedulePage } from "@/components/SmartSchedulePage"
 import { FinancePage } from "@/components/pages/FinancePage"
-import { FeatherBudgetPage } from "@/components/pages/FeatherBudgetPage"
-import { FeatherTaxPage } from "@/components/pages/FeatherTaxPage"
-import { EasyCalcPage } from "@/components/pages/EasyCalcPage"
-import { ReceiptsPage } from "@/components/pages/ReceiptsPage"
-import { AccountingPage } from "@/components/pages/AccountingPage"
-import { QuotesPage } from "@/components/pages/QuotesPage"
-import { CarRentalPage } from "@/components/pages/CarRentalPage"
-import { WorkOrdersPage } from "@/components/pages/WorkOrdersPage"
-import { MatTrackPage } from "@/components/pages/MatTrackPage"
-import { CrewControlPage } from "@/components/pages/CrewControlPage"
-import { EarnSyncPage } from "@/components/pages/EarnSyncPage"
-import { AfterCarePage } from "@/components/pages/AfterCarePage"
-import { FeatherFormsPage } from "@/components/pages/FeatherFormsPage"
-import { SalesOrdersPage } from "@/components/pages/SalesOrdersPage"
-import { BusinessProposalsPage } from "@/components/pages/BusinessProposalsPage"
-import { BidsPage } from "@/components/pages/BidsPage"
-import { ContractsPage } from "@/components/pages/ContractsPage"
-import { MeetingsPage } from "@/components/pages/MeetingsPage"
-import { TodoListPage } from "@/components/pages/TodoListPage"
-import { NotesPage } from "@/components/pages/NotesPage"
-import { AppointmentsPage } from "@/components/pages/AppointmentsPage"
-import { MessagesPage } from "@/components/pages/MessagesPage"
-import { EmailCenterPage } from "@/components/pages/EmailCenterPage"
-import { AnalyticsPage } from "@/components/pages/AnalyticsPage"
-import { SettingsPage } from "@/components/pages/SettingsPage"
-import { AdminPanelPage } from "@/components/pages/AdminPanelPage"
+import { FeatherBudgetPage } from "@/components/FeatherBudgetPage"
+import { FeatherTaxPage } from "@/components/FeatherTaxPage"
+import { EasyCalcPage } from "@/components/EasyCalcPage"
+import { ReceiptsPage } from "@/components/ReceiptsPage"
+import { AccountingPage } from "@/components/AccountingPage"
+import { QuotesPage } from "@/components/QuotesPage"
+import { CarRentalPage } from "@/components/CarRentalPage"
+import { WorkOrdersPage } from "@/components/WorkOrdersPage"
+import { ResponsiveMatTrackPage } from "@/components/ResponsiveMatTrackPage"
+import { CrewControlPage } from "@/components/CrewControlPage"
+import { EarnSyncPage } from "@/components/EarnSyncPage"
+import { AfterCarePage } from "@/components/AfterCarePage"
+import { FeatherFormsPage } from "@/components/FeatherFormsPage"
+import { SalesOrdersPage } from "@/components/SalesOrdersPage"
+import { BusinessProposalsPage } from "@/components/BusinessProposalsPage"
+import { BidsPage } from "@/components/BidsPage"
+import { ContractsPage } from "@/components/ContractsPage"
+import { MeetingsPage } from "@/components/MeetingsPage"
+import { TodoListPage } from "@/components/TodoListPage"
+import { NotesPage } from "@/components/NotesPage"
+import { AppointmentsPage } from "@/components/AppointmentsPage"
+import { MessagesPage } from "@/components/MessagesPage"
+import { EmailCenterPage } from "@/components/EmailCenterPage"
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard"
+import { SettingsPage } from "@/components/SettingsPage"
+import { AdminDashboard } from "@/components/AdminDashboard"
 import { useSearchParams } from "react-router-dom"
 import { TourProvider } from "@/features/featherbot/TourProvider"
 import { initFeatherBotClientAPI } from "@/features/featherbot/clientApi"
@@ -59,13 +59,13 @@ export default function Index() {
   const renderPage = () => {
     switch (activeView) {
       case "dashboard":
-        return <DashboardPage onNavigate={setActiveView} />
+        return <ImprovedDashboard onNavigate={setActiveView} />
       case "customers":
-        return <CustomersPage onNavigate={setActiveView} />
+        return <CustomerManagement />
       case "projects":
-        return <ProjectsPage onNavigate={setActiveView} />
+        return <ProjectsPage />
       case "careers":
-        return <CareersPage onNavigate={setActiveView} />
+        return <CareersPage />
       case "project-timeline":
         return <ProjectTimelinePage onNavigate={setActiveView} />
       case "growth":
@@ -73,65 +73,65 @@ export default function Index() {
       case "automations":
         return <AutomationsPage onNavigate={setActiveView} />
       case "pipeline":
-        return <PipelinePage onNavigate={setActiveView} />
+        return <PipelineBoard />
       case "smart-schedule":
-        return <SmartSchedulePage onNavigate={setActiveView} />
+        return <SmartSchedulePage />
       case "finance":
         return <FinancePage onNavigate={setActiveView} />
       case "feather-budget":
-        return <FeatherBudgetPage onNavigate={setActiveView} />
+        return <FeatherBudgetPage />
       case "feather-tax":
-        return <FeatherTaxPage onNavigate={setActiveView} />
+        return <FeatherTaxPage />
       case "easy-calc":
-        return <EasyCalcPage onNavigate={setActiveView} />
+        return <EasyCalcPage />
       case "receipts":
-        return <ReceiptsPage onNavigate={setActiveView} />
+        return <ReceiptsPage />
       case "accounting":
-        return <AccountingPage onNavigate={setActiveView} />
+        return <AccountingPage />
       case "quotes":
-        return <QuotesPage onNavigate={setActiveView} />
+        return <QuotesPage />
       case "car-rental":
-        return <CarRentalPage onNavigate={setActiveView} />
+        return <CarRentalPage />
       case "work-orders":
-        return <WorkOrdersPage onNavigate={setActiveView} />
+        return <WorkOrdersPage />
       case "mat-track":
-        return <MatTrackPage onNavigate={setActiveView} />
+        return <ResponsiveMatTrackPage onNavigate={setActiveView} />
       case "crew-control":
-        return <CrewControlPage onNavigate={setActiveView} />
+        return <CrewControlPage />
       case "earnsync":
-        return <EarnSyncPage onNavigate={setActiveView} />
+        return <EarnSyncPage />
       case "aftercare":
-        return <AfterCarePage onNavigate={setActiveView} />
+        return <AfterCarePage />
       case "feather-forms":
-        return <FeatherFormsPage onNavigate={setActiveView} />
+        return <FeatherFormsPage />
       case "sales-orders":
-        return <SalesOrdersPage onNavigate={setActiveView} />
+        return <SalesOrdersPage />
       case "business-proposals":
-        return <BusinessProposalsPage onNavigate={setActiveView} />
+        return <BusinessProposalsPage />
       case "bids":
-        return <BidsPage onNavigate={setActiveView} />
+        return <BidsPage />
       case "contracts":
-        return <ContractsPage onNavigate={setActiveView} />
+        return <ContractsPage />
       case "meetings":
-        return <MeetingsPage onNavigate={setActiveView} />
+        return <MeetingsPage />
       case "todo-list":
-        return <TodoListPage onNavigate={setActiveView} />
+        return <TodoListPage />
       case "notes":
-        return <NotesPage onNavigate={setActiveView} />
+        return <NotesPage />
       case "appointments":
-        return <AppointmentsPage onNavigate={setActiveView} />
+        return <AppointmentsPage />
       case "messages":
-        return <MessagesPage onNavigate={setActiveView} />
+        return <MessagesPage />
       case "email-center":
-        return <EmailCenterPage onNavigate={setActiveView} />
+        return <EmailCenterPage />
       case "analytics":
-        return <AnalyticsPage onNavigate={setActiveView} />
+        return <AnalyticsDashboard />
       case "settings":
-        return <SettingsPage onNavigate={setActiveView} />
+        return <SettingsPage />
       case "admin-panel":
-        return <AdminPanelPage onNavigate={setActiveView} />
+        return <AdminDashboard />
       default:
-        return <DashboardPage onNavigate={setActiveView} />
+        return <ImprovedDashboard onNavigate={setActiveView} />
     }
   }
 
