@@ -107,25 +107,25 @@ export function ContractsPage() {
   const metrics = [
     {
       title: "Total Contracts",
-      value: (contracts?.length || 0).toString(),
+      value: contracts?.length || 0,
       subtitle: "All contracts",
       icon: FileText
     },
     {
       title: "Active",
-      value: (contracts?.filter(c => c.status === 'active').length || 0).toString(),
+      value: contracts?.filter(c => c.status === 'active').length || 0,
       subtitle: "Currently active",
       icon: FileText
     },
     {
       title: "Pending",
-      value: (contracts?.filter(c => c.status === 'pending').length || 0).toString(),
+      value: contracts?.filter(c => c.status === 'pending').length || 0,
       subtitle: "Awaiting approval",
       icon: FileText
     },
     {
       title: "Templates",
-      value: (contracts?.filter(c => c.is_template).length || 0).toString(),
+      value: contracts?.filter(c => c.is_template).length || 0,
       subtitle: "Available templates",
       icon: FileText
     }

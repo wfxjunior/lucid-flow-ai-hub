@@ -48,12 +48,11 @@ export function DashboardStats({ stats, loading }: DashboardStatsProps) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[1, 2, 3, 4].map((i) => (
-          <Card key={i} className="dashboard-card">
-            <CardContent className="p-6">
-              <div className="animate-pulse space-y-3">
-                <div className="h-4 bg-muted rounded w-3/4"></div>
-                <div className="h-8 bg-muted rounded w-1/2"></div>
-                <div className="h-3 bg-muted rounded w-2/3"></div>
+          <Card key={i} className="dashboard-card h-32">
+            <CardContent className="pt-6">
+              <div className="animate-pulse space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-6 bg-gray-200 rounded w-1/2"></div>
               </div>
             </CardContent>
           </Card>
@@ -65,14 +64,15 @@ export function DashboardStats({ stats, loading }: DashboardStatsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {statsCards.map((stat, index) => (
-        <StatsCard
-          key={index}
-          title={stat.title}
-          value={stat.value}
-          change={stat.change}
-          icon={stat.icon}
-          trend={stat.trend}
-        />
+        <div key={index} className="h-32">
+          <StatsCard
+            title={stat.title}
+            value={stat.value}
+            change={stat.change}
+            icon={stat.icon}
+            trend={stat.trend}
+          />
+        </div>
       ))}
     </div>
   )

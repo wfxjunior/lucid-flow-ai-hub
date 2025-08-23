@@ -129,19 +129,19 @@ export function WorkOrdersPage() {
   const metrics = [
     {
       title: "Total Work Orders",
-      value: (workOrders?.length || 0).toString(),
+      value: workOrders?.length || 0,
       subtitle: "All work orders",
       icon: Calendar
     },
     {
       title: "In Progress",
-      value: (workOrders?.filter(wo => wo.status === 'in_progress').length || 0).toString(),
+      value: workOrders?.filter(wo => wo.status === 'in_progress').length || 0,
       subtitle: "Active work",
       icon: Clock
     },
     {
       title: "Completed",
-      value: (workOrders?.filter(wo => wo.status === 'completed').length || 0).toString(),
+      value: workOrders?.filter(wo => wo.status === 'completed').length || 0,
       subtitle: "Finished work",
       icon: User
     },

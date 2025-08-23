@@ -1,7 +1,5 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "./styles/buttons.css";
-@import "./styles/stripe-design-system.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -132,8 +130,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground fb-text-base;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground;
   }
 }
 

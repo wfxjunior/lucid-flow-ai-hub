@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -169,7 +170,7 @@ export function OpenPositions({ onApply }: OpenPositionsProps) {
       <div className="flex flex-wrap gap-4 p-4 bg-muted/30 rounded-lg border border-border">
         <div className="flex-1 min-w-[200px]">
           <Select value={teamFilter} onValueChange={setTeamFilter}>
-            <SelectTrigger className="h-10 font-medium text-[14px] border-border bg-background hover:bg-muted/50 transition-colors duration-200">
+            <SelectTrigger>
               <SelectValue placeholder="All Teams" />
             </SelectTrigger>
             <SelectContent>
@@ -184,7 +185,7 @@ export function OpenPositions({ onApply }: OpenPositionsProps) {
         
         <div className="flex-1 min-w-[200px]">
           <Select value={locationFilter} onValueChange={setLocationFilter}>
-            <SelectTrigger className="h-10 font-medium text-[14px] border-border bg-background hover:bg-muted/50 transition-colors duration-200">
+            <SelectTrigger>
               <SelectValue placeholder="All Locations" />
             </SelectTrigger>
             <SelectContent>
@@ -198,7 +199,7 @@ export function OpenPositions({ onApply }: OpenPositionsProps) {
         
         <div className="flex-1 min-w-[200px]">
           <Select value={seniorityFilter} onValueChange={setSeniorityFilter}>
-            <SelectTrigger className="h-10 font-medium text-[14px] border-border bg-background hover:bg-muted/50 transition-colors duration-200">
+            <SelectTrigger>
               <SelectValue placeholder="All Levels" />
             </SelectTrigger>
             <SelectContent>
@@ -242,15 +243,15 @@ export function OpenPositions({ onApply }: OpenPositionsProps) {
               
               <div className="flex gap-2 pt-2">
                 <Button 
-                  className="flex-1 h-10 px-4 font-medium text-[14px] bg-primary text-primary-foreground hover:bg-primary/90 border-0 shadow-none transition-all duration-200 rounded-lg" 
+                  className="flex-1" 
                   onClick={() => handleApply(job)}
                 >
-                  <AppIcon name="Mail" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
+                  <AppIcon name="Mail" size="sm" className="mr-2" aria-hidden={true} />
                   Apply
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="flex-1 h-10 px-4 font-medium text-[14px] bg-transparent text-foreground border border-border hover:bg-muted/50 shadow-none transition-all duration-200 rounded-lg"
+                  className="flex-1"
                   onClick={() => setSelectedJob(job)}
                 >
                   View details

@@ -23,19 +23,19 @@ export function CareersHero({ onScrollToPositions }: CareersHeroProps) {
         <Button 
           size="lg" 
           onClick={onScrollToPositions}
-          className="min-w-[160px] h-12 px-6 font-medium text-[15px] bg-primary text-primary-foreground hover:bg-primary/90 border-0 shadow-none transition-all duration-200 rounded-lg"
+          className="min-w-[160px]"
         >
-          <AppIcon name="Search" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
+          <AppIcon name="Search" size="sm" tone="primary" className="mr-2" aria-hidden={true} />
           See open roles
         </Button>
         <Button 
           variant="outline" 
           size="lg"
           asChild
-          className="min-w-[160px] h-12 px-6 font-medium text-[15px] bg-transparent text-primary border border-border hover:bg-muted/50 shadow-none transition-all duration-200 rounded-lg"
+          className="min-w-[160px]"
         >
           <a href="mailto:careers@featherbiz.io">
-            <AppIcon name="Mail" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
+            <AppIcon name="Mail" size="sm" tone="default" className="mr-2" aria-hidden={true} />
             Email us
           </a>
         </Button>

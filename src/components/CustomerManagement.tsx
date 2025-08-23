@@ -78,29 +78,29 @@ export function CustomerManagement() {
   const metrics = [
     {
       title: "Total Customers",
-      value: (clients?.length || 0).toString(),
+      value: clients?.length || 0,
       subtitle: "All registered clients",
       icon: Mail
     },
     {
       title: "Active Customers", 
-      value: (clients?.filter(c => c.status === 'active').length || 0).toString(),
+      value: clients?.filter(c => c.status === 'active').length || 0,
       subtitle: "Currently active",
       icon: Phone
     },
     {
       title: "Pending",
-      value: (clients?.filter(c => c.status === 'pending').length || 0).toString(),
+      value: clients?.filter(c => c.status === 'pending').length || 0,
       subtitle: "Awaiting response",
       icon: MessageSquare
     },
     {
       title: "This Month",
-      value: (clients?.filter(c => {
+      value: clients?.filter(c => {
         const clientDate = new Date(c.created_at)
         const now = new Date()
         return clientDate.getMonth() === now.getMonth() && clientDate.getFullYear() === now.getFullYear()
-      }).length || 0).toString(),
+      }).length || 0,
       subtitle: "New customers",
       icon: CreditCard
     }
@@ -114,6 +114,7 @@ export function CustomerManagement() {
       onActionClick={() => setShowForm(true)}
       metrics={metrics}
     >
+
 
       {/* Search */}
       <Card>

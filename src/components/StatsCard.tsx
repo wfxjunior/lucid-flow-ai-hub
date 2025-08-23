@@ -12,35 +12,23 @@ interface StatsCardProps {
 
 export function StatsCard({ title, value, change, icon, trend }: StatsCardProps) {
   const trendIconName = trend === "up" ? "TrendingUp" : "TrendingDown"
-  const trendColor = trend === "up" ? "text-emerald-600" : "text-red-600"
+  const trendTone = trend === "up" ? "success" : "danger"
 
   return (
-    <Card className="dashboard-card hover:shadow-sm transition-shadow duration-200">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-        <CardTitle className="kpi-label text-sm font-medium text-muted-foreground">
+    <Card className="dashboard-card hover-clean transition h-full">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="kpi-label text-sm font-medium">
           {title}
         </CardTitle>
-        <AppIcon 
-          name={icon} 
-          size="sm" 
-          tone="default" 
-          className="h-4 w-4 text-muted-foreground" 
-          aria-hidden={true} 
-        />
+        <AppIcon name={icon} size="sm" tone="default" aria-hidden={true} />
       </CardHeader>
-      <CardContent className="pt-0">
-        <div className="kpi-number text-2xl font-semibold text-foreground mb-3">
+      <CardContent className="flex flex-col justify-between flex-1">
+        <div className="dashboard-number kpi-number text-2xl font-semibold">
           {value}
         </div>
-        <div className="flex items-center">
-          <AppIcon 
-            name={trendIconName as keyof typeof import('lucide-react')} 
-            size="sm" 
-            tone={trend === "up" ? "success" : "danger"} 
-            className="h-3 w-3 mr-1" 
-            aria-hidden={true} 
-          />
-          <span className={`text-xs font-medium ${trendColor}`}>
+        <div className="flex items-center mt-2">
+          <AppIcon name={trendIconName as keyof typeof import('lucide-react')} size="sm" tone={trendTone} className="mr-1" aria-hidden={true} />
+          <span className={`text-xs font-medium ${trend === "up" ? "text-green-600" : "text-red-600"}`}>
             {change}
           </span>
         </div>

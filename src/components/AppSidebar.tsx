@@ -1,5 +1,6 @@
+
 import React from "react"
-import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Heart, Mic, Signature, ChevronLeft } from "lucide-react"
+import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -12,12 +13,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { SidebarMenuSection } from "./sidebar/SidebarMenuSection"
 import { MenuItem } from "./sidebar/types"
-import { FeatherBizLogo } from "./FeatherBizLogo"
-import { Button } from "@/components/ui/button"
 
 interface AppSidebarProps {
   activeView: string
@@ -34,6 +32,7 @@ const coreBusinessItems: MenuItem[] = [
   { title: "Customers", icon: Users, view: "customers" },
   { title: "Projects", icon: Briefcase, view: "projects" },
   { title: "Project Timeline", icon: Calendar, view: "project-timeline" },
+  { title: "Tours", icon: Building, view: "tours" },
   { title: "Growth", icon: TrendingUp, view: "growth" },
   { title: "Automations", icon: Zap, view: "automations" },
   { title: "Pipeline", icon: Target, view: "pipeline" },
@@ -42,7 +41,6 @@ const coreBusinessItems: MenuItem[] = [
 
 const financialItems: MenuItem[] = [
   { title: "Finance", icon: PiggyBank, view: "finance" },
-  { title: "Invoices", icon: Receipt, view: "invoices" },
   { title: "FeatherBudget AI", icon: PiggyBank, view: "feather-budget" },
   { title: "FeatherTax", icon: Calculator, view: "feather-tax" },
   { title: "EasyCalc", icon: Calculator, view: "easy-calc" },
@@ -96,18 +94,20 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="fb-sidebar border-r border-border" collapsible="icon">
-      <SidebarHeader className="px-6 py-4 border-b border-border">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <FeatherBizLogo />
-            <span className="fb-text-lg font-semibold text-foreground">FeatherBiz</span>
-          </div>
-          <SidebarTrigger className="h-6 w-6 hover:bg-accent hover:text-accent-foreground" />
+    <Sidebar variant="inset">
+      <SidebarHeader>
+        <div className="flex items-center gap-2 px-4 py-2">
+          <img 
+            src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+            alt="FeatherBiz" 
+            className="w-8 h-8 object-contain"
+            style={{ width: '32px', height: '51px', objectFit: 'contain' }}
+          />
+          <span className="font-semibold text-foreground">FeatherBiz</span>
         </div>
       </SidebarHeader>
       
-      <SidebarContent className="px-3 py-4 flex-1 overflow-y-auto">
+      <SidebarContent>
         <SidebarMenuSection 
           items={generalItems} 
           sectionTitle="General" 
@@ -172,8 +172,8 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         />
       </SidebarContent>
       
-      <SidebarFooter className="px-6 py-4 border-t border-border mt-auto">
-        <div className="fb-text-xs text-muted-foreground">
+      <SidebarFooter>
+        <div className="px-4 py-2 text-xs text-muted-foreground">
           FeatherBiz v1.0
         </div>
       </SidebarFooter>

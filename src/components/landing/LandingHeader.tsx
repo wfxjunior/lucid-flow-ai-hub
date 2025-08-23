@@ -1,7 +1,7 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { FeatherBizLogo } from "@/components/FeatherBizLogo";
 
 export const LandingHeader = () => {
   return (
@@ -10,7 +10,12 @@ export const LandingHeader = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <FeatherBizLogo />
+            <img 
+              src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+              alt="FeatherBiz" 
+              className="h-8 w-auto object-contain"
+              style={{ width: '32px', height: '51px', objectFit: 'contain' }}
+            />
             <span className="text-xl font-bold text-gray-900">FeatherBiz</span>
           </Link>
 

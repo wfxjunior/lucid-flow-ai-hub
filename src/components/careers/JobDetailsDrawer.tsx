@@ -106,18 +106,11 @@ export function JobDetailsDrawer({ job, isOpen, onClose, onApply }: JobDetailsDr
           </div>
 
           <div className="flex gap-3 pt-6 border-t border-border">
-            <Button 
-              className="flex-1 h-11 px-6 font-medium text-[15px] bg-primary text-primary-foreground hover:bg-primary/90 border-0 shadow-none transition-all duration-200 rounded-lg" 
-              onClick={() => onApply(job)}
-            >
-              <AppIcon name="Mail" size="sm" className="mr-2 w-4 h-4" aria-hidden={true} />
+            <Button className="flex-1" onClick={() => onApply(job)}>
+              <AppIcon name="Mail" size="sm" className="mr-2" aria-hidden={true} />
               Apply by email
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={onClose}
-              className="h-11 px-6 font-medium text-[15px] bg-transparent text-foreground border border-border hover:bg-muted/50 shadow-none transition-all duration-200 rounded-lg"
-            >
+            <Button variant="outline" onClick={onClose}>
               Close
             </Button>
           </div>

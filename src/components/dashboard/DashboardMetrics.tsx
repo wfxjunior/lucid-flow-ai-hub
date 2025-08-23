@@ -5,46 +5,46 @@ import { AppIcon } from "@/components/ui/AppIcon"
 export function DashboardMetrics() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-      <Card className="dashboard-card hover:shadow-sm transition-shadow duration-200">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="kpi-label text-sm font-medium text-muted-foreground">
+      <Card className="dashboard-card hover-clean transition h-32">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="kpi-label">
             Active Projects
           </CardTitle>
-          <AppIcon name="AlertCircle" size="sm" tone="default" className="h-4 w-4 text-muted-foreground" aria-hidden={true} />
+          <AppIcon name="AlertCircle" size="sm" tone="default" aria-hidden={true} />
         </CardHeader>
-        <CardContent className="pt-0">
-          <div className="kpi-number text-2xl font-semibold text-foreground mb-2">0</div>
-          <p className="text-xs text-muted-foreground">
+        <CardContent>
+          <div className="dashboard-number kpi-number">0</div>
+          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>
             No active projects
           </p>
         </CardContent>
       </Card>
 
-      <Card className="dashboard-card hover:shadow-sm transition-shadow duration-200">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="kpi-label text-sm font-medium text-muted-foreground">
+      <Card className="dashboard-card hover-clean transition h-32">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="kpi-label">
             Conversion Rate
           </CardTitle>
-          <AppIcon name="TrendingUp" size="sm" tone="success" className="h-4 w-4 text-muted-foreground" aria-hidden={true} />
+          <AppIcon name="TrendingUp" size="sm" tone="success" aria-hidden={true} />
         </CardHeader>
-        <CardContent className="pt-0">
-          <div className="kpi-number text-2xl font-semibold text-foreground mb-2">-</div>
-          <p className="text-xs text-muted-foreground">
+        <CardContent>
+          <div className="dashboard-number kpi-number">-</div>
+          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>
             No data available
           </p>
         </CardContent>
       </Card>
 
-      <Card className="md:col-span-2 xl:col-span-1 dashboard-card hover:shadow-sm transition-shadow duration-200">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-          <CardTitle className="kpi-label text-sm font-medium text-muted-foreground">
+      <Card className="md:col-span-2 xl:col-span-1 dashboard-card hover-clean transition h-32">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="kpi-label">
             Average Deal Size
           </CardTitle>
-          <AppIcon name="DollarSign" size="sm" tone="warning" className="h-4 w-4 text-muted-foreground" aria-hidden={true} />
+          <AppIcon name="DollarSign" size="sm" tone="warning" aria-hidden={true} />
         </CardHeader>
-        <CardContent className="pt-0">
-          <div className="kpi-number text-2xl font-semibold text-foreground mb-2">$0</div>
-          <p className="text-xs text-muted-foreground">
+        <CardContent>
+          <div className="dashboard-number kpi-number">$0</div>
+          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>
             No deals completed
           </p>
         </CardContent>

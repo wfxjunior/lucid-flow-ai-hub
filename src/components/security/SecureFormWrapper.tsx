@@ -7,7 +7,7 @@ import { AlertTriangle } from 'lucide-react'
 interface SecureFormWrapperProps {
   children: React.ReactNode
   validationRules: Record<string, {
-    type: 'text' | 'email' | 'url' | 'phone' | 'name'
+    type: 'text' | 'email' | 'url' | 'phone' | 'number'
     options?: {
       required?: boolean
       minLength?: number
@@ -63,7 +63,7 @@ export function SecureFormWrapper({
       
       {children}
       
-      {hasErrors && Object.keys(errors).length > 1 && (
+      {hasErrors && (
         <Alert variant="destructive" className="mt-4">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>

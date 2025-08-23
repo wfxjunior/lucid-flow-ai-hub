@@ -1,10 +1,10 @@
 
 import { useState } from 'react'
-import { validateAndSanitizeInput } from '@/utils/enhancedXssProtection'
+import { sanitizeInput } from '@/utils/inputValidation'
 import { securityEvent } from '@/utils/security'
 
 interface ValidationRule {
-  type: 'text' | 'email' | 'url' | 'phone' | 'name'
+  type: 'text' | 'email' | 'url' | 'phone' | 'number'
   options?: {
     required?: boolean
     minLength?: number
@@ -39,43 +39,61 @@ export function useSecureForm({
 
     const fieldErrors: string[] = []
 
-    // Enhanced validation and sanitization
-    const validation = validateAndSanitizeInput(value, rule.type)
-    
-    if (!validation.isValid) {
-      fieldErrors.push(...validation.errors)
-    }
-
-    // Use sanitized value for further validation
-    const sanitizedValue = validation.sanitized
-
     // Required validation
-    if (rule.options?.required && !sanitizedValue.trim()) {
+    if (rule.options?.required && !value.trim()) {
       fieldErrors.push(`${name} is required`)
       return fieldErrors
     }
 
     // Skip other validations if field is empty and not required
-    if (!sanitizedValue.trim() && !rule.options?.required) {
+    if (!value.trim() && !rule.options?.required) {
       return fieldErrors
     }
 
     // Length validations
-    if (rule.options?.minLength && sanitizedValue.length < rule.options.minLength) {
+    if (rule.options?.minLength && value.length < rule.options.minLength) {
       fieldErrors.push(`${name} must be at least ${rule.options.minLength} characters`)
     }
 
-    if (rule.options?.maxLength && sanitizedValue.length > rule.options.maxLength) {
+    if (rule.options?.maxLength && value.length > rule.options.maxLength) {
       fieldErrors.push(`${name} must be no more than ${rule.options.maxLength} characters`)
     }
 
+    // Type-specific validations
+    switch (rule.type) {
+      case 'email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(value)) {
+          fieldErrors.push(`${name} must be a valid email address`)
+        }
+        break
+      case 'url':
+        try {
+          new URL(value)
+        } catch {
+          fieldErrors.push(`${name} must be a valid URL`)
+        }
+        break
+      case 'phone':
+        const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/
+        if (!phoneRegex.test(value)) {
+          fieldErrors.push(`${name} must be a valid phone number`)
+        }
+        break
+      case 'number':
+        if (isNaN(Number(value))) {
+          fieldErrors.push(`${name} must be a valid number`)
+        }
+        break
+    }
+
     // Pattern validation
-    if (rule.options?.pattern && !rule.options.pattern.test(sanitizedValue)) {
+    if (rule.options?.pattern && !rule.options.pattern.test(value)) {
       fieldErrors.push(`${name} format is invalid`)
     }
 
     // Custom validation
-    if (rule.options?.customValidator && !rule.options.customValidator(sanitizedValue)) {
+    if (rule.options?.customValidator && !rule.options.customValidator(value)) {
       fieldErrors.push(`${name} is invalid`)
     }
 
@@ -87,23 +105,13 @@ export function useSecureForm({
 
     setIsSubmitting(true)
     const newErrors: Record<string, string[]> = {}
-    const sanitizedData: Record<string, any> = {}
 
     try {
-      // Validate and sanitize all fields
+      // Validate all fields
       for (const [name, value] of Object.entries(data)) {
         const fieldErrors = validateField(name, String(value))
         if (fieldErrors.length > 0) {
           newErrors[name] = fieldErrors
-        }
-
-        // Get sanitized value
-        const rule = validationRules[name]
-        if (rule) {
-          const validation = validateAndSanitizeInput(String(value), rule.type)
-          sanitizedData[name] = validation.sanitized
-        } else {
-          sanitizedData[name] = value
         }
       }
 
@@ -114,13 +122,19 @@ export function useSecureForm({
         return
       }
 
+      // Sanitize data
+      const sanitizedData: Record<string, any> = {}
+      for (const [name, value] of Object.entries(data)) {
+        sanitizedData[name] = typeof value === 'string' ? sanitizeInput(value) : value
+      }
+
       // Log security event
-      securityEvent('secure_form_submission', {
+      securityEvent('form_submission', {
         action: rateLimit?.action || 'form_submit',
         timestamp: new Date().toISOString()
       })
 
-      // Submit sanitized data
+      // Submit data
       await onSubmit(sanitizedData)
       
       // Clear errors on success
