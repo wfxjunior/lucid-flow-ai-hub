@@ -20,43 +20,38 @@ export function AnalyticsDashboard() {
   } = useBusinessData()
 
   return (
-    <div className="w-full overflow-y-auto" style={{ paddingInline: 'var(--content-px)' }}>
-      <div className="w-full mx-auto pb-8 space-y-4 sm:space-y-6" 
-           style={{ 
-             maxWidth: 'var(--content-max)', 
-             gap: 'var(--section-gap-y)'
-           }}>
-      <DashboardHeader />
+    <div className="max-w-[1280px] mx-auto px-8 py-6">
+      <div className="space-y-6">
+        <DashboardHeader />
 
-      {/* Key Metrics */}
-      <KeyMetrics 
-        totalRevenue={totalRevenue}
-        activeClients={activeClients}
-        completedWorkOrders={completedWorkOrders}
-      />
+        {/* Key Metrics */}
+        <KeyMetrics 
+          totalRevenue={totalRevenue}
+          activeClients={activeClients}
+          completedWorkOrders={completedWorkOrders}
+        />
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6" 
-           style={{ marginTop: 'var(--section-gap-y)' }}>
-        <div className="w-full">
-          <RevenueChart />
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <div className="w-full">
+            <RevenueChart />
+          </div>
+          <div className="w-full">
+            <WeeklyPerformanceChart />
+          </div>
         </div>
-        <div className="w-full">
-          <WeeklyPerformanceChart />
-        </div>
-      </div>
 
-      {/* Business Tools Analytics */}
-      <BusinessToolsAnalytics
-        completedWorkOrders={completedWorkOrders}
-        workOrders={workOrders}
-        estimates={estimates}
-        estimatesSent={estimatesSent}
-        contracts={contracts}
-        contractsSigned={contractsSigned}
-        clients={clients}
-        activeClients={activeClients}
-      />
+        {/* Business Tools Analytics */}
+        <BusinessToolsAnalytics
+          completedWorkOrders={completedWorkOrders}
+          workOrders={workOrders}
+          estimates={estimates}
+          estimatesSent={estimatesSent}
+          contracts={contracts}
+          contractsSigned={contractsSigned}
+          clients={clients}
+          activeClients={activeClients}
+        />
       </div>
     </div>
   )

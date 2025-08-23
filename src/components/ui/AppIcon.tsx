@@ -4,7 +4,7 @@ import * as LucideIcons from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export type IconSize = 'sm' | 'md' | 'lg' | 'xl'
-export type IconTone = 'default' | 'primary' | 'success' | 'warning' | 'danger'
+export type IconTone = 'default' | 'primary'
 
 interface AppIconProps {
   name: keyof typeof LucideIcons
@@ -25,10 +25,7 @@ const sizeMap: Record<IconSize, number> = {
 
 const toneMap: Record<IconTone, string> = {
   default: 'text-muted-foreground',
-  primary: 'text-primary',
-  success: 'text-green-600',
-  warning: 'text-amber-600',
-  danger: 'text-red-600',
+  primary: 'text-foreground',
 }
 
 export function AppIcon({
@@ -63,7 +60,7 @@ export function AppIcon({
 
   if (withContainer) {
     return (
-      <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center hover:ring-1 hover:ring-primary/30 transition-all">
+      <div className="w-10 h-10 rounded-xl bg-muted/20 border border-border flex items-center justify-center hover:bg-muted/30 transition-colors">
         {iconElement}
       </div>
     )

@@ -1,20 +1,8 @@
 
-// React import removed - using new JSX transform
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { QuickActions } from "@/components/QuickActions"
-import {
-  Banknote,
-  BarChart3,
-  FileText,
-  HelpCircle,
-  LineChart,
-  PieChart,
-  Settings,
-  ShoppingCart,
-  Users,
-  Zap
-} from "lucide-react"
+import { AppIcon } from "@/components/ui/AppIcon"
 
 interface BusinessDashboardProps {
   onNavigate: (view: string) => void
@@ -58,13 +46,12 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <LineChart className="w-5 h-5" />
+              <AppIcon name="LineChart" size="sm" tone="default" aria-hidden={true} />
               Revenue
             </CardTitle>
             <CardDescription>Monthly revenue trend</CardDescription>
           </CardHeader>
           <CardContent>
-            {/* Placeholder for revenue chart */}
             <div className="h-40 bg-gray-100 rounded-md flex items-center justify-center text-gray-500">
               Revenue Chart
             </div>
@@ -74,13 +61,12 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <PieChart className="w-5 h-5" />
+              <AppIcon name="PieChart" size="sm" tone="default" aria-hidden={true} />
               Expenses
             </CardTitle>
             <CardDescription>Expense distribution</CardDescription>
           </CardHeader>
           <CardContent>
-            {/* Placeholder for expenses chart */}
             <div className="h-40 bg-gray-100 rounded-md flex items-center justify-center text-gray-500">
               Expenses Chart
             </div>
@@ -88,14 +74,14 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
         </Card>
       </div>
 
-      {/* Quick Actions - Using the new component */}
+      {/* Quick Actions */}
       <QuickActions onActionClick={onNavigate} />
 
       {/* Recent Activity */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="w-5 h-5" />
+            <AppIcon name="Activity" size="sm" tone="default" aria-hidden={true} />
             Recent Activity
           </CardTitle>
           <CardDescription>Your recent business activities</CardDescription>
@@ -106,7 +92,7 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
               <p className="font-medium">New invoice created</p>
               <p className="text-sm text-gray-500">2 hours ago</p>
             </div>
-            <Banknote className="w-5 h-5 text-green-500" />
+            <AppIcon name="FileText" size="sm" tone="default" aria-hidden={true} />
           </div>
 
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -114,7 +100,7 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
               <p className="font-medium">Customer "John Doe" added</p>
               <p className="text-sm text-gray-500">1 day ago</p>
             </div>
-            <Users className="w-5 h-5 text-blue-500" />
+            <AppIcon name="Users" size="sm" tone="default" aria-hidden={true} />
           </div>
 
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -122,7 +108,7 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
               <p className="font-medium">New order received</p>
               <p className="text-sm text-gray-500">3 days ago</p>
             </div>
-            <ShoppingCart className="w-5 h-5 text-purple-500" />
+            <AppIcon name="ShoppingCart" size="sm" tone="default" aria-hidden={true} />
           </div>
 
           <Button variant="link" className="w-full">
@@ -135,7 +121,7 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <HelpCircle className="w-5 h-5" />
+            <AppIcon name="HelpCircle" size="sm" tone="default" aria-hidden={true} />
             Support
           </CardTitle>
           <CardDescription>Need help? Contact our support team</CardDescription>
@@ -154,7 +140,7 @@ export function BusinessDashboard({ onNavigate }: BusinessDashboardProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Settings className="w-5 h-5" />
+            <AppIcon name="Settings" size="sm" tone="default" aria-hidden={true} />
             Settings
           </CardTitle>
           <CardDescription>Manage your business settings</CardDescription>
