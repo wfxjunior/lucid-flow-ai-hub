@@ -1,13 +1,12 @@
 
 import { QuickActionCard } from "@/components/QuickActionCard"
-import { Search } from "lucide-react"
-import { LucideIcon } from "lucide-react"
+import { AppIcon } from "@/components/ui/AppIcon"
 
 interface QuickAction {
   id: string
   title: string
   description: string
-  icon: LucideIcon
+  icon: keyof typeof import('lucide-react')
   color: string
   hoverColor: string
 }
@@ -23,7 +22,7 @@ export function ActionGrid({ actions, onActionClick, searchTerm }: ActionGridPro
     return (
       <div className="text-center py-12">
         <div className="text-muted-foreground space-y-2">
-          <Search className="h-8 w-8 mx-auto opacity-50" />
+          <AppIcon name="Search" size="xl" tone="default" className="mx-auto opacity-50" aria-hidden="true" />
           <p>No actions found matching "{searchTerm}"</p>
           <p className="text-sm">Try adjusting your search terms</p>
         </div>

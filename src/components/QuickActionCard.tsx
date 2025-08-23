@@ -1,16 +1,17 @@
+
 import { Card, CardContent } from "@/components/ui/card"
-import { LucideIcon } from "lucide-react"
+import { AppIcon } from "@/components/ui/AppIcon"
 
 interface QuickActionCardProps {
   id: string
   title: string
   description: string
-  icon: LucideIcon
+  icon: keyof typeof import('lucide-react')
   color: string
   onClick: (actionId: string) => void
 }
 
-export function QuickActionCard({ id, title, icon: Icon, color, onClick }: QuickActionCardProps) {
+export function QuickActionCard({ id, title, icon, color, onClick }: QuickActionCardProps) {
   return (
     <Card 
       className="group cursor-pointer transition-all duration-200 hover:shadow-lg border border-[#E9EEF5] bg-white hover:bg-gray-50/50"
@@ -18,8 +19,8 @@ export function QuickActionCard({ id, title, icon: Icon, color, onClick }: Quick
     >
       <CardContent className="p-6 flex flex-col items-center justify-center text-center h-32 relative">
         {/* Icon container with clean design */}
-        <div className="mb-4 p-3 rounded-full bg-primary/10 transition-all duration-200 group-hover:bg-primary/15">
-          <Icon className="h-6 w-6 text-primary" />
+        <div className="mb-4">
+          <AppIcon name={icon} size="lg" tone="primary" withContainer />
         </div>
         
         {/* Title with clean typography */}

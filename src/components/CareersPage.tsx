@@ -5,16 +5,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Briefcase, Users, Code, Palette, Rocket, Send } from 'lucide-react'
+import { Send } from 'lucide-react'
 import { useAdminEmails } from '@/hooks/useAdminEmails'
+import { AppIcon } from '@/components/ui/AppIcon'
 
 const jobPositions = [
-  { id: 'frontend', title: 'Frontend Developer', icon: Code, description: 'React, TypeScript, Tailwind CSS' },
-  { id: 'backend', title: 'Backend Developer', icon: Code, description: 'Node.js, Supabase, APIs' },
-  { id: 'fullstack', title: 'Full Stack Developer', icon: Code, description: 'Frontend + Backend' },
-  { id: 'designer', title: 'UI/UX Designer', icon: Palette, description: 'Figma, Design Systems' },
-  { id: 'product', title: 'Product Manager', icon: Rocket, description: 'Product Strategy' },
-  { id: 'marketing', title: 'Digital Marketing', icon: Users, description: 'Growth, SEO, Content' },
+  { id: 'frontend', title: 'Frontend Developer', icon: 'Code', description: 'React, TypeScript, Tailwind CSS' },
+  { id: 'backend', title: 'Backend Developer', icon: 'Server', description: 'Node.js, Supabase, APIs' },
+  { id: 'fullstack', title: 'Full Stack Developer', icon: 'Layers', description: 'Frontend + Backend' },
+  { id: 'designer', title: 'UI/UX Designer', icon: 'Palette', description: 'Figma, Design Systems' },
+  { id: 'product', title: 'Product Manager', icon: 'Rocket', description: 'Product Strategy' },
+  { id: 'marketing', title: 'Digital Marketing', icon: 'Users', description: 'Growth, SEO, Content' },
 ]
 
 export function CareersPage() {
@@ -84,7 +85,9 @@ export function CareersPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <Card>
           <CardContent className="p-4 sm:p-6 text-center">
-            <Rocket className="h-10 sm:h-12 w-10 sm:w-12 text-[hsl(var(--brand-blue))] mx-auto mb-3 sm:mb-4" />
+            <div className="mb-4 flex justify-center">
+              <AppIcon name="Rocket" size="xl" tone="primary" withContainer />
+            </div>
             <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Innovation</h3>
             <p className="text-muted-foreground text-sm sm:text-base">
               We work with the latest technologies and continually seek to innovate
@@ -93,7 +96,9 @@ export function CareersPage() {
         </Card>
         <Card>
           <CardContent className="p-4 sm:p-6 text-center">
-            <Users className="h-10 sm:h-12 w-10 sm:w-12 text-[hsl(var(--brand-green))] mx-auto mb-3 sm:mb-4" />
+            <div className="mb-4 flex justify-center">
+              <AppIcon name="Users" size="xl" tone="success" withContainer />
+            </div>
             <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Collaboration</h3>
             <p className="text-muted-foreground text-sm sm:text-base">
               We believe in the power of teamwork and mutual growth
@@ -102,7 +107,9 @@ export function CareersPage() {
         </Card>
         <Card>
           <CardContent className="p-4 sm:p-6 text-center">
-            <Briefcase className="h-10 sm:h-12 w-10 sm:w-12 text-[hsl(var(--brand-purple))] mx-auto mb-3 sm:mb-4" />
+            <div className="mb-4 flex justify-center">
+              <AppIcon name="Target" size="xl" tone="warning" withContainer />
+            </div>
             <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">Impact</h3>
             <p className="text-muted-foreground text-sm sm:text-base">
               Every line of code we write impacts thousands of businesses
@@ -115,25 +122,24 @@ export function CareersPage() {
       <div className="space-y-4 sm:space-y-6">
         <h2 className="text-2xl sm:text-3xl font-bold text-center">Open Positions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {jobPositions.map((job) => {
-            const IconComponent = job.icon
-            return (
-              <Card key={job.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-4 sm:p-6 text-center">
-                  <IconComponent className="h-8 sm:h-10 w-8 sm:w-10 text-[hsl(var(--brand-blue))] mx-auto mb-3 sm:mb-4" />
-                  <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{job.title}</h3>
-                  <p className="text-muted-foreground text-sm sm:text-base mb-3 sm:mb-4">{job.description}</p>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handleApply(job.id)}
-                  >
-                    Apply
-                  </Button>
-                </CardContent>
-              </Card>
-            )
-          })}
+          {jobPositions.map((job) => (
+            <Card key={job.id} className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-4 sm:p-6 text-center">
+                <div className="mb-4 flex justify-center">
+                  <AppIcon name={job.icon as keyof typeof import('lucide-react')} size="lg" tone="primary" withContainer />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{job.title}</h3>
+                <p className="text-muted-foreground text-sm sm:text-base mb-3 sm:mb-4">{job.description}</p>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => handleApply(job.id)}
+                >
+                  Apply
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
 

@@ -1,10 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { 
-  AlertCircle,
-  TrendingUp,
-  DollarSign
-} from "lucide-react"
+import { AppIcon } from "@/components/ui/AppIcon"
 
 export function DashboardMetrics() {
   return (
@@ -14,7 +10,7 @@ export function DashboardMetrics() {
           <CardTitle className="kpi-label">
             Active Projects
           </CardTitle>
-          <AlertCircle className="h-4 w-4 dashboard-icon" />
+          <AppIcon name="AlertCircle" size="sm" tone="default" aria-hidden="true" />
         </CardHeader>
         <CardContent>
           <div className="dashboard-number kpi-number">0</div>
@@ -29,7 +25,7 @@ export function DashboardMetrics() {
           <CardTitle className="kpi-label">
             Conversion Rate
           </CardTitle>
-          <TrendingUp className="h-4 w-4 dashboard-icon" />
+          <AppIcon name="TrendingUp" size="sm" tone="success" aria-hidden="true" />
         </CardHeader>
         <CardContent>
           <div className="dashboard-number kpi-number">-</div>
@@ -44,7 +40,7 @@ export function DashboardMetrics() {
           <CardTitle className="kpi-label">
             Average Deal Size
           </CardTitle>
-          <DollarSign className="h-4 w-4 dashboard-icon" />
+          <AppIcon name="DollarSign" size="sm" tone="warning" aria-hidden="true" />
         </CardHeader>
         <CardContent>
           <div className="dashboard-number kpi-number">$0</div>

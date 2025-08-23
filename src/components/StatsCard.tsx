@@ -1,18 +1,18 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react"
+import { AppIcon } from "@/components/ui/AppIcon"
 
 interface StatsCardProps {
   title: string
   value: string
   change: string
-  icon: LucideIcon
+  icon: keyof typeof import('lucide-react')
   trend: "up" | "down"
 }
 
-export function StatsCard({ title, value, change, icon: Icon, trend }: StatsCardProps) {
-  const TrendIcon = trend === "up" ? TrendingUp : TrendingDown
-  const trendColor = trend === "up" ? "text-green-600" : "text-red-600"
+export function StatsCard({ title, value, change, icon, trend }: StatsCardProps) {
+  const trendIconName = trend === "up" ? "TrendingUp" : "TrendingDown"
+  const trendTone = trend === "up" ? "success" : "danger"
 
   return (
     <Card className="dashboard-card hover-clean transition h-full">
@@ -20,15 +20,15 @@ export function StatsCard({ title, value, change, icon: Icon, trend }: StatsCard
         <CardTitle className="kpi-label text-sm font-medium">
           {title}
         </CardTitle>
-        <Icon className="h-4 w-4 dashboard-icon" />
+        <AppIcon name={icon} size="sm" tone="default" aria-hidden="true" />
       </CardHeader>
       <CardContent className="flex flex-col justify-between flex-1">
         <div className="dashboard-number kpi-number text-2xl font-semibold">
           {value}
         </div>
         <div className="flex items-center mt-2">
-          <TrendIcon className={`h-3 w-3 mr-1 ${trendColor}`} />
-          <span className={`text-xs font-medium ${trendColor}`}>
+          <AppIcon name={trendIconName as keyof typeof import('lucide-react')} size="sm" tone={trendTone} className="mr-1" aria-hidden="true" />
+          <span className={`text-xs font-medium ${trend === "up" ? "text-green-600" : "text-red-600"}`}>
             {change}
           </span>
         </div>
