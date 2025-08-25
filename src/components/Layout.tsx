@@ -1,6 +1,7 @@
 
 import { Routes, Route } from "react-router-dom"
-import { AppSidebar, MobileHeaderToggle } from "@/components/AppSidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/AppSidebar"
 import { FinancialTools } from "@/components/FinancialTools"
 import { ProjectSchedule } from "@/components/ProjectSchedule"
 import { Productivity } from "@/components/Productivity"
@@ -32,18 +33,10 @@ import { StripeDashboardPage } from "@/components/stripe-pages/StripeDashboardPa
 
 export function Layout() {
   return (
-    <div data-app="FeatherBiz" data-theme="stripe-dashboard" className="min-h-screen w-full">
-      <div className="flex min-h-screen w-full">
-        <AppSidebar activeView="dashboard" />
-        
-        <div data-role="main" className="featherbiz-content-wrapper flex-1">
-          {/* Header */}
-          <header data-role="header" className="featherbiz-header">
-            <MobileHeaderToggle />
-            <h1 className="text-lg font-semibold text-foreground">FeatherBiz</h1>
-          </header>
-
-          {/* Main Content */}
+    <div data-theme="stripe-dashboard" className="min-h-screen w-full">
+      <SidebarProvider>
+        <div className="flex min-h-screen w-full">
+          <AppSidebar activeView="dashboard" />
           <main className="flex-1 overflow-auto">
             <Routes>
               {/* General */}
@@ -108,7 +101,7 @@ export function Layout() {
             </Routes>
           </main>
         </div>
-      </div>
+      </SidebarProvider>
     </div>
   )
 }
