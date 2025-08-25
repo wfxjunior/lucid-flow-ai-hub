@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom"
 import { AppSidebar, MobileHeaderToggle } from "@/components/AppSidebar"
 import { FinancialTools } from "@/components/FinancialTools"
@@ -31,13 +32,13 @@ import { StripeDashboardPage } from "@/components/stripe-pages/StripeDashboardPa
 
 export function Layout() {
   return (
-    <div data-theme="stripe-dashboard" className="min-h-screen w-full">
+    <div data-app="FeatherBiz" data-theme="stripe-dashboard" className="min-h-screen w-full">
       <div className="flex min-h-screen w-full">
         <AppSidebar activeView="dashboard" />
         
-        <div className="featherbiz-content-wrapper flex-1">
+        <div data-role="main" className="featherbiz-content-wrapper flex-1">
           {/* Header */}
-          <header className="featherbiz-header">
+          <header data-role="header" className="featherbiz-header">
             <MobileHeaderToggle />
             <h1 className="text-lg font-semibold text-foreground">FeatherBiz</h1>
           </header>

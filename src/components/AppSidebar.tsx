@@ -95,20 +95,33 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
 
   // Handle body scroll lock for mobile sidebar
   useEffect(() => {
+    const appElement = document.querySelector('[data-app="FeatherBiz"]')
     if (isMobileOpen) {
-      document.body.classList.add('sidebar-mobile-open')
+      appElement?.setAttribute('data-sidebar-mobile', 'open')
       document.body.style.overflow = 'hidden'
     } else {
-      document.body.classList.remove('sidebar-mobile-open')
+      appElement?.removeAttribute('data-sidebar-mobile')
       document.body.style.overflow = ''
     }
 
     // Cleanup on unmount
     return () => {
-      document.body.classList.remove('sidebar-mobile-open')
+      appElement?.removeAttribute('data-sidebar-mobile')
       document.body.style.overflow = ''
     }
   }, [isMobileOpen])
+
+  // Update main content data attribute based on sidebar state
+  useEffect(() => {
+    const mainElement = document.querySelector('[data-role="main"]')
+    if (mainElement) {
+      if (isCollapsed) {
+        mainElement.setAttribute('data-sidebar', 'collapsed')
+      } else {
+        mainElement.removeAttribute('data-sidebar')
+      }
+    }
+  }, [isCollapsed])
 
   const handleMenuClick = (view: string) => {
     console.log('Sidebar: Navigating to', view)
@@ -157,6 +170,9 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
 
       {/* Sidebar */}
       <aside 
+        data-role="sidebar"
+        data-state={isCollapsed ? 'collapsed' : 'expanded'}
+        data-open={isMobileOpen}
         className={`featherbiz-sidebar ${isCollapsed ? 'collapsed' : ''} ${isMobileOpen ? 'mobile-open' : ''}`}
         aria-label="Main navigation"
         role="navigation"
@@ -182,7 +198,7 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
         </div>
 
         {/* Content */}
-        <div className="featherbiz-sidebar-content">
+        <div data-scroll="true" className="featherbiz-sidebar-content">
           {renderMenuSection(generalItems, "General")}
           {renderMenuSection(coreBusinessItems, "Core Business")}
           {renderMenuSection(financialItems, "Financial Tools")}
