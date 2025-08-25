@@ -4,7 +4,7 @@ import { ReactNode } from "react"
 interface StripeTab {
   id: string
   label: string
-  content: ReactNode
+  content?: ReactNode
   count?: number
 }
 
