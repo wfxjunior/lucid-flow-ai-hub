@@ -1,0 +1,319 @@
+
+/* FeatherBiz Sidebar Styles */
+.featherbiz-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 40;
+  width: var(--fb-sidebar-w-desktop);
+  background: hsl(220 30% 4%);
+  border-right: 1px solid hsl(220 20% 15%);
+  color: hsl(0 0% 95%);
+  transition: width 300ms ease, transform 300ms ease;
+}
+
+/* Desktop and Laptop Responsive Widths */
+@media (min-width: 1280px) {
+  .featherbiz-sidebar {
+    width: var(--fb-sidebar-w-desktop);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .featherbiz-sidebar {
+    width: var(--fb-sidebar-w-laptop);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .featherbiz-sidebar {
+    width: var(--fb-sidebar-w-tablet);
+  }
+}
+
+/* Mobile - Hidden by default */
+@media (max-width: 767px) {
+  .featherbiz-sidebar {
+    transform: translateX(-100%);
+    width: var(--fb-sidebar-w-tablet);
+  }
+  
+  .featherbiz-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+}
+
+/* Collapsed State */
+.featherbiz-sidebar.collapsed {
+  width: var(--fb-sidebar-w-collapsed);
+}
+
+/* Sidebar Header */
+.featherbiz-sidebar-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid hsl(220 20% 15%);
+}
+
+.featherbiz-sidebar.collapsed .featherbiz-sidebar-header {
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.featherbiz-sidebar-logo {
+  font-size: 18px;
+  font-weight: 600;
+  color: hsl(0 0% 95%);
+  transition: opacity 300ms ease;
+}
+
+.featherbiz-sidebar.collapsed .featherbiz-sidebar-logo {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+/* Collapse Toggle Button */
+.featherbiz-sidebar-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: hsl(0 0% 70%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.featherbiz-sidebar-toggle:hover {
+  background: hsl(220 20% 15%);
+  color: hsl(0 0% 95%);
+}
+
+/* Mobile Toggle (Hamburger) */
+.featherbiz-mobile-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: hsl(240 10% 3.9%);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 200ms ease;
+}
+
+.featherbiz-mobile-toggle:hover {
+  background: hsl(240 4.8% 95.9%);
+}
+
+@media (max-width: 767px) {
+  .featherbiz-mobile-toggle {
+    display: flex;
+  }
+  
+  .featherbiz-sidebar-toggle {
+    display: none;
+  }
+}
+
+/* Sidebar Content */
+.featherbiz-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0;
+}
+
+/* Sidebar Group */
+.featherbiz-sidebar-group {
+  padding: 0 16px 24px;
+}
+
+.featherbiz-sidebar.collapsed .featherbiz-sidebar-group {
+  padding: 0 8px 24px;
+}
+
+.featherbiz-sidebar-group-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(0 0% 60%);
+  margin-bottom: 8px;
+  padding: 0 8px;
+  transition: opacity 300ms ease;
+}
+
+.featherbiz-sidebar.collapsed .featherbiz-sidebar-group-label {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Menu Items */
+.featherbiz-sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.featherbiz-sidebar-menu-item {
+  position: relative;
+}
+
+.featherbiz-sidebar-menu-button {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: hsl(0 0% 80%);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  text-align: left;
+  transition: all 200ms ease;
+  position: relative;
+}
+
+.featherbiz-sidebar.collapsed .featherbiz-sidebar-menu-button {
+  justify-content: center;
+  padding: 0;
+  gap: 0;
+}
+
+.featherbiz-sidebar-menu-button:hover {
+  background: hsl(220 20% 15%);
+  color: hsl(0 0% 95%);
+}
+
+.featherbiz-sidebar-menu-button.active {
+  background: hsl(221 83% 53%);
+  color: hsl(0 0% 100%);
+}
+
+.featherbiz-sidebar-menu-button-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.featherbiz-sidebar-menu-button-text {
+  flex: 1;
+  transition: opacity 300ms ease;
+}
+
+.featherbiz-sidebar.collapsed .featherbiz-sidebar-menu-button-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+/* Tooltips for collapsed state */
+.featherbiz-sidebar.collapsed .featherbiz-sidebar-menu-button[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: hsl(240 10% 3.9%);
+  color: hsl(0 0% 98%);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile Backdrop */
+.featherbiz-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 35;
+}
+
+@media (max-width: 767px) {
+  .featherbiz-sidebar-backdrop.show {
+    display: block;
+  }
+}
+
+/* Content Wrapper Offsets */
+.featherbiz-content-wrapper {
+  transition: margin-left 300ms ease;
+}
+
+@media (min-width: 1280px) {
+  .featherbiz-content-wrapper {
+    margin-left: var(--fb-sidebar-w-desktop);
+  }
+  
+  .featherbiz-content-wrapper.collapsed {
+    margin-left: var(--fb-sidebar-w-collapsed);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .featherbiz-content-wrapper {
+    margin-left: var(--fb-sidebar-w-laptop);
+  }
+  
+  .featherbiz-content-wrapper.collapsed {
+    margin-left: var(--fb-sidebar-w-collapsed);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .featherbiz-content-wrapper {
+    margin-left: var(--fb-sidebar-w-tablet);
+  }
+  
+  .featherbiz-content-wrapper.collapsed {
+    margin-left: var(--fb-sidebar-w-collapsed);
+  }
+}
+
+@media (max-width: 767px) {
+  .featherbiz-content-wrapper {
+    margin-left: 0;
+  }
+}
+
+/* Header Styles */
+.featherbiz-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: hsl(0 0% 100%);
+  border-bottom: 1px solid hsl(214.3 31.8% 91.4%);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dark .featherbiz-header {
+  background: hsl(240 10% 3.9%);
+  border-bottom-color: hsl(217.2 32.6% 17.5%);
+}

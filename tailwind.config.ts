@@ -34,6 +34,12 @@ export default {
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
 			},
+			spacing: {
+				'sidebar-desktop': 'var(--fb-sidebar-w-desktop)',
+				'sidebar-laptop': 'var(--fb-sidebar-w-laptop)',
+				'sidebar-tablet': 'var(--fb-sidebar-w-tablet)',
+				'sidebar-collapsed': 'var(--fb-sidebar-w-collapsed)',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

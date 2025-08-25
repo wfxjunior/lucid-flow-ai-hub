@@ -1,21 +1,7 @@
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarRail,
-} from "@/components/ui/sidebar"
-import { SidebarMenuSection } from "./sidebar/SidebarMenuSection"
+import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature, ChevronLeft, ChevronRight, Menu, X } from "lucide-react"
 import { MenuItem } from "./sidebar/types"
 
 interface AppSidebarProps {
@@ -87,92 +73,131 @@ const systemItems: MenuItem[] = [
 export function AppSidebar({ activeView }: AppSidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
+
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    setIsMobileOpen(false)
+  }, [location.pathname])
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const handleMenuClick = (view: string) => {
     console.log('Sidebar: Navigating to', view)
     navigate(view === "" ? "/" : `/${view}`)
   }
 
+  const toggleCollapsed = () => {
+    setIsCollapsed(!isCollapsed)
+  }
+
+  const toggleMobile = () => {
+    setIsMobileOpen(!isMobileOpen)
+  }
+
+  const renderMenuSection = (items: MenuItem[], sectionTitle: string) => (
+    <div key={sectionTitle} className="featherbiz-sidebar-group">
+      <div className="featherbiz-sidebar-group-label">{sectionTitle}</div>
+      <ul className="featherbiz-sidebar-menu">
+        {items.map((item) => (
+          <li key={item.view} className="featherbiz-sidebar-menu-item">
+            <button
+              className={`featherbiz-sidebar-menu-button ${activeView === item.view ? 'active' : ''}`}
+              onClick={() => handleMenuClick(item.view)}
+              data-tooltip={item.title}
+              aria-label={item.title}
+            >
+              {item.icon && (
+                <item.icon className="featherbiz-sidebar-menu-button-icon" />
+              )}
+              <span className="featherbiz-sidebar-menu-button-text">{item.title}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+
   return (
-    <Sidebar variant="inset" className="stripe-sidebar">
-      <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 py-2">
-          <span className="font-semibold text-foreground">FeatherBiz</span>
+    <>
+      {/* Mobile Backdrop */}
+      <div 
+        className={`featherbiz-sidebar-backdrop ${isMobileOpen ? 'show' : ''}`}
+        onClick={() => setIsMobileOpen(false)}
+        aria-hidden="true"
+      />
+
+      {/* Sidebar */}
+      <aside 
+        className={`featherbiz-sidebar ${isCollapsed ? 'collapsed' : ''} ${isMobileOpen ? 'mobile-open' : ''}`}
+        aria-label="Main navigation"
+        role="navigation"
+      >
+        {/* Header */}
+        <div className="featherbiz-sidebar-header">
+          <span className="featherbiz-sidebar-logo">FeatherBiz</span>
+          <button
+            className="featherbiz-sidebar-toggle"
+            onClick={toggleCollapsed}
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            aria-expanded={!isCollapsed}
+          >
+            {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+          </button>
+          <button
+            className="featherbiz-mobile-toggle"
+            onClick={toggleMobile}
+            aria-label="Close sidebar"
+          >
+            <X size={20} />
+          </button>
         </div>
-      </SidebarHeader>
-      
-      <SidebarContent>
-        <SidebarMenuSection 
-          items={generalItems} 
-          sectionTitle="General" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={coreBusinessItems} 
-          sectionTitle="Core Business" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={financialItems} 
-          sectionTitle="Financial Tools" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={operationsItems} 
-          sectionTitle="Operations" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={documentsItems} 
-          sectionTitle="Documents & Forms" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={productivityItems} 
-          sectionTitle="Productivity" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={communicationItems} 
-          sectionTitle="Communication" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={analyticsItems} 
-          sectionTitle="Analytics" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-        
-        <SidebarMenuSection 
-          items={systemItems} 
-          sectionTitle="System Tools" 
-          activeView={activeView}
-          onMenuClick={handleMenuClick}
-        />
-      </SidebarContent>
-      
-      <SidebarFooter>
-        <div className="px-4 py-2 text-xs text-muted-foreground">
-          FeatherBiz v1.0
+
+        {/* Content */}
+        <div className="featherbiz-sidebar-content">
+          {renderMenuSection(generalItems, "General")}
+          {renderMenuSection(coreBusinessItems, "Core Business")}
+          {renderMenuSection(financialItems, "Financial Tools")}
+          {renderMenuSection(operationsItems, "Operations")}
+          {renderMenuSection(documentsItems, "Documents & Forms")}
+          {renderMenuSection(productivityItems, "Productivity")}
+          {renderMenuSection(communicationItems, "Communication")}
+          {renderMenuSection(analyticsItems, "Analytics")}
+          {renderMenuSection(systemItems, "System Tools")}
         </div>
-      </SidebarFooter>
-      
-      <SidebarRail />
-    </Sidebar>
+      </aside>
+    </>
+  )
+}
+
+// Mobile Header Toggle Component
+export function MobileHeaderToggle() {
+  const [, setIsMobileOpen] = useState(false)
+
+  const toggleMobile = () => {
+    setIsMobileOpen(prev => !prev)
+    // Dispatch custom event to communicate with sidebar
+    window.dispatchEvent(new CustomEvent('toggleMobileSidebar'))
+  }
+
+  return (
+    <button
+      className="featherbiz-mobile-toggle"
+      onClick={toggleMobile}
+      aria-label="Open sidebar"
+    >
+      <Menu size={20} />
+    </button>
   )
 }
