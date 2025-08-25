@@ -2,7 +2,6 @@
 import { Routes, Route } from "react-router-dom"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
-import { Dashboard } from "@/components/Dashboard"
 import { FinancialTools } from "@/components/FinancialTools"
 import { ProjectSchedule } from "@/components/ProjectSchedule"
 import { Productivity } from "@/components/Productivity"
@@ -30,18 +29,19 @@ import { StripeFeatherBudgetPage } from "@/components/stripe-pages/StripeFeather
 import { StripeFeatherTaxPage } from "@/components/stripe-pages/StripeFeatherTaxPage"
 import { StripeEasyCalcPage } from "@/components/stripe-pages/StripeEasyCalcPage"
 import { StripeReceiptsPage } from "@/components/stripe-pages/StripeReceiptsPage"
+import { StripeDashboardPage } from "@/components/stripe-pages/StripeDashboardPage"
 
 export function Layout() {
   return (
     <div data-theme="stripe-dashboard" className="min-h-screen w-full">
       <SidebarProvider>
         <div className="flex min-h-screen w-full">
-          <AppSidebar />
+          <AppSidebar activeView="dashboard" />
           <main className="flex-1 overflow-auto">
             <Routes>
               {/* General */}
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/" element={<StripeDashboardPage />} />
+              <Route path="/dashboard" element={<StripeDashboardPage />} />
               <Route path="/careers" element={<StripeCareersPage />} />
               
               {/* Core Business */}
@@ -62,12 +62,12 @@ export function Layout() {
               <Route path="/quotes" element={<StripeEstimatesPage />} />
               
               {/* Operations */}
-              <Route path="/car-rental" element={<Dashboard />} />
-              <Route path="/work-orders" element={<Dashboard />} />
+              <Route path="/car-rental" element={<StripeDashboardPage />} />
+              <Route path="/work-orders" element={<StripeDashboardPage />} />
               <Route path="/mattrack" element={<MatTrackPage />} />
-              <Route path="/crew-control" element={<Dashboard />} />
-              <Route path="/earn-sync" element={<Dashboard />} />
-              <Route path="/after-care" element={<Dashboard />} />
+              <Route path="/crew-control" element={<StripeDashboardPage />} />
+              <Route path="/earn-sync" element={<StripeDashboardPage />} />
+              <Route path="/after-care" element={<StripeDashboardPage />} />
               
               {/* Documents & Forms */}
               <Route path="/feather-forms" element={<StripeESignatureTemplatesPage />} />
@@ -91,8 +91,8 @@ export function Layout() {
               <Route path="/analytics" element={<StripeAnalyticsPage />} />
               
               {/* System Tools */}
-              <Route path="/settings" element={<Dashboard />} />
-              <Route path="/admin-panel" element={<Dashboard />} />
+              <Route path="/settings" element={<StripeDashboardPage />} />
+              <Route path="/admin-panel" element={<StripeDashboardPage />} />
               
               {/* Legacy routes */}
               <Route path="/project-schedule" element={<ProjectSchedule />} />
