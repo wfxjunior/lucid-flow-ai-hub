@@ -1,5 +1,6 @@
 
 import React from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
 import {
   Sidebar,
@@ -19,26 +20,25 @@ import { MenuItem } from "./sidebar/types"
 
 interface AppSidebarProps {
   activeView: string
-  setActiveView: (view: string) => void
 }
 
 // Define menu sections with their items
 const generalItems: MenuItem[] = [
-  { title: "Dashboard", icon: Home, view: "dashboard" },
+  { title: "Dashboard", icon: Home, view: "" },
   { title: "Careers", icon: Users, view: "careers" }
 ]
 
 const coreBusinessItems: MenuItem[] = [
   { title: "Customers", icon: Users, view: "customers" },
   { title: "Projects", icon: Briefcase, view: "projects" },
-  { title: "Project Timeline", icon: Calendar, view: "project-timeline" },
+  { title: "Project Timeline", icon: Calendar, view: "project-schedule" },
   { title: "Invoices", icon: Receipt, view: "invoices" },
   { title: "Estimates", icon: Calculator, view: "estimates" },
   { title: "Smart Schedule", icon: Clock, view: "smart-schedule" }
 ]
 
 const financialItems: MenuItem[] = [
-  { title: "FeatherBudget AI", icon: PiggyBank, view: "feather-budget" },
+  { title: "FeatherBudget AI", icon: PiggyBank, view: "financial-tools" },
   { title: "FeatherTax", icon: Calculator, view: "feather-tax" },
   { title: "EasyCalc", icon: Calculator, view: "easy-calc" },
   { title: "Receipts", icon: Receipt, view: "receipts" },
@@ -49,14 +49,14 @@ const financialItems: MenuItem[] = [
 const operationsItems: MenuItem[] = [
   { title: "Car Rental", icon: Car, view: "car-rental" },
   { title: "Work Orders", icon: Package, view: "work-orders" },
-  { title: "MatTrack", icon: Package, view: "mat-track" },
+  { title: "MatTrack", icon: Package, view: "mattrack" },
   { title: "CrewControl", icon: UserCheck, view: "crew-control" },
   { title: "EarnSync", icon: DollarSign, view: "earnsync" },
   { title: "AfterCare", icon: Heart, view: "aftercare" }
 ]
 
 const documentsItems: MenuItem[] = [
-  { title: "FeatherForms", icon: FileText, view: "feather-forms" },
+  { title: "FeatherForms", icon: FileText, view: "documents-forms" },
   { title: "Sales Orders", icon: TrendingUp, view: "sales-orders" },
   { title: "Business Proposals", icon: Clipboard, view: "business-proposals" },
   { title: "Bids", icon: DollarSign, view: "bids" },
@@ -65,7 +65,7 @@ const documentsItems: MenuItem[] = [
 
 const productivityItems: MenuItem[] = [
   { title: "Meetings", icon: Video, view: "meetings" },
-  { title: "Todo List", icon: CheckSquare, view: "todo-list" },
+  { title: "Todo List", icon: CheckSquare, view: "tasks" },
   { title: "Notes", icon: StickyNote, view: "notes" },
   { title: "Appointments", icon: Calendar, view: "appointments" }
 ]
@@ -84,14 +84,17 @@ const systemItems: MenuItem[] = [
   { title: "Admin Panel", icon: Settings, view: "admin-panel" }
 ]
 
-export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
+export function AppSidebar({ activeView }: AppSidebarProps) {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const handleMenuClick = (view: string) => {
     console.log('Sidebar: Navigating to', view)
-    setActiveView(view)
+    navigate(view === "" ? "/" : `/${view}`)
   }
 
   return (
-    <Sidebar variant="inset">
+    <Sidebar variant="inset" className="stripe-sidebar">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-4 py-2">
           <span className="font-semibold text-foreground">FeatherBiz</span>

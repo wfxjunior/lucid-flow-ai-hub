@@ -1,5 +1,6 @@
 
 import { useState } from "react"
+import { useLocation } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
 import { AppSidebar } from "@/components/AppSidebar"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
@@ -11,16 +12,19 @@ import { useAuthState } from "@/hooks/useAuthState"
 
 export function Layout() {
   const { user } = useAuthState()
+  const location = useLocation()
   const isPremiumUser = user?.email === 'juniorxavierusa@gmail.com'
-  const [activeView, setActiveView] = useState("dashboard")
+  
+  // Determine current view from URL path
+  const currentPath = location.pathname.replace('/', '') || 'dashboard'
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
+      <div className="min-h-screen flex w-full bg-background" data-theme="stripe-dashboard">
+        <AppSidebar activeView={currentPath} />
         <SidebarInset className="flex-1">
           {/* Header - Only show on dashboard view, other views have their own headers */}
-          {activeView === "dashboard" && (
+          {currentPath === 'dashboard' && (
             <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <div className="flex items-center gap-2 flex-1">
                 <img 

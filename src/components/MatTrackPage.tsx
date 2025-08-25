@@ -1,156 +1,192 @@
 
-import React, { useState } from 'react'
-import { Plus, Search, Filter, AlertTriangle, TrendingDown, Package, MapPin, Calendar, Eye, Edit3, MoreHorizontal } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MaterialForm } from './mat-track/MaterialForm'
-import { MaterialList } from './mat-track/MaterialList'
-import { MaterialInsights } from './mat-track/MaterialInsights'
-import { LowStockAlerts } from './mat-track/LowStockAlerts'
-import { WorkAllocation } from './mat-track/WorkAllocation'
+import { useState } from "react"
+import { StripeHeader } from "./stripe-layout/StripeHeader"
+import { StripePageLayout } from "./stripe-layout/StripePageLayout"
+import { StripeTabs } from "./stripe-layout/StripeTabs"
+import { StripeFilters } from "./stripe-layout/StripeFilters"
+import { Package, Truck, MapPin, Clock, Plus, Download } from "lucide-react"
 
 export function MatTrackPage() {
-  const [showMaterialForm, setShowMaterialForm] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [activeTab, setActiveTab] = useState('overview')
+  const [activeTab, setActiveTab] = useState("overview")
+  const [activeFilters, setActiveFilters] = useState<string[]>([])
 
-  // Mock data for demonstration
-  const statsData = {
-    totalMaterials: 156,
-    lowStockItems: 8,
-    allocatedToday: 12,
-    totalValue: 45600
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "tracking", label: "Tracking", count: 15 },
+    { id: "reports", label: "Reports" },
+    { id: "inventory", label: "Inventory", count: 247 }
+  ]
+
+  const filters = [
+    { id: "status", label: "Status", active: activeFilters.includes("status") },
+    { id: "location", label: "Location", active: activeFilters.includes("location") },
+    { id: "material-type", label: "Material type", active: activeFilters.includes("material-type") },
+    { id: "date", label: "Date range", active: activeFilters.includes("date") }
+  ]
+
+  const handleFilterClick = (filterId: string) => {
+    setActiveFilters(prev => 
+      prev.includes(filterId) 
+        ? prev.filter(id => id !== filterId)
+        : [...prev, filterId]
+    )
   }
 
+  const materials = [
+    {
+      id: "MAT-001",
+      name: "Concrete Mix Type A",
+      location: "Warehouse A - Bay 3",
+      quantity: "45 tons",
+      status: "Available",
+      lastUpdated: "2 hours ago"
+    },
+    {
+      id: "MAT-002", 
+      name: "Steel Rebar Bundle",
+      location: "Site 12 - Section B",
+      quantity: "120 pieces",
+      status: "In Transit",
+      lastUpdated: "4 hours ago"
+    },
+    {
+      id: "MAT-003",
+      name: "Timber Planks 2x4",
+      location: "Warehouse B - Section 5",
+      quantity: "200 pieces",
+      status: "Available",
+      lastUpdated: "1 day ago"
+    }
+  ]
+
+  const getStatusBadge = (status: string) => {
+    const statusClasses = {
+      "Available": "success",
+      "In Transit": "warning",
+      "Low Stock": "error",
+      "Out of Stock": "error"
+    }
+    return `stripe-badge ${statusClasses[status as keyof typeof statusClasses] || 'neutral'}`
+  }
+
+  const actions = (
+    <>
+      <button className="stripe-button-secondary">
+        <Download className="w-4 h-4" />
+        Export
+      </button>
+      <button className="stripe-button-primary">
+        <Plus className="w-4 h-4" />
+        Add Material
+      </button>
+    </>
+  )
+
   return (
-    <div className="space-y-6 p-6" data-theme="stripe-dashboard">
-      {/* Header */}
-      <div className="stripe-page-header">
-        <div className="stripe-page-title">
-          <div>
-            <h1>MatTrack</h1>
-            <p className="stripe-page-description">Intelligent Material Management System</p>
-          </div>
-          <button 
-            onClick={() => setShowMaterialForm(true)}
-            className="stripe-button-primary"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Material
-          </button>
-        </div>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="stripe-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Materials</p>
-              <p className="text-2xl font-semibold">{statsData.totalMaterials}</p>
-            </div>
-            <Package className="w-8 h-8 text-muted-foreground" />
-          </div>
-        </div>
-
-        <div className="stripe-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Low Stock Alerts</p>
-              <p className="text-2xl font-semibold">{statsData.lowStockItems}</p>
-            </div>
-            <AlertTriangle className="w-8 h-8 text-muted-foreground" />
-          </div>
-        </div>
-
-        <div className="stripe-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Allocated Today</p>
-              <p className="text-2xl font-semibold">{statsData.allocatedToday}</p>
-            </div>
-            <TrendingDown className="w-8 h-8 text-muted-foreground" />
-          </div>
-        </div>
-
-        <div className="stripe-card">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Value</p>
-              <p className="text-2xl font-semibold">${statsData.totalValue.toLocaleString()}</p>
-            </div>
-            <Package className="w-8 h-8 text-muted-foreground" />
-          </div>
-        </div>
-      </div>
-
-      {/* Search and Filter */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-          <input
-            placeholder="Search materials by name, SKU, or location..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="stripe-search"
-          />
-        </div>
-        <button className="stripe-button-secondary">
-          <Filter className="w-4 h-4 mr-2" />
-          Filters
-        </button>
-      </div>
-
-      {/* Main Content Tabs */}
-      <div className="stripe-tabs">
-        <div className="stripe-tabs-list">
-          {[
-            { id: 'overview', label: 'Overview' },
-            { id: 'materials', label: 'Materials' },
-            { id: 'alerts', label: 'Alerts' },
-            { id: 'allocation', label: 'Allocation' },
-            { id: 'insights', label: 'Insights' }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              className="stripe-tab-trigger"
-              data-state={activeTab === tab.id ? "active" : "inactive"}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Tab Content */}
-      <div className="mt-6">
-        {activeTab === 'overview' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <LowStockAlerts />
-              <MaterialInsights />
-            </div>
-            <MaterialList searchQuery={searchQuery} limit={10} />
-          </div>
-        )}
-
-        {activeTab === 'materials' && <MaterialList searchQuery={searchQuery} />}
-        {activeTab === 'alerts' && <LowStockAlerts expanded />}
-        {activeTab === 'allocation' && <WorkAllocation />}
-        {activeTab === 'insights' && <MaterialInsights expanded />}
-      </div>
-
-      {/* Material Form Modal */}
-      {showMaterialForm && (
-        <MaterialForm 
-          isOpen={showMaterialForm}
-          onClose={() => setShowMaterialForm(false)}
+    <div className="stripe-layout">
+      <div className="stripe-main">
+        <StripeHeader 
+          searchPlaceholder="Search materials..."
+          showAddButton={true}
+          addButtonLabel="Add Material"
         />
-      )}
+        
+        <StripePageLayout
+          title="MatTrack"
+          description="Track and manage construction materials and inventory"
+          actions={actions}
+        >
+          <StripeTabs 
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
+
+          <StripeFilters 
+            filters={filters}
+            onFilterClick={handleFilterClick}
+          />
+
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="stripe-card">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-muted-foreground">Total Materials</h3>
+                <Package className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <div className="text-2xl font-semibold">247</div>
+              <p className="text-sm text-muted-foreground mt-1">+12 this week</p>
+            </div>
+
+            <div className="stripe-card">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-muted-foreground">In Transit</h3>
+                <Truck className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <div className="text-2xl font-semibold">15</div>
+              <p className="text-sm text-muted-foreground mt-1">Active shipments</p>
+            </div>
+
+            <div className="stripe-card">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-muted-foreground">Low Stock Items</h3>
+                <Clock className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <div className="text-2xl font-semibold">8</div>
+              <p className="text-sm text-muted-foreground mt-1">Need reordering</p>
+            </div>
+
+            <div className="stripe-card">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-muted-foreground">Active Locations</h3>
+                <MapPin className="w-4 h-4 text-muted-foreground" />
+              </div>
+              <div className="text-2xl font-semibold">12</div>
+              <p className="text-sm text-muted-foreground mt-1">Storage sites</p>
+            </div>
+          </div>
+
+          <div className="stripe-card p-0">
+            <table className="stripe-table">
+              <thead>
+                <tr>
+                  <th>Material ID</th>
+                  <th>Name</th>
+                  <th>Location</th>
+                  <th>Quantity</th>
+                  <th>Status</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {materials.map((material) => (
+                  <tr key={material.id}>
+                    <td className="font-mono text-sm">{material.id}</td>
+                    <td className="font-medium">{material.name}</td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-muted-foreground" />
+                        {material.location}
+                      </div>
+                    </td>
+                    <td>{material.quantity}</td>
+                    <td>
+                      <span className={getStatusBadge(material.status)}>
+                        {material.status}
+                      </span>
+                    </td>
+                    <td className="text-muted-foreground">{material.lastUpdated}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            
+            <div className="p-4 border-t text-sm text-muted-foreground">
+              {materials.length} result{materials.length !== 1 ? 's' : ''}
+            </div>
+          </div>
+        </StripePageLayout>
+      </div>
     </div>
   )
 }

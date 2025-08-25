@@ -1,11 +1,11 @@
 
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { MenuItem } from "./types"
 
@@ -24,19 +24,17 @@ export function SidebarMenuSection({
 }: SidebarMenuSectionProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground px-3 py-2 uppercase tracking-wider">
-        {sectionTitle}
-      </SidebarGroupLabel>
+      <SidebarGroupLabel>{sectionTitle}</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.view}>
-              <SidebarMenuButton
-                onClick={() => onMenuClick(item.view)}
+              <SidebarMenuButton 
                 isActive={activeView === item.view}
-                className="w-full justify-start px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:bg-accent hover:text-accent-foreground data-[active=true]:bg-accent data-[active=true]:text-accent-foreground data-[active=true]:font-semibold data-[active=true]:border-l-2 data-[active=true]:border-primary"
+                onClick={() => onMenuClick(item.view)}
+                className="w-full justify-start"
               >
-                {item.icon && <item.icon className="mr-3 h-5 w-5 stroke-[1.5]" />}
+                {item.icon && <item.icon className="w-4 h-4" />}
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
