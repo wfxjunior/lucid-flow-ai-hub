@@ -8,7 +8,7 @@ export function DashboardHeader() {
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div className="flex items-center gap-2 sm:gap-4">
         <SidebarTrigger className="flex-shrink-0" />
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold truncate">Analytics Dashboard</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold truncate">Analytics</h1>
       </div>
       <div className="flex items-center gap-2 sm:space-x-2 flex-shrink-0">
         <Button variant="outline" size="sm" className="text-xs sm:text-sm">
