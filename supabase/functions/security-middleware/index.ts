@@ -1,66 +1,76 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none';",
-  'X-Frame-Options': 'DENY',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Permissions-Policy': 'camera=(), microphone=(), location=()',
-  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
-}
-
-interface RateLimitRequest {
-  action: string
-  ip?: string
-  maxRequests?: number
-  windowMinutes?: number
+// Enhanced CORS configuration (Security Fix #3)
+const getSecureCorsHeaders = (origin: string | null) => {
+  const allowedOrigins = [
+    'https://featherbiz.io',
+    'https://lovable.app',
+    'http://localhost:5173' // Only in development
+  ]
+  
+  // Check if origin is allowed
+  const allowedOrigin = allowedOrigins.find(allowed => 
+    origin === allowed || 
+    (origin && allowed.includes('localhost') && origin.includes('localhost'))
+  )
+  
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin || allowedOrigins[0],
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Max-Age': '86400',
+    // Additional security headers
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'X-XSS-Protection': '1; mode=block',
+    'Referrer-Policy': 'strict-origin-when-cross-origin'
+  }
 }
 
 serve(async (req) => {
+  const origin = req.headers.get('origin')
+  const corsHeaders = getSecureCorsHeaders(origin)
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
     )
 
-    const { action, ip, maxRequests = 10, windowMinutes = 60 }: RateLimitRequest = await req.json()
+    const { action, maxRequests = 10, windowMinutes = 15 } = await req.json()
 
-    if (!action) {
+    // Get client IP from various possible headers
+    const clientIP = req.headers.get('cf-connecting-ip') || 
+                    req.headers.get('x-forwarded-for')?.split(',')[0] || 
+                    req.headers.get('x-real-ip') || 
+                    'unknown'
+
+    console.log(`Security middleware: Checking rate limit for ${action} from ${clientIP}`)
+
+    // Enhanced rate limiting with security monitoring
+    const { data: allowed, error } = await supabase.rpc('enhanced_rate_limit_check', {
+      client_ip: clientIP,
+      action: action,
+      user_context: null,
+      max_requests: maxRequests,
+      window_minutes: windowMinutes
+    })
+
+    if (error) {
+      console.error('Rate limit check error:', error)
       return new Response(
-        JSON.stringify({ error: 'Action is required' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      )
-    }
-
-    // Get client IP from request headers if not provided
-    const clientIP = ip || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown'
-
-    console.log(`Rate limit check for action: ${action}, IP: ${clientIP}`)
-
-    // Check rate limit using the database function
-    const { data: isAllowed, error: rateLimitError } = await supabase
-      .rpc('check_rate_limit', {
-        client_ip: clientIP,
-        action: action,
-        max_requests: maxRequests,
-        window_minutes: windowMinutes
-      })
-
-    if (rateLimitError) {
-      console.error('Rate limit check error:', rateLimitError)
-      return new Response(
-        JSON.stringify({ error: 'Rate limit check failed' }),
+        JSON.stringify({ 
+          allowed: false, 
+          error: 'Security check failed',
+          timestamp: new Date().toISOString()
+        }),
         { 
           status: 500, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -68,50 +78,32 @@ serve(async (req) => {
       )
     }
 
-    if (!isAllowed) {
-      console.log(`Rate limit exceeded for IP: ${clientIP}, action: ${action}`)
-      
-      // Log security event for rate limit violation
-      await supabase.rpc('log_security_event', {
-        p_table_name: 'rate_limits',
-        p_operation: 'RATE_LIMIT_EXCEEDED',
-        p_record_id: `${clientIP}_${action}`,
-        p_old_data: null,
-        p_new_data: {
-          ip: clientIP,
-          action: action,
-          max_requests: maxRequests,
-          window_minutes: windowMinutes,
-          timestamp: new Date().toISOString()
-        }
-      })
+    const response = {
+      allowed: allowed === true,
+      action,
+      clientIP: clientIP.substring(0, 8) + '***', // Partial IP for logging
+      timestamp: new Date().toISOString(),
+      windowMinutes,
+      maxRequests
+    }
 
+    if (!allowed) {
+      console.log(`Rate limit exceeded for ${action} from ${clientIP}`)
       return new Response(
         JSON.stringify({ 
-          error: 'Rate limit exceeded',
-          retryAfter: windowMinutes * 60
+          ...response, 
+          message: 'Rate limit exceeded. Please try again later.' 
         }),
         { 
           status: 429, 
-          headers: { 
-            ...corsHeaders, 
-            'Content-Type': 'application/json',
-            'Retry-After': String(windowMinutes * 60)
-          } 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
         }
       )
     }
 
-    // Clean up old rate limit entries periodically
-    if (Math.random() < 0.1) { // 10% chance to clean up
-      await supabase.rpc('cleanup_old_rate_limits')
-    }
-
+    console.log(`Rate limit check passed for ${action}`)
     return new Response(
-      JSON.stringify({ 
-        allowed: true,
-        remaining: maxRequests - 1 // Approximate remaining requests
-      }),
+      JSON.stringify(response),
       { 
         status: 200, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -121,7 +113,11 @@ serve(async (req) => {
   } catch (error) {
     console.error('Security middleware error:', error)
     return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
+      JSON.stringify({ 
+        allowed: false, 
+        error: 'Internal security error',
+        timestamp: new Date().toISOString()
+      }),
       { 
         status: 500, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 

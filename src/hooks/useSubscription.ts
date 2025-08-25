@@ -10,9 +10,6 @@ interface SubscriptionData {
   current_period_end: string | null;
 }
 
-// Email com acesso premium ilimitado
-const PREMIUM_USERS = ['juniorxavierusa@gmail.com'];
-
 export const useSubscription = () => {
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -22,23 +19,29 @@ export const useSubscription = () => {
     try {
       setLoading(true);
       
-      // Verificar se o usuário está logado
+      // Check if the user is logged in
       const { data: { user } } = await supabase.auth.getUser();
       
-      if (user && PREMIUM_USERS.includes(user.email || '')) {
-        console.log('useSubscription: Premium user detected:', user.email);
-        // Usuário premium com acesso ilimitado
-        setSubscription({
-          subscribed: true,
-          plan_id: 'professional-unlimited',
-          plan_name: 'Professional Unlimited',
-          current_period_end: null // Acesso ilimitado sem expiração
+      if (user) {
+        // Check for premium access through database roles (Security Fix #2)
+        const { data: hasPremiumRole } = await supabase.rpc('has_premium_access', {
+          user_id_param: user.id
         });
-        console.log('useSubscription: Premium unlimited access granted');
-        return;
+        
+        if (hasPremiumRole) {
+          console.log('useSubscription: Premium role detected for user:', user.email);
+          setSubscription({
+            subscribed: true,
+            plan_id: 'premium-unlimited',
+            plan_name: 'Premium Unlimited',
+            current_period_end: null // Unlimited access without expiration
+          });
+          console.log('useSubscription: Premium unlimited access granted');
+          return;
+        }
       }
       
-      // Para outros usuários, definir como free plan
+      // For other users, set as free plan
       console.log('useSubscription: Setting default free plan');
       setSubscription({
         subscribed: false,

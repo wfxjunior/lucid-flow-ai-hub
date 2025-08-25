@@ -1,22 +1,21 @@
 
 import { useAuthState } from './useAuthState'
 import { useSubscription } from './useSubscription'
-
-// Email com acesso premium ilimitado
-const PREMIUM_UNLIMITED_USERS = ['juniorxavierusa@gmail.com'];
+import { useUserRole } from './useUserRole'
 
 export function useFeatureAccess() {
   const { user } = useAuthState()
   const { isSubscribed, planId } = useSubscription()
+  const { role } = useUserRole()
 
-  // Verificar se é usuário premium ilimitado
-  const isPremiumUnlimited = user?.email && PREMIUM_UNLIMITED_USERS.includes(user.email)
+  // Check if user has premium access through database roles (Security Fix #2)
+  const isPremiumUnlimited = role === 'admin' || role === 'premium_access'
   
-  // Verificar se tem acesso premium (assinatura ou usuário ilimitado)
+  // Verify if has premium access (subscription or premium role)
   const hasPremiumAccess = isPremiumUnlimited || isSubscribed
 
   return {
-    // Acesso a features específicas
+    // Access to features específicas
     hasUnlimitedInvoices: isPremiumUnlimited || isSubscribed,
     hasUnlimitedEstimates: isPremiumUnlimited || isSubscribed,
     hasUnlimitedContracts: isPremiumUnlimited || isSubscribed,
@@ -37,13 +36,13 @@ export function useFeatureAccess() {
     },
     
     canAccessFeature: (featureName: string) => {
-      // Usuários premium ilimitados têm acesso a tudo
+      // Users with premium role have access to everything
       if (isPremiumUnlimited) return true
       
-      // Assinantes têm acesso a features premium
+      // Subscribers have access to premium features
       if (isSubscribed) return true
       
-      // Features básicas sempre disponíveis
+      // Basic features always available
       const basicFeatures = [
         'basic-invoices',
         'basic-estimates', 
