@@ -1,5 +1,5 @@
 
-/* FeatherBiz Sidebar Styles */
+/* FeatherBiz Sidebar Styles - Dashboard Color Palette */
 .featherbiz-sidebar {
   position: fixed;
   left: 0;
@@ -7,9 +7,9 @@
   bottom: 0;
   z-index: 40;
   width: var(--fb-sidebar-w-desktop);
-  background: hsl(220 30% 4%);
-  border-right: 1px solid hsl(220 20% 15%);
-  color: hsl(0 0% 95%);
+  background: hsl(0 0% 100%);
+  border-right: 1px solid hsl(214.3 31.8% 91.4%);
+  color: hsl(240 10% 3.9%);
   transition: width 300ms ease, transform 300ms ease;
 }
 
@@ -56,7 +56,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  border-bottom: 1px solid hsl(220 20% 15%);
+  border-bottom: 1px solid hsl(214.3 31.8% 91.4%);
 }
 
 .featherbiz-sidebar.collapsed .featherbiz-sidebar-header {
@@ -67,7 +67,7 @@
 .featherbiz-sidebar-logo {
   font-size: 18px;
   font-weight: 600;
-  color: hsl(0 0% 95%);
+  color: hsl(240 10% 3.9%);
   transition: opacity 300ms ease;
 }
 
@@ -84,7 +84,7 @@
   border-radius: 6px;
   background: transparent;
   border: none;
-  color: hsl(0 0% 70%);
+  color: hsl(215.4 16.3% 46.9%);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -93,8 +93,8 @@
 }
 
 .featherbiz-sidebar-toggle:hover {
-  background: hsl(220 20% 15%);
-  color: hsl(0 0% 95%);
+  background: hsl(210 40% 96%);
+  color: hsl(240 10% 3.9%);
 }
 
 /* Mobile Toggle (Hamburger) */
@@ -113,7 +113,7 @@
 }
 
 .featherbiz-mobile-toggle:hover {
-  background: hsl(240 4.8% 95.9%);
+  background: hsl(210 40% 96%);
 }
 
 @media (max-width: 767px) {
@@ -147,7 +147,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: hsl(0 0% 60%);
+  color: hsl(215.4 16.3% 46.9%);
   margin-bottom: 8px;
   padding: 0 8px;
   transition: opacity 300ms ease;
@@ -180,7 +180,7 @@
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: hsl(0 0% 80%);
+  color: hsl(240 10% 3.9%);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -200,8 +200,8 @@
 }
 
 .featherbiz-sidebar-menu-button:hover {
-  background: hsl(220 20% 15%);
-  color: hsl(0 0% 95%);
+  background: hsl(210 40% 96%);
+  color: hsl(240 10% 3.9%);
 }
 
 .featherbiz-sidebar-menu-button.active {
@@ -240,7 +240,7 @@
   font-size: 12px;
   white-space: nowrap;
   z-index: 50;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Mobile Backdrop */
@@ -316,4 +316,48 @@
 .dark .featherbiz-header {
   background: hsl(240 10% 3.9%);
   border-bottom-color: hsl(217.2 32.6% 17.5%);
+}
+
+/* Dark mode adjustments */
+.dark .featherbiz-sidebar {
+  background: hsl(240 10% 3.9%);
+  border-right-color: hsl(217.2 32.6% 17.5%);
+  color: hsl(0 0% 98%);
+}
+
+.dark .featherbiz-sidebar-header {
+  border-bottom-color: hsl(217.2 32.6% 17.5%);
+}
+
+.dark .featherbiz-sidebar-logo {
+  color: hsl(0 0% 98%);
+}
+
+.dark .featherbiz-sidebar-toggle {
+  color: hsl(215 20.2% 65.1%);
+}
+
+.dark .featherbiz-sidebar-toggle:hover {
+  background: hsl(217.2 32.6% 17.5%);
+  color: hsl(0 0% 98%);
+}
+
+.dark .featherbiz-sidebar-group-label {
+  color: hsl(215 20.2% 65.1%);
+}
+
+.dark .featherbiz-sidebar-menu-button {
+  color: hsl(0 0% 98%);
+}
+
+.dark .featherbiz-sidebar-menu-button:hover {
+  background: hsl(217.2 32.6% 17.5%);
+}
+
+.dark .featherbiz-mobile-toggle {
+  color: hsl(0 0% 98%);
+}
+
+.dark .featherbiz-mobile-toggle:hover {
+  background: hsl(217.2 32.6% 17.5%);
 }
