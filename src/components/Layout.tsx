@@ -1,60 +1,107 @@
 
-import { useState } from "react"
-import { useLocation } from "react-router-dom"
-import { Toaster } from "@/components/ui/sonner"
+import { Routes, Route } from "react-router-dom"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
-import { MainContent } from "@/components/MainContent"
-import { UserGreeting } from "@/components/UserGreeting"
-import { DebugAuth } from "@/components/DebugAuth"
-import { PremiumStatus } from "@/components/PremiumStatus"
-import { useAuthState } from "@/hooks/useAuthState"
+import { Dashboard } from "@/components/Dashboard"
+import { FinancialTools } from "@/components/FinancialTools"
+import { ProjectSchedule } from "@/components/ProjectSchedule"
+import { Productivity } from "@/components/Productivity"
+import { Documentation } from "@/components/Documentation"
+import { MatTrackPage } from "@/components/MatTrackPage"
+import { FeatherBizAI } from "@/components/FeatherBizAI"
+
+// Stripe-style pages
+import { StripeAnalyticsPage } from "@/components/stripe-pages/StripeAnalyticsPage"
+import { StripeMessagesPage } from "@/components/stripe-pages/StripeMessagesPage"
+import { StripeEmailCenterPage } from "@/components/stripe-pages/StripeEmailCenterPage"
+import { StripeInvoicesPage } from "@/components/stripe-pages/StripeInvoicesPage"
+import { StripeCustomersPage } from "@/components/stripe-pages/StripeCustomersPage"
+import { StripeESignaturesPage } from "@/components/stripe-pages/StripeESignaturesPage"
+import { StripeEstimatesPage } from "@/components/stripe-pages/StripeEstimatesPage"
+import { StripeContractsPage } from "@/components/stripe-pages/StripeContractsPage"
+import { StripeAppointmentsPage } from "@/components/stripe-pages/StripeAppointmentsPage"
+import { StripeESignatureTemplatesPage } from "@/components/stripe-pages/StripeESignatureTemplatesPage"
+import { StripeCareersPage } from "@/components/stripe-pages/StripeCareersPage"
+import { StripeExpensesPage } from "@/components/stripe-pages/StripeExpensesPage"
+import { StripeProjectsPage } from "@/components/stripe-pages/StripeProjectsPage"
+import { StripeProjectTimelinePage } from "@/components/stripe-pages/StripeProjectTimelinePage"
+import { StripeSmartSchedulePage } from "@/components/stripe-pages/StripeSmartSchedulePage"
+import { StripeFeatherBudgetPage } from "@/components/stripe-pages/StripeFeatherBudgetPage"
+import { StripeFeatherTaxPage } from "@/components/stripe-pages/StripeFeatherTaxPage"
+import { StripeEasyCalcPage } from "@/components/stripe-pages/StripeEasyCalcPage"
+import { StripeReceiptsPage } from "@/components/stripe-pages/StripeReceiptsPage"
 
 export function Layout() {
-  const { user } = useAuthState()
-  const location = useLocation()
-  const isPremiumUser = user?.email === 'juniorxavierusa@gmail.com'
-  
-  // Determine current view from URL path
-  const currentPath = location.pathname.replace('/', '') || 'dashboard'
-
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background" data-theme="stripe-dashboard">
-        <AppSidebar activeView={currentPath} />
-        <SidebarInset className="flex-1">
-          {/* Header - Only show on dashboard view, other views have their own headers */}
-          {currentPath === 'dashboard' && (
-            <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-              <div className="flex items-center gap-2 flex-1">
-                <img 
-                  src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
-                  alt="FeatherBiz" 
-                  className="h-8 w-8 object-contain"
-                />
-                <h1 className="text-xl font-bold text-primary">FeatherBiz</h1>
-                
-                {/* Status Premium para usuário específico */}
-                {isPremiumUser && (
-                  <div className="ml-4 md:hidden">
-                    <PremiumStatus />
-                  </div>
-                )}
-              </div>
-              
-              <UserGreeting />
-            </header>
-          )}
-
-          {/* Main Content */}
+    <div data-theme="stripe-dashboard" className="min-h-screen w-full">
+      <SidebarProvider>
+        <div className="flex min-h-screen w-full">
+          <AppSidebar />
           <main className="flex-1 overflow-auto">
-            <MainContent />
+            <Routes>
+              {/* General */}
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/careers" element={<StripeCareersPage />} />
+              
+              {/* Core Business */}
+              <Route path="/customers" element={<StripeCustomersPage />} />
+              <Route path="/projects" element={<StripeProjectsPage />} />
+              <Route path="/project-timeline" element={<StripeProjectTimelinePage />} />
+              <Route path="/invoices" element={<StripeInvoicesPage />} />
+              <Route path="/estimates" element={<StripeEstimatesPage />} />
+              <Route path="/smart-schedule" element={<StripeSmartSchedulePage />} />
+              
+              {/* Financial Tools */}
+              <Route path="/financial-tools" element={<FinancialTools />} />
+              <Route path="/feather-budget" element={<StripeFeatherBudgetPage />} />
+              <Route path="/feather-tax" element={<StripeFeatherTaxPage />} />
+              <Route path="/easy-calc" element={<StripeEasyCalcPage />} />
+              <Route path="/receipts" element={<StripeReceiptsPage />} />
+              <Route path="/accounting" element={<FinancialTools />} />
+              <Route path="/quotes" element={<StripeEstimatesPage />} />
+              
+              {/* Operations */}
+              <Route path="/car-rental" element={<Dashboard />} />
+              <Route path="/work-orders" element={<Dashboard />} />
+              <Route path="/mattrack" element={<MatTrackPage />} />
+              <Route path="/crew-control" element={<Dashboard />} />
+              <Route path="/earn-sync" element={<Dashboard />} />
+              <Route path="/after-care" element={<Dashboard />} />
+              
+              {/* Documents & Forms */}
+              <Route path="/feather-forms" element={<StripeESignatureTemplatesPage />} />
+              <Route path="/sales-orders" element={<StripeInvoicesPage />} />
+              <Route path="/business-proposals" element={<StripeEstimatesPage />} />
+              <Route path="/bids" element={<StripeEstimatesPage />} />
+              <Route path="/contracts" element={<StripeContractsPage />} />
+              
+              {/* Productivity */}
+              <Route path="/productivity" element={<Productivity />} />
+              <Route path="/meetings" element={<StripeAppointmentsPage />} />
+              <Route path="/todo-list" element={<Productivity />} />
+              <Route path="/notes" element={<Productivity />} />
+              <Route path="/appointments" element={<StripeAppointmentsPage />} />
+              
+              {/* Communication */}
+              <Route path="/messages" element={<StripeMessagesPage />} />
+              <Route path="/email-center" element={<StripeEmailCenterPage />} />
+              
+              {/* Analytics */}
+              <Route path="/analytics" element={<StripeAnalyticsPage />} />
+              
+              {/* System Tools */}
+              <Route path="/settings" element={<Dashboard />} />
+              <Route path="/admin-panel" element={<Dashboard />} />
+              
+              {/* Legacy routes */}
+              <Route path="/project-schedule" element={<ProjectSchedule />} />
+              <Route path="/documentation" element={<Documentation />} />
+              <Route path="/featherbiz-ai" element={<FeatherBizAI />} />
+            </Routes>
           </main>
-        </SidebarInset>
-      </div>
-      
-      <Toaster />
-      {import.meta.env.DEV && <DebugAuth />}
-    </SidebarProvider>
+        </div>
+      </SidebarProvider>
+    </div>
   )
 }

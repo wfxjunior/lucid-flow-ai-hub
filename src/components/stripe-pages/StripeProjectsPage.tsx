@@ -4,7 +4,7 @@ import { StripeHeader } from "../stripe-layout/StripeHeader"
 import { StripePageLayout } from "../stripe-layout/StripePageLayout"
 import { StripeTabs } from "../stripe-layout/StripeTabs"
 import { StripeFilters } from "../stripe-layout/StripeFilters"
-import { FolderOpen, Calendar, User, DollarSign, Plus, Clock } from "lucide-react"
+import { Briefcase, Calendar, User, Plus, MoreHorizontal } from "lucide-react"
 
 export function StripeProjectsPage() {
   const [activeTab, setActiveTab] = useState("active")
@@ -12,16 +12,16 @@ export function StripeProjectsPage() {
 
   const tabs = [
     { id: "active", label: "Active", count: 12 },
-    { id: "pending", label: "Pending", count: 5 },
-    { id: "completed", label: "Completed", count: 48 },
-    { id: "on-hold", label: "On Hold", count: 3 }
+    { id: "completed", label: "Completed", count: 28 },
+    { id: "overdue", label: "Overdue", count: 3 },
+    { id: "draft", label: "Draft", count: 5 }
   ]
 
   const filters = [
     { id: "status", label: "Status", active: activeFilters.includes("status") },
-    { id: "client", label: "Client", active: activeFilters.includes("client") },
-    { id: "value", label: "Project value", active: activeFilters.includes("value") },
-    { id: "date", label: "Start date", active: activeFilters.includes("date") }
+    { id: "owner", label: "Project Owner", active: activeFilters.includes("owner") },
+    { id: "deadline", label: "Deadline", active: activeFilters.includes("deadline") },
+    { id: "budget", label: "Budget Range", active: activeFilters.includes("budget") }
   ]
 
   const handleFilterClick = (filterId: string) => {
@@ -35,52 +35,62 @@ export function StripeProjectsPage() {
   const projects = [
     {
       name: "Anderson Kitchen Renovation",
+      owner: "Mike Johnson",
       client: "Anderson Family",
-      value: "$15,250.00",
+      deadline: "Apr 15, 2024",
       status: "Active",
-      startDate: "Mar 1, 2024",
-      endDate: "May 15, 2024",
       progress: 65,
-      manager: "John Smith"
+      budget: "$25,000"
     },
     {
       name: "Smith Office Remodel",
+      owner: "Sarah Wilson", 
       client: "Smith Industries",
-      value: "$45,800.00",
-      status: "Active", 
-      startDate: "Feb 15, 2024",
-      endDate: "June 30, 2024",
+      deadline: "May 20, 2024",
+      status: "Active",
       progress: 40,
-      manager: "Sarah Johnson"
+      budget: "$45,000"
     },
     {
       name: "Johnson Bathroom Update",
+      owner: "Tom Davis",
       client: "Johnson Construction",
-      value: "$8,750.00",
-      status: "Pending",
-      startDate: "Mar 20, 2024",
-      endDate: "Apr 30, 2024",
-      progress: 0,
-      manager: "Mike Wilson"
+      deadline: "Mar 30, 2024",
+      status: "Overdue",
+      progress: 85,
+      budget: "$12,500"
+    }
+  ]
+
+  const metrics = [
+    {
+      title: "Active Projects",
+      value: "12",
+      change: "+3 this month"
     },
     {
-      name: "Davis Property Maintenance",
-      client: "Davis Enterprises",
-      value: "$2,400.00",
-      status: "Active",
-      startDate: "Jan 1, 2024",
-      endDate: "Dec 31, 2024",
-      progress: 85,
-      manager: "Lisa Brown"
+      title: "Completed Projects", 
+      value: "28",
+      change: "+5 this month"
+    },
+    {
+      title: "Total Budget",
+      value: "$485,000",
+      change: "+12% vs last month"
+    },
+    {
+      title: "Average Progress",
+      value: "67%",
+      change: "+8% vs last month"
     }
   ]
 
   const getStatusBadge = (status: string) => {
     const statusClasses = {
       "Active": "success",
-      "Pending": "warning",
-      "Completed": "neutral",
-      "On Hold": "error"
+      "Completed": "success", 
+      "Overdue": "error",
+      "Draft": "neutral"
     }
     return `stripe-badge ${statusClasses[status as keyof typeof statusClasses] || 'neutral'}`
   }
@@ -88,7 +98,6 @@ export function StripeProjectsPage() {
   const actions = (
     <>
       <button className="stripe-button-secondary">Export</button>
-      <button className="stripe-button-secondary">Templates</button>
       <button className="stripe-button-primary">
         <Plus className="w-4 h-4" />
         New Project
@@ -107,7 +116,7 @@ export function StripeProjectsPage() {
         
         <StripePageLayout
           title="Projects"
-          description="Manage and track project progress"
+          description="Manage construction projects and track progress"
           actions={actions}
         >
           <StripeTabs 
@@ -121,18 +130,34 @@ export function StripeProjectsPage() {
             onFilterClick={handleFilterClick}
           />
 
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {metrics.map((metric, index) => (
+              <div key={index} className="stripe-card">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">{metric.title}</h3>
+                  <Briefcase className="w-4 h-4 text-muted-foreground" />
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-semibold">{metric.value}</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">{metric.change}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="stripe-card p-0">
             <table className="stripe-table">
               <thead>
                 <tr>
                   <th>Project Name</th>
+                  <th>Owner</th>
                   <th>Client</th>
-                  <th>Value</th>
-                  <th>Status</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
+                  <th>Deadline</th>
+                  <th>Budget</th>
                   <th>Progress</th>
-                  <th>Manager</th>
+                  <th>Status</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -140,20 +165,33 @@ export function StripeProjectsPage() {
                   <tr key={index}>
                     <td>
                       <div className="flex items-center gap-3">
-                        <FolderOpen className="w-4 h-4 text-muted-foreground" />
+                        <Briefcase className="w-4 h-4 text-muted-foreground" />
                         <span className="font-medium">{project.name}</span>
                       </div>
                     </td>
                     <td>
                       <div className="flex items-center gap-2">
                         <User className="w-4 h-4 text-muted-foreground" />
-                        {project.client}
+                        {project.owner}
                       </div>
                     </td>
+                    <td className="text-muted-foreground">{project.client}</td>
                     <td>
                       <div className="flex items-center gap-1">
-                        <DollarSign className="w-3 h-3 text-muted-foreground" />
-                        <span className="font-medium">{project.value}</span>
+                        <Calendar className="w-3 h-3 text-muted-foreground" />
+                        {project.deadline}
+                      </div>
+                    </td>
+                    <td className="font-medium">{project.budget}</td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <div className="w-16 h-2 bg-muted rounded-full">
+                          <div 
+                            className="h-full bg-primary rounded-full" 
+                            style={{ width: `${project.progress}%` }}
+                          />
+                        </div>
+                        <span className="text-sm text-muted-foreground">{project.progress}%</span>
                       </div>
                     </td>
                     <td>
@@ -162,29 +200,10 @@ export function StripeProjectsPage() {
                       </span>
                     </td>
                     <td>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-muted-foreground" />
-                        {project.startDate}
-                      </div>
+                      <button className="p-1 hover:bg-muted rounded">
+                        <MoreHorizontal className="w-4 h-4" />
+                      </button>
                     </td>
-                    <td>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-muted-foreground" />
-                        {project.endDate}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 bg-muted rounded-full h-2">
-                          <div 
-                            className="bg-primary h-2 rounded-full"
-                            style={{ width: `${project.progress}%` }}
-                          />
-                        </div>
-                        <span className="text-sm text-muted-foreground">{project.progress}%</span>
-                      </div>
-                    </td>
-                    <td className="text-muted-foreground">{project.manager}</td>
                   </tr>
                 ))}
               </tbody>
