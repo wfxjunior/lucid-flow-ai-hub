@@ -4,7 +4,7 @@ import { StripeHeader } from "../stripe-layout/StripeHeader"
 import { StripePageLayout } from "../stripe-layout/StripePageLayout"
 import { StripeTabs } from "../stripe-layout/StripeTabs"
 import { StripeFilters } from "../stripe-layout/StripeFilters"
-import { Briefcase, Calendar, Users, DollarSign, MoreHorizontal } from "lucide-react"
+import { FolderOpen, Calendar, User, DollarSign, Plus, Clock } from "lucide-react"
 
 export function StripeProjectsPage() {
   const [activeTab, setActiveTab] = useState("active")
@@ -12,16 +12,16 @@ export function StripeProjectsPage() {
 
   const tabs = [
     { id: "active", label: "Active", count: 12 },
-    { id: "completed", label: "Completed", count: 45 },
-    { id: "on-hold", label: "On Hold", count: 3 },
-    { id: "draft", label: "Draft", count: 8 }
+    { id: "pending", label: "Pending", count: 5 },
+    { id: "completed", label: "Completed", count: 48 },
+    { id: "on-hold", label: "On Hold", count: 3 }
   ]
 
   const filters = [
     { id: "status", label: "Status", active: activeFilters.includes("status") },
     { id: "client", label: "Client", active: activeFilters.includes("client") },
-    { id: "date", label: "Date Range", active: activeFilters.includes("date") },
-    { id: "value", label: "Project Value", active: activeFilters.includes("value") }
+    { id: "value", label: "Project value", active: activeFilters.includes("value") },
+    { id: "date", label: "Start date", active: activeFilters.includes("date") }
   ]
 
   const handleFilterClick = (filterId: string) => {
@@ -32,36 +32,55 @@ export function StripeProjectsPage() {
     )
   }
 
-  // Mock projects data
   const projects = [
     {
-      name: "Website Redesign",
-      client: "Acme Corp",
-      status: "In Progress",
-      startDate: "Mar 15, 2024",
-      dueDate: "Apr 30, 2024",
-      value: "$15,000",
+      name: "Anderson Kitchen Renovation",
+      client: "Anderson Family",
+      value: "$15,250.00",
+      status: "Active",
+      startDate: "Mar 1, 2024",
+      endDate: "May 15, 2024",
       progress: 65,
-      team: 4
+      manager: "John Smith"
     },
     {
-      name: "Mobile App Development",
-      client: "Tech Startup Inc",
-      status: "Planning",
-      startDate: "Apr 1, 2024",
-      dueDate: "Jul 15, 2024",
-      value: "$45,000",
-      progress: 15,
-      team: 6
+      name: "Smith Office Remodel",
+      client: "Smith Industries",
+      value: "$45,800.00",
+      status: "Active", 
+      startDate: "Feb 15, 2024",
+      endDate: "June 30, 2024",
+      progress: 40,
+      manager: "Sarah Johnson"
+    },
+    {
+      name: "Johnson Bathroom Update",
+      client: "Johnson Construction",
+      value: "$8,750.00",
+      status: "Pending",
+      startDate: "Mar 20, 2024",
+      endDate: "Apr 30, 2024",
+      progress: 0,
+      manager: "Mike Wilson"
+    },
+    {
+      name: "Davis Property Maintenance",
+      client: "Davis Enterprises",
+      value: "$2,400.00",
+      status: "Active",
+      startDate: "Jan 1, 2024",
+      endDate: "Dec 31, 2024",
+      progress: 85,
+      manager: "Lisa Brown"
     }
   ]
 
   const getStatusBadge = (status: string) => {
     const statusClasses = {
-      "In Progress": "success",
-      "Planning": "warning",
-      "Completed": "success",
-      "On Hold": "neutral"
+      "Active": "success",
+      "Pending": "warning",
+      "Completed": "neutral",
+      "On Hold": "error"
     }
     return `stripe-badge ${statusClasses[status as keyof typeof statusClasses] || 'neutral'}`
   }
@@ -69,8 +88,9 @@ export function StripeProjectsPage() {
   const actions = (
     <>
       <button className="stripe-button-secondary">Export</button>
+      <button className="stripe-button-secondary">Templates</button>
       <button className="stripe-button-primary">
-        <Briefcase className="w-4 h-4" />
+        <Plus className="w-4 h-4" />
         New Project
       </button>
     </>
@@ -87,7 +107,7 @@ export function StripeProjectsPage() {
         
         <StripePageLayout
           title="Projects"
-          description="Manage and track all your business projects"
+          description="Manage and track project progress"
           actions={actions}
         >
           <StripeTabs 
@@ -107,50 +127,64 @@ export function StripeProjectsPage() {
                 <tr>
                   <th>Project Name</th>
                   <th>Client</th>
+                  <th>Value</th>
                   <th>Status</th>
                   <th>Start Date</th>
-                  <th>Due Date</th>
-                  <th>Value</th>
+                  <th>End Date</th>
                   <th>Progress</th>
-                  <th>Team</th>
-                  <th></th>
+                  <th>Manager</th>
                 </tr>
               </thead>
               <tbody>
                 {projects.map((project, index) => (
                   <tr key={index}>
-                    <td className="font-medium">{project.name}</td>
-                    <td className="text-muted-foreground">{project.client}</td>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <FolderOpen className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-medium">{project.name}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-muted-foreground" />
+                        {project.client}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="w-3 h-3 text-muted-foreground" />
+                        <span className="font-medium">{project.value}</span>
+                      </div>
+                    </td>
                     <td>
                       <span className={getStatusBadge(project.status)}>
                         {project.status}
                       </span>
                     </td>
-                    <td>{project.startDate}</td>
-                    <td>{project.dueDate}</td>
-                    <td className="font-medium">{project.value}</td>
+                    <td>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3 text-muted-foreground" />
+                        {project.startDate}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3 text-muted-foreground" />
+                        {project.endDate}
+                      </div>
+                    </td>
                     <td>
                       <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-16 bg-muted rounded-full h-2">
                           <div 
-                            className="h-full bg-primary transition-all duration-300"
+                            className="bg-primary h-2 rounded-full"
                             style={{ width: `${project.progress}%` }}
                           />
                         </div>
                         <span className="text-sm text-muted-foreground">{project.progress}%</span>
                       </div>
                     </td>
-                    <td>
-                      <div className="flex items-center gap-1">
-                        <Users className="w-3 h-3 text-muted-foreground" />
-                        <span className="text-sm">{project.team}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <button className="p-1 hover:bg-muted rounded">
-                        <MoreHorizontal className="w-4 h-4" />
-                      </button>
-                    </td>
+                    <td className="text-muted-foreground">{project.manager}</td>
                   </tr>
                 ))}
               </tbody>

@@ -4,7 +4,7 @@ import { StripeHeader } from "../stripe-layout/StripeHeader"
 import { StripePageLayout } from "../stripe-layout/StripePageLayout"
 import { StripeTabs } from "../stripe-layout/StripeTabs"
 import { StripeFilters } from "../stripe-layout/StripeFilters"
-import { Receipt, Tag, Calendar, Plus, TrendingDown } from "lucide-react"
+import { Receipt, Tag, Calendar, Plus, TrendingDown, DollarSign } from "lucide-react"
 
 export function StripeExpensesPage() {
   const [activeTab, setActiveTab] = useState("all")
@@ -65,6 +65,14 @@ export function StripeExpensesPage() {
       project: "General Operations", 
       date: "Mar 15, 2024",
       vendor: "City Permits Office"
+    },
+    {
+      description: "Plumbing fixtures",
+      category: "Materials",
+      amount: "$1,250.00",
+      project: "Davis Bathroom Remodel",
+      date: "Mar 14, 2024",
+      vendor: "Quality Plumbing Supply"
     }
   ]
 
@@ -80,30 +88,30 @@ export function StripeExpensesPage() {
       change: "+12.8%"
     },
     {
-      title: "Materials Cost",
-      value: "$18,620",
-      change: "-5.2%"
+      title: "Material Costs",
+      value: "$28,150",
+      change: "+5.2%"
     },
     {
-      title: "Labor Cost",
-      value: "$16,340",
-      change: "+8.1%"
+      title: "Labor Costs",
+      value: "$12,890",
+      change: "-8.1%"
     }
   ]
 
-  const getCategoryIcon = (category: string) => {
-    const icons = {
-      "Materials": <Tag className="w-4 h-4" />,
-      "Labor": <Receipt className="w-4 h-4" />,
-      "Equipment": <Receipt className="w-4 h-4" />,
-      "Other": <Receipt className="w-4 h-4" />
+  const getCategoryBadge = (category: string) => {
+    const categoryClasses = {
+      "Materials": "stripe-badge success",
+      "Labor": "stripe-badge warning",
+      "Equipment": "stripe-badge neutral",
+      "Other": "stripe-badge neutral"
     }
-    return icons[category as keyof typeof icons] || <Receipt className="w-4 h-4" />
+    return categoryClasses[category as keyof typeof categoryClasses] || "stripe-badge neutral"
   }
 
   const actions = (
     <>
-      <button className="stripe-button-secondary">Export expenses</button>
+      <button className="stripe-button-secondary">Export</button>
       <button className="stripe-button-primary">
         <Plus className="w-4 h-4" />
         Add expense
@@ -146,7 +154,7 @@ export function StripeExpensesPage() {
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-semibold">{metric.value}</span>
-                  <span className={`text-sm ${metric.change.startsWith('+') ? 'text-red-500' : 'text-green-500'}`}>
+                  <span className={`text-sm ${metric.change.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
                     {metric.change}
                   </span>
                 </div>
@@ -171,14 +179,21 @@ export function StripeExpensesPage() {
                   <tr key={index}>
                     <td>
                       <div className="flex items-center gap-3">
-                        {getCategoryIcon(expense.category)}
+                        <Receipt className="w-4 h-4 text-muted-foreground" />
                         <span className="font-medium">{expense.description}</span>
                       </div>
                     </td>
                     <td>
-                      <span className="stripe-badge neutral">{expense.category}</span>
+                      <span className={getCategoryBadge(expense.category)}>
+                        {expense.category}
+                      </span>
                     </td>
-                    <td className="font-medium">{expense.amount}</td>
+                    <td>
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="w-3 h-3 text-muted-foreground" />
+                        <span className="font-medium">{expense.amount}</span>
+                      </div>
+                    </td>
                     <td className="text-muted-foreground">{expense.project}</td>
                     <td>
                       <div className="flex items-center gap-1">
