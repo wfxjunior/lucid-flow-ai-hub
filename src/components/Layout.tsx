@@ -14,10 +14,6 @@ export function Layout() {
   const isPremiumUser = user?.email === 'juniorxavierusa@gmail.com'
   const [activeView, setActiveView] = useState("dashboard")
 
-  const handleNavigate = (view: string) => {
-    setActiveView(view)
-  }
-
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -48,7 +44,7 @@ export function Layout() {
 
           {/* Main Content */}
           <main className="flex-1 overflow-auto">
-            <MainContent activeView={activeView} onNavigate={handleNavigate} />
+            <MainContent />
           </main>
         </SidebarInset>
       </div>
