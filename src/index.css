@@ -1,138 +1,152 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import "./styles/buttons.css";
-@import "./styles/dashboard-theme.css";
-@import "./styles/stripe-dashboard.css";
-@import "./styles/featherbiz-sidebar.css";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+/* CSS Variables - FeatherBiz Sidebar */
+:root {
+  --fb-sidebar-w-desktop: 280px;
+  --fb-sidebar-w-laptop: 260px;
+  --fb-sidebar-w-tablet: 240px;
+  --fb-sidebar-w-collapsed: 84px;
+  --fb-header-h: 64px;
+}
 
-    /* FeatherBiz specific colors */
-    --fb-success: 142 71% 45%;
-    --fb-warning: 38 92% 50%;
-    --fb-danger: 0 84% 60%;
+/*
+  The calc() function is used to perform a calculation to determine the height of the sidebar.
+  It subtracts the height of the header (var(--fb-header-h, 56px)) from 100% of the viewport height (100vh).
+  This ensures that the sidebar takes up the full height of the viewport, excluding the header.
+*/
 
-    /* FeatherBiz Sidebar Variables */
-    --fb-sidebar-w-desktop: 280px;
-    --fb-sidebar-w-laptop: 260px;
-    --fb-sidebar-w-tablet: 240px;
-    --fb-sidebar-w-collapsed: 84px;
+/*
+  Stripe Dashboard Color Palette
+  Learn more: https://tailwindcss.com/docs/customizing-colors
+*/
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --primary: 222.1 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 221.2 83.4% 54.1%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 222.1 83.2% 53.3%;
+  --radius: 0.5rem;
 
-    /* Button system tokens */
-    --btn-h: 44px;
-    --btn-h-lg: 50px;
-    --btn-f: 16px;
-    --btn-shadow: 0 8px 20px rgba(30, 99, 255, 0.25);
-    --cta-h: 44px;
-    --cta-px: 24px;
-    --cta-radius: 9999px;
-    --cta-fs: 16px;
-    --cta-fw: 700;
-    --nav-h: 72px;
+  /* Sidebar Styles */
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 222.2 47.4% 11.2%;
+  --sidebar-border: 214.3 31.8% 91.4%;
+  --sidebar-accent: 210 40% 96.1%;
+  --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+  --sidebar-ring: 222.1 83.2% 53.3%;
+}
 
-    /* Hero specific variables */
-    --hero-pt: 7rem;
-    --hero-pb: 6rem;
-    --hero-gap-title-sub: 1.5rem;
-    --hero-gap-sub-ctas: 3rem;
-    --hero-sub-fs-d: 1.25rem;
-    --hero-sub-lh: 1.75;
-    --hero-sub-color: 215.4 16.3% 46.9%;
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --muted: 216 34% 17%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  --primary: 222.1 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 221.2 83.4% 54.1%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 216 34% 17%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 222.1 83.2% 53.3%;
 
-    /* Feature Chips Design Tokens */
-    --fb-bg: #FFFFFF;
-    --fb-text: #374151;
-    --fb-muted: #E6EBF1;
-    --fb-primary: #0A66FF;
-    --fb-primary-600: #084ACF;
-    --fb-shadow: rgba(15, 23, 42, 0.06);
-    --fb-border: rgba(230, 235, 241, 1);
+  /* Sidebar Styles */
+  --sidebar: 222.2 84% 4.9%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-border: 216 34% 17%;
+  --sidebar-accent: 216 34% 17%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-ring: 222.1 83.2% 53.3%;
+}
 
-    /* Enhanced contrast tokens for Pipeline section */
-    --fb-text-strong: #111827;
-    --fb-border-enhanced: #D1D5DB;
-    --fb-card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-    --fb-tab-inactive: rgba(55, 65, 81, 0.85);
-    --fb-tab-active: #0A66FF;
-  }
+[data-theme="light"] {
+  --background: 0 0% 100%;
+  --foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --primary: 222.1 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 221.2 83.4% 54.1%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 222.1 83.2% 53.3%;
+}
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 94.1%;
-    --sidebar-primary-foreground: 240 5.9% 10%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+[data-theme="dark"] {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --muted: 216 34% 17%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  --primary: 222.1 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 221.2 83.4% 54.1%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 216 34% 17%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 222.1 83.2% 53.3%;
+}
 
-    /* Feature Chips Dark Mode Tokens */
-    --fb-bg: #0B1220;
-    --fb-text: #E5E7EB;
-    --fb-muted: #22314A;
-    --fb-primary: #0A66FF;
-    --fb-primary-600: #084ACF;
-    --fb-shadow: rgba(0, 0, 0, 0.25);
-    --fb-border: rgba(34, 49, 74, 1);
-
-    /* Enhanced contrast tokens for Pipeline section - dark mode */
-    --fb-text-strong: #F9FAFB;
-    --fb-border-enhanced: #374151;
-    --fb-card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.1);
-    --fb-tab-inactive: rgba(229, 231, 235, 0.85);
-    --fb-tab-active: #3B82F6;
-  }
+[data-theme="system"] {
+  --background: 0 0% 100%;
+  --foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --primary: 222.1 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 221.2 83.4% 54.1%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 222.1 83.2% 53.3%;
 }
 
 @layer base {
@@ -141,88 +155,82 @@
   }
   body {
     @apply bg-background text-foreground;
-    overflow-x: hidden;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
-/* Feature Chips Styles */
-.feature-chip {
+@layer components {
+  .cmdk-dialog-content {
+    @apply w-[600px] rounded-2xl bg-popover p-5 shadow-xl duration-200 data-[state=open]:animate-in data-[state=closed]:zoom-out-95 data-[state=closed]:fade-out;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    backgroundPosition: 0 0;
+  }
+  to {
+    backgroundPosition: 200% 0;
+  }
+}
+
+.shimmer {
+  backgroundSize: 1000px 100%;
+  backgroundImage: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(128, 186, 232, 0.1) 100%
+  );
+  animationName: shimmer;
+  animationDuration: 2s;
+  animationIterationCount: infinite;
+  background-position: 0 0;
+  background-repeat: repeat;
+}
+
+/* Styles for the skeleton loading state */
+.skeleton {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  height: 46px;
-  padding: 0 18px;
-  border-radius: 9999px;
-  border: 1px solid var(--fb-border);
-  background: rgba(10, 102, 255, 0.03);
-  color: var(--fb-text);
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  transition: all 180ms ease;
-  will-change: transform;
+  overflow: hidden;
+  background-color: #e2e8f0; /* Light gray background */
+  border-radius: 0.375rem; /* Rounded corners */
 }
 
-.feature-chip:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px var(--fb-shadow);
-  background: rgba(10, 102, 255, 0.06);
-  border-color: rgba(10, 102, 255, 0.25);
+.dark .skeleton {
+  background-color: #334155; /* Darker gray for dark mode */
 }
 
-.feature-chip:active {
-  transform: translateY(0);
-  box-shadow: 0 3px 8px var(--fb-shadow);
-  background: rgba(10, 102, 255, 0.08);
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: pulse 1.5s infinite;
 }
 
-.feature-chip:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--fb-primary) 60%, white), 0 0 0 6px color-mix(in srgb, var(--fb-primary) 18%, transparent);
-}
-
-.feature-chip-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid var(--fb-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--fb-bg);
-  transition: all 180ms ease;
-}
-
-.feature-chip-icon svg {
-  width: 16px;
-  height: 16px;
-  color: var(--fb-primary-600);
-  opacity: 0.8;
-  transition: opacity 180ms ease;
-}
-
-.feature-chip:hover .feature-chip-icon {
-  box-shadow: inset 0 0 0 1px rgba(10, 102, 255, 0.35);
-}
-
-.feature-chip:hover .feature-chip-icon svg {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .feature-chip {
-    transition: background-color 180ms ease, border-color 180ms ease;
-    will-change: auto;
+@keyframes pulse {
+  100% {
+    transform: translateX(100%);
   }
-  
-  .feature-chip:hover {
-    transform: none;
-    box-shadow: none;
-  }
-  
-  .feature-chip:active {
-    transform: none;
-  }
+}
+
+/* Tailwind CSS utility class to apply a zoom-out effect with a fade-out */
+.zoom-out-95 {
+  transform: scale(0.95);
+}
+
+.fade-out {
+  opacity: 0;
 }

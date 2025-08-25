@@ -93,6 +93,23 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Handle body scroll lock for mobile sidebar
+  useEffect(() => {
+    if (isMobileOpen) {
+      document.body.classList.add('sidebar-mobile-open')
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.classList.remove('sidebar-mobile-open')
+      document.body.style.overflow = ''
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove('sidebar-mobile-open')
+      document.body.style.overflow = ''
+    }
+  }, [isMobileOpen])
+
   const handleMenuClick = (view: string) => {
     console.log('Sidebar: Navigating to', view)
     navigate(view === "" ? "/" : `/${view}`)
