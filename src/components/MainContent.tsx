@@ -11,6 +11,15 @@ import { StripeEstimatesPage } from "./stripe-pages/StripeEstimatesPage"
 import { StripeSettingsPage } from "./stripe-pages/StripeSettingsPage"
 import { StripeCareersPage } from "./stripe-pages/StripeCareersPage"
 import { StripeAppointmentsPage } from "./stripe-pages/StripeAppointmentsPage"
+import { StripeTasksPage } from "./stripe-pages/StripeTasksPage"
+import { StripeMessagesPage } from "./stripe-pages/StripeMessagesPage"
+import { StripeEmailCenterPage } from "./stripe-pages/StripeEmailCenterPage"
+import { StripeProductsPage } from "./stripe-pages/StripeProductsPage"
+import { StripePaymentsPage } from "./stripe-pages/StripePaymentsPage"
+import { StripeExpensesPage } from "./stripe-pages/StripeExpensesPage"
+import { StripeContractsPage } from "./stripe-pages/StripeContractsPage"
+import { StripeESignaturesPage } from "./stripe-pages/StripeESignaturesPage"
+import { StripeESignatureTemplatesPage } from "./stripe-pages/StripeESignatureTemplatesPage"
 
 interface MainContentProps {
   activeView: string
@@ -30,6 +39,15 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       {activeView === "settings" && <StripeSettingsPage />}
       {activeView === "careers" && <StripeCareersPage />}
       {activeView === "appointments" && <StripeAppointmentsPage />}
+      {activeView === "tasks" && <StripeTasksPage />}
+      {activeView === "messages" && <StripeMessagesPage />}
+      {activeView === "email-center" && <StripeEmailCenterPage />}
+      {activeView === "products" && <StripeProductsPage />}
+      {activeView === "payments" && <StripePaymentsPage />}
+      {activeView === "expenses" && <StripeExpensesPage />}
+      {activeView === "contracts" && <StripeContractsPage />}
+      {activeView === "esignatures" && <StripeESignaturesPage />}
+      {activeView === "esignature-templates" && <StripeESignatureTemplatesPage />}
       {activeView === "feather-budget" && <FeatherBudgetPage />}
       {activeView === "feather-tax" && <FeatherTaxPage />}
       {activeView === "mat-track" && <MatTrackPage />}
@@ -38,6 +56,8 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       {![
         "dashboard", "customers", "analytics", "projects", 
         "invoices", "estimates", "settings", "careers", "appointments",
+        "tasks", "messages", "email-center", "products", "payments",
+        "expenses", "contracts", "esignatures", "esignature-templates",
         "feather-budget", "feather-tax", "mat-track"
       ].includes(activeView) && (
         <div className="stripe-content">
