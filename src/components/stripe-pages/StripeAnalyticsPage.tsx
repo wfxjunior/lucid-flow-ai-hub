@@ -3,47 +3,74 @@ import { useState } from "react"
 import { StripeHeader } from "../stripe-layout/StripeHeader"
 import { StripePageLayout } from "../stripe-layout/StripePageLayout"
 import { StripeTabs } from "../stripe-layout/StripeTabs"
-import { BarChart3, TrendingUp, DollarSign, Users } from "lucide-react"
-import { KeyMetrics } from "../analytics/KeyMetrics"
-import { BusinessToolsAnalytics } from "../analytics/BusinessToolsAnalytics"
+import { StripeFilters } from "../stripe-layout/StripeFilters"
+import { BarChart3, TrendingUp, Users, DollarSign, Calendar, Download } from "lucide-react"
 
 export function StripeAnalyticsPage() {
   const [activeTab, setActiveTab] = useState("overview")
+  const [activeFilters, setActiveFilters] = useState<string[]>([])
 
   const tabs = [
     { id: "overview", label: "Overview" },
     { id: "revenue", label: "Revenue" },
     { id: "customers", label: "Customers" },
-    { id: "products", label: "Products" },
+    { id: "projects", label: "Projects" },
     { id: "performance", label: "Performance" }
   ]
 
-  // Mock analytics data
-  const mockData = {
-    totalRevenue: 125750,
-    activeClients: 34,
-    completedWorkOrders: 67,
-    workOrders: [
-      { id: 1, status: 'completed' },
-      { id: 2, status: 'in_progress' },
-      { id: 3, status: 'pending' }
-    ],
-    estimates: [
-      { id: 1, status: 'approved' },
-      { id: 2, status: 'sent' },
-      { id: 3, status: 'draft' }
-    ],
-    estimatesSent: 12,
-    contracts: [
-      { id: 1, status: 'active' },
-      { id: 2, status: 'pending' }
-    ],
-    contractsSigned: 8,
-    clients: [
-      { id: 1, status: 'active' },
-      { id: 2, status: 'inactive' }
-    ]
+  const filters = [
+    { id: "period", label: "Time period", active: activeFilters.includes("period") },
+    { id: "revenue-type", label: "Revenue type", active: activeFilters.includes("revenue-type") },
+    { id: "customer-segment", label: "Customer segment", active: activeFilters.includes("customer-segment") }
+  ]
+
+  const handleFilterClick = (filterId: string) => {
+    setActiveFilters(prev => 
+      prev.includes(filterId) 
+        ? prev.filter(id => id !== filterId)
+        : [...prev, filterId]
+    )
   }
+
+  const metrics = [
+    {
+      title: "Total Revenue",
+      value: "$127,450",
+      change: "+12.5%",
+      trend: "up"
+    },
+    {
+      title: "Active Customers",
+      value: "247",
+      change: "+8.2%", 
+      trend: "up"
+    },
+    {
+      title: "Completed Projects",
+      value: "156",
+      change: "+15.3%",
+      trend: "up"
+    },
+    {
+      title: "Avg. Project Value",
+      value: "$8,750",
+      change: "-2.1%",
+      trend: "down"
+    }
+  ]
+
+  const actions = (
+    <>
+      <button className="stripe-button-secondary">
+        <Download className="w-4 h-4" />
+        Export
+      </button>
+      <button className="stripe-button-secondary">
+        <Calendar className="w-4 h-4" />
+        Date range
+      </button>
+    </>
+  )
 
   return (
     <div className="stripe-layout">
@@ -51,8 +78,9 @@ export function StripeAnalyticsPage() {
         <StripeHeader searchPlaceholder="Search analytics..." />
         
         <StripePageLayout
-          title="Analytics Dashboard"
-          description="Track your business performance and key metrics"
+          title="Analytics"
+          description="Track your business performance and growth"
+          actions={actions}
         >
           <StripeTabs 
             tabs={tabs}
@@ -60,120 +88,53 @@ export function StripeAnalyticsPage() {
             onTabChange={setActiveTab}
           />
 
-          {activeTab === "overview" && (
-            <div className="space-y-8">
-              {/* Key Metrics Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="stripe-card">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="stripe-card-title">Total Revenue</h3>
-                    <DollarSign className="w-5 h-5 text-muted-foreground" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-3xl font-bold">${mockData.totalRevenue.toLocaleString()}</p>
-                    <p className="text-sm text-emerald-600 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
-                      +12.5% from last month
-                    </p>
-                  </div>
-                </div>
+          <StripeFilters 
+            filters={filters}
+            onFilterClick={handleFilterClick}
+          />
 
-                <div className="stripe-card">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="stripe-card-title">Active Clients</h3>
-                    <Users className="w-5 h-5 text-muted-foreground" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-3xl font-bold">{mockData.activeClients}</p>
-                    <p className="text-sm text-emerald-600 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
-                      +3.2% from last month
-                    </p>
-                  </div>
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {metrics.map((metric, index) => (
+              <div key={index} className="stripe-card">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-muted-foreground">{metric.title}</h3>
+                  <TrendingUp className={`w-4 h-4 ${metric.trend === 'up' ? 'text-green-500' : 'text-red-500'}`} />
                 </div>
-
-                <div className="stripe-card">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="stripe-card-title">Completed Jobs</h3>
-                    <BarChart3 className="w-5 h-5 text-muted-foreground" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-3xl font-bold">{mockData.completedWorkOrders}</p>
-                    <p className="text-sm text-emerald-600 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
-                      +8.1% from last month
-                    </p>
-                  </div>
-                </div>
-
-                <div className="stripe-card">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="stripe-card-title">Conversion Rate</h3>
-                    <BarChart3 className="w-5 h-5 text-muted-foreground" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-3xl font-bold">78.3%</p>
-                    <p className="text-sm text-emerald-600 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
-                      +2.1% from last month
-                    </p>
-                  </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-semibold">{metric.value}</span>
+                  <span className={`text-sm ${metric.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+                    {metric.change}
+                  </span>
                 </div>
               </div>
+            ))}
+          </div>
 
-              {/* Business Tools Analytics */}
-              <BusinessToolsAnalytics
-                completedWorkOrders={mockData.completedWorkOrders}
-                workOrders={mockData.workOrders}
-                estimates={mockData.estimates}
-                estimatesSent={mockData.estimatesSent}
-                contracts={mockData.contracts}
-                contractsSigned={mockData.contractsSigned}
-                clients={mockData.clients}
-                activeClients={mockData.activeClients}
-              />
-            </div>
-          )}
-
-          {activeTab === "revenue" && (
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="stripe-card">
               <div className="stripe-card-header">
-                <h3 className="stripe-card-title">Revenue Analytics</h3>
-                <p className="stripe-card-description">Detailed revenue breakdown and trends</p>
+                <h3 className="stripe-card-title">Revenue Trend</h3>
+                <p className="stripe-card-description">Monthly revenue over time</p>
               </div>
-              <p className="text-muted-foreground">Revenue analytics content coming soon...</p>
+              <div className="h-64 flex items-center justify-center bg-muted/20 rounded">
+                <BarChart3 className="w-8 h-8 text-muted-foreground" />
+                <span className="ml-2 text-muted-foreground">Revenue Chart</span>
+              </div>
             </div>
-          )}
 
-          {activeTab === "customers" && (
             <div className="stripe-card">
               <div className="stripe-card-header">
-                <h3 className="stripe-card-title">Customer Analytics</h3>
-                <p className="stripe-card-description">Customer behavior and acquisition metrics</p>
+                <h3 className="stripe-card-title">Customer Growth</h3>
+                <p className="stripe-card-description">New customers acquired</p>
               </div>
-              <p className="text-muted-foreground">Customer analytics content coming soon...</p>
-            </div>
-          )}
-
-          {activeTab === "products" && (
-            <div className="stripe-card">
-              <div className="stripe-card-header">
-                <h3 className="stripe-card-title">Product Analytics</h3>
-                <p className="stripe-card-description">Product performance and usage statistics</p>
+              <div className="h-64 flex items-center justify-center bg-muted/20 rounded">
+                <Users className="w-8 h-8 text-muted-foreground" />
+                <span className="ml-2 text-muted-foreground">Customer Chart</span>
               </div>
-              <p className="text-muted-foreground">Product analytics content coming soon...</p>
             </div>
-          )}
-
-          {activeTab === "performance" && (
-            <div className="stripe-card">
-              <div className="stripe-card-header">
-                <h3 className="stripe-card-title">Performance Metrics</h3>
-                <p className="stripe-card-description">System performance and operational metrics</p>
-              </div>
-              <p className="text-muted-foreground">Performance metrics content coming soon...</p>
-            </div>
-          )}
+          </div>
         </StripePageLayout>
       </div>
     </div>

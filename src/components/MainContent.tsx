@@ -9,6 +9,8 @@ import { StripeProjectsPage } from "./stripe-pages/StripeProjectsPage"
 import { StripeInvoicesPage } from "./stripe-pages/StripeInvoicesPage"
 import { StripeEstimatesPage } from "./stripe-pages/StripeEstimatesPage"
 import { StripeSettingsPage } from "./stripe-pages/StripeSettingsPage"
+import { StripeCareersPage } from "./stripe-pages/StripeCareersPage"
+import { StripeAppointmentsPage } from "./stripe-pages/StripeAppointmentsPage"
 
 interface MainContentProps {
   activeView: string
@@ -26,15 +28,17 @@ export function MainContent({ activeView, onNavigate }: MainContentProps) {
       {activeView === "invoices" && <StripeInvoicesPage />}
       {activeView === "estimates" && <StripeEstimatesPage />}
       {activeView === "settings" && <StripeSettingsPage />}
+      {activeView === "careers" && <StripeCareersPage />}
+      {activeView === "appointments" && <StripeAppointmentsPage />}
       {activeView === "feather-budget" && <FeatherBudgetPage />}
       {activeView === "feather-tax" && <FeatherTaxPage />}
       {activeView === "mat-track" && <MatTrackPage />}
       
-      {/* Default fallback for other views */}
+      {/* Default fallback for other views that haven't been converted yet */}
       {![
         "dashboard", "customers", "analytics", "projects", 
-        "invoices", "estimates", "settings", "feather-budget", 
-        "feather-tax", "mat-track"
+        "invoices", "estimates", "settings", "careers", "appointments",
+        "feather-budget", "feather-tax", "mat-track"
       ].includes(activeView) && (
         <div className="stripe-content">
           <div className="stripe-page-header">
