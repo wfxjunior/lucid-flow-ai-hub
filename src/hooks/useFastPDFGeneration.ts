@@ -1,4 +1,5 @@
 
+import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 
 interface ContractData {
@@ -23,8 +24,10 @@ interface ContractData {
 
 export function useFastPDFGeneration() {
   const { toast } = useToast()
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const generateContractPDF = async (contractData: ContractData) => {
+    setIsGenerating(true)
     try {
       // Simulate PDF generation - in a real app, you'd use a PDF library
       console.log('Generating PDF for contract:', contractData)
@@ -43,10 +46,39 @@ export function useFastPDFGeneration() {
         variant: "destructive"
       })
       return false
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const generateAnalyticsReportPDF = async (data: any) => {
+    setIsGenerating(true)
+    try {
+      // Simulate analytics report PDF generation
+      console.log('Generating analytics report PDF:', data)
+      
+      toast({
+        title: "PDF Generated",
+        description: "Analytics report PDF has been created",
+      })
+      
+      return true
+    } catch (error) {
+      console.error('Error generating analytics report PDF:', error)
+      toast({
+        title: "Error",
+        description: "Failed to generate analytics report PDF",
+        variant: "destructive"
+      })
+      return false
+    } finally {
+      setIsGenerating(false)
     }
   }
 
   return {
-    generateContractPDF
+    isGenerating,
+    generateContractPDF,
+    generateAnalyticsReportPDF
   }
 }

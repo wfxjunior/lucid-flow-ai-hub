@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react'
 
 interface Metric {
   title: string
-  value: string
+  value: string | number
   subtitle: string
   icon: React.ElementType
 }
@@ -61,7 +61,9 @@ export function CleanPageLayout({
                         <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                           {metric.title}
                         </p>
-                        <p className="text-lg sm:text-2xl font-bold">{metric.value}</p>
+                        <p className="text-lg sm:text-2xl font-bold">
+                          {typeof metric.value === 'number' ? metric.value.toString() : metric.value}
+                        </p>
                         <p className="text-xs text-muted-foreground">{metric.subtitle}</p>
                       </div>
                     </div>
