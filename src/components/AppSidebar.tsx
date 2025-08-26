@@ -1,4 +1,3 @@
-
 import React from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
@@ -94,7 +93,7 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="w-48 min-w-48">
+    <Sidebar variant="inset" className="w-48 min-w-48 border-r border-border">
       <SidebarHeader className="p-1">
         <div className="flex items-center gap-1 px-2 py-1">
           <span className="font-semibold text-foreground text-sm">FeatherBiz</span>

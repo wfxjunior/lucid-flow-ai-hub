@@ -35,7 +35,6 @@ export function SidebarMenuSection({
                 className="w-full justify-start h-7 px-2 py-1 text-xs"
                 size="sm"
               >
-                {item.icon && <item.icon className="w-3 h-3" />}
                 <span className="truncate">{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
