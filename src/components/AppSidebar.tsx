@@ -94,14 +94,14 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="stripe-sidebar">
-      <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 py-2">
-          <span className="font-semibold text-foreground">FeatherBiz</span>
+    <Sidebar variant="inset" className="w-48 min-w-48">
+      <SidebarHeader className="p-1">
+        <div className="flex items-center gap-1 px-2 py-1">
+          <span className="font-semibold text-foreground text-sm">FeatherBiz</span>
         </div>
       </SidebarHeader>
       
-      <SidebarContent>
+      <SidebarContent className="px-1">
         <SidebarMenuSection 
           items={generalItems} 
           sectionTitle="General" 
@@ -166,8 +166,8 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
         />
       </SidebarContent>
       
-      <SidebarFooter>
-        <div className="px-4 py-2 text-xs text-muted-foreground">
+      <SidebarFooter className="p-1">
+        <div className="px-2 py-1 text-xs text-muted-foreground">
           FeatherBiz v1.0
         </div>
       </SidebarFooter>

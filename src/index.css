@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "./styles/buttons.css";
 @import "./styles/dashboard-theme.css";
@@ -136,15 +137,15 @@
   }
 }
 
-/* Sidebar width adjustments */
+/* Sidebar width adjustments - Compact version */
 .stripe-sidebar {
-  width: 240px !important;
-  min-width: 240px !important;
+  width: 192px !important;
+  min-width: 192px !important;
 }
 
 .stripe-sidebar[data-state="collapsed"] {
-  width: 60px !important;
-  min-width: 60px !important;
+  width: 48px !important;
+  min-width: 48px !important;
 }
 
 /* Feature Chips Styles */
