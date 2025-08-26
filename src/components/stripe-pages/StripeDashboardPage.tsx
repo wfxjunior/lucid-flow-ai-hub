@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar } from "recharts"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from "recharts"
 import { Search, Plus, TrendingUp, Users, DollarSign, Activity } from "lucide-react"
 
 const revenueData = [
@@ -16,6 +16,13 @@ const revenueData = [
   { month: 'Apr', revenue: 61000, expenses: 42000 },
   { month: 'May', revenue: 55000, expenses: 40000 },
   { month: 'Jun', revenue: 67000, expenses: 45000 },
+]
+
+const pieData = [
+  { name: 'Projects', value: 35, fill: '#8b5cf6' },
+  { name: 'Services', value: 30, fill: '#10b981' },
+  { name: 'Products', value: 20, fill: '#f59e0b' },
+  { name: 'Other', value: 15, fill: '#64748b' }
 ]
 
 const recentActivities = [
@@ -116,7 +123,7 @@ export function StripeDashboardPage() {
           </div>
 
           {/* Charts */}
-          <div className="grid gap-2 md:grid-cols-2">
+          <div className="grid gap-2 md:grid-cols-3">
             <Card className="p-2">
               <CardHeader className="pb-1 p-2">
                 <CardTitle className="text-sm font-semibold text-gray-900">Revenue Trend</CardTitle>
@@ -148,6 +155,40 @@ export function StripeDashboardPage() {
                     <Bar dataKey="revenue" fill="#8b5cf6" />
                   </BarChart>
                 </ResponsiveContainer>
+              </CardContent>
+            </Card>
+            <Card className="p-2">
+              <CardHeader className="pb-1 p-2">
+                <CardTitle className="text-sm font-semibold text-gray-900">Revenue Distribution</CardTitle>
+                <CardDescription className="text-xs">Revenue by category</CardDescription>
+              </CardHeader>
+              <CardContent className="p-2 pt-0">
+                <ResponsiveContainer width="100%" height={120}>
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={35}
+                      dataKey="value"
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {pieData.map((entry, index) => (
+                    <div key={index} className="flex items-center gap-1">
+                      <div 
+                        className="w-2 h-2 rounded-full" 
+                        style={{ backgroundColor: entry.fill }}
+                      />
+                      <span className="text-xs text-gray-600">{entry.name}</span>
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </div>
