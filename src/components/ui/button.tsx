@@ -6,35 +6,35 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "btn inline-flex items-center justify-center whitespace-nowrap font-bold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 overflow-hidden rounded-lg",
+  "btn inline-flex items-center justify-center whitespace-nowrap font-bold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 overflow-hidden rounded-lg",
   {
     variants: {
       variant: {
-        default: "btn-primary rounded-lg",
-        destructive: "btn-primary bg-danger hover:bg-danger/90 rounded-lg",
-        outline: "btn-outline rounded-lg",
-        secondary: "btn-outline rounded-lg",
-        ghost: "hover:bg-accent hover:text-accent-foreground border-0 shadow-none bg-transparent rounded-lg",
-        link: "text-primary underline-offset-4 hover:underline border-0 shadow-none bg-transparent h-auto p-0 rounded-lg",
-        elevated: "btn-primary shadow-[0_8px_24px_hsl(var(--primary)/0.4)] rounded-lg",
-        soft: "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/15 rounded-lg",
-        premium: "btn-primary bg-gradient-to-r from-primary via-primary to-primary/80 rounded-lg",
-        success: "btn-primary bg-success hover:bg-success/90 rounded-lg",
-        warning: "btn-primary bg-warning hover:bg-warning/90 rounded-lg",
+        default: "bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950 border border-slate-900 rounded-lg",
+        destructive: "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 border border-red-600 rounded-lg",
+        outline: "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 active:bg-slate-100 rounded-lg",
+        secondary: "bg-slate-100 text-slate-900 hover:bg-slate-200 active:bg-slate-300 border border-slate-200 rounded-lg",
+        ghost: "hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200 border-0 shadow-none bg-transparent rounded-lg",
+        link: "text-slate-600 underline-offset-4 hover:underline hover:text-slate-900 border-0 shadow-none bg-transparent h-auto p-0 rounded-lg",
+        elevated: "bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950 shadow-lg rounded-lg",
+        soft: "bg-slate-100 text-slate-900 border border-slate-200 hover:bg-slate-200 active:bg-slate-300 rounded-lg",
+        premium: "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 text-white hover:from-slate-800 hover:via-slate-700 hover:to-slate-600 rounded-lg",
+        success: "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 rounded-lg",
+        warning: "bg-amber-600 text-white hover:bg-amber-700 active:bg-amber-800 rounded-lg",
       },
       size: {
-        xs: "btn-sm h-8 px-3 text-xs gap-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5 rounded-lg",
-        sm: "btn-sm rounded-lg",
-        md: "btn-md rounded-lg",
-        lg: "btn-lg rounded-lg",
-        xl: "btn-lg h-14 px-6 text-lg gap-2.5 [&_svg]:h-5 [&_svg]:w-5 rounded-lg",
+        xs: "h-8 px-3 text-xs gap-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5 rounded-lg",
+        sm: "h-9 px-3 text-sm gap-1.5 [&_svg]:h-4 [&_svg]:w-4 rounded-lg",
+        md: "h-10 px-4 text-sm gap-2 [&_svg]:h-4 [&_svg]:w-4 rounded-lg",
+        lg: "h-11 px-6 text-base gap-2 [&_svg]:h-5 [&_svg]:w-5 rounded-lg",
+        xl: "h-14 px-6 text-lg gap-2.5 [&_svg]:h-5 [&_svg]:w-5 rounded-lg",
         icon: "h-9 w-9 rounded-lg",
-        default: "btn-md rounded-lg",
+        default: "h-10 px-4 text-sm gap-2 [&_svg]:h-4 [&_svg]:w-4 rounded-lg",
       },
       shape: {
         rounded: "rounded-lg",
-        pill: "rounded-lg", // Override pill to use moderate rounded
-        square: "rounded-lg", // Override square to use moderate rounded
+        pill: "rounded-lg",
+        square: "rounded-lg",
       },
     },
     defaultVariants: {
