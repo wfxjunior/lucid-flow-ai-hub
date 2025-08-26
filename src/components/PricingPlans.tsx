@@ -30,6 +30,7 @@ const pricing = {
       id: "professional-monthly",
       name: "Plus",
       price: 26,
+      annualPrice: 252,
       description: "Growing teams that need automation and collaboration.",
       features: [
         "Everything in Free, plus:",
@@ -49,6 +50,8 @@ const pricing = {
       id: "professional-annual",
       name: "Pro",
       price: 252,
+      monthlyEquivalent: 21,
+      originalMonthlyPrice: 26,
       description: "Scaling businesses that want intelligence and speed.",
       features: [
         "Everything in Plus, plus:",
@@ -92,6 +95,14 @@ function formatPrice(price: number | null) {
   }).format(price);
   return formatted.replace('.00', '');
 }
+
+// Helper function to calculate discount percentage
+const calculateDiscount = (originalMonthly: number, annualTotal: number) => {
+  const yearlyAtMonthlyRate = originalMonthly * 12;
+  const savings = yearlyAtMonthlyRate - annualTotal;
+  const discountPercentage = Math.round((savings / yearlyAtMonthlyRate) * 100);
+  return discountPercentage;
+};
 
 export function PricingPlans() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly")
@@ -153,6 +164,11 @@ export function PricingPlans() {
             }`}
           >
             Annual
+            {billingPeriod === "annual" && (
+              <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 text-xs">
+                Save up to 20%
+              </Badge>
+            )}
           </button>
         </div>
       </div>
@@ -191,10 +207,22 @@ export function PricingPlans() {
                         </span>
                       )}
                     </div>
-                    {billingPeriod === "annual" && plan.price && (
+                    {/* Show discount for annual Pro plan */}
+                    {billingPeriod === "annual" && plan.id === "professional-annual" && plan.originalMonthlyPrice && (
                       <div className="mt-2">
-                        <Badge variant="secondary" className="bg-blue-50 text-blue-600 text-xs">
-                          Save 20%
+                        <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs">
+                          Save {calculateDiscount(plan.originalMonthlyPrice, plan.price)}%
+                        </Badge>
+                        <p className="text-xs text-gray-500 mt-1">
+                          ${plan.monthlyEquivalent}/month when billed annually
+                        </p>
+                      </div>
+                    )}
+                    {/* Show discount for annual Plus plan */}
+                    {billingPeriod === "annual" && plan.id === "professional-monthly" && plan.annualPrice && (
+                      <div className="mt-2">
+                        <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs">
+                          Save {calculateDiscount(plan.price, plan.annualPrice)}% annually
                         </Badge>
                       </div>
                     )}

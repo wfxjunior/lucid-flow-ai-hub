@@ -1,6 +1,8 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
 import { useCheckout } from "@/hooks/useCheckout";
 import { toast } from "sonner";
@@ -73,6 +75,16 @@ const CheckIcon = () => (
     />
   </svg>
 );
+
+// Helper function to calculate discount percentage
+const calculateDiscount = (monthlyPrice: string, annualPrice: string) => {
+  const monthly = parseFloat(monthlyPrice.replace('$', ''));
+  const annual = parseFloat(annualPrice.replace('$', ''));
+  const monthlyTotal = monthly * 12;
+  const savings = monthlyTotal - annual;
+  const discountPercentage = Math.round((savings / monthlyTotal) * 100);
+  return discountPercentage;
+};
 
 export function AttioPricingSection() {
   const { redirectToCheckout, loading } = useCheckout();
@@ -184,6 +196,11 @@ export function AttioPricingSection() {
                 aria-pressed={billingPeriod === 'annual'}
               >
                 Annual
+                {billingPeriod === 'annual' && (
+                  <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 text-xs">
+                    Save up to 17%
+                  </Badge>
+                )}
               </button>
             </div>
           </div>
@@ -227,6 +244,14 @@ export function AttioPricingSection() {
                           {getPeriodLabel(plan.id)}
                         </span>
                       </div>
+                      {/* Show discount percentage for paid plans when annual is selected */}
+                      {billingPeriod === 'annual' && (plan.id === 'pro' || plan.id === 'plus') && (
+                        <div className="mt-2">
+                          <Badge variant="secondary" className="bg-green-100 text-green-700 text-xs">
+                            Save {calculateDiscount(PRICING_COPY[plan.id].monthlyPrice, PRICING_COPY[plan.id].annualPrice)}%
+                          </Badge>
+                        </div>
+                      )}
                     </div>
                     <p className="plan-blurb text-gray-600 text-sm leading-relaxed opacity-100">
                       {PRICING_COPY[plan.id].blurb}
