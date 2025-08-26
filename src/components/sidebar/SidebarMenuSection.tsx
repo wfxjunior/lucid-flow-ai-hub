@@ -24,7 +24,7 @@ export function SidebarMenuSection({
 }: SidebarMenuSectionProps) {
   return (
     <SidebarGroup className="py-1">
-      <SidebarGroupLabel className="px-2 py-1 text-xs">{sectionTitle}</SidebarGroupLabel>
+      <SidebarGroupLabel className="px-2 py-1 text-sm">{sectionTitle}</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu className="gap-0">
           {items.map((item) => (
@@ -32,7 +32,7 @@ export function SidebarMenuSection({
               <SidebarMenuButton 
                 isActive={activeView === item.view}
                 onClick={() => onMenuClick(item.view)}
-                className="w-full justify-start h-7 px-2 py-1 text-xs"
+                className="w-full justify-start h-8 px-2 py-1 text-sm"
                 size="sm"
               >
                 <span className="truncate">{item.title}</span>
