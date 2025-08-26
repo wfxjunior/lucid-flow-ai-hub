@@ -4,6 +4,8 @@ export { sanitizeInput, validateInput } from './securityCore'
 
 // Keep existing function for backward compatibility
 export const sanitizeText = (text: string): string => {
+  // Import sanitizeInput locally to avoid scope issues
+  const { sanitizeInput } = require('./securityCore')
   return sanitizeInput(text, { allowHtml: false, stripScripts: true })
 }
 
