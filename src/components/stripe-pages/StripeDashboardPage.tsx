@@ -28,86 +28,86 @@ const recentActivities = [
 
 export function StripeDashboardPage() {
   return (
-    <div className="flex-1 space-y-3 p-3 max-h-screen overflow-auto">
+    <div className="flex-1 space-y-2 p-2 max-h-screen overflow-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <SidebarTrigger />
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
+            <h1 className="text-lg font-semibold text-gray-900">Dashboard</h1>
             <p className="text-xs text-gray-600">Welcome back! Here's what's happening with your business.</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-400" />
             <Input
               placeholder="Search..."
-              className="pl-9 w-40"
+              className="pl-7 w-32 h-8 text-xs"
             />
           </div>
-          <Button size="sm">
-            <Plus className="mr-2 h-4 w-4" />
+          <Button size="sm" className="h-8 text-xs">
+            <Plus className="mr-1 h-3 w-3" />
             New
           </Button>
         </div>
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="overview" className="space-y-3">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="financial">Financial</TabsTrigger>
-          <TabsTrigger value="projects">Projects</TabsTrigger>
+      <Tabs defaultValue="overview" className="space-y-2">
+        <TabsList className="h-8">
+          <TabsTrigger value="overview" className="text-xs h-6">Overview</TabsTrigger>
+          <TabsTrigger value="financial" className="text-xs h-6">Financial</TabsTrigger>
+          <TabsTrigger value="projects" className="text-xs h-6">Projects</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-3">
+        <TabsContent value="overview" className="space-y-2">
           {/* KPI Cards */}
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+          <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+            <Card className="p-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 p-2">
                 <CardTitle className="text-xs font-medium text-gray-600">Total Revenue</CardTitle>
                 <DollarSign className="h-3 w-3 text-gray-400" />
               </CardHeader>
-              <CardContent>
-                <div className="text-lg font-bold text-gray-900">$328,000</div>
+              <CardContent className="p-2 pt-0">
+                <div className="text-base font-bold text-gray-900">$328,000</div>
                 <p className="text-xs text-green-600 flex items-center">
                   <TrendingUp className="mr-1 h-2 w-2" />
                   +12% from last month
                 </p>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+            <Card className="p-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 p-2">
                 <CardTitle className="text-xs font-medium text-gray-600">Active Projects</CardTitle>
                 <Activity className="h-3 w-3 text-gray-400" />
               </CardHeader>
-              <CardContent>
-                <div className="text-lg font-bold text-gray-900">24</div>
+              <CardContent className="p-2 pt-0">
+                <div className="text-base font-bold text-gray-900">24</div>
                 <p className="text-xs text-blue-600">
                   +3 new this week
                 </p>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+            <Card className="p-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 p-2">
                 <CardTitle className="text-xs font-medium text-gray-600">Total Customers</CardTitle>
                 <Users className="h-3 w-3 text-gray-400" />
               </CardHeader>
-              <CardContent>
-                <div className="text-lg font-bold text-gray-900">156</div>
+              <CardContent className="p-2 pt-0">
+                <div className="text-base font-bold text-gray-900">156</div>
                 <p className="text-xs text-purple-600">
                   +8 new this month
                 </p>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+            <Card className="p-2">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 p-2">
                 <CardTitle className="text-xs font-medium text-gray-600">Conversion Rate</CardTitle>
                 <TrendingUp className="h-3 w-3 text-gray-400" />
               </CardHeader>
-              <CardContent>
-                <div className="text-lg font-bold text-gray-900">68%</div>
+              <CardContent className="p-2 pt-0">
+                <div className="text-base font-bold text-gray-900">68%</div>
                 <p className="text-xs text-green-600">
                   +4% from last month
                 </p>
@@ -116,35 +116,35 @@ export function StripeDashboardPage() {
           </div>
 
           {/* Charts */}
-          <div className="grid gap-3 md:grid-cols-2">
-            <Card>
-              <CardHeader className="pb-2">
+          <div className="grid gap-2 md:grid-cols-2">
+            <Card className="p-2">
+              <CardHeader className="pb-1 p-2">
                 <CardTitle className="text-sm font-semibold text-gray-900">Revenue Trend</CardTitle>
                 <CardDescription className="text-xs">Monthly revenue vs expenses</CardDescription>
               </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={150}>
+              <CardContent className="p-2 pt-0">
+                <ResponsiveContainer width="100%" height={120}>
                   <LineChart data={revenueData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="month" stroke="#666" fontSize={10} />
-                    <YAxis stroke="#666" fontSize={10} />
-                    <Line type="monotone" dataKey="revenue" stroke="#8b5cf6" strokeWidth={2} />
-                    <Line type="monotone" dataKey="expenses" stroke="#64748b" strokeWidth={2} />
+                    <XAxis dataKey="month" stroke="#666" fontSize={9} />
+                    <YAxis stroke="#666" fontSize={9} />
+                    <Line type="monotone" dataKey="revenue" stroke="#8b5cf6" strokeWidth={1.5} />
+                    <Line type="monotone" dataKey="expenses" stroke="#64748b" strokeWidth={1.5} />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="pb-2">
+            <Card className="p-2">
+              <CardHeader className="pb-1 p-2">
                 <CardTitle className="text-sm font-semibold text-gray-900">Monthly Performance</CardTitle>
                 <CardDescription className="text-xs">Revenue breakdown by month</CardDescription>
               </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={150}>
+              <CardContent className="p-2 pt-0">
+                <ResponsiveContainer width="100%" height={120}>
                   <BarChart data={revenueData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="month" stroke="#666" fontSize={10} />
-                    <YAxis stroke="#666" fontSize={10} />
+                    <XAxis dataKey="month" stroke="#666" fontSize={9} />
+                    <YAxis stroke="#666" fontSize={9} />
                     <Bar dataKey="revenue" fill="#8b5cf6" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -153,41 +153,41 @@ export function StripeDashboardPage() {
           </div>
 
           {/* Recent Activity Table */}
-          <Card>
-            <CardHeader className="pb-2">
+          <Card className="p-2">
+            <CardHeader className="pb-1 p-2">
               <CardTitle className="text-sm font-semibold text-gray-900">Recent Activity</CardTitle>
               <CardDescription className="text-xs">Latest business transactions and updates</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-2 pt-0">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs">Type</TableHead>
-                    <TableHead className="text-xs">Customer</TableHead>
-                    <TableHead className="text-xs">Amount</TableHead>
-                    <TableHead className="text-xs">Status</TableHead>
-                    <TableHead className="text-xs">Date</TableHead>
+                    <TableHead className="text-xs py-1">Type</TableHead>
+                    <TableHead className="text-xs py-1">Customer</TableHead>
+                    <TableHead className="text-xs py-1">Amount</TableHead>
+                    <TableHead className="text-xs py-1">Status</TableHead>
+                    <TableHead className="text-xs py-1">Date</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recentActivities.map((activity) => (
+                  {recentActivities.slice(0, 3).map((activity) => (
                     <TableRow key={activity.id}>
-                      <TableCell className="font-medium text-xs">{activity.type}</TableCell>
-                      <TableCell className="text-xs">{activity.customer}</TableCell>
-                      <TableCell className="text-xs">{activity.amount}</TableCell>
-                      <TableCell>
+                      <TableCell className="font-medium text-xs py-1">{activity.type}</TableCell>
+                      <TableCell className="text-xs py-1">{activity.customer}</TableCell>
+                      <TableCell className="text-xs py-1">{activity.amount}</TableCell>
+                      <TableCell className="py-1">
                         <Badge 
                           variant={
                             activity.status === 'Paid' || activity.status === 'Signed' ? 'default' :
                             activity.status === 'Pending' ? 'secondary' :
                             activity.status === 'Overdue' ? 'destructive' : 'outline'
                           }
-                          className="text-xs"
+                          className="text-xs px-1 py-0"
                         >
                           {activity.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-gray-600 text-xs">{activity.date}</TableCell>
+                      <TableCell className="text-gray-600 text-xs py-1">{activity.date}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -197,16 +197,16 @@ export function StripeDashboardPage() {
         </TabsContent>
 
         <TabsContent value="financial" className="space-y-4">
-          <div className="text-center py-8">
-            <h3 className="text-base font-semibold text-gray-900 mb-2">Financial Overview</h3>
-            <p className="text-sm text-gray-600">Detailed financial reports and analysis coming soon.</p>
+          <div className="text-center py-4">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">Financial Overview</h3>
+            <p className="text-xs text-gray-600">Detailed financial reports and analysis coming soon.</p>
           </div>
         </TabsContent>
 
         <TabsContent value="projects" className="space-y-4">
-          <div className="text-center py-8">
-            <h3 className="text-base font-semibold text-gray-900 mb-2">Project Analytics</h3>
-            <p className="text-sm text-gray-600">Project performance metrics and insights coming soon.</p>
+          <div className="text-center py-4">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">Project Analytics</h3>
+            <p className="text-xs text-gray-600">Project performance metrics and insights coming soon.</p>
           </div>
         </TabsContent>
       </Tabs>
