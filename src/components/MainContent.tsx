@@ -10,6 +10,7 @@ import { DocumentsForms } from './DocumentsForms'
 import { Productivity } from './Productivity'
 import { Documentation } from './Documentation'
 import { MatTrackPage } from './MatTrackPage'
+import { CarRentalPage } from './CarRentalPage'
 import { StripeAnalyticsPage } from './stripe-pages/StripeAnalyticsPage'
 import { StripeSettingsPage } from './stripe-pages/StripeSettingsPage'
 import { StripeCareersPage } from './stripe-pages/StripeCareersPage'
@@ -41,6 +42,7 @@ export function MainContent() {
         <Route path="/productivity" element={<Productivity />} />
         <Route path="/documentation" element={<Documentation />} />
         <Route path="/mattrack" element={<MatTrackPage />} />
+        <Route path="/car-rental" element={<CarRentalPage />} />
         <Route path="/analytics" element={<StripeAnalyticsPage />} />
         <Route path="/settings" element={<StripeSettingsPage />} />
         <Route path="/careers" element={<StripeCareersPage />} />

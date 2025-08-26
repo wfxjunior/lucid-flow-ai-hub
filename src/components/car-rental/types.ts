@@ -4,6 +4,11 @@ export interface Vehicle {
   brand: string
   model: string
   plate_number: string
+  vehicle_type?: string
+  year?: number
+  color?: string
+  photo_url?: string
+  status?: string
 }
 
 export interface RentalFormData {
