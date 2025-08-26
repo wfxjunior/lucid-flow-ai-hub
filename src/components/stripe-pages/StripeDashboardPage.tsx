@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar } from "recharts"
 import { Search, Plus, TrendingUp, Users, DollarSign, Activity } from "lucide-react"
 
@@ -27,19 +28,22 @@ const recentActivities = [
 
 export function StripeDashboardPage() {
   return (
-    <div className="flex-1 space-y-4 p-4">
+    <div className="flex-1 space-y-3 p-3 max-h-screen overflow-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-          <p className="text-sm text-gray-600">Welcome back! Here's what's happening with your business.</p>
+        <div className="flex items-center gap-2">
+          <SidebarTrigger />
+          <div>
+            <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
+            <p className="text-xs text-gray-600">Welcome back! Here's what's happening with your business.</p>
+          </div>
         </div>
         <div className="flex items-center space-x-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
               placeholder="Search..."
-              className="pl-9 w-48"
+              className="pl-9 w-40"
             />
           </div>
           <Button size="sm">
@@ -50,60 +54,60 @@ export function StripeDashboardPage() {
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="overview" className="space-y-4">
+      <Tabs defaultValue="overview" className="space-y-3">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="financial">Financial</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-4">
+        <TabsContent value="overview" className="space-y-3">
           {/* KPI Cards */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">Total Revenue</CardTitle>
-                <DollarSign className="h-4 w-4 text-gray-400" />
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+                <CardTitle className="text-xs font-medium text-gray-600">Total Revenue</CardTitle>
+                <DollarSign className="h-3 w-3 text-gray-400" />
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-gray-900">$328,000</div>
+                <div className="text-lg font-bold text-gray-900">$328,000</div>
                 <p className="text-xs text-green-600 flex items-center">
-                  <TrendingUp className="mr-1 h-3 w-3" />
+                  <TrendingUp className="mr-1 h-2 w-2" />
                   +12% from last month
                 </p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">Active Projects</CardTitle>
-                <Activity className="h-4 w-4 text-gray-400" />
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+                <CardTitle className="text-xs font-medium text-gray-600">Active Projects</CardTitle>
+                <Activity className="h-3 w-3 text-gray-400" />
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-gray-900">24</div>
+                <div className="text-lg font-bold text-gray-900">24</div>
                 <p className="text-xs text-blue-600">
                   +3 new this week
                 </p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">Total Customers</CardTitle>
-                <Users className="h-4 w-4 text-gray-400" />
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+                <CardTitle className="text-xs font-medium text-gray-600">Total Customers</CardTitle>
+                <Users className="h-3 w-3 text-gray-400" />
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-gray-900">156</div>
+                <div className="text-lg font-bold text-gray-900">156</div>
                 <p className="text-xs text-purple-600">
                   +8 new this month
                 </p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">Conversion Rate</CardTitle>
-                <TrendingUp className="h-4 w-4 text-gray-400" />
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+                <CardTitle className="text-xs font-medium text-gray-600">Conversion Rate</CardTitle>
+                <TrendingUp className="h-3 w-3 text-gray-400" />
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-gray-900">68%</div>
+                <div className="text-lg font-bold text-gray-900">68%</div>
                 <p className="text-xs text-green-600">
                   +4% from last month
                 </p>
@@ -112,18 +116,18 @@ export function StripeDashboardPage() {
           </div>
 
           {/* Charts */}
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-2">
             <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-semibold text-gray-900">Revenue Trend</CardTitle>
-                <CardDescription className="text-sm">Monthly revenue vs expenses</CardDescription>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-semibold text-gray-900">Revenue Trend</CardTitle>
+                <CardDescription className="text-xs">Monthly revenue vs expenses</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={200}>
+                <ResponsiveContainer width="100%" height={150}>
                   <LineChart data={revenueData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="month" stroke="#666" fontSize={12} />
-                    <YAxis stroke="#666" fontSize={12} />
+                    <XAxis dataKey="month" stroke="#666" fontSize={10} />
+                    <YAxis stroke="#666" fontSize={10} />
                     <Line type="monotone" dataKey="revenue" stroke="#8b5cf6" strokeWidth={2} />
                     <Line type="monotone" dataKey="expenses" stroke="#64748b" strokeWidth={2} />
                   </LineChart>
@@ -131,16 +135,16 @@ export function StripeDashboardPage() {
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-semibold text-gray-900">Monthly Performance</CardTitle>
-                <CardDescription className="text-sm">Revenue breakdown by month</CardDescription>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-semibold text-gray-900">Monthly Performance</CardTitle>
+                <CardDescription className="text-xs">Revenue breakdown by month</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={200}>
+                <ResponsiveContainer width="100%" height={150}>
                   <BarChart data={revenueData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="month" stroke="#666" fontSize={12} />
-                    <YAxis stroke="#666" fontSize={12} />
+                    <XAxis dataKey="month" stroke="#666" fontSize={10} />
+                    <YAxis stroke="#666" fontSize={10} />
                     <Bar dataKey="revenue" fill="#8b5cf6" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -150,9 +154,9 @@ export function StripeDashboardPage() {
 
           {/* Recent Activity Table */}
           <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold text-gray-900">Recent Activity</CardTitle>
-              <CardDescription className="text-sm">Latest business transactions and updates</CardDescription>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold text-gray-900">Recent Activity</CardTitle>
+              <CardDescription className="text-xs">Latest business transactions and updates</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -168,9 +172,9 @@ export function StripeDashboardPage() {
                 <TableBody>
                   {recentActivities.map((activity) => (
                     <TableRow key={activity.id}>
-                      <TableCell className="font-medium text-sm">{activity.type}</TableCell>
-                      <TableCell className="text-sm">{activity.customer}</TableCell>
-                      <TableCell className="text-sm">{activity.amount}</TableCell>
+                      <TableCell className="font-medium text-xs">{activity.type}</TableCell>
+                      <TableCell className="text-xs">{activity.customer}</TableCell>
+                      <TableCell className="text-xs">{activity.amount}</TableCell>
                       <TableCell>
                         <Badge 
                           variant={
@@ -183,7 +187,7 @@ export function StripeDashboardPage() {
                           {activity.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-gray-600 text-sm">{activity.date}</TableCell>
+                      <TableCell className="text-gray-600 text-xs">{activity.date}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
