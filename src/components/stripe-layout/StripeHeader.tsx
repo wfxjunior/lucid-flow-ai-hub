@@ -1,58 +1,55 @@
 
-import { Search, Bell, Settings, User, Plus } from "lucide-react"
+import { Search, Bell, Settings, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 interface StripeHeaderProps {
-  title?: string
   searchPlaceholder?: string
   showAddButton?: boolean
-  onAddClick?: () => void
   addButtonLabel?: string
+  onAddClick?: () => void
 }
 
 export function StripeHeader({ 
-  title = "", 
-  searchPlaceholder = "Search...",
+  searchPlaceholder = "Search...", 
   showAddButton = false,
-  onAddClick,
-  addButtonLabel = "Add"
+  addButtonLabel = "Add",
+  onAddClick 
 }: StripeHeaderProps) {
   return (
-    <header className="stripe-header">
-      <div className="flex items-center gap-4 flex-1">
-        {title && <h1 className="text-lg font-semibold text-foreground">{title}</h1>}
-        
-        <div className="search-container">
-          <Search className="search-icon" />
-          <input 
-            type="text" 
+    <header className="h-16 border-b bg-white flex items-center justify-between px-6">
+      {/* Left side - Search */}
+      <div className="flex items-center flex-1 max-w-md">
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Input
             placeholder={searchPlaceholder}
-            className="stripe-search"
+            className="pl-9 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
       </div>
-      
-      <div className="flex items-center gap-3">
+
+      {/* Right side - Actions */}
+      <div className="flex items-center gap-4">
         {showAddButton && (
-          <button 
+          <Button 
             onClick={onAddClick}
-            className="stripe-button-primary"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
           >
-            <Plus className="w-4 h-4" />
             {addButtonLabel}
-          </button>
+          </Button>
         )}
         
-        <Button variant="ghost" size="sm">
-          <Bell className="w-4 h-4" />
+        <Button variant="ghost" size="sm" className="p-2">
+          <Bell className="h-4 w-4" />
         </Button>
         
-        <Button variant="ghost" size="sm">
-          <Settings className="w-4 h-4" />
+        <Button variant="ghost" size="sm" className="p-2">
+          <Settings className="h-4 w-4" />
         </Button>
         
-        <Button variant="ghost" size="sm">
-          <User className="w-4 h-4" />
+        <Button variant="ghost" size="sm" className="p-2">
+          <User className="h-4 w-4" />
         </Button>
       </div>
     </header>
