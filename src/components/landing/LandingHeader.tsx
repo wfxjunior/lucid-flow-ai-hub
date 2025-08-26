@@ -28,12 +28,12 @@ export const LandingHeader = () => {
 
           {/* CTA Buttons */}
           <div className="flex items-center space-x-4">
-            <Link to="/auth">
+            <Link to="/dashboard">
               <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
                 Sign In
               </Button>
             </Link>
-            <Link to="/auth">
+            <Link to="/dashboard">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                 Get Started
               </Button>
