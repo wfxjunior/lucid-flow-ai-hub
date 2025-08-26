@@ -1,3 +1,4 @@
+
 // Enhanced security utilities - now using unified core
 export { 
   sanitizeInput, 
@@ -6,10 +7,18 @@ export {
   logSecurityEvent as secureLog 
 } from './securityCore'
 
+// Add missing validateEmail function
+export const validateEmail = (email: string): boolean => {
+  if (!email || typeof email !== 'string') return false
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email.trim())
+}
+
 export const secureError = (message: string, data?: any) => {
   console.error(`[SECURITY ERROR] ${message}`, data || '')
   
   // Use the unified logging
+  const { logSecurityEvent } = require('./securityCore')
   logSecurityEvent('Security Error', { message, data })
 }
 
