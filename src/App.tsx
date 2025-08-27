@@ -11,6 +11,8 @@ import Index from "./pages/Index";
 import LandingPage from "./pages/LandingPage";
 import BlogIndex from "./pages/BlogIndex";
 import BlogPost from "./pages/BlogPost";
+import Auth from "./pages/Auth";
+import { AuthGuard } from "./components/AuthGuard";
 
 const queryClient = new QueryClient();
 
@@ -22,12 +24,20 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/dashboard/*" element={<Index />} />
-              <Route path="/blog" element={<BlogIndex />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-            </Routes>
+            <AuthGuard>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/login" element={<Auth />} />
+                <Route path="/signup" element={<Auth />} />
+                <Route path="/forgot-password" element={<Auth />} />
+                <Route path="/reset-password" element={<Auth />} />
+                <Route path="/verify-email" element={<Auth />} />
+                <Route path="/dashboard/*" element={<Index />} />
+                <Route path="/blog" element={<BlogIndex />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+              </Routes>
+            </AuthGuard>
           </BrowserRouter>
         </EnhancedSecurityWrapper>
       </TooltipProvider>

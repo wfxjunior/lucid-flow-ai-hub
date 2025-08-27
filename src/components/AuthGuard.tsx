@@ -16,7 +16,7 @@ export function AuthGuard({ children, fallback }: AuthGuardProps) {
   const location = useLocation()
 
   // Public routes that don't require authentication
-  const publicRoutes = ['/', '/pricing', '/contact', '/about', '/blog', '/payment-success', '/payment-canceled', '/health', '/_debug/routes']
+  const publicRoutes = ['/', '/pricing', '/contact', '/about', '/blog', '/payment-success', '/payment-canceled', '/health', '/_debug/routes', '/auth', '/login', '/signup', '/forgot-password', '/reset-password', '/verify-email']
   
   const isPublicRoute = publicRoutes.includes(location.pathname) || 
                        location.pathname.startsWith('/blog/') ||
