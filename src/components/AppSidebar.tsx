@@ -96,16 +96,11 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
     <Sidebar variant="inset" className="w-48 min-w-48 border-r border-border">
       <SidebarHeader className="p-1">
         <div className="flex items-center gap-1 px-2 py-1">
-          <svg width="24" height="24" viewBox="0 0 200 200" className="h-6 w-6">
-            <defs>
-              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{stopColor: '#3B82F6', stopOpacity: 1}} />
-                <stop offset="100%" style={{stopColor: '#1E40AF', stopOpacity: 1}} />
-              </linearGradient>
-            </defs>
-            <circle cx="100" cy="100" r="90" fill="url(#gradient1)" stroke="#1E40AF" strokeWidth="4"/>
-            <text x="100" y="115" textAnchor="middle" fill="white" fontSize="48" fontWeight="bold" fontFamily="Arial, sans-serif">F</text>
-          </svg>
+          <img 
+            src="/lovable-uploads/0d97c0c0-7910-4438-93bc-cf330d3652c9.png" 
+            alt="FeatherBiz" 
+            className="h-6 w-auto object-contain"
+          />
         </div>
       </SidebarHeader>
       
