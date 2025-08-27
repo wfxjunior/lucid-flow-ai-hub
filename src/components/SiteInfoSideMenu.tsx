@@ -1,4 +1,3 @@
-
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose, SheetTrigger } from "@/components/ui/sheet"
 import { HelpCircle, Home, DollarSign, Info, BookOpen, Users, Mail, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -28,6 +27,11 @@ export function SiteInfoSideMenu() {
                   src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
                   alt="FeatherBiz" 
                   className="h-15 w-auto object-contain"
+                  onError={(e) => {
+                    console.error('Logo failed to load in SiteInfoSideMenu:', e);
+                    console.log('Image src:', e.currentTarget.src);
+                  }}
+                  onLoad={() => console.log('Logo loaded successfully in SiteInfoSideMenu')}
                 />
                 FeatherBiz Info
               </SheetTitle>

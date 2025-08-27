@@ -1,3 +1,4 @@
+
 import React from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
@@ -100,6 +101,11 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
             src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
             alt="FeatherBiz" 
             className="h-18 w-auto object-contain"
+            onError={(e) => {
+              console.error('Logo failed to load in AppSidebar:', e);
+              console.log('Image src:', e.currentTarget.src);
+            }}
+            onLoad={() => console.log('Logo loaded successfully in AppSidebar')}
           />
         </div>
       </SidebarHeader>

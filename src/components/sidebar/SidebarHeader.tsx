@@ -9,6 +9,11 @@ export function SidebarHeader() {
           src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
           alt="FeatherBiz" 
           className="h-18 w-auto object-contain"
+          onError={(e) => {
+            console.error('Logo failed to load in SidebarHeader:', e);
+            console.log('Image src:', e.currentTarget.src);
+          }}
+          onLoad={() => console.log('Logo loaded successfully in SidebarHeader')}
         />
       </Link>
     </div>
