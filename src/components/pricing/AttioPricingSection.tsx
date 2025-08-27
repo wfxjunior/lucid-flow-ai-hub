@@ -172,12 +172,12 @@ export function AttioPricingSection() {
             </p>
           </div>
 
-          {/* Billing Toggle */}
+          {/* Billing Toggle - Updated design */}
           <div className="flex items-center justify-center mb-12">
-            <div className="inline-flex items-center bg-gray-100 rounded-lg p-1">
+            <div className="inline-flex items-center bg-gray-100 rounded-xl p-1.5">
               <button
                 onClick={() => setBillingPeriod('monthly')}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                className={`px-6 py-3 text-sm font-semibold rounded-lg transition-all duration-200 ${
                   billingPeriod === 'monthly'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -188,7 +188,7 @@ export function AttioPricingSection() {
               </button>
               <button
                 onClick={() => setBillingPeriod('annual')}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                className={`px-6 py-3 text-sm font-semibold rounded-lg transition-all duration-200 flex items-center gap-2 ${
                   billingPeriod === 'annual'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -196,11 +196,9 @@ export function AttioPricingSection() {
                 aria-pressed={billingPeriod === 'annual'}
               >
                 Annual
-                {billingPeriod === 'annual' && (
-                  <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 text-xs">
-                    Save up to 17%
-                  </Badge>
-                )}
+                <Badge className="bg-green-500 hover:bg-green-500 text-white text-xs font-medium px-2 py-0.5">
+                  Save 20%
+                </Badge>
               </button>
             </div>
           </div>
