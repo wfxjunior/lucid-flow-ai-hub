@@ -2,6 +2,8 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { PlatformDropdown } from "@/components/navigation/PlatformDropdown";
+import { ProductsDropdown } from "@/components/navigation/ProductsDropdown";
 
 export const LandingHeader = () => {
   return (
@@ -9,21 +11,22 @@ export const LandingHeader = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-28 flex items-center justify-center">
+          <Link to="/" className="flex items-center gap-2" aria-label="FeatherBiz home">
+            <div className="h-32 flex items-center justify-center">
               <img 
                 src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
                 alt="FeatherBiz" 
-                className="h-28 w-auto"
+                className="h-32 w-auto"
               />
             </div>
           </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Features</a>
+            <PlatformDropdown />
+            <ProductsDropdown />
+            <a href="#customers" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Customers</a>
             <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Pricing</a>
-            <a href="#testimonials" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Testimonials</a>
           </nav>
 
           {/* CTA Buttons */}
