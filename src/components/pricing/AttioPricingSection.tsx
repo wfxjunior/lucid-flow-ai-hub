@@ -198,7 +198,7 @@ export function AttioPricingSection() {
                 aria-pressed={billingPeriod === 'annual'}
               >
                 Annual
-                <Badge className="bg-green-500 hover:bg-green-500 text-white text-xs font-medium px-2 py-0.5">
+                <Badge className="bg-slate-500 hover:bg-slate-600 text-white text-xs font-medium px-2 py-0.5">
                   Save 20%
                 </Badge>
               </button>
