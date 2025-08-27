@@ -166,10 +166,10 @@ export function AttioPricingSection() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Pricing built for every team
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto mb-6 font-medium">
               Transparent, simple, and flexible pricing. No hidden fees.
             </p>
-            <p className="text-base text-gray-700 font-medium">
+            <p className="text-base text-gray-800 font-semibold">
               No credit card required. Cancel anytime. All features included.
             </p>
           </div>
@@ -302,11 +302,11 @@ export function AttioPricingSection() {
 
           {/* Footer Note - Enhanced visibility */}
           <div className="text-center mt-16">
-            <div className="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto">
-              <p className="text-sm text-gray-600 font-medium mb-2">
+            <div className="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto border border-gray-200">
+              <p className="text-sm text-gray-700 font-semibold mb-2">
                 All plans include unlimited integrations and 99.9% uptime SLA
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-600 font-medium">
                 Prices exclude tax where applicable. Cancel anytime with one click.
               </p>
             </div>
