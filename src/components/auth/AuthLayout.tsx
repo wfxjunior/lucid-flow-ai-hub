@@ -15,11 +15,11 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
       <div className="w-full max-w-sm mx-auto">
         <div className="text-center mb-12">
           <div className="mb-8">
-            <div className="h-36 flex items-center justify-center mx-auto">
+            <div className="h-40 flex items-center justify-center mx-auto">
               <img 
                 src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
                 alt="FeatherBiz" 
-                className="h-36 w-auto"
+                className="h-40 w-auto"
               />
             </div>
           </div>

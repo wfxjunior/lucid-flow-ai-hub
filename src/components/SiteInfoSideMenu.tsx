@@ -1,3 +1,4 @@
+
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose, SheetTrigger } from "@/components/ui/sheet"
 import { HelpCircle, Home, DollarSign, Info, BookOpen, Users, Mail, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -23,11 +24,11 @@ export function SiteInfoSideMenu() {
           <SheetContent side="left" className="w-[320px] max-w-full px-0 py-0 shadow-xl animate-slide-in-right flex flex-col">
             <SheetHeader className="px-6 pt-6 pb-2 border-b mb-2">
               <SheetTitle className="flex items-center gap-2">
-                <div className="h-15 flex items-center justify-center">
+                <div className="h-18 flex items-center justify-center">
                   <img 
                     src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
                     alt="FeatherBiz" 
-                    className="h-15 w-auto"
+                    className="h-18 w-auto"
                   />
                 </div>
                 FeatherBiz Info

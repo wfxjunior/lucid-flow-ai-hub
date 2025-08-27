@@ -12,11 +12,11 @@ const AdminPage = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center gap-2">
-                <div className="h-24 flex items-center justify-center">
+                <div className="h-28 flex items-center justify-center">
                   <img 
                     src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
                     alt="FeatherBiz" 
-                    className="h-24 w-auto"
+                    className="h-28 w-auto"
                   />
                 </div>
                 <span className="ml-2 text-sm text-gray-500">Admin Panel</span>
