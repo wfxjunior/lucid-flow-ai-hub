@@ -21,26 +21,28 @@ export const LandingHeader = () => {
             </div>
           </Link>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <PlatformDropdown />
-            <ProductsDropdown />
-            <a href="#customers" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Customers</a>
-            <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Pricing</a>
-          </nav>
+          {/* Navigation - Aligned to the left */}
+          <div className="flex items-center justify-between flex-1">
+            <nav className="flex items-center space-x-8 ml-12">
+              <PlatformDropdown />
+              <ProductsDropdown />
+              <a href="#customers" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Customers</a>
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-sm font-medium">Pricing</a>
+            </nav>
 
-          {/* CTA Buttons */}
-          <div className="flex items-center space-x-4">
-            <Link to="/dashboard">
-              <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
-                Sign In
-              </Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                Get Started
-              </Button>
-            </Link>
+            {/* CTA Buttons */}
+            <div className="flex items-center space-x-4">
+              <Link to="/dashboard">
+                <Button variant="ghost" className="text-gray-600 hover:text-gray-900">
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/dashboard">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
