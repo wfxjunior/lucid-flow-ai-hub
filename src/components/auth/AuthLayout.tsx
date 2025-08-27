@@ -19,7 +19,7 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
               <img 
                 src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
                 alt="FeatherBiz" 
-                className="h-40 w-auto"
+                className="h-32 w-auto"
               />
             </div>
           </div>

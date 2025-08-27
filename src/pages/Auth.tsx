@@ -132,8 +132,7 @@ export default function Auth() {
         <img 
           src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
           alt="FeatherBiz" 
-          className="h-16 w-auto"
-          style={{ width: '64px', height: '102px', objectFit: 'contain' }}
+          className="h-32 w-auto"
         />
       </div>
 
