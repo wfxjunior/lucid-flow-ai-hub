@@ -126,7 +126,7 @@ export function SignUpForm({
           
           <Button 
             type="submit" 
-            className="w-full h-12 rounded-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="w-full h-12 rounded-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground disabled:bg-primary disabled:text-primary-foreground disabled:opacity-80"
             disabled={loading}
           >
             {loading ? 'Creating account...' : 'Continue'}
