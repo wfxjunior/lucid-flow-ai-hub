@@ -12,16 +12,9 @@ const AdminPage = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center gap-2">
-                <img 
-                  src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
-                  alt="FeatherBiz" 
-                  className="h-24 w-auto object-contain"
-                  onError={(e) => {
-                    console.error('Logo failed to load in AdminPage:', e);
-                    console.log('Image src:', e.currentTarget.src);
-                  }}
-                  onLoad={() => console.log('Logo loaded successfully in AdminPage')}
-                />
+                <div className="h-24 flex items-center justify-center">
+                  <span className="text-3xl font-bold text-primary">FeatherBiz</span>
+                </div>
                 <span className="ml-2 text-sm text-gray-500">Admin Panel</span>
               </div>
               <div className="flex items-center gap-4">

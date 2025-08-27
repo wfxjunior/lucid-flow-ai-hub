@@ -23,16 +23,9 @@ export function SiteInfoSideMenu() {
           <SheetContent side="left" className="w-[320px] max-w-full px-0 py-0 shadow-xl animate-slide-in-right flex flex-col">
             <SheetHeader className="px-6 pt-6 pb-2 border-b mb-2">
               <SheetTitle className="flex items-center gap-2">
-                <img 
-                  src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
-                  alt="FeatherBiz" 
-                  className="h-15 w-auto object-contain"
-                  onError={(e) => {
-                    console.error('Logo failed to load in SiteInfoSideMenu:', e);
-                    console.log('Image src:', e.currentTarget.src);
-                  }}
-                  onLoad={() => console.log('Logo loaded successfully in SiteInfoSideMenu')}
-                />
+                <div className="h-15 flex items-center justify-center">
+                  <span className="text-xl font-bold text-primary">FeatherBiz</span>
+                </div>
                 FeatherBiz Info
               </SheetTitle>
               <SheetDescription className="">

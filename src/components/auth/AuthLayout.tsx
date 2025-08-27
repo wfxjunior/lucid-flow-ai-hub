@@ -15,16 +15,9 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
       <div className="w-full max-w-sm mx-auto">
         <div className="text-center mb-12">
           <div className="mb-8">
-            <img 
-              src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
-              alt="FeatherBiz" 
-              className="h-36 w-auto mx-auto object-contain"
-              onError={(e) => {
-                console.error('Logo failed to load in AuthLayout:', e);
-                console.log('Image src:', e.currentTarget.src);
-              }}
-              onLoad={() => console.log('Logo loaded successfully in AuthLayout')}
-            />
+            <div className="h-36 flex items-center justify-center mx-auto">
+              <span className="text-4xl font-bold text-primary">FeatherBiz</span>
+            </div>
           </div>
           <div className="space-y-2">
             <h2 className="text-2xl font-medium text-foreground">{title}</h2>

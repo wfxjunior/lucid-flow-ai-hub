@@ -10,16 +10,9 @@ export const LandingHeader = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <img 
-              src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
-              alt="FeatherBiz" 
-              className="h-24 w-auto object-contain"
-              onError={(e) => {
-                console.error('Logo failed to load in LandingHeader:', e);
-                console.log('Image src:', e.currentTarget.src);
-              }}
-              onLoad={() => console.log('Logo loaded successfully in LandingHeader')}
-            />
+            <div className="h-24 flex items-center justify-center">
+              <span className="text-3xl font-bold text-primary">FeatherBiz</span>
+            </div>
           </Link>
 
           {/* Navigation */}

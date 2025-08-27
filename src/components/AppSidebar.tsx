@@ -1,4 +1,3 @@
-
 import React from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
@@ -97,16 +96,9 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
     <Sidebar variant="inset" className="w-48 min-w-48 border-r border-border">
       <SidebarHeader className="p-1">
         <div className="flex items-center gap-1 px-2 py-1">
-          <img 
-            src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
-            alt="FeatherBiz" 
-            className="h-18 w-auto object-contain"
-            onError={(e) => {
-              console.error('Logo failed to load in AppSidebar:', e);
-              console.log('Image src:', e.currentTarget.src);
-            }}
-            onLoad={() => console.log('Logo loaded successfully in AppSidebar')}
-          />
+          <div className="h-18 flex items-center justify-center">
+            <span className="text-lg font-bold text-primary">FeatherBiz</span>
+          </div>
         </div>
       </SidebarHeader>
       
