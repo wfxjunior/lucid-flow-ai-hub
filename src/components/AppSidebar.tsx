@@ -1,3 +1,4 @@
+
 import React from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { Home, Users, Calendar, FileText, CreditCard, Settings, BarChart3, Briefcase, PiggyBank, Calculator, Car, Package, UserCheck, Target, MessageSquare, Mail, Zap, Video, CheckSquare, StickyNote, FileSpreadsheet, Receipt, TrendingUp, Clipboard, DollarSign, PenTool, Clock, Building, Heart, Mic, Signature } from "lucide-react"
@@ -97,7 +98,7 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
       <SidebarHeader className="p-1">
         <div className="flex items-center gap-1 px-2 py-1">
           <img 
-            src="/lovable-uploads/0d97c0c0-7910-4438-93bc-cf330d3652c9.png" 
+            src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
             alt="FeatherBiz" 
             className="h-6 w-auto object-contain"
           />

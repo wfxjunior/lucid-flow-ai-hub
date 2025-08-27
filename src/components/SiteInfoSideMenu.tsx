@@ -23,7 +23,14 @@ export function SiteInfoSideMenu() {
           </SheetTrigger>
           <SheetContent side="left" className="w-[320px] max-w-full px-0 py-0 shadow-xl animate-slide-in-right flex flex-col">
             <SheetHeader className="px-6 pt-6 pb-2 border-b mb-2">
-              <SheetTitle className="flex items-center gap-2"><Info className="w-5 h-5 text-primary" /> FeatherBiz Info</SheetTitle>
+              <SheetTitle className="flex items-center gap-2">
+                <img 
+                  src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
+                  alt="FeatherBiz" 
+                  className="w-5 h-5 object-contain"
+                />
+                FeatherBiz Info
+              </SheetTitle>
               <SheetDescription className="">
                 All the essentials of FeatherBiz in one spot!
               </SheetDescription>
@@ -83,4 +90,3 @@ export function SiteInfoSideMenu() {
     </div>
   )
 }
-
