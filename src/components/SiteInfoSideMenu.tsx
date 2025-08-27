@@ -24,7 +24,11 @@ export function SiteInfoSideMenu() {
             <SheetHeader className="px-6 pt-6 pb-2 border-b mb-2">
               <SheetTitle className="flex items-center gap-2">
                 <div className="h-15 flex items-center justify-center">
-                  <span className="text-xl font-bold text-primary">FeatherBiz</span>
+                  <img 
+                    src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+                    alt="FeatherBiz" 
+                    className="h-15 w-auto"
+                  />
                 </div>
                 FeatherBiz Info
               </SheetTitle>

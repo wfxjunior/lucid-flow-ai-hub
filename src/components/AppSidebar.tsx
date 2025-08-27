@@ -97,7 +97,11 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
       <SidebarHeader className="p-1">
         <div className="flex items-center gap-1 px-2 py-1">
           <div className="h-18 flex items-center justify-center">
-            <span className="text-lg font-bold text-primary">FeatherBiz</span>
+            <img 
+              src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+              alt="FeatherBiz" 
+              className="h-18 w-auto"
+            />
           </div>
         </div>
       </SidebarHeader>

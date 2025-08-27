@@ -16,7 +16,11 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
         <div className="text-center mb-12">
           <div className="mb-8">
             <div className="h-36 flex items-center justify-center mx-auto">
-              <span className="text-4xl font-bold text-primary">FeatherBiz</span>
+              <img 
+                src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+                alt="FeatherBiz" 
+                className="h-36 w-auto"
+              />
             </div>
           </div>
           <div className="space-y-2">

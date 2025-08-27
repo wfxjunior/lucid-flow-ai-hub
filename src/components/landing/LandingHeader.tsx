@@ -11,7 +11,11 @@ export const LandingHeader = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="h-24 flex items-center justify-center">
-              <span className="text-3xl font-bold text-primary">FeatherBiz</span>
+              <img 
+                src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+                alt="FeatherBiz" 
+                className="h-24 w-auto"
+              />
             </div>
           </Link>
 
