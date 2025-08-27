@@ -13,8 +13,7 @@ export const LandingHeader = () => {
             <img 
               src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
               alt="FeatherBiz" 
-              className="h-8 w-auto object-contain"
-              style={{ width: '32px', height: '51px', objectFit: 'contain' }}
+              className="h-8 w-8 object-contain"
             />
             <span className="text-xl font-bold text-gray-900">FeatherBiz</span>
           </Link>
