@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -167,8 +166,11 @@ export function AttioPricingSection() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Pricing built for every team
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
               Transparent, simple, and flexible pricing. No hidden fees.
+            </p>
+            <p className="text-base text-gray-700 font-medium">
+              No credit card required. Cancel anytime. All features included.
             </p>
           </div>
 
@@ -298,11 +300,16 @@ export function AttioPricingSection() {
             ))}
           </div>
 
-          {/* Footer Note */}
-          <div className="text-center mt-12">
-            <p className="text-sm text-gray-500">
-              All plans include unlimited integrations and 99.9% uptime SLA
-            </p>
+          {/* Footer Note - Enhanced visibility */}
+          <div className="text-center mt-16">
+            <div className="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto">
+              <p className="text-sm text-gray-600 font-medium mb-2">
+                All plans include unlimited integrations and 99.9% uptime SLA
+              </p>
+              <p className="text-xs text-gray-500">
+                Prices exclude tax where applicable. Cancel anytime with one click.
+              </p>
+            </div>
           </div>
         </div>
       </section>
