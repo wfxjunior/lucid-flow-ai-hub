@@ -24,7 +24,7 @@ interface AppSidebarProps {
 
 // Define menu sections with their items
 const generalItems: MenuItem[] = [
-  { title: "Dashboard", icon: Home, view: "" },
+  { title: "Dashboard", icon: Home, view: "dashboard" },
   { title: "Careers", icon: Users, view: "careers" }
 ]
 
@@ -90,7 +90,11 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
 
   const handleMenuClick = (view: string) => {
     console.log('Sidebar: Navigating to', view)
-    navigate(view === "" ? "/" : `/${view}`)
+    if (view === "dashboard") {
+      navigate("/dashboard/")
+    } else {
+      navigate(`/dashboard/${view}`)
+    }
   }
 
   return (
