@@ -13,9 +13,9 @@ const AdminPage = () => {
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center gap-2">
                 <img 
-                  src="/lovable-uploads/0d97c0c0-7910-4438-93bc-cf330d3652c9.png" 
+                  src="/lovable-uploads/069b8ac1-1317-4e74-8d64-94f03ad80e69.png" 
                   alt="FeatherBiz" 
-                  className="h-8 w-auto object-contain"
+                  className="h-24 w-auto object-contain"
                 />
                 <span className="ml-2 text-sm text-gray-500">Admin Panel</span>
               </div>
