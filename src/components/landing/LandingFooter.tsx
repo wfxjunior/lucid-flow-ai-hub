@@ -12,7 +12,7 @@ export const LandingFooter = () => {
               <img 
                 src="/lovable-uploads/38cecdbf-615c-48fa-b5f1-fdcc78d96306.png" 
                 alt="FeatherBiz" 
-                className="h-8 w-auto"
+                className="h-24 w-auto"
               />
             </div>
             <p className="text-gray-400 mb-4">
