@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -10,7 +9,11 @@ export const LandingFooter = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-bold">FeatherBiz</span>
+              <img 
+                src="/lovable-uploads/38cecdbf-615c-48fa-b5f1-fdcc78d96306.png" 
+                alt="FeatherBiz" 
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-gray-400 mb-4">
               All-in-one business platform for modern entrepreneurs. Organize, send, and grow your business.
