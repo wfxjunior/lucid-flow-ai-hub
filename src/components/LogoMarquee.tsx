@@ -113,6 +113,17 @@ const SanctuaryLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const LPLLogo = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 140 40" className={className} fill="currentColor">
+    <text x="10" y="28" fontSize="18" fontWeight="700" fontFamily="system-ui, -apple-system, sans-serif">
+      LPL
+    </text>
+    <text x="50" y="28" fontSize="14" fontWeight="400" fontFamily="system-ui, -apple-system, sans-serif">
+      FINANCIAL
+    </text>
+  </svg>
+);
+
 const logos = [
   { name: "Pershing", Component: PershingLogo },
   { name: "Addepar", Component: AddeparLogo },
@@ -124,6 +135,7 @@ const logos = [
   { name: "Dynasty Financial Partners", Component: DynastyLogo },
   { name: "Morningstar", Component: MorningstarLogo },
   { name: "Sanctuary Wealth", Component: SanctuaryLogo },
+  { name: "LPL Financial", Component: LPLLogo },
 ];
 
 export default function LogoMarquee({ className = "" }: { className?: string }) {
@@ -142,9 +154,9 @@ export default function LogoMarquee({ className = "" }: { className?: string }) 
 
         {/* Two-row grid layout matching the reference */}
         <div className="space-y-12">
-          {/* First row - 5 logos */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 lg:gap-12 items-center justify-items-center">
-            {logos.slice(0, 5).map((logo, index) => (
+          {/* First row - 6 logos */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 lg:gap-12 items-center justify-items-center">
+            {logos.slice(0, 6).map((logo, index) => (
               <div 
                 key={index}
                 className="flex items-center justify-center group cursor-pointer p-3"
@@ -160,9 +172,9 @@ export default function LogoMarquee({ className = "" }: { className?: string }) 
 
           {/* Second row - 5 logos */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 lg:gap-12 items-center justify-items-center">
-            {logos.slice(5, 10).map((logo, index) => (
+            {logos.slice(6, 11).map((logo, index) => (
               <div 
-                key={index + 5}
+                key={index + 6}
                 className="flex items-center justify-center group cursor-pointer p-3"
                 aria-label={logo.name}
                 role="img"
