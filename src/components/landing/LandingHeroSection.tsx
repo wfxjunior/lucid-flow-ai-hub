@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+
 import { SalesContactModal } from "@/components/SalesContactModal";
 import { useSubscription } from "@/hooks/useSubscription";
 import { track } from "@/lib/analytics";
@@ -57,38 +57,6 @@ export const LandingHeroSection = () => {
         }}
       />
       
-      {/* Announcement Banner - attio-like pill */}
-      <div className="flex justify-center mb-4 sm:mb-6">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          onClick={() => navigate('/scale')}
-          className="group h-7 px-3.5 border cursor-pointer inline-flex items-center gap-2 transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5"
-          style={{
-            borderColor: 'var(--fb-border)',
-            backgroundColor: 'var(--fb-bg)',
-            fontSize: '13px',
-            fontWeight: '500',
-            borderRadius: '8px'
-          }}
-          role="button"
-          aria-label="FeatherBiz Scale"
-          tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/scale'); } }}
-        >
-          <motion.div
-            animate={{ x: [0, 4, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-            className="w-2 h-2"
-            style={{ backgroundColor: 'hsl(var(--fb-primary))', borderRadius: '8px' }}
-          />
-          <span className="font-medium" style={{ color: 'var(--fb-text)' }}>
-            FeatherBiz Scale
-          </span>
-          <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" style={{ color: 'var(--fb-muted)' }} />
-        </motion.div>
-      </div>
       
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-4xl mx-auto">
