@@ -11,10 +11,9 @@ export const LandingFooter = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <img 
-                src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+                src="/lovable-uploads/961c93d6-db03-4968-8147-006858fc26b8.png" 
                 alt="FeatherBiz" 
                 className="h-8 w-auto object-contain"
-                style={{ width: '32px', height: '51px', objectFit: 'contain' }}
               />
               <span className="text-xl font-bold">FeatherBiz</span>
             </div>
