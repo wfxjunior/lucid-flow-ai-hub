@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -10,7 +11,7 @@ export const LandingFooter = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <img 
-                src="/lovable-uploads/38cecdbf-615c-48fa-b5f1-fdcc78d96306.png" 
+                src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
                 alt="FeatherBiz" 
                 className="h-24 w-auto"
               />
