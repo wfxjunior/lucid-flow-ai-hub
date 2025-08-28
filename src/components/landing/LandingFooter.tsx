@@ -10,11 +10,6 @@ export const LandingFooter = () => {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <img 
-                src="/lovable-uploads/961c93d6-db03-4968-8147-006858fc26b8.png" 
-                alt="FeatherBiz" 
-                className="h-20 w-auto object-contain"
-              />
               <span className="text-xl font-bold">FeatherBiz</span>
             </div>
             <p className="text-gray-400 mb-4">
