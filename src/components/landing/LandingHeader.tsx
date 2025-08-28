@@ -21,7 +21,7 @@ export const LandingHeader = () => {
               <img 
                 src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
                 alt="FeatherBiz" 
-                className="h-12 w-auto sm:h-10 md:h-12"
+                className="h-36 w-auto md:h-12"
               />
             </div>
           </Link>
