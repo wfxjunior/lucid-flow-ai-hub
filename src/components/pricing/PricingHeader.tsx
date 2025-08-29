@@ -8,7 +8,7 @@ export function PricingHeader() {
       <p className="text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed mb-6 font-medium">
         Designed for every stage of your journey. Start today, no credit card required.
       </p>
-      <p className="text-base text-gray-800 leading-relaxed font-semibold">
+      <p className="text-base text-gray-900 leading-relaxed font-semibold">
         No credit card required. Cancel anytime. All features included.
       </p>
     </div>

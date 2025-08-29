@@ -169,7 +169,7 @@ export function AttioPricingSection() {
             <p className="text-xl text-gray-700 max-w-2xl mx-auto mb-6 font-medium">
               Transparent, simple, and flexible pricing. No hidden fees.
             </p>
-            <p className="text-base text-gray-800 font-semibold">
+            <p className="text-base text-gray-900 font-semibold">
               No credit card required. Cancel anytime. All features included.
             </p>
           </div>

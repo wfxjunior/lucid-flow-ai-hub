@@ -46,7 +46,7 @@ export default function TrialGrowthSection() {
           <h2 className="max-w-xl text-5xl font-extrabold leading-tight text-slate-900 md:text-[44px]">
             Start with a 7-day free <br className="hidden md:block" /> trial of Pro.
           </h2>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-[color:var(--fb-muted,#64748B)]">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-700">
             No credit card required. Cancel anytime. All features included.
           </p>
 
