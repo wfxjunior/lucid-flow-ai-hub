@@ -13,15 +13,30 @@ export function AuthGuard({ children, fallback }: AuthGuardProps) {
   const navigate = useNavigate()
   const location = useLocation()
 
+  // Define public routes that don't require authentication
+  const publicRoutes = [
+    '/',
+    '/auth',
+    '/login', 
+    '/signup',
+    '/forgot-password',
+    '/reset-password',
+    '/verify-email',
+    '/blog'
+  ]
+
+  const isPublicRoute = publicRoutes.includes(location.pathname) || 
+                       location.pathname.startsWith('/blog/')
+
   useEffect(() => {
-    if (!loading && !user) {
-      // Redirect to auth page, preserving the intended destination
+    if (!loading && !user && !isPublicRoute) {
+      // Only redirect if not on a public route
       navigate('/auth', { 
         state: { from: location.pathname },
         replace: true 
       })
     }
-  }, [user, loading, navigate, location])
+  }, [user, loading, navigate, location, isPublicRoute])
 
   // Show loading state while checking authentication
   if (loading) {
@@ -30,7 +45,12 @@ export function AuthGuard({ children, fallback }: AuthGuardProps) {
     </div>
   }
 
-  // Show fallback or redirect if not authenticated
+  // Allow access to public routes without authentication
+  if (isPublicRoute) {
+    return <>{children}</>
+  }
+
+  // Block access to protected routes if not authenticated
   if (!user) {
     return fallback || null
   }
