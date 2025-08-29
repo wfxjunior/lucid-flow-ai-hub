@@ -324,7 +324,7 @@ export const LandingFreeTrialV2: React.FC = () => {
               >
                 {copy.headline}
               </h2>
-              <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-prose">
+              <p className="mt-4 text-base sm:text-lg text-foreground/80 max-w-prose">
                 {copy.subheadline}
               </p>
             </header>
