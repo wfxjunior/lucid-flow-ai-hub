@@ -11,12 +11,10 @@ export const LandingFooter = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <img 
-                src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
+                src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
                 alt="FeatherBiz" 
-                className="h-8 w-auto object-contain"
-                style={{ width: '32px', height: '51px', objectFit: 'contain' }}
+                className="h-24 w-auto"
               />
-              <span className="text-xl font-bold">FeatherBiz</span>
             </div>
             <p className="text-gray-400 mb-4">
               All-in-one business platform for modern entrepreneurs. Organize, send, and grow your business.
