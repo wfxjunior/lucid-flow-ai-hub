@@ -9,11 +9,11 @@ export const LandingFooter = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-start gap-2 mb-6 -mt-2">
               <img 
                 src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
                 alt="FeatherBiz" 
-                className="h-24 w-auto"
+                className="h-32 w-auto"
               />
             </div>
             <p className="text-gray-400 mb-4">
