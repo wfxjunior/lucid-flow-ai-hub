@@ -101,11 +101,11 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
     <Sidebar variant="inset" className="w-48 min-w-48 border-r border-border">
       <SidebarHeader className="p-1">
         <div className="flex items-center gap-1 px-2 py-1">
-          <div className="h-24 flex items-center justify-center">
+          <div className="h-20 flex items-center justify-center">
             <img 
               src="/lovable-uploads/2d53a2ef-a962-4c01-a5c0-e7b672621acf.png" 
               alt="FeatherBiz" 
-              className="h-24 w-auto"
+              className="h-20 w-auto"
             />
           </div>
         </div>
