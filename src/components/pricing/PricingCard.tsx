@@ -38,7 +38,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ plan, onPlanSelect, lo
         </div>
         
         <div className="mt-6">
-          <div className="flex items-baseline space-x-1">
+          <div className="flex items-baseline space-x-1 justify-center sm:justify-start">
             <span className="text-3xl font-semibold text-slate-900 tracking-tight">{plan.price}</span>
             {plan.period && (
               <span className="text-sm text-slate-500">/{plan.period.replace('per ', '').replace(' billed annually', '')}</span>
@@ -46,11 +46,11 @@ export const PricingCard: React.FC<PricingCardProps> = ({ plan, onPlanSelect, lo
           </div>
           
           {plan.period.includes('billed annually') && (
-            <p className="text-xs text-slate-500 mt-1">Billed annually</p>
+            <p className="text-xs text-slate-500 mt-1 text-center sm:text-left">Billed annually</p>
           )}
           
           {plan.originalPrice && plan.savings && (
-            <div className="flex items-center space-x-2 mt-2">
+            <div className="flex items-center space-x-2 mt-2 justify-center sm:justify-start">
               <span className="text-sm text-slate-400 line-through">{plan.originalPrice}/mo</span>
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
                 {plan.savings}
