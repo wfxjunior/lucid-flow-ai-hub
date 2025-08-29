@@ -37,7 +37,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ plan, onPlanSelect, lo
           <p className="text-sm text-slate-500">{plan.description}</p>
         </div>
         
-        <div className="mt-6">
+        <div className="mt-6 text-center sm:text-left">
           <div className="flex items-baseline space-x-1 justify-center sm:justify-start">
             <span className="text-3xl font-semibold text-slate-900 tracking-tight">{plan.price}</span>
             {plan.period && (
