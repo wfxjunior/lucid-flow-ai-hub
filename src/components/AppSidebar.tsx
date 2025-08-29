@@ -98,7 +98,7 @@ export function AppSidebar({ activeView }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar variant="inset" className="w-48 min-w-48 border-r border-border">
+    <Sidebar variant="inset" className="w-52 min-w-52 border-r border-border">
       <SidebarHeader className="p-1">
         <div className="flex items-center gap-1 px-2 py-1">
           <div className="h-24 flex items-center justify-center">
