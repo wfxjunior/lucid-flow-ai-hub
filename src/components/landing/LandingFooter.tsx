@@ -21,12 +21,23 @@ export const LandingFooter = () => {
             </p>
           </div>
 
+          {/* Platform Links */}
+          <div>
+            <h3 className="font-semibold mb-4">Platform</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><Link to="/dashboard" className="hover:text-white">CRM Platform</Link></li>
+              <li><Link to="/dashboard" className="hover:text-white">Automations</Link></li>
+              <li><Link to="/dashboard" className="hover:text-white">Insights</Link></li>
+            </ul>
+          </div>
+
           {/* Product Links */}
           <div>
-            <h3 className="font-semibold mb-4">Product</h3>
+            <h3 className="font-semibold mb-4">Products</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#features" className="hover:text-white">Features</a></li>
+              <li><a href="#customers" className="hover:text-white">Customers</a></li>
               <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
+              <li><a href="#features" className="hover:text-white">Features</a></li>
               <li><a href="#testimonials" className="hover:text-white">Testimonials</a></li>
             </ul>
           </div>
