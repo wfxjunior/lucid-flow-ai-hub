@@ -194,11 +194,11 @@ export function PricingPlans() {
                 {/* Plan Header */}
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{plan.name}</h3>
-                   <div className="mb-4">
-                     <div className="flex items-baseline sm:block">
-                       <span className="text-4xl font-bold text-gray-900 tracking-tight block text-center sm:text-left">
-                         {formatPrice(plan.price)}
-                       </span>
+                     <div className="mb-4">
+                      <div className="flex items-baseline justify-center sm:justify-start sm:block">
+                        <span className="text-4xl font-bold text-gray-900 tracking-tight block text-center sm:text-left">
+                          {formatPrice(plan.price)}
+                        </span>
                        {plan.price !== null && plan.price > 0 && (
                          <span className="text-gray-500 ml-1 block text-center sm:text-left">
                            /{billingPeriod === "monthly" ? "mo" : "yr"}

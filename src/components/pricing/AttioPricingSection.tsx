@@ -236,8 +236,8 @@ export function AttioPricingSection() {
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-4">{plan.name}</h3>
                     <div className="mb-4">
-                      <div className="flex items-baseline">
-                        <span className="text-4xl font-black text-gray-900 tracking-tight">
+                      <div className="flex items-baseline justify-center sm:justify-start">
+                        <span className="text-4xl font-black text-gray-900 tracking-tight text-center sm:text-left">
                           {getPrice(plan.id)}
                         </span>
                         <span className="text-gray-500 ml-1 text-lg">
