@@ -178,7 +178,7 @@ export const FeatherBizShowcase = () => {
                 aria-controls={`panel-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
                 onKeyDown={(e) => handleKeyDown(e, tab.id)}
-                className={`flex-1 sm:flex-initial px-3 sm:px-6 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 min-h-[40px] sm:min-h-[44px] whitespace-nowrap ${
+                className={`flex-1 sm:flex-initial px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 min-h-[40px] sm:min-h-[44px] whitespace-nowrap ${
                   activeTab === tab.id 
                     ? 'bg-white shadow-sm' 
                     : 'hover:bg-gray-50'
