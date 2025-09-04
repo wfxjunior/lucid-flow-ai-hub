@@ -9,7 +9,7 @@ export const LandingFooter = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Logo and Description */}
           <div className="lg:col-span-1">
-            <div className="flex items-start gap-2 mb-4 -mt-2">
+            <div className="flex items-start gap-2 mb-4 -mt-4">
               <img 
                 src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
                 alt="FeatherBiz" 
