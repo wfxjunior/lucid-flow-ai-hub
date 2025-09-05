@@ -14,6 +14,7 @@ import BlogPost from "./pages/BlogPost";
 import Investors from "./pages/Investors";
 import Auth from "./pages/Auth";
 import { AuthGuard } from "./components/AuthGuard";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,8 @@ const App = () => (
                 <Route path="/forgot-password" element={<Auth />} />
                 <Route path="/reset-password" element={<Auth />} />
                 <Route path="/verify-email" element={<Auth />} />
-                <Route path="/dashboard/*" element={<Index />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/app/*" element={<Index />} />
                 <Route path="/investors" element={<Investors />} />
                 <Route path="/blog" element={<BlogIndex />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
