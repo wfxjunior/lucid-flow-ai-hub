@@ -285,3 +285,43 @@
   font-size: 13px;
   color: #888;
 }
+
+/* Mobile responsiveness for footer */
+@media (max-width: 768px) {
+  .footer {
+    padding: 30px 20px;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+    text-align: left;
+  }
+  
+  .footer-column {
+    min-width: auto;
+  }
+  
+  .footer-logo {
+    width: 120px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-text {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 25px 15px;
+  }
+  
+  .footer-container {
+    gap: 25px;
+  }
+  
+  .footer-logo {
+    width: 100px;
+  }
+}
