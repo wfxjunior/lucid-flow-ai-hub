@@ -6,40 +6,71 @@ export const LandingFooter = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Logo at top */}
-        <div className="footer-logo-top">
-          <img 
-            src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
-            alt="FeatherBiz Logo" 
-            className="footer-logo"
-          />
-        </div>
-
-        <div className="footer-columns">
-          {/* Platform Links */}
-          <div className="footer-column">
-            <h4>Platform</h4>
-            <Link to="/dashboard">CRM Platform</Link>
-            <Link to="/dashboard">Automations</Link>
-            <Link to="/dashboard">Insights</Link>
+        <div className="footer-content">
+          {/* Logo in top-left */}
+          <div className="footer-logo-section">
+            <img 
+              src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
+              alt="FeatherBiz Logo" 
+              className="footer-logo"
+            />
           </div>
 
-          {/* Product Links */}
-          <div className="footer-column">
-            <h4>Products</h4>
-            <a href="#customers">Customers</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#features">Features</a>
-            <a href="#testimonials">Testimonials</a>
+          <div className="footer-columns">
+            {/* Platform Links */}
+            <div className="footer-column">
+              <h4>Platform</h4>
+              <Link to="/dashboard">CRM Platform</Link>
+              <Link to="/dashboard">Automations</Link>
+              <Link to="/dashboard">Insights</Link>
+            </div>
+
+            {/* Products Links */}
+            <div className="footer-column">
+              <h4>Products</h4>
+              <a href="#customers">Customers</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#features">Features</a>
+              <a href="#testimonials">Testimonials</a>
+            </div>
+
+            {/* Apps Links */}
+            <div className="footer-column">
+              <h4>Apps</h4>
+              <a href="#integrations">Gmail</a>
+              <a href="#integrations">Outlook</a>
+              <a href="#integrations">Slack</a>
+              <a href="#integrations">Mailchimp</a>
+            </div>
+
+            {/* Resources Links */}
+            <div className="footer-column">
+              <h4>Resources</h4>
+              <Link to="/help">Help center</Link>
+              <Link to="/developers">Developers</Link>
+              <Link to="/downloads">Downloads</Link>
+              <Link to="/contact">Support</Link>
+            </div>
           </div>
 
-          {/* Company Links */}
-          <div className="footer-column">
-            <h4>Company</h4>
-            <Link to="/about">About</Link>
-            <Link to="/careers">Careers</Link>
-            <Link to="/investors">Investors</Link>
-            <Link to="/contact">Contact</Link>
+          <div className="footer-secondary">
+            {/* Company Links */}
+            <div className="footer-column">
+              <h4>Company</h4>
+              <Link to="/about">About</Link>
+              <Link to="/careers">Careers</Link>
+              <Link to="/investors">Investors</Link>
+              <Link to="/contact">Contact</Link>
+            </div>
+
+            {/* FeatherBiz for */}
+            <div className="footer-column">
+              <h4>FeatherBiz for</h4>
+              <a href="#startups">Startups</a>
+              <a href="#enterprise">Enterprise</a>
+              <a href="#agencies">Agencies</a>
+              <a href="#freelancers">Freelancers</a>
+            </div>
           </div>
         </div>
       </div>
