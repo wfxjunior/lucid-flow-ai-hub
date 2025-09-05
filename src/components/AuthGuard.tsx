@@ -27,7 +27,8 @@ export function AuthGuard({ children, fallback }: AuthGuardProps) {
   ]
 
   const isPublicRoute = publicRoutes.includes(location.pathname) || 
-                       location.pathname.startsWith('/blog/')
+                       location.pathname.startsWith('/blog/') ||
+                       location.pathname.startsWith('/dashboard/')
 
   useEffect(() => {
     if (!loading && !user && !isPublicRoute) {
