@@ -6,8 +6,8 @@ export const LandingFooter = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Logo */}
-        <div className="footer-column">
+        {/* Logo at top */}
+        <div className="footer-logo-top">
           <img 
             src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
             alt="FeatherBiz Logo" 
@@ -15,30 +15,32 @@ export const LandingFooter = () => {
           />
         </div>
 
-        {/* Platform Links */}
-        <div className="footer-column">
-          <h4>Platform</h4>
-          <Link to="/dashboard">CRM Platform</Link>
-          <Link to="/dashboard">Automations</Link>
-          <Link to="/dashboard">Insights</Link>
-        </div>
+        <div className="footer-columns">
+          {/* Platform Links */}
+          <div className="footer-column">
+            <h4>Platform</h4>
+            <Link to="/dashboard">CRM Platform</Link>
+            <Link to="/dashboard">Automations</Link>
+            <Link to="/dashboard">Insights</Link>
+          </div>
 
-        {/* Product Links */}
-        <div className="footer-column">
-          <h4>Products</h4>
-          <a href="#customers">Customers</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#features">Features</a>
-          <a href="#testimonials">Testimonials</a>
-        </div>
+          {/* Product Links */}
+          <div className="footer-column">
+            <h4>Products</h4>
+            <a href="#customers">Customers</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#features">Features</a>
+            <a href="#testimonials">Testimonials</a>
+          </div>
 
-        {/* Company Links */}
-        <div className="footer-column">
-          <h4>Company</h4>
-          <Link to="/about">About</Link>
-          <Link to="/careers">Careers</Link>
-          <Link to="/investors">Investors</Link>
-          <Link to="/contact">Contact</Link>
+          {/* Company Links */}
+          <div className="footer-column">
+            <h4>Company</h4>
+            <Link to="/about">About</Link>
+            <Link to="/careers">Careers</Link>
+            <Link to="/investors">Investors</Link>
+            <Link to="/contact">Contact</Link>
+          </div>
         </div>
       </div>
 
