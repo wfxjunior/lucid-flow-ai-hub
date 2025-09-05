@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Headphones, Send, X, Bot, User, Smile, Mail, Languages, ExternalLink } from "lucide-react"
+import { MessageCircle, Send, X, Bot, User, Smile, Mail, Languages, ExternalLink } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { useAuthState } from "@/hooks/useAuthState"
 import { useLanguage } from "@/contexts/LanguageContext"
@@ -594,7 +594,7 @@ CONTACT & DEMOS
                 
                 {/* Headphones icon */}
                 <div className="relative flex items-center justify-center h-full w-full">
-                  <Headphones className={`w-7 h-7 text-white transition-transform duration-200 ${isBlinking ? 'scale-110' : 'scale-100'}`} />
+                  <MessageCircle className={`w-7 h-7 text-white transition-transform duration-200 ${isBlinking ? 'scale-110' : 'scale-100'}`} />
                 </div>
               </button>
             </TooltipTrigger>
@@ -614,7 +614,7 @@ CONTACT & DEMOS
                 <div className="flex items-center gap-2">
                   <div className="relative">
                     <div className="w-5 h-5 bg-blue-400 rounded-full border border-white flex items-center justify-center">
-                      <Headphones className="w-3 h-3 text-white" />
+                      <MessageCircle className="w-3 h-3 text-white" />
                     </div>
                   </div>
                   <div className="flex flex-col">
@@ -655,7 +655,7 @@ CONTACT & DEMOS
                     <div className="mb-6 flex justify-center">
                       <div className="relative">
                         <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
-                          <Headphones className="w-8 h-8 text-white" />
+                          <MessageCircle className="w-8 h-8 text-white" />
                         </div>
                         <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full border-2 border-white flex items-center justify-center">
                           <span className="text-xs">💰</span>
@@ -726,7 +726,7 @@ CONTACT & DEMOS
                             {message.type === 'bot' && (
                               <div className="relative mt-0.5 flex-shrink-0">
                                <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
-                                 <Headphones className="w-2 h-2 text-white" />
+                                  <MessageCircle className="w-2 h-2 text-white" />
                                </div>
                               </div>
                             )}
@@ -801,7 +801,7 @@ CONTACT & DEMOS
                       <div className="flex items-center gap-2">
                          <div className="relative">
                            <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
-                             <Headphones className="w-2 h-2 text-white" />
+                              <MessageCircle className="w-2 h-2 text-white" />
                            </div>
                          </div>
                         <div className="flex items-center gap-1">
@@ -824,7 +824,7 @@ CONTACT & DEMOS
                       <div className="flex items-start gap-2">
                          <div className="relative mt-0.5 flex-shrink-0">
                             <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
-                             <Headphones className="w-2 h-2 text-white" />
+                             <MessageCircle className="w-2 h-2 text-white" />
                            </div>
                          </div>
                         <div className="flex-1">
