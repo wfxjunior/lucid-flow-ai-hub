@@ -12,7 +12,7 @@ export const LandingFooter = () => {
             <img 
               src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
               alt="FeatherBiz" 
-              className="h-20 w-auto mb-4"
+              className="h-20 w-auto"
             />
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               All-in-one business platform for modern entrepreneurs. Organize, send, and grow your business.
