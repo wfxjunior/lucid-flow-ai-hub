@@ -6,17 +6,13 @@ export const LandingFooter = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Logo and Description */}
+        {/* Logo */}
         <div className="footer-column">
           <img 
             src="/lovable-uploads/21df0057-3683-4438-add9-9b79e6ee096c.png" 
             alt="FeatherBiz Logo" 
             className="footer-logo"
           />
-          <p className="footer-text">
-            All-in-one business platform for modern entrepreneurs.<br />
-            Organize, send, and grow your business.
-          </p>
         </div>
 
         {/* Platform Links */}
