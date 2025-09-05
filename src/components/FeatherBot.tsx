@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MessageCircle, Send, X, Bot, User, Smile, Mail, Languages, ExternalLink } from "lucide-react"
+import { Headphones, Send, X, Bot, User, Smile, Mail, Languages, ExternalLink } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { useAuthState } from "@/hooks/useAuthState"
 import { useLanguage } from "@/contexts/LanguageContext"
@@ -142,52 +142,52 @@ export function FeatherBot({ isVisible, theme = 'brand' }: FeatherBotProps) {
   // Suggested starter prompts by language
   const starterPrompts = {
     en: [
-      "What are the available plans?",
-      "How much does it cost monthly?", 
-      "Is there a free trial?",
-      "Can I cancel anytime?",
-      "Do you offer yearly billing?",
-      "What's the difference between each plan?"
+      "Como criar uma fatura?",
+      "Quais funcionalidades estão disponíveis?", 
+      "Como gerenciar meus clientes?",
+      "Como usar o sistema de orçamentos?",
+      "Como acompanhar meus ganhos?",
+      "Quais são os planos disponíveis?"
     ],
     es: [
-      "¿Cuáles son los planes disponibles?",
-      "¿Cuánto cuesta mensualmente?",
-      "¿Hay una prueba gratuita?", 
-      "¿Puedo cancelar en cualquier momento?",
-      "¿Ofrecen facturación anual?",
-      "¿Cuál es la diferencia entre cada plan?"
+      "¿Cómo crear una factura?",
+      "¿Qué funcionalidades están disponibles?",
+      "¿Cómo gestionar mis clientes?", 
+      "¿Cómo usar el sistema de presupuestos?",
+      "¿Cómo seguir mis ganancias?",
+      "¿Cuáles son los planes disponibles?"
     ],
     pt: [
-      "Quais são os planos disponíveis?",
-      "Quanto custa mensalmente?",
-      "Existe um teste gratuito?",
-      "Posso cancelar a qualquer momento?",
-      "Vocês oferecem cobrança anual?",
-      "Qual é a diferença entre cada plano?"
+      "Como criar uma fatura?",
+      "Quais funcionalidades estão disponíveis?",
+      "Como gerenciar meus clientes?",
+      "Como usar o sistema de orçamentos?",
+      "Como acompanhar meus ganhos?",
+      "Quais são os planos disponíveis?"
     ],
     fr: [
-      "Quels sont les plans disponibles?",
-      "Combien ça coûte par mois?",
-      "Y a-t-il un essai gratuit?",
-      "Puis-je annuler à tout moment?",
-      "Proposez-vous une facturation annuelle?",
-      "Quelle est la différence entre chaque plan?"
+      "Comment créer une facture?",
+      "Quelles fonctionnalités sont disponibles?",
+      "Comment gérer mes clients?",
+      "Comment utiliser le système de devis?", 
+      "Comment suivre mes gains?",
+      "Quels sont les plans disponibles?"
     ],
     de: [
-      "Welche Pläne sind verfügbar?",
-      "Wie viel kostet es monatlich?",
-      "Gibt es eine kostenlose Testversion?",
-      "Kann ich jederzeit kündigen?",
-      "Bieten Sie jährliche Abrechnung an?",
-      "Was ist der Unterschied zwischen den Plänen?"
+      "Wie erstelle ich eine Rechnung?",
+      "Welche Funktionen sind verfügbar?",
+      "Wie verwalte ich meine Kunden?",
+      "Wie nutze ich das Angebotssystem?",
+      "Wie verfolge ich meine Einnahmen?",
+      "Welche Pläne sind verfügbar?"
     ],
     zh: [
-      "有哪些可用的计划？",
-      "每月费用是多少？",
-      "有免费试用吗？",
-      "我可以随时取消吗？",
-      "你们提供年度计费吗？",
-      "每个计划之间有什么区别？"
+      "如何创建发票？",
+      "有哪些功能可用？",
+      "如何管理我的客户？",
+      "如何使用报价系统？", 
+      "如何跟踪我的收入？",
+      "有哪些计划可用？"
     ]
   }
 
@@ -236,14 +236,14 @@ CONTACT & DEMOS
 - Reviews: featherbiz.io/testimonials
 `
 
-  // Greeting messages by language
+  // Greeting messages by language (default to Portuguese)
   const greetingMessages = {
-    en: "👋 Hi! Have questions about FeatherBiz plans or pricing? I can help!",
-    es: "👋 ¡Hola! ¿Tienes preguntas sobre los planes o precios de FeatherBiz? ¡Puedo ayudarte!",
-    pt: "👋 Olá! Tem dúvidas sobre os planos ou preços do FeatherBiz? Posso ajudar!",
-    fr: "👋 Salut! Des questions sur les plans ou tarifs de FeatherBiz? Je peux vous aider!",
-    de: "👋 Hallo! Fragen zu FeatherBiz-Plänen oder Preisen? Ich kann helfen!",
-    zh: "👋 你好！对FeatherBiz计划或定价有疑问？我可以帮助您！"
+    en: "👋 Olá! Tem dúvidas sobre funcionalidades do FeatherBiz? Posso ajudar!",
+    es: "👋 ¡Hola! ¿Tienes preguntas sobre las funcionalidades de FeatherBiz? ¡Puedo ayudarte!",
+    pt: "👋 Olá! Tem dúvidas sobre as funcionalidades do FeatherBiz? Posso ajudar!",
+    fr: "👋 Salut! Des questions sur les fonctionnalités de FeatherBiz? Je peux vous aider!",
+    de: "👋 Hallo! Fragen zu FeatherBiz-Funktionen? Ich kann helfen!",
+    zh: "👋 你好！对FeatherBiz功能有疑问？我可以帮助您！"
   }
 
   // Auto scroll to bottom when new messages arrive
@@ -585,21 +585,21 @@ CONTACT & DEMOS
             <TooltipTrigger asChild>
               <button
                 onClick={() => setIsOpen(true)}
-                className="group relative h-14 w-14 rounded-full bg-muted hover:bg-muted/90 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-ring"
+                className="group relative h-14 w-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300"
                 aria-label="FeatherBot – Pricing Assistant"
                 tabIndex={0}
               >
                 {/* Subtle glow effect on hover */}
-                <div className="absolute inset-0 rounded-full bg-foreground/10 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-full bg-blue-400/20 opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300" />
                 
-                {/* Smiling face icon */}
+                {/* Headphones icon */}
                 <div className="relative flex items-center justify-center h-full w-full">
-                  <MessageCircle className={`w-7 h-7 text-foreground transition-transform duration-200 ${isBlinking ? 'scale-110' : 'scale-100'}`} />
+                  <Headphones className={`w-7 h-7 text-white transition-transform duration-200 ${isBlinking ? 'scale-110' : 'scale-100'}`} />
                 </div>
               </button>
             </TooltipTrigger>
             <TooltipContent side="left">
-              <p>Questions about plans & pricing? Ask me!</p>
+              <p>Perguntas sobre a plataforma? Estou aqui para ajudar!</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -608,22 +608,22 @@ CONTACT & DEMOS
       {/* Chat Window */}
       {isOpen && (
         <div className="animate-fade-in animate-scale-in">
-          <Card className="w-80 sm:w-96 h-96 sm:h-[500px] shadow-xl border border-border bg-background">
-            <CardHeader className={`${isGray ? 'bg-muted text-foreground' : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white'} pb-3 rounded-t-lg`}>
+            <Card className="w-80 sm:w-96 h-96 sm:h-[500px] shadow-xl border-2 border-blue-200 bg-white">
+            <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white pb-3 rounded-t-lg">
               <CardTitle className="flex items-center justify-between text-lg">
                 <div className="flex items-center gap-2">
                   <div className="relative">
-                    <div className={`w-5 h-5 ${isGray ? "bg-muted-foreground" : "bg-blue-500"} rounded-full border border-white flex items-center justify-center`}>
-                      <Smile className="w-3 h-3 text-white" />
+                    <div className="w-5 h-5 bg-blue-400 rounded-full border border-white flex items-center justify-center">
+                      <Headphones className="w-3 h-3 text-white" />
                     </div>
                   </div>
                   <div className="flex flex-col">
-                     <span className={`text-xs ${isGray ? 'text-muted-foreground' : 'text-blue-100'}`}>Assistant</span>
+                     <span className="text-xs text-blue-100">Assistente IA</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Select value={chatLanguage} onValueChange={(val) => { setChatLanguage(val); emitEvent('lang_set') }}>
-                    <SelectTrigger className={`w-12 h-8 p-0 border-0 bg-transparent ${isGray ? 'text-foreground hover:bg-muted' : 'text-white hover:bg-blue-600'}`}>
+                    <SelectTrigger className="w-12 h-8 p-0 border-0 bg-transparent text-white hover:bg-blue-600">
                       <Languages className="h-4 w-4" />
                     </SelectTrigger>
                     <SelectContent>
@@ -638,7 +638,7 @@ CONTACT & DEMOS
                     variant="ghost"
                     size="sm"
                     onClick={handleClose}
-                    className={`${isGray ? 'text-foreground hover:bg-muted/60' : 'text-white hover:bg-blue-600/50'} h-8 w-8 p-0 rounded-full transition-colors`}
+                    className="text-white hover:bg-blue-600/50 h-8 w-8 p-0 rounded-full transition-colors"
                     aria-label="Close FeatherBot"
                   >
                     <X className="h-4 w-4" />
@@ -654,39 +654,39 @@ CONTACT & DEMOS
                   <div className="text-center text-gray-500 dark:text-gray-400 mt-8 animate-fade-in">
                     <div className="mb-6 flex justify-center">
                       <div className="relative">
-                        <div className={`w-16 h-16 ${isGray ? 'bg-muted' : 'bg-gradient-to-br from-blue-500 to-blue-600'} rounded-full border-3 border-white flex items-center justify-center shadow-lg`}>
-                          <Smile className="w-8 h-8 text-white" />
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full border-3 border-white flex items-center justify-center shadow-lg">
+                          <Headphones className="w-8 h-8 text-white" />
                         </div>
                         <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full border-2 border-white flex items-center justify-center">
                           <span className="text-xs">💰</span>
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-3">
-                      <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">FeatherBiz Pricing Assistant</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Ask me about plans, pricing, and features!</p>
-                      <div className={`${isGray ? 'bg-muted' : 'bg-blue-50 dark:bg-blue-900/20'} rounded-lg p-4 mx-4`}>
-                        <p className={`text-xs font-medium mb-2 ${isGray ? 'text-foreground' : 'text-blue-600 dark:text-blue-400'}`}>I can help you with:</p>
-                        <div className={`grid grid-cols-2 gap-2 text-xs ${isGray ? 'text-foreground' : 'text-blue-700 dark:text-blue-300'}`}>
-                          <div className="flex items-center gap-1">
-                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
-                            Plan comparisons
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
-                            Pricing details
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
-                            Free trials
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className={`w-1.5 h-1.5 rounded-full ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'}`}></span>
-                            Feature benefits
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                     <div className="space-y-3">
+                       <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Assistente FeatherBiz</h3>
+                       <p className="text-sm text-gray-600 dark:text-gray-400">Pergunte sobre funcionalidades da plataforma!</p>
+                       <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mx-4">
+                         <p className="text-xs font-medium mb-2 text-blue-600 dark:text-blue-400">Posso te ajudar com:</p>
+                         <div className="grid grid-cols-2 gap-2 text-xs text-blue-700 dark:text-blue-300">
+                           <div className="flex items-center gap-1">
+                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                             Faturas e orçamentos
+                           </div>
+                           <div className="flex items-center gap-1">
+                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                             Gestão de clientes
+                           </div>
+                           <div className="flex items-center gap-1">
+                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                             Funcionalidades
+                           </div>
+                           <div className="flex items-center gap-1">
+                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                             Tutoriais
+                           </div>
+                         </div>
+                       </div>
+                     </div>
                   </div>
                 )}
                 
@@ -703,7 +703,7 @@ CONTACT & DEMOS
                               variant="outline"
                               size="sm"
                               onClick={() => handleStarterPrompt(prompt)}
-                              className={`text-xs ${isGray ? 'bg-muted hover:bg-muted/80 border-muted text-foreground' : 'bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700'} rounded-full`}
+                              className="text-xs bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 rounded-full"
                             >
                               {prompt}
                             </Button>
@@ -718,16 +718,16 @@ CONTACT & DEMOS
                         <div
                           className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
                             message.type === 'user'
-                              ? (isGray ? 'bg-muted-foreground text-background shadow' : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50')
+                              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/50'
                               : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 shadow-gray-100 dark:shadow-gray-800/50'
                           } transition-all duration-200 hover:shadow-md hover:scale-[1.02]`}
                         >
                           <div className="flex items-start gap-2">
                             {message.type === 'bot' && (
                               <div className="relative mt-0.5 flex-shrink-0">
-                                <div className={`w-4 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} rounded-full border border-white flex items-center justify-center`}>
-                                  <Smile className="w-2 h-2 text-white" />
-                                </div>
+                               <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                                 <Headphones className="w-2 h-2 text-white" />
+                               </div>
                               </div>
                             )}
                             {message.type === 'user' && (
@@ -737,7 +737,7 @@ CONTACT & DEMOS
                               <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
                               <p
                                 className={`text-xs mt-2 ${
-                                  message.type === 'user' ? (isGray ? 'text-background/70' : 'text-blue-100') : 'text-gray-500 dark:text-gray-400'
+                                  message.type === 'user' ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'
                                 }`}
                               >
                                 {formatTime(message.timestamp)}
@@ -753,11 +753,11 @@ CONTACT & DEMOS
                 {/* Lead Capture Form */}
                 {showLeadCapture && (
                   <div className="mb-4 animate-fade-in">
-                    <div className={`${isGray ? 'bg-muted border-border' : 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'} rounded-lg p-4 border`}>
-                      <div className="flex items-center gap-2 mb-3">
-                        <Mail className={`h-4 w-4 ${isGray ? 'text-foreground' : 'text-blue-600'}`} />
-                        <h4 className={`text-sm font-medium ${isGray ? 'text-foreground' : 'text-blue-900 dark:text-blue-100'}`}>Stay in touch!</h4>
-                      </div>
+                   <div className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 rounded-lg p-4 border">
+                     <div className="flex items-center gap-2 mb-3">
+                       <Mail className="h-4 w-4 text-blue-600" />
+                       <h4 className="text-sm font-medium text-blue-900 dark:text-blue-100">Fique em contato!</h4>
+                     </div>
                       <div className="space-y-3">
                         <Input
                           placeholder="Your name"
@@ -773,19 +773,19 @@ CONTACT & DEMOS
                           className="text-sm"
                         />
                         <div className="flex gap-2">
-                          <Button
-                            onClick={handleLeadCapture}
-                            size="sm"
-                            className={`${isGray ? 'bg-muted-foreground text-background hover:bg-muted-foreground/90' : 'bg-blue-600 hover:bg-blue-700 text-white'} flex-1`}
-                          >
-                            Send Summary
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setShowLeadCapture(false)}
-                            className={`${isGray ? 'text-foreground border-border' : 'text-blue-600 border-blue-300'}`}
-                          >
+                         <Button
+                           onClick={handleLeadCapture}
+                           size="sm"
+                           className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                         >
+                           Enviar Resumo
+                         </Button>
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => setShowLeadCapture(false)}
+                           className="text-blue-600 border-blue-300"
+                         >
                             Skip
                           </Button>
                         </div>
@@ -799,18 +799,18 @@ CONTACT & DEMOS
                   <div className="flex justify-start mb-4 animate-fade-in">
                     <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl px-4 py-3 border border-gray-200 dark:border-gray-600">
                       <div className="flex items-center gap-2">
-                        <div className="relative">
-                          <div className={`w-4 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} rounded-full border border-white flex items-center justify-center`}>
-                            <Smile className="w-2 h-2 text-white" />
-                          </div>
-                        </div>
+                         <div className="relative">
+                           <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                             <Headphones className="w-2 h-2 text-white" />
+                           </div>
+                         </div>
                         <div className="flex items-center gap-1">
                           <span className="text-sm text-gray-500">Thinking</span>
-                          <div className="flex gap-1">
-                             <div className={`w-2 h-2 ${isGray ? 'bg-muted-foreground' : 'bg-blue-400'} rounded-full animate-bounce`}></div>
-                             <div className={`w-2 h-2 ${isGray ? 'bg-muted-foreground' : 'bg-blue-400'} rounded-full animate-bounce`} style={{ animationDelay: '0.1s' }}></div>
-                             <div className={`w-2 h-2 ${isGray ? 'bg-muted-foreground' : 'bg-blue-400'} rounded-full animate-bounce`} style={{ animationDelay: '0.2s' }}></div>
-                          </div>
+                           <div className="flex gap-1">
+                              <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                              <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                              <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                           </div>
                         </div>
                       </div>
                     </div>
@@ -822,16 +822,16 @@ CONTACT & DEMOS
                   <div className="flex justify-start mb-4 animate-fade-in">
                     <div className="max-w-[80%] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-md">
                       <div className="flex items-start gap-2">
-                        <div className="relative mt-0.5 flex-shrink-0">
-                           <div className={`w-4 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} rounded-full border border-white flex items-center justify-center`}>
-                            <Smile className="w-2 h-2 text-white" />
-                          </div>
-                        </div>
+                         <div className="relative mt-0.5 flex-shrink-0">
+                            <div className="w-4 h-4 bg-blue-500 rounded-full border border-white flex items-center justify-center">
+                             <Headphones className="w-2 h-2 text-white" />
+                           </div>
+                         </div>
                         <div className="flex-1">
-                          <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                            {typingText}
-                            <span className={`inline-block w-2 h-4 ${isGray ? 'bg-muted-foreground' : 'bg-blue-500'} ml-1 animate-pulse`}></span>
-                          </p>
+                           <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                             {typingText}
+                             <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
+                           </p>
                         </div>
                       </div>
                     </div>
@@ -842,7 +842,7 @@ CONTACT & DEMOS
               </ScrollArea>
 
               {/* Input Area */}
-              <div className={`${isGray ? 'bg-muted' : 'bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700'} p-4 border-t border-gray-200 dark:border-gray-600`}>
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700 p-4 border-t border-gray-200 dark:border-gray-600">
                 {/* CTA Buttons */}
                 <div className="flex gap-2 mb-3">
                   <Button
