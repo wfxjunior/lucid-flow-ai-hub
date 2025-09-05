@@ -46,6 +46,7 @@ export const LandingFooter = () => {
             <ul className="space-y-3 text-gray-400">
               <li><Link to="/about" className="hover:text-white transition-colors text-sm">About</Link></li>
               <li><Link to="/careers" className="hover:text-white transition-colors text-sm">Careers</Link></li>
+              <li><Link to="/investors" className="hover:text-white transition-colors text-sm">Investors</Link></li>
               <li><Link to="/contact" className="hover:text-white transition-colors text-sm">Contact</Link></li>
             </ul>
           </div>

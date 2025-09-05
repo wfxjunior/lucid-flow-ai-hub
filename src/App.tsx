@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import LandingPage from "./pages/LandingPage";
 import BlogIndex from "./pages/BlogIndex";
 import BlogPost from "./pages/BlogPost";
+import Investors from "./pages/Investors";
 import Auth from "./pages/Auth";
 import { AuthGuard } from "./components/AuthGuard";
 
@@ -34,6 +35,7 @@ const App = () => (
                 <Route path="/reset-password" element={<Auth />} />
                 <Route path="/verify-email" element={<Auth />} />
                 <Route path="/dashboard/*" element={<Index />} />
+                <Route path="/investors" element={<Investors />} />
                 <Route path="/blog" element={<BlogIndex />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
               </Routes>
