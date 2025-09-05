@@ -59,10 +59,10 @@ export function FeatherBot({ isVisible, theme = 'brand' }: FeatherBotProps) {
   const [refConsent, setRefConsent] = useState(false)
   const [eocShown, setEocShown] = useState(false)
 
-  // Sync chat language with app language
+  // Force chat language to English only
   useEffect(() => {
-    if (currentLanguage) setChatLanguage(currentLanguage)
-  }, [currentLanguage])
+    setChatLanguage("en")
+  }, [])
 
   // Context helpers
   const getCurrentPage = () => {
@@ -139,15 +139,15 @@ export function FeatherBot({ isVisible, theme = 'brand' }: FeatherBotProps) {
     zh: "中文"
   }
 
-  // Suggested starter prompts by language
+  // Suggested starter prompts - English only
   const starterPrompts = {
     en: [
-      "Como criar uma fatura?",
-      "Quais funcionalidades estão disponíveis?", 
-      "Como gerenciar meus clientes?",
-      "Como usar o sistema de orçamentos?",
-      "Como acompanhar meus ganhos?",
-      "Quais são os planos disponíveis?"
+      "How to create an invoice?",
+      "What features are available?", 
+      "How to manage my clients?",
+      "How to use the quote system?",
+      "How to track my earnings?",
+      "What plans are available?"
     ],
     es: [
       "¿Cómo crear una factura?",
@@ -236,14 +236,9 @@ CONTACT & DEMOS
 - Reviews: featherbiz.io/testimonials
 `
 
-  // Greeting messages by language (default to Portuguese)
+  // Greeting messages - English only
   const greetingMessages = {
-    en: "👋 Olá! Tem dúvidas sobre funcionalidades do FeatherBiz? Posso ajudar!",
-    es: "👋 ¡Hola! ¿Tienes preguntas sobre las funcionalidades de FeatherBiz? ¡Puedo ayudarte!",
-    pt: "👋 Olá! Tem dúvidas sobre as funcionalidades do FeatherBiz? Posso ajudar!",
-    fr: "👋 Salut! Des questions sur les fonctionnalités de FeatherBiz? Je peux vous aider!",
-    de: "👋 Hallo! Fragen zu FeatherBiz-Funktionen? Ich kann helfen!",
-    zh: "👋 你好！对FeatherBiz功能有疑问？我可以帮助您！"
+    en: "👋 Hello! Have questions about FeatherBiz features? I can help!"
   }
 
   // Auto scroll to bottom when new messages arrive
@@ -325,15 +320,7 @@ CONTACT & DEMOS
   }
 
   const getIdleMessage = () => {
-    const messages = {
-      en: "Would you like to leave your email so we can follow up with you?",
-      es: "¿Te gustaría dejar tu email para que podamos contactarte?",
-      pt: "Gostaria de deixar seu email para que possamos entrar em contato?",
-      fr: "Aimeriez-vous laisser votre email pour qu'on puisse vous recontacter?",
-      de: "Möchten Sie Ihre E-Mail hinterlassen, damit wir Sie kontaktieren können?",
-      zh: "您愿意留下您的邮箱以便我们跟进吗？"
-    }
-    return messages[chatLanguage as keyof typeof messages] || messages.en
+    return "Would you like to leave your email so we can follow up with you?"
   }
 
   const showGreetingMessage = () => {
@@ -446,15 +433,7 @@ CONTACT & DEMOS
   }
 
   const getThankYouMessage = () => {
-    const messages = {
-      en: "Thank you! We'll send you a summary and follow up soon. Feel free to ask more questions!",
-      es: "¡Gracias! Te enviaremos un resumen y te contactaremos pronto. ¡Siéntete libre de hacer más preguntas!",
-      pt: "Obrigado! Enviaremos um resumo e entraremos em contato em breve. Fique à vontade para fazer mais perguntas!",
-      fr: "Merci! Nous vous enverrons un résumé et vous recontacterons bientôt. N'hésitez pas à poser plus de questions!",
-      de: "Danke! Wir senden Ihnen eine Zusammenfassung und melden uns bald. Stellen Sie gerne weitere Fragen!",
-      zh: "谢谢！我们会发送摘要并很快跟进。请随时提出更多问题！"
-    }
-    return messages[chatLanguage as keyof typeof messages] || messages.en
+    return "Thank you! We'll send you a summary and follow up soon. Feel free to ask more questions!"
   }
 
   const handleClose = async () => {
