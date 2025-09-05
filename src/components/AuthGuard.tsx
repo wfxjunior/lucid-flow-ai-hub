@@ -22,7 +22,8 @@ export function AuthGuard({ children, fallback }: AuthGuardProps) {
     '/forgot-password',
     '/reset-password',
     '/verify-email',
-    '/blog'
+    '/blog',
+    '/dashboard'
   ]
 
   const isPublicRoute = publicRoutes.includes(location.pathname) || 
