@@ -3316,6 +3316,14 @@ export type Database = {
         }
         Returns: undefined
       }
+      validate_all_function_security: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          function_name: string
+          has_search_path: boolean
+          is_secure: boolean
+        }[]
+      }
       validate_session_security: {
         Args: Record<PropertyKey, never>
         Returns: boolean
