@@ -259,6 +259,13 @@ export type Database = {
             referencedRelation: "blog_posts"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "blog_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       blog_posts: {
@@ -1038,6 +1045,42 @@ export type Database = {
           recipient?: string
           sent_at?: string
           transaction_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      enhanced_security_events: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          resource_accessed: string | null
+          severity: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          resource_accessed?: string | null
+          severity?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          resource_accessed?: string | null
+          severity?: string
+          user_agent?: string | null
           user_id?: string | null
         }
         Relationships: []
@@ -3056,7 +3099,45 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      blog_posts_public: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          excerpt: string | null
+          id: string | null
+          published_at: string | null
+          slug: string | null
+          status: string | null
+          tags: string[] | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string | null
+          published_at?: string | null
+          slug?: string | null
+          status?: string | null
+          tags?: string[] | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          id?: string | null
+          published_at?: string | null
+          slug?: string | null
+          status?: string | null
+          tags?: string[] | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       check_form_submission_rate_limit: {
@@ -3078,6 +3159,14 @@ export type Database = {
       }
       cleanup_old_security_events: {
         Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      detect_suspicious_activity: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      emergency_lockdown_user: {
+        Args: { target_user_id: string }
         Returns: undefined
       }
       emergency_security_lockdown: {
@@ -3166,6 +3255,15 @@ export type Database = {
       has_role: {
         Args: { _role: string; _user_id: string }
         Returns: boolean
+      }
+      log_enhanced_security_event: {
+        Args: {
+          p_details?: Json
+          p_event_type: string
+          p_resource_accessed?: string
+          p_severity?: string
+        }
+        Returns: undefined
       }
       log_security_event: {
         Args: {
