@@ -3153,6 +3153,14 @@ export type Database = {
         }
         Returns: boolean
       }
+      check_remaining_security_issues: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          description: string
+          issue_type: string
+          object_name: string
+        }[]
+      }
       cleanup_old_rate_limits: {
         Args: Record<PropertyKey, never>
         Returns: undefined
